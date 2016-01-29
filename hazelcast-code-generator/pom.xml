@@ -6,7 +6,7 @@
 
     <name>hazelcast-code-generator</name>
     <artifactId>hazelcast-code-generator</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>com.hazelcast</groupId>

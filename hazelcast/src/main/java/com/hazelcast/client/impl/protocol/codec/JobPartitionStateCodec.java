@@ -37,7 +37,7 @@ public class JobPartitionStateCodec {
     }
 
     public static void encode(JobPartitionState jobPartitionState, ClientMessage clientMessage) {
-        com.hazelcast.client.impl.protocol.codec.AddressCodec.encode(jobPartitionState.getOwner(), clientMessage);
+        AddressCodec.encode(jobPartitionState.getOwner(), clientMessage);
         clientMessage.set(jobPartitionState.getState().name());
     }
 
