@@ -16,16 +16,18 @@
 
 package com.hazelcast.client.protocol.generator;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import com.hazelcast.annotation.Codec;
+import com.hazelcast.annotation.EventResponse;
+import com.hazelcast.annotation.GenerateCodec;
+import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Response;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.log.Logger;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModelException;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -47,42 +49,43 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardLocation;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-import com.hazelcast.annotation.Codec;
-import com.hazelcast.annotation.EventResponse;
-import com.hazelcast.annotation.GenerateCodec;
-import com.hazelcast.annotation.Request;
-import com.hazelcast.annotation.Response;
-
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.log.Logger;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModelException;
-
-@SupportedAnnotationTypes({"com.hazelcast.annotation.GenerateCodec"})
+@SupportedAnnotationTypes("com.hazelcast.annotation.GenerateCodec")
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
-public class CodecCodeGenerator
-        extends AbstractProcessor {
-    private static final int CODEC_COUNT = 8;
+public class CodecCodeGenerator extends AbstractProcessor {
 
-    private Filer filer;
-    private Elements elementUtils;
-    private Messager messager;
+    private static final int CODEC_COUNT = 8;
+    private static final int HEX_RADIX = 16;
+
     private final Map<Lang, Template> codecTemplateMap = new HashMap<Lang, Template>();
     private final Map<Lang, Template> messageTypeTemplateMap = new HashMap<Lang, Template>();
-    private final Map<TypeElement, Map<Integer, ExecutableElement>> requestMap = new HashMap<TypeElement, Map<Integer, ExecutableElement>>();
+    private final Map<TypeElement, Map<Integer, ExecutableElement>> requestMap
+            = new HashMap<TypeElement, Map<Integer, ExecutableElement>>();
     private final Map<Integer, ExecutableElement> responseMap = new HashMap<Integer, ExecutableElement>();
     private final Map<Integer, ExecutableElement> eventResponseMap = new HashMap<Integer, ExecutableElement>();
+
+    private Messager messager;
+    private Filer filer;
+    private Elements elementUtils;
+
     private Template cppHeaderTemplate;
     private Template cppTemplate;
     private Template cppMessageTypeHeaderTemplate;
 
-    private int round = 0;
+    private int round;
 
     @Override
+    @SuppressWarnings("checkstyle:npathcomplexity")
     public void init(ProcessingEnvironment env) {
         messager = env.getMessager();
         messager.printMessage(Diagnostic.Kind.NOTE, "Initializing code generator");
@@ -112,7 +115,8 @@ public class CodecCodeGenerator
                         messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find cpp template.");
                     }
                     try {
-                        cppMessageTypeHeaderTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + "header.ftl");
+                        cppMessageTypeHeaderTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
+                                + "header.ftl");
                         messageTypeTemplateMap.put(lang, cppMessageTypeHeaderTemplate);
                     } catch (IOException e) {
                         messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find cpp messagetype header template.");
@@ -125,7 +129,8 @@ public class CodecCodeGenerator
                         messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find template for lang:" + lang);
                     }
                     try {
-                        Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + ".ftl");
+                        Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
+                                + ".ftl");
                         messageTypeTemplateMap.put(lang, messageTypeTemplate);
                     } catch (IOException e) {
                         messager.printMessage(Diagnostic.Kind.WARNING, "Cannot find messagetype template for lang:" + lang);
@@ -143,7 +148,7 @@ public class CodecCodeGenerator
 
     @Override
     public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
-        messager.printMessage(Diagnostic.Kind.NOTE, "Processing code generator. round:" +(++round));
+        messager.printMessage(Diagnostic.Kind.NOTE, "Processing code generator. round: " + (++round));
         try {
             //PREPARE META DATA
             for (Element element : env.getElementsAnnotatedWith(Codec.class)) {
@@ -162,12 +167,12 @@ public class CodecCodeGenerator
                 register((TypeElement) element);
             }
             //END
-            if(CodecModel.CUSTOM_CODEC_MAP.size() != CODEC_COUNT) {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count do not match found codec count:" +
-                        CodecModel.CUSTOM_CODEC_MAP.size());
+            if (CodecModel.CUSTOM_CODEC_MAP.size() != CODEC_COUNT) {
+                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count do not match found codec count: "
+                        + CodecModel.CUSTOM_CODEC_MAP.size());
                 return false;
             } else {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count is validated. round:" + round);
+                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count is validated. round: " + round);
             }
 
             for (Lang lang : codecTemplateMap.keySet()) {
@@ -229,20 +234,20 @@ public class CodecCodeGenerator
 
             short masterId = classElement.getAnnotation(GenerateCodec.class).id();
 
-            final Request request = methodElement.getAnnotation(Request.class);
+            Request request = methodElement.getAnnotation(Request.class);
             if (request != null) {
-                Integer id = Integer.parseInt(CodeGenerationUtils.mergeIds(masterId, request.id()), 16);
+                Integer id = Integer.parseInt(CodeGenerationUtils.mergeIds(masterId, request.id()), HEX_RADIX);
                 map.put(id, methodElement);
                 continue;
             }
 
-            final Response response = methodElement.getAnnotation(Response.class);
+            Response response = methodElement.getAnnotation(Response.class);
             if (response != null) {
                 responseMap.put(response.value(), methodElement);
                 continue;
             }
 
-            final EventResponse eventResponse = methodElement.getAnnotation(EventResponse.class);
+            EventResponse eventResponse = methodElement.getAnnotation(EventResponse.class);
             if (eventResponse != null) {
                 eventResponseMap.put(eventResponse.value(), methodElement);
             }
@@ -250,13 +255,13 @@ public class CodecCodeGenerator
     }
 
     private Map<TypeElement, Map<Integer, CodecModel>> createAllCodecModel(Lang lang) {
-        Map model = new TreeMap<TypeElement, Map<Integer, CodecModel>>(new DistributedObjectComparator());
+        Map<TypeElement, Map<Integer, CodecModel>> model
+                = new TreeMap<TypeElement, Map<Integer, CodecModel>>(new DistributedObjectComparator());
 
         for (Map.Entry<TypeElement, Map<Integer, ExecutableElement>> entry : requestMap.entrySet()) {
             Map<Integer, CodecModel> map = new TreeMap<Integer, CodecModel>();
             TypeElement parent = entry.getKey();
             model.put(parent, map);
-
 
             Map<Integer, ExecutableElement> operationMap = entry.getValue();
             for (Map.Entry<Integer, ExecutableElement> entrySub : operationMap.entrySet()) {
@@ -273,10 +278,10 @@ public class CodecCodeGenerator
     }
 
     private CodecModel createCodecModel(ExecutableElement methodElement, Lang lang) {
-        final TypeElement parent = (TypeElement) methodElement.getEnclosingElement();
+        TypeElement parent = (TypeElement) methodElement.getEnclosingElement();
 
-        final Request methodElementAnnotation = methodElement.getAnnotation(Request.class);
-        final int response = methodElementAnnotation.response();
+        Request methodElementAnnotation = methodElement.getAnnotation(Request.class);
+        int response = methodElementAnnotation.response();
         int[] events = null;
         try {
             events = methodElementAnnotation.event();
@@ -285,14 +290,14 @@ public class CodecCodeGenerator
             System.err.println(parent.toString());
             System.err.println(methodElement.toString());
         }
-        final boolean retryable = methodElementAnnotation.retryable();
+        boolean retryable = methodElementAnnotation.retryable();
 
         ExecutableElement responseElement = responseMap.get(response);
 
         List<ExecutableElement> eventElementList = new ArrayList<ExecutableElement>();
         if (events != null) {
             for (Integer eventType : events) {
-                final ExecutableElement eventResponse = eventResponseMap.get(eventType);
+                ExecutableElement eventResponse = eventResponseMap.get(eventType);
                 if (eventResponse != null) {
                     eventElementList.add(eventResponse);
                 }
@@ -302,12 +307,12 @@ public class CodecCodeGenerator
     }
 
     public void generateCodec(CodecModel codecModel, Template codecTemplate) {
-        final String content = generateFromTemplate(codecTemplate, codecModel);
+        String content = generateFromTemplate(codecTemplate, codecModel);
         if (codecModel.getLang() == Lang.JAVA) {
             saveClass(codecModel.getPackageName(), codecModel.getClassName(), content);
         } else {
             String fileName = codecModel.getClassName() + "." + codecModel.getLang().name().toLowerCase();
-            if(codecModel.getLang() == Lang.PY) {
+            if (codecModel.getLang() == Lang.PY) {
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
             }
             saveFile(fileName, codecModel.getPackageName(), content);
@@ -315,7 +320,7 @@ public class CodecCodeGenerator
     }
 
     void generateDoc(Map<TypeElement, Map<Integer, CodecModel>> model, Template codecTemplate) {
-        final String content = generateFromTemplate(codecTemplate, model);
+        String content = generateFromTemplate(codecTemplate, model);
         saveFile("protocol.md", "document", content);
     }
 
@@ -331,7 +336,7 @@ public class CodecCodeGenerator
                 saveFile(model.getClassName() + ".h", "include." + model.getPackageName().toLowerCase(), content);
             }
         } else {
-            final String content = generateFromTemplate(messageTypeTemplate, model);
+            String content = generateFromTemplate(messageTypeTemplate, model);
             saveContent(model, content);
         }
     }
@@ -339,7 +344,7 @@ public class CodecCodeGenerator
     private String generateFromTemplate(Template template, Object model) {
         String content = null;
         try {
-            Map<String, Object> data = new HashMap();
+            Map<String, Object> data = new HashMap<String, Object>();
             setUtilModel(data);
             data.put("model", model);
             StringWriter writer = new StringWriter();
@@ -357,7 +362,7 @@ public class CodecCodeGenerator
             saveClass(codecModel.getPackageName(), codecModel.getClassName(), content);
         } else {
             String fileName = codecModel.getClassName() + "." + codecModel.getLang().name().toLowerCase();
-            if(codecModel.getLang() == Lang.PY) {
+            if (codecModel.getLang() == Lang.PY) {
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
             }
             saveFile(fileName, codecModel.getPackageName(), content);
@@ -367,7 +372,7 @@ public class CodecCodeGenerator
     private void saveClass(String packageName, String className, String content) {
         JavaFileObject file;
         try {
-            final String fullClassName = packageName + "." + className;
+            String fullClassName = packageName + "." + className;
             file = filer.createSourceFile(fullClassName);
             file.openWriter().append(content).close();
         } catch (IOException e) {
@@ -379,7 +384,7 @@ public class CodecCodeGenerator
     private void saveFile(String fileName, String packageName, String content) {
         FileObject file;
         try {
-            final JavaFileManager.Location location = StandardLocation.locationFor(StandardLocation.SOURCE_OUTPUT.name());
+            JavaFileManager.Location location = StandardLocation.locationFor(StandardLocation.SOURCE_OUTPUT.name());
             file = filer.createResource(location, packageName, fileName);
             file.openWriter().append(content).close();
         } catch (IOException e) {
@@ -388,16 +393,14 @@ public class CodecCodeGenerator
         }
     }
 
-    public static void setUtilModel(Map modelMap)
-            throws TemplateModelException {
+    public static void setUtilModel(Map<String, Object> modelMap) throws TemplateModelException {
         BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
         TemplateHashModel staticModels = wrapper.getStaticModels();
         TemplateHashModel statics = (TemplateHashModel) staticModels.get(CodeGenerationUtils.class.getName());
         modelMap.put("util", statics);
     }
 
-    private static class DistributedObjectComparator
-            implements Comparator<TypeElement>, Serializable {
+    private static class DistributedObjectComparator implements Comparator<TypeElement>, Serializable {
 
         @Override
         public int compare(TypeElement o1, TypeElement o2) {
@@ -410,5 +413,4 @@ public class CodecCodeGenerator
             }
         }
     }
-
 }

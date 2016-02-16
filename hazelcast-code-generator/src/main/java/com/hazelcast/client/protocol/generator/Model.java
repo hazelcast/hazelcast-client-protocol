@@ -17,6 +17,7 @@
 package com.hazelcast.client.protocol.generator;
 
 public interface Model {
+
     boolean isEmpty();
 
     Lang getLang();

@@ -26,10 +26,19 @@ import java.util.Map;
 
 public final class CodeGenerationUtils {
 
-    public static final int BYTE_BIT_COUNT = 8;
+    /**
+     * Package prefix for the codec module.
+     */
     public static final String CODEC_PACKAGE = "com.hazelcast.client.impl.protocol.codec.";
+
+    /**
+     * Fully qualified classname for Hazelcast Data class.
+     */
     public static final String DATA_FULL_NAME = "com.hazelcast.nio.serialization.Data";
 
+    private static final int BYTE_BIT_COUNT = 8;
+
+    @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() {{
         put(DATA_FULL_NAME, "Data");
         put("java.lang.String", "str");
@@ -47,6 +56,7 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
     }};
 
+    @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() {{
         put(DATA_FULL_NAME, "IData");
         put("java.lang.String", "string");
@@ -64,6 +74,7 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
     }};
 
+    @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount" })
     private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() {{
         put("java.lang.Integer", "int32_t");
         put("int", "int32_t");
@@ -119,7 +130,6 @@ public final class CodeGenerationUtils {
             default:
                 return "0x" + s;
         }
-
     }
 
     public static String getArrayType(String type) {
@@ -189,33 +199,35 @@ public final class CodeGenerationUtils {
 
     public static String getDescription(String parameterName, String commentString) {
         String result = "";
-        if (null != parameterName && null != commentString) {
-            int start = commentString.indexOf("@param");
-            if (start >= 0) {
-                String paramString = commentString.substring(start);
-                String[] paramStrings = paramString.split("@param");
-                for (String parameterString : paramStrings) {
-                    /**
-                     * Example such string is
-                     * key      key of the entry
-                     */
+        if (parameterName == null || commentString == null) {
+            return result;
+        }
+        int start = commentString.indexOf("@param");
+        if (start == -1) {
+            return result;
+        }
+        String paramString = commentString.substring(start);
+        String[] paramStrings = paramString.split("@param");
+        for (String parameterString : paramStrings) {
+            /**
+             * Example such string is
+             * key      key of the entry
+             */
 
-                    String trimmedParameterString = parameterString.trim();
-                    if (trimmedParameterString.length() > parameterName.length() && trimmedParameterString
-                            .startsWith(parameterName)) {
-                        result = trimmedParameterString.substring(parameterName.length());
-                        int endIndex = result.indexOf('@');
-                        if (endIndex >= 0) {
-                            result = result.substring(0, endIndex);
-                        }
-
-                        // replace any new line with <br>
-                        result = result.replace("\n", "<br>");
-                        result = result.trim();
-
-                        break; // found the parameter, hence stop here
-                    }
+            String trimmedParameterString = parameterString.trim();
+            if (trimmedParameterString.length() > parameterName.length() && trimmedParameterString.startsWith(parameterName)) {
+                result = trimmedParameterString.substring(parameterName.length());
+                int endIndex = result.indexOf('@');
+                if (endIndex >= 0) {
+                    result = result.substring(0, endIndex);
                 }
+
+                // replace any new line with <br>
+                result = result.replace("\n", "<br>");
+                result = result.trim();
+
+                // found the parameter, hence stop here
+                break;
             }
         }
         return result;
@@ -223,10 +235,10 @@ public final class CodeGenerationUtils {
 
     public static String getReturnDescription(String commentString) {
         String result = "";
-        final String RETURN_TAG = "@return";
-        int returnTagStartIndex = commentString.indexOf(RETURN_TAG);
+        String returnTag = "@return";
+        int returnTagStartIndex = commentString.indexOf(returnTag);
         if (returnTagStartIndex >= 0) {
-            int descriptionStartIndex = returnTagStartIndex + RETURN_TAG.length();
+            int descriptionStartIndex = returnTagStartIndex + returnTag.length();
             int nextTagIndex = commentString.indexOf("@", descriptionStartIndex);
             if (nextTagIndex >= 0) {
                 result = commentString.substring(descriptionStartIndex, nextTagIndex);
@@ -253,7 +265,6 @@ public final class CodeGenerationUtils {
         result = result.replace("\n", "<br>");
 
         return result;
-
     }
 
     public static String getDistributedObjectName(String templateClassName) {

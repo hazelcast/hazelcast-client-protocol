@@ -26,15 +26,14 @@ import javax.lang.model.element.TypeElement;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MessageTypeEnumModel
-        implements Model {
+public class MessageTypeEnumModel implements Model {
 
     private Lang lang;
     private String name;
     private String className;
     private String packageName;
 
-    private final List<ParameterModel> params = new LinkedList();
+    private final List<ParameterModel> params = new LinkedList<ParameterModel>();
 
     public MessageTypeEnumModel(TypeElement classElement, Lang lang) {
         try {
@@ -110,21 +109,21 @@ public class MessageTypeEnumModel
 
         @Override
         public String toString() {
-            return "ParameterModel{" +
-                    "name='" + name + '\'' +
-                    ", id='" + id + '\'' +
-                    "}\n";
+            return "ParameterModel{"
+                    + "name='" + name + '\''
+                    + ", id='" + id + '\''
+                    + "}\n";
         }
     }
 
     @Override
     public String toString() {
-        return "MessageTypeEnumModel{" +
-                "lang=" + lang +
-                ", name='" + name + '\'' +
-                ", className='" + className + '\'' +
-                ", packageName='" + packageName + '\'' +
-                ", params=" + params +
-                '}';
+        return "MessageTypeEnumModel{"
+                + "lang=" + lang
+                + ", name='" + name + '\''
+                + ", className='" + className + '\''
+                + ", packageName='" + packageName + '\''
+                + ", params=" + params
+                + '}';
     }
 }
