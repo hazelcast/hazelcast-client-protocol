@@ -101,7 +101,8 @@ public final class CacheEventDataCodec {
         } else {
             dataSize += ParameterUtil.calculateDataSize(dataOldValue);
         }
-        dataSize += Bits.BOOLEAN_SIZE_IN_BYTES;//isOldValueAvailable
+        // isOldValueAvailable
+        dataSize += Bits.BOOLEAN_SIZE_IN_BYTES;
         return dataSize;
     }
 }

@@ -26,6 +26,8 @@ import com.hazelcast.nio.serialization.Data;
 @Codec(SimpleEntryView.class)
 public final class EntryViewCodec {
 
+    private static final int DATA_SIZE_FACTOR = 10;
+
     private EntryViewCodec() {
     }
 
@@ -65,7 +67,6 @@ public final class EntryViewCodec {
                 .set(version).set(evictionCriteriaNumber).set(ttl);
     }
 
-
     public static int calculateDataSize(SimpleEntryView<Data, Data> entryView) {
         int dataSize = ClientMessage.HEADER_SIZE;
         Data key = entryView.getKey();
@@ -73,6 +74,6 @@ public final class EntryViewCodec {
         return dataSize
                 + ParameterUtil.calculateDataSize(key)
                 + ParameterUtil.calculateDataSize(value)
-                + Bits.LONG_SIZE_IN_BYTES * 10;
+                + Bits.LONG_SIZE_IN_BYTES * DATA_SIZE_FACTOR;
     }
 }

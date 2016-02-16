@@ -25,14 +25,14 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * ExceptionResultParameters
  */
-@SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
-        justification = "fields may be needed for diagnostic")
-public class ErrorCodec {
+@SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD", justification = "fields may be needed for diagnostic")
+public final class ErrorCodec {
 
     /**
      * ClientMessageType of this message
      */
     public static final int TYPE = ResponseMessageConst.EXCEPTION;
+
     public int errorCode;
     public String className;
     public String message;
@@ -59,7 +59,6 @@ public class ErrorCodec {
         if (!causeClassName_isNull) {
             causeClassName = flyweight.getStringUtf8();
         }
-
     }
 
     public static ErrorCodec decode(ClientMessage flyweight) {
@@ -68,8 +67,7 @@ public class ErrorCodec {
 
     public static ClientMessage encode(int errorCode, String className, String message, StackTraceElement[] stackTrace,
                                        int causeErrorCode, String causeClassName) {
-        final int requiredDataSize = calculateDataSize(errorCode, className, message, stackTrace,
-                causeErrorCode, causeClassName);
+        int requiredDataSize = calculateDataSize(errorCode, className, message, stackTrace, causeErrorCode, causeClassName);
         ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
         clientMessage.setMessageType(TYPE);
         clientMessage.set(errorCode);
@@ -118,5 +116,4 @@ public class ErrorCodec {
         }
         return dataSize;
     }
-
 }

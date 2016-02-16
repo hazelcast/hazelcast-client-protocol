@@ -24,13 +24,13 @@ import com.hazelcast.mapreduce.impl.task.JobPartitionStateImpl;
 import com.hazelcast.nio.Address;
 
 @Codec(JobPartitionState.class)
-public class JobPartitionStateCodec {
+public final class JobPartitionStateCodec {
 
     private JobPartitionStateCodec() {
     }
 
     public static JobPartitionState decode(ClientMessage clientMessage) {
-        final Address address = AddressCodec.decode(clientMessage);
+        Address address = AddressCodec.decode(clientMessage);
         String state = clientMessage.getStringUtf8();
 
         return new JobPartitionStateImpl(address, JobPartitionState.State.valueOf(state));
