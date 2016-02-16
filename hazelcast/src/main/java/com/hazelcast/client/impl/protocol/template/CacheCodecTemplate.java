@@ -358,5 +358,4 @@ public interface CacheCodecTemplate {
      */
     @Request(id = 28, retryable = false, response = ResponseMessageConst.VOID)
     void putAll(String name, List<Map.Entry<Data, Data>> entries, @Nullable Data expiryPolicy, int completionId);
-
 }

@@ -20,9 +20,9 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
-@GenerateCodec(id = TemplateConstants.CONDITION_TEMPLATE_ID,
-        name = "Condition", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.CONDITION_TEMPLATE_ID, name = "Condition", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ConditionCodecTemplate {
+
     /**
      * Causes the current thread to wait until it is signalled or interrupted, or the specified waiting time elapses.
      *
@@ -85,5 +85,4 @@ public interface ConditionCodecTemplate {
      */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "lockName")
     void signalAll(String name, long threadId, String lockName);
-
 }

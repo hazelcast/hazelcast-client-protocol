@@ -24,6 +24,7 @@ import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.MULTIMAP_TEMPLATE_ID, name = "MultiMap", ns = "Hazelcast.Client.Protocol.Codec")
 public interface MultiMapCodecTemplate {
+
     /**
      * Stores a key-value pair in the multimap.
      *
@@ -261,4 +262,3 @@ public interface MultiMapCodecTemplate {
     @Request(id = 21, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
     Object removeEntry(String name, Data key, Data value, long threadId);
 }
-

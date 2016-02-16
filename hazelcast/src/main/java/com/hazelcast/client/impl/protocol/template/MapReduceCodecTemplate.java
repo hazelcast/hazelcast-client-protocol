@@ -28,8 +28,7 @@ import java.util.List;
 public interface MapReduceCodecTemplate {
 
     /**
-     *
-     * @param name Name of the distributed object
+     * @param name  Name of the distributed object
      * @param jobId Id of the job to cancel
      * @return Returns true if successful, false otherwise
      */
@@ -37,8 +36,7 @@ public interface MapReduceCodecTemplate {
     Object cancel(String name, String jobId);
 
     /**
-     *
-     * @param name Name of the distributed object
+     * @param name  Name of the distributed object
      * @param jobId Id of the job
      * @return The information about the job if exists
      */
@@ -46,98 +44,93 @@ public interface MapReduceCodecTemplate {
     Object jobProcessInformation(String name, String jobId);
 
     /**
-     *
-     * @param name Name of the distributed object
-     * @param jobId Id of the job
-     * @param predicate The filter to use during operation
-     * @param mapper The mapper for the operation
-     * @param combinerFactory The combiner factory to use
-     * @param reducerFactory The reducer factory to be used
-     * @param mapName Name of the Map object to work on.
-     * @param chunkSize The number of items for which the reduce shall be performed
-     * @param keys The keys for the objects to be processed
+     * @param name                    Name of the distributed object
+     * @param jobId                   Id of the job
+     * @param predicate               The filter to use during operation
+     * @param mapper                  The mapper for the operation
+     * @param combinerFactory         The combiner factory to use
+     * @param reducerFactory          The reducer factory to be used
+     * @param mapName                 Name of the Map object to work on.
+     * @param chunkSize               The number of items for which the reduce shall be performed
+     * @param keys                    The keys for the objects to be processed
      * @param topologyChangedStrategy The strategy to use if a topology change is detected.
      * @return The resulting key-value pairs.
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.LIST_ENTRY)
     Object forMap(String name, String jobId, @Nullable Data predicate, Data mapper, @Nullable Data combinerFactory,
-                @Nullable Data reducerFactory, String mapName, int chunkSize, @Nullable List<Data> keys,
-                @Nullable String topologyChangedStrategy);
+                  @Nullable Data reducerFactory, String mapName, int chunkSize, @Nullable List<Data> keys,
+                  @Nullable String topologyChangedStrategy);
 
     /**
-     *
-     * @param name Name of the distributed object
-     * @param jobId Id of the job
-     * @param predicate The filter to use during operation
-     * @param mapper The mapper for the operation
-     * @param combinerFactory The combiner factory to use
-     * @param reducerFactory The reducer factory to be used
-     * @param listName Name of the List object to work on.
-     * @param chunkSize The number of items for which the reduce shall be performed
-     * @param keys The keys for the objects to be processed
+     * @param name                    Name of the distributed object
+     * @param jobId                   Id of the job
+     * @param predicate               The filter to use during operation
+     * @param mapper                  The mapper for the operation
+     * @param combinerFactory         The combiner factory to use
+     * @param reducerFactory          The reducer factory to be used
+     * @param listName                Name of the List object to work on.
+     * @param chunkSize               The number of items for which the reduce shall be performed
+     * @param keys                    The keys for the objects to be processed
      * @param topologyChangedStrategy The strategy to use if a topology change is detected.
      * @return The resulting key-value pairs.
      */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.LIST_ENTRY)
     Object forList(String name, String jobId, @Nullable Data predicate, Data mapper, @Nullable Data combinerFactory,
-                 @Nullable Data reducerFactory, String listName, int chunkSize, @Nullable List<Data> keys,
-                 @Nullable String topologyChangedStrategy);
+                   @Nullable Data reducerFactory, String listName, int chunkSize, @Nullable List<Data> keys,
+                   @Nullable String topologyChangedStrategy);
 
     /**
-     *
-     * @param name Name of the distributed object
-     * @param jobId Id of the job
-     * @param predicate The filter to use during operation
-     * @param mapper The mapper for the operation
-     * @param combinerFactory The combiner factory to use
-     * @param reducerFactory The reducer factory to be used
-     * @param setName Name of the Set object to work on.
-     * @param chunkSize The number of items for which the reduce shall be performed
-     * @param keys The keys for the objects to be processed
+     * @param name                    Name of the distributed object
+     * @param jobId                   Id of the job
+     * @param predicate               The filter to use during operation
+     * @param mapper                  The mapper for the operation
+     * @param combinerFactory         The combiner factory to use
+     * @param reducerFactory          The reducer factory to be used
+     * @param setName                 Name of the Set object to work on.
+     * @param chunkSize               The number of items for which the reduce shall be performed
+     * @param keys                    The keys for the objects to be processed
      * @param topologyChangedStrategy The strategy to use if a topology change is detected.
      * @return The resulting key-value pairs.
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.LIST_ENTRY)
     Object forSet(String name, String jobId, @Nullable Data predicate, Data mapper, @Nullable Data combinerFactory,
-                @Nullable Data reducerFactory, String setName, int chunkSize, @Nullable List<Data> keys,
-                @Nullable String topologyChangedStrategy);
+                  @Nullable Data reducerFactory, String setName, int chunkSize, @Nullable List<Data> keys,
+                  @Nullable String topologyChangedStrategy);
 
     /**
-     *
-     * @param name Name of the distributed object
-     * @param jobId Id of the job
-     * @param predicate The filter to use during operation
-     * @param mapper The mapper for the operation
-     * @param combinerFactory The combiner factory to use
-     * @param reducerFactory The reducer factory to be used
-     * @param multiMapName Name of the MultiMap object to work on.
-     * @param chunkSize The number of items for which the reduce shall be performed
-     * @param keys The keys for the objects to be processed
+     * @param name                    Name of the distributed object
+     * @param jobId                   Id of the job
+     * @param predicate               The filter to use during operation
+     * @param mapper                  The mapper for the operation
+     * @param combinerFactory         The combiner factory to use
+     * @param reducerFactory          The reducer factory to be used
+     * @param multiMapName            Name of the MultiMap object to work on.
+     * @param chunkSize               The number of items for which the reduce shall be performed
+     * @param keys                    The keys for the objects to be processed
      * @param topologyChangedStrategy The strategy to use if a topology change is detected.
      * @return The resulting key-value pairs.
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.LIST_ENTRY)
     Object forMultiMap(String name, String jobId, @Nullable Data predicate, Data mapper, @Nullable Data combinerFactory,
-                     @Nullable Data reducerFactory, String multiMapName, int chunkSize, @Nullable List<Data> keys,
-                     @Nullable String topologyChangedStrategy);
+                       @Nullable Data reducerFactory, String multiMapName, int chunkSize, @Nullable List<Data> keys,
+                       @Nullable String topologyChangedStrategy);
 
     /**
-     *
-     * @param name Name of the distributed object
-     * @param jobId Id of the job
-     * @param predicate The filter to use during operation
-     * @param mapper The mapper for the operation
-     * @param combinerFactory The combiner factory to use
-     * @param reducerFactory The reducer factory to be used
-     * @param keyValueSource custom data sources for mapreduce algorithm. The object implements the
-     *                       com.hazelcast.mapreduce.KeyValueSource interface
-     * @param chunkSize The number of items for which the reduce shall be performed
-     * @param keys The keys for the objects to be processed
+     * @param name                    Name of the distributed object
+     * @param jobId                   Id of the job
+     * @param predicate               The filter to use during operation
+     * @param mapper                  The mapper for the operation
+     * @param combinerFactory         The combiner factory to use
+     * @param reducerFactory          The reducer factory to be used
+     * @param keyValueSource          custom data sources for mapreduce algorithm. The object implements the
+     *                                com.hazelcast.mapreduce.KeyValueSource interface
+     * @param chunkSize               The number of items for which the reduce shall be performed
+     * @param keys                    The keys for the objects to be processed
      * @param topologyChangedStrategy The strategy to use if a topology change is detected.
      * @return The resulting key-value pairs.
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.LIST_ENTRY)
     Object forCustom(String name, String jobId, @Nullable Data predicate, Data mapper, @Nullable Data combinerFactory,
-                   @Nullable Data reducerFactory, Data keyValueSource, int chunkSize, @Nullable List<Data> keys,
-                   @Nullable String topologyChangedStrategy);
+                     @Nullable Data reducerFactory, Data keyValueSource, int chunkSize, @Nullable List<Data> keys,
+                     @Nullable String topologyChangedStrategy);
 }

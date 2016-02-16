@@ -97,5 +97,4 @@ public interface EnterpriseMapCodecTemplate {
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.BOOLEAN)
     Object destroyCache(String mapName, String cacheName);
-
 }

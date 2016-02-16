@@ -22,8 +22,7 @@ import com.hazelcast.annotation.Request;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
-@GenerateCodec(id = TemplateConstants.ATOMIC_REFERENCE_TEMPLATE_ID,
-        name = "AtomicReference", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.ATOMIC_REFERENCE_TEMPLATE_ID, name = "AtomicReference", ns = "Hazelcast.Client.Protocol.Codec")
 public interface AtomicReferenceCodecTemplate {
 
     /**

@@ -20,9 +20,9 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
-@GenerateCodec(id = TemplateConstants.COUNTDOWN_LATCH_TEMPLATE_ID,
-        name = "CountDownLatch", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.COUNTDOWN_LATCH_TEMPLATE_ID, name = "CountDownLatch", ns = "Hazelcast.Client.Protocol.Codec")
 public interface CountdownLatchCodecTemplate {
+
     /**
      * Causes the current thread to wait until the latch has counted down to zero, or an exception is thrown, or the
      * specified waiting time elapses. If the current count is zero then this method returns immediately with the value
@@ -71,5 +71,4 @@ public interface CountdownLatchCodecTemplate {
      */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Object trySetCount(String name, int count);
-
 }

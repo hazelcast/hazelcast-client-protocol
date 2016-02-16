@@ -26,6 +26,7 @@ import java.util.List;
 
 @GenerateCodec(id = TemplateConstants.SET_TEMPLATE_ID, name = "Set", ns = "Hazelcast.Client.Protocol.Codec")
 public interface SetCodecTemplate {
+
     /**
      * Returns the number of elements in this set (its cardinality). If this set contains more than Integer.MAX_VALUE
      * elements, returns Integer.MAX_VALUE.
@@ -172,5 +173,4 @@ public interface SetCodecTemplate {
      */
     @Request(id = 13, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Object isEmpty(String name);
-
 }

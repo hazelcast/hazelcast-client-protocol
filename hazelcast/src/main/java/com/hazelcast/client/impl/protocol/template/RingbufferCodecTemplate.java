@@ -10,6 +10,7 @@ import java.util.List;
 
 @GenerateCodec(id = TemplateConstants.RINGBUFFER_TEMPLATE_ID, name = "Ringbuffer", ns = "Hazelcast.Client.Protocol.Codec")
 public interface RingbufferCodecTemplate {
+
     /**
      * Returns number of items in the ringbuffer. If no ttl is set, the size will always be equal to capacity after the
      * head completed the first looparound the ring. This is because no items are getting retired.
