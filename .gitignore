@@ -1,6 +1,10 @@
-*idea/
-*iml
-*target/
+.idea/
+.settings/
+hazelcast/downloaded
+hazelcast/hazelcast-maintenance-3.x
+hazelcast/maintenance-3.x.zip
+target/
+.classpath
+.project
 *.DS_Store
-hazelcast/dependency-reduced-pom.xml
-
+*.iml
