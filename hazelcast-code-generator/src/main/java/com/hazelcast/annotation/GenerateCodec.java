@@ -27,6 +27,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface GenerateCodec {
+
     /**
      * Returns master id of class.
      * Mostly id of a distributed object like IMap, IQueue in protocol.
@@ -52,4 +53,3 @@ public @interface GenerateCodec {
      */
     String ns();
 }
-

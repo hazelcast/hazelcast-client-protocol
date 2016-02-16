@@ -33,6 +33,4 @@ public @interface Codec {
      * @return class
      */
     Class value();
-
 }
-
