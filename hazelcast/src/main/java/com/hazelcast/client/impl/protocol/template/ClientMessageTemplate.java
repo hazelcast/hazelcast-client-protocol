@@ -26,6 +26,7 @@ import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.CLIENT_TEMPLATE_ID, name = "Client", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ClientMessageTemplate {
+
     /**
      * @param username             Name of the user for authentication.
      * @param password             Password for the user.

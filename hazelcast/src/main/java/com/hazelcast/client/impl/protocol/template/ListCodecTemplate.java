@@ -26,6 +26,7 @@ import java.util.List;
 
 @GenerateCodec(id = TemplateConstants.LIST_TEMPLATE_ID, name = "List", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ListCodecTemplate {
+
     /**
      * Returns the number of elements in this list.  If this list contains more than Integer.MAX_VALUE elements, returns
      * Integer.MAX_VALUE.

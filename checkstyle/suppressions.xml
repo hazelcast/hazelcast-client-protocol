@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+
+    <!-- Suppress strict duplicate code checking -->
+    <suppress checks="StrictDuplicateCode" files="\.java" lines="1-15"/>
+
+    <!-- Code Generator -->
+    <suppress checks="JavadocType" files="/generator/"/>
+
+    <!-- Codec -->
+    <suppress checks="JavadocType" files="/codec/"/>
+    <suppress checks="JavadocVariable" files="/codec/ErrorCodec\.java"/>
+    <suppress checks="IllegalImport|LocalVariableName|VisibilityModifier" files="/codec/.*Codec\.java$"/>
+
+    <!-- Templates -->
+    <suppress checks="JavadocType" files="/template/"/>
+    <suppress checks="JavadocVariable" files="/template/TemplateConstants\.java"/>
+    <suppress checks="LineLength|MethodName|MethodCount|ParameterNumber|WhitespaceAround" files="/template/.*Template\.java$"/>
+
+    <!-- Exclude Clover instrumented sources -->
+    <suppress checks="" files="/src-instrumented/"/>
+
+</suppressions>

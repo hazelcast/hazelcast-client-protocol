@@ -21,18 +21,18 @@ import com.hazelcast.annotation.Request;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
-@GenerateCodec(id = TemplateConstants.TX_QUEUE_TEMPLATE_ID,
-        name = "TransactionalQueue", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.TX_QUEUE_TEMPLATE_ID, name = "TransactionalQueue", ns = "Hazelcast.Client.Protocol.Codec")
 public interface TransactionalQueueCodecTemplate {
+
     /**
      * Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
      * become available.
      *
-     * @param name Name of the Transcational Queue
-     * @param txnId ID of the transaction
+     * @param name     Name of the Transcational Queue
+     * @param txnId    ID of the transaction
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-     * @param item The element to add
-     * @param timeout How long to wait before giving up, in milliseconds
+     * @param item     The element to add
+     * @param timeout  How long to wait before giving up, in milliseconds
      * @return <tt>true</tt> if successful, or <tt>false</tt> if the specified waiting time elapses before space is available
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN)
@@ -41,8 +41,8 @@ public interface TransactionalQueueCodecTemplate {
     /**
      * Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
      *
-     * @param name Name of the Transactional Queue
-     * @param txnId ID of the transaction
+     * @param name     Name of the Transactional Queue
+     * @param txnId    ID of the transaction
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @return The head of this queue
      */
@@ -53,10 +53,10 @@ public interface TransactionalQueueCodecTemplate {
      * Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
      * to become available.
      *
-     * @param name Name of the Transactional Queue
-     * @param txnId ID of the transaction
+     * @param name     Name of the Transactional Queue
+     * @param txnId    ID of the transaction
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-     * @param timeout How long to wait before giving up, in milliseconds
+     * @param timeout  How long to wait before giving up, in milliseconds
      * @return The head of this queue, or <tt>null</tt> if the specified waiting time elapses before an element is available
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.DATA)
@@ -65,10 +65,10 @@ public interface TransactionalQueueCodecTemplate {
     /**
      * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
      *
-     * @param name Name of the Transactional Queue
-     * @param txnId ID of the transaction
+     * @param name     Name of the Transactional Queue
+     * @param txnId    ID of the transaction
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-     * @param timeout How long to wait before giving up, in milliseconds
+     * @param timeout  How long to wait before giving up, in milliseconds
      * @return The value at the head of the queue.
      */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.DATA)
@@ -78,12 +78,11 @@ public interface TransactionalQueueCodecTemplate {
      * Returns the number of elements in this collection.If this collection contains more than Integer.MAX_VALUE
      * elements, returns Integer.MAX_VALUE.
      *
-     * @param name Name of the Transactional Queue
-     * @param txnId ID of the transaction
+     * @param name     Name of the Transactional Queue
+     * @param txnId    ID of the transaction
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @return The number of elements in this collection
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.INTEGER)
     Object size(String name, String txnId, long threadId);
-
 }

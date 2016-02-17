@@ -20,9 +20,9 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
-@GenerateCodec(id = TemplateConstants.SEMAPHORE_TEMPLATE_ID,
-        name = "Semaphore", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.SEMAPHORE_TEMPLATE_ID, name = "Semaphore", ns = "Hazelcast.Client.Protocol.Codec")
 public interface SemaphoreCodecTemplate {
+
     /**
      * Try to initialize this ISemaphore instance with the given permit count
      *
@@ -100,6 +100,4 @@ public interface SemaphoreCodecTemplate {
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Object tryAcquire(String name, int permits, long timeout);
-
 }
-

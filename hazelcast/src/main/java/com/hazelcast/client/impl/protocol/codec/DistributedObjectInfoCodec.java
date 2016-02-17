@@ -44,4 +44,3 @@ public final class DistributedObjectInfoCodec {
                 + ParameterUtil.calculateDataSize(info.getName());
     }
 }
-

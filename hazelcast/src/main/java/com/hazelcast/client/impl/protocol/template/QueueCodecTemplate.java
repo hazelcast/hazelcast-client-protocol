@@ -26,6 +26,7 @@ import java.util.List;
 
 @GenerateCodec(id = TemplateConstants.QUEUE_TEMPLATE_ID, name = "Queue", ns = "Hazelcast.Client.Protocol.Codec")
 public interface QueueCodecTemplate {
+
     /**
      * Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
      * become available.
@@ -242,5 +243,4 @@ public interface QueueCodecTemplate {
      */
     @Request(id = 20, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Object isEmpty(String name);
-
 }

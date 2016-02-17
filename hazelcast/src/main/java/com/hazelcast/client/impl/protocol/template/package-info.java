@@ -14,17 +14,7 @@
  * limitations under the License.
  */
 
-package com.hazelcast.client.protocol.generator;
-
-public interface Model {
-
-    boolean isEmpty();
-
-    Lang getLang();
-
-    String getName();
-
-    String getClassName();
-
-    String getPackageName();
-}
+/**
+ * Client protocol templates
+ */
+package com.hazelcast.client.impl.protocol.template;

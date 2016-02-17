@@ -25,18 +25,18 @@ import com.hazelcast.nio.serialization.Data;
 import java.util.List;
 import java.util.Map;
 
-@GenerateCodec(id = TemplateConstants.REPLICATED_MAP_TEMPLATE_ID,
-        name = "ReplicatedMap", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.REPLICATED_MAP_TEMPLATE_ID, name = "ReplicatedMap", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ReplicatedMapCodecTemplate {
+
     /**
      * Associates a given value to the specified key and replicates it to the cluster. If there is an old value, it will
      * be replaced by the specified one and returned from the call. In addition, you have to specify a ttl and its TimeUnit
      * to define when the value is outdated and thus should be removed from the replicated map.
      *
-     * @param name Name of the ReplicatedMap
-     * @param key  Key with which the specified value is to be associated.
+     * @param name  Name of the ReplicatedMap
+     * @param key   Key with which the specified value is to be associated.
      * @param value Value to be associated with the specified key
-     * @param ttl ttl in milliseconds to be associated with the specified key-value pair
+     * @param ttl   ttl in milliseconds to be associated with the specified key-value pair
      * @return The old value if existed for the key.
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
@@ -65,9 +65,8 @@ public interface ReplicatedMapCodecTemplate {
      * Returns true if this map contains a mapping for the specified key.
      *
      * @param name Name of the ReplicatedMap
-     * @param key The key whose associated value is to be returned.
+     * @param key  The key whose associated value is to be returned.
      * @return <tt>True</tt> if this map contains a mapping for the specified key
-     *
      */
     @Request(id = 4, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
     Object containsKey(String name, Data key);
@@ -76,7 +75,7 @@ public interface ReplicatedMapCodecTemplate {
      * Returns true if this map maps one or more keys to the specified value.
      * This operation will probably require time linear in the map size for most implementations of the Map interface.
      *
-     * @param name Name of the ReplicatedMap
+     * @param name  Name of the ReplicatedMap
      * @param value value whose presence in this map is to be tested
      * @return <tt>true</tt> if this map maps one or more keys to the specified value
      */
@@ -90,7 +89,7 @@ public interface ReplicatedMapCodecTemplate {
      * explicitly maps the key to null.  The #containsKey operation may be used to distinguish these two cases.
      *
      * @param name Name of the ReplicatedMap
-     * @param key The key whose associated value is to be returned
+     * @param key  The key whose associated value is to be returned
      * @return The value to which the specified key is mapped, or null if this map contains no mapping for the key
      */
     @Request(id = 6, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
@@ -103,7 +102,7 @@ public interface ReplicatedMapCodecTemplate {
      * explicitly mapped the key to null. The map will not contain a mapping for the specified key once the call returns.
      *
      * @param name Name of the ReplicatedMap
-     * @param key Key with which the specified value is to be associated.
+     * @param key  Key with which the specified value is to be associated.
      * @return the previous value associated with <tt>key</tt>, or <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
@@ -115,11 +114,11 @@ public interface ReplicatedMapCodecTemplate {
      * v in the specified map. The behavior of this operation is undefined if the specified map is modified while the
      * operation is in progress.
      *
-     * @param name Name of the ReplicatedMap
+     * @param name    Name of the ReplicatedMap
      * @param entries entries to be stored in this map
      */
     @Request(id = 8, retryable = false, response = ResponseMessageConst.VOID)
-    void putAll(String name, List<Map.Entry<Data,Data>> entries);
+    void putAll(String name, List<Map.Entry<Data, Data>> entries);
 
     /**
      * The clear operation wipes data out of the replicated maps.It is the only synchronous remote operation in this
@@ -136,8 +135,8 @@ public interface ReplicatedMapCodecTemplate {
      * Adds an continuous entry listener for this map. The listener will be notified for map add/remove/update/evict
      * events filtered by the given predicate.
      *
-     * @param name Name of the Replicated Map
-     * @param key Key with which the specified value is to be associated.
+     * @param name      Name of the Replicated Map
+     * @param key       Key with which the specified value is to be associated.
      * @param predicate The predicate for filtering entries
      * @param localOnly if true fires events that originated from this node only, otherwise fires all events
      * @return A unique string  which is used as a key to remove the listener.
@@ -150,7 +149,7 @@ public interface ReplicatedMapCodecTemplate {
      * Adds an continuous entry listener for this map. The listener will be notified for map add/remove/update/evict
      * events filtered by the given predicate.
      *
-     * @param name Name of the Replicated Map
+     * @param name      Name of the Replicated Map
      * @param predicate The predicate for filtering entries
      * @param localOnly if true fires events that originated from this node only, otherwise fires all events
      * @return A unique string  which is used as a key to remove the listener.
@@ -163,8 +162,8 @@ public interface ReplicatedMapCodecTemplate {
      * Adds the specified entry listener for the specified key. The listener will be notified for all
      * add/remove/update/evict events of the specified key only.
      *
-     * @param name Name of the Replicated Map
-     * @param key Key with which the specified value is to be associated.
+     * @param name      Name of the Replicated Map
+     * @param key       Key with which the specified value is to be associated.
      * @param localOnly if true fires events that originated from this node only, otherwise fires all events
      * @return A unique string  which is used as a key to remove the listener.
      */
@@ -175,7 +174,7 @@ public interface ReplicatedMapCodecTemplate {
     /**
      * Adds an entry listener for this map. The listener will be notified for all map add/remove/update/evict events.
      *
-     * @param name Name of the ReplicatedMap
+     * @param name      Name of the ReplicatedMap
      * @param localOnly if true fires events that originated from this node only, otherwise fires all events
      * @return A unique string  which is used as a key to remove the listener.
      */
@@ -186,7 +185,7 @@ public interface ReplicatedMapCodecTemplate {
     /**
      * Removes the specified entry listener. Returns silently if there was no such listener added before.
      *
-     * @param name Name of the ReplicatedMap
+     * @param name           Name of the ReplicatedMap
      * @param registrationId ID of the registered entry listener.
      * @return True if registration is removed, false otherwise.
      */
@@ -208,7 +207,6 @@ public interface ReplicatedMapCodecTemplate {
     Object keySet(String name);
 
     /**
-     *
      * @param name Name of the ReplicatedMap
      * @return A collection view of the values contained in this map.
      */
@@ -216,7 +214,6 @@ public interface ReplicatedMapCodecTemplate {
     Object values(String name);
 
     /**
-     *
      * @param name Name of the ReplicatedMap
      * @return A lazy set view of the mappings contained in this map.
      */
@@ -224,14 +221,11 @@ public interface ReplicatedMapCodecTemplate {
     Object entrySet(String name);
 
     /**
-     *
-     * @param name Name of the ReplicatedMap
+     * @param name         Name of the ReplicatedMap
      * @param includeValue True if EntryEvent should contain the value,false otherwise
-     * @param localOnly if true fires events that originated from this node only, otherwise fires all events
+     * @param localOnly    if true fires events that originated from this node only, otherwise fires all events
      * @return A unique string  which is used as a key to remove the listener.
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.STRING, event = EventMessageConst.EVENT_ENTRY)
     Object addNearCacheEntryListener(String name, boolean includeValue, boolean localOnly);
-
 }
-

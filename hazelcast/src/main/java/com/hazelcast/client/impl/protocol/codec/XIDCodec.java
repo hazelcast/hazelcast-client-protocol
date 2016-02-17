@@ -35,7 +35,6 @@ public final class XIDCodec {
         byte[] globalTransactionId = clientMessage.getByteArray();
         byte[] branchQualifier = clientMessage.getByteArray();
         return new SerializableXID(formatId, globalTransactionId, branchQualifier);
-
     }
 
     public static void encode(Xid xid, ClientMessage clientMessage) {
@@ -52,4 +51,3 @@ public final class XIDCodec {
         return dataSize;
     }
 }
-

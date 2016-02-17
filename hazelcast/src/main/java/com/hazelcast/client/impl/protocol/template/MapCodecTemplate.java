@@ -28,6 +28,7 @@ import java.util.Map;
 
 @GenerateCodec(id = TemplateConstants.MAP_TEMPLATE_ID, name = "Map", ns = "Hazelcast.Client.Protocol.Codec")
 public interface MapCodecTemplate {
+
     /**
      * Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
      * If ttl is 0, then the entry lives forever.This method returns a clone of the previous value, not the original

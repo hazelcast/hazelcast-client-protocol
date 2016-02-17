@@ -15,6 +15,6 @@
  */
 
 /**
- * <p>Client protocol custom codec implementations </p>
+ * Client protocol custom codec implementations
  */
 package com.hazelcast.client.impl.protocol.codec;

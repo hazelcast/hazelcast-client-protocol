@@ -22,8 +22,7 @@ import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
-@GenerateCodec(id = TemplateConstants.EXECUTOR_TEMPLATE_ID,
-        name = "ExecutorService", ns = "Hazelcast.Client.Protocol.Codec")
+@GenerateCodec(id = TemplateConstants.EXECUTOR_TEMPLATE_ID, name = "ExecutorService", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ExecutorServiceCodecTemplate {
 
     /**
@@ -45,19 +44,17 @@ public interface ExecutorServiceCodecTemplate {
     Object isShutdown(String name);
 
     /**
-     *
-     * @param uuid Unique id for the execution.
+     * @param uuid        Unique id for the execution.
      * @param partitionId The id of the partition to execute this cancellation request.
-     * @param interrupt If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
+     * @param interrupt   If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
      * @return True if cancelled successfully, false otherwise.
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
     Object cancelOnPartition(String uuid, int partitionId, boolean interrupt);
 
     /**
-     *
-     * @param uuid Unique id for the execution.
-     * @param address Address of the host to execute the request on.
+     * @param uuid      Unique id for the execution.
+     * @param address   Address of the host to execute the request on.
      * @param interrupt If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
      * @return True if cancelled successfully, false otherwise.
      */
@@ -65,10 +62,9 @@ public interface ExecutorServiceCodecTemplate {
     Object cancelOnAddress(String uuid, Address address, boolean interrupt);
 
     /**
-     *
-     * @param name Name of the executor.
-     * @param uuid Unique id for the execution.
-     * @param callable The callable object to be executed.
+     * @param name        Name of the executor.
+     * @param uuid        Unique id for the execution.
+     * @param callable    The callable object to be executed.
      * @param partitionId The id of the partition to execute this cancellation request.
      * @return The result of the callable execution.
      */
@@ -76,11 +72,10 @@ public interface ExecutorServiceCodecTemplate {
     Object submitToPartition(String name, String uuid, Data callable, int partitionId);
 
     /**
-     *
-     * @param name Name of the executor.
-     * @param uuid Unique id for the execution.
+     * @param name     Name of the executor.
+     * @param uuid     Unique id for the execution.
      * @param callable The callable object to be executed.
-     * @param address The member host on which the callable shall be executed on.
+     * @param address  The member host on which the callable shall be executed on.
      * @return The result of the callable execution.
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.DATA)

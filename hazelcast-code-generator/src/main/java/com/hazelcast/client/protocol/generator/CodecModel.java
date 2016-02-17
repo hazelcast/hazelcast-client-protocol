@@ -31,183 +31,101 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.DATA_FULL_NAME;
+import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.addHexPrefix;
+import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.capitalizeFirstLetter;
+import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.escape;
+
 public class CodecModel implements Model {
 
     static final Map<String, TypeElement> CUSTOM_CODEC_MAP = new HashMap<String, TypeElement>();
 
+    private static final String DEFAULT_PACKAGE_NAME = "com.hazelcast.client.impl.protocol.codec";
+    private static final int EVENT_MODEL_TYPE = 104;
+
+    private final List<ParameterModel> requestParams = new LinkedList<ParameterModel>();
+    private final List<ParameterModel> responseParams = new LinkedList<ParameterModel>();
+    private final List<EventModel> events = new LinkedList<EventModel>();
+
     private final Lang lang;
+    private final String name;
+    private final String parentName;
+    private final String className;
+    private final String packageName;
+
+    private final int retryable;
+    private final int response;
+
     private short requestId;
     private String id;
-    private String name;
-    private String className;
-    private String parentName;
-    private String packageName;
     private String partitionIdentifier;
     private String comment = "";
 
-    private int retryable;
-    private int response;
-
     private Elements elementUtil;
 
-    private final List<ParameterModel> requestParams = new LinkedList();
-    private final List<ParameterModel> responseParams = new LinkedList();
-    private final List<EventModel> events = new LinkedList();
+    CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
+               List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
+        GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
+        Request requestAnnotation = methodElement.getAnnotation(Request.class);
 
-    //TEST ONLY MOCKUP CONSTRUCTOR
-    public CodecModel(boolean mockup) {
-        this.retryable = 1;
-        this.lang = Lang.JAVA;
-
-        name = "put";
-        parentName = "Map";
-        className =
-                CodeGenerationUtils.capitalizeFirstLetter(parentName) + CodeGenerationUtils.capitalizeFirstLetter(name) + "Codec";
-        packageName = "com.hazelcast.client.impl.protocol.codec";
-
-        response = 104;
-
-        //request parameters
-
-        ParameterModel pm = new ParameterModel();
-        pm.name = "name";
-        pm.type = "java.lang.String";
-        pm.lang = Lang.JAVA;
-        pm.nullable = true;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "val";
-        pm.type = "int";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "address";
-        pm.type = "com.hazelcast.nio.Address";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "arr";
-        pm.type = "int[]";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "setD";
-        pm.type = "java.util.Set<" + CodeGenerationUtils.DATA_FULL_NAME + ">";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "mapIS";
-        pm.type = "java.util.Map<java.lang.Integer, java.lang.String>";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "mapDD";
-        pm.type = "java.util.Map<" + CodeGenerationUtils.DATA_FULL_NAME + ", " + CodeGenerationUtils.DATA_FULL_NAME + ">";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        requestParams.add(pm);
-
-        pm = new ParameterModel();
-        pm.name = "entryView";
-        pm.type = "com.hazelcast.map.impl.SimpleEntryView<" + CodeGenerationUtils.DATA_FULL_NAME + ", "
-                + CodeGenerationUtils.DATA_FULL_NAME + ">";
-        pm.lang = Lang.JAVA;
-        pm.nullable = true;
-        requestParams.add(pm);
-
-        //response parameters
-        pm = new ParameterModel();
-        pm.name = "name";
-        pm.type = "long";
-        pm.lang = Lang.JAVA;
-        pm.nullable = false;
-        responseParams.add(pm);
-
-        EventModel eventModel = new EventModel();
-        eventModel.type = 104;
-        eventModel.name = "";
-
-        List<ParameterModel> eventParam = new ArrayList<ParameterModel>();
-        pm = new ParameterModel();
-        pm.name = "name";
-        pm.type = "java.lang.String";
-        pm.lang = Lang.JAVA;
-        pm.nullable = true;
-        eventParam.add(pm);
-        eventModel.eventParams = eventParam;
-        events.add(eventModel);
-    }
-
-    public CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
-                      List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
-        this.retryable = retryable ? 1 : 0;
         this.lang = lang;
+        this.name = methodElement.getSimpleName().toString();
+        this.parentName = generateCodecAnnotation.name();
+        this.className = capitalizeFirstLetter(parentName) + capitalizeFirstLetter(name) + "Codec";
+        this.packageName = (lang != Lang.JAVA) ? generateCodecAnnotation.ns() : DEFAULT_PACKAGE_NAME;
 
-        name = methodElement.getSimpleName().toString();
-        requestId = methodElement.getAnnotation(Request.class).id();
-        partitionIdentifier = methodElement.getAnnotation(Request.class).partitionIdentifier();
-        short masterId = parent.getAnnotation(GenerateCodec.class).id();
-        id = CodeGenerationUtils.addHexPrefix(CodeGenerationUtils.mergeIds(masterId, requestId));
-        parentName = parent.getAnnotation(GenerateCodec.class).name();
-        className =
-                CodeGenerationUtils.capitalizeFirstLetter(parentName) + CodeGenerationUtils.capitalizeFirstLetter(name) + "Codec";
-        packageName = "com.hazelcast.client.impl.protocol.codec";
+        this.retryable = retryable ? 1 : 0;
+        this.response = requestAnnotation.response();
 
-        if (lang != Lang.JAVA) {
-            packageName = parent.getAnnotation(GenerateCodec.class).ns();
-        }
+        this.requestId = requestAnnotation.id();
+        this.id = addHexPrefix(CodeGenerationUtils.mergeIds(generateCodecAnnotation.id(), requestId));
+        this.partitionIdentifier = requestAnnotation.partitionIdentifier();
 
-        response = methodElement.getAnnotation(Request.class).response();
-
-        elementUtil = docCommentUtil;
+        this.elementUtil = docCommentUtil;
 
         initParameters(methodElement, responseElement, eventElementList, lang);
     }
 
+    // TEST ONLY MOCKUP CONSTRUCTOR
+    public CodecModel(boolean mockup) {
+        this.lang = Lang.JAVA;
+        this.name = "put";
+        this.parentName = "Map";
+        this.className = capitalizeFirstLetter(parentName) + capitalizeFirstLetter(name) + "Codec";
+        this.packageName = DEFAULT_PACKAGE_NAME;
+
+        this.retryable = 1;
+        this.response = EVENT_MODEL_TYPE;
+
+        initRequestParameters();
+        initResponseParameters();
+        initEventModel();
+    }
+
     private void initParameters(ExecutableElement methodElement, ExecutableElement responseElement,
                                 List<ExecutableElement> eventElementList, Lang lang) {
-        //request parameters
+        // request parameters
         for (VariableElement param : methodElement.getParameters()) {
-            final Nullable nullable = param.getAnnotation(Nullable.class);
-
-            ParameterModel pm = new ParameterModel();
-            pm.name = CodeGenerationUtils.escape(param.getSimpleName().toString(), lang);
-            pm.type = param.asType().toString();
-            pm.lang = lang;
-            pm.nullable = nullable != null;
-            requestParams.add(pm);
+            Nullable nullable = param.getAnnotation(Nullable.class);
+            String parameterName = escape(param.getSimpleName().toString(), lang);
+            addParameterModel(requestParams, parameterName, param.asType().toString(), nullable != null, lang);
         }
 
-        //response parameters
+        // response parameters
         for (VariableElement param : responseElement.getParameters()) {
-            final Nullable nullable = param.getAnnotation(Nullable.class);
-            ParameterModel pm = new ParameterModel();
-            pm.name = param.getSimpleName().toString();
-            pm.type = param.asType().toString();
-            pm.lang = lang;
-            pm.nullable = nullable != null;
-            responseParams.add(pm);
+            Nullable nullable = param.getAnnotation(Nullable.class);
+            String parameterName = param.getSimpleName().toString();
+            addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null, lang);
         }
 
-        //event parameters
+        // event parameters
         for (ExecutableElement element : eventElementList) {
             EventModel eventModel = new EventModel();
             eventModel.comment = elementUtil.getDocComment(element);
 
             List<ParameterModel> eventParam = new ArrayList<ParameterModel>();
             for (VariableElement param : element.getParameters()) {
-                final Nullable nullable = param.getAnnotation(Nullable.class);
+                Nullable nullable = param.getAnnotation(Nullable.class);
                 ParameterModel pm = new ParameterModel();
                 pm.name = param.getSimpleName().toString();
                 pm.type = param.asType().toString();
@@ -223,6 +141,39 @@ public class CodecModel implements Model {
 
             events.add(eventModel);
         }
+    }
+
+    private void initRequestParameters() {
+        addParameterModel(requestParams, "name", "java.lang.String", true);
+        addParameterModel(requestParams, "val", "int", false);
+        addParameterModel(requestParams, "address", "com.hazelcast.nio.Address", false);
+        addParameterModel(requestParams, "arr", "int[]", false);
+        addParameterModel(requestParams, "setD", "java.util.Set<" + DATA_FULL_NAME + ">", false);
+        addParameterModel(requestParams, "mapIS", "java.util.Map<java.lang.Integer, java.lang.String>", false);
+        addParameterModel(requestParams, "mapDD", "java.util.Map<" + DATA_FULL_NAME + ", " + DATA_FULL_NAME + ">", false);
+        addParameterModel(requestParams, "entryView", "com.hazelcast.map.impl.SimpleEntryView<" + DATA_FULL_NAME + ", "
+                + DATA_FULL_NAME + ">", true);
+    }
+
+    private void initResponseParameters() {
+        addParameterModel(responseParams, "name", "long", false);
+    }
+
+    private void initEventModel() {
+        ParameterModel pm = new ParameterModel();
+        pm.name = "name";
+        pm.type = "java.lang.String";
+        pm.lang = Lang.JAVA;
+        pm.nullable = true;
+
+        List<ParameterModel> eventParam = new ArrayList<ParameterModel>();
+        eventParam.add(pm);
+
+        EventModel eventModel = new EventModel();
+        eventModel.type = EVENT_MODEL_TYPE;
+        eventModel.name = "";
+        eventModel.eventParams = eventParam;
+        events.add(eventModel);
     }
 
     public String getName() {
@@ -270,8 +221,8 @@ public class CodecModel implements Model {
         return response;
     }
 
-    public String getHexadecimalResponseId(){
-        return CodeGenerationUtils.addHexPrefix(Integer.toHexString(response));
+    public String getHexadecimalResponseId() {
+        return addHexPrefix(Integer.toHexString(response));
     }
 
     public List<ParameterModel> getRequestParams() {
@@ -294,18 +245,33 @@ public class CodecModel implements Model {
         this.comment = comment;
     }
 
+    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble) {
+        addParameterModel(parameterModelList, name, type, nullAble, Lang.JAVA);
+    }
+
+    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble,
+                                          Lang lang) {
+        ParameterModel pm = new ParameterModel();
+        pm.name = name;
+        pm.type = type;
+        pm.lang = lang;
+        pm.nullable = nullAble;
+        parameterModelList.add(pm);
+    }
+
     public static class EventModel {
+
         private String name;
         private List<ParameterModel> eventParams;
         private int type;
-        String comment = "";
+        private String comment = "";
 
         public int getType() {
             return type;
         }
 
-        public String getHexadecimalTypeId(){
-            return CodeGenerationUtils.addHexPrefix(Integer.toHexString(type));
+        public String getHexadecimalTypeId() {
+            return addHexPrefix(Integer.toHexString(type));
         }
 
         public String getName() {
@@ -322,6 +288,7 @@ public class CodecModel implements Model {
     }
 
     public static class ParameterModel {
+
         private String name;
         private String type;
         private Lang lang;

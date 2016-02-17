@@ -177,15 +177,14 @@ public interface EventResponseTemplate {
 
 
     /**
-     * @param key        The key for the entry.
+     * @param key The key for the entry.
      */
     @EventResponse(EventMessageConst.EVENT_IMAPINVALIDATION)
     void IMapInvalidation(@Nullable Data key);
 
     /**
-     * @param keys        The keys for the entries in batch invalidation.
+     * @param keys The keys for the entries in batch invalidation.
      */
     @EventResponse(EventMessageConst.EVENT_IMAPBATCHINVALIDATION)
     void IMapBatchInvalidation(List<Data> keys);
-
 }
