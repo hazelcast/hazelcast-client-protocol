@@ -40,6 +40,11 @@ public enum Lang {
      *PYTHON lang
      */
     PY,
+    
+    /**
+     *TYPESCRIPT lang
+     */
+    NODE,
 
     /**
      * Binary Protocol Document representing a human readable document in English

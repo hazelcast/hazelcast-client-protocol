@@ -56,6 +56,30 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
     }};
 
+    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {{
+        put(DATA_FULL_NAME, "data");
+        put("java.lang.String", "string");
+        put("java.lang.Integer", "int32");
+        put("boolean", "boolean");
+        put("int", "int32");
+        put("com.hazelcast.nio.Address", "Address");
+        put("java.util.List", "list");
+        put("java.util.Set", "set");
+    }};
+
+    private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() {{
+        put(DATA_FULL_NAME, "Data");
+        put("java.lang.String", "string");
+        put("java.lang.Integer", "number");
+        put("boolean", "boolean");
+        put("int", "number");
+        put("com.hazelcast.nio.Address", "Address");
+        put("java.util.List", "any");
+        put("java.util.Collection", "any[]");
+        put("java.util.Set", "any");
+        put("long", "number");
+    }};
+
     @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() {{
         put(DATA_FULL_NAME, "IData");
@@ -74,7 +98,7 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
     }};
 
-    @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount" })
+    @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount"})
     private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() {{
         put("java.lang.Integer", "int32_t");
         put("int", "int32_t");
@@ -317,6 +341,14 @@ public final class CodeGenerationUtils {
         return getLanguageType(Lang.CPP, type, JAVA_TO_CPP_TYPES);
     }
 
+    public static String getNodeType(String type) {
+        return getLanguageType(Lang.NODE, type, JAVA_TO_NODE_TYPES);
+    }
+
+    public static String getNodeTsType(String type) {
+        return JAVA_TO_TS_TYPES.get(type) != null ? JAVA_TO_TS_TYPES.get(type) : "any";
+    }
+
     public static String getLanguageType(Lang language, String type, Map<String, String> languageMapping) {
         type = type.trim();
         if (isGeneric(type)) {
@@ -362,6 +394,14 @@ public final class CodeGenerationUtils {
 
     public static String convertToSnakeCase(String camelCase) {
         return camelCase.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+    }
+
+    public static String convertToNodeType(String name) {
+        //        name = convertToSnakeCase(name);
+        if (name.equals("function")) {
+            return "arr";
+        }
+        return name;
     }
 
     public static String escape(String str, Lang lang) {

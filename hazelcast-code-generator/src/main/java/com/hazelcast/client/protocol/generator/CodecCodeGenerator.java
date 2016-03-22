@@ -60,6 +60,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import static com.hazelcast.client.protocol.generator.Lang.JAVA;
+
 @SupportedAnnotationTypes("com.hazelcast.annotation.GenerateCodec")
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class CodecCodeGenerator extends AbstractProcessor {
@@ -101,7 +103,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
         cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/"));
         for (Lang lang : Lang.values()) {
             boolean enabled = Boolean.getBoolean("hazelcast.generator." + lang.name().toLowerCase());
-            if (enabled || lang == Lang.JAVA) {
+            if (enabled || lang == JAVA) {
                 if (Lang.CPP == lang) {
                     try {
                         cppHeaderTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + "header.ftl");
@@ -307,15 +309,24 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     public void generateCodec(CodecModel codecModel, Template codecTemplate) {
-        String content = generateFromTemplate(codecTemplate, codecModel);
-        if (codecModel.getLang() == Lang.JAVA) {
-            saveClass(codecModel.getPackageName(), codecModel.getClassName(), content);
-        } else {
-            String fileName = codecModel.getClassName() + "." + codecModel.getLang().name().toLowerCase();
-            if (codecModel.getLang() == Lang.PY) {
+        final String content = generateFromTemplate(codecTemplate, codecModel);
+        String fileName = codecModel.getClassName() + "." + codecModel.getLang().name().toLowerCase();
+
+        switch (codecModel.getLang()) {
+            case JAVA:
+                saveClass(codecModel.getPackageName(), codecModel.getClassName(), content);
+                break;
+            case NODE:
+                fileName = codecModel.getClassName() + ".ts";
+                saveFile(fileName, codecModel.getPackageName(), content);
+                break;
+            case PY:
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
-            }
-            saveFile(fileName, codecModel.getPackageName(), content);
+                saveFile(fileName, codecModel.getPackageName(), content);
+                break;
+            default:
+                saveFile(fileName, codecModel.getPackageName(), content);
+                break;
         }
     }
 
@@ -358,12 +369,14 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private void saveContent(Model codecModel, String content) {
-        if (codecModel.getLang() == Lang.JAVA) {
+        if (codecModel.getLang() == JAVA) {
             saveClass(codecModel.getPackageName(), codecModel.getClassName(), content);
         } else {
             String fileName = codecModel.getClassName() + "." + codecModel.getLang().name().toLowerCase();
             if (codecModel.getLang() == Lang.PY) {
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+            } else if (codecModel.getLang() == Lang.NODE) {
+                fileName = codecModel.getClassName() + ".ts";
             }
             saveFile(fileName, codecModel.getPackageName(), content);
         }
