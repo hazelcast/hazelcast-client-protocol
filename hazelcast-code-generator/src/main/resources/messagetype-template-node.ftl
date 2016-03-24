@@ -1,4 +1,4 @@
-/* tslint:disable:no-bitwise */
+/* tslint:disable */
 export class ${model.className} {
 <#list model.params as param>
 static ${model.name?upper_case}_${param.name?upper_case} = ${param.id};

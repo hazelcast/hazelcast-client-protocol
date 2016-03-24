@@ -77,7 +77,7 @@ public final class CodeGenerationUtils {
         put("java.util.List", "any");
         put("java.util.Collection", "any[]");
         put("java.util.Set", "any");
-        put("long", "number");
+        put("long", "any");
     }};
 
     @SuppressWarnings("checkstyle:whitespacearound")
@@ -400,6 +400,9 @@ public final class CodeGenerationUtils {
         //        name = convertToSnakeCase(name);
         if (name.equals("function")) {
             return "arr";
+        }
+        if (name.equals("arguments")) {
+            return "args";
         }
         return name;
     }

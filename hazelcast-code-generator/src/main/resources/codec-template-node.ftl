@@ -1,12 +1,12 @@
 /* tslint:disable */
 import ClientMessage = require('../ClientMessage');
-import ImmutableLazyDataList = require('./ImmutableLazyDataList');
 import {BitsUtil} from '../BitsUtil';
 import Address = require('../Address');
 import {AddressCodec} from './AddressCodec';
 import {MemberCodec} from './MemberCodec';
 import {Data} from '../serialization/Data';
 import {EntryViewCodec} from './EntryViewCodec';
+import DistributedObjectInfoCodec = require('./DistributedObjectInfoCodec');
 import {${model.parentName}MessageType} from './${model.parentName}MessageType';
 
 var REQUEST_TYPE = ${model.parentName}MessageType.${model.parentName?upper_case}_${model.name?upper_case};
@@ -134,6 +134,15 @@ var messageType = clientMessage.getMessageType();
             <@sizeTextInternal varName="entry.key"  type=keyType />
             <@sizeTextInternal varName="entry.val"  type=valueType />
         });
+    <#break >
+        <#case "MAPENTRY">
+            <#local keyType = util.getFirstGenericParameterType(type)>
+            <#local valueType = util.getSecondGenericParameterType(type)>
+            <#local n= varName>
+        var key : ${util.getNodeTsType(keyType)} =  ${varName}[0];
+        var val : ${util.getNodeTsType(valueType)} = ${varName}[1];
+            <@sizeText varName="key"  type=keyType/>
+            <@sizeText varName="val"  type=valueType/>
     </#switch>
 </#macro>
 
@@ -188,6 +197,14 @@ var messageType = clientMessage.getMessageType();
         <@setterTextInternal varName="entry.val"  type=valueType />
     });
     </#if>
+    <#if cat == "MAPENTRY">
+        <#local keyType = util.getFirstGenericParameterType(type)>
+        <#local valueType = util.getSecondGenericParameterType(type)>
+    var key : ${util.getNodeTsType(keyType)} = ${varName}[0];
+    var val : ${util.getNodeTsType(valueType)}  = ${varName}[1];
+        <@setterTextInternal varName="key"  type=keyType/>
+        <@setterTextInternal varName="val"  type=valueType/>
+    </#if>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
@@ -228,7 +245,7 @@ var messageType = clientMessage.getMessageType();
             </#switch>
             <#break >
         <#case "CUSTOM">
-            <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(clientMessage);
+            <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(clientMessage, toObjectFunction);
             <#break >
         <#case "COLLECTION">
         <#case "ARRAY">
@@ -248,7 +265,7 @@ var messageType = clientMessage.getMessageType();
         ${varName}.push(${itemVariableName})
         }
             <#if !(isEvent || isCollection)>
-            parameters['${varName}'] = new ImmutableLazyDataList(${varName}, toObjectFunction);
+            parameters['${varName}'] = ${varName};
             </#if>
             <#break >
         <#case "MAP">
@@ -269,16 +286,16 @@ var messageType = clientMessage.getMessageType();
         }
         <#break >
         <#case "MAPENTRY">
-            <#local sizeVariableName= "${varName}_size">
-            <#local indexVariableName= "${varName}_index">
+            <#local sizeVariableName= "${varName}Size">
+            <#local indexVariableName= "${varName}Index">
             <#local keyType = util.getFirstGenericParameterType(varType)>
             <#local valueType = util.getSecondGenericParameterType(varType)>
-            <#local keyVariableName= "${varName}_key">
-            <#local valVariableName= "${varName}_val">
-        ${keyType} ${keyVariableName};
-        ${valueType} ${valVariableName};
-            <@getterTextInternal varName=keyVariableName isEvent=true varType=keyType/>
+            <#local keyVariableName= "${varName}Key">
+            <#local valVariableName= "${varName}Val">
+        var ${keyVariableName}: ${util.getNodeTsType(keyType)};
+        var ${valVariableName}: ${util.getNodeTsType(valType)};
+            <@getterTextInternal varName=keyVariableName isEvent=true varType=keyType />
             <@getterTextInternal varName=valVariableName isEvent=true varType=valueType/>
-        ${varName} = new java.util.AbstractMap.SimpleEntry<${keyType},${valueType}>(${keyVariableName}, ${valVariableName});
+        ${varName} = [${keyVariableName}, ${valVariableName}];
     </#switch>
 </#macro>
