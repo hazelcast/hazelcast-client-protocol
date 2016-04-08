@@ -152,6 +152,8 @@ public interface ClientMessageTemplate {
     Object getDistributedObjects();
 
     /**
+     * @param localOnly If set to true, the server adds the listener only to itself, otherwise the listener is is added for all
+     *                  members in the cluster.
      * @return The registration id for the distributed object listener.
      */
     @Request(id = 13, retryable = false, response = ResponseMessageConst.STRING, event = {EventMessageConst.EVENT_DISTRIBUTEDOBJECT})

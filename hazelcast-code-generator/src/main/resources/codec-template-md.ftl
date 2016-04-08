@@ -120,10 +120,10 @@ The following error codes are defined in the system:
 |ARRAY_INDEX_OUT_OF_BOUNDS|1|Thrown to indicate that an array has been accessed with an illegal index. The index is either negative or greater than or equal to the size of the array.|
 |ARRAY_STORE|2| Thrown to indicate that an attempt has been made to store the wrong type of object into an array of objects. For example, the following code generates an ArrayStoreException:<br>Object x[] = new String[3];<br>x[0] = new Integer(0);|
 |AUTHENTICATION|3|The authentication failed.|
-|CACHE|4||
-|CACHE_LOADER|5||
+|CACHE|4|Thrown to indicate an exception has occurred in the Cache|
+|CACHE_LOADER|5|An exception to indicate a problem has occurred executing a CacheLoader|
 |CACHE_NOT_EXISTS|6|This exception class is thrown while creating com.hazelcast.cache.impl.CacheRecordStore instances but the cache config does not exist on the node to create the instance on. This can happen in either of two cases:<br>the cache's config is not yet distributed to the node, or <br>the cache has been already destroyed.<br> For the first option, the caller can decide to just retry the operation a couple of times since distribution is executed in a asynchronous way.|
-|CACHE_WRITER|7||
+|CACHE_WRITER|7|An exception to indicate a problem has occurred executing a CacheWriter|
 |CALLER_NOT_MEMBER|8|A Retryable Hazelcast Exception that indicates that an operation was sent by a machine which isn't member in the cluster when the operation is executed.|
 |CANCELLATION|9|Exception indicating that the result of a value-producing task, such as a FutureTask, cannot be retrieved because the task was cancelled.|
 |CLASS_CAST|10|The class conversion (cast) failed.|
@@ -134,21 +134,21 @@ The following error codes are defined in the system:
 |DISTRIBUTED_OBJECT_DESTROYED|15|The distributed object that you are trying to access is destroyed and does not exist.|
 |DUPLICATE_INSTANCE_NAME|16|An instance with the same name already exists in the system.|
 |EOF|17|End of file is reached (May be for a file or a socket)|
-|ENTRY_PROCESSOR|18||
+|ENTRY_PROCESSOR|18|An exception to indicate a problem occurred attempting to execute an EntryProcessor against an entry|
 |EXECUTION|19|Thrown when attempting to retrieve the result of a task that aborted by throwing an exception.|
 |HAZELCAST|20|General internal error of Hazelcast.|
 |HAZELCAST_INSTANCE_NOT_ACTIVE|21|The Hazelcast server instance is not active, the server is possibly initialising.|
 |HAZELCAST_OVERLOAD|22|Thrown when the system won't handle more load due to an overload. This exception is thrown when backpressure is enabled.|
 |HAZELCAST_SERIALIZATION|23|Error during serialization/de-serialization of data.|
 |IO|24|An IO error occurred.|
-|ILLEGAL_ARGUMENT|25||
-|ILLEGAL_ACCESS_EXCEPTION|26||
-|ILLEGAL_ACCESS_ERROR|27||
+|ILLEGAL_ARGUMENT|25|Thrown to indicate that a method has been passed an illegal or inappropriate argument|
+|ILLEGAL_ACCESS_EXCEPTION|26|An IllegalAccessException is thrown when an application tries to reflectively create an instance (other than an array), set or get a field, or invoke a method, but the currently executing method does not have access to the definition of the specified class, field, method or constructor|
+|ILLEGAL_ACCESS_ERROR|27|Thrown if an application attempts to access or modify a field, or to call a method that it does not have access to|
 |ILLEGAL_MONITOR_STATE|28|When an operation on a distributed object is being attempted by a thread which did not initially own the lock on the object.|
-|ILLEGAL_STATE|29||
+|ILLEGAL_STATE|29|Signals that a method has been invoked at an illegal or inappropriate time|
 |ILLEGAL_THREAD_STATE|30|Thrown to indicate that a thread is not in an appropriate state for the requested operation.|
 |INDEX_OUT_OF_BOUNDS|31|Thrown to indicate that an index of some sort (such as to a list) is out of range.|
-|INTERRUPTED|32||
+|INTERRUPTED|32|Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity|
 |INVALID_ADDRESS|33|Thrown when given address is not valid.|
 |INVALID_CONFIGURATION|34|An InvalidConfigurationException is thrown when there is an Invalid Configuration. Invalid Configuration can be a wrong Xml Config or logical config errors that are found at real time.|
 |MEMBER_LEFT|35|Thrown when a member left during an invocation or execution.|
@@ -156,7 +156,7 @@ The following error codes are defined in the system:
 |NO_SUCH_ELEMENT|37|The requested element does not exist in the distributed object.|
 |NOT_SERIALIZABLE|38|The object could not be serialized|
 |NULL_POINTER|39|The server faced a null pointer exception during the operation.|
-|OPERATION_TIMEOUT|40| An unchecked version of java.util.concurrent.TimeoutException. <p>Some of the Hazelcast operations may throw an *OperationTimeoutException*. Hazelcast uses OperationTimeoutException to pass TimeoutException up through interfaces that don't have TimeoutException in their signatures.</p>|
+|OPERATION_TIMEOUT|40|An unchecked version of java.util.concurrent.TimeoutException. <p>Some of the Hazelcast operations may throw an *OperationTimeoutException*. Hazelcast uses OperationTimeoutException to pass TimeoutException up through interfaces that don't have TimeoutException in their signatures.</p>|
 |PARTITION_MIGRATING|41|Thrown when an operation is executed on a partition, but that partition is currently being moved around.|
 |QUERY|42|Error during query.|
 |QUERY_RESULT_SIZE_EXCEEDED|43|Thrown when a query exceeds a configurable result size limit.|
@@ -167,35 +167,34 @@ The following error codes are defined in the system:
 |RESPONSE_ALREADY_SENT|48|There is some kind of system error causing a response to be send multiple times for some operation.|
 |RETRYABLE_HAZELCAST|49|The operation request can be retried.|
 |RETRYABLE_IO|50|Indicates that an operation can be retried. E.g. if map.get is send to a partition that is currently migrating, a subclass of this exception is thrown, so the caller can deal with it (e.g. sending the request to the new partition owner).|
-|RUNTIME|51||
-|SECURITY|52|There is a security violation.|
+|RUNTIME|51|Exceptions that can be thrown during the normal operation of the Java Virtual Machine|
+|SECURITY|52|There is a security violation|
 |SOCKET|53|There is an error in the underlying TCP protocol|
 |STALE_SEQUENCE|54|Thrown when accessing an item in the Ringbuffer using a sequence that is smaller than the current head sequence. This means that the and old item is read, but it isn't available anymore in the ringbuffer.|
 |TARGET_DISCONNECTED|55|Indicates that an operation is about to be sent to a non existing machine.|
 |TARGET_NOT_MEMBER|56|Indicates operation is sent to a machine that isn't member of the cluster.|
-|TIMEOUT|57||
+|TIMEOUT|57|Exception thrown when a blocking operation times out|
 |TOPIC_OVERLOAD|58|Thrown when a publisher wants to write to a topic, but there is not sufficient storage to deal with the event. This exception is only thrown in combination with the reliable topic.|
-|TOPOLOGY_CHANGED|59|Thrown when a topology change happens during the execution of a map reduce job and the com.hazelcast.mapreduce.TopologyChangedStrategy is set to com.hazelcast.mapreduce.TopologyChangedStrategy#CANCEL_RUNNING_OPERATION}.|
+|TOPOLOGY_CHANGED|59|Thrown when a topology change happens during the execution of a map reduce job and the com.hazelcast.mapreduce.TopologyChangedStrategy is set to com.hazelcast.mapreduce.TopologyChangedStrategy.CANCEL_RUNNING_OPERATION.|
 |TRANSACTION|60|Thrown when something goes wrong while dealing with transactions and transactional data-structures.|
 |TRANSACTION_NOT_ACTIVE|61|Thrown when an a transactional operation is executed without an active transaction.|
 |TRANSACTION_TIMED_OUT|62|Thrown when a transaction has timed out.|
-|URI_SYNTAX|63||
-|UTF_DATA_FORMAT|64||
+|URI_SYNTAX|63|Thrown to indicate that a string could not be parsed as a URI reference|
+|UTF_DATA_FORMAT|64|Signals that a malformed string in modified UTF-8 format has been read in a data input stream or by any class that implements the data input interface|
 |UNSUPPORTED_OPERATION|65|The message type id for the operation request is not a recognised id.|
 |WRONG_TARGET|66|An operation is executed on the wrong machine.|
 |XA|67|An error occurred during an XA operation.|
 |ACCESS_CONTROL|68|Indicates that a requested access to a system resource is denied.|
-|LOGIN|69||
+|LOGIN|69|Basic login exception.|
 |UNSUPPORTED_CALLBACK|70|Signals that a CallbackHandler does not recognize a particular Callback.|
 |NO_DATA_MEMBER|71|Thrown when there is no data member in the cluster to assign partitions.|
-|REPLICATED_MAP_CANT_BE_CREATED|72|Thrown when {@link com.hazelcast.core.HazelcastInstance#getReplicatedMap(String)} is invoked on a lite member..|
-|MAX_MESSAGE_SIZE_EXCEEDED|73|* Thrown when client message size exceeds Integer.MAX_VALUE.|
+|REPLICATED_MAP_CANT_BE_CREATED|72|Thrown when com.hazelcast.core.HazelcastInstance.getReplicatedMap(String) is invoked on a lite member.|
+|MAX_MESSAGE_SIZE_EXCEEDED|73|Thrown when client message size exceeds Integer.MAX_VALUE.|
 |WAN_REPLICATION_QUEUE_FULL|74|Thrown when the wan replication queues are full.|
 |ASSERTION_ERROR|75|Thrown to indicate that an assertion has failed.|
 |OUT_OF_MEMORY_ERROR|76|Thrown when the Java Virtual Machine cannot allocate an object because it is out of memory, and no more memory could be made available by the garbage collector.|
 |STACK_OVERFLOW_ERROR|77|Thrown when a stack overflow occurs because an application recurses too deeply.|
 |NATIVE_OUT_OF_MEMORY_ERROR|78|Thrown when Hazelcast cannot allocate required native memory.|
-
 
 Please note that there may be error messages with an error code which is not listed in this table. The client can handle this situation differently based on the particular implementation (e.g. throw an unknown error code exception).
 
