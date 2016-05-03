@@ -114,7 +114,7 @@ var messageType = clientMessage.getMessageType();
             <#local genericType= util.getGenericType(type)>
             <#local n= varName>
 
-        ${varName}.foreach((${varName}Item : any) => {
+        ${varName}.forEach((${varName}Item : any) => {
             <@sizeTextInternal varName="${n}Item"  type=genericType />
         });
             <#break >
@@ -122,7 +122,7 @@ var messageType = clientMessage.getMessageType();
         data_size += BitsUtil.INT_SIZE_IN_BYTES
             <#local genericType= util.getArrayType(type)>
             <#local n= varName>
-        ${varName}.foreach((${varName}Item : any) => {
+        ${varName}.forEach((${varName}Item : any) => {
             <@sizeTextInternal varName="${n}Item"  type=genericType />
         });
             <#break >
@@ -130,7 +130,7 @@ var messageType = clientMessage.getMessageType();
             <#local keyType = util.getFirstGenericParameterType(type)>
             <#local valueType = util.getSecondGenericParameterType(type)>
             <#local n= varName>
-        ${varName}.foreach((entry : any) => {
+        ${varName}.forEach((entry : any) => {
             <@sizeTextInternal varName="entry.key"  type=keyType />
             <@sizeTextInternal varName="entry.val"  type=valueType />
         });
@@ -173,7 +173,7 @@ var messageType = clientMessage.getMessageType();
         <#local itemType= util.getGenericType(type)>
         <#local itemTypeVar= varName + "Item">
 
-    ${varName}.foreach((${itemTypeVar} : any) => {
+    ${varName}.forEach((${itemTypeVar} : any) => {
         <@setterTextInternal varName=itemTypeVar type=itemType />
     });
 
@@ -183,7 +183,7 @@ var messageType = clientMessage.getMessageType();
         <#local itemType= util.getArrayType(type)>
         <#local itemTypeVar= varName + "Item">
 
-    ${varName}.foreach((${itemTypeVar} : any) => {
+    ${varName}.forEach((${itemTypeVar} : any) => {
         <@setterTextInternal varName=itemTypeVar type=itemType />
     });
 
@@ -192,7 +192,7 @@ var messageType = clientMessage.getMessageType();
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
     clientMessage.appendInt32(${varName}.length);
-    ${varName}.foreach((entry : any) => {
+    ${varName}.forEach((entry : any) => {
         <@setterTextInternal varName="entry.key"  type=keyType />
         <@setterTextInternal varName="entry.val"  type=valueType />
     });
