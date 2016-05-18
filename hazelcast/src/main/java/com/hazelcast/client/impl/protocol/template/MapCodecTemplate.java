@@ -22,7 +22,6 @@ import com.hazelcast.client.impl.protocol.EventMessageConst;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
-
 import java.util.List;
 import java.util.Map;
 
@@ -719,4 +718,29 @@ public interface MapCodecTemplate {
 
     @Request(id = 59, retryable = false, response = ResponseMessageConst.VOID)
     void clearNearCache(String name, Address target);
+
+    /**
+     * Fetches specified number of keys from the specified partition starting from specified table index.
+     *
+     * @param name        Name of the map.
+     * @param partitionId The partition id which owns this record store.
+     * @param tableIndex  The slot number (or index) to start the iterator
+     * @param batch       The number of items to be batched
+     * @return last index processed and list of keys
+     */
+    @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId")
+    Object fetchKeys(String name, int partitionId, int tableIndex, int batch);
+
+    /**
+     * Fetches specified number of entries from the specified partition starting from specified table index.
+     *
+     * @param name        Name of the map.
+     * @param partitionId The partition id which owns this record store.
+     * @param tableIndex  The slot number (or index) to start the iterator
+     * @param batch       The number of items to be batched
+     * @return last index processed and list of entries
+     */
+    @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
+
 }
