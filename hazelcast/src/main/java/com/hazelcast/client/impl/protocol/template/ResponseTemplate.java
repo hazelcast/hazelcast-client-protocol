@@ -25,7 +25,6 @@ import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
-
 import java.util.List;
 import java.util.Map;
 
@@ -146,4 +145,13 @@ public interface ResponseTemplate {
      */
     @Response(ResponseMessageConst.READ_RESULT_SET)
     void ReadResultSet(int readCount, List<Data> items);
+
+    /**
+     * @param tableIndex the last tableIndex processed,
+     *                   it is used to act as a cursor to tell where should next batch read begin
+     * @param entries    list of entries
+     */
+    @Response(ResponseMessageConst.ENTRIES_WITH_CURSOR)
+    void EntriesWithCursor(int tableIndex, List<Map.Entry<Data, Data>> entries);
+
 }

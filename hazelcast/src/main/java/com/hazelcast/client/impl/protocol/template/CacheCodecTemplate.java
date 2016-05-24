@@ -358,4 +358,17 @@ public interface CacheCodecTemplate {
      */
     @Request(id = 28, retryable = false, response = ResponseMessageConst.VOID)
     void putAll(String name, List<Map.Entry<Data, Data>> entries, @Nullable Data expiryPolicy, int completionId);
+
+    /**
+     * Fetches specified number of entries from the specified partition starting from specified table index.
+     *
+     * @param name        Name of the cache.
+     * @param partitionId The partition id which owns this cache store.
+     * @param tableIndex  The slot number (or index) to start the iterator
+     * @param batch       The number of items to be batched
+     * @return last index processed and list of entries
+     */
+    @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
+
 }
