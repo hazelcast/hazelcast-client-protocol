@@ -53,31 +53,31 @@ public interface DurableExecutorCodecTemplate {
     Object submitToPartition(String name, Data callable);
 
     /**
-     * Retrieves the response of the execution with the given sequence
+     * Retrieves the result of the execution with the given sequence
      *
      * @param name        Name of the executor.
      * @param sequence    Sequence of the execution.
      * @return The result of the callable execution with the given sequence.
      */
     @Request(id = 4, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
-    Object retrieveResponse(String name, int sequence);
+    Object retrieveResult(String name, int sequence);
 
     /**
-     * Disposes the response of the execution with the given sequence
+     * Disposes the result of the execution with the given sequence
      *
      * @param name        Name of the executor.
      * @param sequence    Sequence of the execution.
      */
     @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
-    Object disposeResponse(String name, int sequence);
+    Object disposeResult(String name, int sequence);
 
     /**
-     * Retrieves and disposes the response of the execution with the given sequence
+     * Retrieves and disposes the result of the execution with the given sequence
      *
      * @param name        Name of the executor.
      * @param sequence    Sequence of the execution.
      * @return The result of the callable execution with the given sequence.
      */
     @Request(id = 6, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
-    Object retrieveAndDisposeResponse(String name, int sequence);
+    Object retrieveAndDisposeResult(String name, int sequence);
 }
