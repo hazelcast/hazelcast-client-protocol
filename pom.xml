@@ -24,6 +24,27 @@
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
     <version>1.1.0</version>
+    <name>Hazelcast Client Protocol</name>
+    <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
+    <url>http://www.hazelcast.com/</url>
+
+    <scm>
+        <connection>scm:git:git://github.com/hazelcast/hazelcast-client-protocol.git</connection>
+        <developerConnection>scm:git:git@github.com:hazelcast/hazelcast-client-protocol.git</developerConnection>
+        <url>https://github.com/hazelcast/hazelcast-client-protocol/</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>sancar</id>
+            <name>sancar koyunlu</name>
+            <email>sancar@hazelcast.com</email>
+        </developer>
+        <developer>
+            <id>asimarslan</id>
+            <name>asim arslan</name>
+            <email>asim@hazelcast.com</email>
+        </developer>
+    </developers>
 
     <modules>
         <module>hazelcast</module>
@@ -194,8 +215,35 @@
                         <configuration>
                             <serverId>release-repository</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
                         </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
+                        <configuration>
+                            <javaApiLinks>
+                                <property>
+                                    <name>api_1.6</name>
+                                    <value>http://download.oracle.com/javase/1.6.0/docs/api/</value>
+                                </property>
+                                <property>
+                                    <name>api_1.7</name>
+                                    <value>http://download.oracle.com/javase/1.7.0/docs/api/</value>
+                                </property>
+                            </javaApiLinks>
+                            <maxmemory>1024</maxmemory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
