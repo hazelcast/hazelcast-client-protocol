@@ -65,7 +65,7 @@ public interface ExecutorServiceCodecTemplate {
      * @param name        Name of the executor.
      * @param uuid        Unique id for the execution.
      * @param callable    The callable object to be executed.
-     * @param partitionId The id of the partition to execute this cancellation request.
+     * @param partitionId The id of the partition which the callable shall be executed on.
      * @return The result of the callable execution.
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
