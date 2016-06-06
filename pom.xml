@@ -32,7 +32,7 @@
 
     <properties>
         <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
-        <hazelcast.git.branch>maintenance-3.x</hazelcast.git.branch>
+        <hazelcast.git.branch>master</hazelcast.git.branch>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
