@@ -216,6 +216,8 @@ Please note that there may be error messages with an error code which is not lis
 ${util.getOperationDescription(cm.comment)}
 <#if cm.retryable == 1 >This message is idempotent.</#if>
 
+**Since** : ${cm.requestSince}
+
 #### Request Message
 **Type Id**      : ${cm.id}<br>
 **Partition Id** : ${resolvePartitionIdentifier(cm.partitionIdentifier)}

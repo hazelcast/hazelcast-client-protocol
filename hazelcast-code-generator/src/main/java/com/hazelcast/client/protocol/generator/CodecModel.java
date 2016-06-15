@@ -56,6 +56,7 @@ public class CodecModel implements Model {
     private final int retryable;
     private final int response;
 
+    private String requestSince = "1.0";
     private short requestId;
     private String id;
     private String partitionIdentifier;
@@ -76,6 +77,8 @@ public class CodecModel implements Model {
 
         this.retryable = retryable ? 1 : 0;
         this.response = requestAnnotation.response();
+
+        this.requestSince = requestAnnotation.since();
 
         this.requestId = requestAnnotation.id();
         this.id = addHexPrefix(CodeGenerationUtils.mergeIds(generateCodecAnnotation.id(), requestId));
@@ -239,6 +242,10 @@ public class CodecModel implements Model {
 
     public int getRetryable() {
         return retryable;
+    }
+
+    public String getRequestSince() {
+        return requestSince;
     }
 
     public void setComment(String comment) {

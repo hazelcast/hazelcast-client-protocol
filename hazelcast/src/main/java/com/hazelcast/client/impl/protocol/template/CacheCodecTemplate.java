@@ -368,7 +368,7 @@ public interface CacheCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of entries
      */
-    @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId", since = "1.1")
     Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
 
 }

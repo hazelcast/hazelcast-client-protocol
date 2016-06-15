@@ -728,7 +728,7 @@ public interface MapCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of keys
      */
-    @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId")
+    @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId", since = "1.1")
     Object fetchKeys(String name, int partitionId, int tableIndex, int batch);
 
     /**
@@ -740,7 +740,7 @@ public interface MapCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of entries
      */
-    @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId", since = "1.1")
     Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
 
 }
