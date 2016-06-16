@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE })
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE })
 public @interface Since {
     /**
      *

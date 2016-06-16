@@ -58,7 +58,8 @@ public class CodecModel implements Model {
     private final int retryable;
     private final int response;
 
-    private String messageSince = DEFAULT_SINCE_VERSION;
+    private String codecSince = DEFAULT_SINCE_VERSION;
+    private String messageSince;
 
     private short requestId;
     private String id;
@@ -70,6 +71,11 @@ public class CodecModel implements Model {
     CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
                List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
         GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
+        Since codecSinceVersion = parent.getAnnotation(Since.class);
+        if (null != codecSinceVersion) {
+            codecSince = codecSinceVersion.value();
+        }
+        this.messageSince = codecSince;
         Request requestAnnotation = methodElement.getAnnotation(Request.class);
         Since methodSince = methodElement.getAnnotation(Since.class);
 
@@ -117,7 +123,7 @@ public class CodecModel implements Model {
         for (VariableElement param : methodElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
-            String paramVersion = DEFAULT_SINCE_VERSION;
+            String paramVersion = messageSince;
             if (null != sinceVersion) {
                 paramVersion = sinceVersion.value();
             }
@@ -129,7 +135,7 @@ public class CodecModel implements Model {
         for (VariableElement param : responseElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
-            String paramVersion = DEFAULT_SINCE_VERSION;
+            String paramVersion = messageSince;
             if (null != sinceVersion) {
                 paramVersion = sinceVersion.value();
             }
@@ -146,7 +152,7 @@ public class CodecModel implements Model {
             for (VariableElement param : element.getParameters()) {
                 Nullable nullable = param.getAnnotation(Nullable.class);
                 Since sinceVersion = param.getAnnotation(Since.class);
-                String paramVersion = DEFAULT_SINCE_VERSION;
+                String paramVersion = messageSince;
                 if (null != sinceVersion) {
                     paramVersion = sinceVersion.value();
                 }
