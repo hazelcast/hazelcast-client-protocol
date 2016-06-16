@@ -19,6 +19,7 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.EventMessageConst;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.Address;
@@ -368,7 +369,9 @@ public interface CacheCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of entries
      */
-    @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId", since = "1.1")
-    Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
+    @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object iterateEntries(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex,
+                          @Since("1.1") int batch);
 
 }

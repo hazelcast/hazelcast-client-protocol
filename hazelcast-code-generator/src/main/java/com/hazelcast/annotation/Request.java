@@ -37,10 +37,4 @@ public @interface Request {
     String partitionIdentifier() default "-1";
 
     int[] event() default -1;
-
-    /**
-     *
-     * @return The string that indicates since which protocol version this message exists.
-     */
-    String since() default "1.0";
 }

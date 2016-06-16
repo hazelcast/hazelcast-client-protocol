@@ -52,6 +52,7 @@ import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -85,6 +86,49 @@ public class CodecCodeGenerator extends AbstractProcessor {
     private Template cppMessageTypeHeaderTemplate;
 
     private int round;
+
+    public class ProtocolFilePath {
+        private JavaFileManager.Location location;
+        private String packageName;
+        private String fileName;
+
+        public ProtocolFilePath(JavaFileManager.Location location, String packageName, String fileName) {
+            this.location = location;
+            this.packageName = packageName;
+            this.fileName = fileName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            ProtocolFilePath that = (ProtocolFilePath) o;
+
+            if (!location.equals(that.location)) {
+                return false;
+            }
+            if (!packageName.equals(that.packageName)) {
+                return false;
+            }
+            return fileName.equals(that.fileName);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = location.hashCode();
+            result = 31 * result + packageName.hashCode();
+            result = 31 * result + fileName.hashCode();
+            return result;
+        }
+    }
+
+    Map<ProtocolFilePath, Writer> openedFiles = new HashMap<ProtocolFilePath, Writer>();
 
     @Override
     @SuppressWarnings("checkstyle:npathcomplexity")
@@ -332,7 +376,8 @@ public class CodecCodeGenerator extends AbstractProcessor {
 
     void generateDoc(Map<TypeElement, Map<Integer, CodecModel>> model, Template codecTemplate) {
         String content = generateFromTemplate(codecTemplate, model);
-        saveFile("protocol.md", "document", content);
+        String fileName = "HazelcastOpenBinaryProtocol-" + getClass().getPackage().getImplementationVersion();
+        saveFile(fileName, "document", content);
     }
 
     private void generateMessageTypeEnum(TypeElement classElement, Lang lang, Template messageTypeTemplate) {
@@ -395,11 +440,15 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private void saveFile(String fileName, String packageName, String content) {
-        FileObject file;
         try {
             JavaFileManager.Location location = StandardLocation.locationFor(StandardLocation.SOURCE_OUTPUT.name());
-            file = filer.createResource(location, packageName, fileName);
-            file.openWriter().append(content).close();
+            ProtocolFilePath path = new ProtocolFilePath(location, packageName, fileName);
+            Writer writer = openedFiles.get(path);
+            if (null == writer) {
+                writer = filer.createResource(location, packageName, fileName).openWriter();
+                openedFiles.put(path, writer);
+            }
+            writer.append(content);
         } catch (IOException e) {
             messager.printMessage(Diagnostic.Kind.WARNING, e.getMessage());
             e.printStackTrace();

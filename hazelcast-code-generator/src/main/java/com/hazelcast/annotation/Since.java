@@ -16,16 +16,22 @@
 
 package com.hazelcast.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for marking a method as encode to generate code
+ * Annotation to since which protocol version the parameter exists.
  */
+@Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.METHOD)
-public @interface Response {
-    int value();
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE })
+public @interface Since {
+    /**
+     *
+     * @return The string that indicates since which protocol version the parameter exists.
+     */
+    String value() default "1.0";
 }

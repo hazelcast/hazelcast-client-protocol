@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.EventMessageConst;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.Address;
@@ -728,8 +729,9 @@ public interface MapCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of keys
      */
-    @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId", since = "1.1")
-    Object fetchKeys(String name, int partitionId, int tableIndex, int batch);
+    @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object fetchKeys(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex, @Since("1.1") int batch);
 
     /**
      * Fetches specified number of entries from the specified partition starting from specified table index.
@@ -740,7 +742,8 @@ public interface MapCodecTemplate {
      * @param batch       The number of items to be batched
      * @return last index processed and list of entries
      */
-    @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId", since = "1.1")
-    Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
+    @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object fetchEntries(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex, @Since("1.1") int batch);
 
 }

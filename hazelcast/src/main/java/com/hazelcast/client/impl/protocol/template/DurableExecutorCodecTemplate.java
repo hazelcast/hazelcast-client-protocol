@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
@@ -30,8 +31,9 @@ public interface DurableExecutorCodecTemplate {
      *
      * @param name Name of the executor.
      */
-    @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID, since = "1.1")
-    void shutdown(String name);
+    @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.1")
+    void shutdown(@Since("1.1") String name);
 
     /**
      * Returns true if this executor has been shut down.
@@ -39,8 +41,9 @@ public interface DurableExecutorCodecTemplate {
      * @param name Name of the executor.
      * @return true if this executor has been shut down
      */
-    @Request(id = 2, retryable = false, response = ResponseMessageConst.BOOLEAN, since = "1.1")
-    Object isShutdown(String name);
+    @Request(id = 2, retryable = false, response = ResponseMessageConst.BOOLEAN)
+    @Since("1.1")
+    Object isShutdown(@Since("1.1") String name);
 
     /**
      * Submits the task to partition for execution
@@ -49,8 +52,9 @@ public interface DurableExecutorCodecTemplate {
      * @param callable    The callable object to be executed.
      * @return the sequence for the submitted execution.
      */
-    @Request(id = 3, retryable = true, response = ResponseMessageConst.INTEGER, partitionIdentifier = "partitionId", since = "1.1")
-    Object submitToPartition(String name, Data callable);
+    @Request(id = 3, retryable = true, response = ResponseMessageConst.INTEGER, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object submitToPartition(@Since("1.1") String name, @Since("1.1") Data callable);
 
     /**
      * Retrieves the result of the execution with the given sequence
@@ -59,8 +63,9 @@ public interface DurableExecutorCodecTemplate {
      * @param sequence    Sequence of the execution.
      * @return The result of the callable execution with the given sequence.
      */
-    @Request(id = 4, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId", since = "1.1")
-    Object retrieveResult(String name, int sequence);
+    @Request(id = 4, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object retrieveResult(@Since("1.1") String name, @Since("1.1") int sequence);
 
     /**
      * Disposes the result of the execution with the given sequence
@@ -68,8 +73,9 @@ public interface DurableExecutorCodecTemplate {
      * @param name        Name of the executor.
      * @param sequence    Sequence of the execution.
      */
-    @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId", since = "1.1")
-    Object disposeResult(String name, int sequence);
+    @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object disposeResult(@Since("1.1") String name, @Since("1.1") int sequence);
 
     /**
      * Retrieves and disposes the result of the execution with the given sequence
@@ -78,6 +84,7 @@ public interface DurableExecutorCodecTemplate {
      * @param sequence    Sequence of the execution.
      * @return The result of the callable execution with the given sequence.
      */
-    @Request(id = 6, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId", since = "1.1")
-    Object retrieveAndDisposeResult(String name, int sequence);
+    @Request(id = 6, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
+    @Since("1.1")
+    Object retrieveAndDisposeResult(@Since("1.1") String name, @Since("1.1") int sequence);
 }
