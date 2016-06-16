@@ -371,7 +371,5 @@ public interface CacheCodecTemplate {
      */
     @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
     @Since("1.1")
-    Object iterateEntries(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex,
-                          @Since("1.1") int batch);
-
+    Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
 }

@@ -731,7 +731,7 @@ public interface MapCodecTemplate {
      */
     @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId")
     @Since("1.1")
-    Object fetchKeys(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex, @Since("1.1") int batch);
+    Object fetchKeys(String name, int partitionId, int tableIndex, int batch);
 
     /**
      * Fetches specified number of entries from the specified partition starting from specified table index.
@@ -744,6 +744,6 @@ public interface MapCodecTemplate {
      */
     @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
     @Since("1.1")
-    Object fetchEntries(@Since("1.1") String name, @Since("1.1") int partitionId, @Since("1.1") int tableIndex, @Since("1.1") int batch);
+    Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
 
 }
