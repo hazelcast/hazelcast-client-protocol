@@ -18,10 +18,12 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.DURABLE_EXECUTOR_TEMPLATE_ID, name = "DurableExecutor", ns = "Hazelcast.Client.Protocol.Codec")
+@Since("1.1")
 public interface DurableExecutorCodecTemplate {
 
     /**
