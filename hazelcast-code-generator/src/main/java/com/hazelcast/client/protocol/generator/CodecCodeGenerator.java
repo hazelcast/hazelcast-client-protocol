@@ -448,7 +448,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 writer = filer.createResource(location, packageName, fileName).openWriter();
                 openedFiles.put(path, writer);
             }
-            writer.append(content);
+            writer.append(content).flush();
         } catch (IOException e) {
             messager.printMessage(Diagnostic.Kind.WARNING, e.getMessage());
             e.printStackTrace();
