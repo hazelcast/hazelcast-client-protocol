@@ -45,7 +45,6 @@ import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
-import javax.tools.FileObject;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardLocation;
@@ -378,6 +377,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
         String content = generateFromTemplate(codecTemplate, model);
         String fileName = "HazelcastOpenBinaryProtocol-" + getClass().getPackage().getImplementationVersion();
         saveFile(fileName, "document", content);
+        CodeGenerationUtils.setDocumentCreated(true);
     }
 
     private void generateMessageTypeEnum(TypeElement classElement, Lang lang, Template messageTypeTemplate) {
