@@ -214,7 +214,7 @@ Please note that there may be error messages with an error code which is not lis
 ### ${util.getDistributedObjectName(key)}.${cm.name?cap_first}
 ${util.getOperationDescription(cm.comment)}
 <#if cm.retryable == 1 >This message is idempotent.</#if><br>
-**Since Version** : ${cm.messageSince}
+**Available since ${cm.messageSince}**
 
 #### Request Message
 **Type Id**      : ${cm.id}<br>
@@ -222,7 +222,7 @@ ${util.getOperationDescription(cm.comment)}
 
     <#if cm.requestParams?has_content>
 
-| Name| Type| Nullable| Description|Since Version|
+| Name| Type| Nullable| Description|Available since|
 |-----|-----|---------|------------|-----|
         <#list cm.requestParams as param>
 |${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if>|${util.getDescription(param.name, cm.comment)}|${param.sinceVersion}|
@@ -238,7 +238,7 @@ ${util.getReturnDescription(cm.comment)}
 
     <#if cm.responseParams?has_content>
 
-| Name| Type| Nullable|Since Version|
+| Name| Type| Nullable|Available since|
 |-------|------------|----------|-----|
         <#list cm.responseParams as param>
 |${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if>|${param.sinceVersion}|
@@ -256,7 +256,7 @@ Header only response message, no message body exist.
 
     <#if event.eventParams?has_content>
 
-| Name| Type| Nullable| Description|Since Version|
+| Name| Type| Nullable| Description|Available since|
 |-------|------------|----------|------------|-----|
         <#list event.eventParams as param>
 |${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if>|${param.description}|${param.sinceVersion}|
