@@ -127,7 +127,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
         }
     }
 
-    Map<ProtocolFilePath, Writer> openedFiles = new HashMap<ProtocolFilePath, Writer>();
+    Map<ProtocolFilePath, Writer> openFiles = new HashMap<ProtocolFilePath, Writer>();
 
     @Override
     @SuppressWarnings("checkstyle:npathcomplexity")
@@ -376,7 +376,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
     void generateDoc(Map<TypeElement, Map<Integer, CodecModel>> model, Template codecTemplate) {
         String content = generateFromTemplate(codecTemplate, model);
         String fileName = "HazelcastOpenBinaryProtocol-" + getClass().getPackage().getImplementationVersion();
-        saveFile(fileName, "document", content);
+        saveFile(fileName, "document", content, false);
         CodeGenerationUtils.setDocumentCreated(true);
     }
 
@@ -440,15 +440,24 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private void saveFile(String fileName, String packageName, String content) {
+        saveFile(fileName, packageName, content, true);
+    }
+
+    private void saveFile(String fileName, String packageName, String content, boolean shouldCloseFile) {
         try {
             JavaFileManager.Location location = StandardLocation.locationFor(StandardLocation.SOURCE_OUTPUT.name());
-            ProtocolFilePath path = new ProtocolFilePath(location, packageName, fileName);
-            Writer writer = openedFiles.get(path);
-            if (null == writer) {
-                writer = filer.createResource(location, packageName, fileName).openWriter();
-                openedFiles.put(path, writer);
+            if (shouldCloseFile) {
+                Writer writer = filer.createResource(location, packageName, fileName).openWriter();
+                writer.append(content).close();
+            } else {
+                ProtocolFilePath path = new ProtocolFilePath(location, packageName, fileName);
+                Writer writer = openFiles.get(path);
+                if (null == writer) {
+                    writer = filer.createResource(location, packageName, fileName).openWriter();
+                    openFiles.put(path, writer);
+                }
+                writer.append(content).flush();
             }
-            writer.append(content).flush();
         } catch (IOException e) {
             messager.printMessage(Diagnostic.Kind.WARNING, e.getMessage());
             e.printStackTrace();
