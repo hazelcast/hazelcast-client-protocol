@@ -1,4 +1,4 @@
-# Protocol Messages
+<#if !util.isDocumentCreated() ># Protocol Messages
 
 ## Compound Data Types Used In The Protocol Specification
 Some common compound data structures used in the protocol message specification are defined in this section.
@@ -197,7 +197,7 @@ The following error codes are defined in the system:
 |NATIVE_OUT_OF_MEMORY_ERROR|78|Thrown when Hazelcast cannot allocate required native memory.|
 
 Please note that there may be error messages with an error code which is not listed in this table. The client can handle this situation differently based on the particular implementation (e.g. throw an unknown error code exception).
-
+</#if>
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
@@ -309,8 +309,8 @@ Header only event message, no message body exist.
             <#return "array of Member">
         <#case "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>">
             <#return "array of Distributed Object Info">
-        <#case "java.util.Map<com.hazelcast.nio.Address,java.util.List<java.lang.Integer>>">
-            <#return "array of Address-Partition Id pair">
+        <#case "java.util.List<java.util.Map.Entry<com.hazelcast.nio.Address,java.util.List<java.lang.Integer>>>">
+            <#return "array of Address-Partition Id List pair">
         <#case "java.util.Collection<" + util.DATA_FULL_NAME + ">">
             <#return "array of byte-array">
         <#case "java.util.Map<" + util.DATA_FULL_NAME + "," + util.DATA_FULL_NAME + ">">
