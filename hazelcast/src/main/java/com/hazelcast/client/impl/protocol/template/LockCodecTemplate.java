@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.LOCK_TEMPLATE_ID, name = "Lock", ns = "Hazelcast.Client.Protocol.Codec")
@@ -68,27 +69,30 @@ public interface LockCodecTemplate {
      * @param name      Name of the Lock
      * @param leaseTime Time to wait before releasing to lock
      * @param threadId  The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
-    void lock(String name, long leaseTime, long threadId);
+    @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    void lock(String name, long leaseTime, long threadId, @Since(value = "1.2") long referenceId);
 
     /**
      * Releases the lock.
      *
      * @param name     Name of the Lock
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
-    void unlock(String name, long threadId);
+    @Request(id = 6, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    void unlock(String name, long threadId, @Since(value = "1.2") long referenceId);
 
     /**
      * Releases the lock regardless of the lock owner. It always successfully unlocks, never blocks,
      * and returns immediately.
      *
      * @param name Name of the Lock
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 7, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
-    void forceUnlock(String name);
+    @Request(id = 7, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    void forceUnlock(String name, @Since(value = "1.2") long referenceId);
 
     /**
      * Tries to acquire the lock for the specified lease time.After lease time, the lock will be released.
@@ -100,8 +104,9 @@ public interface LockCodecTemplate {
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param lease    time in milliseconds to wait before releasing the lock.
      * @param timeout  Maximum time to wait for the lock.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return true if the lock was acquired and false if the waiting time elapsed before the lock was acquired.
      */
-    @Request(id = 8, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
-    Object tryLock(String name, long threadId, long lease, long timeout);
+    @Request(id = 8, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
+    Object tryLock(String name, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 }
