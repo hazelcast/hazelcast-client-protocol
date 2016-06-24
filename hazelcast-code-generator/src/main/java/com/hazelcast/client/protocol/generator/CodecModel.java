@@ -60,6 +60,8 @@ public class CodecModel implements Model {
 
     private String codecSince = DEFAULT_SINCE_VERSION;
     private String messageSince;
+    private int messageSinceInt;
+    private int highestParameterVersion = -1;
 
     private short requestId;
     private String id;
@@ -98,6 +100,8 @@ public class CodecModel implements Model {
 
         this.elementUtil = docCommentUtil;
 
+        this.messageSinceInt = CodeGenerationUtils.versionAsInt(messageSince);
+
         initParameters(methodElement, responseElement, eventElementList, lang);
     }
 
@@ -128,7 +132,12 @@ public class CodecModel implements Model {
                 paramVersion = sinceVersion.value();
             }
             String parameterName = escape(param.getSimpleName().toString(), lang);
-            addParameterModel(requestParams, parameterName, param.asType().toString(), nullable != null, paramVersion, lang);
+            ParameterModel pm = addParameterModel(requestParams, parameterName, param.asType().toString(),
+                    nullable != null, paramVersion, lang);
+            int paramVersionInt = pm.sinceVersionInt;
+            if (paramVersionInt > highestParameterVersion) {
+                highestParameterVersion = paramVersionInt;
+            }
         }
 
         // response parameters
@@ -278,6 +287,14 @@ public class CodecModel implements Model {
         return messageSince;
     }
 
+    public int getMessageSinceInt() {
+        return messageSinceInt;
+    }
+
+    public int getHighestParameterVersion() {
+        return highestParameterVersion;
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -286,7 +303,7 @@ public class CodecModel implements Model {
         addParameterModel(parameterModelList, name, type, nullAble, since, Lang.JAVA);
     }
 
-    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble,
+    private static ParameterModel addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble,
                                           String since, Lang lang) {
         ParameterModel pm = new ParameterModel();
         pm.name = name;
@@ -294,7 +311,9 @@ public class CodecModel implements Model {
         pm.lang = lang;
         pm.nullable = nullAble;
         pm.sinceVersion = since;
+        pm.sinceVersionInt = CodeGenerationUtils.versionAsInt(pm.sinceVersion);
         parameterModelList.add(pm);
+        return pm;
     }
 
     public static class EventModel {
@@ -333,6 +352,7 @@ public class CodecModel implements Model {
         private boolean nullable;
         private String description = "";
         private String sinceVersion = DEFAULT_SINCE_VERSION;
+        private int sinceVersionInt;
 
         public String getName() {
             return name;
@@ -356,6 +376,10 @@ public class CodecModel implements Model {
 
         public String getSinceVersion() {
             return sinceVersion;
+        }
+
+        public int getSinceVersionInt() {
+            return sinceVersionInt;
         }
     }
 }

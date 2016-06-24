@@ -48,6 +48,7 @@ public class EncodeDecodeCompatibilityTest {
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
+{
     ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
     ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(clientMessage.buffer(), 0));
     <#if cm.requestParams?has_content>

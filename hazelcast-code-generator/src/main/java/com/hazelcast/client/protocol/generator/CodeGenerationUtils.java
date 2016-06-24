@@ -426,4 +426,24 @@ public final class CodeGenerationUtils {
     public static void setDocumentCreated(boolean documentCreated) {
         CodeGenerationUtils.documentCreated = documentCreated;
     }
+
+    /**
+     *
+     * @param messageSince The version of the message. E.g. 1.2
+     * @return Int representation of the version. Calculated as: minor + (major * 1000).
+     * E.g. 1002 for "1.2"
+     */
+    public static int versionAsInt(String messageSince) {
+        String[] versions = messageSince.split("\\.");
+        return Integer.parseInt(versions[1]) + Integer.parseInt(versions[0]) * 1000;
+    }
+
+    /**
+     *
+     * @param version protocol version as int. E.g. 1002
+     * @return The protocol version as string, 1.2 for 1002
+     */
+    public static String versionAsString(int version) {
+        return String.format("%d.%d", version / 1000, version % 1000);
+    }
 }
