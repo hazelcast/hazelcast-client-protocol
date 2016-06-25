@@ -1,5 +1,6 @@
 <#assign testForVersion=1000/>
 <#assign testForVersionString=util.versionAsString(testForVersion)/>
+<#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
 
 import com.hazelcast.cache.impl.CacheEventData;
@@ -48,12 +49,12 @@ import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ClientCompatibilityNullTest {
+public class ClientCompatibilityNullTest_${testForVersionClassName} {
     private static final int FRAME_LEN_FIELD_SIZE = 4;
 
     @org.junit.Test
             public void test() throws IOException {
-           InputStream input = ClientCompatibilityNullTest.class.getResourceAsStream("/1.0.protocol.compatibility.null.binary");
+            InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.null.binary");
             DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
@@ -76,7 +77,7 @@ public class ClientCompatibilityNullTest {
     inputStream.skipBytes(FRAME_LEN_FIELD_SIZE);
     byte[] bytes = new byte[length - FRAME_LEN_FIELD_SIZE];
     inputStream.read(bytes);
-    assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, frameLength), bytes));
+    assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, length), bytes));
 </#if>
 }
 {

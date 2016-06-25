@@ -446,4 +446,13 @@ public final class CodeGenerationUtils {
     public static String versionAsString(int version) {
         return String.format("%d.%d", version / 1000, version % 1000);
     }
+
+    /**
+     *
+     * @param version protocol version as int. E.g. 1002
+     * @return The protocol version as string, 1_2 for 1002
+     */
+    public static String versionAsClassName(int version) {
+        return String.format("%d_%d", version / 1000, version % 1000);
+    }
 }
