@@ -379,7 +379,6 @@ public class CodecCodeGenerator extends AbstractProcessor {
         String content = generateFromTemplate(codecTemplate, model);
         String fileName = "HazelcastOpenBinaryProtocol-" + getClass().getPackage().getImplementationVersion();
         saveFile(fileName, "document", content);
-        CodeGenerationUtils.setDocumentCreated(true);
     }
 
     private void generateMessageTypeEnum(TypeElement classElement, Lang lang, Template messageTypeTemplate) {

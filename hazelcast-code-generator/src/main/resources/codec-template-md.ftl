@@ -1,4 +1,4 @@
-<#if !util.isDocumentCreated() ># Protocol Messages
+# Protocol Messages
 
 ## Compound Data Types Used In The Protocol Specification
 Some common compound data structures used in the protocol message specification are defined in this section.
@@ -197,7 +197,6 @@ The following error codes are defined in the system:
 |NATIVE_OUT_OF_MEMORY_ERROR|78|Thrown when Hazelcast cannot allocate required native memory.|
 
 Please note that there may be error messages with an error code which is not listed in this table. The client can handle this situation differently based on the particular implementation (e.g. throw an unknown error code exception).
-</#if>
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
@@ -278,6 +277,17 @@ Header only event message, no message body exist.
 
 </#if>
 </#list>
+#Glossary
+| Terminology| Definition|
+|-----------|------------|
+|client|Any Hazelcast native client implementation|
+|server/member|A Hazelcast cluster member|
+|protocol||Hazelcast client-server communication protocol|
+|serialization|Hazelcast internal implementation of serialization used to encode an object into a byte array and decode a byte array into an object|
+|protocol-version||The version of the protocol starting at 1|
+|fragmentation|Splitting a large message into pieces for transmission|
+|Reassembly|Combining the message parts (fragments) to form the actual large message on reception|
+|Cluster|A virtual environment formed by Hazelcast members communicating with each other|
 
 <#function convertTypeToDocumentType javaType>
     <#switch javaType?trim>

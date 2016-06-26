@@ -38,8 +38,6 @@ public final class CodeGenerationUtils {
 
     private static final int BYTE_BIT_COUNT = 8;
 
-    private static boolean documentCreated = false;
-
     @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() {{
         put(DATA_FULL_NAME, "Data");
@@ -417,14 +415,6 @@ public final class CodeGenerationUtils {
                 //TODO add other lang reserved words
                 return str;
         }
-    }
-
-    public static boolean isDocumentCreated() {
-        return documentCreated;
-    }
-
-    public static void setDocumentCreated(boolean documentCreated) {
-        CodeGenerationUtils.documentCreated = documentCreated;
     }
 
     /**
