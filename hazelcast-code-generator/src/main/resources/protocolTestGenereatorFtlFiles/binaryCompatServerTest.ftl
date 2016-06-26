@@ -47,15 +47,16 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ServerCompatibilityTest {
+public class ServerCompatibilityTest_${testForVersionClassName} {
 
     @org.junit.Test
             public void test() throws IOException {
-              InputStream input = ServerCompatibilityTest.class.getResourceAsStream("/1.protocol.compatibility.binary");
+              InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
                DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
@@ -69,8 +70,10 @@ public class ServerCompatibilityTest {
     ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
     <#if cm.requestParams?has_content>
         <#list cm.requestParams as param>
-            <#if param.sinceVersion lte testForVersion >
+            <#if param.sinceVersionInt lte testForVersion >
                 assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            <#else>
+                assertFalse(params.${param.name}Exist);
             </#if>
         </#list>
     </#if>
