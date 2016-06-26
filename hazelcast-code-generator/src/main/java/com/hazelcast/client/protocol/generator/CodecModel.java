@@ -124,6 +124,7 @@ public class CodecModel implements Model {
     private void initParameters(ExecutableElement methodElement, ExecutableElement responseElement,
                                 List<ExecutableElement> eventElementList, Lang lang) {
         // request parameters
+        int previousParamVersion = 1000;
         for (VariableElement param : methodElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
@@ -138,6 +139,10 @@ public class CodecModel implements Model {
             if (paramVersionInt > highestParameterVersion) {
                 highestParameterVersion = paramVersionInt;
             }
+            if (paramVersionInt != previousParamVersion) {
+                pm.versionChanged = true;
+            }
+            previousParamVersion = paramVersionInt;
         }
 
         // response parameters
@@ -353,6 +358,7 @@ public class CodecModel implements Model {
         private String description = "";
         private String sinceVersion = DEFAULT_SINCE_VERSION;
         private int sinceVersionInt;
+        private boolean versionChanged = false;
 
         public String getName() {
             return name;
@@ -380,6 +386,10 @@ public class CodecModel implements Model {
 
         public int getSinceVersionInt() {
             return sinceVersionInt;
+        }
+
+        public boolean isVersionChanged() {
+            return versionChanged;
         }
     }
 }

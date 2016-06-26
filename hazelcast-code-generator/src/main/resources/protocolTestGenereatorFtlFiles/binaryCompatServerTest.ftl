@@ -1,3 +1,6 @@
+<#assign testForVersion=1000/>
+<#assign testForVersionString=util.versionAsString(testForVersion)/>
+<#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
 
 import com.hazelcast.cache.impl.CacheEventData;
@@ -58,6 +61,7 @@ public class ServerCompatibilityTest {
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
+<#if cm.messageSinceInt lte testForVersion >
 {
      int length = inputStream.readInt();
         byte[] bytes = new byte[length];
@@ -65,7 +69,9 @@ public class ServerCompatibilityTest {
     ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
     <#if cm.requestParams?has_content>
         <#list cm.requestParams as param>
-            assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            <#if param.sinceVersion lte testForVersion >
+                assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            </#if>
         </#list>
     </#if>
 }
@@ -89,6 +95,7 @@ public class ServerCompatibilityTest {
     </#list>
 }
     </#if>
+</#if>
 </#list>
 </#if>
 </#list>
@@ -96,9 +103,6 @@ public class ServerCompatibilityTest {
         input.close();
     }
 }
-
-
-
 
 <#function convertTypeToSampleValue javaType>
     <#switch javaType?trim>
