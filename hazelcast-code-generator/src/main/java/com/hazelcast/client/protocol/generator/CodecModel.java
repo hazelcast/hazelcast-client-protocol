@@ -21,6 +21,7 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -33,13 +34,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.DATA_FULL_NAME;
+import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.addHexPrefix;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.capitalizeFirstLetter;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.escape;
 
 public class CodecModel
         implements Model {
-
     static final Map<String, TypeElement> CUSTOM_CODEC_MAP = new HashMap<String, TypeElement>();
 
     private static final String DEFAULT_PACKAGE_NAME = "com.hazelcast.client.impl.protocol.codec";
@@ -59,7 +60,6 @@ public class CodecModel
     private final int retryable;
     private final int response;
 
-    private String codecSince = DEFAULT_SINCE_VERSION;
     private String messageSince;
     private int messageSinceInt;
     private int highestParameterVersion = -1;
@@ -73,12 +73,12 @@ public class CodecModel
 
     CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
                List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
+        this.messageSince = DEFAULT_SINCE_VERSION;
         GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
         Since codecSinceVersion = parent.getAnnotation(Since.class);
         if (null != codecSinceVersion) {
-            codecSince = codecSinceVersion.value();
+            messageSince = codecSinceVersion.value();
         }
-        this.messageSince = codecSince;
         Request requestAnnotation = methodElement.getAnnotation(Request.class);
         Since methodSince = methodElement.getAnnotation(Since.class);
 
@@ -179,7 +179,7 @@ public class CodecModel
     }
 
     private void initRequestParameters(ExecutableElement methodElement, Lang lang) {
-        int previousParamVersion = 1000;
+        int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
         for (VariableElement param : methodElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
@@ -373,7 +373,8 @@ public class CodecModel
         private String description = "";
         private String sinceVersion = DEFAULT_SINCE_VERSION;
         private int sinceVersionInt;
-        private boolean versionChanged; // By default it is false
+        // By default versionChanged is false
+        private boolean versionChanged;
 
         public String getName() {
             return name;

@@ -39,7 +39,7 @@ public final class CodeGenerationUtils {
 
     private static final int BYTE_BIT_COUNT = 8;
 
-    private static final int MAJOR_VERSION_MULTIPLIER = 1000;
+    public static final int MAJOR_VERSION_MULTIPLIER = 1000;
 
     @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() { {
