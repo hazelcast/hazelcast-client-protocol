@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("checkstyle:methodcount")
 public final class CodeGenerationUtils {
 
     /**
@@ -38,8 +39,10 @@ public final class CodeGenerationUtils {
 
     private static final int BYTE_BIT_COUNT = 8;
 
+    private static final int MAJOR_VERSION_MULTIPLIER = 1000;
+
     @SuppressWarnings("checkstyle:whitespacearound")
-    private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() {{
+    private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "Data");
         put("java.lang.String", "str");
         put("java.lang.Integer", "int");
@@ -54,9 +57,9 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.core.Member", "Member");
         put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
         put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
-    }};
+    } };
 
-    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {{
+    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "data");
         put("java.lang.String", "string");
         put("java.lang.Integer", "int32");
@@ -65,9 +68,9 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.nio.Address", "Address");
         put("java.util.List", "list");
         put("java.util.Set", "set");
-    }};
+    } };
 
-    private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() {{
+    private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "Data");
         put("java.lang.String", "string");
         put("java.lang.Integer", "number");
@@ -78,10 +81,10 @@ public final class CodeGenerationUtils {
         put("java.util.Collection", "any[]");
         put("java.util.Set", "any");
         put("long", "any");
-    }};
+    } };
 
     @SuppressWarnings("checkstyle:whitespacearound")
-    private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() {{
+    private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "IData");
         put("java.lang.String", "string");
         put("java.lang.Integer", "int");
@@ -96,10 +99,10 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.core.Member", "Core.IMember");
         put("com.hazelcast.cluster.client.MemberAttributeChange", "Hazelcast.Client.Request.Cluster.MemberAttributeChange");
         put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
-    }};
+    } };
 
     @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount"})
-    private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() {{
+    private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() { {
         put("java.lang.Integer", "int32_t");
         put("int", "int32_t");
         put("boolean", "bool");
@@ -121,7 +124,7 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.core.Member", "Member");
         put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
         put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
-    }};
+    } };
 
     private static final List<String> PYTHON_RESERVED_WORDS = Arrays
             .asList("and", "del", "from", "not", "while", "as", "elif", "global", "or", "with", "assert", "else", "if", "pass",
@@ -425,7 +428,7 @@ public final class CodeGenerationUtils {
      */
     public static int versionAsInt(String messageSince) {
         String[] versions = messageSince.split("\\.");
-        return Integer.parseInt(versions[1]) + Integer.parseInt(versions[0]) * 1000;
+        return Integer.parseInt(versions[1]) + Integer.parseInt(versions[0]) * MAJOR_VERSION_MULTIPLIER;
     }
 
     /**
@@ -434,7 +437,7 @@ public final class CodeGenerationUtils {
      * @return The protocol version as string, 1.2 for 1002
      */
     public static String versionAsString(int version) {
-        return String.format("%d.%d", version / 1000, version % 1000);
+        return String.format("%d.%d", version / MAJOR_VERSION_MULTIPLIER, version % MAJOR_VERSION_MULTIPLIER);
     }
 
     /**
@@ -443,6 +446,6 @@ public final class CodeGenerationUtils {
      * @return The protocol version as string, 1_2 for 1002
      */
     public static String versionAsClassName(int version) {
-        return String.format("%d_%d", version / 1000, version % 1000);
+        return String.format("%d_%d", version / MAJOR_VERSION_MULTIPLIER, version % MAJOR_VERSION_MULTIPLIER);
     }
 }

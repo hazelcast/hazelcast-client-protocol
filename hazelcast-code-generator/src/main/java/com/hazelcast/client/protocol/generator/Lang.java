@@ -40,7 +40,7 @@ public enum Lang {
      *PYTHON lang
      */
     PY,
-    
+
     /**
      *TYPESCRIPT lang
      */
