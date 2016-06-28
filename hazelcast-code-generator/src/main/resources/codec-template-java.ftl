@@ -48,7 +48,7 @@ public final class ${model.className} {
         final RequestParameters parameters = new RequestParameters();
 <#list model.requestParams as p>
     <#if p.versionChanged >
-        if (!clientMessage.hasMoreBytesToRead()) {
+        if (clientMessage.isComplete()) {
             return parameters;
         }
     </#if>
