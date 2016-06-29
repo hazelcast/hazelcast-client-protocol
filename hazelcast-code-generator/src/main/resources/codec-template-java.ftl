@@ -18,7 +18,9 @@ public final class ${model.className} {
     public static class RequestParameters {
     public static final ${model.parentName}MessageType TYPE = REQUEST_TYPE;
 <#list model.requestParams as param>
+<#assign messageVersion=model.messageSinceInt>
         public ${param.type} ${param.name};
+        <#if param.sinceVersionInt gt messageVersion >public boolean ${param.name}Exist = false;</#if>
 </#list>
 
         public static int calculateDataSize(<#list model.requestParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
@@ -45,7 +47,13 @@ public final class ${model.className} {
     public static RequestParameters decodeRequest(ClientMessage clientMessage) {
         final RequestParameters parameters = new RequestParameters();
 <#list model.requestParams as p>
+    <#if p.versionChanged >
+        if (clientMessage.isComplete()) {
+            return parameters;
+        }
+    </#if>
     <@getterText varName=p.name type=p.type isNullable=p.nullable/>
+    <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
     }

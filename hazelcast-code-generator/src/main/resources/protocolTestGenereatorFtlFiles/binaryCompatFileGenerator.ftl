@@ -40,9 +40,8 @@ import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 public class BinaryCompatibilityFileGenerator {
     public static void main(String[] args) throws IOException {
-        OutputStream out = new FileOutputStream("1.protocol.compatibility.binary");
+        OutputStream out = new FileOutputStream("1.2.protocol.compatibility.binary");
         DataOutputStream outputStream = new DataOutputStream(out);
-
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>

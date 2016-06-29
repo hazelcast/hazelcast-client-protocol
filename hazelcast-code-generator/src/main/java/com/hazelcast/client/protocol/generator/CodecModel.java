@@ -37,8 +37,8 @@ import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.addHex
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.capitalizeFirstLetter;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.escape;
 
-public class CodecModel implements Model {
-
+public class CodecModel
+        implements Model {
     static final Map<String, TypeElement> CUSTOM_CODEC_MAP = new HashMap<String, TypeElement>();
 
     private static final String DEFAULT_PACKAGE_NAME = "com.hazelcast.client.impl.protocol.codec";
@@ -58,8 +58,9 @@ public class CodecModel implements Model {
     private final int retryable;
     private final int response;
 
-    private String codecSince = DEFAULT_SINCE_VERSION;
-    private String messageSince;
+    private String messageSince = DEFAULT_SINCE_VERSION;
+    private int messageSinceInt;
+    private int highestParameterVersion = -1;
 
     private short requestId;
     private String id;
@@ -73,9 +74,8 @@ public class CodecModel implements Model {
         GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
         Since codecSinceVersion = parent.getAnnotation(Since.class);
         if (null != codecSinceVersion) {
-            codecSince = codecSinceVersion.value();
+            messageSince = codecSinceVersion.value();
         }
-        this.messageSince = codecSince;
         Request requestAnnotation = methodElement.getAnnotation(Request.class);
         Since methodSince = methodElement.getAnnotation(Since.class);
 
@@ -97,6 +97,8 @@ public class CodecModel implements Model {
         this.partitionIdentifier = requestAnnotation.partitionIdentifier();
 
         this.elementUtil = docCommentUtil;
+
+        this.messageSinceInt = CodeGenerationUtils.versionAsInt(messageSince);
 
         initParameters(methodElement, responseElement, eventElementList, lang);
     }
@@ -120,30 +122,16 @@ public class CodecModel implements Model {
     private void initParameters(ExecutableElement methodElement, ExecutableElement responseElement,
                                 List<ExecutableElement> eventElementList, Lang lang) {
         // request parameters
-        for (VariableElement param : methodElement.getParameters()) {
-            Nullable nullable = param.getAnnotation(Nullable.class);
-            Since sinceVersion = param.getAnnotation(Since.class);
-            String paramVersion = messageSince;
-            if (null != sinceVersion) {
-                paramVersion = sinceVersion.value();
-            }
-            String parameterName = escape(param.getSimpleName().toString(), lang);
-            addParameterModel(requestParams, parameterName, param.asType().toString(), nullable != null, paramVersion, lang);
-        }
+        initRequestParameters(methodElement, lang);
 
         // response parameters
-        for (VariableElement param : responseElement.getParameters()) {
-            Nullable nullable = param.getAnnotation(Nullable.class);
-            Since sinceVersion = param.getAnnotation(Since.class);
-            String paramVersion = messageSince;
-            if (null != sinceVersion) {
-                paramVersion = sinceVersion.value();
-            }
-            String parameterName = param.getSimpleName().toString();
-            addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null, paramVersion, lang);
-        }
+        initResponseParameters(responseElement, lang);
 
         // event parameters
+        initEventParameters(eventElementList, lang);
+    }
+
+    private void initEventParameters(List<ExecutableElement> eventElementList, Lang lang) {
         for (ExecutableElement element : eventElementList) {
             EventModel eventModel = new EventModel();
             eventModel.comment = elementUtil.getDocComment(element);
@@ -174,6 +162,42 @@ public class CodecModel implements Model {
         }
     }
 
+    private void initResponseParameters(ExecutableElement responseElement, Lang lang) {
+        for (VariableElement param : responseElement.getParameters()) {
+            Nullable nullable = param.getAnnotation(Nullable.class);
+            Since sinceVersion = param.getAnnotation(Since.class);
+            String paramVersion = messageSince;
+            if (null != sinceVersion) {
+                paramVersion = sinceVersion.value();
+            }
+            String parameterName = param.getSimpleName().toString();
+            addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null, paramVersion, lang);
+        }
+    }
+
+    private void initRequestParameters(ExecutableElement methodElement, Lang lang) {
+        int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
+        for (VariableElement param : methodElement.getParameters()) {
+            Nullable nullable = param.getAnnotation(Nullable.class);
+            Since sinceVersion = param.getAnnotation(Since.class);
+            String paramVersion = messageSince;
+            if (null != sinceVersion) {
+                paramVersion = sinceVersion.value();
+            }
+            String parameterName = escape(param.getSimpleName().toString(), lang);
+            ParameterModel pm = addParameterModel(requestParams, parameterName, param.asType().toString(), nullable != null,
+                    paramVersion, lang);
+            int paramVersionInt = pm.sinceVersionInt;
+            if (paramVersionInt > highestParameterVersion) {
+                highestParameterVersion = paramVersionInt;
+            }
+            if (paramVersionInt != previousParamVersion) {
+                pm.versionChanged = true;
+            }
+            previousParamVersion = paramVersionInt;
+        }
+    }
+
     private void initRequestParameters() {
         addParameterModel(requestParams, "name", "java.lang.String", true, DEFAULT_SINCE_VERSION);
         addParameterModel(requestParams, "val", "int", false, DEFAULT_SINCE_VERSION);
@@ -184,8 +208,9 @@ public class CodecModel implements Model {
                 DEFAULT_SINCE_VERSION);
         addParameterModel(requestParams, "mapDD", "java.util.Map<" + DATA_FULL_NAME + ", " + DATA_FULL_NAME + ">", false,
                 DEFAULT_SINCE_VERSION);
-        addParameterModel(requestParams, "entryView", "com.hazelcast.map.impl.SimpleEntryView<" + DATA_FULL_NAME + ", "
-                + DATA_FULL_NAME + ">", true, DEFAULT_SINCE_VERSION);
+        addParameterModel(requestParams, "entryView",
+                "com.hazelcast.map.impl.SimpleEntryView<" + DATA_FULL_NAME + ", " + DATA_FULL_NAME + ">", true,
+                DEFAULT_SINCE_VERSION);
     }
 
     private void initResponseParameters() {
@@ -278,23 +303,34 @@ public class CodecModel implements Model {
         return messageSince;
     }
 
+    public int getMessageSinceInt() {
+        return messageSinceInt;
+    }
+
+    public int getHighestParameterVersion() {
+        return highestParameterVersion;
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
 
-    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble, String since) {
+    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble,
+                                          String since) {
         addParameterModel(parameterModelList, name, type, nullAble, since, Lang.JAVA);
     }
 
-    private static void addParameterModel(List<ParameterModel> parameterModelList, String name, String type, boolean nullAble,
-                                          String since, Lang lang) {
+    private static ParameterModel addParameterModel(List<ParameterModel> parameterModelList, String name, String type,
+                                                    boolean nullAble, String since, Lang lang) {
         ParameterModel pm = new ParameterModel();
         pm.name = name;
         pm.type = type;
         pm.lang = lang;
         pm.nullable = nullAble;
         pm.sinceVersion = since;
+        pm.sinceVersionInt = CodeGenerationUtils.versionAsInt(pm.sinceVersion);
         parameterModelList.add(pm);
+        return pm;
     }
 
     public static class EventModel {
@@ -333,6 +369,9 @@ public class CodecModel implements Model {
         private boolean nullable;
         private String description = "";
         private String sinceVersion = DEFAULT_SINCE_VERSION;
+        private int sinceVersionInt;
+        // By default versionChanged is false
+        private boolean versionChanged;
 
         public String getName() {
             return name;
@@ -356,6 +395,14 @@ public class CodecModel implements Model {
 
         public String getSinceVersion() {
             return sinceVersion;
+        }
+
+        public int getSinceVersionInt() {
+            return sinceVersionInt;
+        }
+
+        public boolean isVersionChanged() {
+            return versionChanged;
         }
     }
 }

@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.EventMessageConst;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
@@ -198,9 +199,10 @@ public interface MultiMapCodecTemplate {
      * @param key      The key the Lock
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void lock(String name, Data key, long threadId, long ttl);
+    @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void lock(String name, Data key, long threadId, long ttl, @Since(value = "1.2") long referenceId);
 
     /**
      * Tries to acquire the lock for the specified key for the specified lease time. After lease time, the lock will be
@@ -213,10 +215,11 @@ public interface MultiMapCodecTemplate {
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
      * @param lease    Time in milliseconds to wait before releasing the lock.
      * @param timeout  Maximum time to wait for the lock.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return True if the lock was acquired and false if the waiting time elapsed before the lock acquired
      */
-    @Request(id = 17, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
-    Object tryLock(String name, Data key, long threadId, long lease, long timeout);
+    @Request(id = 17, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
+    Object tryLock(String name, Data key, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 
     /**
      * Checks the lock for the specified key. If the lock is acquired, this method returns true, else it returns false.
@@ -235,9 +238,10 @@ public interface MultiMapCodecTemplate {
      * @param name     Name of the MultiMap
      * @param key      The key to Lock
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void unlock(String name, Data key, long threadId);
+    @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void unlock(String name, Data key, long threadId, @Since(value = "1.2") long referenceId);
 
     /**
      * Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
@@ -245,9 +249,10 @@ public interface MultiMapCodecTemplate {
      *
      * @param name Name of the MultiMap
      * @param key  The key to Lock
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 20, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void forceUnlock(String name, Data key);
+    @Request(id = 20, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void forceUnlock(String name, Data key, @Since(value = "1.2") long referenceId);
 
     /**
      * Removes all the entries with the given key. The collection is NOT backed by the map, so changes to the map are

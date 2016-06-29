@@ -236,9 +236,10 @@ public interface MapCodecTemplate {
      * @param key      Key for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void lock(String name, Data key, long threadId, long ttl);
+    @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void lock(String name, Data key, long threadId, long ttl, @Since(value = "1.2") long referenceId);
 
     /**
      * Tries to acquire the lock for the specified key for the specified lease time.After lease time, the lock will be
@@ -251,10 +252,11 @@ public interface MapCodecTemplate {
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param lease    time in milliseconds to wait before releasing the lock.
      * @param timeout  maximum time to wait for getting the lock.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return Returns true if successful, otherwise returns false
      */
-    @Request(id = 20, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
-    Object tryLock(String name, Data key, long threadId, long lease, long timeout);
+    @Request(id = 20, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
+    Object tryLock(String name, Data key, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 
     /**
      * Checks the lock for the specified key.If the lock is acquired then returns true, else returns false.
@@ -275,9 +277,10 @@ public interface MapCodecTemplate {
      * @param name     name of map
      * @param key      Key for the map entry to unlock
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 22, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void unlock(String name, Data key, long threadId);
+    @Request(id = 22, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void unlock(String name, Data key, long threadId, @Since(value = "1.2") long referenceId);
 
     /**
      * Adds an interceptor for this map. Added interceptor will intercept operations
@@ -683,9 +686,10 @@ public interface MapCodecTemplate {
      *
      * @param name name of map
      * @param key  the key of the map entry.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 55, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void forceUnlock(String name, Data key);
+    @Request(id = 55, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    void forceUnlock(String name, Data key, @Since(value = "1.2") long referenceId);
 
     /**
      * @param name      name of map

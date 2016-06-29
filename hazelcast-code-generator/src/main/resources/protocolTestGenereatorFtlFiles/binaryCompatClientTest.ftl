@@ -1,3 +1,6 @@
+<#assign testForVersion=1000/>
+<#assign testForVersionString=util.versionAsString(testForVersion)/>
+<#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
 
 import com.hazelcast.cache.impl.CacheEventData;
@@ -46,23 +49,37 @@ import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ClientCompatibilityTest {
+public class ClientCompatibilityTest_${testForVersionClassName} {
+    private static final int FRAME_LEN_FIELD_SIZE = 4;
 
     @org.junit.Test
             public void test() throws IOException {
-           InputStream input = ClientCompatibilityTest.class.getResourceAsStream("/1.protocol.compatibility.binary");
+           InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
             DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
 
+<#if cm.messageSinceInt lte testForVersion >
 {
     ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
     int length = inputStream.readInt();
+<#if cm.highestParameterVersion lte testForVersion >
     byte[] bytes = new byte[length];
     inputStream.read(bytes);
     assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
+<#else>
+    // Since the test is generated for protocol version (${testForVersionString}) which is earlier than latest change in the message
+    // (version ${util.versionAsString(cm.highestParameterVersion)}), only the bytes after frame length fields are compared
+    int frameLength = clientMessage.getFrameLength();
+    assertTrue(frameLength >= length);
+    inputStream.skipBytes(FRAME_LEN_FIELD_SIZE);
+    byte[] bytes = new byte[length - FRAME_LEN_FIELD_SIZE];
+    inputStream.read(bytes);
+    assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, length), bytes));
+</#if>
+
 }
 {
     int length = inputStream.readInt();
@@ -105,7 +122,7 @@ public class ClientCompatibilityTest {
     </#list>
 }
     </#if>
-
+</#if>
 
 </#list>
 </#if>

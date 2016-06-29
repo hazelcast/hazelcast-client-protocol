@@ -1,3 +1,6 @@
+<#assign testForVersion=1000/>
+<#assign testForVersionString=util.versionAsString(testForVersion)/>
+<#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
 
 import com.hazelcast.cache.impl.CacheEventData;
@@ -44,20 +47,22 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ServerCompatibilityTest {
+public class ServerCompatibilityTest_${testForVersionClassName} {
 
     @org.junit.Test
             public void test() throws IOException {
-              InputStream input = ServerCompatibilityTest.class.getResourceAsStream("/1.protocol.compatibility.binary");
+              InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
                DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
+<#if cm.messageSinceInt lte testForVersion >
 {
      int length = inputStream.readInt();
         byte[] bytes = new byte[length];
@@ -65,7 +70,11 @@ public class ServerCompatibilityTest {
     ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
     <#if cm.requestParams?has_content>
         <#list cm.requestParams as param>
-            assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            <#if param.sinceVersionInt lte testForVersion >
+                assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            <#else>
+                assertFalse(params.${param.name}Exist);
+            </#if>
         </#list>
     </#if>
 }
@@ -89,6 +98,7 @@ public class ServerCompatibilityTest {
     </#list>
 }
     </#if>
+</#if>
 </#list>
 </#if>
 </#list>
@@ -96,9 +106,6 @@ public class ServerCompatibilityTest {
         input.close();
     }
 }
-
-
-
 
 <#function convertTypeToSampleValue javaType>
     <#switch javaType?trim>
