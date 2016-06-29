@@ -58,7 +58,7 @@ public class CodecModel
     private final int retryable;
     private final int response;
 
-    private String messageSince;
+    private String messageSince = DEFAULT_SINCE_VERSION;
     private int messageSinceInt;
     private int highestParameterVersion = -1;
 
@@ -71,7 +71,6 @@ public class CodecModel
 
     CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
                List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
-        this.messageSince = DEFAULT_SINCE_VERSION;
         GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
         Since codecSinceVersion = parent.getAnnotation(Since.class);
         if (null != codecSinceVersion) {
