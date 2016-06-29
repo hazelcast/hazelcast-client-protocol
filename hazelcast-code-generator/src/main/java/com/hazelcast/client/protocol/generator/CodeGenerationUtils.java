@@ -37,9 +37,12 @@ public final class CodeGenerationUtils {
      */
     public static final String DATA_FULL_NAME = "com.hazelcast.nio.serialization.Data";
 
-    private static final int BYTE_BIT_COUNT = 8;
-
+    /**
+     * The multiplier is used to convert a version string to a comparable integer number
+     */
     public static final int MAJOR_VERSION_MULTIPLIER = 1000;
+
+    private static final int BYTE_BIT_COUNT = 8;
 
     @SuppressWarnings("checkstyle:whitespacearound")
     private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() { {

@@ -21,7 +21,6 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -34,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.DATA_FULL_NAME;
-import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.addHexPrefix;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.capitalizeFirstLetter;
 import static com.hazelcast.client.protocol.generator.CodeGenerationUtils.escape;
