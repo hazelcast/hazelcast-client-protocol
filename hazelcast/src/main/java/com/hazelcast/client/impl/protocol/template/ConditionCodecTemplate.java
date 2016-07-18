@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.CONDITION_TEMPLATE_ID, name = "Condition", ns = "Hazelcast.Client.Protocol.Codec")
@@ -30,10 +31,11 @@ public interface ConditionCodecTemplate {
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param timeout  The maximum time to wait
      * @param lockName Name of the lock to wait on.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return False if the waiting time detectably elapsed before return from the method, else true
      */
-    @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "lockName")
-    Object await(String name, long threadId, long timeout, String lockName);
+    @Request(id = 1, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "lockName")
+    Object await(String name, long threadId, long timeout, String lockName, @Since(value = "1.2") long referenceId);
 
     /**
      * Causes the current thread to wait until it is signalled or Thread#interrupt interrupted. The lock associated with
@@ -56,9 +58,10 @@ public interface ConditionCodecTemplate {
      * @param name     Name of the Condition
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param lockName Name of the lock to wait on.
+     * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "lockName")
-    void beforeAwait(String name, long threadId, String lockName);
+    @Request(id = 2, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "lockName")
+    void beforeAwait(String name, long threadId, String lockName, @Since(value = "1.2") long referenceId);
 
     /**
      * If any threads are waiting on this condition then one is selected for waking up.That thread must then re-acquire
