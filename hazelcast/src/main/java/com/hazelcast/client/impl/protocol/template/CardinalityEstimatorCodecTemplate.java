@@ -25,24 +25,52 @@ import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 public interface CardinalityEstimatorCodecTemplate {
 
     /**
-     * Applies a function on the value, the actual stored value will not change.
+     * Aggregates the given hash which can result in a new estimation being available or not.
      *
-     * @param name     The name of this IAtomicLong instance.
-     * @param function The function applied to the value, the value is not changed.
-     * @return The result of the function application.
+     * @param hash 64bit hash code value to aggregate
+     * @return boolean flag True, when a new estimate can be computed.
+     * @since 1.3
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Boolean aggregate(String name, long hash);
 
+    /**
+     * Aggregates the given hash and estimates the cardinality afterwards in one go.
+     *
+     * @param hash 64bit hash code value to aggregate
+     * @return long estimate, the newly computed estimate or previously cached one.
+     * @since 1.3
+     */
     @Request(id = 2, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Long aggregateAndEstimate(String name, long hash);
 
+    /**
+     * Batch aggregation for an array of hash codes. Can result in a new estimation being available or not.
+     *
+     * @param hashes array of 64bit hash code values to aggregate
+     * @return boolean flag True, when a new estimate can be computed.
+     * @since 1.3
+     */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
     Boolean aggregateAll(String name, long[] hashes);
 
+    /**
+     * Batch aggregation for an array of hash codes and estimates the cardinality afterwards in one go.
+     *
+     * @param hashes array of 64bit hash code values to aggregate
+     * @return long estimate, the newly computed estimate or previously cached one.
+     * @since 1.3
+     */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Long aggregateAllAndEstimate(String name, long[] hashes);
 
+    /**
+     * Estimates the cardinality of the aggregation so far.
+     * If it was previously estimated and never invalidated, then the cached version is used.
+     *
+     * @return Returns the previous cached estimation or the newly computed one.
+     * @since 1.3
+     */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Long estimate(String name);
 
