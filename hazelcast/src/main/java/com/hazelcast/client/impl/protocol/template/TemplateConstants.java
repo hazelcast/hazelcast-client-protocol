@@ -46,6 +46,7 @@ public final class TemplateConstants {
     public static final int RINGBUFFER_TEMPLATE_ID = 25;
     public static final int JET_TEMPLATE_ID = 26;
     public static final int DURABLE_EXECUTOR_TEMPLATE_ID = 27;
+    public static final int CARDINALITY_ESTIMATOR_TEMPLATE_ID = 28;
 
     private TemplateConstants() {
     }
