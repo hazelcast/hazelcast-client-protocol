@@ -47,7 +47,7 @@ public interface CardinalityEstimatorCodecTemplate {
     /**
      * Batch aggregation for an array of hash codes. Can result in a new estimation being available or not.
      *
-     * @param hashes array of 64bit hash code values to aggregate
+     * @param hashes List of 64bit hash code values to aggregate
      * @return boolean flag True, when a new estimate can be computed.
      * @since 1.3
      */
@@ -57,7 +57,7 @@ public interface CardinalityEstimatorCodecTemplate {
     /**
      * Batch aggregation for an array of hash codes and estimates the cardinality afterwards in one go.
      *
-     * @param hashes array of 64bit hash code values to aggregate
+     * @param hashes List of 64bit hash code values to aggregate
      * @return long estimate, the newly computed estimate or previously cached one.
      * @since 1.3
      */
