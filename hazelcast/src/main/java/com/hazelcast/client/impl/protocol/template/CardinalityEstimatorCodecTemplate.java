@@ -32,7 +32,7 @@ public interface CardinalityEstimatorCodecTemplate {
      * @since 1.3
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
-    Boolean aggregate(String name, long hash);
+    Object aggregate(String name, long hash);
 
     /**
      * Aggregates the given hash and estimates the cardinality afterwards in one go.
@@ -42,7 +42,7 @@ public interface CardinalityEstimatorCodecTemplate {
      * @since 1.3
      */
     @Request(id = 2, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
-    Long aggregateAndEstimate(String name, long hash);
+    Object aggregateAndEstimate(String name, long hash);
 
     /**
      * Batch aggregation for an array of hash codes. Can result in a new estimation being available or not.
@@ -52,7 +52,7 @@ public interface CardinalityEstimatorCodecTemplate {
      * @since 1.3
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
-    Boolean aggregateAll(String name, long[] hashes);
+    Object aggregateAll(String name, long[] hashes);
 
     /**
      * Batch aggregation for an array of hash codes and estimates the cardinality afterwards in one go.
@@ -62,7 +62,7 @@ public interface CardinalityEstimatorCodecTemplate {
      * @since 1.3
      */
     @Request(id = 4, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
-    Long aggregateAllAndEstimate(String name, long[] hashes);
+    Object aggregateAllAndEstimate(String name, long[] hashes);
 
     /**
      * Estimates the cardinality of the aggregation so far.
@@ -72,6 +72,6 @@ public interface CardinalityEstimatorCodecTemplate {
      * @since 1.3
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
-    Long estimate(String name);
+    Object estimate(String name);
 
 }
