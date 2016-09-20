@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.CARDINALITY_ESTIMATOR_TEMPLATE_ID, name = "CardinalityEstimator",
@@ -25,7 +26,10 @@ import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 public interface CardinalityEstimatorCodecTemplate {
 
     /**
-     * Aggregates the given hash which can result in a new estimation being available or not.
+     * Consider the 64bit hash value, in the cardinality estimation.
+     * The implementation is free to choose whether this hash will be used towards
+     * the estimation, therefore, this operation may or may not affect
+     * the current estimation.
      *
      * @param name The name of CardinalityEstimator
      * @param hash 64bit hash code value to aggregate
@@ -33,8 +37,9 @@ public interface CardinalityEstimatorCodecTemplate {
      * @return boolean flag True, when a new estimate can be computed.
      * @since 1.3
      */
-    @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
-    Object aggregate(String name, long hash);
+    @Since("1.3")
+    @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    void add(String name, long hash);
 
 
     /**
@@ -46,6 +51,7 @@ public interface CardinalityEstimatorCodecTemplate {
      * @return the previous cached estimation or the newly computed one.
      * @since 1.3
      */
+    @Since("1.3")
     @Request(id = 2, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object estimate(String name);
 
