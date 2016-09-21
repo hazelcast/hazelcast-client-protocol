@@ -26,15 +26,12 @@ import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 public interface CardinalityEstimatorCodecTemplate {
 
     /**
-     * Consider the 64bit hash value, in the cardinality estimation.
-     * The implementation is free to choose whether this hash will be used towards
-     * the estimation, therefore, this operation may or may not affect
-     * the current estimation.
+     * Add a new hash in the estimation set. This is the method you want to
+     * use to feed hash values into the estimator.
      *
      * @param name The name of CardinalityEstimator
-     * @param hash 64bit hash code value to aggregate
+     * @param hash 64bit hash code value to add
      *
-     * @return boolean flag True, when a new estimate can be computed.
      * @since 1.3
      */
     @Since("1.3")
