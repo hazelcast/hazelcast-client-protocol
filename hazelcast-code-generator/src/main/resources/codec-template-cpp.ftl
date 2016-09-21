@@ -186,7 +186,7 @@ namespace hazelcast {
                     dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${varName});
                 <#break >
             <#case "ARRAY">
-                <#local itemVariableType= util.getGenericType(type)>
+                <#local itemVariableType= util.getArrayType(type)>
                     dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${varName});
                 <#break >
             <#case "MAP">

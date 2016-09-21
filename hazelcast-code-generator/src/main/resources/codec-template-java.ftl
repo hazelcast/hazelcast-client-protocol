@@ -287,6 +287,9 @@ public final class ${model.className} {
             <#case "java.lang.Integer">
         ${varName} = clientMessage.getInt();
                 <#break >
+            <#case "java.lang.Long">
+        ${varName} = clientMessage.getLong();
+                <#break >
             <#case "java.lang.Boolean">
         ${varName} = clientMessage.getBoolean();
                 <#break >
