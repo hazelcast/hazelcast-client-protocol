@@ -23,6 +23,7 @@ import com.hazelcast.client.impl.protocol.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.CARDINALITY_ESTIMATOR_TEMPLATE_ID, name = "CardinalityEstimator",
         ns = "Hazelcast.Client.Protocol.Codec")
+@Since("1.3")
 public interface CardinalityEstimatorCodecTemplate {
 
     /**
