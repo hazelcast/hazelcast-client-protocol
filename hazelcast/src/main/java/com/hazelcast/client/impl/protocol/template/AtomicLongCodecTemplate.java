@@ -18,7 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.ATOMIC_LONG_TEMPLATE_ID, name = "AtomicLong", ns = "Hazelcast.Client.Protocol.Codec")

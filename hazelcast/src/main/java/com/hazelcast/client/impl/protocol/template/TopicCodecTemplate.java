@@ -18,8 +18,8 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
-import com.hazelcast.client.impl.protocol.EventMessageConst;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.TOPIC_TEMPLATE_ID, name = "Topic", ns = "Hazelcast.Client.Protocol.Codec")

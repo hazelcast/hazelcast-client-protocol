@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.codec;
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.client.impl.protocol.util.ParameterUtil;
 import com.hazelcast.nio.Bits;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

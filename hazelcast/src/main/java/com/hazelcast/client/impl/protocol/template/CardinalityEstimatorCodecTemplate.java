@@ -19,7 +19,7 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.CARDINALITY_ESTIMATOR_TEMPLATE_ID, name = "CardinalityEstimator",
         ns = "Hazelcast.Client.Protocol.Codec")
