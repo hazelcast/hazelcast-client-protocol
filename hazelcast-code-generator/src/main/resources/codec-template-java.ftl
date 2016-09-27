@@ -106,7 +106,7 @@ public final class ${model.className} {
     </#list>;
 
         ClientMessage clientMessage = ClientMessage.createForEncode(dataSize);
-        clientMessage.setMessageType(com.hazelcast.client.impl.protocol.EventMessageConst.EVENT_${event.name?upper_case});
+        clientMessage.setMessageType(com.hazelcast.client.impl.protocol.constants.EventMessageConst.EVENT_${event.name?upper_case});
         clientMessage.addFlag(ClientMessage.LISTENER_EVENT_FLAG);
 
     <#list event.eventParams as p>
@@ -124,7 +124,7 @@ public final class ${model.className} {
         public void handle(ClientMessage clientMessage) {
             int messageType = clientMessage.getMessageType();
         <#list model.events as event>
-            if (messageType == com.hazelcast.client.impl.protocol.EventMessageConst.EVENT_${event.name?upper_case}) {
+            if (messageType == com.hazelcast.client.impl.protocol.constants.EventMessageConst.EVENT_${event.name?upper_case}) {
             <#list event.eventParams as p>
                 <@getterText varName=p.name type=p.type isNullable=p.nullable isEvent=true/>
             </#list>

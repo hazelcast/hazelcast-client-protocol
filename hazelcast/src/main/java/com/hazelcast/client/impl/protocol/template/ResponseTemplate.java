@@ -20,7 +20,7 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Response;
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;

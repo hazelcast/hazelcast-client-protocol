@@ -19,8 +19,8 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.hazelcast.client.impl.protocol.EventMessageConst;
-import com.hazelcast.client.impl.protocol.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
+import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
 @GenerateCodec(id = TemplateConstants.MULTIMAP_TEMPLATE_ID, name = "MultiMap", ns = "Hazelcast.Client.Protocol.Codec")
@@ -195,10 +195,10 @@ public interface MultiMapCodecTemplate {
      * lock is only for the key in this map.Locks are re-entrant, so if the key is locked N times, then it should be
      * unlocked N times before another thread can acquire it.
      *
-     * @param name     Name of the MultiMap
-     * @param key      The key the Lock
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param name        Name of the MultiMap
+     * @param key         The key the Lock
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+     * @param ttl         The duration in milliseconds after which this entry shall be deleted. O means infinite.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
@@ -210,11 +210,11 @@ public interface MultiMapCodecTemplate {
      * and lies dormant until one of two things happens:the lock is acquired by the current thread, or the specified
      * waiting time elapses.
      *
-     * @param name     Name of the MultiMap
-     * @param key      Key to lock in this map.
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-     * @param lease    Time in milliseconds to wait before releasing the lock.
-     * @param timeout  Maximum time to wait for the lock.
+     * @param name        Name of the MultiMap
+     * @param key         Key to lock in this map.
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+     * @param lease       Time in milliseconds to wait before releasing the lock.
+     * @param timeout     Maximum time to wait for the lock.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return True if the lock was acquired and false if the waiting time elapsed before the lock acquired
      */
@@ -235,9 +235,9 @@ public interface MultiMapCodecTemplate {
      * Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
      * never blocks and returns immediately.
      *
-     * @param name     Name of the MultiMap
-     * @param key      The key to Lock
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+     * @param name        Name of the MultiMap
+     * @param key         The key to Lock
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
@@ -247,8 +247,8 @@ public interface MultiMapCodecTemplate {
      * Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
      * never blocks and returns immediately.
      *
-     * @param name Name of the MultiMap
-     * @param key  The key to Lock
+     * @param name        Name of the MultiMap
+     * @param key         The key to Lock
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 20, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")

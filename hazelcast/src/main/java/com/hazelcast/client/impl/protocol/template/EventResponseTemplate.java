@@ -20,7 +20,7 @@ import com.hazelcast.annotation.EventResponse;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.cache.impl.CacheEventData;
-import com.hazelcast.client.impl.protocol.EventMessageConst;
+import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.core.Member;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
 import com.hazelcast.nio.Address;
