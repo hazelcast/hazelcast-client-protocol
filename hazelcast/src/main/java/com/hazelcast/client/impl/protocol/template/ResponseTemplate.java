@@ -19,6 +19,7 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Response;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.map.impl.SimpleEntryView;
@@ -92,7 +93,7 @@ public interface ResponseTemplate {
      */
     @Response(ResponseMessageConst.AUTHENTICATION)
     Object Authentication(byte status, @Nullable Address address, @Nullable String uuid, @Nullable String ownerUuid,
-                          byte serializationVersion);
+                          byte serializationVersion, @Since (value = "1.3") String serverHazelcastVersion);
 
     /**
      * @param partitions mappings from member address to list of partition id 's that member owns
