@@ -163,6 +163,7 @@ public class CodecModel
     }
 
     private void initResponseParameters(ExecutableElement responseElement, Lang lang) {
+        int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
         for (VariableElement param : responseElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
@@ -171,7 +172,16 @@ public class CodecModel
                 paramVersion = sinceVersion.value();
             }
             String parameterName = param.getSimpleName().toString();
-            addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null, paramVersion, lang);
+            ParameterModel pm = addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null,
+                    paramVersion, lang);
+            int paramVersionInt = pm.sinceVersionInt;
+            if (paramVersionInt > highestParameterVersion) {
+                highestParameterVersion = paramVersionInt;
+            }
+            if (paramVersionInt != previousParamVersion) {
+                pm.versionChanged = true;
+            }
+            previousParamVersion = paramVersionInt;
         }
     }
 
