@@ -63,6 +63,8 @@ public final class ${model.className} {
     public static class ResponseParameters {
 <#list model.responseParams as param>
         public ${param.type} ${param.name};
+<#assign messageVersion=model.messageSinceInt>
+        <#if param.sinceVersionInt gt messageVersion >public boolean ${param.name}Exist = false;</#if>
 </#list>
 
         public static int calculateDataSize(<#list model.responseParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
@@ -89,7 +91,13 @@ public final class ${model.className} {
     public static ResponseParameters decodeResponse(ClientMessage clientMessage) {
         ResponseParameters parameters = new ResponseParameters();
 <#list model.responseParams as p>
+    <#if p.versionChanged >
+        if (clientMessage.isComplete()) {
+            return parameters;
+        }
+    </#if>
     <@getterText varName=p.name type=p.type isNullable=p.nullable/>
+    <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
     }
