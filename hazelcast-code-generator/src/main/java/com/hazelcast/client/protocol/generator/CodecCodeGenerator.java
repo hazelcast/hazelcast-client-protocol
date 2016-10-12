@@ -68,9 +68,55 @@ public class CodecCodeGenerator extends AbstractProcessor {
 
     private static final int CODEC_COUNT = 8;
     private static final int HEX_RADIX = 16;
+    private static final String COMPATIBILITY_TEST_PACKAGE = "com.hazelcast.client.protocol.compatibility";
+    private static final String GENERATE_COMPATIBILITY_TESTS = "protocol.compatibility.generate.tests";
 
+    private boolean generateTests;
     private final Map<Lang, Template> codecTemplateMap = new HashMap<Lang, Template>();
     private final Map<Lang, Template> messageTypeTemplateMap = new HashMap<Lang, Template>();
+    private class CompatibilityTestInfo {
+        private final String fileName;
+        private final boolean versioned;
+        private Template template;
+
+        public CompatibilityTestInfo(String fileName, boolean versioned) {
+            this.fileName = fileName;
+            this.versioned = versioned;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public boolean isVersioned() {
+            return versioned;
+        }
+
+        public void setTemplate(Template template) {
+            this.template = template;
+        }
+
+        public Template getTemplate() {
+            return template;
+        }
+    }
+
+    private final int[] protocolVersions = {
+                                    CodeGenerationUtils.versionAsInt("1.0"), CodeGenerationUtils.versionAsInt("1.1"),
+                                    CodeGenerationUtils.versionAsInt("1.2"), CodeGenerationUtils.versionAsInt("1.3"),
+                                    };
+
+    private final CompatibilityTestInfo[] compatibilityTestInfos = {
+                                         new CompatibilityTestInfo("ClientCompatibilityTest", true),
+                                         new CompatibilityTestInfo("ClientCompatibilityNullTest", true),
+                                         new CompatibilityTestInfo("EncodeDecodeCompatibilityTest", false),
+                                         new CompatibilityTestInfo("EncodeDecodeCompatibilityNullTest", false),
+                                         new CompatibilityTestInfo("BinaryCompatibilityFileGenerator", false),
+                                         new CompatibilityTestInfo("BinaryCompatibilityNullFileGenerator", false),
+                                         new CompatibilityTestInfo("ServerCompatibilityTest", true),
+                                         new CompatibilityTestInfo("ServerCompatibilityNullTest", true),
+                                         };
+
     private final Map<TypeElement, Map<Integer, ExecutableElement>> requestMap
             = new HashMap<TypeElement, Map<Integer, ExecutableElement>>();
     private final Map<Integer, ExecutableElement> responseMap = new HashMap<Integer, ExecutableElement>();
@@ -86,124 +132,105 @@ public class CodecCodeGenerator extends AbstractProcessor {
 
     private int round;
 
-    public class ProtocolFilePath {
-        private JavaFileManager.Location location;
-        private String packageName;
-        private String fileName;
-
-        public ProtocolFilePath(JavaFileManager.Location location, String packageName, String fileName) {
-            this.location = location;
-            this.packageName = packageName;
-            this.fileName = fileName;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            ProtocolFilePath that = (ProtocolFilePath) o;
-
-            if (!location.equals(that.location)) {
-                return false;
-            }
-            if (!packageName.equals(that.packageName)) {
-                return false;
-            }
-            return fileName.equals(that.fileName);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = location.hashCode();
-            result = 31 * result + packageName.hashCode();
-            result = 31 * result + fileName.hashCode();
-            return result;
-        }
-    }
-
     @Override
     @SuppressWarnings("checkstyle:npathcomplexity")
     public void init(ProcessingEnvironment env) {
         messager = env.getMessager();
-        messager.printMessage(Diagnostic.Kind.NOTE, "Initializing code generator");
+        logMessage(Diagnostic.Kind.NOTE, "Initializing code generator");
 
         filer = env.getFiler();
         elementUtils = env.getElementUtils();
         try {
             Logger.selectLoggerLibrary(Logger.LIBRARY_NONE);
         } catch (ClassNotFoundException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+            logMessage(Diagnostic.Kind.ERROR, e.getMessage());
         }
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
         cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/"));
+
+        generateTests = Boolean.getBoolean(GENERATE_COMPATIBILITY_TESTS);
+
         for (Lang lang : Lang.values()) {
-            boolean enabled = Boolean.getBoolean("hazelcast.generator." + lang.name().toLowerCase());
-            if (enabled || lang == JAVA) {
-                if (Lang.CPP == lang) {
-                    try {
-                        cppHeaderTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + "header.ftl");
-                    } catch (IOException e) {
-                        messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find cpp header template.");
-                    }
-                    try {
-                        cppTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + ".ftl");
-                        codecTemplateMap.put(lang, cppTemplate);
-                    } catch (IOException e) {
-                        messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find cpp template.");
-                    }
-                    try {
-                        cppMessageTypeHeaderTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
-                                + "header.ftl");
-                        messageTypeTemplateMap.put(lang, cppMessageTypeHeaderTemplate);
-                    } catch (IOException e) {
-                        messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find cpp messagetype header template.");
-                    }
-                } else {
-                    try {
-                        Template codecTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + ".ftl");
-                        codecTemplateMap.put(lang, codecTemplate);
-                    } catch (IOException e) {
-                        messager.printMessage(Diagnostic.Kind.ERROR, "Cannot find template for lang:" + lang);
-                    }
-                    try {
-                        Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
-                                + ".ftl");
-                        messageTypeTemplateMap.put(lang, messageTypeTemplate);
-                    } catch (IOException e) {
-                        messager.printMessage(Diagnostic.Kind.WARNING, "Cannot find messagetype template for lang:" + lang);
-                    }
+            getTemplates(cfg, lang);
+        }
+    }
+
+    private void getTemplates(Configuration cfg, Lang lang) {
+        boolean enabled = Boolean.getBoolean("hazelcast.generator." + lang.name().toLowerCase());
+        if (enabled || lang == JAVA) {
+            if (Lang.CPP == lang) {
+                try {
+                    cppHeaderTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + "header.ftl");
+                } catch (IOException e) {
+                    logMessage(Diagnostic.Kind.ERROR, "Cannot find cpp header template." + e.getMessage());
                 }
                 try {
-                    Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + ".ftl");
+                    cppTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + ".ftl");
+                    codecTemplateMap.put(lang, cppTemplate);
+                } catch (IOException e) {
+                    logMessage(Diagnostic.Kind.ERROR, "Cannot find cpp template." + e.getMessage());
+                }
+                try {
+                    cppMessageTypeHeaderTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
+                            + "header.ftl");
+                    messageTypeTemplateMap.put(lang, cppMessageTypeHeaderTemplate);
+                } catch (IOException e) {
+                    logMessage(Diagnostic.Kind.ERROR, "Cannot find cpp messagetype header template." + e.getMessage());
+                }
+            } else {
+                try {
+                    Template codecTemplate = cfg.getTemplate("codec-template-" + lang.name().toLowerCase() + ".ftl");
+                    codecTemplateMap.put(lang, codecTemplate);
+                } catch (IOException e) {
+                    logMessage(Diagnostic.Kind.ERROR, "Cannot find template for lang:" + lang + ". " + e.getMessage());
+                }
+                try {
+                    Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase()
+                            + ".ftl");
                     messageTypeTemplateMap.put(lang, messageTypeTemplate);
                 } catch (IOException e) {
-                    messager.printMessage(Diagnostic.Kind.WARNING, "Cannot find messagetype template for lang:" + lang);
+                    logMessage(Diagnostic.Kind.WARNING,
+                            "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
                 }
+            }
+            try {
+                Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + ".ftl");
+                messageTypeTemplateMap.put(lang, messageTypeTemplate);
+            } catch (IOException e) {
+                logMessage(Diagnostic.Kind.WARNING,
+                        "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
+            }
+
+            if (generateTests) {
+                getCompatibilityTestTemplates(cfg);
             }
         }
     }
 
+    private void getCompatibilityTestTemplates(Configuration cfg) {
+        for (CompatibilityTestInfo info :  compatibilityTestInfos) {
+            try {
+                info.setTemplate(cfg.getTemplate(info.getFileName() + ".ftl"));
+            } catch (IOException e) {
+                logMessage(Diagnostic.Kind.WARNING,
+                        "Cannot find test template " + info.getFileName() + ".ftl" + ". " + e.getMessage());
+            }
+        }
+    }
+
+    private void logMessage(Diagnostic.Kind severityLevel, String message) {
+        messager.printMessage(severityLevel, message);
+        System.out.println(message);
+    }
+
     @Override
     public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
-        messager.printMessage(Diagnostic.Kind.NOTE, "Processing code generator. round: " + (++round));
+        logMessage(Diagnostic.Kind.NOTE, "Processing code generator. round: " + (++round));
         try {
             //PREPARE META DATA
             for (Element element : env.getElementsAnnotatedWith(Codec.class)) {
-                TypeElement classElement = (TypeElement) element;
-                Codec annotation = classElement.getAnnotation(Codec.class);
-                if (annotation != null) {
-                    try {
-                        annotation.value();
-                    } catch (MirroredTypeException mte) {
-                        TypeMirror value = mte.getTypeMirror();
-                        CodecModel.CUSTOM_CODEC_MAP.put(value.toString(), classElement);
-                    }
+                if (processElement(element)) {
+                    continue;
                 }
             }
             for (Element element : env.getElementsAnnotatedWith(GenerateCodec.class)) {
@@ -211,24 +238,44 @@ public class CodecCodeGenerator extends AbstractProcessor {
             }
             //END
             if (CodecModel.CUSTOM_CODEC_MAP.size() != CODEC_COUNT) {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count do not match found codec count: "
+                logMessage(Diagnostic.Kind.NOTE, "Codec count do not match found codec count: "
                         + CodecModel.CUSTOM_CODEC_MAP.size());
                 return false;
             } else {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Codec count is validated. round: " + round);
+                logMessage(Diagnostic.Kind.NOTE, "Codec count is validated. round: " + round);
             }
 
             for (Lang lang : codecTemplateMap.keySet()) {
                 generateContent(lang);
             }
         } catch (Exception e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+            logMessage(Diagnostic.Kind.ERROR, e.getMessage());
             e.printStackTrace();
         }
         requestMap.clear();
         responseMap.clear();
         eventResponseMap.clear();
         return true;
+    }
+
+    private boolean processElement(Element element) {
+        logMessage(Diagnostic.Kind.NOTE, "Processing element:" + element.toString());
+        if (!(element instanceof TypeElement)) {
+            logMessage(Diagnostic.Kind.WARNING,
+                    "Skipping processing element:" + element.toString() + " annotated with @Codec.class is not a class.");
+            return true;
+        }
+        TypeElement classElement = (TypeElement) element;
+        Codec annotation = classElement.getAnnotation(Codec.class);
+        if (annotation != null) {
+            try {
+                annotation.value();
+            } catch (MirroredTypeException mte) {
+                TypeMirror value = mte.getTypeMirror();
+                CodecModel.CUSTOM_CODEC_MAP.put(value.toString(), classElement);
+            }
+        }
+        return false;
     }
 
     void generateContent(Lang lang) {
@@ -251,20 +298,46 @@ public class CodecCodeGenerator extends AbstractProcessor {
         if (lang == Lang.MD) {
             generateDoc(allCodecModel, codecTemplate);
         } else if (lang == Lang.CPP) {
-            for (Map<Integer, CodecModel> map : allCodecModel.values()) {
-                for (CodecModel model : map.values()) {
-                    if (CodeGenerationUtils.shouldGenerateForCpp(model.getParentName())) {
-                        String content = generateFromTemplate(cppHeaderTemplate, model);
-                        saveFile(model.getClassName() + ".h", "include." + model.getPackageName().toLowerCase(), content);
-                        content = generateFromTemplate(cppTemplate, model);
-                        saveFile(model.getClassName() + ".cpp", "src." + model.getPackageName().toLowerCase(), content);
-                    }
-                }
-            }
+            generateContentForCpp(allCodecModel);
         } else {
             for (Map<Integer, CodecModel> map : allCodecModel.values()) {
                 for (CodecModel model : map.values()) {
                     generateCodec(model, codecTemplate);
+                }
+            }
+
+            if (Lang.JAVA == lang && generateTests) {
+                generateCompatibilityTests(allCodecModel);
+            }
+        }
+    }
+
+    private void generateContentForCpp(Map<TypeElement, Map<Integer, CodecModel>> allCodecModel) {
+        for (Map<Integer, CodecModel> map : allCodecModel.values()) {
+            for (CodecModel model : map.values()) {
+                if (CodeGenerationUtils.shouldGenerateForCpp(model.getParentName())) {
+                    String content = generateFromTemplate(cppHeaderTemplate, model);
+                    saveFile(model.getClassName() + ".h", "include." + model.getPackageName().toLowerCase(), content);
+                    content = generateFromTemplate(cppTemplate, model);
+                    saveFile(model.getClassName() + ".cpp", "src." + model.getPackageName().toLowerCase(), content);
+                }
+            }
+        }
+    }
+
+    private void generateCompatibilityTests(Map<TypeElement, Map<Integer, CodecModel>> allCodecModel) {
+        for (CompatibilityTestInfo info : compatibilityTestInfos) {
+            if (null != info.template) {
+                if (info.isVersioned()) {
+                    for (int version : protocolVersions) {
+                        String content = generateFromTemplate(info.template, allCodecModel, version);
+                        saveClass(COMPATIBILITY_TEST_PACKAGE,
+                                info.getFileName() + "_" + CodeGenerationUtils.versionAsClassName(version), content);
+                    }
+                } else {
+                    String content = generateFromTemplate(info.template, allCodecModel,
+                            protocolVersions[protocolVersions.length - 1]);
+                    saveClass(COMPATIBILITY_TEST_PACKAGE, info.getFileName(), content);
                 }
             }
         }
@@ -399,16 +472,21 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private String generateFromTemplate(Template template, Object model) {
+        return generateFromTemplate(template, model, -1);
+    }
+
+    private String generateFromTemplate(Template template, Object model, int testForVersion) {
         String content = null;
         try {
             Map<String, Object> data = new HashMap<String, Object>();
             setUtilModel(data);
             data.put("model", model);
+            data.put("testForVersion", testForVersion);
             StringWriter writer = new StringWriter();
             template.process(data, writer);
             content = writer.toString();
         } catch (Exception e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+            logMessage(Diagnostic.Kind.ERROR, e.getMessage());
             e.printStackTrace();
         }
         return content;
@@ -435,7 +513,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
             file = filer.createSourceFile(fullClassName);
             file.openWriter().append(content).close();
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.WARNING, e.getMessage());
+            logMessage(Diagnostic.Kind.WARNING, e.getMessage());
             e.printStackTrace();
         }
     }
@@ -446,7 +524,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
             Writer writer = filer.createResource(location, packageName, fileName).openWriter();
             writer.append(content).close();
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.WARNING, e.getMessage());
+            logMessage(Diagnostic.Kind.WARNING, e.getMessage());
             e.printStackTrace();
         }
     }
