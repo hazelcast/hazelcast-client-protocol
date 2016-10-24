@@ -103,7 +103,7 @@ public interface ResponseTemplate {
     @Response(ResponseMessageConst.AUTHENTICATION)
     Object Authentication(byte status, @Nullable Address address, @Nullable String uuid, @Nullable String ownerUuid,
                           byte serializationVersion, @Since(value = "1.3") String serverHazelcastVersion,
-                          @Since(value = "1.3") List<Member> clientUnregisteredMembers);
+                          @Since(value = "1.3") @Nullable List<Member> clientUnregisteredMembers);
 
     /**
      * @param partitions mappings from member address to list of partition id 's that member owns
