@@ -1,4 +1,3 @@
-<#assign testForVersion=1000/>
 <#assign testForVersionString=util.versionAsString(testForVersion)/>
 <#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
@@ -10,7 +9,6 @@ import com.hazelcast.client.impl.MemberImpl;
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.*;
-import com.hazelcast.client.impl.protocol.util.SafeBuffer;
 import com.hazelcast.core.Member;
 import com.hazelcast.internal.serialization.impl.HeapData;
 import com.hazelcast.map.impl.SimpleEntryView;
@@ -21,17 +19,20 @@ import com.hazelcast.mapreduce.impl.task.JobPartitionStateImpl;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.transaction.impl.xa.SerializableXID;
-import java.io.IOException;
+import com.hazelcast.client.impl.protocol.util.SafeBuffer;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelTest;
 import com.hazelcast.test.annotation.QuickTest;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
 import java.util.Arrays;
 import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import javax.transaction.xa.Xid;
@@ -45,25 +46,39 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ClientCompatibilityTest_${testForVersionClassName} {
+public class ServerCompatibilityNullTest_${testForVersionClassName} {
     private static final int FRAME_LEN_FIELD_SIZE = 4;
-
     @org.junit.Test
             public void test() throws IOException {
-           InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
-            DataInputStream inputStream = new DataInputStream(input);
+              InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.null.binary");
+               DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
-
 <#if cm.messageSinceInt lte testForVersion >
 {
-    ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
+     int length = inputStream.readInt();
+        byte[] bytes = new byte[length];
+        inputStream.read(bytes);
+    ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
+    <#if cm.requestParams?has_content>
+        <#list cm.requestParams as param>
+            <#if param.sinceVersionInt lte testForVersion >
+            assertTrue(isEqual(<#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if>, params.${param.name}));
+            <#else>
+                assertFalse(params.${param.name}Exist);
+            </#if>
+        </#list>
+    </#if>
+}
+{
+    ClientMessage clientMessage = ${cm.className}.encodeResponse( <#if cm.responseParams?has_content> <#list cm.responseParams as param>  <#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if> <#if param_has_next>, </#if> </#list> </#if>);
     int length = inputStream.readInt();
 <#if cm.highestParameterVersion lte testForVersion >
     byte[] bytes = new byte[length];
@@ -79,62 +94,28 @@ public class ClientCompatibilityTest_${testForVersionClassName} {
     inputStream.read(bytes);
     assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, length), bytes));
 </#if>
-
-}
-{
-    int length = inputStream.readInt();
-    byte[] bytes = new byte[length];
-    inputStream.read(bytes);
-    ${cm.className}.ResponseParameters params = ${cm.className}.decodeResponse(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
-    <#if cm.responseParams?has_content>
-        <#list cm.responseParams as param>
-            assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
-        </#list>
-    </#if>
 }
     <#if cm.events?has_content>
 {
-
-
-    class ${cm.className}Handler extends ${cm.className}.AbstractEventHandler {
-
-        <#list cm.events as event >
-        @Override
-        public void handle(<#if event.eventParams?has_content> <#list event.eventParams as param> <@methodParam type=param.type/> ${param.name} <#if param_has_next>, </#if> </#list> </#if>) {
-               <#if event.eventParams?has_content>
-                       <#list event.eventParams as param>
-                           assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, ${param.name}));
-                       </#list>
-                </#if>
-
-
-        }
-        </#list>
-    }
-    ${cm.className}Handler handler = new ${cm.className}Handler();
     <#list cm.events as event >
     {
+        ClientMessage clientMessage = ${cm.className}.encode${event.name}Event(<#if event.eventParams?has_content> <#list event.eventParams as param><#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if> <#if param_has_next>, </#if> </#list> </#if>);
         int length = inputStream.readInt();
             byte[] bytes = new byte[length];
             inputStream.read(bytes);
-        handler.handle(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
+            assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
      }
     </#list>
 }
     </#if>
 </#if>
-
 </#list>
 </#if>
 </#list>
         inputStream.close();
         input.close();
-
     }
 }
-
-
-
 
 <#function convertTypeToSampleValue javaType>
     <#switch javaType?trim>

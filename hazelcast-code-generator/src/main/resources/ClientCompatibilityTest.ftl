@@ -1,4 +1,3 @@
-<#assign testForVersion=1000/>
 <#assign testForVersionString=util.versionAsString(testForVersion)/>
 <#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
@@ -45,16 +44,17 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
-public class ClientCompatibilityNullTest_${testForVersionClassName} {
+public class ClientCompatibilityTest_${testForVersionClassName} {
     private static final int FRAME_LEN_FIELD_SIZE = 4;
 
     @org.junit.Test
             public void test() throws IOException {
-            InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.null.binary");
+           InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
             DataInputStream inputStream = new DataInputStream(input);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
@@ -63,7 +63,7 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
 
 <#if cm.messageSinceInt lte testForVersion >
 {
-    ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  <#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if> <#if param_has_next>, </#if> </#list> </#if>);
+    ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
     int length = inputStream.readInt();
 <#if cm.highestParameterVersion lte testForVersion >
     byte[] bytes = new byte[length];
@@ -79,6 +79,7 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
     inputStream.read(bytes);
     assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, length), bytes));
 </#if>
+
 }
 {
     int length = inputStream.readInt();
@@ -87,26 +88,29 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
     ${cm.className}.ResponseParameters params = ${cm.className}.decodeResponse(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
     <#if cm.responseParams?has_content>
         <#list cm.responseParams as param>
-            assertTrue(isEqual(<#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if>, params.${param.name}));
+            <#if param.sinceVersionInt lte testForVersion >
+                assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
+            <#else>
+                assertFalse(params.${param.name}Exist);
+            </#if>
         </#list>
     </#if>
 }
     <#if cm.events?has_content>
 {
-
-
     class ${cm.className}Handler extends ${cm.className}.AbstractEventHandler {
-
         <#list cm.events as event >
         @Override
         public void handle(<#if event.eventParams?has_content> <#list event.eventParams as param> <@methodParam type=param.type/> ${param.name} <#if param_has_next>, </#if> </#list> </#if>) {
                <#if event.eventParams?has_content>
                        <#list event.eventParams as param>
-                           assertTrue(isEqual(<#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if>, ${param.name}));
+                        <#if param.sinceVersionInt lte testForVersion >
+                            assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, ${param.name}));
+                        <#else>
+                            assertFalse(params.${param.name}Exist);
+                        </#if>
                        </#list>
                 </#if>
-
-
         }
         </#list>
     }
@@ -124,10 +128,8 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
 </#if>
 
 </#list>
-
 </#if>
 </#list>
-
         inputStream.close();
         input.close();
 
