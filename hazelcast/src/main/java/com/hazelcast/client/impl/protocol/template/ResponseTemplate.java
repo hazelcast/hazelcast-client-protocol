@@ -96,7 +96,8 @@ public interface ResponseTemplate {
      *                                  no connected to the cluster at all or it may be that the cleanup operation is executed at
      *                                  the member and no resources of the particular client is left at the member. The client
      *                                  can use this information to restore its needed resources at the member, e.g.
-     *                                  registers its listeners.
+     *                                  registers its listeners. The list will be empty if this is response to non-owner
+     *                                  connection request.
      * @return Returns the address, uuid and owner uuid.
      */
     @Response(ResponseMessageConst.AUTHENTICATION)
