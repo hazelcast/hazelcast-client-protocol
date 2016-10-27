@@ -26,6 +26,9 @@ import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
+import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
+import com.hazelcast.scheduledexecutor.ScheduledTaskStatistics;
+
 import java.util.List;
 import java.util.Map;
 
@@ -154,5 +157,14 @@ public interface ResponseTemplate {
      */
     @Response(ResponseMessageConst.ENTRIES_WITH_CURSOR)
     void EntriesWithCursor(int tableIndex, List<Map.Entry<Data, Data>> entries);
+
+    @Response(ResponseMessageConst.SCHEDULED_TASK_HANDLER)
+    void ScheduledTaskHandler(ScheduledTaskHandler handler);
+
+    @Response(ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
+    void ScheduledTaskStatistics(ScheduledTaskStatistics stats);
+
+    @Response(ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER)
+    void ListScheduledTaskHandler(List<ScheduledTaskHandler> handlers);
 
 }

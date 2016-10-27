@@ -66,7 +66,7 @@ import static com.hazelcast.client.protocol.generator.Lang.JAVA;
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class CodecCodeGenerator extends AbstractProcessor {
 
-    private static final int CODEC_COUNT = 8;
+    private static final int CODEC_COUNT = 11;
     private static final int HEX_RADIX = 16;
 
     private final Map<Lang, Template> codecTemplateMap = new HashMap<Lang, Template>();
