@@ -750,4 +750,50 @@ public interface MapCodecTemplate {
     @Since("1.1")
     Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
 
+    /**
+     * Applies the aggregation logic on all map entries and returns the result
+     *
+     * @param name        Name of the map.
+     * @param aggregator aggregator to aggregate the entries with
+     * @return the aggregation result
+     */
+    @Request(id = 62, retryable = true, response = ResponseMessageConst.DATA)
+    @Since("1.4")
+    Object aggregate(String name, Data aggregator);
+
+    /**
+     * Applies the aggregation logic on map entries filtered with the Predicate and returns the result
+     *
+     * @param name        Name of the map.
+     * @param aggregator aggregator to aggregate the entries with
+     * @param predicate  predicate to filter the entries with
+     * @return the aggregation result
+     */
+    @Request(id = 63, retryable = true, response = ResponseMessageConst.DATA)
+    @Since("1.4")
+    Object aggregateWithPredicate(String name, Data aggregator, Data predicate);
+
+    /**
+     * Applies the projection logic on all map entries and returns the result
+     *
+     * @param name        Name of the map.
+     * @param projection projection to transform the entries with. May return null.
+     * @return the resulted collection upon transformation to the type of the projection
+     */
+    @Request(id = 64, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Since("1.4")
+    Object project(String name, Data projection);
+
+    /**
+     * Applies the projection logic on map entries filtered with the Predicate and returns the result
+     *
+     * @param name        Name of the map.
+     * @param projection projection to transform the entries with. May return null.
+     * @param predicate  predicate to filter the entries with
+     * @return the resulted collection upon transformation to the type of the projection
+     */
+    @Request(id = 65, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Since("1.4")
+    Object projectWithPredicate(String name, Data projection, Data predicate);
+
 }
