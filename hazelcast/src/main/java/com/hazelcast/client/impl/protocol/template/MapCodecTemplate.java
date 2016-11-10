@@ -758,7 +758,7 @@ public interface MapCodecTemplate {
      * @return the aggregation result
      */
     @Request(id = 62, retryable = true, response = ResponseMessageConst.DATA)
-    @Since("1.3")
+    @Since("1.4")
     Object aggregate(String name, Data aggregator);
 
     /**
@@ -770,7 +770,7 @@ public interface MapCodecTemplate {
      * @return the aggregation result
      */
     @Request(id = 63, retryable = true, response = ResponseMessageConst.DATA)
-    @Since("1.3")
+    @Since("1.4")
     Object aggregateWithPredicate(String name, Data aggregator, Data predicate);
 
     /**
@@ -781,7 +781,7 @@ public interface MapCodecTemplate {
      * @return the resulted collection upon transformation to the type of the projection
      */
     @Request(id = 64, retryable = true, response = ResponseMessageConst.LIST_DATA)
-    @Since("1.3")
+    @Since("1.4")
     Object project(String name, Data projection);
 
     /**
@@ -793,7 +793,7 @@ public interface MapCodecTemplate {
      * @return the resulted collection upon transformation to the type of the projection
      */
     @Request(id = 65, retryable = true, response = ResponseMessageConst.LIST_DATA)
-    @Since("1.3")
+    @Since("1.4")
     Object projectWithPredicate(String name, Data projection, Data predicate);
 
 }
