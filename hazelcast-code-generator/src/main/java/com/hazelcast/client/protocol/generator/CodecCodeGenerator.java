@@ -66,7 +66,6 @@ import static com.hazelcast.client.protocol.generator.Lang.JAVA;
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class CodecCodeGenerator extends AbstractProcessor {
 
-    private static final int CODEC_COUNT = 8;
     private static final int HEX_RADIX = 16;
     private static final String COMPATIBILITY_TEST_PACKAGE = "com.hazelcast.client.protocol.compatibility";
     private static final String GENERATE_COMPATIBILITY_TESTS = "protocol.compatibility.generate.tests";
@@ -237,13 +236,6 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 register((TypeElement) element);
             }
             //END
-            if (CodecModel.CUSTOM_CODEC_MAP.size() != CODEC_COUNT) {
-                logMessage(Diagnostic.Kind.NOTE, "Codec count do not match found codec count: "
-                        + CodecModel.CUSTOM_CODEC_MAP.size());
-                return false;
-            } else {
-                logMessage(Diagnostic.Kind.NOTE, "Codec count is validated. round: " + round);
-            }
 
             for (Lang lang : codecTemplateMap.keySet()) {
                 generateContent(lang);
