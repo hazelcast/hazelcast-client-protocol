@@ -47,6 +47,7 @@ public final class ResponseMessageConst {
     public static final int CACHE_KEY_ITERATOR_RESULT = 116;
     public static final int LIST_ENTRY = 117;
     public static final int ENTRIES_WITH_CURSOR = 118;
+    public static final int LIST_DATA_MAYBE_NULL_ELEMENTS = 119;
 
     private ResponseMessageConst() {
     }

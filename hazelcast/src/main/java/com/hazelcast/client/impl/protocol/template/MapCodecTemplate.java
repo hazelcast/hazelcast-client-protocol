@@ -780,7 +780,7 @@ public interface MapCodecTemplate {
      * @param projection projection to transform the entries with. May return null.
      * @return the resulted collection upon transformation to the type of the projection
      */
-    @Request(id = 64, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Request(id = 64, retryable = true, response = ResponseMessageConst.LIST_DATA_MAYBE_NULL_ELEMENTS)
     @Since("1.4")
     Object project(String name, Data projection);
 
@@ -792,7 +792,7 @@ public interface MapCodecTemplate {
      * @param predicate  predicate to filter the entries with
      * @return the resulted collection upon transformation to the type of the projection
      */
-    @Request(id = 65, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Request(id = 65, retryable = true, response = ResponseMessageConst.LIST_DATA_MAYBE_NULL_ELEMENTS)
     @Since("1.4")
     Object projectWithPredicate(String name, Data projection, Data predicate);
 

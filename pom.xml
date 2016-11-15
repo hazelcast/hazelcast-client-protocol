@@ -52,8 +52,8 @@
     </modules>
 
     <properties>
-        <hazelcast.git.repo>ihsandemir</hazelcast.git.repo>
-        <hazelcast.git.branch>heartbeatMissedListenersFix</hazelcast.git.branch>
+        <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
+        <hazelcast.git.branch>master</hazelcast.git.branch>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
