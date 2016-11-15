@@ -131,6 +131,8 @@
                     <includes>
                         <include>**/target/generated-sources/annotations/**/**.class</include>
                         <include>**/com/hazelcast/client/impl/protocol/codec/**.class</include>
+                        <include>**/com/hazelcast/client/impl/protocol/constants/**.class</include>
+                        <include>**/com/hazelcast/client/impl/protocol/template/TemplateConstants.class</include>
                     </includes>
                     <excludes>
                         <exclude>**/*.html</exclude>
