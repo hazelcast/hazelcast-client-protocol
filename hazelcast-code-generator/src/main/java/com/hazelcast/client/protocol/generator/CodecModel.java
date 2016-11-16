@@ -16,7 +16,7 @@
 
 package com.hazelcast.client.protocol.generator;
 
-import com.hazelcast.annotation.MaybeNullElements;
+import com.hazelcast.annotation.ContainsNullable;
 import com.hazelcast.annotation.EventResponse;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
@@ -141,7 +141,7 @@ public class CodecModel
             for (VariableElement param : element.getParameters()) {
                 Nullable nullable = param.getAnnotation(Nullable.class);
                 Since sinceVersion = param.getAnnotation(Since.class);
-                MaybeNullElements nullableElements = param.getAnnotation(MaybeNullElements.class);
+                ContainsNullable containsNullable = param.getAnnotation(ContainsNullable.class);
                 String paramVersion = messageSince;
                 if (null != sinceVersion) {
                     paramVersion = sinceVersion.value();
@@ -151,7 +151,7 @@ public class CodecModel
                 pm.type = param.asType().toString();
                 pm.lang = lang;
                 pm.nullable = nullable != null;
-                pm.mayContainNullElements = nullableElements != null;
+                pm.containsNullable = containsNullable != null;
                 pm.description = CodeGenerationUtils.getDescription(pm.name, eventModel.comment);
                 pm.sinceVersion = paramVersion;
                 eventParam.add(pm);
@@ -170,14 +170,14 @@ public class CodecModel
         for (VariableElement param : responseElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
-            MaybeNullElements nullableElements = param.getAnnotation(MaybeNullElements.class);
+            ContainsNullable containsNullable = param.getAnnotation(ContainsNullable.class);
             String paramVersion = messageSince;
             if (null != sinceVersion) {
                 paramVersion = sinceVersion.value();
             }
             String parameterName = param.getSimpleName().toString();
             ParameterModel pm = addParameterModel(responseParams, parameterName, param.asType().toString(), nullable != null,
-                    nullableElements != null, paramVersion, lang);
+                    containsNullable != null, paramVersion, lang);
             int paramVersionInt = pm.sinceVersionInt;
             if (paramVersionInt > highestParameterVersion) {
                 highestParameterVersion = paramVersionInt;
@@ -194,14 +194,14 @@ public class CodecModel
         for (VariableElement param : methodElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
-            MaybeNullElements nullableElements = param.getAnnotation(MaybeNullElements.class);
+            ContainsNullable containsNullable = param.getAnnotation(ContainsNullable.class);
             String paramVersion = messageSince;
             if (null != sinceVersion) {
                 paramVersion = sinceVersion.value();
             }
             String parameterName = escape(param.getSimpleName().toString(), lang);
             ParameterModel pm = addParameterModel(requestParams, parameterName, param.asType().toString(), nullable != null,
-                    nullableElements != null, paramVersion, lang);
+                    containsNullable != null, paramVersion, lang);
             int paramVersionInt = pm.sinceVersionInt;
             if (paramVersionInt > highestParameterVersion) {
                 highestParameterVersion = paramVersionInt;
@@ -336,13 +336,13 @@ public class CodecModel
     }
 
     private static ParameterModel addParameterModel(List<ParameterModel> parameterModelList, String name, String type,
-                                                    boolean nullAble, boolean nullableElements, String since, Lang lang) {
+                                                    boolean nullAble, boolean containsNullable, String since, Lang lang) {
         ParameterModel pm = new ParameterModel();
         pm.name = name;
         pm.type = type;
         pm.lang = lang;
         pm.nullable = nullAble;
-        pm.mayContainNullElements = nullableElements;
+        pm.containsNullable = containsNullable;
         pm.sinceVersion = since;
         pm.sinceVersionInt = CodeGenerationUtils.versionAsInt(pm.sinceVersion);
         parameterModelList.add(pm);
@@ -388,7 +388,7 @@ public class CodecModel
         private int sinceVersionInt;
         // By default versionChanged is false
         private boolean versionChanged;
-        private boolean mayContainNullElements;
+        private boolean containsNullable;
 
         public String getName() {
             return name;
@@ -422,7 +422,7 @@ public class CodecModel
             return versionChanged;
         }
 
-        public boolean getMayContainNullElements() { return mayContainNullElements; }
+        public boolean getContainsNullable() { return containsNullable; }
 
     }
 }

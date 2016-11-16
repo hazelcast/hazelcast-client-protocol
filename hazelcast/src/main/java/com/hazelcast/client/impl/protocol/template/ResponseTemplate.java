@@ -17,7 +17,7 @@
 package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
-import com.hazelcast.annotation.MaybeNullElements;
+import com.hazelcast.annotation.ContainsNullable;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Response;
 import com.hazelcast.annotation.Since;
@@ -81,7 +81,7 @@ public interface ResponseTemplate {
      * @param response The operation result as an array of serialized byte-array that might have null entries.
      */
     @Response(ResponseMessageConst.LIST_DATA_MAYBE_NULL_ELEMENTS)
-    void ListDataMaybeNullElements(@MaybeNullElements List<Data> response);
+    void ListDataMaybeNullElements(@ContainsNullable List<Data> response);
 
     /**
      * @param response The operation result as an array of serialized key-value byte-arrays.

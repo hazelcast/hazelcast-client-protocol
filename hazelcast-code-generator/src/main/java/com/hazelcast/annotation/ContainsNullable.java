@@ -28,6 +28,6 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE })
-public @interface MaybeNullElements {
+@Target(ElementType.PARAMETER)
+public @interface ContainsNullable {
 }
