@@ -26,7 +26,7 @@ public final class ${model.className} {
         public static int calculateDataSize(<#list model.requestParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
             int dataSize = ClientMessage.HEADER_SIZE;
 <#list model.requestParams as p>
-    <@sizeText varName=p.name type=p.type isNullable=p.nullable/>
+    <@sizeText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
             return dataSize;
         }
@@ -38,7 +38,7 @@ public final class ${model.className} {
         clientMessage.setMessageType(REQUEST_TYPE.id());
         clientMessage.setRetryable(RETRYABLE);
 <#list model.requestParams as p>
-    <@setterText varName=p.name type=p.type isNullable=p.nullable/>
+    <@setterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
         clientMessage.updateFrameLength();
         return clientMessage;
@@ -52,7 +52,7 @@ public final class ${model.className} {
             return parameters;
         }
     </#if>
-    <@getterText varName=p.name type=p.type isNullable=p.nullable/>
+    <@getterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
     <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
@@ -70,7 +70,7 @@ public final class ${model.className} {
         public static int calculateDataSize(<#list model.responseParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
             int dataSize = ClientMessage.HEADER_SIZE;
 <#list model.responseParams as p>
-    <@sizeText varName=p.name type=p.type isNullable=p.nullable/>
+    <@sizeText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
             return dataSize;
         }
@@ -81,7 +81,7 @@ public final class ${model.className} {
         ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
         clientMessage.setMessageType(RESPONSE_TYPE);
 <#list model.responseParams as p>
-    <@setterText varName=p.name type=p.type isNullable=p.nullable/>
+    <@setterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
         clientMessage.updateFrameLength();
         return clientMessage;
@@ -96,7 +96,7 @@ public final class ${model.className} {
             return parameters;
         }
     </#if>
-    <@getterText varName=p.name type=p.type isNullable=p.nullable/>
+    <@getterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
     <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
@@ -153,12 +153,12 @@ public final class ${model.className} {
 }
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText varName type isNullable=false>
+<#macro sizeText varName type isNullable=false containsNullable=false>
 <#if isNullable>
             dataSize += Bits.BOOLEAN_SIZE_IN_BYTES;
             if (${varName} != null) {
 </#if>
-<@sizeTextInternal varName=varName type=type/>
+<@sizeTextInternal varName=varName type=type containsNullable=containsNullable/>
 <#if isNullable>
             }
 </#if>
@@ -174,7 +174,7 @@ public final class ${model.className} {
 </#macro>
 
 <#--SIZE MACRO -->
-<#macro sizeTextInternal varName type>
+<#macro sizeTextInternal varName type containsNullable=false>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
     <#case "OTHER">
@@ -192,7 +192,7 @@ public final class ${model.className} {
         <#local genericType= util.getGenericType(type)>
         <#local n= varName>
             for (${genericType} ${varName}_item : ${varName} ) {
-        <@sizeText varName="${n}_item"  type=genericType/>
+        <@sizeText varName="${n}_item"  type=genericType isNullable=containsNullable/>
             }
         <#break >
     <#case "ARRAY">
@@ -200,7 +200,7 @@ public final class ${model.className} {
         <#local genericType= util.getArrayType(type)>
         <#local n= varName>
             for (${genericType} ${varName}_item : ${varName} ) {
-        <@sizeText varName="${n}_item"  type=genericType/>
+        <@sizeText varName="${n}_item"  type=genericType isNullable=containsNullable/>
             }
         <#break >
     <#case "MAPENTRY">
@@ -215,7 +215,7 @@ public final class ${model.className} {
 </#macro>
 
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText varName type isNullable=false>
+<#macro setterText varName type isNullable=false containsNullable=false>
 <#local isNullVariableName= "${varName}_isNull">
 <#if isNullable>
         boolean ${isNullVariableName};
@@ -226,14 +226,14 @@ public final class ${model.className} {
             ${isNullVariableName}= false;
             clientMessage.set(${isNullVariableName});
 </#if>
-<@setterTextInternal varName=varName type=type/>
+<@setterTextInternal varName=varName type=type containsNullable=containsNullable/>
 <#if isNullable>
         }
 </#if>
 </#macro>
 
 <#--SETTER MACRO -->
-<#macro setterTextInternal varName type>
+<#macro setterTextInternal varName type isNullable=false containsNullable=false>
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
         clientMessage.set(${varName});
@@ -246,7 +246,7 @@ public final class ${model.className} {
         <#local itemType= util.getGenericType(type)>
         <#local itemTypeVar= varName + "_item">
         for (${itemType} ${itemTypeVar} : ${varName}) {
-        <@setterTextInternal varName=itemTypeVar type=itemType/>
+        <@setterText varName=itemTypeVar type=itemType isNullable=containsNullable/>
         }
     </#if>
     <#if cat == "ARRAY">
@@ -254,7 +254,7 @@ public final class ${model.className} {
         <#local itemType= util.getArrayType(type)>
         <#local itemTypeVar= varName + "_item">
         for (${itemType} ${itemTypeVar} : ${varName}) {
-        <@setterTextInternal varName=itemTypeVar  type=itemType/>
+        <@setterText varName=itemTypeVar  type=itemType isNullable=containsNullable/>
         }
     </#if>
     <#if cat == "MAPENTRY">
@@ -268,14 +268,14 @@ public final class ${model.className} {
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText varName type isNullable=false isEvent=false>
+<#macro getterText varName type isNullable=false isEvent=false containsNullable=false>
         ${type} ${varName} <#if !util.isPrimitive(type)>= null</#if>;
 <#local isNullVariableName= "${varName}_isNull">
 <#if isNullable>
         boolean ${isNullVariableName} = clientMessage.getBoolean();
         if (!${isNullVariableName}) {
 </#if>
-<@getterTextInternal varName=varName varType=type/>
+<@getterTextInternal varName=varName varType=type containsNullable=containsNullable/>
 <#if !isEvent>
             parameters.${varName} = ${varName};
 </#if>
@@ -284,7 +284,7 @@ public final class ${model.className} {
 </#if>
 </#macro>
 
-<#macro getterTextInternal varName varType>
+<#macro getterTextInternal varName varType containsNullable=false>
 <#local cat= util.getTypeCategory(varType)>
 <#switch cat>
     <#case "OTHER">
@@ -317,11 +317,19 @@ public final class ${model.className} {
     <#local itemVariableName= "${varName}_item">
     <#local sizeVariableName= "${varName}_size">
     <#local indexVariableName= "${varName}_index">
+    <#local isNullVariableName= "${itemVariableName}_isNull">
             int ${sizeVariableName} = clientMessage.getInt();
             ${varName} = new ${collectionType}<${itemVariableType}>(${sizeVariableName});
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName};
+                ${itemVariableType} ${itemVariableName} = null;
+                <#if containsNullable>
+                        boolean ${isNullVariableName} = clientMessage.getBoolean();
+                        if (!${isNullVariableName}) {
+                </#if>
                 <@getterTextInternal varName=itemVariableName varType=itemVariableType/>
+                <#if containsNullable>
+                        }
+                </#if>
                 ${varName}.add(${itemVariableName});
             }
         <#break >
@@ -330,12 +338,19 @@ public final class ${model.className} {
     <#local itemVariableName= "${varName}_item">
     <#local sizeVariableName= "${varName}_size">
     <#local indexVariableName= "${varName}_index">
+    <#local isNullVariableName= "${itemVariableName}_isNull">
             int ${sizeVariableName} = clientMessage.getInt();
             ${varName} = new ${itemVariableType}[${sizeVariableName}];
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName};
+                ${itemVariableType} ${itemVariableName} = null;
+                <#if containsNullable>
+                        boolean ${isNullVariableName} = clientMessage.getBoolean();
+                        if (!${isNullVariableName}) {
+                </#if>
                 <@getterTextInternal varName=itemVariableName varType=itemVariableType/>
-                ${varName}[${indexVariableName}] = ${itemVariableName};
+                <#if containsNullable>
+                        }
+                </#if>
             }
         <#break >
     <#case "MAPENTRY">
