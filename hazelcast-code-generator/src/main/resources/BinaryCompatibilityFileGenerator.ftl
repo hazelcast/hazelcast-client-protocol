@@ -1,6 +1,4 @@
-<#assign testForVersion=1000/>
 <#assign testForVersionString=util.versionAsString(testForVersion)/>
-<#assign testForVersionClassName=util.versionAsClassName(testForVersion)/>
 package com.hazelcast.client.protocol.compatibility;
 
 import com.hazelcast.cache.impl.CacheEventData;
@@ -20,20 +18,11 @@ import com.hazelcast.mapreduce.impl.task.JobPartitionStateImpl;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.transaction.impl.xa.SerializableXID;
-import com.hazelcast.client.impl.protocol.util.SafeBuffer;
-import com.hazelcast.test.HazelcastParallelClassRunner;
-import com.hazelcast.test.annotation.ParallelTest;
-import com.hazelcast.test.annotation.QuickTest;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 
-import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
-import java.util.Arrays;
-import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import javax.transaction.xa.Xid;
@@ -47,63 +36,46 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 
-@RunWith(HazelcastParallelClassRunner.class)
-@Category({QuickTest.class, ParallelTest.class})
-public class ServerCompatibilityTest_${testForVersionClassName} {
 
-    @org.junit.Test
-            public void test() throws IOException {
-              InputStream input = getClass().getResourceAsStream("/${testForVersionString}.protocol.compatibility.binary");
-               DataInputStream inputStream = new DataInputStream(input);
+public class BinaryCompatibilityFileGenerator {
+    public static void main(String[] args) throws IOException {
+        OutputStream out = new FileOutputStream("${testForVersionString}.protocol.compatibility.binary");
+        DataOutputStream outputStream = new DataOutputStream(out);
 <#list model?keys as key>
 <#assign map=model?values[key_index]?values/>
 <#if map?has_content>
 <#list map as cm>
-<#if cm.messageSinceInt lte testForVersion >
+
 {
-     int length = inputStream.readInt();
-        byte[] bytes = new byte[length];
-        inputStream.read(bytes);
-    ${cm.className}.RequestParameters params = ${cm.className}.decodeRequest(ClientMessage.createForDecode(new SafeBuffer(bytes), 0));
-    <#if cm.requestParams?has_content>
-        <#list cm.requestParams as param>
-            <#if param.sinceVersionInt lte testForVersion >
-                assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, params.${param.name}));
-            <#else>
-                assertFalse(params.${param.name}Exist);
-            </#if>
-        </#list>
-    </#if>
+    ClientMessage clientMessage = ${cm.className}.encodeRequest( <#if cm.requestParams?has_content> <#list cm.requestParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
+     outputStream.writeInt(clientMessage.getFrameLength());
+     outputStream.write(clientMessage.buffer().byteArray(), 0 , clientMessage.getFrameLength());
 }
 {
     ClientMessage clientMessage = ${cm.className}.encodeResponse( <#if cm.responseParams?has_content> <#list cm.responseParams as param>  ${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
-    int length = inputStream.readInt();
-        byte[] bytes = new byte[length];
-        inputStream.read(bytes);
-        assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
+    outputStream.writeInt(clientMessage.getFrameLength());
+    outputStream.write(clientMessage.buffer().byteArray(), 0 , clientMessage.getFrameLength());
 }
     <#if cm.events?has_content>
 {
     <#list cm.events as event >
     {
         ClientMessage clientMessage = ${cm.className}.encode${event.name}Event(<#if event.eventParams?has_content> <#list event.eventParams as param>${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
-        int length = inputStream.readInt();
-            byte[] bytes = new byte[length];
-            inputStream.read(bytes);
-            assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
+        outputStream.writeInt(clientMessage.getFrameLength());
+        outputStream.write(clientMessage.buffer().byteArray(), 0 , clientMessage.getFrameLength());
      }
     </#list>
 }
     </#if>
-</#if>
+
 </#list>
 </#if>
 </#list>
-        inputStream.close();
-        input.close();
+         outputStream.close();
+         out.close();
+
     }
 }
 

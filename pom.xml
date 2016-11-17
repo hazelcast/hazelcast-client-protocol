@@ -23,7 +23,7 @@
     <groupId>com.hazelcast</groupId>
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
     <name>Hazelcast Client Protocol</name>
     <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
     <url>http://www.hazelcast.com/</url>
@@ -52,8 +52,8 @@
     </modules>
 
     <properties>
-        <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
-        <hazelcast.git.branch>master</hazelcast.git.branch>
+        <hazelcast.git.repo>tkountis</hazelcast.git.repo>
+        <hazelcast.git.branch>feature/distributed_scheduled_exec</hazelcast.git.branch>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 

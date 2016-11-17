@@ -34,3 +34,9 @@ http://freemarker.incubator.apache.org/
 After putting the ftl file, following command can be run to generate sources
 
     mvn clean compile -Dhazelcast.generator.[LANGUAGE]=TRUE
+    
+## How To Generate Java Compatibility Tests
+Use the following command to generate the compatibility tests
+    `mvn clean compile -DskipTests -Dprotocol.compatibility.generate.tests=true`
+This will generate the compatibility tests inside the ./hazelcast/target/generated-sources/annotations/com/hazelcast/client/protocol/compatibility folder.
+Please note that the compilation will fail but the tests will be generated. You can copy the tests from here to hazelcast repository.

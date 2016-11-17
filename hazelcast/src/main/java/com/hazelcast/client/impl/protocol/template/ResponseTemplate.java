@@ -17,11 +17,13 @@
 package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
+import com.hazelcast.annotation.ContainsNullable;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Response;
 import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
+import com.hazelcast.core.Member;
 import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
@@ -78,6 +80,12 @@ public interface ResponseTemplate {
     void ListData(List<Data> response);
 
     /**
+     * @param response The operation result as an array of serialized byte-array that might have null entries.
+     */
+    @Response(ResponseMessageConst.LIST_DATA_MAYBE_NULL_ELEMENTS)
+    void ListDataMaybeNullElements(@ContainsNullable List<Data> response);
+
+    /**
      * @param response The operation result as an array of serialized key-value byte-arrays.
      */
     @Response(ResponseMessageConst.LIST_ENTRY)
@@ -92,11 +100,19 @@ public interface ResponseTemplate {
      * @param ownerUuid            Unique string identifying the server member uniquely.This value will be null if status is not 0
      * @param serializationVersion server side supported serialization version.
      *                             This value should be used for setting serialization version if status is 2
+     * @param serverHazelcastVersion The hazelcast version of the member
+     * @param clientUnregisteredMembers The list of members at which the client has no resources. This may be due to the client
+     *                                  no connected to the cluster at all or it may be that the cleanup operation is executed at
+     *                                  the member and no resources of the particular client is left at the member. The client
+     *                                  can use this information to restore its needed resources at the member, e.g.
+     *                                  registers its listeners. The list will be empty if this is response to non-owner
+     *                                  connection request.
      * @return Returns the address, uuid and owner uuid.
      */
     @Response(ResponseMessageConst.AUTHENTICATION)
     Object Authentication(byte status, @Nullable Address address, @Nullable String uuid, @Nullable String ownerUuid,
-                          byte serializationVersion, @Since (value = "1.3") String serverHazelcastVersion);
+                          byte serializationVersion, @Since(value = "1.3") String serverHazelcastVersion,
+                          @Since(value = "1.3") @Nullable List<Member> clientUnregisteredMembers);
 
     /**
      * @param partitions mappings from member address to list of partition id 's that member owns

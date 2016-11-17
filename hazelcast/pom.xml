@@ -26,7 +26,7 @@
     <parent>
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-client-protocol-root</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -131,6 +131,8 @@
                     <includes>
                         <include>**/target/generated-sources/annotations/**/**.class</include>
                         <include>**/com/hazelcast/client/impl/protocol/codec/**.class</include>
+                        <include>**/com/hazelcast/client/impl/protocol/constants/**.class</include>
+                        <include>**/com/hazelcast/client/impl/protocol/template/TemplateConstants.class</include>
                     </includes>
                     <excludes>
                         <exclude>**/*.html</exclude>

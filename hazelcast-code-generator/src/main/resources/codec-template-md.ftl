@@ -224,7 +224,7 @@ ${util.getOperationDescription(cm.comment)}
 | Name| Type| Nullable| Description|Available since|
 |-----|-----|---------|------------|-----|
         <#list cm.requestParams as param>
-|${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if>|${util.getDescription(param.name, cm.comment)}|${param.sinceVersion}|
+|${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if><#if param.containsNullable> / Contains Nullable</#if>|${util.getDescription(param.name, cm.comment)}|${param.sinceVersion}|
         </#list>
     <#else>
 Header only request message, no message body exist.
@@ -240,7 +240,7 @@ ${util.getReturnDescription(cm.comment)}
 | Name| Type| Nullable|Available since|
 |-------|------------|----------|-----|
         <#list cm.responseParams as param>
-|${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if>|${param.sinceVersion}|
+|${param.name}| ${convertTypeToDocumentType(param.type)}| <#if param.nullable >Yes<#else>No</#if><#if param.containsNullable> / Contains Nullable</#if>|${param.sinceVersion}|
         </#list>
     <#else>
 Header only response message, no message body exist.

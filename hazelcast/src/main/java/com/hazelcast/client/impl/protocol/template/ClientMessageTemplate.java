@@ -53,6 +53,7 @@ public interface ClientMessageTemplate {
      * @param isOwnerConnection    You must set this field to true while connecting to the owner member, otherwise set to false.
      * @param clientType           The type of the client. E.g. JAVA, CPP, CSHARP, etc.
      * @param serializationVersion client side supported version to inform server side
+     * @param clientHazelcastVersion The Hazelcast version of the client. (e.g. 3.7.2)
      * @return Returns the address, uuid and owner uuid.
      */
 
