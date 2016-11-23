@@ -126,7 +126,9 @@ public class BinaryCompatibilityNullFileGenerator {
         <#case "java.util.List<com.hazelcast.cache.impl.CacheEventData>">
             <#return "cacheEventDatas">
         <#case "java.util.List<java.lang.String>">
-            <#return "strings">
+           <#return "strings">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

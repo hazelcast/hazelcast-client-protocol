@@ -146,6 +146,8 @@ public class EncodeDecodeCompatibilityTest {
             <#return "cacheEventDatas">
         <#case "java.util.List<java.lang.String>">
             <#return "strings">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

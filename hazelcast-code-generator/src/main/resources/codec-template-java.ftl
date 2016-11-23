@@ -133,8 +133,17 @@ public final class ${model.className} {
             int messageType = clientMessage.getMessageType();
         <#list model.events as event>
             if (messageType == com.hazelcast.client.impl.protocol.constants.EventMessageConst.EVENT_${event.name?upper_case}) {
+            boolean messageFinished = false;
             <#list event.eventParams as p>
-                <@getterText varName=p.name type=p.type isNullable=p.nullable isEvent=true/>
+                <@defineVariable varName=p.name type=p.type />
+                <#if p.versionChanged >
+                    if (!messageFinished) {
+                        messageFinished = clientMessage.isComplete();
+                    }
+                </#if>
+                    if (!messageFinished) {
+                        <@readVariable varName=p.name type=p.type isNullable=p.nullable isEvent=true />
+                    }
             </#list>
                 handle(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
                 return;
@@ -269,7 +278,17 @@ public final class ${model.className} {
 
 <#--GETTER NULL CHECK MACRO -->
 <#macro getterText varName type isNullable=false isEvent=false containsNullable=false>
-        ${type} ${varName} <#if !util.isPrimitive(type)>= null</#if>;
+        <@defineVariable varName=varName type=type />
+        <@readVariable varName=varName type=type isNullable=isNullable isEvent=isEvent containsNullable=containsNullable />
+</#macro>
+
+<#-- Only defines the variable -->
+<#macro defineVariable varName type >
+        ${type} ${varName} = <@getDefaultValueForType type=type />;
+</#macro>
+
+<#-- Reads the variable from client message -->
+<#macro readVariable varName type isNullable isEvent containsNullable=false>
 <#local isNullVariableName= "${varName}_isNull">
 <#if isNullable>
         boolean ${isNullVariableName} = clientMessage.getBoolean();
@@ -366,4 +385,15 @@ public final class ${model.className} {
             <@getterTextInternal varName=valVariableName varType=valueType/>
         ${varName} = new java.util.AbstractMap.SimpleEntry<${keyType},${valueType}>(${keyVariableName}, ${valVariableName});
 </#switch>
+</#macro>
+
+<#--Gets the default value for a type in java -->
+<#macro getDefaultValueForType type>
+<#if type == "boolean" >
+false
+<#elseif util.isPrimitive(type) >
+0
+<#else>
+null
+</#if>
 </#macro>
