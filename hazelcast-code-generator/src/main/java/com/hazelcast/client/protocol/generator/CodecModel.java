@@ -138,6 +138,7 @@ public class CodecModel
             eventModel.comment = elementUtil.getDocComment(element);
 
             List<ParameterModel> eventParam = new ArrayList<ParameterModel>();
+            int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
             for (VariableElement param : element.getParameters()) {
                 Nullable nullable = param.getAnnotation(Nullable.class);
                 Since sinceVersion = param.getAnnotation(Since.class);
@@ -146,15 +147,19 @@ public class CodecModel
                 if (null != sinceVersion) {
                     paramVersion = sinceVersion.value();
                 }
-                ParameterModel pm = new ParameterModel();
-                pm.name = param.getSimpleName().toString();
-                pm.type = param.asType().toString();
-                pm.lang = lang;
-                pm.nullable = nullable != null;
-                pm.containsNullable = containsNullable != null;
-                pm.description = CodeGenerationUtils.getDescription(pm.name, eventModel.comment);
-                pm.sinceVersion = paramVersion;
-                eventParam.add(pm);
+
+                String parameterName = param.getSimpleName().toString();
+                ParameterModel pm = addParameterModel(eventParam, parameterName, param.asType().toString(), nullable != null,
+                        containsNullable != null, paramVersion, lang);
+
+                int paramVersionInt = pm.sinceVersionInt;
+                if (paramVersionInt > highestParameterVersion) {
+                    highestParameterVersion = paramVersionInt;
+                }
+                if (paramVersionInt != previousParamVersion) {
+                    pm.versionChanged = true;
+                }
+                previousParamVersion = paramVersionInt;
             }
 
             eventModel.type = element.getAnnotation(EventResponse.class).value();

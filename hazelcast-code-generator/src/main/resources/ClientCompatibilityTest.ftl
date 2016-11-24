@@ -106,8 +106,6 @@ public class ClientCompatibilityTest_${testForVersionClassName} {
                        <#list event.eventParams as param>
                         <#if param.sinceVersionInt lte testForVersion >
                             assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, ${param.name}));
-                        <#else>
-                            assertFalse(params.${param.name}Exist);
                         </#if>
                        </#list>
                 </#if>
@@ -187,6 +185,8 @@ public class ClientCompatibilityTest_${testForVersionClassName} {
             <#return "cacheEventDatas">
         <#case "java.util.List<java.lang.String>">
             <#return "strings">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
