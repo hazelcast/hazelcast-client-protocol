@@ -105,8 +105,6 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
                        <#list event.eventParams as param>
                         <#if param.sinceVersionInt lte testForVersion >
                             assertTrue(isEqual(<#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if>, ${param.name}));
-                        <#else>
-                            assertFalse(params.${param.name}Exist);
                         </#if>
                        </#list>
                 </#if>
@@ -188,6 +186,8 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
             <#return "cacheEventDatas">
         <#case "java.util.List<java.lang.String>">
             <#return "strings">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

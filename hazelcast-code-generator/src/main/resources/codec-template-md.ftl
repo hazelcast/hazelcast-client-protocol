@@ -347,6 +347,8 @@ Header only event message, no message body exist.
             <#return "array of Query Cache Event Data">
         <#case "java.util.List<java.lang.String>">
             <#return "array of string">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "array of longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

@@ -101,9 +101,21 @@ public class ServerCompatibilityTest_${testForVersionClassName} {
     {
         ClientMessage clientMessage = ${cm.className}.encode${event.name}Event(<#if event.eventParams?has_content> <#list event.eventParams as param>${convertTypeToSampleValue(param.type)} <#if param_has_next>, </#if> </#list> </#if>);
         int length = inputStream.readInt();
-            byte[] bytes = new byte[length];
-            inputStream.read(bytes);
-            assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
+
+    <#if cm.highestParameterVersion lte testForVersion >
+        byte[] bytes = new byte[length];
+        inputStream.read(bytes);
+        assertTrue(isEqual(Arrays.copyOf(clientMessage.buffer().byteArray(), clientMessage.getFrameLength()), bytes));
+    <#else>
+        // Since the test is generated for protocol version (${testForVersionString}) which is earlier than latest change in the message
+        // (version ${util.versionAsString(cm.highestParameterVersion)}), only the bytes after frame length fields are compared
+        int frameLength = clientMessage.getFrameLength();
+        assertTrue(frameLength >= length);
+        inputStream.skipBytes(FRAME_LEN_FIELD_SIZE);
+        byte[] bytes = new byte[length - FRAME_LEN_FIELD_SIZE];
+        inputStream.read(bytes);
+        assertTrue(isEqual(Arrays.copyOfRange(clientMessage.buffer().byteArray(), FRAME_LEN_FIELD_SIZE, length), bytes));
+    </#if>
      }
     </#list>
 }
@@ -165,6 +177,8 @@ public class ServerCompatibilityTest_${testForVersionClassName} {
             <#return "cacheEventDatas">
         <#case "java.util.List<java.lang.String>">
             <#return "strings">
+        <#case "java.util.List<java.lang.Long>">
+            <#return "longs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
