@@ -16,8 +16,8 @@
 
 package com.hazelcast.client.impl.protocol.template;
 
-import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.ContainsNullable;
+import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Response;
 import com.hazelcast.annotation.Since;
@@ -29,7 +29,6 @@ import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
-import com.hazelcast.scheduledexecutor.ScheduledTaskStatistics;
 
 import java.util.List;
 import java.util.Map;
@@ -174,12 +173,17 @@ public interface ResponseTemplate {
     @Response(ResponseMessageConst.ENTRIES_WITH_CURSOR)
     void EntriesWithCursor(int tableIndex, List<Map.Entry<Data, Data>> entries);
 
+    @Since("1.4")
     @Response(ResponseMessageConst.SCHEDULED_TASK_HANDLER)
     void ScheduledTaskHandler(ScheduledTaskHandler handler);
 
+    @Since("1.4")
     @Response(ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
-    void ScheduledTaskStatistics(ScheduledTaskStatistics stats);
+    void ScheduledTaskStatistics(long createdAt, long firstRunStartNanos, long lastIdleTimeNanos,
+                                 long lastRunEndNanos, long lastRunStartNanos, long totalIdleTimeNanos,
+                                 long totalRuns, long totalRunTimeNanos);
 
+    @Since("1.4")
     @Response(ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER)
     void ListScheduledTaskHandler(List<ScheduledTaskHandler> handlers);
 

@@ -28,18 +28,18 @@ public final class ScheduledTaskHandlerCodec {
     }
 
     public static ScheduledTaskHandler decode(ClientMessage clientMessage) {
-        String URN = clientMessage.getStringUtf8();
-        return ScheduledTaskHandler.of(URN);
+        String urn = clientMessage.getStringUtf8();
+        return ScheduledTaskHandler.of(urn);
     }
 
     public static void encode(ScheduledTaskHandler handler, ClientMessage clientMessage) {
-        clientMessage.set(handler.toURN());
+        clientMessage.set(handler.toUrn());
     }
 
     public static int calculateDataSize(ScheduledTaskHandler handler) {
         int dataSize = ClientMessage.HEADER_SIZE;
-        String URN = handler.toURN();
+        String urn = handler.toUrn();
         return dataSize
-                + ParameterUtil.calculateDataSize(URN);
+                + ParameterUtil.calculateDataSize(urn);
     }
 }
