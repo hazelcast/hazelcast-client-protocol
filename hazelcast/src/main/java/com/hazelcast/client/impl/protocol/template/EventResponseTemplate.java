@@ -19,6 +19,7 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.EventResponse;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.cache.impl.CacheEventData;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.core.Member;
@@ -27,6 +28,7 @@ import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Client Protocol Event Responses
@@ -119,22 +121,6 @@ public interface EventResponseTemplate {
     void DistributedObject(String name, String serviceName, String eventType);
 
     /**
-     * @param name       Name of the cache.
-     * @param key        The key for the entry.
-     * @param sourceUuid The id of the server member.
-     */
-    @EventResponse(EventMessageConst.EVENT_CACHEINVALIDATION)
-    void CacheInvalidation(String name, @Nullable Data key, @Nullable String sourceUuid);
-
-    /**
-     * @param name        Name of the cache.
-     * @param keys        The keys for the entries in batch invalidation.
-     * @param sourceUuids The ids of the server members.
-     */
-    @EventResponse(EventMessageConst.EVENT_CACHEBATCHINVALIDATION)
-    void CacheBatchInvalidation(String name, List<Data> keys, @Nullable List<String> sourceUuids);
-
-    /**
      * @param partitionId The partition id that has been lost for the given map
      * @param uuid        The id of the server member.
      */
@@ -175,16 +161,45 @@ public interface EventResponseTemplate {
     @EventResponse(EventMessageConst.EVENT_CACHEPARTITIONLOST)
     void CachePartitionLost(int partitionId, String uuid);
 
+    /**
+     * @param name          Name of the cache.
+     * @param key           The key for the entry.
+     * @param sourceUuid    source uuid
+     * @param partitionUuid partition uuid
+     * @param sequence      sequence number of invalidation event
+     */
+    @EventResponse(EventMessageConst.EVENT_CACHEINVALIDATION)
+    void CacheInvalidation(String name, @Nullable Data key, @Nullable String sourceUuid,
+                           @Since("1.4") UUID partitionUuid, @Since("1.4") long sequence);
 
     /**
-     * @param key The key for the entry.
+     * @param name           Name of the cache.
+     * @param keys           The keys for the entries in batch invalidation.
+     * @param sourceUuids    The ids of the server members.
+     * @param partitionUuids partition uuid
+     * @param sequences      sequence numbers of invalidation events
+     */
+    @EventResponse(EventMessageConst.EVENT_CACHEBATCHINVALIDATION)
+    void CacheBatchInvalidation(String name, List<Data> keys, @Nullable List<String> sourceUuids,
+                                @Since("1.4") @Nullable List<UUID> partitionUuids, @Since("1.4") List<Long> sequences);
+
+    /**
+     * @param key           key of invalidated entry
+     * @param sourceUuid    source uuid
+     * @param partitionUuid partition uuid
+     * @param sequence      sequence number of invalidation event
      */
     @EventResponse(EventMessageConst.EVENT_IMAPINVALIDATION)
-    void IMapInvalidation(@Nullable Data key);
+    void IMapInvalidation(@Nullable Data key, @Since("1.4") String sourceUuid,
+                          @Since("1.4") UUID partitionUuid, @Since("1.4") long sequence);
 
     /**
-     * @param keys The keys for the entries in batch invalidation.
+     * @param keys           The keys for the entries in batch invalidation.
+     * @param sourceUuids    source uuid
+     * @param partitionUuids partition uuid
+     * @param sequences      sequence numbers of invalidation events
      */
     @EventResponse(EventMessageConst.EVENT_IMAPBATCHINVALIDATION)
-    void IMapBatchInvalidation(List<Data> keys);
+    void IMapBatchInvalidation(List<Data> keys, @Since("1.4") List<String> sourceUuids,
+                               @Since("1.4") List<UUID> partitionUuids, @Since("1.4") List<Long> sequences);
 }
