@@ -192,13 +192,6 @@ public class CodecCodeGenerator extends AbstractProcessor {
                             "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
                 }
             }
-            try {
-                Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + ".ftl");
-                messageTypeTemplateMap.put(lang, messageTypeTemplate);
-            } catch (IOException e) {
-                logMessage(Diagnostic.Kind.WARNING,
-                        "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
-            }
 
             if (generateTests) {
                 getCompatibilityTestTemplates(cfg);
