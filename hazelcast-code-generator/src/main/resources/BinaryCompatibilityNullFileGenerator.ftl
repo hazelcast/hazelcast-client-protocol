@@ -97,8 +97,6 @@ public class BinaryCompatibilityNullFileGenerator {
             <#return "aData">
         <#case "java.lang.String">
             <#return "aString">
-        <#case "java.util.UUID">
-            <#return "aUUID">
         <#case "boolean">
             <#return "boolean">
         <#case "java.util.List<" + util.DATA_FULL_NAME + ">">
@@ -131,8 +129,6 @@ public class BinaryCompatibilityNullFileGenerator {
            <#return "strings">
         <#case "java.util.List<java.lang.Long>">
             <#return "longs">
-        <#case "java.util.List<java.util.UUID>">
-            <#return "uuids">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
