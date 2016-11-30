@@ -52,7 +52,21 @@ public final class ${model.className} {
             return parameters;
         }
     </#if>
-    <@getterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+    <#--  Id 2: AuthenticationCodec, Id:3 CustomAuthenticationCodec -->
+    <#if p.name == "clientHazelcastVersion" && (model.id == "0x0002" || model.id == "0x0003") >
+            try {
+            <@getterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            } catch (IndexOutOfBoundsException e) {
+                if (parameters.clientType == "CSHARP") {
+                    // suppress this error for older csharp client since they had a bug which was fixed later (writeByte related)
+                    return parameters;
+                } else {
+                    throw e;
+                }
+            }
+    <#else>
+           <@getterText varName=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+    </#if>
     <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
