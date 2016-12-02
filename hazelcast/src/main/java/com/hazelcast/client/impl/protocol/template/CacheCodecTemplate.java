@@ -20,8 +20,8 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
@@ -372,4 +372,26 @@ public interface CacheCodecTemplate {
     @Request(id = 29, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
     @Since("1.1")
     Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
+
+    /**
+     * @param name      Name of the cache.
+     * @param localOnly if true fires events that originated from this node only, otherwise fires all events
+     * @return Registration id for the registered listener.
+     */
+    @Request(id = 30, retryable = false, response = ResponseMessageConst.STRING,
+            event = {EventMessageConst.EVENT_CACHEINVALIDATION, EventMessageConst.EVENT_CACHEBATCHINVALIDATION})
+    @Since("1.4")
+    Object addNearCacheInvalidationListener(String name, boolean localOnly);
+
+    /**
+     * @param names names of the caches
+     * @return metadata
+     */
+    @Request(id = 31, retryable = false, response = ResponseMessageConst.DATA)
+    @Since("1.4")
+    Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
+
+    @Request(id = 32, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Since("1.4")
+    Object assignAndGetUuids();
 }

@@ -19,8 +19,8 @@ package com.hazelcast.client.impl.protocol.template;
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import java.util.List;
@@ -795,5 +795,22 @@ public interface MapCodecTemplate {
     @Request(id = 65, retryable = true, response = ResponseMessageConst.LIST_DATA_MAYBE_NULL_ELEMENTS)
     @Since("1.4")
     Object projectWithPredicate(String name, Data projection, Data predicate);
+
+    @Request(id = 66, retryable = false, response = ResponseMessageConst.STRING,
+            event = {EventMessageConst.EVENT_IMAPINVALIDATION, EventMessageConst.EVENT_IMAPBATCHINVALIDATION})
+    @Since("1.4")
+    Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
+
+    /**
+     * @param names names of the maps
+     * @return metadata
+     */
+    @Request(id = 67, retryable = false, response = ResponseMessageConst.DATA)
+    @Since("1.4")
+    Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
+
+    @Request(id = 68, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Since("1.4")
+    Object assignAndGetUuids();
 
 }
