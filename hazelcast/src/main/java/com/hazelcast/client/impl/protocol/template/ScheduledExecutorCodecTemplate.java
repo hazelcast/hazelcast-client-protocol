@@ -91,13 +91,13 @@ public interface ScheduledExecutorCodecTemplate {
      * @param timeUnitName The String representation of the <tt>TimeUnit</tt> enum (see. {@link TimeUnit#name()}).
      *                     <br/> Allowed values:
      *                     <ul>
-     *                         <li>{@link TimeUnit#NANOSECONDS}</li>
-     *                         <li>{@link TimeUnit#MICROSECONDS}</li>
-     *                         <li>{@link TimeUnit#MILLISECONDS}</li>
-     *                         <li>{@link TimeUnit#SECONDS}</li>
-     *                         <li>{@link TimeUnit#MINUTES}</li>
-     *                         <li>{@link TimeUnit#HOURS}</li>
-     *                         <li>{@link TimeUnit#DAYS}</li>
+     *                         <li>"NANOSECONDS"</li>
+     *                         <li>"MICROSECONDS"</li>
+     *                         <li>"MILLISECONDS"</li>
+     *                         <li>"SECONDS"</li>
+     *                         <li>"MINUTES"</li>
+     *                         <li>"HOURS"</li>
+     *                         <li>"DAYS"</li>
      *                     </ul>
      * @return The remaining delay of the task formatted in the give TimeUnit.
      */
