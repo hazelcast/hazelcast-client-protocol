@@ -97,7 +97,8 @@ public interface ScheduledExecutorCodecTemplate {
      *                         <li>"HOURS"</li>
      *                         <li>"DAYS"</li>
      *                     </ul>
-     * @return The remaining delay of the task formatted in the give TimeUnit.
+     *                     Any other non NULL input will result in ILLEGAL_ARGUMENT.
+     * @return The remaining delay of the task formatted in the given Time Unit.
      */
     @Since("1.4")
     @Request(id = 6, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "partitionId")
