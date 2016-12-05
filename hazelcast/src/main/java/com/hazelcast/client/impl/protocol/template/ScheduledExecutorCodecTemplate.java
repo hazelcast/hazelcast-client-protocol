@@ -24,7 +24,6 @@ import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @GenerateCodec(id = TemplateConstants.SCHEDULED_EXECUTOR_TEMPLATE_ID, name = "ScheduledExecutor", ns = "Hazelcast.Client.Protocol.Codec")
@@ -73,7 +72,7 @@ public interface ScheduledExecutorCodecTemplate {
     @Since("1.4")
     @Request(id = 4, retryable = true, response = ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER,
             partitionIdentifier = "partitionId")
-    List<ScheduledTaskHandler> getAllScheduledFutures(String schedulerName, Address address);
+    Object getAllScheduledFutures(String schedulerName, Address address);
 
     /**
      * Returns statistics associated with the given task handler.
