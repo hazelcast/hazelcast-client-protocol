@@ -22,7 +22,6 @@ import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
-import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -77,73 +76,73 @@ public interface ScheduledExecutorCodecTemplate {
     /**
      * Returns statistics associated with the given task handler.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @return A snapshot of the task statistics as identified from the given handler.
      */
     @Since("1.4")
     @Request(id = 5, retryable = true, response = ResponseMessageConst.SCHEDULED_TASK_STATISTICS,
             partitionIdentifier = "partitionId")
-    Object getStats(ScheduledTaskHandler handler);
+    Object getStats(String handlerUrn);
 
     /**
      * Returns the ScheduledFuture's for the task in the scheduler as identified from the given handler.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @return The remaining delay of the task.
      */
     @Since("1.4")
     @Request(id = 6, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "partitionId")
-    long getDelay(ScheduledTaskHandler handler, TimeUnit unit);
+    long getDelay(String handlerUrn, TimeUnit unit);
 
     /**
      * Cancels further execution and scheduling of the task as identified from the given handler.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @param mayInterruptIfRunning  A boolean flag to indicate whether the task should be interrupted.
      * @return True if the task was cancelled
      */
     @Since("1.4")
     @Request(id = 7, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean cancel(ScheduledTaskHandler handler, boolean mayInterruptIfRunning);
+    boolean cancel(String handlerUrn, boolean mayInterruptIfRunning);
 
     /**
      * Checks whether a task as identified from the given handler is already cancelled.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @return True if the task is cancelled
      */
     @Since("1.4")
     @Request(id = 8, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean isCancelled(ScheduledTaskHandler handler);
+    boolean isCancelled(String handlerUrn);
 
     /**
      * Checks whether a task as identified from the given handler is done.
      * @see {@link java.util.concurrent.Future#cancel(boolean)}
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @return True if the task is done
      */
     @Since("1.4")
     @Request(id = 9, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean isDone(ScheduledTaskHandler handler);
+    boolean isDone(String handlerUrn);
 
     /**
      * Fetches the result of the task ({@link java.util.concurrent.Callable}) as identified from the given handler.
      * The call will blocking until the result is ready.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      * @return The result of the completed task, in serialized form ({@link Data}.
      */
     @Since("1.4")
     @Request(id = 10, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
-    Data getResult(ScheduledTaskHandler handler);
+    Data getResult(String handlerUrn);
 
     /**
      * Dispose the task from the scheduler, as identified from the given handler.
      *
-     * @param handler The resource handler of the task
+     * @param handlerUrn The resource handler URN of the task
      */
     @Since("1.4")
     @Request(id = 11, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
-    void dispose(ScheduledTaskHandler handler);
+    void dispose(String handlerUrn);
 }

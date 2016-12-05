@@ -149,6 +149,8 @@ public class ServerCompatibilityTest_${testForVersionClassName} {
             <#return "aString">
         <#case "boolean">
             <#return "boolean">
+        <#case "java.util.UUID">
+            <#return "aUUID">
         <#case "java.util.List<" + util.DATA_FULL_NAME + ">">
             <#return "datas">
         <#case "java.util.List<com.hazelcast.core.Member>">
@@ -179,6 +181,8 @@ public class ServerCompatibilityTest_${testForVersionClassName} {
             <#return "strings">
         <#case "java.util.List<java.lang.Long>">
             <#return "longs">
+        <#case "java.util.List<java.util.UUID>">
+            <#return "uuids">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

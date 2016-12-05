@@ -173,10 +173,6 @@ public interface ResponseTemplate {
     void EntriesWithCursor(int tableIndex, List<Map.Entry<Data, Data>> entries);
 
     @Since("1.4")
-    @Response(ResponseMessageConst.SCHEDULED_TASK_HANDLER)
-    void ScheduledTaskHandler(String urn);
-
-    @Since("1.4")
     @Response(ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
     void ScheduledTaskStatistics(long createdAt, long firstRunStartNanos, long lastIdleTimeNanos,
                                  long lastRunEndNanos, long lastRunStartNanos, long totalIdleTimeNanos,

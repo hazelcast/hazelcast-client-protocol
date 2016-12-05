@@ -17,29 +17,33 @@
 package com.hazelcast.client.impl.protocol.codec;
 
 import com.hazelcast.annotation.Codec;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.ClientMessage;
-import com.hazelcast.client.impl.protocol.util.ParameterUtil;
-import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
-@Codec(ScheduledTaskHandler.class)
-public final class ScheduledTaskHandlerCodec {
+import java.util.UUID;
 
-    private ScheduledTaskHandlerCodec() {
+import static com.hazelcast.nio.Bits.LONG_SIZE_IN_BYTES;
+
+@Since("1.4")
+@Codec(UUID.class)
+public final class UUIDCodec {
+
+    private static final int UUID_LONG_FIELD_COUNT = 2;
+    private static final int UUID_DATA_SIZE = UUID_LONG_FIELD_COUNT * LONG_SIZE_IN_BYTES;
+
+    private UUIDCodec() {
     }
 
-    public static ScheduledTaskHandler decode(ClientMessage clientMessage) {
-        String urn = clientMessage.getStringUtf8();
-        return ScheduledTaskHandler.of(urn);
+    public static UUID decode(ClientMessage clientMessage) {
+        return new UUID(clientMessage.getLong(), clientMessage.getLong());
     }
 
-    public static void encode(ScheduledTaskHandler handler, ClientMessage clientMessage) {
-        clientMessage.set(handler.toUrn());
+    public static void encode(UUID uuid, ClientMessage clientMessage) {
+        clientMessage.set(uuid.getMostSignificantBits());
+        clientMessage.set(uuid.getLeastSignificantBits());
     }
 
-    public static int calculateDataSize(ScheduledTaskHandler handler) {
-        int dataSize = ClientMessage.HEADER_SIZE;
-        String urn = handler.toUrn();
-        return dataSize
-                + ParameterUtil.calculateDataSize(urn);
+    public static int calculateDataSize(UUID uuid) {
+        return UUID_DATA_SIZE;
     }
 }

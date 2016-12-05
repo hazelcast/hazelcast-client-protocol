@@ -101,9 +101,10 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private final int[] protocolVersions = {
-                                    CodeGenerationUtils.versionAsInt("1.0"), CodeGenerationUtils.versionAsInt("1.1"),
-                                    CodeGenerationUtils.versionAsInt("1.2"), CodeGenerationUtils.versionAsInt("1.3"),
-                                    };
+            CodeGenerationUtils.versionAsInt("1.0"), CodeGenerationUtils.versionAsInt("1.1"),
+            CodeGenerationUtils.versionAsInt("1.2"), CodeGenerationUtils.versionAsInt("1.3"),
+            CodeGenerationUtils.versionAsInt("1.4"),
+    };
 
     private final CompatibilityTestInfo[] compatibilityTestInfos = {
                                          new CompatibilityTestInfo("ClientCompatibilityTest", true),
@@ -191,13 +192,6 @@ public class CodecCodeGenerator extends AbstractProcessor {
                     logMessage(Diagnostic.Kind.WARNING,
                             "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
                 }
-            }
-            try {
-                Template messageTypeTemplate = cfg.getTemplate("messagetype-template-" + lang.name().toLowerCase() + ".ftl");
-                messageTypeTemplateMap.put(lang, messageTypeTemplate);
-            } catch (IOException e) {
-                logMessage(Diagnostic.Kind.WARNING,
-                        "Cannot find messagetype template for lang:" + lang + ". " + e.getMessage());
             }
 
             if (generateTests) {

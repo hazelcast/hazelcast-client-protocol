@@ -48,9 +48,8 @@ public final class ResponseMessageConst {
     public static final int LIST_ENTRY = 117;
     public static final int ENTRIES_WITH_CURSOR = 118;
     public static final int LIST_DATA_MAYBE_NULL_ELEMENTS = 119;
-    public static final int SCHEDULED_TASK_HANDLER = 120;
-    public static final int SCHEDULED_TASK_STATISTICS = 121;
-    public static final int LIST_SCHEDULED_TASK_HANDLER = 122;
+    public static final int SCHEDULED_TASK_STATISTICS = 120;
+    public static final int LIST_SCHEDULED_TASK_HANDLER = 121;
 
     private ResponseMessageConst() {
     }

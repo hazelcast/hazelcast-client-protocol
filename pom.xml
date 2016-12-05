@@ -23,7 +23,7 @@
     <groupId>com.hazelcast</groupId>
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0-4</version>
     <name>Hazelcast Client Protocol</name>
     <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
     <url>http://www.hazelcast.com/</url>
@@ -236,7 +236,7 @@
                         <configuration>
                             <serverId>release-repository</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
 
