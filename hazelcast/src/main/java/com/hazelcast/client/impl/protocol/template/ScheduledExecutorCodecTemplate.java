@@ -23,8 +23,6 @@ import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
-import java.util.concurrent.TimeUnit;
-
 @GenerateCodec(id = TemplateConstants.SCHEDULED_EXECUTOR_TEMPLATE_ID, name = "ScheduledExecutor", ns = "Hazelcast.Client.Protocol.Codec")
 @Since("1.4")
 public interface ScheduledExecutorCodecTemplate {
@@ -88,7 +86,7 @@ public interface ScheduledExecutorCodecTemplate {
      * Returns the ScheduledFuture's for the task in the scheduler as identified from the given handler.
      *
      * @param handlerUrn The resource handler URN of the task
-     * @param timeUnitName The String representation of the <tt>TimeUnit</tt> enum (see. {@link TimeUnit#name()}).
+     * @param timeUnitName A string representing time unit information.
      *                     <br/> Allowed values:
      *                     <ul>
      *                         <li>"NANOSECONDS"</li>
