@@ -88,11 +88,22 @@ public interface ScheduledExecutorCodecTemplate {
      * Returns the ScheduledFuture's for the task in the scheduler as identified from the given handler.
      *
      * @param handlerUrn The resource handler URN of the task
-     * @return The remaining delay of the task.
+     * @param timeUnitName The String representation of the <tt>TimeUnit</tt> enum (see. {@link TimeUnit#name()}).
+     *                     <br/> Allowed values:
+     *                     <ul>
+     *                         <li>{@link TimeUnit#NANOSECONDS}</li>
+     *                         <li>{@link TimeUnit#MICROSECONDS}</li>
+     *                         <li>{@link TimeUnit#MILLISECONDS}</li>
+     *                         <li>{@link TimeUnit#SECONDS}</li>
+     *                         <li>{@link TimeUnit#MINUTES}</li>
+     *                         <li>{@link TimeUnit#HOURS}</li>
+     *                         <li>{@link TimeUnit#DAYS}</li>
+     *                     </ul>
+     * @return The remaining delay of the task formatted in the give TimeUnit.
      */
     @Since("1.4")
     @Request(id = 6, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "partitionId")
-    long getDelay(String handlerUrn, TimeUnit unit);
+    long getDelay(String handlerUrn, String timeUnitName);
 
     /**
      * Cancels further execution and scheduling of the task as identified from the given handler.
