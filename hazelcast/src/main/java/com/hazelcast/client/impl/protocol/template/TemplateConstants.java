@@ -16,6 +16,8 @@
 
 package com.hazelcast.client.impl.protocol.template;
 
+import com.hazelcast.annotation.Since;
+
 public final class TemplateConstants {
 
     public static final int CLIENT_TEMPLATE_ID = 0;
@@ -47,7 +49,7 @@ public final class TemplateConstants {
     public static final int JET_TEMPLATE_ID = 26;
     public static final int DURABLE_EXECUTOR_TEMPLATE_ID = 27;
     public static final int CARDINALITY_ESTIMATOR_TEMPLATE_ID = 28;
-    public static final int SCHEDULED_EXECUTOR_TEMPLATE_ID = 29;
+    @Since("1.4") public static final int SCHEDULED_EXECUTOR_TEMPLATE_ID = 29;
 
     private TemplateConstants() {
     }
