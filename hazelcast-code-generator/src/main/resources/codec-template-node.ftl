@@ -23,7 +23,7 @@ static calculateSize(<#list model.requestParams as param>${util.convertToNodeTyp
 // Calculates the request payload size
 var dataSize : number = 0;
 <#list model.requestParams as p>
-    <@sizeText varName=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
+    <@sizeText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
 </#list>
 return dataSize;
 }
@@ -34,7 +34,7 @@ var clientMessage = ClientMessage.newClientMessage(this.calculateSize(<#list mod
 clientMessage.setMessageType(REQUEST_TYPE);
 clientMessage.setRetryable(RETRYABLE);
 <#list model.requestParams as p>
-    <@setterText varName=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
+    <@setterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
 </#list>
 clientMessage.updateFrameLength();
 return clientMessage;
@@ -46,7 +46,7 @@ static decodeResponse(clientMessage : ClientMessage,  toObjectFunction: (data: D
 // Decode response from client message
 var parameters :any = { <#list model.responseParams as p>'${util.convertToNodeType(p.name)}' : null <#if p_has_next>, </#if></#list> };
     <#list model.responseParams as p>
-        <@getterText varName=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
+        <@getterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
     </#list>
 return parameters;
 
@@ -64,7 +64,7 @@ var messageType = clientMessage.getMessageType();
     if ( messageType === BitsUtil.EVENT_${event.name?upper_case} && handleEvent${util.capitalizeFirstLetter(event.name?lower_case)} !== null) {
         <#list event.eventParams as p>
         var ${util.convertToNodeType(p.name)} : ${util.getNodeTsType(p.type)};
-            <@getterText varName=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable isEvent=true isDefined=true />
+            <@getterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable isEvent=true isDefined=true />
         </#list>
     handleEvent${util.capitalizeFirstLetter(util.convertToNodeType(event.name?lower_case))}(<#list event.eventParams as param>${util.convertToNodeType(param.name)}<#if param_has_next>, </#if></#list>);
     }
@@ -75,14 +75,14 @@ var messageType = clientMessage.getMessageType();
 }
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText varName type isNullable=false>
+<#macro sizeText var_name type isNullable=false>
     <#if isNullable>
     dataSize += BitsUtil.BOOLEAN_SIZE_IN_BYTES;
-    if(${varName} !== null) {
-        <@sizeTextInternal varName=varName type=type/>
+    if(${var_name} !== null) {
+        <@sizeTextInternal var_name=var_name type=type/>
     }
     <#else>
-        <@sizeTextInternal varName=varName type=type/>
+        <@sizeTextInternal var_name=var_name type=type/>
     </#if>
 </#macro>
 
@@ -96,206 +96,206 @@ var messageType = clientMessage.getMessageType();
 </#macro>
 
 <#--SIZE MACRO -->
-<#macro sizeTextInternal varName type>
+<#macro sizeTextInternal var_name type>
     <#local cat= util.getTypeCategory(type)>
     <#switch cat>
         <#case "OTHER">
             <#if util.isPrimitive(type)>
             dataSize += BitsUtil.${type?upper_case}_SIZE_IN_BYTES;
             <#else >
-            dataSize += BitsUtil.calculateSize${util.capitalizeFirstLetter(util.getNodeType(type)?lower_case)}(${varName});
+            dataSize += BitsUtil.calculateSize${util.capitalizeFirstLetter(util.getNodeType(type)?lower_case)}(${var_name});
             </#if>
             <#break >
         <#case "CUSTOM">
-        dataSize += BitsUtil.calculateSize${util.capitalizeFirstLetter(util.getNodeType(type)?lower_case)}(${varName});
+        dataSize += BitsUtil.calculateSize${util.capitalizeFirstLetter(util.getNodeType(type)?lower_case)}(${var_name});
             <#break >
         <#case "COLLECTION">
         dataSize += BitsUtil.INT_SIZE_IN_BYTES;
             <#local genericType= util.getGenericType(type)>
-            <#local n= varName>
+            <#local n= var_name>
 
-        ${varName}.forEach((${varName}Item : any) => {
-            <@sizeTextInternal varName="${n}Item"  type=genericType />
+        ${var_name}.forEach((${var_name}Item : any) => {
+            <@sizeTextInternal var_name="${n}Item"  type=genericType />
         });
             <#break >
         <#case "ARRAY">
         data_size += BitsUtil.INT_SIZE_IN_BYTES
             <#local genericType= util.getArrayType(type)>
-            <#local n= varName>
-        ${varName}.forEach((${varName}Item : any) => {
-            <@sizeTextInternal varName="${n}Item"  type=genericType />
+            <#local n= var_name>
+        ${var_name}.forEach((${var_name}Item : any) => {
+            <@sizeTextInternal var_name="${n}Item"  type=genericType />
         });
             <#break >
         <#case "MAP">
             <#local keyType = util.getFirstGenericParameterType(type)>
             <#local valueType = util.getSecondGenericParameterType(type)>
-            <#local n= varName>
-        ${varName}.forEach((entry : any) => {
-            <@sizeTextInternal varName="entry.key"  type=keyType />
-            <@sizeTextInternal varName="entry.val"  type=valueType />
+            <#local n= var_name>
+        ${var_name}.forEach((entry : any) => {
+            <@sizeTextInternal var_name="entry.key"  type=keyType />
+            <@sizeTextInternal var_name="entry.val"  type=valueType />
         });
     <#break >
         <#case "MAPENTRY">
             <#local keyType = util.getFirstGenericParameterType(type)>
             <#local valueType = util.getSecondGenericParameterType(type)>
-            <#local n= varName>
-        var key : ${util.getNodeTsType(keyType)} =  ${varName}[0];
-        var val : ${util.getNodeTsType(valueType)} = ${varName}[1];
-            <@sizeText varName="key"  type=keyType/>
-            <@sizeText varName="val"  type=valueType/>
+            <#local n= var_name>
+        var key : ${util.getNodeTsType(keyType)} =  ${var_name}[0];
+        var val : ${util.getNodeTsType(valueType)} = ${var_name}[1];
+            <@sizeText var_name="key"  type=keyType/>
+            <@sizeText var_name="val"  type=valueType/>
     </#switch>
 </#macro>
 
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText varName type isNullable=false>
-    <#local isNullVariableName= "${varName}IsNull">
+<#macro setterText var_name type isNullable=false>
+    <#local isNullVariableName= "${var_name}IsNull">
     <#if isNullable>
-    clientMessage.appendBoolean(${varName} === null);
-    if(${varName} !== null){
-        <@setterTextInternal varName=varName type=type />
+    clientMessage.appendBoolean(${var_name} === null);
+    if(${var_name} !== null){
+        <@setterTextInternal var_name=var_name type=type />
     }
     <#else>
-        <@setterTextInternal varName=varName type=type />
+        <@setterTextInternal var_name=var_name type=type />
     </#if>
 </#macro>
 
 <#--SETTER MACRO -->
-<#macro setterTextInternal varName type >
+<#macro setterTextInternal var_name type >
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
-    clientMessage.append${util.capitalizeFirstLetter(util.capitalizeFirstLetter(util.getNodeType(type)?lower_case))}(${varName});
+    clientMessage.append${util.capitalizeFirstLetter(util.capitalizeFirstLetter(util.getNodeType(type)?lower_case))}(${var_name});
     </#if>
     <#if cat == "CUSTOM">
-    ${util.getTypeCodec(type)?split(".")?last}.encode(clientMessage, ${varName});
+    ${util.getTypeCodec(type)?split(".")?last}.encode(clientMessage, ${var_name});
     </#if>
     <#if cat == "COLLECTION">
-    clientMessage.appendInt32(${varName}.length);
+    clientMessage.appendInt32(${var_name}.length);
         <#local itemType= util.getGenericType(type)>
-        <#local itemTypeVar= varName + "Item">
+        <#local itemTypeVar= var_name + "Item">
 
-    ${varName}.forEach((${itemTypeVar} : any) => {
-        <@setterTextInternal varName=itemTypeVar type=itemType />
+    ${var_name}.forEach((${itemTypeVar} : any) => {
+        <@setterTextInternal var_name=itemTypeVar type=itemType />
     });
 
     </#if>
     <#if cat == "ARRAY">
-    clientMessage.appendInt32(${varName}.length);
+    clientMessage.appendInt32(${var_name}.length);
         <#local itemType= util.getArrayType(type)>
-        <#local itemTypeVar= varName + "Item">
+        <#local itemTypeVar= var_name + "Item">
 
-    ${varName}.forEach((${itemTypeVar} : any) => {
-        <@setterTextInternal varName=itemTypeVar type=itemType />
+    ${var_name}.forEach((${itemTypeVar} : any) => {
+        <@setterTextInternal var_name=itemTypeVar type=itemType />
     });
 
     </#if>
     <#if cat == "MAP">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-    clientMessage.appendInt32(${varName}.length);
-    ${varName}.forEach((entry : any) => {
-        <@setterTextInternal varName="entry.key"  type=keyType />
-        <@setterTextInternal varName="entry.val"  type=valueType />
+    clientMessage.appendInt32(${var_name}.length);
+    ${var_name}.forEach((entry : any) => {
+        <@setterTextInternal var_name="entry.key"  type=keyType />
+        <@setterTextInternal var_name="entry.val"  type=valueType />
     });
     </#if>
     <#if cat == "MAPENTRY">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-    var key : ${util.getNodeTsType(keyType)} = ${varName}[0];
-    var val : ${util.getNodeTsType(valueType)}  = ${varName}[1];
-        <@setterTextInternal varName="key"  type=keyType/>
-        <@setterTextInternal varName="val"  type=valueType/>
+    var key : ${util.getNodeTsType(keyType)} = ${var_name}[0];
+    var val : ${util.getNodeTsType(valueType)}  = ${var_name}[1];
+        <@setterTextInternal var_name="key"  type=keyType/>
+        <@setterTextInternal var_name="val"  type=valueType/>
     </#if>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText varName type isNullable=false isEvent=false isDefined=false >
+<#macro getterText var_name type isNullable=false isEvent=false isDefined=false >
     <#if isNullable>
 
     if(clientMessage.readBoolean() !== true){
-        <@getterTextInternal varName=varName varType=type isEvent=isEvent isDefined=isDefined />
+        <@getterTextInternal var_name=var_name varType=type isEvent=isEvent isDefined=isDefined />
     }
     <#else>
-        <@getterTextInternal varName=varName varType=type isEvent=isEvent isDefined=isDefined />
+        <@getterTextInternal var_name=var_name varType=type isEvent=isEvent isDefined=isDefined />
     </#if>
 </#macro>
 
-<#macro getterTextInternal varName varType isEvent isDefined=false isCollection=false>
+<#macro getterTextInternal var_name varType isEvent isDefined=false isCollection=false>
     <#local cat= util.getTypeCategory(varType)>
     <#local isDeserial= !(isEvent || isCollection)>
     <#switch cat>
         <#case "OTHER">
             <#switch varType>
                 <#case util.DATA_FULL_NAME>
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = <#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>;
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = <#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>;
                     <#break >
                 <#case "java.lang.Integer">
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = clientMessage.readInt32();
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readInt32();
                     <#break >
                 <#case "java.lang.Boolean">
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = clientMessage.readBoolean();
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readBoolean();
                     <#break >
                 <#case "java.lang.String">
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = clientMessage.readString();
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readString();
                     <#break >
                 <#case "java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>">
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = [<#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>, <#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>]
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = [<#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>, <#if isDeserial>toObjectFunction(</#if>clientMessage.readData()<#if isDeserial>)</#if>]
                     <#break >
                 <#default>
-                    <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = clientMessage.read${util.capitalizeFirstLetter(util.getNodeType(varType))}();
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.read${util.capitalizeFirstLetter(util.getNodeType(varType))}();
             </#switch>
             <#break >
         <#case "CUSTOM">
-            <#if !isEvent>parameters['${varName}']<#else>${varName}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(clientMessage, toObjectFunction);
+            <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(clientMessage, toObjectFunction);
             <#break >
         <#case "COLLECTION">
         <#case "ARRAY">
             <#local collectionType>java.util.ArrayList</#local>
             <#local itemVariableType= util.getGenericType(varType)>
-            <#local itemVariableName= "${varName}Item">
-            <#local sizeVariableName= "${varName}Size">
-            <#local indexVariableName= "${varName}Index">
+            <#local itemVariableName= "${var_name}Item">
+            <#local sizeVariableName= "${var_name}Size">
+            <#local indexVariableName= "${var_name}Index">
         var ${sizeVariableName} = clientMessage.readInt32();
             <#if !isDefined>
-            var ${varName} : any = [];
-            <#else>${varName} = [];
+            var ${var_name} : any = [];
+            <#else>${var_name} = [];
             </#if>
         for(var ${indexVariableName} = 0 ;  ${indexVariableName} < ${sizeVariableName} ; ${indexVariableName}++){
         var ${itemVariableName} : ${util.getNodeTsType(itemVariableType)};
-            <@getterTextInternal varName=itemVariableName varType=itemVariableType isEvent=true isCollection=true isDefined=true/>
-        ${varName}.push(${itemVariableName})
+            <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=true isCollection=true isDefined=true/>
+        ${var_name}.push(${itemVariableName})
         }
             <#if !(isEvent || isCollection)>
-            parameters['${varName}'] = ${varName};
+            parameters['${var_name}'] = ${var_name};
             </#if>
             <#break >
         <#case "MAP">
-            <#local sizeVariableName= "${varName}Size">
-            <#local indexVariableName= "${varName}Index">
+            <#local sizeVariableName= "${var_name}Size">
+            <#local indexVariableName= "${var_name}Index">
             <#local keyType = util.getFirstGenericParameterType(varType)>
             <#local valueType = util.getSecondGenericParameterType(varType)>
-            <#local keyVariableName= "${varName}Key">
-            <#local valVariableName= "${varName}Val">
+            <#local keyVariableName= "${var_name}Key">
+            <#local valVariableName= "${var_name}Val">
         var ${sizeVariableName} = clientMessage.readInt32();
-        var ${varName} :any = {};
+        var ${var_name} :any = {};
         for(var ${indexVariableName} = 0 ;  ${indexVariableName} < ${sizeVariableName} ; ${indexVariableName}++){
         var  ${keyVariableName} : any;
-            <@getterTextInternal varName=keyVariableName varType=keyType isEvent=true isDefined=false/>
-            <@getterTextInternal varName=valVariableName varType=valueType isEvent=true isDefined=false/>
-        ${varName}[${keyVariableName}] = ${valVariableName};
-            <#if !isEvent>parameters['${varName}'] = ${varName};</#if>
+            <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true isDefined=false/>
+            <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true isDefined=false/>
+        ${var_name}[${keyVariableName}] = ${valVariableName};
+            <#if !isEvent>parameters['${var_name}'] = ${var_name};</#if>
         }
         <#break >
         <#case "MAPENTRY">
-            <#local sizeVariableName= "${varName}Size">
-            <#local indexVariableName= "${varName}Index">
+            <#local sizeVariableName= "${var_name}Size">
+            <#local indexVariableName= "${var_name}Index">
             <#local keyType = util.getFirstGenericParameterType(varType)>
             <#local valueType = util.getSecondGenericParameterType(varType)>
-            <#local keyVariableName= "${varName}Key">
-            <#local valVariableName= "${varName}Val">
+            <#local keyVariableName= "${var_name}Key">
+            <#local valVariableName= "${var_name}Val">
         var ${keyVariableName}: ${util.getNodeTsType(keyType)};
         var ${valVariableName}: ${util.getNodeTsType(valType)};
-            <@getterTextInternal varName=keyVariableName isEvent=true varType=keyType />
-            <@getterTextInternal varName=valVariableName isEvent=true varType=valueType/>
-        ${varName} = [${keyVariableName}, ${valVariableName}];
+            <@getterTextInternal var_name=keyVariableName isEvent=true varType=keyType />
+            <@getterTextInternal var_name=valVariableName isEvent=true varType=valueType/>
+        ${var_name} = [${keyVariableName}, ${valVariableName}];
     </#switch>
 </#macro>
