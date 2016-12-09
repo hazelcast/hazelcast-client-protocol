@@ -73,7 +73,7 @@ namespace hazelcast {
                     clientMessage->setMessageType((uint16_t)${model.className}::RequestParameters::TYPE);
                     clientMessage->setRetryable(RETRYABLE);
                     <#list model.requestParams as p>
-                        <@setterText varName=p.name type=p.type isNullable=p.nullable/>
+                        <@setterText var_name=p.name type=p.type isNullable=p.nullable/>
                     </#list>
                     clientMessage->updateFrameLength();
                     return clientMessage;
@@ -83,7 +83,7 @@ namespace hazelcast {
                         <#if util.isPrimitive(param.type)>${util.getCppType(param.type)} ${param.name}<#else>const ${util.getCppType(param.type)} <#if param.nullable >*<#else>&</#if>${param.name}</#if><#if param_has_next>, </#if></#list>) {
                     int32_t dataSize = ClientMessage::HEADER_SIZE;
                     <#list model.requestParams as p>
-                        <@sizeText varName=p.name type=p.type isNullable=p.nullable/>
+                        <@sizeText var_name=p.name type=p.type isNullable=p.nullable/>
                     </#list>
                     return dataSize;
                 }
@@ -92,7 +92,7 @@ namespace hazelcast {
                     if (TYPE != clientMessage.getMessageType()) {
                         throw exception::UnexpectedMessageTypeException("${model.className}::ResponseParameters::decode", clientMessage.getMessageType(), TYPE);
                     }
-    <#if model.responseParams?has_content><#list model.responseParams as p><@getterText varName=p.name type=p.type isNullable=p.nullable/></#list></#if>
+    <#if model.responseParams?has_content><#list model.responseParams as p><@getterText var_name=p.name type=p.type isNullable=p.nullable/></#list></#if>
                 }
 
                 ${model.className}::ResponseParameters ${model.className}::ResponseParameters::decode(ClientMessage &clientMessage) {
@@ -121,7 +121,7 @@ namespace hazelcast {
                         case protocol::EVENT_${event.name?upper_case}:
                         {
                         <#list event.eventParams as p>
-                            <@eventGetterText varName=p.name type=p.type isNullable=p.nullable isEvent=true/>
+                            <@eventGetterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true/>
                         </#list>
                             handle${event.name?cap_first}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
                             break;
@@ -174,54 +174,54 @@ namespace hazelcast {
 
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText varName type isNullable=false>
+<#macro sizeText var_name type isNullable=false>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
             <#case "OTHER">
             <#case "CUSTOM">
-                    dataSize += ClientMessage::calculateDataSize(${varName});
+                    dataSize += ClientMessage::calculateDataSize(${var_name});
                 <#break >
             <#case "COLLECTION">
             <#local itemVariableType= util.getGenericType(type)>
-                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${varName});
+                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${var_name});
                 <#break >
             <#case "ARRAY">
                 <#local itemVariableType= util.getArrayType(type)>
-                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${varName});
+                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(itemVariableType)} >(${var_name});
                 <#break >
             <#case "MAP">
                 <#local keyType = util.getFirstGenericParameterType(type)>
                 <#local valueType = util.getSecondGenericParameterType(type)>
-                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(keyType)}, ${util.getCppType(valueType)} > (${varName});
+                    dataSize += ClientMessage::calculateDataSize<${util.getCppType(keyType)}, ${util.getCppType(valueType)} > (${var_name});
 </#switch>
 </#macro>
 
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText varName type isNullable=false>
+<#macro setterText var_name type isNullable=false>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
                 <#case "OTHER">
                 <#case "CUSTOM">
-                    clientMessage->set(${varName});
+                    clientMessage->set(${var_name});
                     <#break >
                 <#case "COLLECTION">
                 <#local itemVariableType= util.getGenericType(type)>
-                    clientMessage->setArray<${util.getCppType(itemVariableType)} >(${varName});
+                    clientMessage->setArray<${util.getCppType(itemVariableType)} >(${var_name});
                     <#break >
                 <#case "ARRAY">
                 <#local itemVariableType= util.getArrayType(type)>
-                    clientMessage->setArray<${util.getCppType(itemVariableType)} > (${varName});
+                    clientMessage->setArray<${util.getCppType(itemVariableType)} > (${var_name});
                     <#break >
                 <#case "MAP">
                     <#local keyType = util.getFirstGenericParameterType(type)>
                     <#local valueType = util.getSecondGenericParameterType(type)>
-                    clientMessage->setEntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >(${varName});
+                    clientMessage->setEntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >(${var_name});
                     <#break >
 </#switch>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText varName type isNullable=false isEvent=false>
+<#macro getterText var_name type isNullable=false isEvent=false>
 <#if isNullable>
     <#assign nullableStr = "Nullable">
 <#else>
@@ -232,26 +232,26 @@ namespace hazelcast {
 <#switch cat>
                 <#case "OTHER">
                 <#case "CUSTOM">
-                    ${varName} = clientMessage.get${nullableStr}<${util.getCppType(type)} >();
+                    ${var_name} = clientMessage.get${nullableStr}<${util.getCppType(type)} >();
                     <#break >
                 <#case "COLLECTION">
                 <#local itemVariableType= util.getGenericType(type)>
-                    ${varName} = clientMessage.get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                    ${var_name} = clientMessage.get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
                     <#break >
                 <#case "ARRAY">
                 <#local itemVariableType= util.getArrayType(type)>
-                    ${varName} = clientMessage.get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                    ${var_name} = clientMessage.get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
                     <#break >
                 <#case "MAP">
                     <#local keyType = util.getFirstGenericParameterType(type)>
                     <#local valueType = util.getSecondGenericParameterType(type)>
-                    ${varName} = clientMessage.get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
+                    ${var_name} = clientMessage.get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
                     <#break >
 </#switch>
 </#macro>
 
 <#--Event getter MACRO -->
-<#macro eventGetterText varName type isNullable=false isEvent=false>
+<#macro eventGetterText var_name type isNullable=false isEvent=false>
 <#if isNullable>
     <#assign nullableStr = "Nullable">
 <#else>
@@ -261,27 +261,27 @@ namespace hazelcast {
 <#switch cat>
                         <#case "OTHER">
                         <#case "CUSTOM">
-                            <#if !isNullable >${util.getCppType(type)} ${varName} = clientMessage->get${nullableStr}<${util.getCppType(type)} >();
-                            <#else>std::auto_ptr<${util.getCppType(type)} > ${varName} = clientMessage->get${nullableStr}<${util.getCppType(type)} >();
+                            <#if !isNullable >${util.getCppType(type)} ${var_name} = clientMessage->get${nullableStr}<${util.getCppType(type)} >();
+                            <#else>std::auto_ptr<${util.getCppType(type)} > ${var_name} = clientMessage->get${nullableStr}<${util.getCppType(type)} >();
                             </#if>
                             <#break >
                         <#case "COLLECTION">
                         <#local itemVariableType= util.getGenericType(type)>
-                            <#if !isNullable >${util.getCppType(type)} ${varName} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
-                            <#else>std::auto_ptr<${util.getCppType(type)} > ${varName} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                            <#if !isNullable >${util.getCppType(type)} ${var_name} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                            <#else>std::auto_ptr<${util.getCppType(type)} > ${var_name} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
                             </#if>
                             <#break >
                         <#case "ARRAY">
                         <#local itemVariableType= util.getArrayType(type)>
-                            <#if !isNullable >${util.getCppType(type)} ${varName} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
-                            <#else>std::auto_ptr<${util.getCppType(type)} > ${varName} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                            <#if !isNullable >${util.getCppType(type)} ${var_name} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
+                            <#else>std::auto_ptr<${util.getCppType(type)} > ${var_name} = clientMessage->get${nullableStr}Array<${util.getCppType(itemVariableType)} >();
                             </#if>
                             <#break >
                         <#case "MAP">
                             <#local keyType = util.getFirstGenericParameterType(type)>
                             <#local valueType = util.getSecondGenericParameterType(type)>
-                            <#if !isNullable >${util.getCppType(type)} ${varName} = clientMessage->get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
-                            <#else>std::auto_ptr<${util.getCppType(type)} > ${varName} = clientMessage->get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
+                            <#if !isNullable >${util.getCppType(type)} ${var_name} = clientMessage->get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
+                            <#else>std::auto_ptr<${util.getCppType(type)} > ${var_name} = clientMessage->get${nullableStr}EntryArray<${util.getCppType(keyType)}, ${util.getCppType(valueType)} >();
                             </#if>
                             <#break >
 </#switch>

@@ -26,7 +26,7 @@ namespace ${model.packageName}
             {
                 int dataSize = ClientMessage.HeaderSize;
                 <#list model.requestParams as p>
-                    <@sizeText varName=p.name type=p.type isNullable=p.nullable/>
+                    <@sizeText var_name=p.name type=p.type isNullable=p.nullable/>
                 </#list>
                 return dataSize;
             }
@@ -39,7 +39,7 @@ namespace ${model.packageName}
             clientMessage.SetMessageType((int)RequestType);
             clientMessage.SetRetryable(Retryable);
             <#list model.requestParams as p>
-                <@setterText varName=p.name type=p.type isNullable=p.nullable/>
+                <@setterText var_name=p.name type=p.type isNullable=p.nullable/>
             </#list>
             clientMessage.UpdateFrameLength();
             return clientMessage;
@@ -59,7 +59,7 @@ namespace ${model.packageName}
         {
             ResponseParameters parameters = new ResponseParameters();
             <#list model.responseParams as p>
-                <@getterText varName=p.name type=p.type isNullable=p.nullable/>
+                <@getterText var_name=p.name type=p.type isNullable=p.nullable/>
             </#list>
             return parameters;
         }
@@ -75,7 +75,7 @@ namespace ${model.packageName}
             <#list model.events as event>
                 if (messageType == EventMessageConst.Event${event.name?cap_first}) {
                 <#list event.eventParams as p>
-                    <@getterText varName=p.name type=p.type isNullable=p.nullable isEvent=true/>
+                    <@getterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true/>
                 </#list>
                     handle${event.name}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
                     return;
@@ -94,68 +94,68 @@ namespace ${model.packageName}
 }
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText varName type isNullable=false>
+<#macro sizeText var_name type isNullable=false>
 <#if isNullable>
                 dataSize += Bits.BooleanSizeInBytes;
-                if (${varName} != null)
+                if (${var_name} != null)
                 {
 </#if>
-                    <@sizeTextInternal varName=varName type=type/>
+                    <@sizeTextInternal var_name=var_name type=type/>
 <#if isNullable>
                 }
 </#if>
 </#macro>
 
 <#--SIZE MACRO -->
-<#macro sizeTextInternal varName type>
+<#macro sizeTextInternal var_name type>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
     <#case "OTHER">
         <#if util.isPrimitive(type)>
                 dataSize += Bits.${type?cap_first}SizeInBytes;
         <#else >
-                dataSize += ParameterUtil.CalculateDataSize(${varName});
+                dataSize += ParameterUtil.CalculateDataSize(${var_name});
         </#if>
         <#break >
     <#case "CUSTOM">
-                dataSize += ${util.getTypeCodec(type)?split(".")?last}.CalculateDataSize(${varName});
+                dataSize += ${util.getTypeCodec(type)?split(".")?last}.CalculateDataSize(${var_name});
         <#break >
     <#case "COLLECTION">
                 dataSize += Bits.IntSizeInBytes;
         <#local genericType= util.getGenericType(type)>
-        <#local n= varName>
-                foreach (var ${varName}_item in ${varName} )
+        <#local n= var_name>
+                foreach (var ${var_name}_item in ${var_name} )
                 {
-                    <@sizeText varName="${n}_item" type=genericType/>
+                    <@sizeText var_name="${n}_item" type=genericType/>
                 }
         <#break >
     <#case "ARRAY">
                 dataSize += Bits.IntSizeInBytes;
         <#local genericType= util.getArrayType(type)>
-        <#local n= varName>
-                foreach (var ${varName}_item in ${varName} ) {
-                    <@sizeText varName="${n}_item"  type=genericType/>
+        <#local n= var_name>
+                foreach (var ${var_name}_item in ${var_name} ) {
+                    <@sizeText var_name="${n}_item"  type=genericType/>
                 }
         <#break >
     <#case "MAP">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-        <#local n= varName>
-                foreach (var entry in ${varName}) {
+        <#local n= var_name>
+                foreach (var entry in ${var_name}) {
                     var key = entry.Key;
                     var val = entry.Value;
-                    <@sizeText varName="key"  type=keyType/>
-                    <@sizeText varName="val"  type=valueType/>
+                    <@sizeText var_name="key"  type=keyType/>
+                    <@sizeText var_name="val"  type=valueType/>
                 }
 </#switch>
 </#macro>
 
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText varName type isNullable=false>
-<#local isNullVariableName= "${varName}_isNull">
+<#macro setterText var_name type isNullable=false>
+<#local isNullVariableName= "${var_name}_isNull">
 <#if isNullable>
             bool ${isNullVariableName};
-            if (${varName} == null)
+            if (${var_name} == null)
             {
                 ${isNullVariableName} = true;
                 clientMessage.Set(${isNullVariableName});
@@ -165,140 +165,140 @@ namespace ${model.packageName}
                 ${isNullVariableName}= false;
                 clientMessage.Set(${isNullVariableName});
 </#if>
-                <@setterTextInternal varName=varName type=type/>
+                <@setterTextInternal var_name=var_name type=type/>
 <#if isNullable>
             }
 </#if>
 </#macro>
 
 <#--SETTER MACRO -->
-<#macro setterTextInternal varName type>
+<#macro setterTextInternal var_name type>
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
-            clientMessage.Set(${varName});
+            clientMessage.Set(${var_name});
     </#if>
     <#if cat == "CUSTOM">
-            ${util.getTypeCodec(type)?split(".")?last}.Encode(${varName}, clientMessage);
+            ${util.getTypeCodec(type)?split(".")?last}.Encode(${var_name}, clientMessage);
     </#if>
     <#if cat == "COLLECTION">
-            clientMessage.Set(${varName}.Count);
+            clientMessage.Set(${var_name}.Count);
             <#local itemType= util.getGenericType(type)>
-            <#local itemTypeVar= varName + "_item">
-            foreach (var ${itemTypeVar} in ${varName}) {
-                <@setterTextInternal varName=itemTypeVar type=itemType/>
+            <#local itemTypeVar= var_name + "_item">
+            foreach (var ${itemTypeVar} in ${var_name}) {
+                <@setterTextInternal var_name=itemTypeVar type=itemType/>
             }
     </#if>
     <#if cat == "ARRAY">
-            clientMessage.Set(${varName}.length);
+            clientMessage.Set(${var_name}.length);
             <#local itemType= util.getArrayType(type)>
-            <#local itemTypeVar= varName + "_item">
-            foreach (var ${itemTypeVar} in ${varName}) {
-                <@setterTextInternal varName=itemTypeVar  type=itemType/>
+            <#local itemTypeVar= var_name + "_item">
+            foreach (var ${itemTypeVar} in ${var_name}) {
+                <@setterTextInternal var_name=itemTypeVar  type=itemType/>
             }
     </#if>
     <#if cat == "MAP">
             <#local keyType = util.getFirstGenericParameterType(type)>
             <#local valueType = util.getSecondGenericParameterType(type)>
-            clientMessage.Set(${varName}.Count);
-            foreach (var entry in ${varName}) {
+            clientMessage.Set(${var_name}.Count);
+            foreach (var entry in ${var_name}) {
                 var key = entry.Key;
                 var val = entry.Value;
-            <@setterTextInternal varName="key"  type=keyType/>
-            <@setterTextInternal varName="val"  type=valueType/>
+            <@setterTextInternal var_name="key"  type=keyType/>
+            <@setterTextInternal var_name="val"  type=valueType/>
             }
     </#if>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText varName type isNullable=false isEvent=false>
-            ${util.getCSharpType(type)} ${varName} <#if !util.isPrimitive(type)>= null</#if>;
-<#local isNullVariableName= "${varName}_isNull">
+<#macro getterText var_name type isNullable=false isEvent=false>
+            ${util.getCSharpType(type)} ${var_name} <#if !util.isPrimitive(type)>= null</#if>;
+<#local isNullVariableName= "${var_name}_isNull">
 <#if isNullable>
             bool ${isNullVariableName} = clientMessage.GetBoolean();
             if (!${isNullVariableName})
             {
 </#if>
-                <@getterTextInternal varName=varName varType=type/>
+                <@getterTextInternal var_name=var_name varType=type/>
 <#if !isEvent>
-            parameters.${varName} = ${varName};
+            parameters.${var_name} = ${var_name};
 </#if>
 <#if isNullable>
             }
 </#if>
 </#macro>
 
-<#macro getterTextInternal varName varType>
+<#macro getterTextInternal var_name varType>
 <#local cat= util.getTypeCategory(varType)>
 <#switch cat>
     <#case "OTHER">
         <#switch varType>
             <#case util.DATA_FULL_NAME>
-            ${varName} = clientMessage.GetData();
+            ${var_name} = clientMessage.GetData();
                 <#break >
             <#case "java.lang.Integer">
-            ${varName} = clientMessage.GetInt();
+            ${var_name} = clientMessage.GetInt();
                 <#break >
             <#case "java.lang.Boolean">
-            ${varName} = clientMessage.GetBoolean();
+            ${var_name} = clientMessage.GetBoolean();
                 <#break >
             <#case "java.lang.String">
-            ${varName} = clientMessage.GetStringUtf8();
+            ${var_name} = clientMessage.GetStringUtf8();
                 <#break >
             <#case "java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>">
-            ${varName} = clientMessage.GetMapEntry();
+            ${var_name} = clientMessage.GetMapEntry();
                 <#break >
             <#default>
-            ${varName} = clientMessage.Get${util.capitalizeFirstLetter(varType)}();
+            ${var_name} = clientMessage.Get${util.capitalizeFirstLetter(varType)}();
         </#switch>
         <#break >
     <#case "CUSTOM">
-            ${varName} = ${util.getTypeCodec(varType)?split(".")?last}.Decode(clientMessage);
+            ${var_name} = ${util.getTypeCodec(varType)?split(".")?last}.Decode(clientMessage);
         <#break >
     <#case "COLLECTION">
     <#local collectionType><#if varType?starts_with("java.util.List")>List<#else>HashSet</#if></#local>
     <#local itemVariableType= util.getGenericType(varType)>
     <#local convertedItemType= util.getCSharpType(itemVariableType)>
-    <#local itemVariableName= "${varName}_item">
-    <#local sizeVariableName= "${varName}_size">
-    <#local indexVariableName= "${varName}_index">
+    <#local itemVariableName= "${var_name}_item">
+    <#local sizeVariableName= "${var_name}_size">
+    <#local indexVariableName= "${var_name}_index">
             int ${sizeVariableName} = clientMessage.GetInt();
-            ${varName} = new ${collectionType}<${convertedItemType}>(${itemVariableType.startsWith("List")?then(sizeVariableName,"")});
+            ${var_name} = new ${collectionType}<${convertedItemType}>(${itemVariableType.startsWith("List")?then(sizeVariableName,"")});
             for (int ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++) {
                 ${convertedItemType} ${itemVariableName};
-                <@getterTextInternal varName=itemVariableName varType=itemVariableType/>
-                ${varName}.Add(${itemVariableName});
+                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                ${var_name}.Add(${itemVariableName});
             }
         <#break >
     <#case "ARRAY">
     <#local itemVariableType= util.getArrayType(varType)>
-    <#local itemVariableName= "${varName}_item">
-    <#local sizeVariableName= "${varName}_size">
-    <#local indexVariableName= "${varName}_index">
+    <#local itemVariableName= "${var_name}_item">
+    <#local sizeVariableName= "${var_name}_size">
+    <#local indexVariableName= "${var_name}_index">
             int ${sizeVariableName} = clientMessage.getInt();
-            ${varName} = new ${itemVariableType}[${sizeVariableName}];
+            ${var_name} = new ${itemVariableType}[${sizeVariableName}];
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
                 ${itemVariableType} ${itemVariableName};
-                <@getterTextInternal varName=itemVariableName varType=itemVariableType/>
-                ${varName}[${indexVariableName}] = ${itemVariableName};
+                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                ${var_name}[${indexVariableName}] = ${itemVariableName};
             }
         <#break >
     <#case "MAP">
-        <#local sizeVariableName= "${varName}_size">
-        <#local indexVariableName= "${varName}_index">
+        <#local sizeVariableName= "${var_name}_size">
+        <#local indexVariableName= "${var_name}_index">
         <#local keyType = util.getFirstGenericParameterType(varType)>
         <#local keyTypeCs = util.getCSharpType(keyType)>
         <#local valueType = util.getSecondGenericParameterType(varType)>
         <#local valueTypeCs = util.getCSharpType(valueType)>
-        <#local keyVariableName= "${varName}_key">
-        <#local valVariableName= "${varName}_val">
+        <#local keyVariableName= "${var_name}_key">
+        <#local valVariableName= "${var_name}_val">
         int ${sizeVariableName} = clientMessage.GetInt();
-        ${varName} = new Dictionary<${keyTypeCs},${valueTypeCs}>(${sizeVariableName});
+        ${var_name} = new Dictionary<${keyTypeCs},${valueTypeCs}>(${sizeVariableName});
         for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
             ${keyTypeCs} ${keyVariableName};
             ${valueTypeCs} ${valVariableName};
-            <@getterTextInternal varName=keyVariableName varType=keyType/>
-            <@getterTextInternal varName=valVariableName varType=valueType/>
-            ${varName}.Add(${keyVariableName}, ${valVariableName});
+            <@getterTextInternal var_name=keyVariableName varType=keyType/>
+            <@getterTextInternal var_name=valVariableName varType=valueType/>
+            ${var_name}.Add(${keyVariableName}, ${valVariableName});
         }
 </#switch>
 </#macro>

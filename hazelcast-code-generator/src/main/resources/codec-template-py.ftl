@@ -17,7 +17,7 @@ def calculate_size(<#list model.requestParams as param>${util.convertToSnakeCase
     """ Calculates the request payload size"""
     data_size = 0
 <#list model.requestParams as p>
-    <@sizeText varName=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable/>
+    <@sizeText var_name=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable/>
 </#list>
     return data_size
 
@@ -28,7 +28,7 @@ def encode_request(<#list model.requestParams as param>${util.convertToSnakeCase
     client_message.set_message_type(REQUEST_TYPE)
     client_message.set_retryable(RETRYABLE)
 <#list model.requestParams as p>
-<@setterText varName=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable/>
+<@setterText var_name=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable/>
 </#list>
     client_message.update_frame_length()
     return client_message
@@ -40,7 +40,7 @@ def decode_response(client_message, to_object=None):
     """ Decode response from client message"""
     parameters = dict(<#list model.responseParams as p>${util.convertToSnakeCase(p.name)}=None<#if p_has_next>, </#if></#list>)
 <#list model.responseParams as p>
-<@getterText varName=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable indent=1/>
+<@getterText var_name=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable indent=1/>
 </#list>
     return parameters
 <#else>
@@ -56,7 +56,7 @@ def handle(client_message, <#list model.events as event>handle_event_${event.nam
     <#list model.events as event>
     if message_type == EVENT_${event.name?upper_case} and handle_event_${event.name?lower_case} is not None:
         <#list event.eventParams as p>
-<@getterText varName=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable isEvent=true indent=2/>
+<@getterText var_name=util.convertToSnakeCase(p.name) type=p.type isNullable=p.nullable isEvent=true indent=2/>
         </#list>
         handle_event_${event.name?lower_case}(<#list event.eventParams as param>${util.convertToSnakeCase(param.name)}=${util.convertToSnakeCase(param.name)}<#if param_has_next>, </#if></#list>)
     </#list>
@@ -64,13 +64,13 @@ def handle(client_message, <#list model.events as event>handle_event_${event.nam
 
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText varName type isNullable=false>
+<#macro sizeText var_name type isNullable=false>
 <#if isNullable>
     data_size += BOOLEAN_SIZE_IN_BYTES
-    if ${varName} is not None:
-<@sizeTextInternal varName=varName type=type indent=2/>
+    if ${var_name} is not None:
+<@sizeTextInternal var_name=var_name type=type indent=2/>
 <#else>
-<@sizeTextInternal varName=varName type=type indent=1/>
+<@sizeTextInternal var_name=var_name type=type indent=1/>
 </#if>
 </#macro>
 
@@ -84,156 +84,156 @@ def handle(client_message, <#list model.events as event>handle_event_${event.nam
 </#macro>
 
 <#--SIZE MACRO -->
-<#macro sizeTextInternal varName type indent>
+<#macro sizeTextInternal var_name type indent>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
     <#case "OTHER">
         <#if util.isPrimitive(type)>
 ${""?left_pad(indent * 4)}data_size += ${type?upper_case}_SIZE_IN_BYTES
         <#else >
-${""?left_pad(indent * 4)}data_size += calculate_size_${util.getPythonType(type)?lower_case}(${varName})
+${""?left_pad(indent * 4)}data_size += calculate_size_${util.getPythonType(type)?lower_case}(${var_name})
         </#if>
         <#break >
     <#case "CUSTOM">
-${""?left_pad(indent * 4)}data_size += calculate_size_${util.getPythonType(type)?lower_case}(${varName})
+${""?left_pad(indent * 4)}data_size += calculate_size_${util.getPythonType(type)?lower_case}(${var_name})
         <#break >
     <#case "COLLECTION">
 ${""?left_pad(indent * 4)}data_size += INT_SIZE_IN_BYTES
         <#local genericType= util.getGenericType(type)>
-        <#local n= varName>
-${""?left_pad(indent * 4)}for ${varName}_item in ${varName}:
-        <@sizeTextInternal varName="${n}_item"  type=genericType indent=(indent + 1)/>
+        <#local n= var_name>
+${""?left_pad(indent * 4)}for ${var_name}_item in ${var_name}:
+        <@sizeTextInternal var_name="${n}_item"  type=genericType indent=(indent + 1)/>
         <#break >
     <#case "ARRAY">
 ${""?left_pad(indent * 4)}data_size += INT_SIZE_IN_BYTES
         <#local genericType= util.getArrayType(type)>
-        <#local n= varName>
-${""?left_pad(indent * 4)}for ${varName}_item in ${varName}:
-        <@sizeTextInternal varName="${n}_item"  type=genericType indent=(indent + 1)/>
+        <#local n= var_name>
+${""?left_pad(indent * 4)}for ${var_name}_item in ${var_name}:
+        <@sizeTextInternal var_name="${n}_item"  type=genericType indent=(indent + 1)/>
         <#break >
     <#case "MAP">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-        <#local n= varName>
-${""?left_pad(indent * 4)}for key, val in ${varName}.iteritems():
-        <@sizeTextInternal varName="key"  type=keyType indent=(indent + 1)/>
-        <@sizeTextInternal varName="val"  type=valueType indent=(indent + 1)/>
+        <#local n= var_name>
+${""?left_pad(indent * 4)}for key, val in ${var_name}.iteritems():
+        <@sizeTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
+        <@sizeTextInternal var_name="val"  type=valueType indent=(indent + 1)/>
 </#switch>
 </#macro>
 
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText varName type isNullable=false>
-<#local isNullVariableName= "${varName}_is_null">
+<#macro setterText var_name type isNullable=false>
+<#local isNullVariableName= "${var_name}_is_null">
 <#if isNullable>
-    client_message.append_bool(${varName} is None)
-    if ${varName} is not None:
-<@setterTextInternal varName=varName type=type indent=2/>
+    client_message.append_bool(${var_name} is None)
+    if ${var_name} is not None:
+<@setterTextInternal var_name=var_name type=type indent=2/>
 <#else>
-<@setterTextInternal varName=varName type=type indent=1/>
+<@setterTextInternal var_name=var_name type=type indent=1/>
 </#if>
 </#macro>
 
 <#--SETTER MACRO -->
-<#macro setterTextInternal varName type indent>
+<#macro setterTextInternal var_name type indent>
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
-${""?left_pad(indent * 4)}client_message.append_${util.getPythonType(type)?lower_case}(${varName})
+${""?left_pad(indent * 4)}client_message.append_${util.getPythonType(type)?lower_case}(${var_name})
     </#if>
     <#if cat == "CUSTOM">
-${""?left_pad(indent * 4)}${util.getTypeCodec(type)?split(".")?last}.encode(client_message, ${varName})
+${""?left_pad(indent * 4)}${util.getTypeCodec(type)?split(".")?last}.encode(client_message, ${var_name})
     </#if>
     <#if cat == "COLLECTION">
-${""?left_pad(indent * 4)}client_message.append_int(len(${varName}))
+${""?left_pad(indent * 4)}client_message.append_int(len(${var_name}))
         <#local itemType= util.getGenericType(type)>
-        <#local itemTypeVar= varName + "_item">
-${""?left_pad(indent * 4)}for ${itemTypeVar} in ${varName}:
-    <@setterTextInternal varName=itemTypeVar type=itemType indent=(indent + 1)/>
+        <#local itemTypeVar= var_name + "_item">
+${""?left_pad(indent * 4)}for ${itemTypeVar} in ${var_name}:
+    <@setterTextInternal var_name=itemTypeVar type=itemType indent=(indent + 1)/>
     </#if>
     <#if cat == "ARRAY">
-${""?left_pad(indent * 4)}client_message.append_int(len(${varName}))
+${""?left_pad(indent * 4)}client_message.append_int(len(${var_name}))
         <#local itemType= util.getArrayType(type)>
-        <#local itemTypeVar= varName + "_item">
-${""?left_pad(indent * 4)}for ${itemTypeVar} in ${varName}:
-    <@setterTextInternal varName=itemTypeVar  type=itemType indent=(indent + 1)/>
+        <#local itemTypeVar= var_name + "_item">
+${""?left_pad(indent * 4)}for ${itemTypeVar} in ${var_name}:
+    <@setterTextInternal var_name=itemTypeVar  type=itemType indent=(indent + 1)/>
     </#if>
     <#if cat == "MAP">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-${""?left_pad(indent * 4)}client_message.append_int(len(${varName}))
-${""?left_pad(indent * 4)}for key, value in ${varName}.iteritems():
-    <@setterTextInternal varName="key"  type=keyType indent=(indent + 1)/>
-    <@setterTextInternal varName="value"  type=valueType indent=(indent + 1)/>
+${""?left_pad(indent * 4)}client_message.append_int(len(${var_name}))
+${""?left_pad(indent * 4)}for key, value in ${var_name}.iteritems():
+    <@setterTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
+    <@setterTextInternal var_name="value"  type=valueType indent=(indent + 1)/>
     </#if>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText varName type isNullable=false isEvent=false indent=1>
+<#macro getterText var_name type isNullable=false isEvent=false indent=1>
 <#if isNullable>
-${""?left_pad(indent * 4)}${varName}=None
+${""?left_pad(indent * 4)}${var_name}=None
 ${""?left_pad(indent * 4)}if not client_message.read_bool():
-<@getterTextInternal varName=varName varType=type isEvent=isEvent indent=indent +1/>
+<@getterTextInternal var_name=var_name varType=type isEvent=isEvent indent=indent +1/>
 <#else>
-<@getterTextInternal varName=varName varType=type isEvent=isEvent indent= indent/>
+<@getterTextInternal var_name=var_name varType=type isEvent=isEvent indent= indent/>
 </#if>
 </#macro>
 
-<#macro getterTextInternal varName varType indent isEvent=false isCollection=false>
+<#macro getterTextInternal var_name varType indent isEvent=false isCollection=false>
 <#local cat= util.getTypeCategory(varType)>
 <#local isDeserial= !(isEvent || isCollection)>
 <#switch cat>
     <#case "OTHER">
         <#switch varType>
             <#case util.DATA_FULL_NAME>
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = <#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = <#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>
                 <#break >
             <#case "java.lang.Integer">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = client_message.read_int()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = client_message.read_int()
                 <#break >
             <#case "java.lang.Boolean">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = client_message.read_bool()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = client_message.read_bool()
                 <#break >
             <#case "java.lang.String">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = client_message.read_str()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = client_message.read_str()
                 <#break >
             <#case "java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = (<#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>, <#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>)
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = (<#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>, <#if isDeserial>to_object(</#if>client_message.read_data()<#if isDeserial>)</#if>)
                 <#break >
             <#default>
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = client_message.read_${util.getPythonType(varType)}()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = client_message.read_${util.getPythonType(varType)}()
         </#switch>
         <#break >
     <#case "CUSTOM">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${varName}']<#else>${varName}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(client_message, to_object)
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name}']<#else>${var_name}</#if> = ${util.getTypeCodec(varType)?split(".")?last}.decode(client_message, to_object)
         <#break >
     <#case "COLLECTION">
     <#case "ARRAY">
     <#local collectionType>java.util.ArrayList</#local>
     <#local itemVariableType= util.getGenericType(varType)>
-    <#local itemVariableName= "${varName}_item">
-    <#local sizeVariableName= "${varName}_size">
-    <#local indexVariableName= "${varName}_index">
+    <#local itemVariableName= "${var_name}_item">
+    <#local sizeVariableName= "${var_name}_size">
+    <#local indexVariableName= "${var_name}_index">
 ${""?left_pad(indent * 4)}${sizeVariableName} = client_message.read_int()
-${""?left_pad(indent * 4)}${varName} = []
+${""?left_pad(indent * 4)}${var_name} = []
 ${""?left_pad(indent * 4)}for ${indexVariableName} in xrange(0, ${sizeVariableName}):
-                            <@getterTextInternal varName=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
-${""?left_pad(indent * 4)}    ${varName}.append(${itemVariableName})
+                            <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
+${""?left_pad(indent * 4)}    ${var_name}.append(${itemVariableName})
 <#if !(isEvent || isCollection)>
-${""?left_pad(indent * 4)}parameters['${varName}'] = ImmutableLazyDataList(${varName}, to_object)
+${""?left_pad(indent * 4)}parameters['${var_name}'] = ImmutableLazyDataList(${var_name}, to_object)
 </#if>
         <#break >
     <#case "MAP">
-        <#local sizeVariableName= "${varName}_size">
-        <#local indexVariableName= "${varName}_index">
+        <#local sizeVariableName= "${var_name}_size">
+        <#local indexVariableName= "${var_name}_index">
         <#local keyType = util.getFirstGenericParameterType(varType)>
         <#local valueType = util.getSecondGenericParameterType(varType)>
-        <#local keyVariableName= "${varName}_key">
-        <#local valVariableName= "${varName}_val">
+        <#local keyVariableName= "${var_name}_key">
+        <#local valVariableName= "${var_name}_val">
 ${""?left_pad(indent * 4)}${sizeVariableName} = client_message.read_int()
-${""?left_pad(indent * 4)}${varName} = {}
+${""?left_pad(indent * 4)}${var_name} = {}
 ${""?left_pad(indent * 4)}for ${indexVariableName} in xrange(0,${sizeVariableName}):
-            <@getterTextInternal varName=keyVariableName varType=keyType isEvent=true indent=(indent +1)/>
-            <@getterTextInternal varName=valVariableName varType=valueType isEvent=true indent=(indent +1)/>
-${""?left_pad(indent * 4)}    ${varName}[${keyVariableName}] = ${valVariableName}
-${""?left_pad(indent * 4)}<#if !isEvent>parameters['${varName}'] = ${varName}</#if>
+            <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=(indent +1)/>
+            <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=(indent +1)/>
+${""?left_pad(indent * 4)}    ${var_name}[${keyVariableName}] = ${valVariableName}
+${""?left_pad(indent * 4)}<#if !isEvent>parameters['${var_name}'] = ${var_name}</#if>
 </#switch>
 </#macro>
