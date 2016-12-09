@@ -57,7 +57,7 @@ public final class ${model.className} {
             try {
             <@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
             } catch (IndexOutOfBoundsException e) {
-                if (parameters.clientType == "CSP") {
+                if ("CSP".equals(parameters.clientType)) {
                     // suppress this error for older csharp client since they had a bug which was fixed later (writeByte related)
                     return parameters;
                 } else {
