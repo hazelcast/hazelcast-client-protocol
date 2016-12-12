@@ -170,7 +170,7 @@ public interface EventResponseTemplate {
      */
     @EventResponse(EventMessageConst.EVENT_CACHEINVALIDATION)
     void CacheInvalidation(String name, @Nullable Data key, @Nullable String sourceUuid,
-                           @Since("1.4") UUID partitionUuid, @Since("1.4") long sequence);
+                           @Since("1.4") @Nullable UUID partitionUuid, @Since("1.4") long sequence);
 
     /**
      * @param name           Name of the cache.
@@ -190,8 +190,8 @@ public interface EventResponseTemplate {
      * @param sequence      sequence number of invalidation event
      */
     @EventResponse(EventMessageConst.EVENT_IMAPINVALIDATION)
-    void IMapInvalidation(@Nullable Data key, @Since("1.4") String sourceUuid,
-                          @Since("1.4") UUID partitionUuid, @Since("1.4") long sequence);
+    void IMapInvalidation(@Nullable Data key, @Since("1.4") @Nullable String sourceUuid,
+                          @Since("1.4") @Nullable UUID partitionUuid, @Since("1.4") long sequence);
 
     /**
      * @param keys           The keys for the entries in batch invalidation.
