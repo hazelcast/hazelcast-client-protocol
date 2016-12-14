@@ -174,8 +174,7 @@ public interface ResponseTemplate {
 
     @Since("1.4")
     @Response(ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
-    void ScheduledTaskStatistics(long createdAt, long firstRunStartNanos, long lastIdleTimeNanos,
-                                 long lastRunEndNanos, long lastRunStartNanos, long totalIdleTimeNanos,
+    void ScheduledTaskStatistics(long lastIdleTimeNanos, long totalIdleTimeNanos,
                                  long totalRuns, long totalRunTimeNanos);
 
     @Since("1.4")
