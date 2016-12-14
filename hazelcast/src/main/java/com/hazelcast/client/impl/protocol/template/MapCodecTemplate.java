@@ -23,6 +23,7 @@ import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
+
 import java.util.List;
 import java.util.Map;
 
@@ -232,10 +233,10 @@ public interface MapCodecTemplate {
      * Scope of the lock is this map only. Acquired lock is only for the key in this map. Locks are re-entrant,
      * so if the key is locked N times then it should be unlocked N times before another thread can acquire it.
      *
-     * @param name     Name of the map.
-     * @param key      Key for the map entry.
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param name        Name of the map.
+     * @param key         Key for the map entry.
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param ttl         The duration in milliseconds after which this entry shall be deleted. O means infinite.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
@@ -247,11 +248,11 @@ public interface MapCodecTemplate {
      * purposes and lies dormant until one of two things happens the lock is acquired by the current thread, or
      * the specified waiting time elapses.
      *
-     * @param name     Name of the map.
-     * @param key      Key for the map entry.
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-     * @param lease    time in milliseconds to wait before releasing the lock.
-     * @param timeout  maximum time to wait for getting the lock.
+     * @param name        Name of the map.
+     * @param key         Key for the map entry.
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param lease       time in milliseconds to wait before releasing the lock.
+     * @param timeout     maximum time to wait for getting the lock.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return Returns true if successful, otherwise returns false
      */
@@ -274,9 +275,9 @@ public interface MapCodecTemplate {
      * then the lock is released.  If the current thread is not the holder of this lock,
      * then ILLEGAL_MONITOR_STATE is thrown.
      *
-     * @param name     name of map
-     * @param key      Key for the map entry to unlock
-     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param name        name of map
+     * @param key         Key for the map entry to unlock
+     * @param threadId    The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 22, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
@@ -684,8 +685,8 @@ public interface MapCodecTemplate {
      * Releases the lock for the specified key regardless of the lock owner.It always successfully unlocks the key,
      * never blocks,and returns immediately.
      *
-     * @param name name of map
-     * @param key  the key of the map entry.
+     * @param name        name of map
+     * @param key         the key of the map entry.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
     @Request(id = 55, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
@@ -753,7 +754,7 @@ public interface MapCodecTemplate {
     /**
      * Applies the aggregation logic on all map entries and returns the result
      *
-     * @param name        Name of the map.
+     * @param name       Name of the map.
      * @param aggregator aggregator to aggregate the entries with
      * @return the aggregation result
      */
@@ -764,7 +765,7 @@ public interface MapCodecTemplate {
     /**
      * Applies the aggregation logic on map entries filtered with the Predicate and returns the result
      *
-     * @param name        Name of the map.
+     * @param name       Name of the map.
      * @param aggregator aggregator to aggregate the entries with
      * @param predicate  predicate to filter the entries with
      * @return the aggregation result
@@ -776,7 +777,7 @@ public interface MapCodecTemplate {
     /**
      * Applies the projection logic on all map entries and returns the result
      *
-     * @param name        Name of the map.
+     * @param name       Name of the map.
      * @param projection projection to transform the entries with. May return null.
      * @return the resulted collection upon transformation to the type of the projection
      */
@@ -787,7 +788,7 @@ public interface MapCodecTemplate {
     /**
      * Applies the projection logic on map entries filtered with the Predicate and returns the result
      *
-     * @param name        Name of the map.
+     * @param name       Name of the map.
      * @param projection projection to transform the entries with. May return null.
      * @param predicate  predicate to filter the entries with
      * @return the resulted collection upon transformation to the type of the projection
@@ -796,20 +797,22 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object projectWithPredicate(String name, Data projection, Data predicate);
 
-    @Request(id = 66, retryable = false, response = ResponseMessageConst.STRING,
-            event = {EventMessageConst.EVENT_IMAPINVALIDATION, EventMessageConst.EVENT_IMAPBATCHINVALIDATION})
-    @Since("1.4")
-    Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
-
     /**
+     * Fetches invalidation metadata from partitions of map.
+     *
      * @param names names of the maps
      * @return metadata
      */
-    @Request(id = 67, retryable = false, response = ResponseMessageConst.DATA)
+    @Request(id = 66, retryable = false, response = ResponseMessageConst.DATA)
     @Since("1.4")
     Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
 
-    @Request(id = 68, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    /**
+     * Assigns a new UUID to each partitions or gets existing ones.
+     *
+     * @return assigned uuids list
+     */
+    @Request(id = 67, retryable = true, response = ResponseMessageConst.LIST_DATA)
     @Since("1.4")
     Object assignAndGetUuids();
 
