@@ -3,6 +3,7 @@ import ClientMessage = require('../ClientMessage');
 import {BitsUtil} from '../BitsUtil';
 import Address = require('../Address');
 import {AddressCodec} from './AddressCodec';
+import {UUIDCodec} from './UUIDCodec';
 import {MemberCodec} from './MemberCodec';
 import {Data} from '../serialization/Data';
 import {EntryViewCodec} from './EntryViewCodec';
@@ -62,9 +63,17 @@ static handle(clientMessage : ClientMessage, <#list model.events as event>handle
 var messageType = clientMessage.getMessageType();
     <#list model.events as event>
     if ( messageType === BitsUtil.EVENT_${event.name?upper_case} && handleEvent${util.capitalizeFirstLetter(event.name?lower_case)} !== null) {
+        var messageFinished = false;
         <#list event.eventParams as p>
-        var ${util.convertToNodeType(p.name)} : ${util.getNodeTsType(p.type)};
+            var ${util.convertToNodeType(p.name)} : ${util.getNodeTsType(p.type)} = undefined;
+        <#if p.versionChanged >
+            if (!messageFinished) {
+                messageFinished = clientMessage.isComplete();
+            }
+        </#if>
+            if (!messageFinished) {
             <@getterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable isEvent=true isDefined=true />
+        }
         </#list>
     handleEvent${util.capitalizeFirstLetter(util.convertToNodeType(event.name?lower_case))}(<#list event.eventParams as param>${util.convertToNodeType(param.name)}<#if param_has_next>, </#if></#list>);
     }
@@ -230,6 +239,9 @@ var messageType = clientMessage.getMessageType();
                     <#break >
                 <#case "java.lang.Integer">
                     <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readInt32();
+                    <#break >
+                <#case "java.lang.Long">
+                    <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readLong();
                     <#break >
                 <#case "java.lang.Boolean">
                     <#if !isEvent>parameters['${var_name}']<#else>${var_name}</#if> = clientMessage.readBoolean();
