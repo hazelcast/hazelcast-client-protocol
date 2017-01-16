@@ -52,8 +52,8 @@
     </modules>
 
     <properties>
-        <hazelcast.git.repo>ahmetmircik</hazelcast.git.repo>
-        <hazelcast.git.branch>fix/3.8/makeRemoveAllClientProtocolFriendly</hazelcast.git.branch>
+        <hazelcast.git.repo>vbekiaris</hazelcast.git.repo>
+        <hazelcast.git.branch>fixes/3.8/rename-enterprisemap-to-continuousquery</hazelcast.git.branch>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 

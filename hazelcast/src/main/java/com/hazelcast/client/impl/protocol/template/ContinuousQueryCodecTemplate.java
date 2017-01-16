@@ -22,8 +22,8 @@ import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.nio.serialization.Data;
 
-@GenerateCodec(id = TemplateConstants.ENTERPRISE_MAP_TEMPLATE_ID, name = "EnterpriseMap", ns = "Hazelcast.Client.Protocol.Codec")
-public interface EnterpriseMapCodecTemplate {
+@GenerateCodec(id = TemplateConstants.CONTINUOUS_QUERY_TEMPLATE_ID, name = "ContinuousQuery", ns = "Hazelcast.Client.Protocol.Codec")
+public interface ContinuousQueryCodecTemplate {
 
     /**
      * @param mapName      Name of the map.
