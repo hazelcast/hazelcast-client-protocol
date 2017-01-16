@@ -816,4 +816,15 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object assignAndGetUuids();
 
+
+    /**
+     * Removes all entries which match with the supplied predicate
+     *
+     * @param name      map name.
+     * @param predicate used to select entries to be removed from map.
+     */
+    @Request(id = 68, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.4")
+    void removeAll(String name, Data predicate);
+
 }
