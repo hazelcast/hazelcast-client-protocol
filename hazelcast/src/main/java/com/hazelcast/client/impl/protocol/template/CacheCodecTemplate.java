@@ -374,6 +374,10 @@ public interface CacheCodecTemplate {
     Object iterateEntries(String name, int partitionId, int tableIndex, int batch);
 
     /**
+     * Adds listener to cache. This listener will be used to listen near cache invalidation events.
+     * Eventually consistent client near caches should use this method to add invalidation listeners
+     * instead of {@link #addInvalidationListener(String, boolean)}
+     *
      * @param name      Name of the cache.
      * @param localOnly if true fires events that originated from this node only, otherwise fires all events
      * @return Registration id for the registered listener.

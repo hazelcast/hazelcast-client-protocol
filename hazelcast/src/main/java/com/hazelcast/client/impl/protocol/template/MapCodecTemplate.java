@@ -827,4 +827,20 @@ public interface MapCodecTemplate {
     @Since("1.4")
     void removeAll(String name, Data predicate);
 
+
+    /**
+     * Adds listener to map. This listener will be used to listen near cache invalidation events.
+     * Eventually consistent client near caches should use this method to add invalidation listeners
+     * instead of {@link #addNearCacheEntryListener(String, int, boolean)}
+     *
+     * @param name          name of the map
+     * @param listenerFlags flags of enabled listeners.
+     * @param localOnly     if true fires events that originated from this node only, otherwise fires all events
+     * @return A unique string which is used as a key to remove the listener.
+     */
+    @Request(id = 69, retryable = false, response = ResponseMessageConst.STRING,
+            event = {EventMessageConst.EVENT_IMAPINVALIDATION, EventMessageConst.EVENT_IMAPBATCHINVALIDATION})
+    @Since("1.4")
+    Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
+
 }
