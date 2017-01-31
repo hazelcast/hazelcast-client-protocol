@@ -18,7 +18,7 @@ public interface RingbufferCodecTemplate {
      * @param name Name of the Ringbuffer
      * @return the size
      */
-    @Request(id = 1, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
+    @Request(id = 1, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object size(String name);
 
     /**
@@ -28,7 +28,7 @@ public interface RingbufferCodecTemplate {
      * @param name Name of the Ringbuffer
      * @return the sequence of the tail
      */
-    @Request(id = 2, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
+    @Request(id = 2, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object tailSequence(String name);
 
     /**
@@ -39,7 +39,7 @@ public interface RingbufferCodecTemplate {
      * @param name Name of the Ringbuffer
      * @return the sequence of the head
      */
-    @Request(id = 3, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
+    @Request(id = 3, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object headSequence(String name);
 
     /**
@@ -48,7 +48,7 @@ public interface RingbufferCodecTemplate {
      * @param name Name of the Ringbuffer
      * @return the capacity
      */
-    @Request(id = 4, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
+    @Request(id = 4, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object capacity(String name);
 
     /**
@@ -58,7 +58,7 @@ public interface RingbufferCodecTemplate {
      * @param name Name of the Ringbuffer
      * @return the remaining capacity
      */
-    @Request(id = 5, retryable = false, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
+    @Request(id = 5, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "name")
     Object remainingCapacity(String name);
 
     /**
@@ -92,7 +92,7 @@ public interface RingbufferCodecTemplate {
      * @param sequence the sequence of the item to read.
      * @return the read item
      */
-    @Request(id = 8, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "name")
+    @Request(id = 8, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "name")
     Object readOne(String name, long sequence);
 
     /**
@@ -129,6 +129,6 @@ public interface RingbufferCodecTemplate {
      * @param filter        Filter is allowed to be null, indicating there is no filter.
      * @return a future containing the items read.
      */
-    @Request(id = 10, retryable = false, response = ResponseMessageConst.READ_RESULT_SET, partitionIdentifier = "name")
+    @Request(id = 10, retryable = true, response = ResponseMessageConst.READ_RESULT_SET, partitionIdentifier = "name")
     Object readMany(String name, long startSequence, int minCount, int maxCount, @Nullable Data filter);
 }
