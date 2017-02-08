@@ -160,6 +160,8 @@ public class ServerCompatibilityNullTest_${testForVersionClassName} {
             <#return "aPartitionTable">
         <#case "java.util.List<java.util.Map.Entry<"+ util.DATA_FULL_NAME + "," + util.DATA_FULL_NAME + ">>">
             <#return "aListOfEntry">
+        <#case "java.util.List<java.util.Map.Entry<com.hazelcast.core.Member,java.util.List<java.lang.String>>>">
+            <#return "taskHandlers">
         <#case "com.hazelcast.map.impl.SimpleEntryView<" + util.DATA_FULL_NAME +"," + util.DATA_FULL_NAME +">">
             <#return "anEntryView">
         <#case "com.hazelcast.nio.Address">
