@@ -178,7 +178,7 @@ public interface ResponseTemplate {
                                  long totalRuns, long totalRunTimeNanos);
 
     @Since("1.4")
-    @Response(ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER)
-    void ListScheduledTaskHandler(List<String> handlers);
+    @Response(ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS)
+    void AllScheduledTasksHandlers(List<Map.Entry<Member, List<String>>> handlers);
 
 }

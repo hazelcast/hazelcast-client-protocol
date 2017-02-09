@@ -63,13 +63,12 @@ public interface ScheduledExecutorCodecTemplate {
      * Returns all scheduled tasks in for a given scheduler in the given member.
      *
      * @param schedulerName The name of the scheduler.
-     * @param address  The address of the member to do the lookup.
      * @return A list of scheduled task handlers used to construct the future proxies.
      */
     @Since("1.4")
-    @Request(id = 4, retryable = true, response = ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER,
+    @Request(id = 4, retryable = true, response = ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS,
             partitionIdentifier = "partitionId")
-    Object getAllScheduledFutures(String schedulerName, Address address);
+    Object getAllScheduledFutures(String schedulerName);
 
     /**
      * Returns statistics associated with the given task handler.
