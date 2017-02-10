@@ -230,10 +230,12 @@ public final class ${model.className} {
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
         <#local n= var_name>
-            ${keyType} key =  ${var_name}.getKey();
-            ${valueType} val =  ${var_name}.getValue();
-        <@sizeText var_name="key"  type=keyType/>
-        <@sizeText var_name="val"  type=valueType/>
+        <#local keyName="${var_name}Key">
+        <#local valName="${var_name}Val">
+            ${keyType} ${keyName} =  ${var_name}.getKey();
+            ${valueType} ${valName} =  ${var_name}.getValue();
+        <@sizeText var_name="${keyName}"  type=keyType/>
+        <@sizeText var_name="${valName}"  type=valueType/>
 </#switch>
 </#macro>
 
@@ -283,10 +285,12 @@ public final class ${model.className} {
     <#if cat == "MAPENTRY">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-            ${keyType} key = ${var_name}.getKey();
-            ${valueType} val = ${var_name}.getValue();
-        <@setterTextInternal var_name="key"  type=keyType/>
-        <@setterTextInternal var_name="val"  type=valueType/>
+        <#local keyName="${var_name}Key">
+        <#local valName="${var_name}Val">
+            ${keyType} ${keyName} = ${var_name}.getKey();
+            ${valueType} ${valName} = ${var_name}.getValue();
+        <@setterTextInternal var_name="${keyName}"  type=keyType/>
+        <@setterTextInternal var_name="${valName}"  type=valueType/>
     </#if>
 </#macro>
 

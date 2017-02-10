@@ -391,7 +391,7 @@ public interface CacheCodecTemplate {
      * @param names names of the caches
      * @return metadata
      */
-    @Request(id = 31, retryable = false, response = ResponseMessageConst.DATA)
+    @Request(id = 31, retryable = false, response = ResponseMessageConst.NEAR_CACHE_INVALIDATION_META_DATA)
     @Since("1.4")
     Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
 
