@@ -42,117 +42,203 @@ public interface ScheduledExecutorCodecTemplate {
      * Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
      *
      * @param schedulerName The name of the scheduler.
-     * @param taskDefinition  The data form of the Callable or Runnable task to be executed on that scheduler
+     * @param type type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+     * @param taskName The name of the task
+     * @param task The data form of the Callable or Runnable task to be executed on that scheduler
+     * @param initialDelayInMillis initial delay in milliseconds
+     * @param periodInMillis period between each run in milliseconds
      */
     @Since("1.4")
-    @Request(id = 2, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
-    void submitToPartition(String schedulerName, Data taskDefinition);
+    @Request(id = 2, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "taskName")
+    void submitToPartition(String schedulerName, byte type, String taskName, Data task, long initialDelayInMillis, long periodInMillis);
 
     /**
      * Submits the task to a member for execution, member is provided in the form of an address.
      *
      * @param schedulerName The name of the scheduler.
-     * @param taskDefinition  The data form of the Callable or Runnable task to be executed on that scheduler
      * @param address The address of the member where the task will get scheduled.
+     * @param type type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+     * @param taskName The name of the task
+     * @param task The data form of the Callable or Runnable task to be executed on that scheduler
+     * @param initialDelayInMillis initial delay in milliseconds
+     * @param periodInMillis period between each run in milliseconds
      */
     @Since("1.4")
-    @Request(id = 3, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
-    void submitToAddress(String schedulerName, Address address, Data taskDefinition);
+    @Request(id = 3, retryable = true, response = ResponseMessageConst.VOID)
+    void submitToAddress(String schedulerName, Address address, byte type, String taskName, Data task, long initialDelayInMillis, long periodInMillis);
 
     /**
      * Returns all scheduled tasks in for a given scheduler in the given member.
      *
      * @param schedulerName The name of the scheduler.
-     * @param address  The address of the member to do the lookup.
      * @return A list of scheduled task handlers used to construct the future proxies.
      */
     @Since("1.4")
-    @Request(id = 4, retryable = true, response = ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER,
-            partitionIdentifier = "partitionId")
-    Object getAllScheduledFutures(String schedulerName, Address address);
+    @Request(id = 4, retryable = true, response = ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS)
+    Object getAllScheduledFutures(String schedulerName);
 
     /**
-     * Returns statistics associated with the given task handler.
+     * Returns statistics of the task
      *
-     * @param handlerUrn The resource handler URN of the task
-     * @return A snapshot of the task statistics as identified from the given handler.
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @return A snapshot of the task statistics
      */
     @Since("1.4")
-    @Request(id = 5, retryable = true, response = ResponseMessageConst.SCHEDULED_TASK_STATISTICS,
-            partitionIdentifier = "partitionId")
-    Object getStats(String handlerUrn);
+    @Request(id = 5, retryable = true, response = ResponseMessageConst.SCHEDULED_TASK_STATISTICS, partitionIdentifier = "taskName")
+    Object getStatsFromPartition(String schedulerName, String taskName);
 
     /**
-     * Returns the ScheduledFuture's for the task in the scheduler as identified from the given handler.
+     * Returns statistics of the task
      *
-     * @param handlerUrn The resource handler URN of the task
-     * @param timeUnitName A string representing time unit information.
-     *                     <br/> Allowed values:
-     *                     <ul>
-     *                         <li>"NANOSECONDS"</li>
-     *                         <li>"MICROSECONDS"</li>
-     *                         <li>"MILLISECONDS"</li>
-     *                         <li>"SECONDS"</li>
-     *                         <li>"MINUTES"</li>
-     *                         <li>"HOURS"</li>
-     *                         <li>"DAYS"</li>
-     *                     </ul>
-     *                     Any other non NULL input will result in ILLEGAL_ARGUMENT.
-     * @return The remaining delay of the task formatted in the given Time Unit.
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @return A snapshot of the task statistics
      */
     @Since("1.4")
-    @Request(id = 6, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "partitionId")
-    long getDelay(String handlerUrn, String timeUnitName);
+    @Request(id = 6, retryable = true, response = ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
+    Object getStatsFromAddress(String schedulerName , String taskName, Address address);
 
     /**
-     * Cancels further execution and scheduling of the task as identified from the given handler.
+     * Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
      *
-     * @param handlerUrn The resource handler URN of the task
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @return The remaining delay of the task formatted in nanoseconds.
+     */
+    @Since("1.4")
+    @Request(id = 7, retryable = true, response = ResponseMessageConst.LONG, partitionIdentifier = "taskName")
+    long getDelayFromPartition(String schedulerName , String taskName);
+
+    /**
+     * Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @return The remaining delay of the task formatted in nanoseconds.
+     */
+    @Since("1.4")
+    @Request(id = 8, retryable = true, response = ResponseMessageConst.LONG)
+    long getDelayFromAddress(String schedulerName , String taskName, Address address);
+
+    /**
+     * Cancels further execution and scheduling of the task
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
      * @param mayInterruptIfRunning  A boolean flag to indicate whether the task should be interrupted.
      * @return True if the task was cancelled
      */
     @Since("1.4")
-    @Request(id = 7, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean cancel(String handlerUrn, boolean mayInterruptIfRunning);
+    @Request(id = 9, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "taskName")
+    boolean cancelFromPartition(String schedulerName, String taskName, boolean mayInterruptIfRunning);
+
+    /**
+     * Cancels further execution and scheduling of the task
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @param mayInterruptIfRunning  A boolean flag to indicate whether the task should be interrupted.
+     * @return True if the task was cancelled
+     */
+    @Since("1.4")
+    @Request(id = 10, retryable = true, response = ResponseMessageConst.BOOLEAN)
+    boolean cancelFromAddress(String schedulerName, String taskName, Address address, boolean mayInterruptIfRunning);
 
     /**
      * Checks whether a task as identified from the given handler is already cancelled.
      *
-     * @param handlerUrn The resource handler URN of the task
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
      * @return True if the task is cancelled
      */
     @Since("1.4")
-    @Request(id = 8, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean isCancelled(String handlerUrn);
+    @Request(id = 11, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "taskName")
+    boolean isCancelledFromPartition(String schedulerName, String taskName);
 
     /**
-     * Checks whether a task as identified from the given handler is done.
+     * Checks whether a task as identified from the given handler is already cancelled.
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @return True if the task is cancelled
+     */
+    @Since("1.4")
+    @Request(id = 12, retryable = true, response = ResponseMessageConst.BOOLEAN)
+    boolean isCancelledFromAddress(String schedulerName , String taskName, Address address);
+
+    /**
+     * Checks whether a task is done.
      * @see {@link java.util.concurrent.Future#cancel(boolean)}
      *
-     * @param handlerUrn The resource handler URN of the task
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
      * @return True if the task is done
      */
     @Since("1.4")
-    @Request(id = 9, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    boolean isDone(String handlerUrn);
+    @Request(id = 13, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "taskName")
+    boolean isDoneFromPartition(String schedulerName , String taskName);
 
     /**
-     * Fetches the result of the task ({@link java.util.concurrent.Callable}) as identified from the given handler.
+     * Checks whether a task is done.
+     * @see {@link java.util.concurrent.Future#cancel(boolean)}
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @return True if the task is done
+     */
+    @Since("1.4")
+    @Request(id = 14, retryable = true, response = ResponseMessageConst.BOOLEAN)
+    boolean isDoneFromAddress(String schedulerName , String taskName, Address address);
+
+    /**
+     * Fetches the result of the task ({@link java.util.concurrent.Callable})
      * The call will blocking until the result is ready.
      *
-     * @param handlerUrn The resource handler URN of the task
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
      * @return The result of the completed task, in serialized form ({@link Data}.
      */
     @Since("1.4")
-    @Request(id = 10, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "partitionId")
-    Data getResult(String handlerUrn);
+    @Request(id = 15, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "taskName")
+    Data getResultFromPartition(String schedulerName , String taskName);
 
     /**
-     * Dispose the task from the scheduler, as identified from the given handler.
+     * Fetches the result of the task ({@link java.util.concurrent.Callable})
+     * The call will blocking until the result is ready.
      *
-     * @param handlerUrn The resource handler URN of the task
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     * @return The result of the completed task, in serialized form ({@link Data}.
      */
     @Since("1.4")
-    @Request(id = 11, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "partitionId")
-    void dispose(String handlerUrn);
+    @Request(id = 16, retryable = true, response = ResponseMessageConst.DATA)
+    Data getResultFromAddress(String schedulerName , String taskName, Address address);
+
+    /**
+     * Dispose the task from the scheduler
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     */
+    @Since("1.4")
+    @Request(id = 17, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "taskName")
+    void disposeFromPartition(String schedulerName, String taskName);
+
+    /**
+     * Dispose the task from the scheduler
+     *
+     * @param schedulerName The name of the scheduler.
+     * @param taskName The name of the task
+     * @param address The address of the member where the task will get scheduled.
+     */
+    @Since("1.4")
+    @Request(id = 18, retryable = true, response = ResponseMessageConst.VOID)
+    void disposeFromAddress(String schedulerName , String taskName, Address address);
 }

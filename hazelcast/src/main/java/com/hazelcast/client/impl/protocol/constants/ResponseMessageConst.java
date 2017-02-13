@@ -51,7 +51,7 @@ public final class ResponseMessageConst {
     public static final int ENTRIES_WITH_CURSOR = 118;
     public static final int LIST_DATA_MAYBE_NULL_ELEMENTS = 119;
     @Since("1.4") public static final int SCHEDULED_TASK_STATISTICS = 120;
-    @Since("1.4") public static final int LIST_SCHEDULED_TASK_HANDLER = 121;
+    @Since("1.4") public static final int ALL_SCHEDULED_TASK_HANDLERS = 121;
 
     private ResponseMessageConst() {
     }

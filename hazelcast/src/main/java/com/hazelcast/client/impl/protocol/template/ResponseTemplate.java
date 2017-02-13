@@ -28,6 +28,7 @@ import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
+import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -178,7 +179,7 @@ public interface ResponseTemplate {
                                  long totalRuns, long totalRunTimeNanos);
 
     @Since("1.4")
-    @Response(ResponseMessageConst.LIST_SCHEDULED_TASK_HANDLER)
-    void ListScheduledTaskHandler(List<String> handlers);
+    @Response(ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS)
+    void AllScheduledTasksHandlers(List<Map.Entry<Member, List<ScheduledTaskHandler>>> handlers);
 
 }
