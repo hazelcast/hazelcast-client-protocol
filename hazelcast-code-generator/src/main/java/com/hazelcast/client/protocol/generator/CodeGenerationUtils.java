@@ -180,7 +180,7 @@ public final class CodeGenerationUtils {
 
     public static String getFirstGenericParameterType(String type) {
         int beg = type.indexOf("<");
-        int end = type.lastIndexOf(",");
+        int end = type.indexOf(",");
         return type.substring(beg + 1, end).trim();
     }
 

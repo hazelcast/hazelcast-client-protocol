@@ -32,6 +32,7 @@ import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Client Protocol Responses
@@ -182,4 +183,18 @@ public interface ResponseTemplate {
     @Response(ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS)
     void AllScheduledTasksHandlers(List<Map.Entry<Member, List<ScheduledTaskHandler>>> handlers);
 
+    /**
+     * @param namePartitionSequenceList name to partition sequenceId mapping list
+     * @param partitionUuidList         partitionId to UUID mapping list
+     */
+    @Since("1.4")
+    @Response(ResponseMessageConst.NEAR_CACHE_INVALIDATION_META_DATA)
+    void NearCacheInvalidationMetaData(List<Map.Entry<String, List<Map.Entry<Integer, Long>>>> namePartitionSequenceList, List<Map.Entry<Integer, UUID>> partitionUuidList);
+
+    /**
+     * @param partitionUuidList partitionId to UUID mapping list
+     */
+    @Since("1.4")
+    @Response(ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
+    void PartitionUuidList(List<Map.Entry<Integer, UUID>> partitionUuidList);
 }

@@ -52,6 +52,8 @@ public final class ResponseMessageConst {
     public static final int LIST_DATA_MAYBE_NULL_ELEMENTS = 119;
     @Since("1.4") public static final int SCHEDULED_TASK_STATISTICS = 120;
     @Since("1.4") public static final int ALL_SCHEDULED_TASK_HANDLERS = 121;
+    @Since("1.4") public static final int NEAR_CACHE_INVALIDATION_META_DATA = 122;
+    @Since("1.4") public static final int LIST_ENTRY_PARTITION_UUID = 123;
 
     private ResponseMessageConst() {
     }

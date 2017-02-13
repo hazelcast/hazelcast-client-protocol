@@ -803,16 +803,16 @@ public interface MapCodecTemplate {
      * @param names names of the maps
      * @return metadata
      */
-    @Request(id = 66, retryable = false, response = ResponseMessageConst.DATA)
+    @Request(id = 66, retryable = false, response = ResponseMessageConst.NEAR_CACHE_INVALIDATION_META_DATA)
     @Since("1.4")
     Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
 
     /**
      * Assigns a new UUID to each partitions or gets existing ones.
      *
-     * @return assigned uuids list
+     * @return partitionId to assigned uuid entry list
      */
-    @Request(id = 67, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    @Request(id = 67, retryable = true, response = ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
     @Since("1.4")
     Object assignAndGetUuids();
 

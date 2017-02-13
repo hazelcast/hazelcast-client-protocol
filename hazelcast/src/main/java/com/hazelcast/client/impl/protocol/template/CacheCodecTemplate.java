@@ -388,14 +388,21 @@ public interface CacheCodecTemplate {
     Object addNearCacheInvalidationListener(String name, boolean localOnly);
 
     /**
+     * Fetches invalidation metadata from partitions of map.
+     *
      * @param names names of the caches
      * @return metadata
      */
-    @Request(id = 31, retryable = false, response = ResponseMessageConst.DATA)
+    @Request(id = 31, retryable = false, response = ResponseMessageConst.NEAR_CACHE_INVALIDATION_META_DATA)
     @Since("1.4")
     Object fetchNearCacheInvalidationMetadata(List<String> names, Address address);
 
-    @Request(id = 32, retryable = true, response = ResponseMessageConst.LIST_DATA)
+    /**
+     * Assigns a new UUID to each partitions or gets existing ones.
+     *
+     * @return partitionId to assigned uuid entry list
+     */
+    @Request(id = 32, retryable = true, response = ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
     @Since("1.4")
     Object assignAndGetUuids();
 }
