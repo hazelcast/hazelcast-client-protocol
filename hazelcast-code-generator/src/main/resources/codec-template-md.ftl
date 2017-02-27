@@ -345,6 +345,16 @@ Header only event message, no message body exist.
             <#return "array of string">
         <#case "java.util.List<java.lang.Long>">
             <#return "array of longs">
+        <#case "java.util.UUID">
+            <#return "UUID">
+        <#case "java.util.List<java.util.UUID>">
+            <#return "array of UUIDs">
+        <#case "java.util.List<java.util.Map.Entry<java.lang.Integer,java.util.UUID>>">
+            <#return "array of (partition id, UUID pair array) pair">
+        <#case "java.util.List<java.util.Map.Entry<java.lang.String,java.util.List<java.util.Map.Entry<java.lang.Integer,java.lang.Long>>>>">
+            <#return "array of (name, partition-sequence id array) pair">
+        <#case "java.util.List<java.util.Map.Entry<com.hazelcast.core.Member,java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>">
+            <#return "array of (member, task handler array) pair">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
