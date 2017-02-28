@@ -843,4 +843,18 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
 
+    /**
+     * This method returns a clone of the original value, so modifying the returned value does not change the actual
+     * value in the map. You should put the modified value back to make changes visible to all nodes.
+     *
+     * @param name          Name of the map.
+     * @param key           Key for the map entry.
+     * @param projection    Projection to apply on the value
+     * @param threadId      The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @return The value for the key if exists
+     */
+    @Request(id = 70, retryable = true, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
+    @Since("1.5")
+    Object getWithProjection(String name, Data key, Data projection, long threadId);
+
 }
