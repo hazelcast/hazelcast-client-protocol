@@ -91,7 +91,9 @@ public final class CodeGenerationUtils {
         put(DATA_FULL_NAME, "IData");
         put("java.lang.String", "string");
         put("java.lang.Integer", "int");
+        put("java.lang.Long", "long");
         put("boolean", "bool");
+        put("java.util.UUID", "Guid");
         put("java.util.List", "IList");
         put("java.util.Set", "ISet");
         put("java.util.Collection", "ICollection");
@@ -377,7 +379,7 @@ public final class CodeGenerationUtils {
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
             } else {
-                builder.append(" >");
+                builder.append(">");
             }
 
             String result = builder.toString();
