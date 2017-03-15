@@ -316,7 +316,7 @@ Header only event message, no message body exist.
         <#case "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>">
             <#return "array of Distributed Object Info">
         <#case "java.util.List<java.util.Map.Entry<com.hazelcast.nio.Address,java.util.List<java.lang.Integer>>>">
-            <#return "array of Address-Partition Id List pair">
+            <#return "array of [address, partition id]">
         <#case "java.util.Collection<" + util.DATA_FULL_NAME + ">">
             <#return "array of byte-array">
         <#case "java.util.Map<" + util.DATA_FULL_NAME + "," + util.DATA_FULL_NAME + ">">
@@ -352,7 +352,7 @@ Header only event message, no message body exist.
         <#case "java.util.List<java.util.Map.Entry<java.lang.Integer,java.util.UUID>>">
             <#return "array of [partition id, UUID] pair">
         <#case "java.util.List<java.util.Map.Entry<java.lang.String,java.util.List<java.util.Map.Entry<java.lang.Integer,java.lang.Long>>>>">
-            <#return "array of [partitionId, sequence] pair array. (per data-structure-name)">
+            <#return "array of [partition id, sequence] pair array. (per data-structure-name)">
         <#case "java.util.List<java.util.Map.Entry<com.hazelcast.core.Member,java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>">
             <#return "array of [member, task handler array] pairs">
         <#default>
@@ -368,8 +368,8 @@ Header only event message, no message body exist.
         <#case "-1">
             <#return "-1">
         <#case "partitionId">
-            <#return "the value passed in partitionId field">
+            <#return "the value passed in partition id field">
         <#default>
-            <#return "Murmur hash of " + partitionIdentifier + " % partition count">
+            <#return "Murmur hash of " + partition identifier + " % partition count">
     </#switch>
 </#function>
