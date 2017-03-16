@@ -136,6 +136,10 @@ public final class CodeGenerationUtils {
                     "yield", "break", "except", "import", "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                     "return", "def", "for", "lambda", "try");
 
+    private static final List<String> NON_NULLABLE_TYPES = Arrays
+            .asList("int", "long", "short", "byte", "boolean", "java.util.UUID");
+    private static final List<String> PRIMITIVE_TYPES = Arrays.asList("int", "long", "short", "byte", "boolean");
+
     private CodeGenerationUtils() {
     }
 
@@ -193,7 +197,11 @@ public final class CodeGenerationUtils {
     }
 
     public static boolean isPrimitive(String type) {
-        return type.equals("int") || type.equals("long") || type.equals("short") || type.equals("byte") || type.equals("boolean");
+        return PRIMITIVE_TYPES.contains(type);
+    }
+
+    public static boolean isNonNullable(String type) {
+        return NON_NULLABLE_TYPES.contains(type);
     }
 
     public static boolean isGeneric(String type) {
