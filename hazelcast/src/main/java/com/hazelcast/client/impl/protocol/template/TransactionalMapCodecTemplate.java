@@ -257,4 +257,16 @@ public interface TransactionalMapCodecTemplate {
      */
     @Request(id = 17, retryable = false, response = ResponseMessageConst.LIST_DATA)
     Object valuesWithPredicate(String name, String txnId, long threadId, Data predicate);
+
+    /**
+     * Returns true if this map contains an entry with the value.
+     *
+     * @param name     Name of the Transactional Map
+     * @param txnId    ID of the this transaction operation
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param value    The value whose existence is checked.
+     * @return True if this map contains an entry for the specified key.
+     */
+    @Request(id = 18, retryable = false, response = ResponseMessageConst.BOOLEAN)
+    Object containsValue(String name, String txnId, long threadId, Data value);
 }
