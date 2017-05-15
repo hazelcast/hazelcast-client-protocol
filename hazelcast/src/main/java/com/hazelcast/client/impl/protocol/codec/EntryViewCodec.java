@@ -68,11 +68,9 @@ public final class EntryViewCodec {
     }
 
     public static int calculateDataSize(SimpleEntryView<Data, Data> entryView) {
-        int dataSize = ClientMessage.HEADER_SIZE;
         Data key = entryView.getKey();
         Data value = entryView.getValue();
-        return dataSize
-                + ParameterUtil.calculateDataSize(key)
+        return ParameterUtil.calculateDataSize(key)
                 + ParameterUtil.calculateDataSize(value)
                 + Bits.LONG_SIZE_IN_BYTES * DATA_SIZE_FACTOR;
     }

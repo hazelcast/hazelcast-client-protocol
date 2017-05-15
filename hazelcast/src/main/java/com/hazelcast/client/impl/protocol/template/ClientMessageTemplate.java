@@ -25,6 +25,9 @@ import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
+import java.util.List;
+import java.util.Map;
+
 @GenerateCodec(id = TemplateConstants.CLIENT_TEMPLATE_ID, name = "Client", ns = "Hazelcast.Client.Protocol.Codec")
 public interface ClientMessageTemplate {
 
@@ -173,4 +176,16 @@ public interface ClientMessageTemplate {
 
     @Request(id = 15, retryable = true, response = ResponseMessageConst.VOID)
     void ping();
+
+    /**
+     * The statistics path identify the category of the statistics. It is formatted as:
+     * /main_Category/sub_category/sub_category/statistic_name
+     *
+     * An e.g. Operating system committedVirtualMemorySize path would be: /os/committedVirtualMemorySize
+     *
+     * @param stats The list of statistics path, and the value as string
+     */
+    @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID)
+    @Since(value = "1.5")
+    void statistics(List<Map.Entry<String, String>> stats);
 }
