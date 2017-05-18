@@ -238,7 +238,7 @@ public interface ClientMessageTemplate {
      *
      * @param stats The list of statistics path, and the value as string
      */
-    @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID)
+    @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID)
     @Since(value = "1.5")
     void statistics(List<Map.Entry<String, String>> stats);
 }
