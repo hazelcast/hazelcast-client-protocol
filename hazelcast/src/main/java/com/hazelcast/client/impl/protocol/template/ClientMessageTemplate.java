@@ -183,6 +183,59 @@ public interface ClientMessageTemplate {
      *
      * An e.g. Operating system committedVirtualMemorySize path would be: /os/committedVirtualMemorySize
      *
+     * The statistics key paths can be one of the following (An example for an IMap named StatTestMapName and ICache Named
+     * StatTestCacheName and near cache is configured):
+     *
+     *   /runtime/maxMemory
+     *   /nearcache/StatTestMapName/LastPersistenceWrittenBytes
+     *   /nearcache/StatTestMapName/Misses
+     *   /nearcache/StatTestMapName/OwnedEntryCount
+     *   /os/systemLoadAverage
+     *   /nearcache/StatTestMapName/LastPersistenceKeyCount
+     *   /nearcache/StatTestMapName/LastPersistenceFailure
+     *   /nearcache/hz/StatTestCacheName/Expirations
+     *   /nearcache/hz/StatTestCacheName/LastPersistenceFailure
+     *   /runtime/availableProcessors
+     *   /runtime/freeMemory
+     *   /nearcache/hz/StatTestCacheName/OwnedEntryCount
+     *   /os/processCpuTime
+     *   /nearcache/StatTestMapName/LastPersistenceTime
+     *   /os/processCpuLoad
+     *   /nearcache/hz/StatTestCacheName/Hits
+     *   /nearcache/StatTestMapName/LastPersistenceDuration
+     *   /nearcache/hz/StatTestCacheName/LastPersistenceDuration
+     *   /nearcache/hz/StatTestCacheName/OwnedEntryMemoryCost
+     *   /os/systemCpuLoad
+     *   /runtime/uptime
+     *   /os/freePhysicalMemorySize
+     *   /os/committedVirtualMemorySize
+     *   /os/maxFileDescriptorCount
+     *   /runtime/usedMemory
+     *   /nearcache/hz/StatTestCacheName/CreationTime
+     *   /nearcache/StatTestMapName/Evictions
+     *   //userExecutor/queueSize
+     *   /os/totalSwapSpaceSize
+     *   /runtime/totalMemory
+     *   /os/openFileDescriptorCount
+     *   /nearcache/StatTestMapName/Expirations
+     *   /nearcache/hz/StatTestCacheName/LastPersistenceKeyCount
+     *   /nearcache/hz/StatTestCacheName/Evictions
+     *   /userExecutor/queueSize
+     *   /os/freeSwapSpaceSize
+     *   /nearcache/StatTestMapName/Hits
+     *   /nearcache/StatTestMapName/OwnedEntryMemoryCost
+     *   /nearcache/hz/StatTestCacheName/Misses
+     *   /nearcache/StatTestMapName/CreationTime
+     *   /nearcache/hz/StatTestCacheName/LastPersistenceWrittenBytes
+     *   /os/totalPhysicalMemorySize
+     *   /nearcache/hz/StatTestCacheName/LastPersistenceTime
+     *   /ClusterConnectionTimestamp
+     *   /ClientType
+     *
+     * Not: Please observe that the name for the ICache appears to be the hazelcast instance name "hz" followed by "/" and
+     * followed by the cache name provided in the application which is StatTestCacheName.
+     *
+     *
      * @param stats The list of statistics path, and the value as string
      */
     @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID)
