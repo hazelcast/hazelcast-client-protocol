@@ -12,6 +12,8 @@
             <#return "aLong">
         <#case "char">
             <#return "aChar">
+        <#case "long[]">
+            <#return "arrLongs">
         <#case util.DATA_FULL_NAME>
             <#return "aData">
         <#case "java.lang.String">
