@@ -179,41 +179,41 @@ public interface ClientMessageTemplate {
 
     /**
      * The statistics path identify the category of the statistics. It is formatted as:
-     * /main_Category/sub_category/sub_category/statistic_name
+     * mainCategory.subCategory.statisticName
      *
-     * An e.g. Operating system committedVirtualMemorySize path would be: /os/committedVirtualMemorySize
+     * An e.g. Operating system committedVirtualMemorySize path would be: os.committedVirtualMemorySize
      *
-     * The statistics key paths can be one of the following (An example for an IMap named StatTestMapName and ICache Named
-     * StatTestCacheName and near cache is configured):
+     * The statistics key paths can be one of the following (An example for an IMap named <StatTestMapName> and ICache Named
+     * <StatTestCacheName> and near cache is configured):
      *
      * clientType
      * clusterConnectionTimestamp
      * enterprise
      * lastStatisticsCollectionTime
-     * nearcache.StatTestMapName.creationTime
-     * nearcache.StatTestMapName.evictions
-     * nearcache.StatTestMapName.expirations
-     * nearcache.StatTestMapName.hits
-     * nearcache.StatTestMapName.lastPersistenceDuration
-     * nearcache.StatTestMapName.lastPersistenceFailure
-     * nearcache.StatTestMapName.lastPersistenceKeyCount
-     * nearcache.StatTestMapName.lastPersistenceTime
-     * nearcache.StatTestMapName.lastPersistenceWrittenBytes
-     * nearcache.StatTestMapName.misses
-     * nearcache.StatTestMapName.ownedEntryCount
-     * nearcache.StatTestMapName.ownedEntryMemoryCost
-     * nearcache.hz/StatTestCacheName.creationTime
-     * nearcache.hz/StatTestCacheName.evictions
-     * nearcache.hz/StatTestCacheName.expirations
-     * nearcache.hz/StatTestCacheName.hits
-     * nearcache.hz/StatTestCacheName.lastPersistenceDuration
-     * nearcache.hz/StatTestCacheName.lastPersistenceFailure
-     * nearcache.hz/StatTestCacheName.lastPersistenceKeyCount
-     * nearcache.hz/StatTestCacheName.lastPersistenceTime
-     * nearcache.hz/StatTestCacheName.lastPersistenceWrittenBytes
-     * nearcache.hz/StatTestCacheName.misses
-     * nearcache.hz/StatTestCacheName.ownedEntryCount
-     * nearcache.hz/StatTestCacheName.ownedEntryMemoryCost
+     * nearcache.<StatTestMapName>.creationTime
+     * nearcache.<StatTestMapName>.evictions
+     * nearcache.<StatTestMapName>.expirations
+     * nearcache.<StatTestMapName>.hits
+     * nearcache.<StatTestMapName>.lastPersistenceDuration
+     * nearcache.<StatTestMapName>.lastPersistenceFailure
+     * nearcache.<StatTestMapName>.lastPersistenceKeyCount
+     * nearcache.<StatTestMapName>.lastPersistenceTime
+     * nearcache.<StatTestMapName>.lastPersistenceWrittenBytes
+     * nearcache.<StatTestMapName>.misses
+     * nearcache.<StatTestMapName>.ownedEntryCount
+     * nearcache.<StatTestMapName>.ownedEntryMemoryCost
+     * nearcache.hz/<StatTestCacheName>.creationTime
+     * nearcache.hz/<StatTestCacheName>.evictions
+     * nearcache.hz/<StatTestCacheName>.expirations
+     * nearcache.hz/<StatTestCacheName>.hits
+     * nearcache.hz/<StatTestCacheName>.lastPersistenceDuration
+     * nearcache.hz/<StatTestCacheName>.lastPersistenceFailure
+     * nearcache.hz/<StatTestCacheName>.lastPersistenceKeyCount
+     * nearcache.hz/<StatTestCacheName>.lastPersistenceTime
+     * nearcache.hz/<StatTestCacheName>.lastPersistenceWrittenBytes
+     * nearcache.hz/<StatTestCacheName>.misses
+     * nearcache.hz/<StatTestCacheName>.ownedEntryCount
+     * nearcache.hz/<StatTestCacheName>.ownedEntryMemoryCost
      * os.committedVirtualMemorySize
      * os.freePhysicalMemorySize
      * os.freeSwapSpaceSize
