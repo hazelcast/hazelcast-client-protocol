@@ -1,9 +1,25 @@
+// Copyright (c) 2008-2017, Hazelcast, Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Collections.Generic;
 using Hazelcast.Client.Protocol;
 using Hazelcast.Client.Protocol.Util;
 using Hazelcast.IO;
 using Hazelcast.IO.Serialization;
-using System.Collections.Generic;
 
+// Client Protocol version, Since:${model.messageSince} - Update:${util.versionAsString(model.highestParameterVersion)}
 namespace ${model.packageName}
 {
     internal sealed class ${model.className}
@@ -24,9 +40,9 @@ namespace ${model.packageName}
 
             public static int CalculateDataSize(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
             {
-                int dataSize = ClientMessage.HeaderSize;
+                var dataSize = ClientMessage.HeaderSize;
                 <#list model.requestParams as p>
-                    <@sizeText var_name=p.name type=p.type isNullable=p.nullable/>
+                    <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
                 </#list>
                 return dataSize;
             }
@@ -34,48 +50,87 @@ namespace ${model.packageName}
 
         public static ClientMessage EncodeRequest(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
         {
-            int requiredDataSize = RequestParameters.CalculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
-            ClientMessage clientMessage = ClientMessage.CreateForEncode(requiredDataSize);
+            var requiredDataSize = RequestParameters.CalculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+            var clientMessage = ClientMessage.CreateForEncode(requiredDataSize);
             clientMessage.SetMessageType((int)RequestType);
             clientMessage.SetRetryable(Retryable);
             <#list model.requestParams as p>
-                <@setterText var_name=p.name type=p.type isNullable=p.nullable/>
+                <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
             </#list>
             clientMessage.UpdateFrameLength();
             return clientMessage;
         }
 
+<#if model.responseParams?has_content>
         //************************ RESPONSE *************************//
-
-
         public class ResponseParameters
         {
             <#list model.responseParams as param>
             public ${util.getCSharpType(param.type)} ${param.name};
+                <#assign messageVersion=model.messageSinceInt>
+            <#if param.sinceVersionInt gt messageVersion>
+            public bool ${param.name}Exist;
+            </#if>
             </#list>
         }
 
         public static ResponseParameters DecodeResponse(IClientMessage clientMessage)
         {
-            ResponseParameters parameters = new ResponseParameters();
-            <#list model.responseParams as p>
-                <@getterText var_name=p.name type=p.type isNullable=p.nullable/>
-            </#list>
+            var parameters = new ResponseParameters();
+<#list model.responseParams as p>
+<#if p.versionChanged>
+            if (clientMessage.IsComplete())
+            {
+                return parameters;
+            }
+</#if>
+<@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+<#if p.sinceVersionInt gt messageVersion>
+            parameters.${p.name}Exist = true;
+</#if>
+</#list>
             return parameters;
         }
+<#else>
+        //************************ RESPONSE IS EMPTY *****************//
+</#if>
 
     <#if model.events?has_content>
-
-        //************************ EVENTS *************************//
+//************************ EVENTS *************************//
         public abstract class AbstractEventHandler
         {
             public static void Handle(IClientMessage clientMessage, <#list model.events as event>Handle${event.name} handle${event.name}<#if event_has_next>, </#if></#list>)
             {
-                int messageType = clientMessage.GetMessageType();
+                var messageType = clientMessage.GetMessageType();
             <#list model.events as event>
-                if (messageType == EventMessageConst.Event${event.name?cap_first}) {
+                if (messageType == EventMessageConst.Event${event.name?cap_first})
+                {
+                <#assign hasCodecRevision=false>
                 <#list event.eventParams as p>
-                    <@getterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true/>
+                    <#assign hasCodecRevision=hasCodecRevision || p.versionChanged>
+                </#list>
+                <#if hasCodecRevision>
+                    var ${event.name}MessageFinished = false;
+                </#if>
+                <#assign messageVersion=model.messageSinceInt>
+                <#list event.eventParams as p>
+                    <#if p.versionChanged>
+                    if (!${event.name}MessageFinished)
+                    {
+                        ${event.name}MessageFinished = clientMessage.IsComplete();
+                    }
+                    </#if>
+                    <#if p.nullable || p.sinceVersionInt gt messageVersion>
+                    ${util.getCSharpType(p.type)}<#if util.isNonNullable(p.type)>?</#if> ${p.name} = null;
+                    </#if>
+                    <#if p.sinceVersionInt gt messageVersion>
+                    if (!${event.name}MessageFinished)
+                    {
+                    </#if>
+                        <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true local= !(p.nullable || p.sinceVersionInt gt messageVersion)/>
+                    <#if p.sinceVersionInt gt messageVersion>
+                    }
+                    </#if>
                 </#list>
                     handle${event.name}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
                     return;
@@ -85,29 +140,27 @@ namespace ${model.packageName}
             }
 
         <#list model.events as event>
-            public delegate void Handle${event.name}(<#list event.eventParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>);
+            public delegate void Handle${event.name}(<#list event.eventParams as p>${defineVariableFnc(p.name,p.type, p.sinceVersionInt gt messageVersion)}<#if p_has_next>, </#if></#list>);
         </#list>
        }
-
     </#if>
     }
 }
 <#--MACROS BELOW-->
 <#--SIZE NULL CHECK MACRO -->
-<#macro sizeText var_name type isNullable=false>
+<#macro sizeText var_name type isNullable=false containsNullable=false>
 <#if isNullable>
                 dataSize += Bits.BooleanSizeInBytes;
                 if (${var_name} != null)
                 {
 </#if>
-                    <@sizeTextInternal var_name=var_name type=type/>
+                    <@sizeTextInternal var_name=var_name type=type containsNullable=containsNullable/>
 <#if isNullable>
                 }
 </#if>
 </#macro>
-
 <#--SIZE MACRO -->
-<#macro sizeTextInternal var_name type>
+<#macro sizeTextInternal var_name type containsNullable=false>
 <#local cat= util.getTypeCategory(type)>
 <#switch cat>
     <#case "OTHER">
@@ -124,55 +177,48 @@ namespace ${model.packageName}
                 dataSize += Bits.IntSizeInBytes;
         <#local genericType= util.getGenericType(type)>
         <#local n= var_name>
-                foreach (var ${var_name}_item in ${var_name} )
+        <#local itemTypeVar= var_name + "Item">
+                foreach (var ${itemTypeVar} in ${var_name} )
                 {
-                    <@sizeText var_name="${n}_item" type=genericType/>
+                    <@sizeText var_name="${n}Item" type=genericType isNullable=containsNullable/>
                 }
         <#break >
     <#case "ARRAY">
                 dataSize += Bits.IntSizeInBytes;
         <#local genericType= util.getArrayType(type)>
         <#local n= var_name>
-                foreach (var ${var_name}_item in ${var_name} ) {
-                    <@sizeText var_name="${n}_item"  type=genericType/>
+        <#local itemTypeVar= var_name + "Item">
+                foreach (var ${itemTypeVar} in ${var_name} )
+                {
+                    <@sizeText var_name="${n}Item" type=genericType isNullable=containsNullable/>
                 }
         <#break >
-    <#case "MAP">
+    <#case "MAPENTRY">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
         <#local n= var_name>
-                foreach (var entry in ${var_name}) {
-                    var key = entry.Key;
-                    var val = entry.Value;
-                    <@sizeText var_name="key"  type=keyType/>
-                    <@sizeText var_name="val"  type=valueType/>
-                }
+        <#local keyName="${var_name}Key">
+        <#local valName="${var_name}Val">
+                var ${keyName} = ${var_name}.Key;
+                var ${valName} = ${var_name}.Value;
+                <@sizeText var_name=keyName  type=keyType/>
+                <@sizeText var_name=valName  type=valueType/>
 </#switch>
 </#macro>
-
 <#--SETTER NULL CHECK MACRO -->
-<#macro setterText var_name type isNullable=false>
-<#local isNullVariableName= "${var_name}_isNull">
+<#macro setterText var_name type isNullable=false containsNullable=false>
 <#if isNullable>
-            bool ${isNullVariableName};
-            if (${var_name} == null)
+            clientMessage.Set(${var_name} == null);
+            if (${var_name} != null)
             {
-                ${isNullVariableName} = true;
-                clientMessage.Set(${isNullVariableName});
-            }
-            else
-            {
-                ${isNullVariableName}= false;
-                clientMessage.Set(${isNullVariableName});
 </#if>
-                <@setterTextInternal var_name=var_name type=type/>
+    <@setterTextInternal var_name=var_name type=type containsNullable=containsNullable/>
 <#if isNullable>
             }
 </#if>
 </#macro>
-
 <#--SETTER MACRO -->
-<#macro setterTextInternal var_name type>
+<#macro setterTextInternal var_name type isNullable=false containsNullable=false>
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
             clientMessage.Set(${var_name});
@@ -183,122 +229,159 @@ namespace ${model.packageName}
     <#if cat == "COLLECTION">
             clientMessage.Set(${var_name}.Count);
             <#local itemType= util.getGenericType(type)>
-            <#local itemTypeVar= var_name + "_item">
-            foreach (var ${itemTypeVar} in ${var_name}) {
-                <@setterTextInternal var_name=itemTypeVar type=itemType/>
+            <#local itemTypeVar= var_name + "Item">
+            foreach (var ${itemTypeVar} in ${var_name})
+            {
+                <@setterTextInternal var_name=itemTypeVar type=itemType isNullable=containsNullable/>
             }
     </#if>
     <#if cat == "ARRAY">
             clientMessage.Set(${var_name}.length);
             <#local itemType= util.getArrayType(type)>
-            <#local itemTypeVar= var_name + "_item">
-            foreach (var ${itemTypeVar} in ${var_name}) {
-                <@setterTextInternal var_name=itemTypeVar  type=itemType/>
-            }
-    </#if>
-    <#if cat == "MAP">
-            <#local keyType = util.getFirstGenericParameterType(type)>
-            <#local valueType = util.getSecondGenericParameterType(type)>
-            clientMessage.Set(${var_name}.Count);
-            foreach (var entry in ${var_name}) {
-                var key = entry.Key;
-                var val = entry.Value;
-            <@setterTextInternal var_name="key"  type=keyType/>
-            <@setterTextInternal var_name="val"  type=valueType/>
-            }
-    </#if>
-</#macro>
-
-<#--GETTER NULL CHECK MACRO -->
-<#macro getterText var_name type isNullable=false isEvent=false>
-            ${util.getCSharpType(type)} ${var_name} <#if !util.isPrimitive(type)>= null</#if>;
-<#local isNullVariableName= "${var_name}_isNull">
-<#if isNullable>
-            bool ${isNullVariableName} = clientMessage.GetBoolean();
-            if (!${isNullVariableName})
+            <#local itemTypeVar= var_name + "Item">
+            foreach (var ${itemTypeVar} in ${var_name})
             {
+                <@setterTextInternal var_name=itemTypeVar type=itemType isNullable=containsNullable/>
+            }
+    </#if>
+    <#if cat == "MAPENTRY">
+        <#local keyType = util.getFirstGenericParameterType(type)>
+        <#local valueType = util.getSecondGenericParameterType(type)>
+        <#local n= var_name>
+        <#local keyName="${var_name}Key">
+        <#local valName="${var_name}Val">
+            var ${keyName} = ${var_name}.Key;
+            var ${valName} = ${var_name}.Value;
+        <@setterTextInternal var_name=keyName  type=keyType/>
+        <@setterTextInternal var_name=valName  type=valueType/>
+    </#if>
+</#macro>
+<#--GETTER NULL CHECK MACRO -->
+<#macro getterText var_name type isNullable=false isEvent=false containsNullable=false>
+<#--<@defineVariable var_name=var_name type=type/>-->
+<@readVariable var_name=var_name type=type isNullable=isNullable isEvent=isEvent containsNullable=containsNullable/>
+</#macro>
+<#-- Only defines the variable -->
+<#macro defineVariable var_name type is_optional=false>
+        ${util.getCSharpType(type)}<#if is_optional && util.isPrimitive(type)>?</#if> ${var_name};
+</#macro>
+<#function defineVariableFnc var_name type is_optional=false>
+    <#if !is_optional>
+        <#return util.getCSharpType(type) + " " + var_name>
+    <#elseif is_optional && util.isNonNullable(type)>
+        <#return util.getCSharpType(type) + "? " + var_name>
+    <#elseif is_optional && !util.isNonNullable(type)>
+        <#return util.getCSharpType(type) + " " + var_name>
+    </#if>
+</#function>
+<#-- Reads the variable from client message -->
+<#macro readVariable var_name type isNullable isEvent containsNullable=false local=true>
+<#local isNullVariableName= "${var_name}IsNull">
+<#if isNullable>
+    var ${isNullVariableName} = clientMessage.GetBoolean();
+    if (!${isNullVariableName})
+    {
 </#if>
-                <@getterTextInternal var_name=var_name varType=type/>
+    <@getterTextInternal var_name=var_name varType=type containsNullable=containsNullable local=local/>
 <#if !isEvent>
-            parameters.${var_name} = ${var_name};
+    parameters.${var_name} = ${var_name};
 </#if>
 <#if isNullable>
-            }
+    }
 </#if>
 </#macro>
-
-<#macro getterTextInternal var_name varType>
+<#macro getterTextInternal var_name varType containsNullable=false local=true>
 <#local cat= util.getTypeCategory(varType)>
 <#switch cat>
     <#case "OTHER">
         <#switch varType>
             <#case util.DATA_FULL_NAME>
-            ${var_name} = clientMessage.GetData();
+            <#if local>var </#if>${var_name} = clientMessage.GetData();
                 <#break >
             <#case "java.lang.Integer">
-            ${var_name} = clientMessage.GetInt();
+            <#if local>var </#if>${var_name} = clientMessage.GetInt();
+                <#break >
+            <#case "java.lang.Long">
+            <#if local>var </#if>${var_name} = clientMessage.GetLong();
                 <#break >
             <#case "java.lang.Boolean">
-            ${var_name} = clientMessage.GetBoolean();
+            <#if local>var </#if>${var_name} = clientMessage.GetBoolean();
                 <#break >
             <#case "java.lang.String">
-            ${var_name} = clientMessage.GetStringUtf8();
-                <#break >
-            <#case "java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>">
-            ${var_name} = clientMessage.GetMapEntry();
+            <#if local>var </#if>${var_name} = clientMessage.GetStringUtf8();
                 <#break >
             <#default>
-            ${var_name} = clientMessage.Get${util.capitalizeFirstLetter(varType)}();
+            <#if local>var </#if>${var_name} = clientMessage.Get${util.capitalizeFirstLetter(varType)}();
         </#switch>
         <#break >
     <#case "CUSTOM">
-            ${var_name} = ${util.getTypeCodec(varType)?split(".")?last}.Decode(clientMessage);
+            <#if local>var </#if>${var_name} = ${util.getTypeCodec(varType)?split(".")?last}.Decode(clientMessage);
         <#break >
     <#case "COLLECTION">
     <#local collectionType><#if varType?starts_with("java.util.List")>List<#else>HashSet</#if></#local>
     <#local itemVariableType= util.getGenericType(varType)>
     <#local convertedItemType= util.getCSharpType(itemVariableType)>
-    <#local itemVariableName= "${var_name}_item">
-    <#local sizeVariableName= "${var_name}_size">
-    <#local indexVariableName= "${var_name}_index">
-            int ${sizeVariableName} = clientMessage.GetInt();
-            ${var_name} = new ${collectionType}<${convertedItemType}>(${itemVariableType.startsWith("List")?then(sizeVariableName,"")});
-            for (int ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++) {
-                ${convertedItemType} ${itemVariableName};
-                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
-                ${var_name}.Add(${itemVariableName});
+    <#local itemVariableName= "${var_name}Item">
+    <#local sizeVariableName= "${var_name}Size">
+    <#local indexVariableName= "${var_name}Index">
+    <#local isNullVariableName= "${itemVariableName}IsNull">
+            <#if local>var </#if>${var_name} = new ${collectionType}<${convertedItemType}>(${itemVariableType.startsWith("List")?then(sizeVariableName,"")});
+            var ${sizeVariableName} = clientMessage.GetInt();
+            for (var ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++)
+            {
+                <#if containsNullable>
+                var ${isNullVariableName} = clientMessage.GetBoolean();
+                if (!${isNullVariableName})
+                {
+                </#if>
+                    <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                    ${var_name}.Add(${itemVariableName});
+                <#if containsNullable>
+                }
+                else
+                {
+                    ${var_name}.Add(null);
+                }
+                </#if>
             }
         <#break >
     <#case "ARRAY">
     <#local itemVariableType= util.getArrayType(varType)>
-    <#local itemVariableName= "${var_name}_item">
-    <#local sizeVariableName= "${var_name}_size">
-    <#local indexVariableName= "${var_name}_index">
-            int ${sizeVariableName} = clientMessage.getInt();
-            ${var_name} = new ${itemVariableType}[${sizeVariableName}];
-            for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName};
-                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
-                ${var_name}[${indexVariableName}] = ${itemVariableName};
+    <#local itemVariableName= "${var_name}Item">
+    <#local sizeVariableName= "${var_name}Size">
+    <#local indexVariableName= "${var_name}Index">
+    <#local isNullVariableName= "${itemVariableName}IsNull">
+            <#if local>var </#if>${var_name} = new ${itemVariableType}[${sizeVariableName}];
+            var ${sizeVariableName} = clientMessage.GetInt();
+            for (var ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++)
+            {
+                <#if containsNullable>
+                var ${isNullVariableName} = clientMessage.GetBoolean();
+                if (!${isNullVariableName})
+                {
+                </#if>
+                    <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                    ${var_name}.Add(${itemVariableName});
+                <#if containsNullable>
+                }
+                else
+                {
+                    ${var_name}.Add(null);
+                }
+                </#if>
             }
         <#break >
-    <#case "MAP">
-        <#local sizeVariableName= "${var_name}_size">
-        <#local indexVariableName= "${var_name}_index">
+    <#case "MAPENTRY">
+        <#local sizeVariableName= "${var_name}Size">
+        <#local indexVariableName= "${var_name}Index">
         <#local keyType = util.getFirstGenericParameterType(varType)>
         <#local keyTypeCs = util.getCSharpType(keyType)>
         <#local valueType = util.getSecondGenericParameterType(varType)>
         <#local valueTypeCs = util.getCSharpType(valueType)>
-        <#local keyVariableName= "${var_name}_key">
-        <#local valVariableName= "${var_name}_val">
-        int ${sizeVariableName} = clientMessage.GetInt();
-        ${var_name} = new Dictionary<${keyTypeCs},${valueTypeCs}>(${sizeVariableName});
-        for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-            ${keyTypeCs} ${keyVariableName};
-            ${valueTypeCs} ${valVariableName};
-            <@getterTextInternal var_name=keyVariableName varType=keyType/>
-            <@getterTextInternal var_name=valVariableName varType=valueType/>
-            ${var_name}.Add(${keyVariableName}, ${valVariableName});
-        }
+        <#local keyVariableName= "${var_name}Key">
+        <#local valVariableName= "${var_name}Val">
+        <@getterTextInternal var_name=keyVariableName varType=keyType/>
+        <@getterTextInternal var_name=valVariableName varType=valueType/>
+        <#if local>var </#if>${var_name} = new KeyValuePair<${keyTypeCs},${valueTypeCs}>(${keyVariableName}, ${valVariableName});
 </#switch>
 </#macro>

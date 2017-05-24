@@ -91,7 +91,9 @@ public final class CodeGenerationUtils {
         put(DATA_FULL_NAME, "IData");
         put("java.lang.String", "string");
         put("java.lang.Integer", "int");
+        put("java.lang.Long", "long");
         put("boolean", "bool");
+        put("java.util.UUID", "Guid");
         put("java.util.List", "IList");
         put("java.util.Set", "ISet");
         put("java.util.Collection", "ICollection");
@@ -133,6 +135,10 @@ public final class CodeGenerationUtils {
             .asList("and", "del", "from", "not", "while", "as", "elif", "global", "or", "with", "assert", "else", "if", "pass",
                     "yield", "break", "except", "import", "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                     "return", "def", "for", "lambda", "try");
+
+    private static final List<String> NON_NULLABLE_TYPES = Arrays
+            .asList("int", "long", "short", "byte", "boolean", "java.util.UUID");
+    private static final List<String> PRIMITIVE_TYPES = Arrays.asList("int", "long", "short", "byte", "boolean");
 
     private CodeGenerationUtils() {
     }
@@ -191,7 +197,11 @@ public final class CodeGenerationUtils {
     }
 
     public static boolean isPrimitive(String type) {
-        return type.equals("int") || type.equals("long") || type.equals("short") || type.equals("byte") || type.equals("boolean");
+        return PRIMITIVE_TYPES.contains(type);
+    }
+
+    public static boolean isNonNullable(String type) {
+        return NON_NULLABLE_TYPES.contains(type);
     }
 
     public static boolean isGeneric(String type) {
@@ -377,7 +387,7 @@ public final class CodeGenerationUtils {
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
             } else {
-                builder.append(" >");
+                builder.append(">");
             }
 
             String result = builder.toString();
