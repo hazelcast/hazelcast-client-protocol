@@ -379,7 +379,7 @@ public final class ${model.className} {
             int ${sizeVariableName} = clientMessage.getInt();
             ${var_name} = new ${itemVariableType}[${sizeVariableName}];
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName} = null;
+                ${itemVariableType} ${itemVariableName} = <@getDefaultValueForType type=itemVariableType />;
                 <#if containsNullable>
                         boolean ${isNullVariableName} = clientMessage.getBoolean();
                         if (!${isNullVariableName}) {
