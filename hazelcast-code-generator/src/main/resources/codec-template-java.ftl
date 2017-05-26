@@ -358,8 +358,9 @@ public final class ${model.className} {
             int ${sizeVariableName} = clientMessage.getInt();
             ${var_name} = new ${collectionType}<${itemVariableType}>(${sizeVariableName});
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName} = null;
+                ${itemVariableType} ${itemVariableName};
                 <#if containsNullable>
+                        ${itemVariableName} = null;
                         boolean ${isNullVariableName} = clientMessage.getBoolean();
                         if (!${isNullVariableName}) {
                 </#if>
@@ -379,8 +380,9 @@ public final class ${model.className} {
             int ${sizeVariableName} = clientMessage.getInt();
             ${var_name} = new ${itemVariableType}[${sizeVariableName}];
             for (int ${indexVariableName} = 0;${indexVariableName}<${sizeVariableName};${indexVariableName}++) {
-                ${itemVariableType} ${itemVariableName} = null;
+                ${itemVariableType} ${itemVariableName};
                 <#if containsNullable>
+                        ${itemVariableName} = null;
                         boolean ${isNullVariableName} = clientMessage.getBoolean();
                         if (!${isNullVariableName}) {
                 </#if>
@@ -388,6 +390,7 @@ public final class ${model.className} {
                 <#if containsNullable>
                         }
                 </#if>
+                ${var_name}[${indexVariableName}] = ${itemVariableName};
             }
         <#break >
     <#case "MAPENTRY">

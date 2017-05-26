@@ -20,8 +20,8 @@ import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
-import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
+import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
@@ -240,4 +240,15 @@ public interface ClientMessageTemplate {
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID)
     @Since(value = "1.5")
     void statistics(List<Map.Entry<String, String>> stats);
+
+    /**
+     * Deploys the list of classes to cluster
+     * Each item is a Map.Entry<String, byte[]> in the list.
+     * key of entry is full class name, and byte[] is the class definition.
+     *
+     * @param classDefinitions list of class definitions
+     */
+    @Request(id = 17, retryable = false, response = ResponseMessageConst.VOID)
+    @Since(value = "1.5")
+    void deployClasses(List<Map.Entry<String, byte[]>> classDefinitions);
 }
