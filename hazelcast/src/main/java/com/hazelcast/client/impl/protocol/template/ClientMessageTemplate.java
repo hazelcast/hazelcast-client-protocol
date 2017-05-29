@@ -178,30 +178,36 @@ public interface ClientMessageTemplate {
     void ping();
 
     /**
-     * The statistics path identify the category of the statistics. It is formatted as:
+     * The statistics is a String that is composed of key=value pairs separated by ',' . The following characters are escaped in
+     * IMap and ICache names by the escape character '\' : '=' '.' ',' '\'
+     *
+     * The statistics key identify the category and name of the statistics. It is formatted as:
      * mainCategory.subCategory.statisticName
      *
      * An e.g. Operating system committedVirtualMemorySize path would be: os.committedVirtualMemorySize
      *
-     * The statistics key paths can be one of the following (An example for an IMap named <StatTestMapName> and ICache Named
-     * <StatTestCacheName> and near cache is configured):
+     * The statistics key names can be one of the following (Used IMap named <example.fastmap> and ICache Named
+     * <StatTestCacheName> and assuming that the near cache is configured):
      *
      * clientType
      * clusterConnectionTimestamp
+     * credentials.principal
+     * clientAddress
+     * clientName
      * enterprise
      * lastStatisticsCollectionTime
-     * nearcache.<StatTestMapName>.creationTime
-     * nearcache.<StatTestMapName>.evictions
-     * nearcache.<StatTestMapName>.expirations
-     * nearcache.<StatTestMapName>.hits
-     * nearcache.<StatTestMapName>.lastPersistenceDuration
-     * nearcache.<StatTestMapName>.lastPersistenceFailure
-     * nearcache.<StatTestMapName>.lastPersistenceKeyCount
-     * nearcache.<StatTestMapName>.lastPersistenceTime
-     * nearcache.<StatTestMapName>.lastPersistenceWrittenBytes
-     * nearcache.<StatTestMapName>.misses
-     * nearcache.<StatTestMapName>.ownedEntryCount
-     * nearcache.<StatTestMapName>.ownedEntryMemoryCost
+     * nearcache.<example\.fastmap>.creationTime
+     * nearcache.<example\.fastmap>.evictions
+     * nearcache.<example\.fastmap>.expirations
+     * nearcache.<example\.fastmap>.hits
+     * nearcache.<example\.fastmap>.lastPersistenceDuration
+     * nearcache.<example\.fastmap>.lastPersistenceFailure
+     * nearcache.<example\.fastmap>.lastPersistenceKeyCount
+     * nearcache.<example\.fastmap>.lastPersistenceTime
+     * nearcache.<example\.fastmap>.lastPersistenceWrittenBytes
+     * nearcache.<example\.fastmap>.misses
+     * nearcache.<example\.fastmap>.ownedEntryCount
+     * nearcache.<example\.fastmap>.ownedEntryMemoryCost
      * nearcache.hz/<StatTestCacheName>.creationTime
      * nearcache.hz/<StatTestCacheName>.evictions
      * nearcache.hz/<StatTestCacheName>.expirations
@@ -235,11 +241,11 @@ public interface ClientMessageTemplate {
      * followed by the cache name provided which is StatTestCacheName.
      *
      *
-     * @param stats The list of statistics path, and the value as string
+     * @param stats The key=value pairs separated by the ',' character
      */
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID)
     @Since(value = "1.5")
-    void statistics(List<Map.Entry<String, String>> stats);
+    void statistics(String stats);
 
     /**
      * Deploys the list of classes to cluster
