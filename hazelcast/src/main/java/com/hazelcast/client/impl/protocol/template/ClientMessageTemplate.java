@@ -240,6 +240,25 @@ public interface ClientMessageTemplate {
      * Not: Please observe that the name for the ICache appears to be the hazelcast instance name "hz" followed by "/" and
      * followed by the cache name provided which is StatTestCacheName.
      *
+     * An example stats string (IMap name: v and ICache name: StatICacheName with near-cache enabled):
+     *
+     * lastStatisticsCollectionTime=1496047105664,enterprise=false,clientType=JAVA,clusterConnectionTimestamp=1496047047594,
+     * clientAddress=127.0.0.1:5001,executionService.userExecutorQueueSize=0,runtime.maxMemory=1065025536,
+     * os.freePhysicalMemorySize=1298280448,os.totalPhysicalMemorySize=17179869184,os.systemLoadAverage=291,
+     * runtime.usedMemory=23234760,runtime.freeMemory=108820280,os.totalSwapSpaceSize=5368709120,runtime.availableProcessors=4,
+     * runtime.uptime=62181,os.committedVirtualMemorySize=4144533504,os.maxFileDescriptorCount=10240,
+     * runtime.totalMemory=132055040,os.processCpuTime=6320000000,os.openFileDescriptorCount=67,os.freeSwapSpaceSize=1102053376,
+     * nearcache.StatIMapName.creationTime=1496047097216,nearcache.StatIMapName.evictions=0,nearcache.StatIMapName.hits=1,
+     * nearcache.StatIMapName.lastPersistenceDuration=0,nearcache.StatIMapName.lastPersistenceKeyCount=0,
+     * nearcache.StatIMapName.lastPersistenceTime=0,nearcache.StatIMapName.lastPersistenceWrittenBytes=0,
+     * nearcache.StatIMapName.misses=1,nearcache.StatIMapName.ownedEntryCount=1,nearcache.StatIMapName.expirations=0,
+     * nearcache.StatIMapName.ownedEntryMemoryCost=140,nearcache.hz/StatICacheName.creationTime=1496047103690,
+     * nearcache.hz/StatICacheName.evictions=0,nearcache.hz/StatICacheName.hits=1,
+     * nearcache.hz/StatICacheName.lastPersistenceDuration=0,nearcache.hz/StatICacheName.lastPersistenceKeyCount=0,
+     * nearcache.hz/StatICacheName.lastPersistenceTime=0,nearcache.hz/StatICacheName.lastPersistenceWrittenBytes=0,
+     * nearcache.hz/StatICacheName.misses=1,nearcache.hz/StatICacheName.ownedEntryCount=1,
+     * nearcache.hz/StatICacheName.expirations=0,nearcache.hz/StatICacheName.ownedEntryMemoryCost=140
+     *
      *
      * @param stats The key=value pairs separated by the ',' character
      */
