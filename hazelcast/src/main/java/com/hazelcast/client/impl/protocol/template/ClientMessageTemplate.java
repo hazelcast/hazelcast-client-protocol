@@ -178,9 +178,9 @@ public interface ClientMessageTemplate {
     void ping();
 
     /**
-     * The statistics is a String that is composed of key=value pairs separated by ',' . The following characters are escaped in
-     * IMap and ICache names by the escape character '\' : '=' '.' ',' '\' . E.g. if the map name is MyMap.First, it will be
-     * escaped as: MyMap\.First
+     * The statistics is a String that is composed of key=value pairs separated by ',' . The following characters
+     * ('=' '.' ',' '\') should be escaped in IMap and ICache names by the escape character ('\'). E.g. if the map name is
+     * MyMap.First, it will be escaped as: MyMap\.First
      *
      * The statistics key identify the category and name of the statistics. It is formatted as:
      * mainCategory.subCategory.statisticName
