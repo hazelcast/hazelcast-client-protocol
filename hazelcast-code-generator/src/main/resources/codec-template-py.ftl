@@ -207,8 +207,12 @@ ${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters['${var_name
         <#break >
     <#case "COLLECTION">
     <#case "ARRAY">
-    <#local collectionType>java.util.ArrayList</#local>
+    <#if cat == "COLLECTION">
     <#local itemVariableType= util.getGenericType(varType)>
+    <#else>
+    <#local itemVariableType= util.getArrayType(varType)>
+    </#if>
+
     <#local itemVariableName= "${var_name}_item">
     <#local sizeVariableName= "${var_name}_size">
     <#local indexVariableName= "${var_name}_index">
