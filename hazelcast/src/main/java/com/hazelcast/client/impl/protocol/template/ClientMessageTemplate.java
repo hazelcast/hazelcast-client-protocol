@@ -178,42 +178,49 @@ public interface ClientMessageTemplate {
     void ping();
 
     /**
-     * The statistics path identify the category of the statistics. It is formatted as:
+     * The statistics is a String that is composed of key=value pairs separated by ',' . The following characters
+     * ('=' '.' ',' '\') should be escaped in IMap and ICache names by the escape character ('\'). E.g. if the map name is
+     * MyMap.First, it will be escaped as: MyMap\.First
+     *
+     * The statistics key identify the category and name of the statistics. It is formatted as:
      * mainCategory.subCategory.statisticName
      *
      * An e.g. Operating system committedVirtualMemorySize path would be: os.committedVirtualMemorySize
      *
-     * The statistics key paths can be one of the following (An example for an IMap named <StatTestMapName> and ICache Named
-     * <StatTestCacheName> and near cache is configured):
+     * The statistics key names can be one of the following (Used IMap named <StatIMapName> and ICache Named
+     * <StatICacheName> and assuming that the near cache is configured):
      *
      * clientType
      * clusterConnectionTimestamp
+     * credentials.principal
+     * clientAddress
+     * clientName
      * enterprise
      * lastStatisticsCollectionTime
-     * nearcache.<StatTestMapName>.creationTime
-     * nearcache.<StatTestMapName>.evictions
-     * nearcache.<StatTestMapName>.expirations
-     * nearcache.<StatTestMapName>.hits
-     * nearcache.<StatTestMapName>.lastPersistenceDuration
-     * nearcache.<StatTestMapName>.lastPersistenceFailure
-     * nearcache.<StatTestMapName>.lastPersistenceKeyCount
-     * nearcache.<StatTestMapName>.lastPersistenceTime
-     * nearcache.<StatTestMapName>.lastPersistenceWrittenBytes
-     * nearcache.<StatTestMapName>.misses
-     * nearcache.<StatTestMapName>.ownedEntryCount
-     * nearcache.<StatTestMapName>.ownedEntryMemoryCost
-     * nearcache.hz/<StatTestCacheName>.creationTime
-     * nearcache.hz/<StatTestCacheName>.evictions
-     * nearcache.hz/<StatTestCacheName>.expirations
-     * nearcache.hz/<StatTestCacheName>.hits
-     * nearcache.hz/<StatTestCacheName>.lastPersistenceDuration
-     * nearcache.hz/<StatTestCacheName>.lastPersistenceFailure
-     * nearcache.hz/<StatTestCacheName>.lastPersistenceKeyCount
-     * nearcache.hz/<StatTestCacheName>.lastPersistenceTime
-     * nearcache.hz/<StatTestCacheName>.lastPersistenceWrittenBytes
-     * nearcache.hz/<StatTestCacheName>.misses
-     * nearcache.hz/<StatTestCacheName>.ownedEntryCount
-     * nearcache.hz/<StatTestCacheName>.ownedEntryMemoryCost
+     * nearcache.<StatIMapName>.creationTime
+     * nearcache.<StatIMapName>.evictions
+     * nearcache.<StatIMapName>.expirations
+     * nearcache.<StatIMapName>.hits
+     * nearcache.<StatIMapName>.lastPersistenceDuration
+     * nearcache.<StatIMapName>.lastPersistenceFailure
+     * nearcache.<StatIMapName>.lastPersistenceKeyCount
+     * nearcache.<StatIMapName>.lastPersistenceTime
+     * nearcache.<StatIMapName>.lastPersistenceWrittenBytes
+     * nearcache.<StatIMapName>.misses
+     * nearcache.<StatIMapName>.ownedEntryCount
+     * nearcache.<StatIMapName>.ownedEntryMemoryCost
+     * nearcache.hz/<StatICacheName>.creationTime
+     * nearcache.hz/<StatICacheName>.evictions
+     * nearcache.hz/<StatICacheName>.expirations
+     * nearcache.hz/<StatICacheName>.hits
+     * nearcache.hz/<StatICacheName>.lastPersistenceDuration
+     * nearcache.hz/<StatICacheName>.lastPersistenceFailure
+     * nearcache.hz/<StatICacheName>.lastPersistenceKeyCount
+     * nearcache.hz/<StatICacheName>.lastPersistenceTime
+     * nearcache.hz/<StatICacheName>.lastPersistenceWrittenBytes
+     * nearcache.hz/<StatICacheName>.misses
+     * nearcache.hz/<StatICacheName>.ownedEntryCount
+     * nearcache.hz/<StatICacheName>.ownedEntryMemoryCost
      * os.committedVirtualMemorySize
      * os.freePhysicalMemorySize
      * os.freeSwapSpaceSize
@@ -232,14 +239,33 @@ public interface ClientMessageTemplate {
      * userExecutor.queueSize
      *
      * Not: Please observe that the name for the ICache appears to be the hazelcast instance name "hz" followed by "/" and
-     * followed by the cache name provided which is StatTestCacheName.
+     * followed by the cache name provided which is StatICacheName.
+     *
+     * An example stats string (IMap name: v and ICache name: StatICacheName with near-cache enabled):
+     *
+     * lastStatisticsCollectionTime=1496047105664,enterprise=false,clientType=JAVA,clusterConnectionTimestamp=1496047047594,
+     * clientAddress=127.0.0.1:5001,executionService.userExecutorQueueSize=0,runtime.maxMemory=1065025536,
+     * os.freePhysicalMemorySize=1298280448,os.totalPhysicalMemorySize=17179869184,os.systemLoadAverage=291,
+     * runtime.usedMemory=23234760,runtime.freeMemory=108820280,os.totalSwapSpaceSize=5368709120,runtime.availableProcessors=4,
+     * runtime.uptime=62181,os.committedVirtualMemorySize=4144533504,os.maxFileDescriptorCount=10240,
+     * runtime.totalMemory=132055040,os.processCpuTime=6320000000,os.openFileDescriptorCount=67,os.freeSwapSpaceSize=1102053376,
+     * nearcache.StatIMapName.creationTime=1496047097216,nearcache.StatIMapName.evictions=0,nearcache.StatIMapName.hits=1,
+     * nearcache.StatIMapName.lastPersistenceDuration=0,nearcache.StatIMapName.lastPersistenceKeyCount=0,
+     * nearcache.StatIMapName.lastPersistenceTime=0,nearcache.StatIMapName.lastPersistenceWrittenBytes=0,
+     * nearcache.StatIMapName.misses=1,nearcache.StatIMapName.ownedEntryCount=1,nearcache.StatIMapName.expirations=0,
+     * nearcache.StatIMapName.ownedEntryMemoryCost=140,nearcache.hz/StatICacheName.creationTime=1496047103690,
+     * nearcache.hz/StatICacheName.evictions=0,nearcache.hz/StatICacheName.hits=1,
+     * nearcache.hz/StatICacheName.lastPersistenceDuration=0,nearcache.hz/StatICacheName.lastPersistenceKeyCount=0,
+     * nearcache.hz/StatICacheName.lastPersistenceTime=0,nearcache.hz/StatICacheName.lastPersistenceWrittenBytes=0,
+     * nearcache.hz/StatICacheName.misses=1,nearcache.hz/StatICacheName.ownedEntryCount=1,
+     * nearcache.hz/StatICacheName.expirations=0,nearcache.hz/StatICacheName.ownedEntryMemoryCost=140
      *
      *
-     * @param stats The list of statistics path, and the value as string
+     * @param stats The key=value pairs separated by the ',' character
      */
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID)
     @Since(value = "1.5")
-    void statistics(List<Map.Entry<String, String>> stats);
+    void statistics(String stats);
 
     /**
      * Deploys the list of classes to cluster
