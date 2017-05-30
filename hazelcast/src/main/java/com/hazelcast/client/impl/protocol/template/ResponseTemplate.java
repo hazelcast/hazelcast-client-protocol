@@ -162,9 +162,10 @@ public interface ResponseTemplate {
     /**
      * @param readCount Number of items in the response.
      * @param items     The array of serialized items.
+     * @param itemSeqs  sequence IDs of returned ringbuffer items
      */
     @Response(ResponseMessageConst.READ_RESULT_SET)
-    void ReadResultSet(int readCount, List<Data> items);
+    void ReadResultSet(int readCount, List<Data> items, long[] itemSeqs);
 
     /**
      * @param tableIndex the last tableIndex processed,
@@ -197,4 +198,13 @@ public interface ResponseTemplate {
     @Since("1.4")
     @Response(ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
     void PartitionUuidList(List<Map.Entry<Integer, UUID>> partitionUuidList);
+
+    /**
+     *
+     * @param oldestSequence sequence ID of the oldest event in the event journal
+     * @param newestSequence sequence ID of the newest event in the event journal
+     */
+    @Since("1.5")
+    @Response(ResponseMessageConst.EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE)
+    void EventJournalInitialSubscriberState(long oldestSequence, long newestSequence);
 }
