@@ -55,7 +55,7 @@ public final class ${model.className} {
     <#--  Id 2: AuthenticationCodec, Id:3 CustomAuthenticationCodec -->
     <#if p.name == "clientHazelcastVersion" && (model.id == "0x0002" || model.id == "0x0003") >
             try {
-            <@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            <@getterText var_name=p.name type=p.type reuseData=false isNullable=p.nullable containsNullable=p.containsNullable/>
             } catch (IndexOutOfBoundsException e) {
                 if ("CSP".equals(parameters.clientType)) {
                     // suppress this error for older csharp client since they had a bug which was fixed later (writeByte related)
@@ -65,7 +65,7 @@ public final class ${model.className} {
                 }
             }
     <#else>
-           <@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+           <@getterText var_name=p.name type=p.type reuseData=false isNullable=p.nullable containsNullable=p.containsNullable/>
     </#if>
     <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
@@ -110,7 +110,7 @@ public final class ${model.className} {
             return parameters;
         }
     </#if>
-    <@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+    <@getterText var_name=p.name type=p.type reuseData=true isNullable=p.nullable containsNullable=p.containsNullable/>
     <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
 </#list>
         return parameters;
@@ -156,7 +156,7 @@ public final class ${model.className} {
                     }
                 </#if>
                     if (!messageFinished) {
-                        <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true />
+                        <@readVariable var_name=p.name  reuseData=true type=p.type isNullable=p.nullable isEvent=true/>
                     }
             </#list>
                 handle(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
@@ -295,9 +295,9 @@ public final class ${model.className} {
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText var_name type isNullable=false isEvent=false containsNullable=false>
+<#macro getterText var_name type reuseData isNullable=false isEvent=false containsNullable=false>
         <@defineVariable var_name=var_name type=type />
-        <@readVariable var_name=var_name type=type isNullable=isNullable isEvent=isEvent containsNullable=containsNullable />
+        <@readVariable var_name=var_name type=type reuseData=reuseData isNullable=isNullable isEvent=isEvent containsNullable=containsNullable/>
 </#macro>
 
 <#-- Only defines the variable -->
@@ -306,13 +306,13 @@ public final class ${model.className} {
 </#macro>
 
 <#-- Reads the variable from client message -->
-<#macro readVariable var_name type isNullable isEvent containsNullable=false>
+<#macro readVariable var_name type  reuseData isNullable isEvent containsNullable=false>
 <#local isNullVariableName= "${var_name}_isNull">
 <#if isNullable>
         boolean ${isNullVariableName} = clientMessage.getBoolean();
         if (!${isNullVariableName}) {
 </#if>
-<@getterTextInternal var_name=var_name varType=type containsNullable=containsNullable/>
+<@getterTextInternal var_name=var_name varType=type reuseData=reuseData containsNullable=containsNullable/>
 <#if !isEvent>
             parameters.${var_name} = ${var_name};
 </#if>
@@ -321,13 +321,18 @@ public final class ${model.className} {
 </#if>
 </#macro>
 
-<#macro getterTextInternal var_name varType containsNullable=false>
+<#macro getterTextInternal var_name varType  reuseData containsNullable=false>
 <#local cat= util.getTypeCategory(varType)>
 <#switch cat>
     <#case "OTHER">
         <#switch varType>
             <#case util.DATA_FULL_NAME>
+            <#if reuseData>
+        ${var_name} = clientMessage.getDataReuse();
+            <#else>
         ${var_name} = clientMessage.getData();
+            </#if>
+
                 <#break >
             <#case "java.lang.Integer">
         ${var_name} = clientMessage.getInt();
@@ -364,7 +369,7 @@ public final class ${model.className} {
                         boolean ${isNullVariableName} = clientMessage.getBoolean();
                         if (!${isNullVariableName}) {
                 </#if>
-                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                <@getterTextInternal var_name=itemVariableName varType=itemVariableType reuseData=reuseData/>
                 <#if containsNullable>
                         }
                 </#if>
@@ -386,7 +391,7 @@ public final class ${model.className} {
                         boolean ${isNullVariableName} = clientMessage.getBoolean();
                         if (!${isNullVariableName}) {
                 </#if>
-                <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
+                <@getterTextInternal var_name=itemVariableName varType=itemVariableType reuseData=reuseData/>
                 <#if containsNullable>
                         }
                 </#if>
@@ -402,8 +407,8 @@ public final class ${model.className} {
         <#local valVariableName= "${var_name}_val">
             ${keyType} ${keyVariableName};
             ${valueType} ${valVariableName};
-            <@getterTextInternal var_name=keyVariableName varType=keyType/>
-            <@getterTextInternal var_name=valVariableName varType=valueType/>
+            <@getterTextInternal var_name=keyVariableName varType=keyType reuseData=reuseData/>
+            <@getterTextInternal var_name=valVariableName varType=valueType reuseData=reuseData/>
         ${var_name} = new java.util.AbstractMap.SimpleEntry<${keyType},${valueType}>(${keyVariableName}, ${valVariableName});
 </#switch>
 </#macro>
