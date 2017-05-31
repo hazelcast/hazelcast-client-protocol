@@ -40,6 +40,8 @@
             <#return "aNamePartitionSequenceList">
         <#case "java.util.List<java.util.Map.Entry<java.lang.Integer,java.util.UUID>>">
             <#return "aPartitionUuidList">
+        <#case "java.util.List<java.util.Map.Entry<java.lang.String,byte[]>>">
+            <#return "aListOfStringToByteArrEntry">
         <#case "com.hazelcast.nio.Address">
             <#return "anAddress">
         <#case "com.hazelcast.core.Member">
