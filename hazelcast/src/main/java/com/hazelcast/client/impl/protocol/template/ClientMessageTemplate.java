@@ -311,23 +311,21 @@ public interface ClientMessageTemplate {
      * Not: Please observe that the name for the ICache appears to be the hazelcast instance name "hz" followed by "/" and
      * followed by the cache name provided which is StatICacheName.
      *
-     * An example stats string (IMap name: v and ICache name: StatICacheName with near-cache enabled):
+     * An example stats string (IMap name: StatIMapName and ICache name: StatICacheName with near-cache enabled):
      *
-     * lastStatisticsCollectionTime=1496047105664,enterprise=false,clientType=JAVA,clusterConnectionTimestamp=1496047047594,
-     * clientAddress=127.0.0.1:5001,executionService.userExecutorQueueSize=0,runtime.maxMemory=1065025536,
-     * os.freePhysicalMemorySize=1298280448,os.totalPhysicalMemorySize=17179869184,os.systemLoadAverage=291,
-     * runtime.usedMemory=23234760,runtime.freeMemory=108820280,os.totalSwapSpaceSize=5368709120,runtime.availableProcessors=4,
-     * runtime.uptime=62181,os.committedVirtualMemorySize=4144533504,os.maxFileDescriptorCount=10240,
-     * runtime.totalMemory=132055040,os.processCpuTime=6320000000,os.openFileDescriptorCount=67,os.freeSwapSpaceSize=1102053376,
-     * nc.StatIMapName.creationTime=1496047097216,nc.StatIMapName.evictions=0,nc.StatIMapName.hits=1,
-     * nc.StatIMapName.lastPersistenceDuration=0,nc.StatIMapName.lastPersistenceKeyCount=0,
-     * nc.StatIMapName.lastPersistenceTime=0,nc.StatIMapName.lastPersistenceWrittenBytes=0,
-     * nc.StatIMapName.misses=1,nc.StatIMapName.ownedEntryCount=1,nc.StatIMapName.expirations=0,
-     * nc.StatIMapName.ownedEntryMemoryCost=140,nc.hz/StatICacheName.creationTime=1496047103690,
-     * nc.hz/StatICacheName.evictions=0,nc.hz/StatICacheName.hits=1,
-     * nc.hz/StatICacheName.lastPersistenceDuration=0,nc.hz/StatICacheName.lastPersistenceKeyCount=0,
-     * nc.hz/StatICacheName.lastPersistenceTime=0,nc.hz/StatICacheName.lastPersistenceWrittenBytes=0,
-     * nc.hz/StatICacheName.misses=1,nc.hz/StatICacheName.ownedEntryCount=1,
+     * lastStatisticsCollectionTime=1496137027173,enterprise=false,clientType=JAVA,clusterConnectionTimestamp=1496137018114,
+     * clientAddress=127.0.0.1:5001,clientName=hz.client_0,executionService.userExecutorQueueSize=0,runtime.maxMemory=1065025536,
+     * os.freePhysicalMemorySize=32067584,os.totalPhysicalMemorySize=17179869184,os.systemLoadAverage=249,
+     * runtime.usedMemory=16235040,runtime.freeMemory=115820000,os.totalSwapSpaceSize=5368709120,runtime.availableProcessors=4,
+     * runtime.uptime=13616,os.committedVirtualMemorySize=4081422336,os.maxFileDescriptorCount=10240,
+     * runtime.totalMemory=132055040,os.processCpuTime=6270000000,os.openFileDescriptorCount=67,os.freeSwapSpaceSize=888406016,
+     * nc.StatIMapName.creationTime=1496137021761,nc.StatIMapName.evictions=0,nc.StatIMapName.hits=1,
+     * nc.StatIMapName.lastPersistenceDuration=0,nc.StatIMapName.lastPersistenceKeyCount=0,nc.StatIMapName.lastPersistenceTime=0,
+     * nc.StatIMapName.lastPersistenceWrittenBytes=0,nc.StatIMapName.misses=1,nc.StatIMapName.ownedEntryCount=1,
+     * nc.StatIMapName.expirations=0,nc.StatIMapName.ownedEntryMemoryCost=140,nc.hz/StatICacheName.creationTime=1496137025201,
+     * nc.hz/StatICacheName.evictions=0,nc.hz/StatICacheName.hits=1,nc.hz/StatICacheName.lastPersistenceDuration=0,
+     * nc.hz/StatICacheName.lastPersistenceKeyCount=0,nc.hz/StatICacheName.lastPersistenceTime=0,
+     * nc.hz/StatICacheName.lastPersistenceWrittenBytes=0,nc.hz/StatICacheName.misses=1,nc.hz/StatICacheName.ownedEntryCount=1,
      * nc.hz/StatICacheName.expirations=0,nc.hz/StatICacheName.ownedEntryMemoryCost=140
      *
      *
