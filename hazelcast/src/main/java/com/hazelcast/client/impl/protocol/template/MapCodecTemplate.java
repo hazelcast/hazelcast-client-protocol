@@ -17,6 +17,7 @@
 package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
+import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
@@ -843,4 +844,50 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
 
+
+    /**
+     * Performs the initial subscription to the map event journal. This includes running a query for the
+     * initial map snapshot and retrieving the latest event journal sequence from which events may
+     * be read after the snapshot is processed.
+     *
+     * @param name       name of the map
+     * @param predicate  the predicate to apply before processing events
+     * @param projection the projection to apply to journal events
+     * @return The response for the map event journal subcription. This includes the
+     * {@link com.hazelcast.map.impl.query.QueryResult} for the initial snapshot
+     * and the sequence from which new events can be read after the snapshot
+     * has been processed.
+     */
+    /**
+     * Performs the initial subscription to the map event journal.
+     * This includes retrieving the event journal sequences of the
+     * oldest and newest event in the journal.
+     *
+     * @param name name of the map
+     * @return the map event journal subcription information
+     */
+    @Request(id = 70, retryable = true, response = ResponseMessageConst.EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE, partitionIdentifier = "partitionId")
+    @Since("1.5")
+    Object eventJournalSubscribe(String name);
+
+    /**
+     * Reads from the map event journal in batches. You may specify the start sequence,
+     * the minumum required number of items in the response, the maximum number of items
+     * in the response, a predicate that the events should pass and a projection to
+     * apply to the events in the journal.
+     * The predicate, filter and projection may be {@code null} in which case all elements are returned
+     * and no projection is applied.
+     *
+     * @param name          name of the map
+     * @param startSequence the startSequence of the first item to read
+     * @param minSize       the minimum number of items to read.
+     * @param maxSize       the maximum number of items to read.
+     * @param predicate     the predicate to apply before processing events
+     * @param projection    the projection to apply to journal events
+     * @return read event journal items
+     */
+    @Request(id = 71, retryable = true, response = ResponseMessageConst.READ_RESULT_SET, partitionIdentifier = "partitionId")
+    @Since("1.5")
+    Object eventJournalRead(String name, long startSequence, int minSize, int maxSize,
+                            @Nullable Data predicate, @Nullable Data projection);
 }
