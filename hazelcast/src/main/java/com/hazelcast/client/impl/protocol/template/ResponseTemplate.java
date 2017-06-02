@@ -197,4 +197,12 @@ public interface ResponseTemplate {
     @Since("1.4")
     @Response(ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
     void PartitionUuidList(List<Map.Entry<Integer, UUID>> partitionUuidList);
+
+    /**
+     * @param results                  The query results as an list of serialized projected entries that might have null entries
+     * @param nextTableIndexToReadFrom the index from which new items can be fetched
+     */
+    @Since("1.5")
+    @Response(ResponseMessageConst.QUERY_RESULT_SEGMENT)
+    void ResultSegment(@ContainsNullable List<Data> results, int nextTableIndexToReadFrom);
 }

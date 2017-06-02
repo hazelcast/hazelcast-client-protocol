@@ -843,4 +843,20 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
 
+
+    /**
+     * Fetches the specified number of entries from the specified partition starting from specified table index
+     * that match the predicate and applies the projection logic on them.
+     *
+     * @param name       Name of the map
+     * @param tableIndex The slot number (or index) to start the iterator
+     * @param batch      The number of items to be batched
+     * @param projection projection to transform the entries with
+     * @param predicate  predicate to filter the entries with
+     * @return last index processed and list of entries after applied to the projection
+     */
+    @Request(id = 70, retryable = true, response = ResponseMessageConst.QUERY_RESULT_SEGMENT, partitionIdentifier = "partitionId")
+    @Since("1.5")
+    Object fetchWithQuery(String name, int tableIndex, int batch, Data projection, Data predicate);
+
 }
