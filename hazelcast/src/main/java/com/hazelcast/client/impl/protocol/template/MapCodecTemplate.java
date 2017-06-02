@@ -843,4 +843,5 @@ public interface MapCodecTemplate {
     @Since("1.4")
     Object addNearCacheInvalidationListener(String name, int listenerFlags, boolean localOnly);
 
+
 }
