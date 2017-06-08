@@ -103,7 +103,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
     private final int[] protocolVersions = {
             CodeGenerationUtils.versionAsInt("1.0"), CodeGenerationUtils.versionAsInt("1.1"),
             CodeGenerationUtils.versionAsInt("1.2"), CodeGenerationUtils.versionAsInt("1.3"),
-            CodeGenerationUtils.versionAsInt("1.4"),
+            CodeGenerationUtils.versionAsInt("1.4"), CodeGenerationUtils.versionAsInt("1.5"),
     };
 
     private final CompatibilityTestInfo[] compatibilityTestInfos = {

@@ -50,6 +50,7 @@ public final class TemplateConstants {
     public static final int DURABLE_EXECUTOR_TEMPLATE_ID = 27;
     public static final int CARDINALITY_ESTIMATOR_TEMPLATE_ID = 28;
     @Since("1.4") public static final int SCHEDULED_EXECUTOR_TEMPLATE_ID = 29;
+    @Since("1.5") public static final int DYNAMIC_CONFIG_TEMPLATE_ID = 30;
 
     private TemplateConstants() {
     }

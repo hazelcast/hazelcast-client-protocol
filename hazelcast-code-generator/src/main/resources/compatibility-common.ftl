@@ -62,6 +62,32 @@
             <#return "longs">
         <#case "java.util.List<java.util.UUID>">
             <#return "uuids">
+        <#case "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>">
+            <#return "listenerConfigs">
+        <#case "com.hazelcast.client.impl.protocol.task.dynamicconfig.RingbufferStoreConfigHolder">
+            <#return "ringbufferStore">
+        <#case "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueueStoreConfigHolder">
+            <#return "queueStoreConfig">
+        <#case "com.hazelcast.client.impl.protocol.task.dynamicconfig.MapStoreConfigHolder">
+            <#return "mapStoreConfig">
+        <#case "com.hazelcast.client.impl.protocol.task.dynamicconfig.NearCacheConfigHolder">
+            <#return "nearCacheConfig">
+        <#case "com.hazelcast.config.WanReplicationRef">
+            <#return "wanReplicationRef">
+        <#case "java.util.List<com.hazelcast.config.MapIndexConfig>">
+            <#return "mapIndexConfigs">
+        <#case "java.util.List<com.hazelcast.config.MapAttributeConfig>">
+            <#return "mapAttributeConfigs">
+        <#case "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder>">
+            <#return "queryCacheConfigs">
+        <#case "com.hazelcast.config.HotRestartConfig">
+            <#return "hotRestartConfig">
+        <#case "com.hazelcast.config.CacheSimpleConfig.ExpiryPolicyFactoryConfig.TimedExpiryPolicyFactoryConfig">
+            <#return "timedExpiryPolicyFactoryConfig">
+        <#case "java.util.List<com.hazelcast.config.CacheSimpleEntryListenerConfig>">
+            <#return "cacheEntryListenerConfigs">
+        <#case "com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder">
+            <#return "evictionConfig">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>

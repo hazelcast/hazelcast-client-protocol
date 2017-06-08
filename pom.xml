@@ -52,8 +52,8 @@
     </modules>
 
     <properties>
-        <hazelcast.git.repo>mmedenjak</hazelcast.git.repo>
-        <hazelcast.git.branch>event-journal2</hazelcast.git.branch>
+        <hazelcast.git.repo>vbekiaris</hazelcast.git.repo>
+        <hazelcast.git.branch>improvements/dynamic-config/master</hazelcast.git.branch>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
