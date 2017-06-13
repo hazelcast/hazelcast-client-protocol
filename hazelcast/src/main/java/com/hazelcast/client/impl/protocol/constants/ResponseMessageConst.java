@@ -54,6 +54,7 @@ public final class ResponseMessageConst {
     @Since("1.4") public static final int ALL_SCHEDULED_TASK_HANDLERS = 121;
     @Since("1.4") public static final int NEAR_CACHE_INVALIDATION_META_DATA = 122;
     @Since("1.4") public static final int LIST_ENTRY_PARTITION_UUID = 123;
+    @Since("1.5") public static final int QUERY_RESULT_SEGMENT = 124;
 
     private ResponseMessageConst() {
     }
