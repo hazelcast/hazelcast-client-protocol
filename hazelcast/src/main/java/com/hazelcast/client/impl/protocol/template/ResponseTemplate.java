@@ -221,4 +221,13 @@ public interface ResponseTemplate {
     @Since("1.5")
     @Response(ResponseMessageConst.QUERY_RESULT_SEGMENT)
     void ResultSegment(@ContainsNullable List<Data> results, int nextTableIndexToReadFrom);
+
+    /**
+     *
+     * @param oldestSequence sequence ID of the oldest event in the event journal
+     * @param newestSequence sequence ID of the newest event in the event journal
+     */
+    @Since("1.5")
+    @Response(ResponseMessageConst.EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE)
+    void EventJournalInitialSubscriberState(long oldestSequence, long newestSequence);
 }

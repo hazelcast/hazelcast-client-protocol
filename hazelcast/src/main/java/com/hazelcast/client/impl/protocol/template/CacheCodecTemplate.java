@@ -405,4 +405,40 @@ public interface CacheCodecTemplate {
     @Request(id = 32, retryable = true, response = ResponseMessageConst.LIST_ENTRY_PARTITION_UUID)
     @Since("1.4")
     Object assignAndGetUuids();
+
+
+    /**
+     * Performs the initial subscription to the cache event journal.
+     * This includes retrieving the event journal sequences of the
+     * oldest and newest event in the journal.
+     *
+     * @param name name of the cache
+     * @return the cache event journal subcription information
+     */
+    @Request(id = 33, retryable = true, response = ResponseMessageConst.EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE, partitionIdentifier = "partitionId")
+    @Since("1.5")
+    Object eventJournalSubscribe(String name);
+
+    /**
+     * Reads from the cache event journal in batches. You may specify the start sequence,
+     * the minimum required number of items in the response, the maximum number of items
+     * in the response, a predicate that the events should pass and a projection to
+     * apply to the events in the journal.
+     * If the event journal currently contains less events than {@code minSize}, the
+     * call will wait until it has sufficient items.
+     * The predicate, filter and projection may be {@code null} in which case all elements are returned
+     * and no projection is applied.
+     *
+     * @param name          name of the cache
+     * @param startSequence the startSequence of the first item to read
+     * @param minSize       the minimum number of items to read.
+     * @param maxSize       the maximum number of items to read.
+     * @param predicate     the predicate to apply before processing events
+     * @param projection    the projection to apply to journal events
+     * @return read event journal items
+     */
+    @Request(id = 34, retryable = true, response = ResponseMessageConst.READ_RESULT_SET, partitionIdentifier = "partitionId")
+    @Since("1.5")
+    Object eventJournalRead(String name, long startSequence, int minSize, int maxSize,
+                            @Nullable Data predicate, @Nullable Data projection);
 }
