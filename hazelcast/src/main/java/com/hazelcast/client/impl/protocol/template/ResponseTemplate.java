@@ -160,11 +160,27 @@ public interface ResponseTemplate {
             , int causeErrorCode, @Nullable String causeClassName);
 
     /**
-     * @param readCount Number of items in the response.
+     * @param readCount The number of items read from the ringbuffer. This can be different from
+     *                  the size of the item array if a filter was applied when reading and some
+     *                  items were skipped and are not in the returned array. This can also be
+     *                  seen as the delta with which the user should increase his sequence
+     *                  counter after consuming all of the returned items in the result set
+     *                  to request the next set from the ringbuffer.
      * @param items     The array of serialized items.
+     * @param itemSeqs  sequence IDs of returned ringbuffer items. This array can be {@code null}
+     *                  if the cluster version is 3.8 or lower. If the cluster version is 3.9 or
+     *                  higher then the array with sequence IDs will be sent. The array size is
+     *                  equal to the size of the items array and the arrays have a one-to-one
+     *                  mapping: the index of the sequence ID in the sequence array is equal
+     *                  to the index of the item in the item array. These sequences can be used to
+     *                  provide the user information to request a subset of the returned set if
+     *                  the user has for some reason stopped processing working when processing
+     *                  this returned set. If the ringbuffer is read without a filter then these
+     *                  sequences are a contiguous range and the size of the arrays is equal to the
+     *                  readCount.
      */
     @Response(ResponseMessageConst.READ_RESULT_SET)
-    void ReadResultSet(int readCount, List<Data> items);
+    void ReadResultSet(int readCount, List<Data> items, @Since("1.5") @Nullable long[] itemSeqs);
 
     /**
      * @param tableIndex the last tableIndex processed,
