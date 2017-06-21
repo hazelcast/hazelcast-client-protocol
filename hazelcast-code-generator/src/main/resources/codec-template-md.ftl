@@ -32,6 +32,14 @@ is encoded as shown below:
 |Old Value|byte-array|Yes|Old value of the cache data if exists|
 |isOldValueAvailable|boolean|No|True if old value exist|
 
+### Cache Simple Entry Listener Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Synchronous|boolean|No|If true, this cache entry listener implementation will be called in a synchronous manner.|
+|OldValueRequired|boolean|No|If true, previously assigned values for the affected keys will be sent to this cache-entry-listener implementation.|
+|EntryListenerFactory|string|Yes|Class name of a javax.cache.configuration.Factory for CacheEntryListener|
+|EntryEventFilterFactory|string|Yes|Class name of a javax.cache.configuration.Factory for CacheEntryEventFilter|
+
 ### Distributed Object Info Data Type
 | Field| Type| Nullable| Description|
 |------|-----|---------|------------|
@@ -54,11 +62,61 @@ is encoded as shown below:
 |Eviction Criteria Number|int64|No|The number of the eviction criteria applied|
 |ttl|int64|No|Time to live for the entry|
 
+### Eviction Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Size|int32|No|Size used by max size policy to determine whether eviction is required. The interpretation of the value depends on the configured Max Size Policy.|
+|MaxSizePolicy|string|No|Maximum size policy. Valid values are: <br>"ENTRY_COUNT": Policy based on maximum number of entries stored per data structure<br>"USED_NATIVE_MEMORY_SIZE": used native memory in megabytes per data structure on each Hazelcast instance<br>"USED_NATIVE_MEMORY_PERCENTAGE": maximum used native memory percentage per data structure on each Hazelcast instance<br>"FREE_NATIVE_MEMORY_SIZE": minimum free native memory in megabytes per Hazelcast instance<br>"FREE_NATIVE_MEMORY_PERCENTAGE": minimum free native memory percentage per Hazelcast instance|
+|EvictionPolicy|string|No|Eviction policy determines how eviction candidates are picked. Valid values are:<br>"LRU": Least Recently Used<br>"LFU": Least Frequently Used<br>"NONE": no eviction<br>"RANDOM": evict randomly|
+|ComparatorClassName|string|Yes|Class name of the configured EvictionPolicyComparator implementation|
+|Comparator|byte-array|Yes|Serialized instance of EvictionPolicyComparator implementation|
+
+### Hot Restart Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Enabled|boolean|No|Indicates whether hot restart is enabled|
+|Fsync|boolean|No|When true, disk writes should be followed by an fsync() system call|
+
 ### Job Partition State Data Type
 | Field| Type| Nullable| Description|
 |------|-----|---------|------------|
 |Owner Address|Address|No|The address of the partition owner|
 |State value|string|No|Value of the partition state. Possible values are:<br>"WAITING": Partition waits for being calculated. <br>"MAPPING": Partition is in mapping phase. <br>"REDUCING": Partition is in reducing phase (mapping may still not finished when this state is reached since there is a chunked based operation underlying). <br>"PROCESSED": Partition is fully processed <br>"CANCELLED": Partition calculation cancelled due to an internal exception
+
+### Listener Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Listener type|uint8|no|Indicates the type of listener configuration. Possible values:<br>0 : Generic Listener<br>1 : Item Listener<br>2 : Entry Listener<br>3 : Quorum Listener<br>4 : Cache Partition Lost Listener<br>5 : Map Partition Lost Listener|
+|Listener implementation|byte-array|Yes|A serialized instance of the actual listener implementation. Just one of "Listener implementation" and "Listener class name" should be not null.|
+|Listener class name|string|Yes|The class name of a listener class, to be instantiated and used as a listener. Just one of "Listener implementation" and "Listener class name" should be not null.|
+|Local|boolean|No|When true, the listener only receives events from the local member, otherwise cluster-wide events are delivered to the listener.|
+|IncludeValue|boolean|No|When true, the value associated with the event must be included in the event.|
+
+### Map Attribute Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Name|string|No|The name given to an attribute that is going to be extracted|
+|Extractor|string|No|Full class name of the extractor e.g. {@code com.example.car.SpeedExtractor}|
+
+### Map Index Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Attribute|string|No|Attribute to be indexed|
+|Ordered|boolean|No|When true, indicates that the index will be ordered, otherwise unsorted|
+
+### Map Store Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Enabled|boolean|No|True to enable this map-store, false to disable.|
+|Write Coalescing|boolean|No|Setting this is meaningful if you are using write behind in MapStore. When write-coalescing is true, only the latest store operation on a key in the write-delay-seconds time-window will be reflected to MapStore.|
+|Write Delay Seconds|int32|No|The number of seconds to delay the store writes.|
+|Write Batch Size|int32|No|The number of operations to be included in each batch processing round.|
+|Initial Load Mode|string|No|Sets the initial load mode. Valid values:<br>"LAZY": load is asynchronous.<br>"EAGER": load is blocked till all partitions are loaded.|
+|Properties|Properties Data Type|No|Zero or more key-value pairs, which may be used to configure the map store implementation.|
+|Class name|string|Yes|Name of MapStore implementation class.|
+|Factory class name|string|Yes|Class name of a com.hazelcast.core.MapStoreFactory implementation to be instantiated and supply map store implementation.|
+|MapStore implementation|byte-array|Yes|Serialized MapStore implementation instance.|
+|MapStoreFactory implementation|byte-array|Yes|Serialized MapStoreFactory implementation instance.|
 
 ### Member Data Type
 | Field| Type| Nullable| Description|
@@ -77,6 +135,64 @@ is encoded as shown below:
 
 <br>n is the number of attributes for the server member.
 
+### Near Cache Config Data type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Name|string|No|Name of this near cache config|
+|In memory format|string|No|in memory format of values in the near cache. Valid options are "BINARY", "OBJECT" and "NATIVE"|
+|SerializeKeys|boolean|No|When false, keys will be maintained in OBJECT format in the near cache, otherwise they will be serialized to "BINARY"|
+|InvalidateOnChange|boolean|No|When true, a Hazelcast instance with a Near Cache listens for cluster-wide changes on the entries of the backing data structure and invalidates its corresponding Near Cache entries. Changes done on the local Hazelcast instance always invalidate the Near Cache immediately.|
+|TimeToLiveSeconds|int32|No|Maximum number of seconds for each entry to stay in the Near Cache.|
+|MaxIdleSeconds|int32|No|Maximum number of seconds each entry can stay in the Near Cache while not touched.|
+|CacheLocalEntries|boolean|No|True to also cache local entries, false otherwise|
+|LocalUpdatePolicy|string|No|Defines how to reflect local updates to the Near Cache. Valid values are:<br>"INVALIDATE": A local put and local remove immediately invalidates the Near Cache.<br>"CACHE_ON_UPDATE": A local put immediately adds the new value to the Near Cache. A local remove works as in INVALIDATE mode.|
+|PreloaderConfig|Near Cache Preloader Config|Yes|Configuration for near cache preloader.|
+
+### Near Cache Preloader Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Enabled|boolean|No|Indicates whether near cache preloader is enabled|
+|Directory|string|No|Directory in which near cache keys will be persisted for preloading|
+|StoreInitialDelaySeconds|int32|No|Initial delay for the Near Cache key storage|
+|StoreIntervalSeconds|int32|No|Interval for the Near Cache key storage (in seconds)|
+
+### Predicate Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|ClassName|string|Yes|Name of Predicate class|
+|Sql|string|Yes|SQL query to be used as predicate|
+|Implementation|byte-array|Yes|A serialized Predicate instance|
+
+### Properties Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Count|int32|No|Number of key-value pairs in this Properties instance|
+|Key1|string|No|Key of first property|
+|Value1|string|No|Value of first property|
+|Key2|string|No|...|
+|Value2|string|No|...|
+|...|...|...|...|
+|KeyN|string|No|...|
+|ValueN|string|No|...|
+
+<br>for Count key-value pairs.
+
+### Query Cache Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|BatchSize|int32|No|After reaching this minimum size, buffered events are sent to QueryCache|
+|BufferSize|int32|No|Maximum number of events which can be stored in a buffer of a partition|
+|DelaySeconds|int32|No|Minimum number of delay seconds which an event waits in the buffer of node|
+|IncludeValue|boolean|No|Flag to enable/disable value caching|
+|Populate|boolean|No|Flag to enable/disable initial population of the QueryCache|
+|Coalesce|boolean|No|Flag to enable/disable coalescing|
+|InMemoryFormat|string|No|Memory format of values of entries in QueryCache. Valid values are:<br>BINARY<br>OBJECT|
+|Name|string|No|Name of this QueryCache|
+|PredicateConfig|Predicate Config|No|The predicate to filter events which wil be applied to the QueryCache|
+|EvictionConfig|Eviction Config|No|Eviction configuration|
+|ListenerConfigs|array of Listener Config|Yes|Array of entry listener configurations|
+|IndexConfigs|array of Map Index Config|Yes|Array of map index configurations|
+
 ### Query Cache Event Data Type
 | Field| Type| Nullable| Description|
 |------|-----|---------|------------|
@@ -85,6 +201,32 @@ is encoded as shown below:
 |New Value|byte-array|Yes|The new value for the event|
 |Event type|int32|No|The type of the event|
 |Partition Id|int32|No|The partition id for the event key|
+
+### Query Store Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Queue store config type|uint8|No|Type of queue store configuration. Valid types are:<br>0: queue store is configured with a queue store class name<br>1: queue store is configured with a factory class name<br>2: queue store is configured with a serialized queue store implementation<br>3: queue store is configured with a serialized queue store factory implementation|
+|Queue store class name or factory class name (when queue store config type is 0 or 1)|string|No|Class name of a queue store or a queue store factory. Its interpretation depends on the queue store config type. This field only exists when config type is 0 or 1.|
+|Serialized queue store instance or queue store factory instance (when queue store config type is 2 or 3)|byte-array|No|Serialized instance of a queue store or queue store factory implementation. Its interpretation depends on the queue store config type. This field only exists when config type is 2 or 3.|
+|Properties|Properties Data Type|Yes|Configuration key-value pairs|
+|Enabled|boolean|No|Whether queue store is enabled or not|
+
+### Ringbuffer Store Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Ringbuffer store config type|uint8|No|Type of ringbuffer store configuration. Valid types are:<br>0: ringbuffer store is configured with a ringbuffer store's class name<br>1: ringbuffer store is configured with a factory class name<br>2: ringbuffer store is configured with a serialized ringbuffer store implementation<br>3: ringbuffer store is configured with a serialized ringbuffer store factory implementation|
+|Ringbuffer store class name or factory class name (when config type is 0 or 1)|string|No|Class name of a ringbuffer store or a ringbuffer store factory. Its interpretation depends on the ringbuffer store config type. This field only exists when config type is 0 or 1.|
+|Serialized ringbuffer store instance or ringbuffer store factory instance (when ringbuffer store config type is 2 or 3)|byte-array|No|Serialized instance of a ringbuffer store or ringbuffer store factory implementation. Its interpretation depends on the ringbuffer store config type. This field only exists when config type is 2 or 3.|
+|Properties|Properties Data Type|Yes|Configuration key-value pairs|
+|Enabled|boolean|No|Whether ringbuffer store is enabled or not|
+
+### Timed Expiry Policy Factory Config Data Type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Expiry policy type|string|No|Type of expiry policy. Valid values are:<br>CREATED: Expiry policy that defines the expiry duration of an entry based on when it was created.<br>MODIFIED: defines the expiry duration of an entry based on the last time it was updated.<br>ACCESSED: as above, but duration is based on the last time the entry was accessed.<br>Touched: an expiry policy that defines the expiry duration of an entry based on when it was last touched (created, accessed or updated).<br>ETERNAL: never expires entries|
+|Duration amount|int64|No|Expiry duration as amount of configured time unit|
+|Duration time unit|string|No|Duration unit of time. Valid values are NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS|
+
 
 ### Transaction Id Data Type
 | Field| Type| Nullable| Description|
@@ -100,6 +242,14 @@ is encoded as shown below:
 |Method Name|string|No|The name of the method|
 |File Name|string|Yes|The name of the java source file|
 |Line Number|int32|No|The line number in the source code file|
+
+### WAN Replication Ref Data type
+| Field| Type| Nullable| Description|
+|------|-----|---------|------------|
+|Name|string|No|Name of an existing WAN replication config|
+|MergePolicy|string|No|Name of a MapMergePolicy or CacheMergePolicy used to resolve conflicts that occur when target cluster already has the replicated entry key.|
+|RepublishingEnabled|boolean|No|When true, WAN events are republished|
+|Filters|array of string|Yes|Name of class implementing com.hazelcast.cache.wan.filter.CacheWanEventFilter or com.hazelcast.map.wan.filter.MapWanEventFilter for filtering WAN replication events|
 
 ## Error Message
 Response Message Type Id: 109
