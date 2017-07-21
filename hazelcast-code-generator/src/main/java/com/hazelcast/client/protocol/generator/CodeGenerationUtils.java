@@ -273,12 +273,12 @@ public final class CodeGenerationUtils {
 
             String trimmedParameterString = parameterString.trim();
             if (trimmedParameterString.length() > parameterName.length() && trimmedParameterString.startsWith(parameterName)) {
-                result = trimmedParameterString.substring(parameterName.length());
-                int endIndex = result.indexOf('@');
-                if (endIndex >= 0) {
-                    result = result.substring(0, endIndex);
+                int returnIndex = trimmedParameterString.indexOf("@return");
+                if (returnIndex == -1) {
+                    result = trimmedParameterString.substring(parameterName.length(), trimmedParameterString.length());
+                } else {
+                    result = trimmedParameterString.substring(parameterName.length(), returnIndex);
                 }
-
                 // replace any new line with <br>
                 result = result.replace("\n", "<br>");
                 result = result.trim();
