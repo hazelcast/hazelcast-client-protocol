@@ -47,6 +47,11 @@ public enum Lang {
     NODE,
 
     /**
+     * Go lang
+     */
+    GO,
+
+    /**
      * Binary Protocol Document representing a human readable document in English
      */
     MD

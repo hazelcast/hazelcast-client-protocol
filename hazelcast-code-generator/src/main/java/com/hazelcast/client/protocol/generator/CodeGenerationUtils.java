@@ -62,6 +62,23 @@ public final class CodeGenerationUtils {
         put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
     } };
 
+    private static final Map<String, String> JAVA_TO_GO_TYPES = new HashMap<String, String>() { {
+        put(DATA_FULL_NAME, "Data");
+        put("java.lang.String", "string");
+        put("java.lang.Integer", "int32");
+        put("boolean", "bool");
+        put("java.util.List", "list");
+        put("java.util.Set", "set");
+        put("java.util.Collection", "collection");
+        put("java.util.Map", "map");
+        put("java.util.Map.Entry", "tuple");
+        put("com.hazelcast.nio.Address", "Address");
+        put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
+        put("com.hazelcast.core.Member", "Member");
+        put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
+        put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
+    } };
+
     private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "data");
         put("java.lang.String", "string");
@@ -347,6 +364,10 @@ public final class CodeGenerationUtils {
 
     public static String getPythonType(String type) {
         return getLanguageType(Lang.PY, type, JAVA_TO_PYTHON_TYPES);
+    }
+
+    public static String getGoType(String type) {
+        return getLanguageType(Lang.GO, type, JAVA_TO_GO_TYPES);
     }
 
     public static String getCSharpType(String type) {
