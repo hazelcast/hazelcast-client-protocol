@@ -114,10 +114,14 @@ ${""?left_pad(indent * 4)}for ${var_name}_item in ${var_name}:
     <#case "MAP">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-        <#local n= var_name>
 ${""?left_pad(indent * 4)}for key, val in ${var_name}.iteritems():
         <@sizeTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
         <@sizeTextInternal var_name="val"  type=valueType indent=(indent + 1)/>
+    <#case "MAPENTRY">
+        <#local keyType = util.getFirstGenericParameterType(type)>
+        <#local valueType = util.getSecondGenericParameterType(type)>
+        <@sizeTextInternal var_name="key"  type=keyType indent=indent/>
+        <@sizeTextInternal var_name="val"  type=valueType indent=indent/>
 </#switch>
 </#macro>
 
@@ -164,6 +168,12 @@ ${""?left_pad(indent * 4)}for key, value in ${var_name}.iteritems():
     <@setterTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
     <@setterTextInternal var_name="value"  type=valueType indent=(indent + 1)/>
     </#if>
+    <#if cat == "MAPENTRY">
+        <#local keyType = util.getFirstGenericParameterType(type)>
+        <#local valueType = util.getSecondGenericParameterType(type)>
+    <@setterTextInternal var_name="key"  type=keyType indent=indent/>
+    <@setterTextInternal var_name="value"  type=valueType indent=indent/>
+     </#if>
 </#macro>
 
 <#--GETTER NULL CHECK MACRO -->
@@ -237,6 +247,18 @@ ${""?left_pad(indent * 4)}${var_name} = {}
 ${""?left_pad(indent * 4)}for ${indexVariableName} in xrange(0,${sizeVariableName}):
             <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=(indent +1)/>
             <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=(indent +1)/>
+${""?left_pad(indent * 4)}    ${var_name}[${keyVariableName}] = ${valVariableName}
+${""?left_pad(indent * 4)}<#if !isEvent>parameters['${var_name}'] = ${var_name}</#if>
+    <#case "MAPENTRY">
+        <#local sizeVariableName= "${var_name}_size">
+        <#local indexVariableName= "${var_name}_index">
+        <#local keyType = util.getFirstGenericParameterType(varType)>
+        <#local valueType = util.getSecondGenericParameterType(varType)>
+        <#local keyVariableName= "${var_name}_key">
+        <#local valVariableName= "${var_name}_val">
+${""?left_pad(indent * 4)}${var_name} = {}
+            <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>
+            <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>
 ${""?left_pad(indent * 4)}    ${var_name}[${keyVariableName}] = ${valVariableName}
 ${""?left_pad(indent * 4)}<#if !isEvent>parameters['${var_name}'] = ${var_name}</#if>
 </#switch>
