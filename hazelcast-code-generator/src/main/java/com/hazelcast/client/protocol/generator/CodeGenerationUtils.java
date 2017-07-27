@@ -45,115 +45,126 @@ public final class CodeGenerationUtils {
     private static final int BYTE_BIT_COUNT = 8;
 
     @SuppressWarnings("checkstyle:whitespacearound")
-    private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() { {
-        put(DATA_FULL_NAME, "Data");
-        put("java.lang.String", "str");
-        put("java.lang.Integer", "int");
-        put("boolean", "bool");
-        put("java.util.List", "list");
-        put("java.util.Set", "set");
-        put("java.util.Collection", "collection");
-        put("java.util.Map", "dictionary");
-        put("java.util.Map.Entry", "tuple");
-        put("com.hazelcast.nio.Address", "Address");
-        put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-        put("com.hazelcast.core.Member", "Member");
-        put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
-        put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
-    } };
+    private static final Map<String, String> JAVA_TO_PYTHON_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "Data");
+            put("java.lang.String", "str");
+            put("java.lang.Integer", "int");
+            put("boolean", "bool");
+            put("java.util.List", "list");
+            put("java.util.Set", "set");
+            put("java.util.Collection", "collection");
+            put("java.util.Map", "dictionary");
+            put("java.util.Map.Entry", "tuple");
+            put("com.hazelcast.nio.Address", "Address");
+            put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
+            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
+            put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
+        }
+    };
+    @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount"})
+    private static final Map<String, String> JAVA_TO_GO_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "Data");
+            put("java.lang.String", "string");
+            put("byte", "uint8");
+            put("java.lang.Integer", "int32");
+            put("int", "int32");
+            put("boolean", "bool");
+            put("java.util.List", "[]");
+            put("java.util.Collection", "collection");
+            put("java.util.Map", "map");
+            put("java.util.Map.Entry", "Pair");
+            put("java.lang.Long", "int64");
+            put("java.util.UUID", "UUID");
+            put("long", "int64");
+            put("com.hazelcast.nio.Address", "Address");
+            put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
+            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
+            put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
+            put("byte[]", "[]byte");
+            put("long[]", "[]int64");
+        }
+    };
 
-    private static final Map<String, String> JAVA_TO_GO_TYPES = new HashMap<String, String>() { {
-        put(DATA_FULL_NAME, "Data");
-        put("java.lang.String", "string");
-        put("byte", "uint8");
-        put("java.lang.Integer", "int32");
-        put("int", "int32");
-        put("boolean", "bool");
-        put("java.util.List", "[]");
-        put("java.util.Set", "set");
-        put("java.util.Collection", "collection");
-        put("java.util.Map", "map");
-        put("java.util.Map.Entry", "Pair");
-        put("java.lang.Long", "int64");
-        put("java.util.UUID", "UUID");
-        put("long", "int64");
-        put("com.hazelcast.nio.Address", "Address");
-        put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-        put("com.hazelcast.core.Member", "Member");
-        put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
-        put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
-        put("byte[]", "[]byte");
-        put("long[]", "[]int64");
-    } };
+    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "data");
+            put("java.lang.String", "string");
+            put("java.lang.Integer", "int32");
+            put("boolean", "boolean");
+            put("int", "int32");
+            put("com.hazelcast.nio.Address", "Address");
+            put("java.util.List", "list");
+            put("java.util.Set", "set");
+        }
+    };
 
-    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() { {
-        put(DATA_FULL_NAME, "data");
-        put("java.lang.String", "string");
-        put("java.lang.Integer", "int32");
-        put("boolean", "boolean");
-        put("int", "int32");
-        put("com.hazelcast.nio.Address", "Address");
-        put("java.util.List", "list");
-        put("java.util.Set", "set");
-    } };
-
-    private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() { {
-        put(DATA_FULL_NAME, "Data");
-        put("java.lang.String", "string");
-        put("java.lang.Integer", "number");
-        put("boolean", "boolean");
-        put("int", "number");
-        put("com.hazelcast.nio.Address", "Address");
-        put("java.util.List", "any");
-        put("java.util.Collection", "any[]");
-        put("java.util.Set", "any");
-        put("long", "any");
-    } };
+    private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "Data");
+            put("java.lang.String", "string");
+            put("java.lang.Integer", "number");
+            put("boolean", "boolean");
+            put("int", "number");
+            put("com.hazelcast.nio.Address", "Address");
+            put("java.util.List", "any");
+            put("java.util.Collection", "any[]");
+            put("java.util.Set", "any");
+            put("long", "any");
+        }
+    };
 
     @SuppressWarnings("checkstyle:whitespacearound")
-    private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() { {
-        put(DATA_FULL_NAME, "IData");
-        put("java.lang.String", "string");
-        put("java.lang.Integer", "int");
-        put("java.lang.Long", "long");
-        put("boolean", "bool");
-        put("java.util.UUID", "Guid");
-        put("java.util.List", "IList");
-        put("java.util.Set", "ISet");
-        put("java.util.Collection", "ICollection");
-        put("java.util.Map", "IDictionary");
-        put("java.util.Map.Entry", "KeyValuePair");
-        put("com.hazelcast.nio.Address", "Address");
-        put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-        put("com.hazelcast.core.Member", "Core.IMember");
-        put("com.hazelcast.cluster.client.MemberAttributeChange", "Hazelcast.Client.Request.Cluster.MemberAttributeChange");
-        put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
-    } };
+    private static final Map<String, String> JAVA_TO_CSHARP_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "IData");
+            put("java.lang.String", "string");
+            put("java.lang.Integer", "int");
+            put("java.lang.Long", "long");
+            put("boolean", "bool");
+            put("java.util.UUID", "Guid");
+            put("java.util.List", "IList");
+            put("java.util.Set", "ISet");
+            put("java.util.Collection", "ICollection");
+            put("java.util.Map", "IDictionary");
+            put("java.util.Map.Entry", "KeyValuePair");
+            put("com.hazelcast.nio.Address", "Address");
+            put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
+            put("com.hazelcast.core.Member", "Core.IMember");
+            put("com.hazelcast.cluster.client.MemberAttributeChange", "Hazelcast.Client.Request.Cluster.MemberAttributeChange");
+            put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
+        }
+    };
 
     @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount"})
-    private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() { {
-        put("java.lang.Integer", "int32_t");
-        put("int", "int32_t");
-        put("boolean", "bool");
-        put("java.lang.Boolean", "bool");
-        put("short", "int16_t");
-        put("char", "int8_t");
-        put("byte", "uint8_t");
-        put("long", "int64_t");
-        put(DATA_FULL_NAME, "serialization::pimpl::Data");
-        put("java.lang.String", "std::string");
-        put("byte[]", "std::vector<byte>");
-        put("java.util.List", "std::vector");
-        put("java.util.Set", "std::vector");
-        put("java.util.Collection", "std::vector");
-        put("java.util.Map", "std::vector<std::pair");
-        put("java.util.Map.Entry", "std::pair");
-        put("com.hazelcast.nio.Address", "Address");
-        put("com.hazelcast.client.impl.client.DistributedObjectInfo", "impl::DistributedObjectInfo");
-        put("com.hazelcast.core.Member", "Member");
-        put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
-        put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
-    } };
+    private static final Map<String, String> JAVA_TO_CPP_TYPES = new HashMap<String, String>() {
+        {
+            put("java.lang.Integer", "int32_t");
+            put("int", "int32_t");
+            put("boolean", "bool");
+            put("java.lang.Boolean", "bool");
+            put("short", "int16_t");
+            put("char", "int8_t");
+            put("byte", "uint8_t");
+            put("long", "int64_t");
+            put(DATA_FULL_NAME, "serialization::pimpl::Data");
+            put("java.lang.String", "std::string");
+            put("byte[]", "std::vector<byte>");
+            put("java.util.List", "std::vector");
+            put("java.util.Set", "std::vector");
+            put("java.util.Collection", "std::vector");
+            put("java.util.Map", "std::vector<std::pair");
+            put("java.util.Map.Entry", "std::pair");
+            put("com.hazelcast.nio.Address", "Address");
+            put("com.hazelcast.client.impl.client.DistributedObjectInfo", "impl::DistributedObjectInfo");
+            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
+            put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
+        }
+    };
 
     private static final List<String> PYTHON_RESERVED_WORDS = Arrays
             .asList("and", "del", "from", "not", "while", "as", "elif", "global", "or", "with", "assert", "else", "if", "pass",
@@ -260,15 +271,17 @@ public final class CodeGenerationUtils {
         }
         return type;
     }
-    public static String modifyForGoTypes(String type){
+
+    public static String modifyForGoTypes(String type) {
         if (type.equals("String"))
             type = "string";
         else if (type.startsWith("Long") || type.startsWith("long"))
-            type ="int64";
+            type = "int64";
         else if (type.startsWith("Int") || type.startsWith("int"))
-            type ="int32";
+            type = "int32";
         return type;
     }
+
     public static String getDescription(String parameterName, String commentString) {
         String result = "";
         if (parameterName == null || commentString == null) {
@@ -414,7 +427,7 @@ public final class CodeGenerationUtils {
             else
                 builder.append(simpleType);
 
-            if (simpleType.equals("Pair") && language ==Lang.GO)
+            if (simpleType.equals("Pair") && language == Lang.GO)
                 return builder.toString();
             Iterator<String> iterator = typeParameters.iterator();
             while (iterator.hasNext()) {
@@ -477,7 +490,6 @@ public final class CodeGenerationUtils {
     }
 
     /**
-     *
      * @param messageSince The version of the message. E.g. 1.2
      * @return Int representation of the version. Calculated as: minor + (major * 1000).
      * E.g. 1002 for "1.2"
@@ -488,7 +500,6 @@ public final class CodeGenerationUtils {
     }
 
     /**
-     *
      * @param version protocol version as int. E.g. 1002
      * @return The protocol version as string, 1.2 for 1002
      */
@@ -497,7 +508,6 @@ public final class CodeGenerationUtils {
     }
 
     /**
-     *
      * @param version protocol version as int. E.g. 1002
      * @return The protocol version as string, 1_2 for 1002
      */
