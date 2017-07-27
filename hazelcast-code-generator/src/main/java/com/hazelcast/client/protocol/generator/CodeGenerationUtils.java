@@ -65,18 +65,25 @@ public final class CodeGenerationUtils {
     private static final Map<String, String> JAVA_TO_GO_TYPES = new HashMap<String, String>() { {
         put(DATA_FULL_NAME, "Data");
         put("java.lang.String", "string");
+        put("byte", "uint8");
         put("java.lang.Integer", "int32");
+        put("int", "int32");
         put("boolean", "bool");
-        put("java.util.List", "list");
+        put("java.util.List", "[]");
         put("java.util.Set", "set");
         put("java.util.Collection", "collection");
         put("java.util.Map", "map");
-        put("java.util.Map.Entry", "tuple");
+        put("java.util.Map.Entry", "Pair");
+        put("java.lang.Long", "int64");
+        put("java.util.UUID", "UUID");
+        put("long", "int64");
         put("com.hazelcast.nio.Address", "Address");
         put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
         put("com.hazelcast.core.Member", "Member");
         put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
         put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
+        put("byte[]", "[]byte");
+        put("long[]", "[]int64");
     } };
 
     private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() { {
@@ -253,7 +260,15 @@ public final class CodeGenerationUtils {
         }
         return type;
     }
-
+    public static String modifyForGoTypes(String type){
+        if (type.equals("String"))
+            type = "string";
+        else if (type.startsWith("Long") || type.startsWith("long"))
+            type ="int64";
+        else if (type.startsWith("Int") || type.startsWith("int"))
+            type ="int32";
+        return type;
+    }
     public static String getDescription(String parameterName, String commentString) {
         String result = "";
         if (parameterName == null || commentString == null) {
@@ -394,9 +409,13 @@ public final class CodeGenerationUtils {
 
             List<String> typeParameters = getGenericTypeParameters(genericParameters);
             StringBuilder builder = new StringBuilder();
+            if (language != Lang.GO)
+                builder.append(simpleType).append('<');
+            else
+                builder.append(simpleType);
 
-            builder.append(simpleType).append('<');
-
+            if (simpleType.equals("Pair") && language ==Lang.GO)
+                return builder.toString();
             Iterator<String> iterator = typeParameters.iterator();
             while (iterator.hasNext()) {
                 builder.append(getLanguageType(language, iterator.next(), languageMapping));
@@ -408,8 +427,11 @@ public final class CodeGenerationUtils {
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
             } else {
-                builder.append(">");
+                if (language != Lang.GO)
+                    builder.append(">");
+
             }
+
 
             String result = builder.toString();
             if (result.equals("EntryView<serialization::pimpl::Data, serialization::pimpl::Data >")) {

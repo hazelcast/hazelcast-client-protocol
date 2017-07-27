@@ -428,6 +428,10 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
                 saveFile(fileName, codecModel.getPackageName(), content);
                 break;
+            case GO:
+                fileName = (codecModel.getParentName()+"_"+codecModel.getName()+".go").toLowerCase();
+                saveFile(fileName, codecModel.getPackageName(), content);
+                break;
             default:
                 saveFile(fileName, codecModel.getPackageName(), content);
                 break;
@@ -487,6 +491,8 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 fileName = fileName.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
             } else if (codecModel.getLang() == Lang.NODE) {
                 fileName = codecModel.getClassName() + ".ts";
+            } else if (codecModel.getLang() == Lang.GO) {
+                fileName = (fileName.split("MessageType")[0]+"_messagetype.go").toLowerCase();
             }
             saveFile(fileName, codecModel.getPackageName(), content);
         }
