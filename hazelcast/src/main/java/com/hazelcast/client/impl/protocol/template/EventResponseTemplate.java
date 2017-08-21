@@ -28,6 +28,7 @@ import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -202,4 +203,12 @@ public interface EventResponseTemplate {
     @EventResponse(EventMessageConst.EVENT_IMAPBATCHINVALIDATION)
     void IMapBatchInvalidation(List<Data> keys, @Since("1.4") List<String> sourceUuids,
                                @Since("1.4") List<UUID> partitionUuids, @Since("1.4") List<Long> sequences);
+
+    /**
+     * @param partitions mappings from member address to list of partition id 's. Each event contains complete list
+     *                   of partitions.
+     */
+    @Since("1.5")
+    @EventResponse(EventMessageConst.EVENT_PARTITIONS)
+    void Partitions(List<Map.Entry<Address, List<Integer>>> partitions);
 }

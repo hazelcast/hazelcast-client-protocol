@@ -345,4 +345,13 @@ public interface ClientMessageTemplate {
     @Request(id = 17, retryable = false, response = ResponseMessageConst.VOID)
     @Since(value = "1.5")
     void deployClasses(List<Map.Entry<String, byte[]>> classDefinitions);
+
+    /**
+     * Adds partition listener to send server.
+     * listener is removed automatically when client disconnected.
+     * There is no corresponding removeListener message.
+     */
+    @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID, event = {EventMessageConst.EVENT_PARTITIONS})
+    @Since(value = "1.5")
+    void addPartitionListener();
 }
