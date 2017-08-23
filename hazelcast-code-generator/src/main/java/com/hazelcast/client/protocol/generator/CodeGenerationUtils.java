@@ -77,13 +77,13 @@ public final class CodeGenerationUtils {
             put("java.util.Map", "map");
             put("java.util.Map.Entry", "Pair");
             put("java.lang.Long", "int64");
-            put("java.util.UUID", "UUID");
+            put("java.util.UUID", "Uuid");
             put("long", "int64");
             put("com.hazelcast.nio.Address", "Address");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
             put("com.hazelcast.core.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
-            put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
+            put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
             put("byte[]", "[]byte");
             put("long[]", "[]int64");
         }
@@ -279,6 +279,8 @@ public final class CodeGenerationUtils {
             type = "int64";
         else if (type.startsWith("Int") || type.startsWith("int"))
             type = "int32";
+        else if (type.startsWith("UUID"))
+            type = "Uuid";
         return type;
     }
 
