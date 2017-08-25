@@ -73,6 +73,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
     private boolean generateTests;
     private final Map<Lang, Template> codecTemplateMap = new HashMap<Lang, Template>();
     private final Map<Lang, Template> messageTypeTemplateMap = new HashMap<Lang, Template>();
+
     private class CompatibilityTestInfo {
         private final String fileName;
         private final boolean versioned;
@@ -107,15 +108,15 @@ public class CodecCodeGenerator extends AbstractProcessor {
     };
 
     private final CompatibilityTestInfo[] compatibilityTestInfos = {
-                                         new CompatibilityTestInfo("ClientCompatibilityTest", true),
-                                         new CompatibilityTestInfo("ClientCompatibilityNullTest", true),
-                                         new CompatibilityTestInfo("EncodeDecodeCompatibilityTest", false),
-                                         new CompatibilityTestInfo("EncodeDecodeCompatibilityNullTest", false),
-                                         new CompatibilityTestInfo("BinaryCompatibilityFileGenerator", false),
-                                         new CompatibilityTestInfo("BinaryCompatibilityNullFileGenerator", false),
-                                         new CompatibilityTestInfo("ServerCompatibilityTest", true),
-                                         new CompatibilityTestInfo("ServerCompatibilityNullTest", true),
-                                         };
+            new CompatibilityTestInfo("ClientCompatibilityTest", true),
+            new CompatibilityTestInfo("ClientCompatibilityNullTest", true),
+            new CompatibilityTestInfo("EncodeDecodeCompatibilityTest", false),
+            new CompatibilityTestInfo("EncodeDecodeCompatibilityNullTest", false),
+            new CompatibilityTestInfo("BinaryCompatibilityFileGenerator", false),
+            new CompatibilityTestInfo("BinaryCompatibilityNullFileGenerator", false),
+            new CompatibilityTestInfo("ServerCompatibilityTest", true),
+            new CompatibilityTestInfo("ServerCompatibilityNullTest", true),
+    };
 
     private final Map<TypeElement, Map<Integer, ExecutableElement>> requestMap
             = new HashMap<TypeElement, Map<Integer, ExecutableElement>>();
@@ -201,7 +202,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
     }
 
     private void getCompatibilityTestTemplates(Configuration cfg) {
-        for (CompatibilityTestInfo info :  compatibilityTestInfos) {
+        for (CompatibilityTestInfo info : compatibilityTestInfos) {
             try {
                 info.setTemplate(cfg.getTemplate(info.getFileName() + ".ftl"));
             } catch (IOException e) {
@@ -429,7 +430,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 saveFile(fileName, codecModel.getPackageName(), content);
                 break;
             case GO:
-                fileName = (codecModel.getParentName()+"_"+codecModel.getName()+".go").toLowerCase();
+                fileName = (codecModel.getParentName() + "_" + codecModel.getName() + ".go").toLowerCase();
                 saveFile(fileName, codecModel.getPackageName(), content);
                 break;
             default:
@@ -492,7 +493,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
             } else if (codecModel.getLang() == Lang.NODE) {
                 fileName = codecModel.getClassName() + ".ts";
             } else if (codecModel.getLang() == Lang.GO) {
-                fileName = (fileName.split("MessageType")[0]+"_messagetype.go").toLowerCase();
+                fileName = (fileName.split("MessageType")[0] + "_messagetype.go").toLowerCase();
             }
             saveFile(fileName, codecModel.getPackageName(), content);
         }

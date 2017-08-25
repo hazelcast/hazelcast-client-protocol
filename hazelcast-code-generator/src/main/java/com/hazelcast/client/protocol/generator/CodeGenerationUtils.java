@@ -63,7 +63,7 @@ public final class CodeGenerationUtils {
             put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
         }
     };
-    @SuppressWarnings({"checkstyle:whitespacearound", "checkstyle:executablestatementcount"})
+    @SuppressWarnings({"checkstyle:executablestatementcount", "checkstyle:whitespacearound"})
     private static final Map<String, String> JAVA_TO_GO_TYPES = new HashMap<String, String>() {
         {
             put(DATA_FULL_NAME, "Data");
@@ -273,14 +273,15 @@ public final class CodeGenerationUtils {
     }
 
     public static String modifyForGoTypes(String type) {
-        if (type.equals("String"))
+        if (type.equals("String")) {
             type = "string";
-        else if (type.startsWith("Long") || type.startsWith("long"))
+        } else if (type.startsWith("Long") || type.startsWith("long")) {
             type = "int64";
-        else if (type.startsWith("Int") || type.startsWith("int"))
+        } else if (type.startsWith("Int") || type.startsWith("int")) {
             type = "int32";
-        else if (type.startsWith("UUID"))
+        } else if (type.startsWith("UUID")) {
             type = "Uuid";
+        }
         return type;
     }
 
@@ -416,6 +417,7 @@ public final class CodeGenerationUtils {
         return JAVA_TO_TS_TYPES.get(type) != null ? JAVA_TO_TS_TYPES.get(type) : "any";
     }
 
+    @SuppressWarnings({"checkstyle:npathcomplexity", "checkstyle:whitespacearound"})
     public static String getLanguageType(Lang language, String type, Map<String, String> languageMapping) {
         type = type.trim();
         if (isGeneric(type)) {
@@ -424,13 +426,14 @@ public final class CodeGenerationUtils {
 
             List<String> typeParameters = getGenericTypeParameters(genericParameters);
             StringBuilder builder = new StringBuilder();
-            if (language != Lang.GO)
+            if (language != Lang.GO) {
                 builder.append(simpleType).append('<');
-            else
+            } else {
                 builder.append(simpleType);
-
-            if (simpleType.equals("Pair") && language == Lang.GO)
+            }
+            if (simpleType.equals("Pair") && language == Lang.GO) {
                 return builder.toString();
+            }
             Iterator<String> iterator = typeParameters.iterator();
             while (iterator.hasNext()) {
                 builder.append(getLanguageType(language, iterator.next(), languageMapping));
@@ -441,10 +444,8 @@ public final class CodeGenerationUtils {
 
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
-            } else {
-                if (language != Lang.GO)
-                    builder.append(">");
-
+            } else if (language != Lang.GO) {
+                builder.append(">");
             }
 
 
