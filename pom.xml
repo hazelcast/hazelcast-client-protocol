@@ -33,15 +33,16 @@
         <developerConnection>scm:git:git@github.com:hazelcast/hazelcast-client-protocol.git</developerConnection>
         <url>https://github.com/hazelcast/hazelcast-client-protocol/</url>
     </scm>
+
     <developers>
         <developer>
             <id>sancar</id>
-            <name>sancar koyunlu</name>
+            <name>Sancar Koyunlu</name>
             <email>sancar@hazelcast.com</email>
         </developer>
         <developer>
             <id>asimarslan</id>
-            <name>asim arslan</name>
+            <name>Asim Arslan</name>
             <email>asim@hazelcast.com</email>
         </developer>
     </developers>
@@ -52,8 +53,11 @@
     </modules>
 
     <properties>
+        <!-- Hazelcast branch to download and compile with -->
         <hazelcast.git.repo>asimarslan</hazelcast.git.repo>
         <hazelcast.git.branch>mergedbr</hazelcast.git.branch>
+
+        <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -108,16 +112,8 @@
         <sonar.verbose>true</sonar.verbose>
 
         <jsr107.api.version>1.0.0</jsr107.api.version>
-        <CacheManagerImpl>com.hazelcast.cache.HazelcastCacheManager</CacheManagerImpl>
-        <CacheImpl>com.hazelcast.cache.ICache</CacheImpl>
-        <CacheEntryImpl>com.hazelcast.cache.impl.CacheEntry</CacheEntryImpl>
-        <javax.management.builder.initial>com.hazelcast.cache.impl.TCKMBeanServerBuilder
-        </javax.management.builder.initial>
-        <org.jsr107.tck.management.agentId>TCKMbeanServer</org.jsr107.tck.management.agentId>
-        <javax.cache.annotation.CacheInvocationContext>javax.cache.annotation.impl.cdi.CdiCacheKeyInvocationContextImpl
-        </javax.cache.annotation.CacheInvocationContext>
-
     </properties>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
