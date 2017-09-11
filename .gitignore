@@ -1,8 +1,9 @@
 .idea/
 .settings/
 hazelcast/downloaded
-hazelcast/hazelcast*
-hazelcast/*.zip
+hazelcast/hazelcast-*
+hazelcast/download.info
+hazelcast/*.zip*
 target/
 .classpath
 .project
