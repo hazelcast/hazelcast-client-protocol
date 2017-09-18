@@ -205,10 +205,11 @@ public interface EventResponseTemplate {
                                @Since("1.4") List<UUID> partitionUuids, @Since("1.4") List<Long> sequences);
 
     /**
-     * @param partitions mappings from member address to list of partition id 's. Each event contains complete list
-     *                   of partitions.
+     * @param partitions            mappings from member address to list of partition id 's. Each event contains complete list
+     *                              of partitions.
+     * @param partitionStateVersion strictly increasing version of the partitions table.
      */
     @Since("1.5")
     @EventResponse(EventMessageConst.EVENT_PARTITIONS)
-    void Partitions(List<Map.Entry<Address, List<Integer>>> partitions);
+    void Partitions(List<Map.Entry<Address, List<Integer>>> partitions, int partitionStateVersion);
 }
