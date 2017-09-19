@@ -381,4 +381,20 @@ public interface DynamicConfigTemplate {
                         @Nullable WanReplicationRef wanReplicationRef,
                         @Nullable HotRestartConfig hotRestartConfig);
 
+    /**
+     * Adds a new event journal configuration to a running cluster.
+     * If an event journal configuration for the same map or cache name already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param mapName           name of {@code IMap} to use as event source
+     * @param cacheName         name of {@code ICache} to use as event source
+     * @param enabled           {@code true} to enable this event journal configuration, otherwise {@code false}
+     * @param capacity          capacity of event journal
+     * @param timeToLiveSeconds time to live (in seconds). This is the time the event journal retains items before removing them
+     *                          from the journal.
+     */
+    @Request(id = 17, retryable = false, response = ResponseMessageConst.VOID)
+    void addEventJournalConfig(@Nullable String mapName, @Nullable String cacheName, boolean enabled, int capacity,
+                               int timeToLiveSeconds);
+
 }
