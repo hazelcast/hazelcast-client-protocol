@@ -37,6 +37,7 @@ public final class ${model.className} {
         ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
         clientMessage.setMessageType(REQUEST_TYPE.id());
         clientMessage.setRetryable(RETRYABLE);
+        clientMessage.setOperationName("${model.parentName}.${model.name}");
 <#list model.requestParams as p>
     <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
