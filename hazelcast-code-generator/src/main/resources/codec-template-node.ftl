@@ -44,13 +44,24 @@ return clientMessage;
 <#--************************ RESPONSE ********************************************************-->
 <#if model.responseParams?has_content>
 static decodeResponse(clientMessage : ClientMessage,  toObjectFunction: (data: Data) => any = null){
-// Decode response from client message
-var parameters :any = { <#list model.responseParams as p>'${util.convertToNodeType(p.name)}' : null <#if p_has_next>, </#if></#list> };
+    // Decode response from client message
+<#assign messageVersion=model.messageSinceInt>
+    var parameters :any = {
     <#list model.responseParams as p>
-        <@getterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
+        '${util.convertToNodeType(p.name)}' : null <#if p_has_next>, </#if>
     </#list>
-return parameters;
+    };
 
+<#list model.responseParams as p>
+    <#if p.versionChanged>
+    if (clientMessage.isComplete() ) {
+        return parameters;
+    }
+    </#if>
+    <@getterText var_name=util.convertToNodeType(p.name) type=p.type isNullable=p.nullable/>
+    <#if p.sinceVersionInt gt messageVersion >parameters.${p.name}Exist = true;</#if>
+</#list>
+    return parameters;
 }
 <#else>
 // Empty decodeResponse(ClientMessage), this message has no parameters to decode
