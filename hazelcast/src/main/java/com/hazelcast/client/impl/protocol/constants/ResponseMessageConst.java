@@ -56,6 +56,7 @@ public final class ResponseMessageConst {
     @Since("1.4") public static final int LIST_ENTRY_PARTITION_UUID = 123;
     @Since("1.5") public static final int QUERY_RESULT_SEGMENT = 124;
     @Since("1.5") public static final int EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE = 125;
+    @Since("1.6") public static final int FLAKE_ID_ID_BATCH = 126;
 
     private ResponseMessageConst() {
     }

@@ -230,4 +230,8 @@ public interface ResponseTemplate {
     @Since("1.5")
     @Response(ResponseMessageConst.EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE)
     void EventJournalInitialSubscriberState(long oldestSequence, long newestSequence);
+
+    @Since("1.6")
+    @Response(ResponseMessageConst.FLAKE_ID_ID_BATCH)
+    void IdBatch(long base, long increment, int batchSize);
 }
