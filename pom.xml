@@ -23,6 +23,7 @@
     <groupId>com.hazelcast</groupId>
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
+    <!-- DO NOT CHANGE THIS VERSION, IT IS MODIFIED VIA SCRIPTS IN RELEASE PROCESS ONLY -->
     <version>1.6.0-3</version>
     <name>Hazelcast Client Protocol</name>
     <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
