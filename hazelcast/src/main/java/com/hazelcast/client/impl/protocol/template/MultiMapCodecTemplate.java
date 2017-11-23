@@ -266,4 +266,15 @@ public interface MultiMapCodecTemplate {
      */
     @Request(id = 21, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
     Object removeEntry(String name, Data key, Data value, long threadId);
+
+    /**
+     * Removes all the entries with the given key.
+     *
+     * @param name     Name of the MultiMap
+     * @param key      The key of the entry to remove
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+     */
+    @Request(id = 22, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    @Since("1.6")
+    void delete(String name, Data key, long threadId);
 }
