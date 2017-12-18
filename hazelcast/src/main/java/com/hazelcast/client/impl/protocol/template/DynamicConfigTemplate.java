@@ -407,5 +407,6 @@ public interface DynamicConfigTemplate {
      * @param prefetchValidity for how long the pre-fetched IDs can be used
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
     void addReliableIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity);
 }
