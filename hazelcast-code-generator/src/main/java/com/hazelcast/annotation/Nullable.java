@@ -23,8 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to denote if a parameter can be null. If nullable one byte (1 if null , 0 if not null)
- * is send before the field.
+ * Annotation to denote if a parameter can be {@code null}. If it is nullable, one byte
+ * is sent before the field in the client message (1 if nullable, 0 otherwise).
  */
 @Documented
 @Retention(RetentionPolicy.SOURCE)

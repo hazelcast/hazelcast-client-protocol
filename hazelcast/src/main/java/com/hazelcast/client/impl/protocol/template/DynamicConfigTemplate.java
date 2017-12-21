@@ -397,4 +397,16 @@ public interface DynamicConfigTemplate {
     void addEventJournalConfig(@Nullable String mapName, @Nullable String cacheName, boolean enabled, int capacity,
                                int timeToLiveSeconds);
 
+    /**
+     * Adds a new reliable ID generator configuration to a running cluster.
+     * If a reliable ID generator configuration for the same name already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param name name of {@code ReliableIdGenerator}
+     * @param prefetchCount how many IDs are pre-fetched on the background when one call to {@code newId()} is made
+     * @param prefetchValidity for how long the pre-fetched IDs can be used
+     */
+    @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
+    void addReliableIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity);
 }
