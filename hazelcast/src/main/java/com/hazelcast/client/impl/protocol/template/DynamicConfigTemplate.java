@@ -55,10 +55,14 @@ public interface DynamicConfigTemplate {
      * @param backupCount       number of synchronous backups
      * @param asyncBackupCount  number of asynchronous backups
      * @param statisticsEnabled set to {@code true} to enable statistics on this multimap configuration
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID)
     void addMultiMapConfig(String name, String collectionType, @Nullable List<ListenerConfigHolder> listenerConfigs,
-                           boolean binary, int backupCount, int asyncBackupCount, boolean statisticsEnabled);
+                           boolean binary, int backupCount, int asyncBackupCount, boolean statisticsEnabled,
+                           @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new ringbuffer configuration to a running cluster.
@@ -73,10 +77,14 @@ public interface DynamicConfigTemplate {
      * @param inMemoryFormat        in memory format of items in the ringbuffer. Valid options are {@code BINARY}
      *                              and {@code OBJECT}
      * @param ringbufferStoreConfig backing ringbuffer store configuration
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID)
     void addRingbufferConfig(String name, int capacity, int backupCount, int asyncBackupCount, int timeToLiveSeconds,
-                             String inMemoryFormat, @Nullable RingbufferStoreConfigHolder ringbufferStoreConfig);
+                             String inMemoryFormat, @Nullable RingbufferStoreConfigHolder ringbufferStoreConfig,
+                             @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new cardinality estimator configuration to a running cluster.
@@ -86,9 +94,13 @@ public interface DynamicConfigTemplate {
      * @param name              name of the cardinality estimator configuration
      * @param backupCount       number of synchronous backups
      * @param asyncBackupCount  number of asynchronous backups
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.VOID)
-    void addCardinalityEstimatorConfig(String name, int backupCount, int asyncBackupCount);
+    void addCardinalityEstimatorConfig(String name, int backupCount, int asyncBackupCount,
+                                       @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new lock configuration to a running cluster.
@@ -114,10 +126,13 @@ public interface DynamicConfigTemplate {
      * @param asyncBackupCount  number of asynchronous backups
      * @param maxSize           maximum size of the list
      * @param statisticsEnabled {@code true} to enable gathering of statistics on the list, otherwise {@code false}
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID)
     void addListConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
-                       int asyncBackupCount, int maxSize, boolean statisticsEnabled);
+                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new set configuration to a running cluster.
@@ -130,10 +145,13 @@ public interface DynamicConfigTemplate {
      * @param asyncBackupCount  number of asynchronous backups
      * @param maxSize           maximum size of the set
      * @param statisticsEnabled {@code true} to enable gathering of statistics on the list, otherwise {@code false}
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID)
     void addSetConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
-                       int asyncBackupCount, int maxSize, boolean statisticsEnabled);
+                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new replicated map configuration to a running cluster.
@@ -150,10 +168,14 @@ public interface DynamicConfigTemplate {
      *                          {@code com.hazelcast.replicatedmap.merge.ReplicatedMapMergePolicy} to merge entries
      *                          while recovering from a split brain
      * @param listenerConfigs   entry listener configurations
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.VOID)
     void addReplicatedMapConfig(String name, String inMemoryFormat, boolean asyncFillup, boolean statisticsEnabled,
-                                String mergePolicy, @Nullable List<ListenerConfigHolder> listenerConfigs);
+                                String mergePolicy, @Nullable List<ListenerConfigHolder> listenerConfigs,
+                                @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new topic configuration to a running cluster.
@@ -181,9 +203,13 @@ public interface DynamicConfigTemplate {
      * @param poolSize          executor thread pool size
      * @param queueCapacity     capacity of executor queue. A value of {@code 0} implies {@link Integer#MAX_VALUE}
      * @param statisticsEnabled {@code true} to enable gathering of statistics, otherwise {@code false}
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 9, retryable = false, response = ResponseMessageConst.VOID)
-    void addExecutorConfig(String name, int poolSize, int queueCapacity, boolean statisticsEnabled);
+    void addExecutorConfig(String name, int poolSize, int queueCapacity, boolean statisticsEnabled,
+                           @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new durable executor configuration to a running cluster.
@@ -194,9 +220,13 @@ public interface DynamicConfigTemplate {
      * @param poolSize      executor thread pool size
      * @param durability    executor's durability
      * @param capacity      capacity of executor tasks per partition
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 10, retryable = false, response = ResponseMessageConst.VOID)
-    void addDurableExecutorConfig(String name, int poolSize, int durability, int capacity);
+    void addDurableExecutorConfig(String name, int poolSize, int durability, int capacity,
+                                  @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new scheduled executor configuration to a running cluster.
@@ -207,9 +237,13 @@ public interface DynamicConfigTemplate {
      * @param poolSize   number of executor threads per member for the executor
      * @param durability durability of the scheduled executor
      * @param capacity   maximum number of tasks that a scheduler can have at any given point in time per partition
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 11, retryable = false, response = ResponseMessageConst.VOID)
-    void addScheduledExecutorConfig(String name, int poolSize, int durability, int capacity);
+    void addScheduledExecutorConfig(String name, int poolSize, int durability, int capacity,
+                                    @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new semaphore configuration to a running cluster.
@@ -220,9 +254,13 @@ public interface DynamicConfigTemplate {
      * @param initialPermits    thread count to which the concurrent access is limited
      * @param backupCount       number of synchronous backups
      * @param asyncBackupCount  number of asynchronous backups
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
      */
     @Request(id = 12, retryable = false, response = ResponseMessageConst.VOID)
-    void addSemaphoreConfig(String name, int initialPermits, int backupCount, int asyncBackupCount);
+    void addSemaphoreConfig(String name, int initialPermits, int backupCount, int asyncBackupCount,
+                            @Since("1.6") @Nullable String quorumName);
 
     /**
      * Adds a new queue configuration to a running cluster.
@@ -409,4 +447,47 @@ public interface DynamicConfigTemplate {
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
     void addReliableIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity);
+
+    /**
+     * Adds a new atomic long configuration to a running cluster.
+     * If an executor configuration with the given {@code name} already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param name       atomic long's name
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
+     */
+    @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
+    void addAtomicLongConfig(String name, @Nullable String quorumName);
+
+    /**
+     * Adds a new atomic reference configuration to a running cluster.
+     * If an executor configuration with the given {@code name} already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param name       atomic references's name
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
+     */
+    @Request(id = 20, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
+    void addAtomicReferenceConfig(String name, @Nullable String quorumName);
+
+    /**
+     * Adds a new count down latch configuration to a running cluster.
+     * If an executor configuration with the given {@code name} already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param name       count down latch's name
+     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
+     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                   apply to this lock configuration's operations.
+     */
+    @Request(id = 21, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
+    void addCountDownLatchConfig(String name, @Nullable String quorumName);
+
 }
