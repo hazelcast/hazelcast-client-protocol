@@ -436,17 +436,17 @@ public interface DynamicConfigTemplate {
                                int timeToLiveSeconds);
 
     /**
-     * Adds a new reliable ID generator configuration to a running cluster.
-     * If a reliable ID generator configuration for the same name already exists, then
+     * Adds a new flake ID generator configuration to a running cluster.
+     * If a flake ID generator configuration for the same name already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name name of {@code ReliableIdGenerator}
+     * @param name name of {@code FlakeIdGenerator}
      * @param prefetchCount how many IDs are pre-fetched on the background when one call to {@code newId()} is made
      * @param prefetchValidity for how long the pre-fetched IDs can be used
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
-    void addReliableIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity);
+    void addFlakeIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity);
 
     /**
      * Adds a new atomic long configuration to a running cluster.

@@ -21,10 +21,10 @@ import com.hazelcast.annotation.Request;
 import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 
-@GenerateCodec(id = TemplateConstants.RELIABLE_ID_GENERATOR_TEMPLATE_ID, name = "ReliableIdGenerator", ns = "Hazelcast.Client.Protocol.Codec")
-public interface ReliableIdGeneratorCodecTemplate {
+@GenerateCodec(id = TemplateConstants.FLAKE_ID_GENERATOR_TEMPLATE_ID, name = "FlakeIdGenerator", ns = "Hazelcast.Client.Protocol.Codec")
+public interface FlakeIdGeneratorCodecTemplate {
 
-    @Request(id = 1, retryable = true, response = ResponseMessageConst.RELIABLE_ID_GEN_ID_BATCH)
+    @Request(id = 1, retryable = true, response = ResponseMessageConst.FLAKE_ID_GEN_ID_BATCH)
     @Since("1.6")
     Object newIdBatch(String name, int batchSize);
 }
