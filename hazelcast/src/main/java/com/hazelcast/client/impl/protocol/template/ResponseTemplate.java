@@ -232,6 +232,6 @@ public interface ResponseTemplate {
     void EventJournalInitialSubscriberState(long oldestSequence, long newestSequence);
 
     @Since("1.6")
-    @Response(ResponseMessageConst.RELIABLE_ID_GEN_ID_BATCH)
+    @Response(ResponseMessageConst.FLAKE_ID_GEN_ID_BATCH)
     void IdBatch(long base, long increment, int batchSize);
 }
