@@ -234,4 +234,16 @@ public interface ResponseTemplate {
     @Since("1.6")
     @Response(ResponseMessageConst.FLAKE_ID_GEN_ID_BATCH)
     void IdBatch(long base, long increment, int batchSize);
+
+    /**
+     * Long value with a vector clock which defines the updates that lead to
+     * the returned value.
+     *
+     * @param value             the value
+     * @param replicaTimestamps the vector clock of the CRDT updates
+     * @param replicaCount      the configured CRDT replica count
+     */
+    @Since("1.6")
+    @Response(ResponseMessageConst.CRDT_TIMESTAMPED_LONG)
+    void CRDTTimestampedLong(long value, List<Map.Entry<String, Long>> replicaTimestamps, int replicaCount);
 }

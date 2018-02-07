@@ -490,4 +490,20 @@ public interface DynamicConfigTemplate {
     @Since("1.6")
     void addCountDownLatchConfig(String name, @Nullable String quorumName);
 
+    /**
+     * Adds a new CRDT PN counter configuration to a running cluster.
+     * If a PN counter configuration with the given {@code name} already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param name         name of the CRDT PN counter configuration
+     * @param replicaCount number of replicas on which the CRDT state is kept
+     * @param quorumName   name of an existing configured quorum to be used to determine the minimum number of members
+     *                     required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                     apply to this lock configuration's operations.
+     * @param statisticsEnabled set to {@code true} to enable statistics on this multimap configuration
+     */
+    @Request(id = 22, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.6")
+    void addPNCounterConfig(String name, int replicaCount, boolean statisticsEnabled, @Nullable String quorumName);
+
 }
