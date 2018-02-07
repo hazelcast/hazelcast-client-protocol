@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 
 @GenerateCodec(id = TemplateConstants.SEMAPHORE_TEMPLATE_ID, name = "Semaphore", ns = "Hazelcast.Client.Protocol.Codec")
@@ -100,4 +101,16 @@ public interface SemaphoreCodecTemplate {
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name", acquiresResource = true)
     Object tryAcquire(String name, int permits, long timeout);
+    
+    /**
+     * Increases the number of available permits by the indicated amount. This method differs from {@code release} 
+     * in that it does not effect the amount of permits this caller has attached.
+     *
+     * @param name     Name of the Semaphore
+     * @param increase The number of permits to add
+     * @throws IllegalArgumentException if {@code increase} is negative
+     */ 
+    @Request(id = 8, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    @Since("1.6")
+    void increasePermits(String name, int increase);
 }
