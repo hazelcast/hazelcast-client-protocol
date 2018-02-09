@@ -105,6 +105,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
             CodeGenerationUtils.versionAsInt("1.0"), CodeGenerationUtils.versionAsInt("1.1"),
             CodeGenerationUtils.versionAsInt("1.2"), CodeGenerationUtils.versionAsInt("1.3"),
             CodeGenerationUtils.versionAsInt("1.4"), CodeGenerationUtils.versionAsInt("1.5"),
+            CodeGenerationUtils.versionAsInt("1.6"),
     };
 
     private final CompatibilityTestInfo[] compatibilityTestInfos = {
