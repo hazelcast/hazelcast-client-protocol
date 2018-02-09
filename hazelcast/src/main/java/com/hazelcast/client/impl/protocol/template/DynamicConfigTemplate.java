@@ -62,7 +62,8 @@ public interface DynamicConfigTemplate {
     @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID)
     void addMultiMapConfig(String name, String collectionType, @Nullable List<ListenerConfigHolder> listenerConfigs,
                            boolean binary, int backupCount, int asyncBackupCount, boolean statisticsEnabled,
-                           @Since("1.6") @Nullable String quorumName);
+                           @Since("1.6") @Nullable String quorumName, @Since("1.6") String mergePolicy,
+                           @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new ringbuffer configuration to a running cluster.
@@ -84,7 +85,8 @@ public interface DynamicConfigTemplate {
     @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID)
     void addRingbufferConfig(String name, int capacity, int backupCount, int asyncBackupCount, int timeToLiveSeconds,
                              String inMemoryFormat, @Nullable RingbufferStoreConfigHolder ringbufferStoreConfig,
-                             @Since("1.6") @Nullable String quorumName);
+                             @Since("1.6") @Nullable String quorumName, @Since("1.6") String mergePolicy,
+                             @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new cardinality estimator configuration to a running cluster.
@@ -100,7 +102,8 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.VOID)
     void addCardinalityEstimatorConfig(String name, int backupCount, int asyncBackupCount,
-                                       @Since("1.6") @Nullable String quorumName);
+                                       @Since("1.6") @Nullable String quorumName, @Since("1.6") String mergePolicy,
+                                       @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new lock configuration to a running cluster.
@@ -132,7 +135,8 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID)
     void addListConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
-                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName);
+                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName,
+                       @Since("1.6") String mergePolicy, @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new set configuration to a running cluster.
@@ -151,7 +155,8 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID)
     void addSetConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
-                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName);
+                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName,
+                      @Since("1.6") String mergePolicy, @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new replicated map configuration to a running cluster.
@@ -175,7 +180,7 @@ public interface DynamicConfigTemplate {
     @Request(id = 7, retryable = false, response = ResponseMessageConst.VOID)
     void addReplicatedMapConfig(String name, String inMemoryFormat, boolean asyncFillup, boolean statisticsEnabled,
                                 String mergePolicy, @Nullable List<ListenerConfigHolder> listenerConfigs,
-                                @Since("1.6") @Nullable String quorumName);
+                                @Since("1.6") @Nullable String quorumName, @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new topic configuration to a running cluster.
@@ -243,7 +248,8 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 11, retryable = false, response = ResponseMessageConst.VOID)
     void addScheduledExecutorConfig(String name, int poolSize, int durability, int capacity,
-                                    @Since("1.6") @Nullable String quorumName);
+                                    @Since("1.6") @Nullable String quorumName, @Since("1.6") String mergePolicy,
+                                    @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new semaphore configuration to a running cluster.
@@ -282,7 +288,8 @@ public interface DynamicConfigTemplate {
     @Request(id = 13, retryable = false, response = ResponseMessageConst.VOID)
     void addQueueConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
                         int asyncBackupCount, int maxSize, int emptyQueueTtl, boolean statisticsEnabled,
-                        @Nullable String quorumName, @Nullable QueueStoreConfigHolder queueStoreConfig);
+                        @Nullable String quorumName, @Nullable QueueStoreConfigHolder queueStoreConfig,
+                        @Since("1.6") String mergePolicy, @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new map configuration to a running cluster.
@@ -347,7 +354,8 @@ public interface DynamicConfigTemplate {
                       @Nullable List<QueryCacheConfigHolder> queryCacheConfigs,
                       @Nullable String partitioningStrategyClassName,
                       @Nullable Data partitioningStrategyImplementation,
-                      @Nullable HotRestartConfig hotRestartConfig);
+                      @Nullable HotRestartConfig hotRestartConfig,
+                      @Since("1.6") int mergeBatchSize);
 
     /**
      * Adds a new reliable topic configuration to a running cluster.
@@ -460,7 +468,7 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
-    void addAtomicLongConfig(String name, @Nullable String quorumName);
+    void addAtomicLongConfig(String name, @Nullable String quorumName, String mergePolicy, int mergeBatchSize);
 
     /**
      * Adds a new atomic reference configuration to a running cluster.
@@ -474,7 +482,7 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 20, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
-    void addAtomicReferenceConfig(String name, @Nullable String quorumName);
+    void addAtomicReferenceConfig(String name, @Nullable String quorumName, String mergePolicy, int mergeBatchSize);
 
     /**
      * Adds a new count down latch configuration to a running cluster.
