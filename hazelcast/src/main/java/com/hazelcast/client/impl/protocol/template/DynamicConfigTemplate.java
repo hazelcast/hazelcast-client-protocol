@@ -440,13 +440,14 @@ public interface DynamicConfigTemplate {
      * If a flake ID generator configuration for the same name already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name name of {@code FlakeIdGenerator}
-     * @param prefetchCount how many IDs are pre-fetched on the background when one call to {@code newId()} is made
-     * @param prefetchValidity for how long the pre-fetched IDs can be used
+     * @param name              name of {@code FlakeIdGenerator}
+     * @param prefetchCount     how many IDs are pre-fetched on the background when one call to {@code newId()} is made
+     * @param prefetchValidity  for how long the pre-fetched IDs can be used
+     * @param statisticsEnabled {@code true} to enable gathering of statistics, otherwise {@code false}
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
-    void addFlakeIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity, long idOffset);
+    void addFlakeIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity, long idOffset, boolean statisticsEnabled);
 
     /**
      * Adds a new atomic long configuration to a running cluster.
