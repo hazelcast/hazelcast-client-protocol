@@ -89,19 +89,6 @@ public final class CodeGenerationUtils {
         }
     };
 
-    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {
-        {
-            put(DATA_FULL_NAME, "data");
-            put("java.lang.String", "string");
-            put("java.lang.Integer", "int32");
-            put("boolean", "boolean");
-            put("int", "int32");
-            put("com.hazelcast.nio.Address", "Address");
-            put("java.util.List", "list");
-            put("java.util.Set", "set");
-        }
-    };
-
     private static final Map<String, String> JAVA_TO_TS_TYPES = new HashMap<String, String>() {
         {
             put(DATA_FULL_NAME, "Data");
@@ -110,10 +97,18 @@ public final class CodeGenerationUtils {
             put("boolean", "boolean");
             put("int", "number");
             put("com.hazelcast.nio.Address", "Address");
-            put("java.util.List", "any");
-            put("java.util.Collection", "any[]");
-            put("java.util.Set", "any");
+            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.client.impl.client.DistributedObjectInfo", "any");
+            put("java.util.List", "Array");
+            put("java.util.Collection", "Array");
+            put("java.util.Set", "Array");
             put("long", "any");
+            put("java.lang.Long", "any");
+            put("java.util.Map.Entry", "");
+            put("java.util.Map", "Array");
+            put("byte", "number");
+            put("java.util.UUID", "UUID");
+            put("long[]", "any[]");
         }
     };
 
@@ -409,12 +404,8 @@ public final class CodeGenerationUtils {
         return getLanguageType(Lang.CPP, type, JAVA_TO_CPP_TYPES);
     }
 
-    public static String getNodeType(String type) {
-        return getLanguageType(Lang.NODE, type, JAVA_TO_NODE_TYPES);
-    }
-
-    public static String getNodeTsType(String type) {
-        return JAVA_TO_TS_TYPES.get(type) != null ? JAVA_TO_TS_TYPES.get(type) : "any";
+    public static String getTsType(String type) {
+        return getLanguageType(Lang.NODE, type, JAVA_TO_TS_TYPES);
     }
 
     @SuppressWarnings({"checkstyle:npathcomplexity", "checkstyle:whitespacearound"})
@@ -426,7 +417,9 @@ public final class CodeGenerationUtils {
 
             List<String> typeParameters = getGenericTypeParameters(genericParameters);
             StringBuilder builder = new StringBuilder();
-            if (language != Lang.GO) {
+            if (language == Lang.NODE && type.startsWith("java.util.Map.Entry<")) {
+                builder.append('[');
+            } else if (language != Lang.GO) {
                 builder.append(simpleType).append('<');
             } else {
                 builder.append(simpleType);
@@ -444,6 +437,8 @@ public final class CodeGenerationUtils {
 
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
+            } else if(language == Lang.NODE && type.startsWith("java.util.Map.Entry<")) {
+                builder.append("]");
             } else if (language != Lang.GO) {
                 builder.append(">");
             }
@@ -471,8 +466,7 @@ public final class CodeGenerationUtils {
         return camelCase.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
     }
 
-    public static String convertToNodeType(String name) {
-        //        name = convertToSnakeCase(name);
+    public static String convertSpecialNodeName(String name) {
         if (name.equals("function")) {
             return "arr";
         }
