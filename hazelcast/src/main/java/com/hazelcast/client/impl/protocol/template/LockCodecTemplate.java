@@ -71,7 +71,7 @@ public interface LockCodecTemplate {
      * @param threadId  The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    @Request(id = 5, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "name", acquiresResource = true)
     void lock(String name, long leaseTime, long threadId, @Since(value = "1.2") long referenceId);
 
     /**
@@ -107,6 +107,6 @@ public interface LockCodecTemplate {
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return true if the lock was acquired and false if the waiting time elapsed before the lock was acquired.
      */
-    @Request(id = 8, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
+    @Request(id = 8, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name", acquiresResource = true)
     Object tryLock(String name, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 }

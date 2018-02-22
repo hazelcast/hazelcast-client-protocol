@@ -201,7 +201,7 @@ public interface MultiMapCodecTemplate {
      * @param ttl         The duration in milliseconds after which this entry shall be deleted. O means infinite.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    @Request(id = 16, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key", acquiresResource = true)
     void lock(String name, Data key, long threadId, long ttl, @Since(value = "1.2") long referenceId);
 
     /**
@@ -218,7 +218,7 @@ public interface MultiMapCodecTemplate {
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return True if the lock was acquired and false if the waiting time elapsed before the lock acquired
      */
-    @Request(id = 17, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
+    @Request(id = 17, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key", acquiresResource = true)
     Object tryLock(String name, Data key, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 
     /**

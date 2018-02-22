@@ -43,7 +43,7 @@ public interface TransactionalCodecTemplate {
      * @param threadId        The thread id for the transaction.
      * @return The transaction id for the created transaction.
      */
-    @Request(id = 2, retryable = false, response = ResponseMessageConst.STRING)
+    @Request(id = 2, retryable = false, response = ResponseMessageConst.STRING, acquiresResource = true)
     Object create(long timeout, int durability, int transactionType, long threadId);
 
     /**

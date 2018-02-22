@@ -30,7 +30,7 @@ public interface SemaphoreCodecTemplate {
      * @param permits The given permit count
      * @return True if initialization succeeds, false otherwise.
      */
-    @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
+    @Request(id = 1, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name", acquiresResource = true)
     Object init(String name, int permits);
 
     /**
@@ -45,7 +45,7 @@ public interface SemaphoreCodecTemplate {
      * @param name    Name of the Semaphore
      * @param permits The given permit count
      */
-    @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name", acquiresResource = true)
     void acquire(String name, int permits);
 
     /**
@@ -64,7 +64,7 @@ public interface SemaphoreCodecTemplate {
      * @param name Name of the Semaphore
      * @return The number of permits drained
      */
-    @Request(id = 4, retryable = false, response = ResponseMessageConst.INTEGER, partitionIdentifier = "name")
+    @Request(id = 4, retryable = false, response = ResponseMessageConst.INTEGER, partitionIdentifier = "name", acquiresResource = true)
     Object drainPermits(String name);
 
     /**
@@ -74,7 +74,7 @@ public interface SemaphoreCodecTemplate {
      * @param name      Name of the Semaphore
      * @param reduction The number of permits to remove
      */
-    @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name", acquiresResource = true)
     void reducePermits(String name, int reduction);
 
     /**
@@ -85,7 +85,7 @@ public interface SemaphoreCodecTemplate {
      * @param name    Name of the Semaphore
      * @param permits The number of permits to remove
      */
-    @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+    @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name", acquiresResource = true)
     void release(String name, int permits);
 
     /**
@@ -98,6 +98,6 @@ public interface SemaphoreCodecTemplate {
      * @param timeout The maximum time to wait for a permit
      * @return true if all permits were acquired,  false if the waiting time elapsed before all permits could be acquired
      */
-    @Request(id = 7, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name")
+    @Request(id = 7, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name", acquiresResource = true)
     Object tryAcquire(String name, int permits, long timeout);
 }

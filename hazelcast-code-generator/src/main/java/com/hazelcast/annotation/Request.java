@@ -37,4 +37,6 @@ public @interface Request {
     String partitionIdentifier() default "-1";
 
     int[] event() default -1;
+
+    boolean acquiresResource() default false;
 }

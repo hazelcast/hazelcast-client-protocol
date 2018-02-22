@@ -11,7 +11,6 @@ public final class ${model.className} {
 
     public static final ${model.parentName}MessageType REQUEST_TYPE = ${model.parentName}MessageType.${model.parentName?upper_case}_${model.name?upper_case};
     public static final int RESPONSE_TYPE = ${model.response};
-    public static final boolean RETRYABLE = <#if model.retryable == 1>true<#else>false</#if>;
 
     //************************ REQUEST *************************//
 
@@ -36,7 +35,8 @@ public final class ${model.className} {
         final int requiredDataSize = RequestParameters.calculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
         ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
         clientMessage.setMessageType(REQUEST_TYPE.id());
-        clientMessage.setRetryable(RETRYABLE);
+        clientMessage.setRetryable(<#if model.retryable == 1>true<#else>false</#if>);
+        clientMessage.setAcquiresResource(<#if model.acquiresResource == 1>true<#else>false</#if>);
         clientMessage.setOperationName("${model.parentName}.${model.name}");
 <#list model.requestParams as p>
     <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
