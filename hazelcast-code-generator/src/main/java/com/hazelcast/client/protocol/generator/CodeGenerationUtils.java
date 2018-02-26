@@ -408,7 +408,7 @@ public final class CodeGenerationUtils {
         return getLanguageType(Lang.NODE, type, JAVA_TO_TS_TYPES);
     }
 
-    @SuppressWarnings({"checkstyle:npathcomplexity", "checkstyle:whitespacearound"})
+    @SuppressWarnings({"checkstyle:npathcomplexity", "checkstyle:whitespacearound", "checkstyle:cyclomaticcomplexity"})
     public static String getLanguageType(Lang language, String type, Map<String, String> languageMapping) {
         type = type.trim();
         if (isGeneric(type)) {
