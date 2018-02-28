@@ -161,27 +161,54 @@ public interface ResponseTemplate {
             , int causeErrorCode, @Nullable String causeClassName);
 
     /**
-     * @param readCount The number of items read from the ringbuffer. This can be different from
-     *                  the size of the item array if a filter was applied when reading and some
-     *                  items were skipped and are not in the returned array. This can also be
-     *                  seen as the delta with which the user should increase his sequence
-     *                  counter after consuming all of the returned items in the result set
-     *                  to request the next set from the ringbuffer.
+     * A collection of items read from a data structure (e.g. ringbuffer), each
+     * identified with a sequence number (index).
+     *
+     * @param readCount The number of items read from the ringbuffer. This can
+     *                  be different from the size of the item array if a
+     *                  filter was applied when reading and some items were
+     *                  skipped and are not in the returned array. This can
+     *                  also be seen as the delta with which the user should
+     *                  increase his sequence counter after consuming all of
+     *                  the returned items in the result set to request the
+     *                  next set from the ringbuffer.
      * @param items     The array of serialized items.
-     * @param itemSeqs  sequence IDs of returned ringbuffer items. This array can be {@code null}
-     *                  if the cluster version is 3.8 or lower. If the cluster version is 3.9 or
-     *                  higher then the array with sequence IDs will be sent. The array size is
-     *                  equal to the size of the items array and the arrays have a one-to-one
-     *                  mapping: the index of the sequence ID in the sequence array is equal
-     *                  to the index of the item in the item array. These sequences can be used to
-     *                  provide the user information to request a subset of the returned set if
-     *                  the user has for some reason stopped processing working when processing
-     *                  this returned set. If the ringbuffer is read without a filter then these
-     *                  sequences are a contiguous range and the size of the arrays is equal to the
-     *                  readCount.
+     * @param itemSeqs  sequence IDs of returned ringbuffer items. This array
+     *                  can be {@code null} if the cluster version is 3.8 or
+     *                  lower. If the cluster version is 3.9 or higher then the
+     *                  array with sequence IDs will be sent. The array size is
+     *                  equal to the size of the items array and the arrays
+     *                  have a one-to-one mapping: the index of the sequence ID
+     *                  in the sequence array is equal to the index of the item
+     *                  in the item array. These sequences can be used to provide
+     *                  the user information to request a subset of the returned
+     *                  set if the user has for some reason stopped processing
+     *                  working when processing this returned set. If the
+     *                  ringbuffer is read without a filter then these sequences
+     *                  are a contiguous range and the size of the arrays is
+     *                  equal to the readCount.
+     * @param nextSeq   the sequence of the item following the last read item.
+     *                  This sequence can then be used to read items following
+     *                  the ones returned by this result set.
+     *                  Usually this sequence is equal to the sequence used to
+     *                  retrieve this result set incremented by the {@code readCount}.
+     *                  In cases when the reader tolerates lost items, this is
+     *                  not the case.
+     *                  For instance, if the reader requests an item with a stale
+     *                  sequence (one which has already been overwritten), the
+     *                  read will jump to the oldest sequence and read from there.
+     *                  Similarly, if the reader requests an item in the future
+     *                  (e.g. because the partition was lost and the reader was
+     *                  unaware of this), the read method will jump back to the
+     *                  newest available sequence.
+     *                  Because of these jumps and only in the case when the reader
+     *                  is loss tolerant, this is the next sequence that must be used
+     *                  to read new items.
      */
     @Response(ResponseMessageConst.READ_RESULT_SET)
-    void ReadResultSet(int readCount, List<Data> items, @Since("1.5") @Nullable long[] itemSeqs);
+    void ReadResultSet(int readCount, List<Data> items,
+                       @Since("1.5") @Nullable long[] itemSeqs,
+                       @Since("1.6") long nextSeq);
 
     /**
      * @param tableIndex the last tableIndex processed,
