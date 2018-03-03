@@ -11,22 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package protocol
+
 <#global isImported = false>
 import (
-<#list model.requestParams as param><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/go-client/internal/serialization"<#break></#if></#list>
-<#list model.events as event><#list event.eventParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/go-client/internal/serialization"<#break></#if></#list></#list>
-<#list model.responseParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/go-client/internal/serialization"<#break></#if></#list>
-<#list model.requestParams as param><#if util.getGoType(param.type) == "int32" || util.getGoType(param.type)?contains("[]") || util.getGoType(param.type) == "int64" || util.getGoType(param.type) == "bool" || util.getGoType(param.type) == "int64" ||util.getGoType(param.type) == "[]byte" || util.getGoType(param.type) == "[]int64">. "github.com/hazelcast/go-client/internal/common"<#break></#if></#list>
+<#list model.requestParams as param><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
+<#list model.events as event><#list event.eventParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list></#list>
+<#list model.responseParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
+<#list model.requestParams as param><#if util.getGoType(param.type) == "int32" || util.getGoType(param.type)?contains("[]") || util.getGoType(param.type) == "int64" || util.getGoType(param.type) == "bool" || util.getGoType(param.type) == "int64" ||util.getGoType(param.type) == "[]byte" || util.getGoType(param.type) == "[]int64">. "github.com/hazelcast/hazelcast-go-client/internal/common"<#break></#if></#list>
 )
-type ${model.parentName}${model.name?cap_first}ResponseParameters struct {
-	<#list model.responseParams as p>
-	${p.name?cap_first} <#if !util.isPrimitive(p.type)>*</#if><#if util.getGoType(p.type)?contains("EntryView")>EntryView <#else>${util.getGoType(p.type)}</#if>
-	</#list>
-}
 <#--************************ REQUEST ********************************************************-->
 
-func ${model.parentName}${model.name?cap_first}CalculateSize(<#list model.requestParams as param>${param.name} <#if param.nullable || !util.isPrimitive(param.type)>*</#if>${util.getGoType(param.type)}  <#if param_has_next>, </#if></#list>) int {
+func ${model.parentName}${model.name?cap_first}CalculateSize(<#list model.requestParams as param>${param.name} ${util.getGoPointerType(param.type)}<#if param_has_next>, </#if></#list>) int {
     // Calculates the request payload size
     dataSize := 0
 <#list model.requestParams as p>
@@ -35,9 +32,9 @@ func ${model.parentName}${model.name?cap_first}CalculateSize(<#list model.reques
     return dataSize
 }
 
-func ${model.parentName}${model.name?cap_first}EncodeRequest(<#list model.requestParams as param>${param.name} <#if param.nullable || !util.isPrimitive(param.type)>*</#if>${util.getGoType(param.type)} <#if param_has_next>, </#if></#list>) *ClientMessage {
+func ${model.parentName}${model.name?cap_first}EncodeRequest(<#list model.requestParams as param>${param.name} ${util.getGoPointerType(param.type)}<#if param_has_next>, </#if></#list>) *ClientMessage {
     // Encode request into clientMessage
-    clientMessage := NewClientMessage(nil,${model.parentName}${model.name?cap_first}CalculateSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>))
+    clientMessage := NewClientMessage(nil, ${model.parentName}${model.name?cap_first}CalculateSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>))
     clientMessage.SetMessageType(${model.parentName?upper_case}_${model.name?upper_case})
     clientMessage.IsRetryable =<#if model.retryable == 1>true<#else>false</#if>
 <#list model.requestParams as p>
@@ -49,21 +46,21 @@ func ${model.parentName}${model.name?cap_first}EncodeRequest(<#list model.reques
 
 <#--************************ RESPONSE ********************************************************-->
 <#if model.responseParams?has_content>
-func ${model.parentName}${model.name?cap_first}DecodeResponse(clientMessage *ClientMessage) *${model.parentName}${model.name?cap_first}ResponseParameters {
+func ${model.parentName}${model.name?cap_first}DecodeResponse(clientMessage *ClientMessage) func()(<#list model.responseParams as p>${p.name} ${util.getGoPointerType(p.type)}<#if p_has_next>, </#if></#list>) {
     // Decode response from client message
-    parameters := new(${model.parentName}${model.name?cap_first}ResponseParameters)
+    return func()(<#list model.responseParams as p>${p.name} ${util.getGoPointerType(p.type)}<#if p_has_next>, </#if></#list>) {
 <#list model.responseParams as p>
-<@getterText var_name=p.name type=p.type isNullable=p.nullable indent=1/>
+<@getterText var_name=p.name type=p.type isNullable=p.nullable indent=2/>
 </#list>
-    return parameters
+        return
+    }
 }
 <#else>// Empty decodeResponse(clientMessage), this message has no parameters to decode
 </#if>
 
-
 <#--************************ EVENTS ********************************************************-->
 <#if model.events?has_content>
-func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessage, <#list model.events as event>handleEvent${event.name?cap_first} func(<#list event.eventParams as p><#if !util.isPrimitive(p.type)>*</#if>${util.getGoType(p.type)}<#if p_has_next>,</#if></#list>)<#if event_has_next>, </#if></#list>){
+func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessage, <#list model.events as event>handleEvent${event.name?cap_first} func(<#list event.eventParams as p>${util.getGoPointerType(p.type)}<#if p_has_next>,</#if></#list>)<#if event_has_next>, </#if></#list>){
     // Event handler
     messageType := clientMessage.MessageType()
     <#list model.events as event>
@@ -71,7 +68,7 @@ func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessa
         <#list event.eventParams as p>
 <@getterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true indent=2/>
         </#list>
-        handleEvent${event.name?cap_first}(<#list event.eventParams as param><#if util.getTypeCategory(param.type) =="ARRAY" ||util.getTypeCategory(param.type) =="MAP" || util.getTypeCategory(param.type) == "COLLECTION">&</#if>${param.name}<#if param_has_next>, </#if></#list>)
+        handleEvent${event.name?cap_first}(<#list event.eventParams as param><#if util.getTypeCategory(param.type) =="ARRAY" || util.getTypeCategory(param.type) == "COLLECTION">&</#if>${param.name}<#if param_has_next>, </#if></#list>)
     }
 <#if !event_has_next>}</#if>
     </#list>
@@ -90,7 +87,6 @@ func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessa
 </#if>
 </#macro>
 
-
 <#--METHOD PARAM MACRO -->
 <#macro methodParam type><#local cat= util.getTypeCategory(type)>
 <#switch cat>
@@ -107,11 +103,11 @@ func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessa
         <#if util.isPrimitive(type)>
 ${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?upper_case}_SIZE_IN_BYTES
         <#else >
-${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?cap_first}CalculateSize(<#if !pointer>&</#if>${var_name})
+${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?cap_first}CalculateSize(${var_name})
         </#if>
         <#break >
     <#case "CUSTOM">
-${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?cap_first}CalculateSize(<#if !pointer>&</#if>${var_name})
+${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?cap_first}CalculateSize(${var_name})
         <#break >
     <#case "COLLECTION">
 ${""?left_pad(indent * 4)}dataSize += INT_SIZE_IN_BYTES
@@ -129,19 +125,11 @@ ${""?left_pad(indent * 4)}for range <#if isNullable || !util.isPrimitive(type)>*
         <@sizeTextInternal var_name="${n}Item"  type=genericType indent=(indent + 1)/>
         }
         <#break >
-    <#case "MAP">
-        <#local keyType = util.getFirstGenericParameterType(type)>
-        <#local valueType = util.getSecondGenericParameterType(type)>
-        <#local n= var_name>
-${""?left_pad(indent * 4)}for key, val := range <#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}{
-        <@sizeTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
-        <@sizeTextInternal var_name="val"  type=valueType indent=(indent + 1)/>
-        }
     <#case "MAPENTRY">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-        key := ${var_name}.key.(<#if !util.isPrimitive(type)>*</#if>${util.getGoType(keyType)})
-        val := ${var_name}.value.(<#if !util.isPrimitive(type)>*</#if>${util.getGoType(valueType)})
+        key := ${var_name}.key.(${util.getGoPointerType(keyType)})
+        val := ${var_name}.value.(${util.getGoPointerType(valueType)})
         <@sizeTextInternal var_name="key"  type=keyType indent=indent/>
         <@sizeTextInternal var_name="val"  type=valueType indent=indent/>
 </#switch>
@@ -184,20 +172,11 @@ ${""?left_pad(indent * 4)}for _,${itemTypeVar} := range <#if isNullable || !util
     <@setterTextInternal var_name=itemTypeVar  type=itemType indent=(indent + 1) />
 ${""?left_pad(indent * 4)}}
     </#if>
-    <#if cat == "MAP">
-        <#local keyType = util.getFirstGenericParameterType(type)>
-        <#local valueType = util.getSecondGenericParameterType(type)>
-${""?left_pad(indent * 4)}clientMessage.AppendInt(len(${var_name}))
-${""?left_pad(indent * 4)}for key, value := range ${var_name}.iteritems(){
-    <@setterTextInternal var_name="key"  type=keyType indent=(indent + 1)/>
-    <@setterTextInternal var_name="value"  type=valueType indent=(indent + 1)/>
-${""?left_pad(indent * 4)}}
-    </#if>
     <#if cat == "MAPENTRY">
         <#local keyType = util.getFirstGenericParameterType(type)>
         <#local valueType = util.getSecondGenericParameterType(type)>
-                key := ${var_name}.key.(<#if !util.isPrimitive(type)>*</#if>${util.getGoType(keyType)})
-                val := ${var_name}.value.(<#if !util.isPrimitive(type)>*</#if>${util.getGoType(valueType)})
+                key := ${var_name}.key.(${util.getGoPointerType(keyType)})
+                val := ${var_name}.value.(${util.getGoPointerType(valueType)})
     <@setterTextInternal var_name="key"  type=keyType indent=indent/>
     <@setterTextInternal var_name="val"  type=valueType indent=indent/>
      </#if>
@@ -205,11 +184,10 @@ ${""?left_pad(indent * 4)}}
 
 <#--GETTER NULL CHECK MACRO -->
 <#macro getterText var_name type isNullable=false isEvent=false indent=1>
-<#if isNullable>
-<#if (isEvent)>${""?left_pad(indent * 4)}var ${var_name} <#if !util.isPrimitive(type)>*</#if>${util.modifyForGoTypes(type?split(".")?last)}</#if>
+<#if isNullable><#if (isEvent)>${""?left_pad(indent * 4)}var ${var_name} <#if !util.isPrimitive(type)>*</#if>${util.modifyForGoTypes(type?split(".")?last)}</#if>
 ${""?left_pad(indent * 4)}if !clientMessage.ReadBool(){
 <@getterTextInternal var_name=var_name varType=type isEvent=isEvent indent=indent +1 isNullable=isNullable/>
-    }
+${""?left_pad(indent * 4)}}
 <#else>
 <@getterTextInternal var_name=var_name varType=type isEvent=isEvent indent= indent/>
 </#if>
@@ -222,26 +200,26 @@ ${""?left_pad(indent * 4)}if !clientMessage.ReadBool(){
     <#case "OTHER">
         <#switch varType>
             <#case util.DATA_FULL_NAME>
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadData()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadData()
                 <#break >
             <#case "java.lang.Integer">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadInt32()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadInt32()
                 <#break >
             <#case "java.lang.Boolean">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadBool()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadBool()
                 <#break >
             <#case "java.lang.String">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadString()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.ReadString()
                 <#break >
             <#case "java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= Pair{clientMessage.ReadData(), clientMessage.ReadData()}
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= Pair{clientMessage.ReadData(), clientMessage.ReadData()}
                 <#break >
             <#default>
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.Read${util.getGoType(varType)?cap_first}()
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= clientMessage.Read${util.getGoType(varType)?cap_first}()
         </#switch>
         <#break >
     <#case "CUSTOM">
-${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?cap_first}<#else>${var_name} <#if isNullable==false>:</#if></#if>= <#if varType?contains("UUID")>UuidCodec<#else>${util.getTypeCodec(varType)?split(".")?last}</#if>Decode(clientMessage)
+${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${var_name} <#if isNullable==false>:</#if></#if>= <#if varType?contains("UUID")>UuidCodec<#else>${util.getTypeCodec(varType)?split(".")?last}</#if>Decode(clientMessage)
         <#break >
     <#case "COLLECTION">
     <#case "ARRAY">
@@ -255,42 +233,37 @@ ${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>parameters.${var_name?
     <#local sizeVariableName= "${var_name}Size">
     <#local indexVariableName= "${var_name}Index">
 ${""?left_pad(indent * 4)}${sizeVariableName} := clientMessage.ReadInt32()
-${""?left_pad(indent * 4)}${var_name} := make([]<#if itemVariableType?contains("Map.Entry")>Pair<#else>${util.modifyForGoTypes(itemVariableType?split(".")?last)}</#if>,${sizeVariableName})
+${""?left_pad(indent * 4)}${var_name} := make([]<#if itemVariableType?contains("Map.Entry")>*Pair<#else>${util.modifyForGoTypes(itemVariableType?split(".")?last)}</#if>,${sizeVariableName})
 ${""?left_pad(indent * 4)}for ${indexVariableName} := 0 ; ${indexVariableName} < int(${sizeVariableName}) ; ${indexVariableName} ++{
                             <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
-${""?left_pad(indent * 4)}    ${var_name}[${indexVariableName}] = <#if util.getGoType(itemVariableType) == "Data" || util.getGoType(itemVariableType) == "Pair"  || util.getGoType(itemVariableType) == "Uuid" || util.getGoType(itemVariableType) == "DistributedObjectInfo"  ||util.getGoType(itemVariableType) == "string"||util.getGoType(itemVariableType) == "Member">*</#if>${itemVariableName}
+${""?left_pad(indent * 4)}    ${var_name}[${indexVariableName}] = ${itemVariableName}
 ${""?left_pad(indent * 4)}}
-<#if !(isEvent || isCollection)>
-${""?left_pad(indent * 4)}parameters.${var_name?cap_first} =&${var_name}
-</#if>
-
         <#break >
-    <#case "MAP">
-        <#local sizeVariableName= "${var_name}Size">
-        <#local indexVariableName= "${var_name}Index">
-        <#local keyType = util.getFirstGenericParameterType(varType)>
-        <#local valueType = util.getSecondGenericParameterType(varType)>
-        <#local keyVariableName= "${var_name}Key">
-        <#local valVariableName= "${var_name}Val">
-${""?left_pad(indent * 4)}${sizeVariableName} = clientMessage.ReadInt32()
-${""?left_pad(indent * 4)}${var_name} = {}
-${""?left_pad(indent * 4)}for ${indexVariableName} := 0 ; ${indexVariableName} < ${sizeVariableName} ; ${indexVariableName} ++{
-            <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=(indent +1)/>
-            <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=(indent +1)/>
-${""?left_pad(indent * 4)}}
-${""?left_pad(indent * 4)}    ${var_name}[${keyVariableName}] = <#if util.getGoType(valueType) == "Data" || util.getGoType(itemVariableType) == "string" || util.getGoType(itemVariableType) == "Uuid"  || util.getGoType(valueType) == "Pair"|| util.getGoType(itemVariableType) == "DistributedObjectInfo"||util.getGoType(itemVariableType) == "Member">*</#if>${valVariableName}
-${""?left_pad(indent * 4)}<#if !isEvent>parameters['${var_name}'] = ${var_name}</#if>
+
+
     <#case "MAPENTRY">
-        <#local sizeVariableName= "${var_name}Size">
-        <#local indexVariableName= "${var_name}Index">
+        <#local sizeVariableName= "${var_name}_size">
+        <#local indexVariableName= "${var_name}_index">
         <#local keyType = util.getFirstGenericParameterType(varType)>
         <#local valueType = util.getSecondGenericParameterType(varType)>
-        <#local keyVariableName= "${var_name}Key">
-        <#local valVariableName= "${var_name}Val">
-${""?left_pad(indent * 4)}var ${var_name} <#if varType?contains("Map.Entry")>*Pair<#else><#if !util.isPrimitive(varType)>*</#if>${util.modifyForGoTypes(itemVariableType?split(".")?last?capitalize)}</#if>
+        <#local keyVariableName= "${var_name}_key">
+        <#local valVariableName= "${var_name}_val">
             <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>
             <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>
-${""?left_pad(indent * 4)}    ${var_name}.key = ${keyVariableName}
-${""?left_pad(indent * 4)}    ${var_name}.value = ${valVariableName}
+${""?left_pad(indent * 4)}var ${var_name} = &Pair{ key:${keyVariableName}, value:${valVariableName})
+
+
+    <#--<#case "MAPENTRY">-->
+        <#--<#local sizeVariableName= "${var_name}Size">-->
+        <#--<#local indexVariableName= "${var_name}Index">-->
+        <#--<#local keyType = util.getFirstGenericParameterType(varType)>-->
+        <#--<#local valueType = util.getSecondGenericParameterType(varType)>-->
+        <#--<#local keyVariableName= "${var_name}Key">-->
+        <#--<#local valVariableName= "${var_name}Val">-->
+<#--${""?left_pad(indent * 4)}var ${var_name} = Pair{-->
+            <#--<@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>-->
+            <#--<@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>-->
+<#--${""?left_pad(indent * 4)}    ${var_name}.key = ${keyVariableName}-->
+<#--${""?left_pad(indent * 4)}    ${var_name}.value = ${valVariableName}-->
 </#switch>
 </#macro>
