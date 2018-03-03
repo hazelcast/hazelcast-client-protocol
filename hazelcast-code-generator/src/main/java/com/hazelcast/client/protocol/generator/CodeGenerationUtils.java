@@ -407,11 +407,13 @@ public final class CodeGenerationUtils {
     public static String getGoPointerType(String type) {
         String goType = getGoType(type);
         if(!GO_POINTER_TYPES.contains(goType)){
+            if (goType.contains("[]")) {
+                return "[]*" +goType.substring(2);
+            }
             return "*" + goType;
         }
         return goType;
     }
-
 
     public static String getPythonType(String type) {
         return getLanguageType(Lang.PY, type, JAVA_TO_PYTHON_TYPES);

@@ -68,7 +68,7 @@ func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessa
         <#list event.eventParams as p>
 <@getterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true indent=2/>
         </#list>
-        handleEvent${event.name?cap_first}(<#list event.eventParams as param><#if util.getTypeCategory(param.type) =="ARRAY" || util.getTypeCategory(param.type) == "COLLECTION">&</#if>${param.name}<#if param_has_next>, </#if></#list>)
+        handleEvent${event.name?cap_first}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>)
     }
 <#if !event_has_next>}</#if>
     </#list>
@@ -113,7 +113,7 @@ ${""?left_pad(indent * 4)}dataSize += ${util.getGoType(type)?cap_first}Calculate
 ${""?left_pad(indent * 4)}dataSize += INT_SIZE_IN_BYTES
         <#local genericType= util.getGenericType(type)>
         <#local n= var_name>
-${""?left_pad(indent * 4)}for _,${var_name}Item := range <#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}{
+${""?left_pad(indent * 4)}for _,${var_name}Item := range ${var_name}{
         <@sizeTextInternal var_name="${n}Item"  type=genericType indent=(indent + 1) pointer=false/>
         }
         <#break >
@@ -121,7 +121,7 @@ ${""?left_pad(indent * 4)}for _,${var_name}Item := range <#if isNullable || !uti
 ${""?left_pad(indent * 4)}dataSize += INT_SIZE_IN_BYTES
         <#local genericType= util.getArrayType(type)>
         <#local n= var_name>
-${""?left_pad(indent * 4)}for range <#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}{
+${""?left_pad(indent * 4)}for range ${var_name}{
         <@sizeTextInternal var_name="${n}Item"  type=genericType indent=(indent + 1)/>
         }
         <#break >
@@ -151,24 +151,24 @@ ${""?left_pad(indent * 4)}for range <#if isNullable || !util.isPrimitive(type)>*
 <#macro setterTextInternal var_name type indent isNullable=false pointer=true>
     <#local cat= util.getTypeCategory(type)>
     <#if cat == "OTHER">
-${""?left_pad(indent * 4)}clientMessage.Append${util.getGoType(type)?cap_first}(<#if !pointer>&</#if>${var_name})
+${""?left_pad(indent * 4)}clientMessage.Append${util.getGoType(type)?cap_first}(${var_name})
     </#if>
     <#if cat == "CUSTOM">
 ${""?left_pad(indent * 4)}<#if type?contains("UUID")>UuidCodec<#else>${util.getTypeCodec(type)?split(".")?last}</#if>Encode(clientMessage, ${var_name})
     </#if>
     <#if cat == "COLLECTION">
-${""?left_pad(indent * 4)}clientMessage.AppendInt(len(<#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}))
+${""?left_pad(indent * 4)}clientMessage.AppendInt(len(${var_name}))
         <#local itemType = util.getGenericType(type)>
         <#local itemTypeVar= var_name + "Item">
-${""?left_pad(indent * 4)}for _,${itemTypeVar} := range <#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}{
+${""?left_pad(indent * 4)}for _,${itemTypeVar} := range ${var_name}{
     <@setterTextInternal var_name=itemTypeVar type=itemType indent=(indent + 1) pointer=false />
 ${""?left_pad(indent * 4)}}
     </#if>
     <#if cat == "ARRAY">
-${""?left_pad(indent * 4)}clientMessage.AppendInt(len(<#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}))
+${""?left_pad(indent * 4)}clientMessage.AppendInt(len(${var_name}))
         <#local itemType= util.getArrayType(type)>
         <#local itemTypeVar= var_name + "Item">
-${""?left_pad(indent * 4)}for _,${itemTypeVar} := range <#if isNullable || !util.isPrimitive(type)>*</#if>${var_name}{
+${""?left_pad(indent * 4)}for _,${itemTypeVar} := range ${var_name}{
     <@setterTextInternal var_name=itemTypeVar  type=itemType indent=(indent + 1) />
 ${""?left_pad(indent * 4)}}
     </#if>
@@ -233,9 +233,9 @@ ${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${va
     <#local sizeVariableName= "${var_name}Size">
     <#local indexVariableName= "${var_name}Index">
 ${""?left_pad(indent * 4)}${sizeVariableName} := clientMessage.ReadInt32()
-${""?left_pad(indent * 4)}${var_name} := make([]<#if itemVariableType?contains("Map.Entry")>*Pair<#else>${util.modifyForGoTypes(itemVariableType?split(".")?last)}</#if>,${sizeVariableName})
+${""?left_pad(indent * 4)}${var_name} = make([]${util.getGoPointerType(itemVariableType)},${sizeVariableName})
 ${""?left_pad(indent * 4)}for ${indexVariableName} := 0 ; ${indexVariableName} < int(${sizeVariableName}) ; ${indexVariableName} ++{
-                            <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
+            <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
 ${""?left_pad(indent * 4)}    ${var_name}[${indexVariableName}] = ${itemVariableName}
 ${""?left_pad(indent * 4)}}
         <#break >
@@ -250,7 +250,7 @@ ${""?left_pad(indent * 4)}}
         <#local valVariableName= "${var_name}_val">
             <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>
             <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>
-${""?left_pad(indent * 4)}var ${var_name} = &Pair{ key:${keyVariableName}, value:${valVariableName})
+${""?left_pad(indent * 4)}var ${var_name} = &Pair{ key:${keyVariableName}, value:${valVariableName}}
 
 
     <#--<#case "MAPENTRY">-->
@@ -261,8 +261,8 @@ ${""?left_pad(indent * 4)}var ${var_name} = &Pair{ key:${keyVariableName}, value
         <#--<#local keyVariableName= "${var_name}Key">-->
         <#--<#local valVariableName= "${var_name}Val">-->
 <#--${""?left_pad(indent * 4)}var ${var_name} = Pair{-->
-            <#--<@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>-->
-            <#--<@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>-->
+        <#--<@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>-->
+        <#--<@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>-->
 <#--${""?left_pad(indent * 4)}    ${var_name}.key = ${keyVariableName}-->
 <#--${""?left_pad(indent * 4)}    ${var_name}.value = ${valVariableName}-->
 </#switch>
