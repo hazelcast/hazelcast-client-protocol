@@ -73,7 +73,6 @@ public final class CodeGenerationUtils {
             put("int", "int32");
             put("boolean", "bool");
             put("java.util.List", "[]");
-            put("java.util.Collection", "collection");
             put("java.util.Map", "map");
             put("java.util.Map.Entry", "Pair");
             put("java.lang.Long", "int64");
@@ -86,6 +85,23 @@ public final class CodeGenerationUtils {
             put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
             put("byte[]", "[]byte");
             put("long[]", "[]int64");
+        }
+    };
+
+    private static final List<String> GO_POINTER_TYPES = Arrays
+            .asList("uint8", "int32", "int32", "bool", "[]", "map", "int64", "int64", "[]byte", "[]int64");
+
+
+    private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {
+        {
+            put(DATA_FULL_NAME, "data");
+            put("java.lang.String", "string");
+            put("java.lang.Integer", "int32");
+            put("boolean", "boolean");
+            put("int", "int32");
+            put("com.hazelcast.nio.Address", "Address");
+            put("java.util.List", "list");
+            put("java.util.Set", "set");
         }
     };
 
@@ -387,6 +403,15 @@ public final class CodeGenerationUtils {
         paramList.add(current.toString());
         return paramList;
     }
+
+    public static String getGoPointerType(String type) {
+        String goType = getGoType(type);
+        if(!GO_POINTER_TYPES.contains(goType)){
+            return "*" + goType;
+        }
+        return goType;
+    }
+
 
     public static String getPythonType(String type) {
         return getLanguageType(Lang.PY, type, JAVA_TO_PYTHON_TYPES);
