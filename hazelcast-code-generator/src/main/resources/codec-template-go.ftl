@@ -16,9 +16,9 @@ package protocol
 
 <#global isImported = false>
 import (
-<#list model.requestParams as param><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
-<#list model.events as event><#list event.eventParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list></#list>
-<#list model.responseParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
+<#list model.requestParams as param><#if util.getGoType(param.type)?contains("Data") || util.getFirstGenericParameterType(param.type)?contains("Data") || util.getSecondGenericParameterType(param.type)?contains("Data")><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
+<#list model.events as event><#list event.eventParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data") ><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list></#list>
+<#list model.responseParams as param><#if isImported><#break></#if><#if util.getGoType(param.type)?contains("Data") ><#global isImported=true>. "github.com/hazelcast/hazelcast-go-client/internal/serialization"<#break></#if></#list>
 <#list model.requestParams as param><#if util.getGoType(param.type) == "int32" || util.getGoType(param.type)?contains("[]") || util.getGoType(param.type) == "int64" || util.getGoType(param.type) == "bool" || util.getGoType(param.type) == "int64" ||util.getGoType(param.type) == "[]byte" || util.getGoType(param.type) == "[]int64">. "github.com/hazelcast/hazelcast-go-client/internal/common"<#break></#if></#list>
 )
 <#--************************ REQUEST ********************************************************-->
@@ -50,6 +50,11 @@ func ${model.parentName}${model.name?cap_first}DecodeResponse(clientMessage *Cli
     // Decode response from client message
     return func()(<#list model.responseParams as p>${p.name} ${util.getGoPointerType(p.type)}<#if p_has_next>, </#if></#list>) {
 <#list model.responseParams as p>
+    <#if p.versionChanged >
+        if clientMessage.IsComplete() {
+            return
+        }
+    </#if>
 <@getterText var_name=p.name type=p.type isNullable=p.nullable indent=2/>
 </#list>
         return
@@ -60,18 +65,37 @@ func ${model.parentName}${model.name?cap_first}DecodeResponse(clientMessage *Cli
 
 <#--************************ EVENTS ********************************************************-->
 <#if model.events?has_content>
-func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessage, <#list model.events as event>handleEvent${event.name?cap_first} func(<#list event.eventParams as p>${util.getGoPointerType(p.type)}<#if p_has_next>,</#if></#list>)<#if event_has_next>, </#if></#list>){
+<#--HANDLER FUNC TYPE DEF'S-->
+<#list model.events as event>
+type ${model.parentName}${model.name?cap_first}HandleEvent${event.name?cap_first}Func func(<#list event.eventParams as p>${util.getGoPointerType(p.type)}<#if p_has_next>, </#if></#list>)
+</#list>
+
+<#--HANDLER DECODER FUNC'S-->
+<#list model.events as event>
+func ${model.parentName}${model.name?cap_first}Event${event.name?cap_first}Decode(clientMessage *ClientMessage)(<#list event.eventParams as p>${p.name} ${util.getGoPointerType(p.type)}<#if p_has_next>, </#if></#list>) {
+    <#list event.eventParams as p>
+        <#if p.versionChanged >
+    if clientMessage.IsComplete() {
+        return
+    }
+        </#if>
+    <@getterText var_name=p.name type=p.type isNullable=p.nullable indent=2/>
+    </#list>
+    return
+}
+</#list>
+
+func ${model.parentName}${model.name?cap_first}Handle(clientMessage *ClientMessage,
+    <#list model.events as event>handleEvent${event.name?cap_first} ${model.parentName}${model.name?cap_first}HandleEvent${event.name?cap_first}Func<#if event_has_next>,
+</#if></#list>){
     // Event handler
     messageType := clientMessage.MessageType()
     <#list model.events as event>
     if messageType == EVENT_${event.name?upper_case} && handleEvent${event.name?cap_first} != nil {
-        <#list event.eventParams as p>
-<@getterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true indent=2/>
-        </#list>
-        handleEvent${event.name?cap_first}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>)
+        handleEvent${event.name?cap_first}(${model.parentName}${model.name?cap_first}Event${event.name?cap_first}Decode(clientMessage))
     }
-<#if !event_has_next>}</#if>
     </#list>
+}
 </#if>
 
 <#--MACROS BELOW-->
@@ -136,7 +160,7 @@ ${""?left_pad(indent * 4)}for range ${var_name}{
 </#macro>
 <#--SETTER NULL CHECK MACRO -->
 <#macro setterText var_name type isNullable=false>
-<#local isNullVariableName= "${var_name}_is_null">
+<#local isNullVariableName= "${var_name}IsNil">
 <#if isNullable>
     clientMessage.AppendBool(${var_name} == nil)
     if ${var_name} != nil {
@@ -157,7 +181,7 @@ ${""?left_pad(indent * 4)}clientMessage.Append${util.getGoType(type)?cap_first}(
 ${""?left_pad(indent * 4)}<#if type?contains("UUID")>UuidCodec<#else>${util.getTypeCodec(type)?split(".")?last}</#if>Encode(clientMessage, ${var_name})
     </#if>
     <#if cat == "COLLECTION">
-${""?left_pad(indent * 4)}clientMessage.AppendInt(len(${var_name}))
+${""?left_pad(indent * 4)}clientMessage.AppendInt32(int32(len(${var_name})))
         <#local itemType = util.getGenericType(type)>
         <#local itemTypeVar= var_name + "Item">
 ${""?left_pad(indent * 4)}for _,${itemTypeVar} := range ${var_name}{
@@ -165,7 +189,7 @@ ${""?left_pad(indent * 4)}for _,${itemTypeVar} := range ${var_name}{
 ${""?left_pad(indent * 4)}}
     </#if>
     <#if cat == "ARRAY">
-${""?left_pad(indent * 4)}clientMessage.AppendInt(len(${var_name}))
+${""?left_pad(indent * 4)}clientMessage.AppendInt32(int32(len(${var_name})))
         <#local itemType= util.getArrayType(type)>
         <#local itemTypeVar= var_name + "Item">
 ${""?left_pad(indent * 4)}for _,${itemTypeVar} := range ${var_name}{
@@ -228,42 +252,25 @@ ${""?left_pad(indent * 4)}<#if !(isEvent || isCollection)>${var_name}<#else>${va
     <#else>
     <#local itemVariableType= util.getArrayType(varType)>
     </#if>
-
     <#local itemVariableName= "${var_name}Item">
     <#local sizeVariableName= "${var_name}Size">
     <#local indexVariableName= "${var_name}Index">
 ${""?left_pad(indent * 4)}${sizeVariableName} := clientMessage.ReadInt32()
-${""?left_pad(indent * 4)}${var_name} = make([]${util.getGoPointerType(itemVariableType)},${sizeVariableName})
-${""?left_pad(indent * 4)}for ${indexVariableName} := 0 ; ${indexVariableName} < int(${sizeVariableName}) ; ${indexVariableName} ++{
+${""?left_pad(indent * 4)}${var_name} = make([]${util.getGoPointerType(itemVariableType)}, ${sizeVariableName})
+${""?left_pad(indent * 4)}for ${indexVariableName} := 0 ; ${indexVariableName} < int(${sizeVariableName}) ; ${indexVariableName} ++ {
             <@getterTextInternal var_name=itemVariableName varType=itemVariableType isEvent=isEvent isCollection=true indent=(indent +1)/>
 ${""?left_pad(indent * 4)}    ${var_name}[${indexVariableName}] = ${itemVariableName}
 ${""?left_pad(indent * 4)}}
         <#break >
-
-
     <#case "MAPENTRY">
-        <#local sizeVariableName= "${var_name}_size">
-        <#local indexVariableName= "${var_name}_index">
+        <#local sizeVariableName= "${var_name}Size">
+        <#local indexVariableName= "${var_name}Index">
         <#local keyType = util.getFirstGenericParameterType(varType)>
         <#local valueType = util.getSecondGenericParameterType(varType)>
-        <#local keyVariableName= "${var_name}_key">
-        <#local valVariableName= "${var_name}_val">
+        <#local keyVariableName= "${var_name}Key">
+        <#local valVariableName= "${var_name}Value">
             <@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>
             <@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>
 ${""?left_pad(indent * 4)}var ${var_name} = &Pair{ key:${keyVariableName}, value:${valVariableName}}
-
-
-    <#--<#case "MAPENTRY">-->
-        <#--<#local sizeVariableName= "${var_name}Size">-->
-        <#--<#local indexVariableName= "${var_name}Index">-->
-        <#--<#local keyType = util.getFirstGenericParameterType(varType)>-->
-        <#--<#local valueType = util.getSecondGenericParameterType(varType)>-->
-        <#--<#local keyVariableName= "${var_name}Key">-->
-        <#--<#local valVariableName= "${var_name}Val">-->
-<#--${""?left_pad(indent * 4)}var ${var_name} = Pair{-->
-        <#--<@getterTextInternal var_name=keyVariableName varType=keyType isEvent=true indent=indent/>-->
-        <#--<@getterTextInternal var_name=valVariableName varType=valueType isEvent=true indent=indent/>-->
-<#--${""?left_pad(indent * 4)}    ${var_name}.key = ${keyVariableName}-->
-<#--${""?left_pad(indent * 4)}    ${var_name}.value = ${valVariableName}-->
 </#switch>
 </#macro>
