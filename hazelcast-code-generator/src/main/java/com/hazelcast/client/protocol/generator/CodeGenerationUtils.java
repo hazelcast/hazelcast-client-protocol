@@ -82,7 +82,7 @@ public final class CodeGenerationUtils {
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
             put("com.hazelcast.core.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
-            put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
+            put("com.hazelcast.map.impl.SimpleEntryView", "DataEntryView");
             put("byte[]", "[]byte");
             put("long[]", "[]int64");
         }
@@ -90,7 +90,6 @@ public final class CodeGenerationUtils {
 
     private static final List<String> GO_POINTER_TYPES = Arrays
             .asList("uint8", "int32", "int32", "bool", "[]", "map", "int64", "int64", "[]byte", "[]int64");
-
 
     private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {
         {
@@ -233,13 +232,13 @@ public final class CodeGenerationUtils {
     public static String getFirstGenericParameterType(String type) {
         int beg = type.indexOf("<");
         int end = type.indexOf(",");
-        return type.substring(beg + 1, end).trim();
+        return beg > 0 && end > 0 ? type.substring(beg + 1, end).trim() : "";
     }
 
     public static String getSecondGenericParameterType(String type) {
         int beg = type.indexOf(",");
         int end = type.lastIndexOf(">");
-        return type.substring(beg + 1, end).trim();
+        return beg > 0 && end > 0 ? type.substring(beg + 1, end).trim() : "";
     }
 
     public static boolean isPrimitive(String type) {
@@ -406,9 +405,9 @@ public final class CodeGenerationUtils {
 
     public static String getGoPointerType(String type) {
         String goType = getGoType(type);
-        if(!GO_POINTER_TYPES.contains(goType)){
+        if (!GO_POINTER_TYPES.contains(goType)) {
             if (goType.contains("[]")) {
-                return "[]*" +goType.substring(2);
+                return "[]*" + goType.substring(2);
             }
             return "*" + goType;
         }
@@ -451,7 +450,7 @@ public final class CodeGenerationUtils {
             } else {
                 builder.append(simpleType);
             }
-            if (simpleType.equals("Pair") && language == Lang.GO) {
+            if ((simpleType.equals("Pair") || simpleType.equals("DataEntryView")) && language == Lang.GO) {
                 return builder.toString();
             }
             Iterator<String> iterator = typeParameters.iterator();
@@ -464,12 +463,11 @@ public final class CodeGenerationUtils {
 
             if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
                 builder.append(" > >");
-            } else if(language == Lang.NODE && type.startsWith("java.util.Map.Entry<")) {
+            } else if (language == Lang.NODE && type.startsWith("java.util.Map.Entry<")) {
                 builder.append("]");
             } else if (language != Lang.GO) {
                 builder.append(">");
             }
-
 
             String result = builder.toString();
             if (result.equals("EntryView<serialization::pimpl::Data, serialization::pimpl::Data >")) {
