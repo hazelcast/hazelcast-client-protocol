@@ -354,4 +354,20 @@ public interface ClientMessageTemplate {
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID, event = {EventMessageConst.EVENT_PARTITIONS})
     @Since(value = "1.5")
     void addPartitionListener();
+
+    /**
+     * Proxies will be created on all cluster members.
+     * If the member is  a lite member, a replicated map will not be created.
+     * Any proxy creation failure is logged on the server side.
+     * Exceptions related to a proxy creation failure is not send to the client.
+     * A proxy creation failure does not cancel this operation, all proxies will be attempted to be created.
+     *
+     * @param proxies proxies that will be created
+     *                Each entry's key is distributed object name.
+     *                Each entry's value is service name.
+     *                For possible service names see createProxy message.
+     */
+    @Since(value = "1.6")
+    @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID)
+    void createProxies(List<Map.Entry<String, String>> proxies);
 }
