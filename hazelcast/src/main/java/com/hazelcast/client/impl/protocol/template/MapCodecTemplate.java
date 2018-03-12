@@ -240,7 +240,7 @@ public interface MapCodecTemplate {
      * @param ttl         The duration in milliseconds after which this entry shall be deleted. O means infinite.
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      */
-    @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    @Request(id = 19, retryable = true, response = ResponseMessageConst.VOID, partitionIdentifier = "key", acquiresResource = true)
     void lock(String name, Data key, long threadId, long ttl, @Since(value = "1.2") long referenceId);
 
     /**
@@ -257,7 +257,7 @@ public interface MapCodecTemplate {
      * @param referenceId The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
      * @return Returns true if successful, otherwise returns false
      */
-    @Request(id = 20, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
+    @Request(id = 20, retryable = true, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key", acquiresResource = true)
     Object tryLock(String name, Data key, long threadId, long lease, long timeout, @Since(value = "1.2") long referenceId);
 
     /**

@@ -56,7 +56,7 @@ public interface XATransactionalCodecTemplate {
      * @param timeout The timeout in seconds for XA operations such as prepare, commit, rollback.
      * @return The transaction unique identifier.
      */
-    @Request(id = 5, retryable = false, response = ResponseMessageConst.STRING)
+    @Request(id = 5, retryable = false, response = ResponseMessageConst.STRING, acquiresResource = true)
     Object create(Xid xid, long timeout);
 
     /**

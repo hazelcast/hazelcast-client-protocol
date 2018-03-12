@@ -57,6 +57,7 @@ public class CodecModel
     private final String packageName;
 
     private final int retryable;
+    private final int acquiresResource;
     private final int response;
 
     private String messageSince = DEFAULT_SINCE_VERSION;
@@ -71,14 +72,14 @@ public class CodecModel
     private Elements elementUtil;
 
     CodecModel(TypeElement parent, ExecutableElement methodElement, ExecutableElement responseElement,
-               List<ExecutableElement> eventElementList, boolean retryable, Lang lang, Elements docCommentUtil) {
+               List<ExecutableElement> eventElementList, boolean retryable, boolean acquiresResourse,
+               Lang lang, Elements docCommentUtil) {
         GenerateCodec generateCodecAnnotation = parent.getAnnotation(GenerateCodec.class);
         Since codecSinceVersion = parent.getAnnotation(Since.class);
-        if (null != codecSinceVersion) {
-            messageSince = codecSinceVersion.value();
-        }
-        Request requestAnnotation = methodElement.getAnnotation(Request.class);
         Since methodSince = methodElement.getAnnotation(Since.class);
+        messageSince = null != codecSinceVersion ? codecSinceVersion.value() : messageSince;
+        messageSince = null != methodSince ? methodSince.value() : messageSince;
+        Request requestAnnotation = methodElement.getAnnotation(Request.class);
 
         this.lang = lang;
         this.name = methodElement.getSimpleName().toString();
@@ -87,12 +88,8 @@ public class CodecModel
         this.packageName = (lang != Lang.JAVA) ? generateCodecAnnotation.ns() : DEFAULT_PACKAGE_NAME;
 
         this.retryable = retryable ? 1 : 0;
+        this.acquiresResource = acquiresResourse ? 1 : 0;
         this.response = requestAnnotation.response();
-
-        if (null != methodSince) {
-            this.messageSince = methodSince.value();
-        }
-
         this.requestId = requestAnnotation.id();
         this.id = addHexPrefix(CodeGenerationUtils.mergeIds(generateCodecAnnotation.id(), requestId));
         this.partitionIdentifier = requestAnnotation.partitionIdentifier();
@@ -113,6 +110,7 @@ public class CodecModel
         this.packageName = DEFAULT_PACKAGE_NAME;
 
         this.retryable = 1;
+        this.acquiresResource = 0;
         this.response = EVENT_MODEL_TYPE;
 
         initRequestParameters();
@@ -319,6 +317,10 @@ public class CodecModel
         return retryable;
     }
 
+    public int getAcquiresResource() {
+        return acquiresResource;
+    }
+
     public String getMessageSince() {
         return messageSince;
     }
@@ -427,7 +429,9 @@ public class CodecModel
             return versionChanged;
         }
 
-        public boolean getContainsNullable() { return containsNullable; }
+        public boolean getContainsNullable() {
+            return containsNullable;
+        }
 
     }
 }

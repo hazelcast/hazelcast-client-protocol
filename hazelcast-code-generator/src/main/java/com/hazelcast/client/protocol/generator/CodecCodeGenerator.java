@@ -399,6 +399,7 @@ public class CodecCodeGenerator extends AbstractProcessor {
             System.err.println(methodElement.toString());
         }
         boolean retryable = methodElementAnnotation.retryable();
+        boolean acquiresResource = methodElementAnnotation.acquiresResource();
 
         ExecutableElement responseElement = responseMap.get(response);
 
@@ -411,7 +412,8 @@ public class CodecCodeGenerator extends AbstractProcessor {
                 }
             }
         }
-        return new CodecModel(parent, methodElement, responseElement, eventElementList, retryable, lang, elementUtils);
+        return new CodecModel(parent, methodElement, responseElement, eventElementList,
+                retryable, acquiresResource, lang, elementUtils);
     }
 
     public void generateCodec(CodecModel codecModel, Template codecTemplate) {
