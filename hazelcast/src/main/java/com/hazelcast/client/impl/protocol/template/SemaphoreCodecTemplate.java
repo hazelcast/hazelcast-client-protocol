@@ -101,16 +101,16 @@ public interface SemaphoreCodecTemplate {
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "name", acquiresResource = true)
     Object tryAcquire(String name, int permits, long timeout);
-    
+
     /**
-     * Increases the number of available permits by the indicated amount. This method differs from {@code release} 
+     * Increases the number of available permits by the indicated amount. This method differs from {@code release}
      * in that it does not effect the amount of permits this caller has attached.
      *
      * @param name     Name of the Semaphore
      * @param increase The number of permits to add
      * @throws IllegalArgumentException if {@code increase} is negative
-     */ 
-    @Request(id = 8, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name")
+     */
+    @Request(id = 8, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "name", acquiresResource = true)
     @Since("1.6")
     void increasePermits(String name, int increase);
 }
