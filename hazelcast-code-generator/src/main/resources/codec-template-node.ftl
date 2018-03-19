@@ -158,7 +158,7 @@ export class ${model.className} {
         });
             <#break >
         <#case "ARRAY">
-        data_size += BitsUtil.INT_SIZE_IN_BYTES
+        dataSize += BitsUtil.INT_SIZE_IN_BYTES
             <#local genericType= util.getArrayType(type)>
             <#local n= var_name>
         ${var_name}.forEach((${var_name}Item : any) => {
