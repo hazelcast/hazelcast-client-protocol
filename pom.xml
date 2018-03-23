@@ -55,8 +55,8 @@
 
     <properties>
         <!-- Hazelcast branch to download and compile with -->
-        <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
-        <hazelcast.git.branch>master</hazelcast.git.branch>
+        <hazelcast.git.repo>metanet</hazelcast.git.repo>
+        <hazelcast.git.branch>feature/flakeid/node-id-offset</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
