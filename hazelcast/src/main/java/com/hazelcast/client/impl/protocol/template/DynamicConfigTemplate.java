@@ -455,7 +455,8 @@ public interface DynamicConfigTemplate {
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
-    void addFlakeIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity, long idOffset, boolean statisticsEnabled);
+    void addFlakeIdGeneratorConfig(String name, int prefetchCount, long prefetchValidity, long idOffset,
+                                   boolean statisticsEnabled, long nodeIdOffset);
 
     /**
      * Adds a new atomic long configuration to a running cluster.
