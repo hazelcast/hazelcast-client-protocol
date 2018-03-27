@@ -495,6 +495,8 @@ Header only event message, no message body exist.
             <#return "array of string">
         <#case "java.util.List<java.lang.Long>">
             <#return "array of longs">
+        <#case "java.util.List<java.util.Map.Entry<java.lang.String,java.lang.String>>">
+             <#return "array of string pairs">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
