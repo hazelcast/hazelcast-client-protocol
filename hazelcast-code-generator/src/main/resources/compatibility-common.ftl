@@ -90,6 +90,8 @@
             <#return "evictionConfig">
         <#case "java.util.List<java.util.Map.Entry<java.lang.String,java.lang.Long>>">
             <#return "aListOfStringToLong">
+        <#case "java.util.List<java.util.Map.Entry<java.lang.String,java.lang.String>>">
+             <#return "aListOfStringToString">
         <#default>
             <#return "Unknown Data Type " + javaType>
     </#switch>
