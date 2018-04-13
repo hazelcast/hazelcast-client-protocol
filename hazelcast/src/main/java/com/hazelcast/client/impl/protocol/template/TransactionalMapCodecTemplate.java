@@ -18,6 +18,7 @@ package com.hazelcast.client.impl.protocol.template;
 
 import com.hazelcast.annotation.GenerateCodec;
 import com.hazelcast.annotation.Request;
+import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.nio.serialization.Data;
 

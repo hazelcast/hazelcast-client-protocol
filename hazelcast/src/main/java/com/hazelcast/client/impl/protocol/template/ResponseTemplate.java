@@ -221,7 +221,7 @@ public interface ResponseTemplate {
     @Since("1.4")
     @Response(ResponseMessageConst.SCHEDULED_TASK_STATISTICS)
     void ScheduledTaskStatistics(long lastIdleTimeNanos, long totalIdleTimeNanos,
-                                 long totalRuns, long totalRunTimeNanos);
+                                 long totalRuns, long totalRunTimeNanos, @Since("1.6") long lastRunDurationNanos);
 
     @Since("1.4")
     @Response(ResponseMessageConst.ALL_SCHEDULED_TASK_HANDLERS)
