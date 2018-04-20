@@ -98,6 +98,8 @@ public class CodecModel
 
         this.messageSinceInt = CodeGenerationUtils.versionAsInt(messageSince);
 
+        this.highestParameterVersion = messageSinceInt;
+
         initParameters(methodElement, responseElement, eventElementList, lang);
     }
 
@@ -134,14 +136,19 @@ public class CodecModel
         for (ExecutableElement element : eventElementList) {
             EventModel eventModel = new EventModel();
             eventModel.comment = elementUtil.getDocComment(element);
+            Since eventSinceVersion = element.getAnnotation(Since.class);
+            eventModel.sinceVersion = eventSinceVersion != null ? eventSinceVersion.value() : DEFAULT_SINCE_VERSION;
+            eventModel.sinceVersionInt = CodeGenerationUtils.versionAsInt(eventModel.sinceVersion);
+            eventModel.type = element.getAnnotation(EventResponse.class).value();
+            eventModel.name = element.getSimpleName().toString();
 
             List<ParameterModel> eventParam = new ArrayList<ParameterModel>();
-            int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
+            int previousParamVersion = eventModel.sinceVersionInt;
             for (VariableElement param : element.getParameters()) {
                 Nullable nullable = param.getAnnotation(Nullable.class);
                 Since sinceVersion = param.getAnnotation(Since.class);
                 ContainsNullable containsNullable = param.getAnnotation(ContainsNullable.class);
-                String paramVersion = messageSince;
+                String paramVersion = eventModel.sinceVersion;
                 if (null != sinceVersion) {
                     paramVersion = sinceVersion.value();
                 }
@@ -160,8 +167,6 @@ public class CodecModel
                 previousParamVersion = paramVersionInt;
             }
 
-            eventModel.type = element.getAnnotation(EventResponse.class).value();
-            eventModel.name = element.getSimpleName().toString();
             eventModel.eventParams = eventParam;
 
             events.add(eventModel);
@@ -169,12 +174,15 @@ public class CodecModel
     }
 
     private void initResponseParameters(ExecutableElement responseElement, Lang lang) {
-        int previousParamVersion = 1 * CodeGenerationUtils.MAJOR_VERSION_MULTIPLIER;
+        Since responseSinceAnnotation = responseElement.getAnnotation(Since.class);
+        String responseSinceVersion = responseSinceAnnotation != null ? responseSinceAnnotation.value() : messageSince;
+        int responseSinceVersionInt = CodeGenerationUtils.versionAsInt(responseSinceVersion);
+        int previousParamVersion = responseSinceVersionInt;
         for (VariableElement param : responseElement.getParameters()) {
             Nullable nullable = param.getAnnotation(Nullable.class);
             Since sinceVersion = param.getAnnotation(Since.class);
             ContainsNullable containsNullable = param.getAnnotation(ContainsNullable.class);
-            String paramVersion = messageSince;
+            String paramVersion = responseSinceVersion;
             if (null != sinceVersion) {
                 paramVersion = sinceVersion.value();
             }
@@ -362,6 +370,8 @@ public class CodecModel
         private List<ParameterModel> eventParams;
         private int type;
         private String comment = "";
+        private String sinceVersion = DEFAULT_SINCE_VERSION;
+        private int sinceVersionInt;
 
         public int getType() {
             return type;
@@ -382,6 +392,15 @@ public class CodecModel
         public String getComment() {
             return comment;
         }
+
+        public String getSinceVersion() {
+            return sinceVersion;
+        }
+
+        public int getSinceVersionInt() {
+            return sinceVersionInt;
+        }
+
     }
 
     public static class ParameterModel {
