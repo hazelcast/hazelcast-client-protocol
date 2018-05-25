@@ -370,4 +370,23 @@ public interface ClientMessageTemplate {
     @Since(value = "1.6")
     @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID)
     void createProxies(List<Map.Entry<String, String>> proxies);
+    
+    /**
+     * Collects a metrics data package from the target {@code member}. Packets are
+     * streamed from the member to the calling process by frequently calling this
+     * method.
+     * 
+     * @param member the {@link Address} of the member that should return its
+     *        metrics data
+     * @param packageNo what the caller believes the current package sequence number
+     *        to be
+     * @param memorizedSize the table remembered by the caller (expect
+     *        0-memorizedSize-1 as known constants)
+     * @param poolSize the current table size of the caller that must not be
+     *        exceeded by any of the referenced constants
+     * @return the metrics series data as binary data package
+     */
+    @Since(value = "1.6")
+    @Request(id = 20, retryable = false, response = ResponseMessageConst.DATA)
+    Object collectMetrics(Address member, long packageNo, int memorizedSize, int poolSize);
 }
