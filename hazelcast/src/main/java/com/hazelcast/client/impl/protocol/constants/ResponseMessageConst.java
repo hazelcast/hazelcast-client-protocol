@@ -58,6 +58,7 @@ public final class ResponseMessageConst {
     @Since("1.5") public static final int EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE = 125;
     @Since("1.6") public static final int FLAKE_ID_GEN_ID_BATCH = 126;
     @Since("1.6") public static final int CRDT_TIMESTAMPED_LONG = 127;
+    @Since("1.7") public static final int BYTE_ARRAY = 128;
 
     private ResponseMessageConst() {
     }

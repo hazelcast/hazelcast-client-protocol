@@ -273,4 +273,12 @@ public interface ResponseTemplate {
     @Since("1.6")
     @Response(ResponseMessageConst.CRDT_TIMESTAMPED_LONG)
     void CRDTTimestampedLong(long value, List<Map.Entry<String, Long>> replicaTimestamps, int replicaCount);
+
+    /**
+     * @param response The operation result as a byte array.
+     */
+    @Since("1.7")
+    @Response(ResponseMessageConst.BYTE_ARRAY)
+    void Long(byte[] response);
+
 }

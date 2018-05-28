@@ -386,7 +386,7 @@ public interface ClientMessageTemplate {
      *        exceeded by any of the referenced constants
      * @return the metrics series data as binary data package
      */
-    @Since(value = "1.6")
-    @Request(id = 20, retryable = false, response = ResponseMessageConst.DATA)
+    @Since(value = "1.7")
+    @Request(id = 20, retryable = false, response = ResponseMessageConst.BYTE_ARRAY)
     Object collectMetrics(Address member, long packageNo, int memorizedSize, int poolSize);
 }
