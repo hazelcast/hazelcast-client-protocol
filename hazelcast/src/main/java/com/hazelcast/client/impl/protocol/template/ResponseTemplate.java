@@ -279,6 +279,6 @@ public interface ResponseTemplate {
      */
     @Since("1.7")
     @Response(ResponseMessageConst.BYTE_ARRAY)
-    void Long(byte[] response);
+    void ByteArray(byte[] response);
 
 }
