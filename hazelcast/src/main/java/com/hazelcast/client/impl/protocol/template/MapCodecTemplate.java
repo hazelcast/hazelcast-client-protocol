@@ -895,4 +895,28 @@ public interface MapCodecTemplate {
     @Since("1.5")
     Object eventJournalRead(String name, long startSequence, int minSize, int maxSize,
                             @Nullable Data predicate, @Nullable Data projection);
+
+
+    /**
+     * Updates TTL (time to live) value of the entry specified by {@code key} with a new TTL value.
+     * New TTL value is valid from this operation is invoked, not from the original creation of the entry.
+     * <p>
+     * The entry will expire and get evicted after the TTL. If the TTL is 0,
+     * then the entry lives forever. If the TTL is negative, then the TTL
+     * from the map configuration will be used (default: forever).
+     *
+     * If there is no entry with key {@code key}, this call has no effect.
+     *
+     * <b>Warning:</b>
+     * <p>
+     * Time resolution for TTL is seconds. The given TTL value is rounded to the next closest second value.
+     *
+     * @param name  Name of the map
+     * @param key   Key for the map entry
+     * @param ttl   The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     */
+    @Request(id = 73, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    @Since("1.7")
+    void setTTL(String name, Data key, long ttl);
+
 }
