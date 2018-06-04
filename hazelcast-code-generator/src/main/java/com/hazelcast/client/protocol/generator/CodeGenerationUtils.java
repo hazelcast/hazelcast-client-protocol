@@ -89,7 +89,8 @@ public final class CodeGenerationUtils {
     };
 
     private static final List<String> GO_POINTER_TYPES = Arrays
-            .asList("uint8", "int32", "int32", "bool", "[]", "map", "int64", "int64", "[]byte", "[]int64");
+            .asList("uint8", "int32", "string", "uint32", "bool", "[]", "map", "int64", "uint64",
+                    "[]byte", "[]int64", "[]uint64", "[]string");
 
     private static final Map<String, String> JAVA_TO_NODE_TYPES = new HashMap<String, String>() {
         {
@@ -405,6 +406,12 @@ public final class CodeGenerationUtils {
 
     public static String getGoPointerType(String type) {
         String goType = getGoType(type);
+        if (goType.equals("Data")) {
+            goType = "serialization.Data";
+        }
+        if (goType.equals("[]Data")) {
+            goType = "[]serialization.Data";
+        }
         if (!GO_POINTER_TYPES.contains(goType)) {
             if (goType.contains("[]")) {
                 return "[]*" + goType.substring(2);
