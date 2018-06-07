@@ -441,4 +441,19 @@ public interface CacheCodecTemplate {
     @Since("1.5")
     Object eventJournalRead(String name, long startSequence, int minSize, int maxSize,
                             @Nullable Data predicate, @Nullable Data projection);
+
+    /**
+     * Associates the specified key with the given {@link javax.cache.expiry.ExpiryPolicy}.
+     * {@code expiryPolicy} takes precedence for these particular {@code keys} against any cache wide expiry policy.
+     * If some keys in {@code keys} do not exist or are already expired, this call has no effect for those.
+     *
+     * @param name          name of the cache
+     * @param keys          The keys that are associated with the specified expiry policy.
+     * @param expiryPolicy  custom expiry policy for this operation
+     * @param completionId  user generated id which shall be received as a field of the cache event upon completion of
+     *                      the request in the cluster.
+     */
+    @Request(id = 35, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.7")
+    void setExpiryPolicy(String name, List<Data> keys, Data expiryPolicy, int completionId);
 }
