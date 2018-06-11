@@ -124,6 +124,7 @@ Supported options for [LANGUAGE] are
 3. py (python)
 4. md (documentation of protocol)
 5. node (Node.js)
+6. go (GoLang)
 
 To generate for another custom languages, an ftl file with 
 `codec-template-[LANGUAGE].ftl` needs to be added to  
