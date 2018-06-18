@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2015, Hazelcast, Inc. All Rights Reserved.
+ * Copyright (c) 2008-2018, Hazelcast, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,41 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-<#assign listenerInterface = "">
-<#assign isAddListener=false>
-<#assign isRemoveListener=false>
-<#if model.className?contains("Listener") && model.className?contains("Add")>
-<#assign listenerInterface = "IAddListenerCodec">
-<#assign isAddListener=true>
-</#if>
-<#if model.className?contains("Listener") && model.className?contains("Remove") && model.className != "ClientRemoveAllListenersCodec">
-<#assign listenerInterface = "IRemoveListenerCodec">
-<#assign isRemoveListener=true>
-</#if>
-<#assign isAddRemoveListener=(isAddListener || isRemoveListener)>
 
-<#if isAddRemoveListener>#include "hazelcast/util/Util.h"
-#include "hazelcast/util/ILogger.h"</#if>
+#include "hazelcast/util/Util.h"
+#include "hazelcast/util/ILogger.h"
 
 #include "hazelcast/client/protocol/codec/${model.className}.h"
 #include "hazelcast/client/exception/UnexpectedMessageTypeException.h"
-<#if shouldIncludeHeader("Data", isAddRemoveListener)>
+<#if shouldIncludeHeader("Data")>
 #include "hazelcast/client/serialization/pimpl/Data.h"
 </#if>
-<#if shouldIncludeHeader("Address", isAddRemoveListener)>
+<#if shouldIncludeHeader("Address")>
 #include "hazelcast/client/Address.h"
 </#if>
-<#if shouldIncludeHeader("Member", isAddRemoveListener)>
+<#if shouldIncludeHeader("Member")>
 #include "hazelcast/client/Member.h"
 </#if>
-<#if shouldIncludeHeader("MemberAttributeChange", isAddRemoveListener)>
+<#if shouldIncludeHeader("MemberAttributeChange")>
 #include "hazelcast/client/impl/MemberAttributeChange.h"
 </#if>
-<#if shouldIncludeHeader("EntryView", isAddRemoveListener)>
+<#if shouldIncludeHeader("EntryView")>
 #include "hazelcast/client/map/DataEntryView.h"
 </#if>
-<#if shouldIncludeHeader("DistributedObjectInfo", isAddRemoveListener)>
+<#if shouldIncludeHeader("DistributedObjectInfo")>
 #include "hazelcast/client/impl/DistributedObjectInfo.h"
+</#if>
+<#if shouldIncludeHeader("UUID")>
+#include "hazelcast/util/UUID.h"
 </#if>
 <#if model.events?has_content>
 #include "hazelcast/client/protocol/EventMessageConst.h"
@@ -57,20 +48,15 @@ namespace hazelcast {
     namespace client {
         namespace protocol {
             namespace codec {
-                const ${model.parentName}MessageType ${model.className}::RequestParameters::TYPE = HZ_${model.parentName?upper_case}_${model.name?upper_case};
-                const bool ${model.className}::RequestParameters::RETRYABLE = <#if model.retryable == 1>true<#else>false</#if>;
-                const int32_t ${model.className}::ResponseParameters::TYPE = ${model.response};
-                <#if isAddListener || isRemoveListener>
+                const ${model.parentName}MessageType ${model.className}::REQUEST_TYPE = HZ_${model.parentName?upper_case}_${model.name?upper_case};
+                const bool ${model.className}::RETRYABLE = <#if model.retryable == 1>true<#else>false</#if>;
+                const ResponseMessageConst ${model.className}::RESPONSE_TYPE = (ResponseMessageConst) ${model.response};
 
-                ${model.className}::~${model.className}() {
-                }
-
-                </#if>
-                std::auto_ptr<ClientMessage> ${model.className}::RequestParameters::encode(<#list model.requestParams as param>
+                std::auto_ptr<ClientMessage> ${model.className}::encodeRequest(<#list model.requestParams as param>
                         <#if util.isPrimitive(param.type)>${util.getCppType(param.type)} ${param.name}<#else>const ${util.getCppType(param.type)} <#if param.nullable >*<#else>&</#if>${param.name}</#if><#if param_has_next>, </#if></#list>) {
                     int32_t requiredDataSize = calculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
                     std::auto_ptr<ClientMessage> clientMessage = ClientMessage::createForEncode(requiredDataSize);
-                    clientMessage->setMessageType((uint16_t)${model.className}::RequestParameters::TYPE);
+                    clientMessage->setMessageType((uint16_t)${model.className}::REQUEST_TYPE);
                     clientMessage->setRetryable(RETRYABLE);
                     <#list model.requestParams as p>
                         <@setterText var_name=p.name type=p.type isNullable=p.nullable/>
@@ -79,7 +65,7 @@ namespace hazelcast {
                     return clientMessage;
                 }
 
-                int32_t ${model.className}::RequestParameters::calculateDataSize(<#list model.requestParams as param>
+                int32_t ${model.className}::calculateDataSize(<#list model.requestParams as param>
                         <#if util.isPrimitive(param.type)>${util.getCppType(param.type)} ${param.name}<#else>const ${util.getCppType(param.type)} <#if param.nullable >*<#else>&</#if>${param.name}</#if><#if param_has_next>, </#if></#list>) {
                     int32_t dataSize = ClientMessage::HEADER_SIZE;
                     <#list model.requestParams as p>
@@ -88,26 +74,33 @@ namespace hazelcast {
                     return dataSize;
                 }
 
-                ${model.className}::ResponseParameters::ResponseParameters(ClientMessage &clientMessage) {
-                    if (TYPE != clientMessage.getMessageType()) {
-                        throw exception::UnexpectedMessageTypeException("${model.className}::ResponseParameters::decode", clientMessage.getMessageType(), TYPE);
+                <#if !isResponseVoid() >
+                    ${model.className}::ResponseParameters::ResponseParameters(ClientMessage &clientMessage) {
+                        <#list model.responseParams as p><#if p.sinceVersionInt gt model.messageSinceInt >${p.name}Exist = false;</#if></#list>
+                        <#list model.responseParams as p><#if p.versionChanged >if (clientMessage.isComplete()) {
+                                    return;
+                                }</#if>
+                            <@getterText var_name=p.name type=p.type isNullable=p.nullable/>
+                            <#if p.sinceVersionInt gt model.messageSinceInt >${p.name}Exist = true;</#if></#list>
                     }
-    <#if model.responseParams?has_content><#list model.responseParams as p><@getterText var_name=p.name type=p.type isNullable=p.nullable/></#list></#if>
-                }
 
-                ${model.className}::ResponseParameters ${model.className}::ResponseParameters::decode(ClientMessage &clientMessage) {
-                    return ${model.className}::ResponseParameters(clientMessage);
-                }
+                    ${model.className}::ResponseParameters ${model.className}::ResponseParameters::decode(ClientMessage &clientMessage) {
+                        return ${model.className}::ResponseParameters(clientMessage);
+                    }
 
-                ${model.className}::ResponseParameters::ResponseParameters(const ${model.className}::ResponseParameters &rhs) {
-                    <#list model.responseParams as param>
-                    <#if param.nullable >
-                        ${param.name} = std::auto_ptr<${util.getCppType(param.type)}>(new ${util.getCppType(param.type)}(*rhs.${param.name}));
-                    <#else>
-                        ${param.name} = rhs.${param.name};
+                     <#if responseHasNullable() >
+                    ${model.className}::ResponseParameters::ResponseParameters(const ${model.className}::ResponseParameters &rhs) {
+                        <#list model.responseParams as param>
+                        <#if param.nullable >
+                            ${param.name} = std::auto_ptr<${util.getCppType(param.type)} >(new ${util.getCppType(param.type)}(*rhs.${param.name}));
+                        <#else>
+                            ${param.name} = rhs.${param.name};
+                        </#if>
+                        </#list>
+                    }
                     </#if>
-                    </#list>
-                }
+                </#if>
+
                 <#if model.events?has_content>
 
                 //************************ EVENTS START*************************************************************************//
@@ -120,53 +113,31 @@ namespace hazelcast {
                     <#list model.events as event>
                         case protocol::EVENT_${event.name?upper_case}:
                         {
-                        <#list event.eventParams as p>
-                            <@eventGetterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true/>
-                        </#list>
-                            handle${event.name?cap_first}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
-                            break;
+                            <#assign paramCallList="">
+                            <#assign previousVersion = event.sinceVersion?replace('.','') >
+                            <#list event.eventParams as p>
+                                <#if p.versionChanged >
+                                    if (clientMessage->isComplete()) {
+                                        handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+                                        return;
+                                    }
+                                    <#assign previousVersion = p.sinceVersion?replace('.','') >
+                                </#if>
+                                <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
+                                <#assign paramCallList += p.name>
+                                <@eventGetterText var_name=p.name type=p.type isNullable=p.nullable isEvent=true/>
+                            </#list>
+
+                                handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+                                break;
                         }
                         </#list>
                         default:
-                            char buf[300];
-                            util::snprintf(buf, 300, "[${model.className}::AbstractEventHandler::handle] Unknown message type (%d) received on event handler.", clientMessage->getMessageType());
-                            util::ILogger::getLogger().warning(buf);
+                            util::ILogger::getLogger().warning() << "[${model.className}::AbstractEventHandler::handle] Unknown message type (" << messageType << ") received on event handler.";
                     }
                 }
-                </#if>
                 //************************ EVENTS END **************************************************************************//
-                <#if isAddListener || isRemoveListener>
-
-                ${model.className}::${model.className} (<#list model.requestParams as param>const ${util.getCppType(param.type)} &${param.name}<#if param_has_next>, </#if></#list>)
-<#if model.requestParams?has_content>                        : <#list model.requestParams as param>${param.name}_(${param.name})<#if param_has_next>, </#if></#list> </#if>{
-                }
-
-                //************************ ${listenerInterface} interface start ************************************************//
-                std::auto_ptr<ClientMessage> ${model.className}::encodeRequest() const {
-                    return RequestParameters::encode(<#list model.requestParams as param>${param.name}_<#if param_has_next>, </#if></#list>);
-                }
-
-                <#if isAddListener>
-                std::string ${model.className}::decodeResponse(ClientMessage &responseMessage) const {
-                    return ResponseParameters::decode(responseMessage).response;
-                }
                 </#if>
-                <#if isRemoveListener>
-                const std::string &${model.className}::getRegistrationId() const {
-                    return registrationId_;
-                }
-
-                void ${model.className}::setRegistrationId(const std::string &id) {
-                    registrationId_ = id;
-                }
-
-                bool ${model.className}::decodeResponse(ClientMessage &responseMessage) const {
-                    return ResponseParameters::decode(responseMessage).response;
-                }
-                </#if>
-                //************************ ${listenerInterface} interface ends *************************************************//
-                </#if>
-
             }
         }
     }
@@ -288,26 +259,18 @@ namespace hazelcast {
 
 </#macro>
 
-<#function isHeaderAlreadyIncluded type isAddRemoveListener>
+<#function isHeaderAlreadyIncluded type>
     <#list model.responseParams as param>
         <#if param.type?contains(util.getCppType(type)) && false == param.nullable>
              <#return true>
         </#if>
     </#list>
-    <#if isAddRemoveListener>
-        <#list model.requestParams as param>
-            <#if param.type?contains(util.getCppType(type))>
-                 <#return true>
-            </#if>
-        </#list>
-    </#if>
-
     <#return false>
 </#function>
 
 <#--FUNCTIONS BELOW-->
-<#function shouldIncludeHeader type isAddRemoveListener >
-    <#if isHeaderAlreadyIncluded(type, isAddRemoveListener)>
+<#function shouldIncludeHeader type>
+    <#if isHeaderAlreadyIncluded(type)>
         <#return false>
     </#if>
 
@@ -316,11 +279,13 @@ namespace hazelcast {
              <#return true>
         </#if>
     </#list>
-    <#list model.responseParams as param>
-        <#if param.type?contains(util.getCppType(type))>
-             <#return true>
-        </#if>
-    </#list>
+    <#if !isResponseVoid() >
+        <#list model.responseParams as param>
+            <#if param.type?contains(util.getCppType(type))>
+                 <#return true>
+            </#if>
+        </#list>
+    </#if>
 <#if model.events?has_content>
     <#list model.events as event>
         <#list event.eventParams as param>
@@ -332,4 +297,23 @@ namespace hazelcast {
 </#if>
 
 <#return false>
+</#function>
+
+<#function responseHasNullable >
+    <#list model.responseParams as param>
+        <#if param.nullable>
+             <#return true>
+        </#if>
+    </#list>
+
+<#return false>
+</#function>
+
+
+<#function isResponseVoid >
+    <#if model.response == 100 >
+        <#return true>
+    </#if>
+
+    <#return false>
 </#function>

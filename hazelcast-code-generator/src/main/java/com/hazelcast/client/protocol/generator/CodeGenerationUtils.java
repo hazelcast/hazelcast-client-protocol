@@ -161,6 +161,8 @@ public final class CodeGenerationUtils {
             put("char", "int8_t");
             put("byte", "uint8_t");
             put("long", "int64_t");
+            put("java.lang.Long", "int64_t");
+            put("long[]", "std::vector<int64_t>");
             put(DATA_FULL_NAME, "serialization::pimpl::Data");
             put("java.lang.String", "std::string");
             put("byte[]", "std::vector<byte>");
@@ -174,6 +176,7 @@ public final class CodeGenerationUtils {
             put("com.hazelcast.core.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
             put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
+            put("java.util.UUID", "util::UUID");
         }
     };
 
@@ -468,8 +471,12 @@ public final class CodeGenerationUtils {
                 }
             }
 
-            if (language == Lang.CPP && type.startsWith("java.util.Map<")) {
-                builder.append(" > >");
+            if (language == Lang.CPP) {
+                if (type.startsWith("java.util.Map<")) {
+                    builder.append(" > >");
+                } else {
+                    builder.append(" >");
+                }
             } else if (language == Lang.NODE && type.startsWith("java.util.Map.Entry<")) {
                 builder.append("]");
             } else if (language != Lang.GO) {
@@ -490,8 +497,8 @@ public final class CodeGenerationUtils {
     }
 
     public static boolean shouldGenerateForCpp(String codecName) {
-        return !(codecName.equals("MapReduce") || codecName.equals("Cache") || codecName.equals("Ringbuffer") || codecName
-                .equals("EnterpriseMap") || codecName.equals("XATransaction"));
+        return !(codecName.equals("MapReduce") || codecName.equals("Cache") || codecName.equals("EnterpriseMap") ||
+                codecName.equals("XATransaction"));
     }
 
     public static String convertToSnakeCase(String camelCase) {

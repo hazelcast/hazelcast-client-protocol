@@ -37,6 +37,11 @@
 
     <developers>
         <developer>
+            <id>ihsan</id>
+            <name>Ihsan Demir</name>
+            <email>ihsan@hazelcast.com</email>
+        </developer>
+        <developer>
             <id>sancar</id>
             <name>Sancar Koyunlu</name>
             <email>sancar@hazelcast.com</email>
