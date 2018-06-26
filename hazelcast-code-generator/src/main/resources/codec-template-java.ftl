@@ -1,4 +1,4 @@
-package ${model.packageName};
+ package ${model.packageName};
 
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.util.ParameterUtil;
@@ -141,35 +141,45 @@ public final class ${model.className} {
 
 </#list>
 
-
   public static abstract class AbstractEventHandler{
 
         public void handle(ClientMessage clientMessage) {
             int messageType = clientMessage.getMessageType();
         <#list model.events as event>
             if (messageType == com.hazelcast.client.impl.protocol.constants.EventMessageConst.EVENT_${event.name?upper_case}) {
-            boolean messageFinished = false;
+            <#assign paramCallList="">
+            <#assign previousVersion = event.sinceVersion?replace('.','') >
             <#list event.eventParams as p>
-                <@defineVariable var_name=p.name type=p.type />
                 <#if p.versionChanged >
-                    if (!messageFinished) {
-                        messageFinished = clientMessage.isComplete();
+                    if (clientMessage.isComplete()) {
+                        handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+                        return;
                     }
                 </#if>
-                    if (!messageFinished) {
-                        <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true />
-                    }
+                <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
+                <#assign paramCallList += p.name>
+                <@defineVariable var_name=p.name type=p.type />
+                <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true />
             </#list>
-                handle(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+                handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
                 return;
             }
         </#list>
-            com.hazelcast.logging.Logger.getLogger(super.getClass()).warning("Unknown message type received on event handler :" + clientMessage.getMessageType());
+            com.hazelcast.logging.Logger.getLogger(super.getClass()).warning("Unknown message type received on event handler :" + messageType);
         }
 
     <#list model.events as event>
-        public abstract void handle(<#list event.eventParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>);
-
+        <#assign paramCallList="">
+        <#assign previousVersion = event.sinceVersion?replace('.','') >
+        <#list event.eventParams as p>
+            <#if p.versionChanged >
+        public abstract void handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+            </#if>
+            <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
+            <#assign paramCallList += methodParamFnc(p.type) + " " + p.name >
+            <#assign previousVersion = p.sinceVersion?replace('.','') >
+        </#list>
+        public abstract void handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
     </#list>
    }
 
@@ -196,6 +206,17 @@ public final class ${model.className} {
 <#default>${type}
 </#switch>
 </#macro>
+
+<#function methodParamFnc type><#local cat= util.getTypeCategory(type)>
+    <#switch cat>
+        <#case "COLLECTION">
+            <#local genericType= util.getGenericType(type)>
+            <#return "java.util.Collection<${genericType}>">
+            <#break>
+        <#default>
+            <#return "${type}">
+    </#switch>
+</#function>
 
 <#--SIZE MACRO -->
 <#macro sizeTextInternal var_name type containsNullable=false>

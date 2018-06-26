@@ -17,43 +17,30 @@ using System.Collections.Generic;
 using Hazelcast.Client.Protocol;
 using Hazelcast.Client.Protocol.Util;
 using Hazelcast.IO;
+using Hazelcast.Logging;
 using Hazelcast.IO.Serialization;
 
 // Client Protocol version, Since:${model.messageSince} - Update:${util.versionAsString(model.highestParameterVersion)}
 namespace ${model.packageName}
 {
-    internal sealed class ${model.className}
+    internal static class ${model.className}
     {
-
-        public static readonly ${model.parentName}MessageType RequestType = ${model.parentName}MessageType.${model.parentName?cap_first}${model.name?cap_first};
-        public const int ResponseType = ${model.response};
-        public const bool Retryable = <#if model.retryable == 1>true<#else>false</#if>;
-
-        //************************ REQUEST *************************//
-
-        public class RequestParameters
+        <#--//************************ REQUEST *************************//-->
+        private static int CalculateRequestDataSize(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
         {
-            public static readonly ${model.parentName}MessageType TYPE = RequestType;
-    <#list model.requestParams as param>
-            public ${util.getCSharpType(param.type)} ${param.name};
-    </#list>
-
-            public static int CalculateDataSize(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
-            {
-                var dataSize = ClientMessage.HeaderSize;
-                <#list model.requestParams as p>
-                    <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
-                </#list>
-                return dataSize;
-            }
+            var dataSize = ClientMessage.HeaderSize;
+            <#list model.requestParams as p>
+                <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            </#list>
+            return dataSize;
         }
 
-        public static ClientMessage EncodeRequest(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
+        internal static ClientMessage EncodeRequest(<#list model.requestParams as param>${util.getCSharpType(param.type)} ${param.name}<#if param_has_next>, </#if></#list>)
         {
-            var requiredDataSize = RequestParameters.CalculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+            var requiredDataSize = CalculateRequestDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
             var clientMessage = ClientMessage.CreateForEncode(requiredDataSize);
-            clientMessage.SetMessageType((int)RequestType);
-            clientMessage.SetRetryable(Retryable);
+            clientMessage.SetMessageType((int)${model.parentName}MessageType.${model.parentName?cap_first}${model.name?cap_first});
+            clientMessage.SetRetryable(<#if model.retryable == 1>true<#else>false</#if>);
             <#list model.requestParams as p>
                 <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
             </#list>
@@ -62,19 +49,18 @@ namespace ${model.packageName}
         }
 
 <#if model.responseParams?has_content>
-        //************************ RESPONSE *************************//
-        public class ResponseParameters
+        <#--//************************ RESPONSE *************************//-->
+        internal class ResponseParameters
         {
             <#list model.responseParams as param>
             public ${util.getCSharpType(param.type)} ${param.name};
-                <#assign messageVersion=model.messageSinceInt>
-            <#if param.sinceVersionInt gt messageVersion>
+            <#if param.sinceVersionInt gt model.messageSinceInt>
             public bool ${param.name}Exist;
             </#if>
             </#list>
         }
 
-        public static ResponseParameters DecodeResponse(IClientMessage clientMessage)
+        internal static ResponseParameters DecodeResponse(IClientMessage clientMessage)
         {
             var parameters = new ResponseParameters();
 <#list model.responseParams as p>
@@ -84,8 +70,8 @@ namespace ${model.packageName}
                 return parameters;
             }
 </#if>
-<@getterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
-<#if p.sinceVersionInt gt messageVersion>
+<@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=false containsNullable=p.containsNullable/>
+<#if p.sinceVersionInt gt model.messageSinceInt>
             parameters.${p.name}Exist = true;
 </#if>
 </#list>
@@ -96,51 +82,59 @@ namespace ${model.packageName}
 </#if>
 
     <#if model.events?has_content>
-//************************ EVENTS *************************//
-        public abstract class AbstractEventHandler
+<#--//************************ EVENTS *************************//-->
+        internal class EventHandler
         {
-            public static void Handle(IClientMessage clientMessage, <#list model.events as event>Handle${event.name} handle${event.name}<#if event_has_next>, </#if></#list>)
+            internal static void HandleEvent(IClientMessage clientMessage,
+        <#list model.events as event>
+            <#assign paramCallList="">
+            <#assign previousVersion = event.sinceVersion?replace('.','') >
+            <#list event.eventParams as p>
+                <#if p.versionChanged >
+            Handle${event.name}EventV${previousVersion} handle${event.name}EventV${previousVersion},
+                </#if>
+                <#if p_index gt 0 ><#assign paramCallList+=", "></#if>
+                <#assign paramCallList += defineVariableFnc(p.name,p.type, false) >
+                <#assign previousVersion = p.sinceVersion?replace('.','') >
+            </#list>
+            Handle${event.name}EventV${previousVersion} handle${event.name}EventV${previousVersion}<#if event_has_next>, </#if>
+        </#list>
+        )
             {
                 var messageType = clientMessage.GetMessageType();
             <#list model.events as event>
                 if (messageType == EventMessageConst.Event${event.name?cap_first})
                 {
-                <#assign hasCodecRevision=false>
+                <#assign paramCallList="">
+                <#assign previousVersion = event.sinceVersion?replace('.','') >
                 <#list event.eventParams as p>
-                    <#assign hasCodecRevision=hasCodecRevision || p.versionChanged>
-                </#list>
-                <#if hasCodecRevision>
-                    var ${event.name}MessageFinished = false;
-                </#if>
-                <#assign messageVersion=model.messageSinceInt>
-                <#list event.eventParams as p>
-                    <#if p.versionChanged>
-                    if (!${event.name}MessageFinished)
+                    <#if p.versionChanged >
+                    if (clientMessage.IsComplete())
                     {
-                        ${event.name}MessageFinished = clientMessage.IsComplete();
+                        handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+                        return;
                     }
-                    </#if>
-                    <#if p.nullable || p.sinceVersionInt gt messageVersion>
-                    ${util.getCSharpType(p.type)}<#if util.isNonNullable(p.type)>?</#if> ${p.name} = null;
-                    </#if>
-                    <#if p.sinceVersionInt gt messageVersion>
-                    if (!${event.name}MessageFinished)
-                    {
-                    </#if>
-                        <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true local= !(p.nullable || p.sinceVersionInt gt messageVersion)/>
-                    <#if p.sinceVersionInt gt messageVersion>
-                    }
-                    </#if>
+                    </#if><#if p_index gt 0 ><#assign paramCallList+=", "></#if><#assign paramCallList+=p.name><#assign previousVersion = p.sinceVersion?replace('.','') >
+                    <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true />
                 </#list>
-                    handle${event.name}(<#list event.eventParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+                    handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
                     return;
                 }
             </#list>
-                Hazelcast.Logging.Logger.GetLogger(typeof(AbstractEventHandler)).Warning("Unknown message type received on event handler :" + clientMessage.GetMessageType());
+                Logger.GetLogger(typeof(EventHandler)).Warning("Unknown message type received on event handler :" + messageType);
             }
-
         <#list model.events as event>
-            public delegate void Handle${event.name}(<#list event.eventParams as p>${defineVariableFnc(p.name,p.type, p.sinceVersionInt gt messageVersion)}<#if p_has_next>, </#if></#list>);
+            <#assign paramCallList="">
+            <#assign previousVersion = event.sinceVersion?replace('.','') >
+            <#list event.eventParams as p>
+                <#if p.versionChanged >
+            internal delegate void Handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
+                </#if>
+                <#if p_index gt 0 ><#assign paramCallList+=", "></#if>
+                <#assign paramCallList += defineVariableFnc(p.name,p.type, p.nullable) >
+                <#assign previousVersion = p.sinceVersion?replace('.','') >
+            </#list>
+            internal delegate void Handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
         </#list>
        }
     </#if>
@@ -257,32 +251,29 @@ namespace ${model.packageName}
     </#if>
 </#macro>
 <#--GETTER NULL CHECK MACRO -->
-<#macro getterText var_name type isNullable=false isEvent=false containsNullable=false>
-<#--<@defineVariable var_name=var_name type=type/>-->
-<@readVariable var_name=var_name type=type isNullable=isNullable isEvent=isEvent containsNullable=containsNullable/>
-</#macro>
 <#-- Only defines the variable -->
-<#macro defineVariable var_name type is_optional=false>
-        ${util.getCSharpType(type)}<#if is_optional && util.isPrimitive(type)>?</#if> ${var_name};
-</#macro>
-<#function defineVariableFnc var_name type is_optional=false>
-    <#if !is_optional>
-        <#return util.getCSharpType(type) + " " + var_name>
-    <#elseif is_optional && util.isNonNullable(type)>
+<#--<#macro defineVariable var_name type isNullable=false>-->
+        <#--${util.getCSharpType(type)}<#if isNullable && util.isPrimitive(type)>?</#if> ${var_name};-->
+<#--</#macro>-->
+<#function defineVariableFnc var_name type isNullable>
+    <#if isNullable && util.isNonNullable(type)>
         <#return util.getCSharpType(type) + "? " + var_name>
-    <#elseif is_optional && !util.isNonNullable(type)>
+    <#else>
         <#return util.getCSharpType(type) + " " + var_name>
     </#if>
 </#function>
 <#-- Reads the variable from client message -->
-<#macro readVariable var_name type isNullable isEvent containsNullable=false local=true>
+<#macro readVariable var_name type isNullable isEvent containsNullable=false>
 <#local isNullVariableName= "${var_name}IsNull">
 <#if isNullable>
+<#if isEvent>
+    ${defineVariableFnc(var_name, type, isNullable)} = null;
+</#if>
     var ${isNullVariableName} = clientMessage.GetBoolean();
     if (!${isNullVariableName})
     {
 </#if>
-    <@getterTextInternal var_name=var_name varType=type containsNullable=containsNullable local=local/>
+    <@getterTextInternal var_name=var_name varType=type containsNullable=containsNullable local=!isNullable || !isEvent/>
 <#if !isEvent>
     parameters.${var_name} = ${var_name};
 </#if>
@@ -325,8 +316,8 @@ namespace ${model.packageName}
     <#local sizeVariableName= "${var_name}Size">
     <#local indexVariableName= "${var_name}Index">
     <#local isNullVariableName= "${itemVariableName}IsNull">
-            <#if local>var </#if>${var_name} = new ${collectionType}<${convertedItemType}>(${itemVariableType.startsWith("List")?then(sizeVariableName,"")});
             var ${sizeVariableName} = clientMessage.GetInt();
+            <#if local>var </#if>${var_name} = new ${collectionType}<${convertedItemType}>(${sizeVariableName});
             for (var ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++)
             {
                 <#if containsNullable>
@@ -351,8 +342,8 @@ namespace ${model.packageName}
     <#local sizeVariableName= "${var_name}Size">
     <#local indexVariableName= "${var_name}Index">
     <#local isNullVariableName= "${itemVariableName}IsNull">
-            <#if local>var </#if>${var_name} = new ${itemVariableType}[${sizeVariableName}];
             var ${sizeVariableName} = clientMessage.GetInt();
+            <#if local>var </#if>${var_name} = new ${itemVariableType}[${sizeVariableName}];
             for (var ${indexVariableName} = 0; ${indexVariableName}<${sizeVariableName}; ${indexVariableName}++)
             {
                 <#if containsNullable>
@@ -361,12 +352,12 @@ namespace ${model.packageName}
                 {
                 </#if>
                     <@getterTextInternal var_name=itemVariableName varType=itemVariableType/>
-                    ${var_name}.Add(${itemVariableName});
+                    ${var_name}[${indexVariableName}]=${itemVariableName};
                 <#if containsNullable>
                 }
                 else
                 {
-                    ${var_name}.Add(null);
+                    ${var_name}[${indexVariableName}]=null;
                 }
                 </#if>
             }

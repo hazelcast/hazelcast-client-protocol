@@ -475,7 +475,7 @@ public interface MapCodecTemplate {
      *
      * @param name name of the map
      * @return a set clone of the keys contained in this map.
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 38, retryable = true, response = ResponseMessageConst.LIST_DATA)
     Object keySet(String name);
@@ -502,7 +502,7 @@ public interface MapCodecTemplate {
      *
      * @param name name of map
      * @return All values in the map
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 40, retryable = true, response = ResponseMessageConst.LIST_DATA)
     Object values(String name);
@@ -515,7 +515,7 @@ public interface MapCodecTemplate {
      *
      * @param name name of map
      * @return a set clone of the keys mappings in this map
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 41, retryable = true, response = ResponseMessageConst.LIST_ENTRY)
     Object entrySet(String name);
@@ -529,7 +529,7 @@ public interface MapCodecTemplate {
      * @param name      name of map.
      * @param predicate specified query criteria.
      * @return result key set for the query.
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 42, retryable = true, response = ResponseMessageConst.LIST_DATA)
     Object keySetWithPredicate(String name, Data predicate);
@@ -543,7 +543,7 @@ public interface MapCodecTemplate {
      * @param name      name of map
      * @param predicate specified query criteria.
      * @return result value collection of the query.
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 43, retryable = true, response = ResponseMessageConst.LIST_DATA)
     Object valuesWithPredicate(String name, Data predicate);
@@ -557,7 +557,7 @@ public interface MapCodecTemplate {
      * @param name      name of map
      * @param predicate specified query criteria.
      * @return result key-value entry collection of the query.
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 44, retryable = true, response = ResponseMessageConst.LIST_ENTRY)
     Object entriesWithPredicate(String name, Data predicate);
@@ -710,7 +710,7 @@ public interface MapCodecTemplate {
      * @param name      name of map
      * @param predicate specified query criteria.
      * @return values for the query.
-     * @see com.hazelcast.instance.GroupProperty#QUERY_RESULT_SIZE_LIMIT
+     * @see com.hazelcast.spi.properties.GroupProperty#QUERY_RESULT_SIZE_LIMIT
      */
     @Request(id = 57, retryable = true, response = ResponseMessageConst.LIST_ENTRY)
     Object valuesWithPagingPredicate(String name, Data predicate);
