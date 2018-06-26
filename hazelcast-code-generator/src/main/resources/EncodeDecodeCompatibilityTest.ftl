@@ -85,14 +85,25 @@ public class EncodeDecodeCompatibilityTest {
 {
     class ${cm.className}Handler extends ${cm.className}.AbstractEventHandler {
         <#list cm.events as event >
-        @Override
-        public void handle(<#if event.eventParams?has_content> <#list event.eventParams as param> <@methodParam type=param.type/> ${param.name} <#if param_has_next>, </#if> </#list> </#if>) {
-               <#if event.eventParams?has_content>
-                      <#list event.eventParams as param>
-                          assertTrue(isEqual(${convertTypeToSampleValue(param.type)}, ${param.name}));
-                      </#list>
-               </#if>
-        }
+        <#assign paramCallList="">
+        <#assign assertList="">
+        <#assign previousVersion = event.sinceVersion?replace('.','') >
+            <#list event.eventParams as p>
+                <#if p.versionChanged >
+                @Override
+                public void  handle${event.name?cap_first}EventV${previousVersion}(${paramCallList}) {
+                       ${assertList}
+                }
+                </#if>
+                <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
+                <#assign paramCallList += methodParamFnc(p.type) + " " + p.name >
+                <#assign assertList+= "\n assertTrue(isEqual("  + convertTypeToSampleValue(p.type) + ","  + p.name + "));" >
+                <#assign previousVersion = p.sinceVersion?replace('.','') >
+            </#list>
+            @Override
+            public void  handle${event.name?cap_first}EventV${previousVersion}(${paramCallList}) {
+                   ${assertList}
+            }
         </#list>
     }
     ${cm.className}Handler handler = new ${cm.className}Handler();
@@ -117,3 +128,14 @@ public class EncodeDecodeCompatibilityTest {
 <#default>${type}
 </#switch>
 </#macro>
+
+<#function methodParamFnc type><#local cat= util.getTypeCategory(type)>
+    <#switch cat>
+        <#case "COLLECTION">
+            <#local genericType= util.getGenericType(type)>
+            <#return "java.util.Collection<${genericType}>">
+            <#break>
+        <#default>
+            <#return "${type}">
+    </#switch>
+</#function>

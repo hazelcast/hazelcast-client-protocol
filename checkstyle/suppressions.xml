@@ -37,6 +37,7 @@
     <suppress checks="JavadocType" files="/template/"/>
     <suppress checks="JavadocVariable" files="/template/TemplateConstants\.java"/>
     <suppress checks="LineLength|MethodName|MethodCount|ParameterNumber|WhitespaceAround" files="/template/.*Template\.java$"/>
+    <suppress checks="ExecutableStatementCount" files="CodecModel.java"/>
 
     <!-- Exclude Clover instrumented sources -->
     <suppress checks="" files="/src-instrumented/"/>

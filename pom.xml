@@ -55,8 +55,8 @@
 
     <properties>
         <!-- Hazelcast branch to download and compile with -->
-        <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
-        <hazelcast.git.branch>master</hazelcast.git.branch>
+        <hazelcast.git.repo>sancar</hazelcast.git.repo>
+        <hazelcast.git.branch>ench/protocolEventHandlingImpr/master</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>

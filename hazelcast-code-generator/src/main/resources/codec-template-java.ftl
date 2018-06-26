@@ -157,7 +157,8 @@ public final class ${model.className} {
                     }
                 </#if>
                 <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
-                <#assign paramCallList += p.name>
+                <#assign paramCallList+=p.name>
+                <#assign previousVersion = p.sinceVersion?replace('.','') >
                 <@defineVariable var_name=p.name type=p.type />
                 <@readVariable var_name=p.name type=p.type isNullable=p.nullable isEvent=true />
             </#list>

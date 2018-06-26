@@ -114,16 +114,29 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
 {
     class ${cm.className}Handler extends ${cm.className}.AbstractEventHandler {
         <#list cm.events as event >
-        @Override
-        public void handle(<#if event.eventParams?has_content> <#list event.eventParams as param> <@methodParam type=param.type/> ${param.name} <#if param_has_next>, </#if> </#list> </#if>) {
-               <#if event.eventParams?has_content>
-                       <#list event.eventParams as param>
-                        <#if param.sinceVersionInt lte testForVersion >
-                            assertTrue(isEqual(<#if param.nullable>null<#else>${convertTypeToSampleValue(param.type)}</#if>, ${param.name}));
-                        </#if>
-                       </#list>
+        <#assign paramCallList="">
+        <#assign assertList="">
+        <#assign previousVersion = event.sinceVersion?replace('.','') >
+            <#list event.eventParams as p>
+                <#if p.versionChanged >
+                @Override
+                public void  handle${event.name?cap_first}EventV${previousVersion}(${paramCallList}) {
+                       ${assertList}
+                }
                 </#if>
-        }
+                <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
+                <#assign paramCallList += methodParamFnc(p.type) + " " + p.name >
+                <#if p.nullable>
+                    <#assign assertList+= "\n assertTrue(isEqual(null,"  + p.name + "));" >
+                <#else>
+                    <#assign assertList+= "\n assertTrue(isEqual("  + convertTypeToSampleValue(p.type) + ","  + p.name + "));" >
+                </#if>
+
+                <#assign previousVersion = p.sinceVersion?replace('.','') >
+            </#list>
+            public void  handle${event.name?cap_first}EventV${previousVersion}(${paramCallList}) {
+                   ${assertList}
+            }
         </#list>
     }
     ${cm.className}Handler handler = new ${cm.className}Handler();
@@ -158,3 +171,14 @@ public class ClientCompatibilityNullTest_${testForVersionClassName} {
 <#default>${type}
 </#switch>
 </#macro>
+
+<#function methodParamFnc type><#local cat= util.getTypeCategory(type)>
+    <#switch cat>
+        <#case "COLLECTION">
+            <#local genericType= util.getGenericType(type)>
+            <#return "java.util.Collection<${genericType}>">
+            <#break>
+        <#default>
+            <#return "${type}">
+    </#switch>
+</#function>
