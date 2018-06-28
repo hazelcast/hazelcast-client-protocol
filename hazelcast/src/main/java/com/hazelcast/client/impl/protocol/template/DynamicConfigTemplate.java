@@ -55,9 +55,9 @@ public interface DynamicConfigTemplate {
      * @param backupCount       number of synchronous backups
      * @param asyncBackupCount  number of asynchronous backups
      * @param statisticsEnabled set to {@code true} to enable statistics on this multimap configuration
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.VOID)
     void addMultiMapConfig(String name, String collectionType, @Nullable List<ListenerConfigHolder> listenerConfigs,
@@ -78,9 +78,9 @@ public interface DynamicConfigTemplate {
      * @param inMemoryFormat        in memory format of items in the ringbuffer. Valid options are {@code BINARY}
      *                              and {@code OBJECT}
      * @param ringbufferStoreConfig backing ringbuffer store configuration
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName            name of an existing configured quorum to be used to determine the minimum number of members
+     *                              required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                              apply to this lock configuration's operations.
      */
     @Request(id = 2, retryable = false, response = ResponseMessageConst.VOID)
     void addRingbufferConfig(String name, int capacity, int backupCount, int asyncBackupCount, int timeToLiveSeconds,
@@ -93,12 +93,12 @@ public interface DynamicConfigTemplate {
      * If a cardinality estimator configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name              name of the cardinality estimator configuration
-     * @param backupCount       number of synchronous backups
-     * @param asyncBackupCount  number of asynchronous backups
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param name             name of the cardinality estimator configuration
+     * @param backupCount      number of synchronous backups
+     * @param asyncBackupCount number of asynchronous backups
+     * @param quorumName       name of an existing configured quorum to be used to determine the minimum number of members
+     *                         required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                         apply to this lock configuration's operations.
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.VOID)
     void addCardinalityEstimatorConfig(String name, int backupCount, int asyncBackupCount,
@@ -129,9 +129,9 @@ public interface DynamicConfigTemplate {
      * @param asyncBackupCount  number of asynchronous backups
      * @param maxSize           maximum size of the list
      * @param statisticsEnabled {@code true} to enable gathering of statistics on the list, otherwise {@code false}
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      */
     @Request(id = 5, retryable = false, response = ResponseMessageConst.VOID)
     void addListConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
@@ -149,13 +149,13 @@ public interface DynamicConfigTemplate {
      * @param asyncBackupCount  number of asynchronous backups
      * @param maxSize           maximum size of the set
      * @param statisticsEnabled {@code true} to enable gathering of statistics on the list, otherwise {@code false}
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      */
     @Request(id = 6, retryable = false, response = ResponseMessageConst.VOID)
     void addSetConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int backupCount,
-                       int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName,
+                      int asyncBackupCount, int maxSize, boolean statisticsEnabled, @Since("1.6") @Nullable String quorumName,
                       @Since("1.6") String mergePolicy, @Since("1.6") int mergeBatchSize);
 
     /**
@@ -173,9 +173,9 @@ public interface DynamicConfigTemplate {
      *                          {@code com.hazelcast.replicatedmap.merge.ReplicatedMapMergePolicy} to merge entries
      *                          while recovering from a split brain
      * @param listenerConfigs   entry listener configurations
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      */
     @Request(id = 7, retryable = false, response = ResponseMessageConst.VOID)
     void addReplicatedMapConfig(String name, String inMemoryFormat, boolean asyncFillup, boolean statisticsEnabled,
@@ -208,9 +208,9 @@ public interface DynamicConfigTemplate {
      * @param poolSize          executor thread pool size
      * @param queueCapacity     capacity of executor queue. A value of {@code 0} implies {@link Integer#MAX_VALUE}
      * @param statisticsEnabled {@code true} to enable gathering of statistics, otherwise {@code false}
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      */
     @Request(id = 9, retryable = false, response = ResponseMessageConst.VOID)
     void addExecutorConfig(String name, int poolSize, int queueCapacity, boolean statisticsEnabled,
@@ -221,10 +221,10 @@ public interface DynamicConfigTemplate {
      * If a durable executor configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name          durable executor name
-     * @param poolSize      executor thread pool size
-     * @param durability    executor's durability
-     * @param capacity      capacity of executor tasks per partition
+     * @param name       durable executor name
+     * @param poolSize   executor thread pool size
+     * @param durability executor's durability
+     * @param capacity   capacity of executor tasks per partition
      * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
      *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
      *                   apply to this lock configuration's operations.
@@ -256,13 +256,13 @@ public interface DynamicConfigTemplate {
      * If a semaphore configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name              semaphore configuration name
-     * @param initialPermits    thread count to which the concurrent access is limited
-     * @param backupCount       number of synchronous backups
-     * @param asyncBackupCount  number of asynchronous backups
-     * @param quorumName name of an existing configured quorum to be used to determine the minimum number of members
-     *                   required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                   apply to this lock configuration's operations.
+     * @param name             semaphore configuration name
+     * @param initialPermits   thread count to which the concurrent access is limited
+     * @param backupCount      number of synchronous backups
+     * @param asyncBackupCount number of asynchronous backups
+     * @param quorumName       name of an existing configured quorum to be used to determine the minimum number of members
+     *                         required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                         apply to this lock configuration's operations.
      */
     @Request(id = 12, retryable = false, response = ResponseMessageConst.VOID)
     void addSemaphoreConfig(String name, int initialPermits, int backupCount, int asyncBackupCount,
@@ -297,47 +297,49 @@ public interface DynamicConfigTemplate {
      * the new configuration is ignored and the existing one is preserved.
      *
      * @param name
-     * @param backupCount                           number of synchronous backups
-     * @param asyncBackupCount                      number of asynchronous backups
-     * @param timeToLiveSeconds                     maximum number of seconds for each entry to stay in the map.
-     * @param maxIdleSeconds                        maximum number of seconds for each entry to stay idle in the map
-     * @param evictionPolicy                        eviction policy. Valid values: {@code NONE} (no eviction), {@code LRU}
-     *                                              (Least Recently Used), {@code LFU} (Least Frequently Used),
-     *                                              {@code RANDOM} (evict random entry).
-     * @param readBackupData                        {@code true} to enable reading local backup entries, {@code false} otherwise
-     * @param cacheDeserializedValues               control caching of de-serialized values. Valid values are {@code NEVER}
-     *                                              (Never cache de-serialized object), {@code INDEX_ONLY} (Cache values only
-     *                                              when they are inserted into an index) and {@code ALWAYS} (Always cache
-     *                                              de-serialized values
-     * @param mergePolicy                           class name of a class implementing
-     *                                              {@code com.hazelcast.map.merge.MapMergePolicy} to merge entries
-     *                                              while recovering from a split brain
-     * @param inMemoryFormat                        data type used to store entries. Valid values are {@code BINARY},
-     *                                              {@code OBJECT} and {@code NATIVE}.
-     * @param listenerConfigs                       entry listener configurations
-     * @param partitionLostListenerConfigs          partition lost listener configurations
-     * @param statisticsEnabled                     {@code true} to enable gathering of statistics, otherwise {@code false}
-     * @param quorumName                            name of an existing configured quorum to be used to determine the minimum
-     *                                              number of members required in the cluster for the map to remain functional.
-     *                                              When {@code null}, quorum does not apply to this map's operations.
-     * @param mapEvictionPolicy                     custom {@code com.hazelcast.map.eviction.MapEvictionPolicy} implementation
-     *                                              or {@code null}
-     * @param maxSizeConfigMaxSizePolicy            maximum size policy. Valid values are {@code PER_NODE},
-     *                                              {@code PER_PARTITION}, {@code USED_HEAP_PERCENTAGE}, {@code USED_HEAP_SIZE},
-     *                                              {@code FREE_HEAP_PERCENTAGE}, {@code FREE_HEAP_SIZE},
-     *                                              {@code USED_NATIVE_MEMORY_SIZE}, {@code USED_NATIVE_MEMORY_PERCENTAGE},
-     *                                              {@code FREE_NATIVE_MEMORY_SIZE}, {@code FREE_NATIVE_MEMORY_PERCENTAGE}.
-     * @param maxSizeConfigSize                     maximum size of map
-     * @param mapStoreConfig                        configuration of backing map store or {@code null} for none
-     * @param nearCacheConfig                       configuration of near cache or {@code null} for none
-     * @param wanReplicationRef                     reference to an existing WAN replication configuration
-     * @param mapIndexConfigs                       map index configurations
-     * @param mapAttributeConfigs                   map attributes
-     * @param queryCacheConfigs                     configurations for query caches on this map
-     * @param partitioningStrategyClassName         name of class implementing {@code com.hazelcast.core.PartitioningStrategy}
-     *                                              or {@code null}
-     * @param partitioningStrategyImplementation    a serialized instance of a partitioning strategy
-     * @param hotRestartConfig                      hot restart configuration
+     * @param backupCount                        number of synchronous backups
+     * @param asyncBackupCount                   number of asynchronous backups
+     * @param timeToLiveSeconds                  maximum number of seconds for each entry to stay in the map.
+     * @param maxIdleSeconds                     maximum number of seconds for each entry to stay idle in the map
+     * @param evictionPolicy                     eviction policy. Valid values: {@code NONE} (no eviction), {@code LRU}
+     *                                           (Least Recently Used), {@code LFU} (Least Frequently Used),
+     *                                           {@code RANDOM} (evict random entry).
+     * @param readBackupData                     {@code true} to enable reading local backup entries, {@code false} otherwise
+     * @param cacheDeserializedValues            control caching of de-serialized values. Valid values are {@code NEVER}
+     *                                           (Never cache de-serialized object), {@code INDEX_ONLY} (Cache values only
+     *                                           when they are inserted into an index) and {@code ALWAYS} (Always cache
+     *                                           de-serialized values
+     * @param mergePolicy                        class name of a class implementing
+     *                                           {@code com.hazelcast.map.merge.MapMergePolicy} to merge entries
+     *                                           while recovering from a split brain
+     * @param inMemoryFormat                     data type used to store entries. Valid values are {@code BINARY},
+     *                                           {@code OBJECT} and {@code NATIVE}.
+     * @param listenerConfigs                    entry listener configurations
+     * @param partitionLostListenerConfigs       partition lost listener configurations
+     * @param statisticsEnabled                  {@code true} to enable gathering of statistics, otherwise {@code false}
+     * @param quorumName                         name of an existing configured quorum to be used to determine the minimum
+     *                                           number of members required in the cluster for the map to remain functional.
+     *                                           When {@code null}, quorum does not apply to this map's operations.
+     * @param mapEvictionPolicy                  custom {@code com.hazelcast.map.eviction.MapEvictionPolicy} implementation
+     *                                           or {@code null}
+     * @param maxSizeConfigMaxSizePolicy         maximum size policy. Valid values are {@code PER_NODE},
+     *                                           {@code PER_PARTITION}, {@code USED_HEAP_PERCENTAGE}, {@code USED_HEAP_SIZE},
+     *                                           {@code FREE_HEAP_PERCENTAGE}, {@code FREE_HEAP_SIZE},
+     *                                           {@code USED_NATIVE_MEMORY_SIZE}, {@code USED_NATIVE_MEMORY_PERCENTAGE},
+     *                                           {@code FREE_NATIVE_MEMORY_SIZE}, {@code FREE_NATIVE_MEMORY_PERCENTAGE}.
+     * @param maxSizeConfigSize                  maximum size of map
+     * @param mapStoreConfig                     configuration of backing map store or {@code null} for none
+     * @param nearCacheConfig                    configuration of near cache or {@code null} for none
+     * @param wanReplicationRef                  reference to an existing WAN replication configuration
+     * @param mapIndexConfigs                    map index configurations
+     * @param mapAttributeConfigs                map attributes
+     * @param queryCacheConfigs                  configurations for query caches on this map
+     * @param partitioningStrategyClassName      name of class implementing {@code com.hazelcast.core.PartitioningStrategy}
+     *                                           or {@code null}
+     * @param partitioningStrategyImplementation a serialized instance of a partitioning strategy
+     * @param hotRestartConfig                   hot restart configuration
+     * @param mergeBatchSize                     merge batch size
+     * @param persistOptionOfWanReplicationRef   persist option of wanReplicationRef
      */
     @Request(id = 14, retryable = false, response = ResponseMessageConst.VOID)
     void addMapConfig(String name, int backupCount, int asyncBackupCount, int timeToLiveSeconds, int maxIdleSeconds,
@@ -355,21 +357,22 @@ public interface DynamicConfigTemplate {
                       @Nullable String partitioningStrategyClassName,
                       @Nullable Data partitioningStrategyImplementation,
                       @Nullable HotRestartConfig hotRestartConfig,
-                      @Since("1.6") int mergeBatchSize);
+                      @Since("1.6") int mergeBatchSize,
+                      @Since("1.7") boolean persistOptionOfWanReplicationRef);
 
     /**
      * Adds a new reliable topic configuration to a running cluster.
      * If a reliable topic configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name                  name of reliable topic
-     * @param listenerConfigs       message listener configurations
-     * @param readBatchSize         maximum number of items to read in a batch.
-     * @param statisticsEnabled     {@code true} to enable gathering of statistics, otherwise {@code false}
-     * @param topicOverloadPolicy   policy to handle an overloaded topic. Available values are {@code DISCARD_OLDEST},
-     *                              {@code DISCARD_NEWEST}, {@code BLOCK} and {@code ERROR}.
-     * @param executor              a serialized {@link java.util.concurrent.Executor} instance to use for executing
-     *                              message listeners or {@code null}
+     * @param name                name of reliable topic
+     * @param listenerConfigs     message listener configurations
+     * @param readBatchSize       maximum number of items to read in a batch.
+     * @param statisticsEnabled   {@code true} to enable gathering of statistics, otherwise {@code false}
+     * @param topicOverloadPolicy policy to handle an overloaded topic. Available values are {@code DISCARD_OLDEST},
+     *                            {@code DISCARD_NEWEST}, {@code BLOCK} and {@code ERROR}.
+     * @param executor            a serialized {@link java.util.concurrent.Executor} instance to use for executing
+     *                            message listeners or {@code null}
      */
     @Request(id = 15, retryable = false, response = ResponseMessageConst.VOID)
     void addReliableTopicConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int readBatchSize,
@@ -380,37 +383,38 @@ public interface DynamicConfigTemplate {
      * If a cache configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name                                  cache name
-     * @param keyType                               class name of key type
-     * @param valueType                             class name of value type
-     * @param statisticsEnabled                     {@code true} to enable gathering of statistics, otherwise {@code false}
-     * @param managementEnabled                     {@code true} to enable management interface on this cache or {@code false}
-     * @param readThrough                           {@code true} to enable read through from a {@code CacheLoader}
-     * @param writeThrough                          {@code true} to enable write through to a {@code CacheWriter}
-     * @param cacheLoaderFactory                    name of cache loader factory class, if one is configured
-     * @param cacheWriterFactory                    name of cache writer factory class, if one is configured
-     * @param cacheLoader                           name of cache loader implementation class
-     * @param cacheWriter                           name of cache writer implementation class
-     * @param backupCount                           number of synchronous backups
-     * @param asyncBackupCount                      number of asynchronous backups
-     * @param inMemoryFormat                        data type used to store entries. Valid values are {@code BINARY},
-     *                                              {@code OBJECT} and {@code NATIVE}.
-     * @param quorumName                            name of an existing configured quorum to be used to determine the minimum
-     *                                              number of members required in the cluster for the cache to remain functional.
-     *                                              When {@code null}, quorum does not apply to this cache's operations.
-     * @param mergePolicy                           name of a class implementing {@link com.hazelcast.cache.CacheMergePolicy}
-     *                                              that handles merging of values for this cache while recovering from
-     *                                              network partitioning
-     * @param disablePerEntryInvalidationEvents     when {@code true} disables invalidation events for per entry but
-     *                                              full-flush invalidation events are still enabled.
-     * @param partitionLostListenerConfigs          partition lost listener configurations
-     * @param expiryPolicyFactoryClassName          expiry policy factory class name. When configuring an expiry policy,
-     *                                              either this or {@ode timedExpiryPolicyFactoryConfig} should be configured.
-     * @param timedExpiryPolicyFactoryConfig        expiry policy factory with duration configuration
-     * @param cacheEntryListeners                   cache entry listeners configuration
-     * @param evictionConfig                        cache eviction configuration
-     * @param wanReplicationRef                     reference to an existing WAN replication configuration
-     * @param hotRestartConfig                      hot restart configuration
+     * @param name                              cache name
+     * @param keyType                           class name of key type
+     * @param valueType                         class name of value type
+     * @param statisticsEnabled                 {@code true} to enable gathering of statistics, otherwise {@code false}
+     * @param managementEnabled                 {@code true} to enable management interface on this cache or {@code false}
+     * @param readThrough                       {@code true} to enable read through from a {@code CacheLoader}
+     * @param writeThrough                      {@code true} to enable write through to a {@code CacheWriter}
+     * @param cacheLoaderFactory                name of cache loader factory class, if one is configured
+     * @param cacheWriterFactory                name of cache writer factory class, if one is configured
+     * @param cacheLoader                       name of cache loader implementation class
+     * @param cacheWriter                       name of cache writer implementation class
+     * @param backupCount                       number of synchronous backups
+     * @param asyncBackupCount                  number of asynchronous backups
+     * @param inMemoryFormat                    data type used to store entries. Valid values are {@code BINARY},
+     *                                          {@code OBJECT} and {@code NATIVE}.
+     * @param quorumName                        name of an existing configured quorum to be used to determine the minimum
+     *                                          number of members required in the cluster for the cache to remain functional.
+     *                                          When {@code null}, quorum does not apply to this cache's operations.
+     * @param mergePolicy                       name of a class implementing {@link com.hazelcast.cache.CacheMergePolicy}
+     *                                          that handles merging of values for this cache while recovering from
+     *                                          network partitioning
+     * @param disablePerEntryInvalidationEvents when {@code true} disables invalidation events for per entry but
+     *                                          full-flush invalidation events are still enabled.
+     * @param partitionLostListenerConfigs      partition lost listener configurations
+     * @param expiryPolicyFactoryClassName      expiry policy factory class name. When configuring an expiry policy,
+     *                                          either this or  should be configured.
+     * @param timedExpiryPolicyFactoryConfig    expiry policy factory with duration configuration
+     * @param cacheEntryListeners               cache entry listeners configuration
+     * @param evictionConfig                    cache eviction configuration
+     * @param wanReplicationRef                 reference to an existing WAN replication configuration
+     * @param hotRestartConfig                  hot restart configuration
+     * @param persistOptionOfWanReplicationRef  persist option of wanReplicationRef
      */
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID)
     void addCacheConfig(String name, @Nullable String keyType, @Nullable String valueType, boolean statisticsEnabled,
@@ -425,7 +429,8 @@ public interface DynamicConfigTemplate {
                         @Nullable List<CacheSimpleEntryListenerConfig> cacheEntryListeners,
                         @Nullable EvictionConfigHolder evictionConfig,
                         @Nullable WanReplicationRef wanReplicationRef,
-                        @Nullable HotRestartConfig hotRestartConfig);
+                        @Nullable HotRestartConfig hotRestartConfig,
+                        @Since("1.7") boolean persistOptionOfWanReplicationRef);
 
     /**
      * Adds a new event journal configuration to a running cluster.
@@ -505,11 +510,11 @@ public interface DynamicConfigTemplate {
      * If a PN counter configuration with the given {@code name} already exists, then
      * the new configuration is ignored and the existing one is preserved.
      *
-     * @param name         name of the CRDT PN counter configuration
-     * @param replicaCount number of replicas on which the CRDT state is kept
-     * @param quorumName   name of an existing configured quorum to be used to determine the minimum number of members
-     *                     required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-     *                     apply to this lock configuration's operations.
+     * @param name              name of the CRDT PN counter configuration
+     * @param replicaCount      number of replicas on which the CRDT state is kept
+     * @param quorumName        name of an existing configured quorum to be used to determine the minimum number of members
+     *                          required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+     *                          apply to this lock configuration's operations.
      * @param statisticsEnabled set to {@code true} to enable statistics on this multimap configuration
      */
     @Request(id = 22, retryable = false, response = ResponseMessageConst.VOID)
