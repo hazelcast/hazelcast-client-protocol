@@ -450,10 +450,8 @@ public interface CacheCodecTemplate {
      * @param name          name of the cache
      * @param keys          The keys that are associated with the specified expiry policy.
      * @param expiryPolicy  custom expiry policy for this operation
-     * @param completionId  user generated id which shall be received as a field of the cache event upon completion of
-     *                      the request in the cluster.
      */
     @Request(id = 35, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.7")
-    void setExpiryPolicy(String name, List<Data> keys, Data expiryPolicy, int completionId);
+    void setExpiryPolicy(String name, List<Data> keys, Data expiryPolicy);
 }
