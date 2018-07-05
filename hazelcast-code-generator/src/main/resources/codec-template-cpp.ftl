@@ -18,7 +18,6 @@
 #include "hazelcast/util/ILogger.h"
 
 #include "hazelcast/client/protocol/codec/${model.className}.h"
-#include "hazelcast/client/exception/UnexpectedMessageTypeException.h"
 <#if shouldIncludeHeader("Data")>
 #include "hazelcast/client/serialization/pimpl/Data.h"
 </#if>
