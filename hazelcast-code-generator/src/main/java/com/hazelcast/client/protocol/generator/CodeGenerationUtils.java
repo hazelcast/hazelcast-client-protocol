@@ -497,8 +497,8 @@ public final class CodeGenerationUtils {
     }
 
     public static boolean shouldGenerateForCpp(String codecName) {
-        return !(codecName.equals("MapReduce") || codecName.equals("Cache") || codecName.equals("EnterpriseMap") ||
-                codecName.equals("XATransaction"));
+        return !(codecName.equals("MapReduce") || codecName.equals("Cache") || codecName.equals("EnterpriseMap")
+                || codecName.equals("XATransaction"));
     }
 
     public static String convertToSnakeCase(String camelCase) {
