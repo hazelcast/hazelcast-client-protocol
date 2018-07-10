@@ -26,9 +26,19 @@ import com.hazelcast.nio.Bits;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hazelcast.nio.Bits.BOOLEAN_SIZE_IN_BYTES;
+
 @Codec(WanReplicationRef.class)
 @Since("1.5")
 public final class WanReplicationRefCodec {
+
+    /**
+     * These are the names of 2 boolean fields to be sent:
+     * - republishingEnabled
+     * - isNullFilters
+     */
+    private static final int BOOLEAN_FIELD_COUNT = 2;
+    private static final int BOOLEAN_DATA_SIZE = BOOLEAN_FIELD_COUNT * BOOLEAN_SIZE_IN_BYTES;
 
     private WanReplicationRefCodec() {
     }
@@ -52,7 +62,7 @@ public final class WanReplicationRefCodec {
     public static void encode(WanReplicationRef ref, ClientMessage clientMessage) {
         boolean isNullFilters = ref.getFilters() == null;
         clientMessage.set(ref.getName()).set(ref.getMergePolicy()).set(ref.isRepublishingEnabled())
-                     .set(isNullFilters);
+                .set(isNullFilters);
         if (!isNullFilters) {
             clientMessage.set(ref.getFilters().size());
             for (String filter : ref.getFilters()) {
@@ -62,7 +72,7 @@ public final class WanReplicationRefCodec {
     }
 
     public static int calculateDataSize(WanReplicationRef ref) {
-        int dataSize = 2 * Bits.BOOLEAN_SIZE_IN_BYTES;
+        int dataSize = BOOLEAN_DATA_SIZE;
         dataSize += ParameterUtil.calculateDataSize(ref.getName());
         dataSize += ParameterUtil.calculateDataSize(ref.getMergePolicy());
         boolean hasFilters = ref.getFilters() != null && !ref.getFilters().isEmpty();
