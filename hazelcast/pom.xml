@@ -238,13 +238,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.eclipsesource.minimal-json</groupId>
-            <artifactId>minimal-json</artifactId>
-            <version>0.9.4</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-code-generator</artifactId>
             <version>${project.version}</version>
