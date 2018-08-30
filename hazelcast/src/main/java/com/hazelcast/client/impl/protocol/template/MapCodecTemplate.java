@@ -47,7 +47,7 @@ public interface MapCodecTemplate {
      * @return old value of the entry
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
-    Object put(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    Object put(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") @Nullable Long maxIdle);
 
     /**
      * This method returns a clone of the original value, so modifying the returned value does not change the actual
@@ -188,7 +188,7 @@ public interface MapCodecTemplate {
      * @return Returns true if successful, otherwise returns false
      */
     @Request(id = 15, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
-    Object tryPut(String name, Data key, Data value, long threadId, long timeout, @Since("1.7") long maxIdle);
+    Object tryPut(String name, Data key, Data value, long threadId, long timeout, @Since("1.7") @Nullable Long maxIdle);
 
     /**
      * Same as put except that MapStore, if defined, will not be called to store/persist the entry.
@@ -203,7 +203,7 @@ public interface MapCodecTemplate {
      *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      */
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void putTransient(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    void putTransient(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") @Nullable Long maxIdle);
 
     /**
      * Puts an entry into this map with a given ttl (time to live) value if the specified key is not already associated
@@ -219,7 +219,7 @@ public interface MapCodecTemplate {
      * @return returns a clone of the previous value, not the original (identically equal) value previously put into the map.
      */
     @Request(id = 17, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
-    Object putIfAbsent(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    Object putIfAbsent(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") @Nullable Long maxIdle);
 
     /**
      * Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
@@ -235,7 +235,7 @@ public interface MapCodecTemplate {
      *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void set(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    void set(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") @Nullable Long maxIdle);
 
     /**
      * Acquires the lock for the specified lease time.After lease time, lock will be released.If the lock is not
