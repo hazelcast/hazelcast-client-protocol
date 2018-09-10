@@ -5,6 +5,10 @@ import com.hazelcast.client.impl.protocol.util.ParameterUtil;
 import com.hazelcast.nio.Bits;
 import javax.annotation.Generated;
 
+/**
+ * @since ${model.messageSince}
+ * update ${util.versionAsString(model.highestParameterVersion)}
+ */
 @Generated("Hazelcast.code.generator")
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
 public final class ${model.className} {
@@ -16,34 +20,53 @@ public final class ${model.className} {
 
     public static class RequestParameters {
     public static final ${model.parentName}MessageType TYPE = REQUEST_TYPE;
-<#list model.requestParams as param>
-<#assign messageVersion=model.messageSinceInt>
-        public ${param.type} ${param.name};
-        <#if param.sinceVersionInt gt messageVersion >public boolean ${param.name}Exist = false;</#if>
-</#list>
 
-        public static int calculateDataSize(<#list model.requestParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
+         /**
+         * @since ${model.messageSince}
+         */
+    <#list model.requestParams as param>
+        <#assign messageVersion=model.messageSinceInt>
+        <#if param.sinceVersionInt gt messageVersion >
+         /**
+         * @since ${param.sinceVersion}
+         */
+        public boolean ${param.name}Exist = false;
+        </#if>
+        public ${param.type} ${param.name};
+    </#list>
+
+    <#list model.versionedRequestParams as version, requestParams>
+         /**
+         * @since ${version}
+         */
+        public static int calculateDataSize(<#list requestParams as param>${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>) {
             int dataSize = ClientMessage.HEADER_SIZE;
-<#list model.requestParams as p>
-    <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
-</#list>
+            <#list requestParams as p>
+            <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            </#list>
             return dataSize;
         }
+    </#list>
     }
 
-    public static ClientMessage encodeRequest(<#list model.requestParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
-        final int requiredDataSize = RequestParameters.calculateDataSize(<#list model.requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
-        ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
-        clientMessage.setMessageType(REQUEST_TYPE.id());
-        clientMessage.setRetryable(<#if model.retryable == 1>true<#else>false</#if>);
-        clientMessage.setAcquiresResource(<#if model.acquiresResource == 1>true<#else>false</#if>);
-        clientMessage.setOperationName("${model.parentName}.${model.name}");
-<#list model.requestParams as p>
-    <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
-</#list>
-        clientMessage.updateFrameLength();
-        return clientMessage;
-    }
+    <#list model.versionedRequestParams as version, requestParams>
+         /**
+         * @since ${version}
+         */
+        public static ClientMessage encodeRequest(<#list requestParams as param>${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>) {
+            final int requiredDataSize = RequestParameters.calculateDataSize(<#list requestParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+            ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
+            clientMessage.setMessageType(REQUEST_TYPE.id());
+            clientMessage.setRetryable(<#if model.retryable == 1>true<#else>false</#if>);
+            clientMessage.setAcquiresResource(<#if model.acquiresResource == 1>true<#else>false</#if>);
+            clientMessage.setOperationName("${model.parentName}.${model.name}");
+            <#list requestParams as p>
+            <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            </#list>
+            clientMessage.updateFrameLength();
+            return clientMessage;
+        }
+    </#list>
 
     public static RequestParameters decodeRequest(ClientMessage clientMessage) {
         final RequestParameters parameters = new RequestParameters();
@@ -76,32 +99,50 @@ public final class ${model.className} {
     //************************ RESPONSE *************************//
 
     public static class ResponseParameters {
+         /**
+         * @since ${model.messageSince}
+         */
 <#list model.responseParams as param>
+        <#assign messageVersion=model.messageSinceInt>
+        <#if param.sinceVersionInt gt messageVersion >
+         /**
+         * @since ${param.sinceVersion}
+         */
+        public boolean ${param.name}Exist = false;
+        </#if>
         public ${param.type} ${param.name};
-<#assign messageVersion=model.messageSinceInt>
-        <#if param.sinceVersionInt gt messageVersion >public boolean ${param.name}Exist = false;</#if>
 </#list>
 
-        public static int calculateDataSize(<#list model.responseParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
+    <#list model.versionedResponseParams as version, responseParams>
+         /**
+         * @since ${version}
+         */
+        public static int calculateDataSize(<#list responseParams as param> ${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>) {
             int dataSize = ClientMessage.HEADER_SIZE;
-<#list model.responseParams as p>
-    <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
-</#list>
+            <#list responseParams as p>
+            <@sizeText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
+            </#list>
             return dataSize;
         }
+    </#list>
     }
 
-    public static ClientMessage encodeResponse(<#list model.responseParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>) {
-        final int requiredDataSize = ResponseParameters.calculateDataSize(<#list model.responseParams as param>${param.name}<#if param_has_next>, </#if></#list>);
+<#list model.versionedResponseParams as version, responseParams>
+    /**
+    * @since ${version}
+    */
+    public static ClientMessage encodeResponse(<#list responseParams as param>${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>) {
+        final int requiredDataSize = ResponseParameters.calculateDataSize(<#list responseParams as param>${param.name}<#if param_has_next>, </#if></#list>);
         ClientMessage clientMessage = ClientMessage.createForEncode(requiredDataSize);
         clientMessage.setMessageType(RESPONSE_TYPE);
-<#list model.responseParams as p>
+<#list responseParams as p>
     <@setterText var_name=p.name type=p.type isNullable=p.nullable containsNullable=p.containsNullable/>
 </#list>
         clientMessage.updateFrameLength();
         return clientMessage;
 
     }
+</#list>
 
     public static ResponseParameters decodeResponse(ClientMessage clientMessage) {
         ResponseParameters parameters = new ResponseParameters();
@@ -122,7 +163,7 @@ public final class ${model.className} {
     //************************ EVENTS *************************//
 
 <#list model.events as event>
-    public static ClientMessage encode${event.name}Event(<#list event.eventParams as param><@methodParam type=param.type/> ${param.name}<#if param_has_next>, </#if></#list>){
+    public static ClientMessage encode${event.name}Event(<#list event.eventParams as param>${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>){
         int dataSize = ClientMessage.HEADER_SIZE;
     <#list event.eventParams as p>
         <@sizeText var_name=p.name type=p.type isNullable=p.nullable/>
@@ -170,17 +211,10 @@ public final class ${model.className} {
         }
 
     <#list model.events as event>
-        <#assign paramCallList="">
-        <#assign previousVersion = event.sinceVersion?replace('.','') >
-        <#list event.eventParams as p>
-            <#if p.versionChanged >
-        public abstract void handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
-            </#if>
-            <#if p_index gt 0 ><#assign paramCallList=paramCallList + ", "></#if>
-            <#assign paramCallList += methodParamFnc(p.type) + " " + p.name >
-            <#assign previousVersion = p.sinceVersion?replace('.','') >
+        <#list event.versionedEventParams as sinceVersion, eventParams>
+            <#assign version = sinceVersion?replace('.','') >
+            public abstract void handle${event.name?cap_first}EventV${version}(<#list eventParams as param>${methodParam(param.type)} ${param.name}<#if param_has_next>, </#if></#list>);
         </#list>
-        public abstract void handle${event.name?cap_first}EventV${previousVersion}(${paramCallList});
     </#list>
    }
 
@@ -200,15 +234,8 @@ public final class ${model.className} {
 </#macro>
 
 
-<#--METHOD PARAM MACRO -->
-<#macro methodParam type><#local cat= util.getTypeCategory(type)>
-<#switch cat>
-<#case "COLLECTION"><#local genericType= util.getGenericType(type)>java.util.Collection<${genericType}><#break>
-<#default>${type}
-</#switch>
-</#macro>
-
-<#function methodParamFnc type><#local cat= util.getTypeCategory(type)>
+<#--METHOD PARAM Function -->
+<#function methodParam type><#local cat= util.getTypeCategory(type)>
     <#switch cat>
         <#case "COLLECTION">
             <#local genericType= util.getGenericType(type)>
