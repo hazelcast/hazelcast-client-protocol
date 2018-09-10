@@ -10,6 +10,8 @@
             <#return "aByte">
         <#case "long">
             <#return "aLong">
+        <#case "java.lang.Long">
+            <#return "aBoxedLong">
         <#case "char">
             <#return "aChar">
         <#case "long[]">
