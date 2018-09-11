@@ -16,8 +16,6 @@
 
 package com.hazelcast.client.impl.protocol.constants;
 
-import com.hazelcast.annotation.Since;
-
 /**
  * Message type ids of responses in client protocol. They also used to bind a request to a response inside Request
  * annotation.
@@ -50,14 +48,14 @@ public final class ResponseMessageConst {
     public static final int LIST_ENTRY = 117;
     public static final int ENTRIES_WITH_CURSOR = 118;
     public static final int LIST_DATA_MAYBE_NULL_ELEMENTS = 119;
-    @Since("1.4") public static final int SCHEDULED_TASK_STATISTICS = 120;
-    @Since("1.4") public static final int ALL_SCHEDULED_TASK_HANDLERS = 121;
-    @Since("1.4") public static final int NEAR_CACHE_INVALIDATION_META_DATA = 122;
-    @Since("1.4") public static final int LIST_ENTRY_PARTITION_UUID = 123;
-    @Since("1.5") public static final int QUERY_RESULT_SEGMENT = 124;
-    @Since("1.5") public static final int EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE = 125;
-    @Since("1.6") public static final int FLAKE_ID_GEN_ID_BATCH = 126;
-    @Since("1.6") public static final int CRDT_TIMESTAMPED_LONG = 127;
+    public static final int SCHEDULED_TASK_STATISTICS = 120;
+    public static final int ALL_SCHEDULED_TASK_HANDLERS = 121;
+    public static final int NEAR_CACHE_INVALIDATION_META_DATA = 122;
+    public static final int LIST_ENTRY_PARTITION_UUID = 123;
+    public static final int QUERY_RESULT_SEGMENT = 124;
+    public static final int EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE = 125;
+    public static final int FLAKE_ID_GEN_ID_BATCH = 126;
+    public static final int CRDT_TIMESTAMPED_LONG = 127;
 
     private ResponseMessageConst() {
     }
