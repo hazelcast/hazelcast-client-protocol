@@ -183,12 +183,10 @@ public interface MapCodecTemplate {
      * @param value    New value for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param timeout  maximum time in milliseconds to wait for acquiring the lock for the key.
-     * @param maxIdle  The duration of maximum idle for this entry.
-     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      * @return Returns true if successful, otherwise returns false
      */
     @Request(id = 15, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
-    Object tryPut(String name, Data key, Data value, long threadId, long timeout, @Since("1.7") long maxIdle);
+    Object tryPut(String name, Data key, Data value, long threadId, long timeout);
 
     /**
      * Same as put except that MapStore, if defined, will not be called to store/persist the entry.
