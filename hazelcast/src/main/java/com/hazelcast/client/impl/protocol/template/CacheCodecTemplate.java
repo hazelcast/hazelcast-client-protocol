@@ -450,8 +450,9 @@ public interface CacheCodecTemplate {
      * @param name          name of the cache
      * @param keys          The keys that are associated with the specified expiry policy.
      * @param expiryPolicy  custom expiry policy for this operation
+     * @return {@code true} if at least one entry is affected, {@code false} otherwise
      */
-    @Request(id = 35, retryable = false, response = ResponseMessageConst.VOID)
+    @Request(id = 35, retryable = false, response = ResponseMessageConst.BOOLEAN)
     @Since("1.7")
-    void setExpiryPolicy(String name, List<Data> keys, Data expiryPolicy);
+    Object setExpiryPolicy(String name, List<Data> keys, Data expiryPolicy);
 }

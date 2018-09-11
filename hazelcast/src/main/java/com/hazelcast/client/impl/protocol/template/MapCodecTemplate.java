@@ -908,6 +908,7 @@ public interface MapCodecTemplate {
     /**
      * Updates TTL (time to live) value of the entry specified by {@code key} with a new TTL value.
      * New TTL value is valid from this operation is invoked, not from the original creation of the entry.
+     * If the entry does not exist or already expired, then this call has no effect.
      * <p>
      * The entry will expire and get evicted after the TTL. If the TTL is 0,
      * then the entry lives forever. If the TTL is negative, then the TTL
@@ -922,9 +923,10 @@ public interface MapCodecTemplate {
      * @param name  Name of the map
      * @param key   Key for the map entry
      * @param ttl   The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @return 'true' if the entry is affected, 'false' otherwise
      */
-    @Request(id = 73, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
+    @Request(id = 73, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
     @Since("1.7")
-    void setTTL(String name, Data key, long ttl);
+    Object setTtl(String name, Data key, long ttl);
 
 }
