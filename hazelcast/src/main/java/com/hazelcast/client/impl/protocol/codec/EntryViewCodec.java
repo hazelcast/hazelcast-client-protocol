@@ -26,7 +26,7 @@ import com.hazelcast.nio.serialization.Data;
 @Codec(SimpleEntryView.class)
 public final class EntryViewCodec {
 
-    private static final int DATA_SIZE_FACTOR = 11;
+    private static final int DATA_SIZE_FACTOR = 10;
 
     private EntryViewCodec() {
     }
@@ -45,10 +45,6 @@ public final class EntryViewCodec {
         dataEntryView.setVersion(clientMessage.getLong());
         dataEntryView.setEvictionCriteriaNumber(clientMessage.getLong());
         dataEntryView.setTtl(clientMessage.getLong());
-        if (!clientMessage.isComplete()) {
-            dataEntryView.setMaxIdle(clientMessage.getLong());
-        }
-
         return dataEntryView;
     }
 
@@ -65,11 +61,9 @@ public final class EntryViewCodec {
         long version = dataEntryView.getVersion();
         long ttl = dataEntryView.getTtl();
         long evictionCriteriaNumber = dataEntryView.getEvictionCriteriaNumber();
-        long maxIdle = dataEntryView.getMaxIdle();
-
         clientMessage.set(key).set(value).set(cost).set(creationTime).set(expirationTime)
                 .set(hits).set(lastAccessTime).set(lastStoredTime).set(lastUpdateTime)
-                .set(version).set(evictionCriteriaNumber).set(ttl).set(maxIdle);
+                .set(version).set(evictionCriteriaNumber).set(ttl);
     }
 
     public static int calculateDataSize(SimpleEntryView<Data, Data> entryView) {

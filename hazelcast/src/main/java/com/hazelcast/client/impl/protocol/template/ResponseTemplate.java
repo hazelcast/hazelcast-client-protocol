@@ -129,9 +129,10 @@ public interface ResponseTemplate {
 
     /**
      * @param response Response as an EntryView Data type.
+     * @param maxIdle The maxIdle value of the entry
      */
     @Response(ResponseMessageConst.ENTRY_VIEW)
-    void EntryView(@Nullable SimpleEntryView<Data, Data> response);
+    void EntryView(@Nullable SimpleEntryView<Data, Data> response, @Since("1.7") long maxIdle);
 
     /**
      * @param jobPartitionStates The state of the job. See Job Partition State Data Type description for details.
