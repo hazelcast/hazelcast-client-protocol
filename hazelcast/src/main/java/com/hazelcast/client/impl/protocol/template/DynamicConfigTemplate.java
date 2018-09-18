@@ -516,4 +516,21 @@ public interface DynamicConfigTemplate {
     @Since("1.6")
     void addPNCounterConfig(String name, int replicaCount, boolean statisticsEnabled, @Nullable String quorumName);
 
+
+    /**
+     * Adds a new merkle tree configuration to a running cluster.
+     * If a merkle tree configuration with the given {@code name} already exists, then
+     * the new configuration is ignored and the existing one is preserved.
+     *
+     * @param mapName map name to which this config applies. Map names
+     *                are also matched by pattern and a merkle with map name "default"
+     *                applies to all maps that do not have more specific merkle tree configs.
+     * @param enabled {@code true} to enable this merkle tree configuration, otherwise {@code false}
+     * @param depth   depth of the merkle tree. The depth must be between
+     *                {@value com.hazelcast.config.MerkleTreeConfig#MIN_DEPTH}
+     *                and {@value com.hazelcast.config.MerkleTreeConfig#MAX_DEPTH} (exclusive).
+     */
+    @Request(id = 23, retryable = false, response = ResponseMessageConst.VOID)
+    @Since("1.7")
+    void addMerkleTreeConfig(String mapName, boolean enabled, int depth);
 }
