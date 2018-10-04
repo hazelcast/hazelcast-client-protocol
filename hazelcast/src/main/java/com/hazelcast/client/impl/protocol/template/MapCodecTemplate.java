@@ -42,12 +42,10 @@ public interface MapCodecTemplate {
      * @param value    Value for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
-     * @param maxIdle  The duration of maximum idle for this entry.
-     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      * @return old value of the entry
      */
     @Request(id = 1, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
-    Object put(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    Object put(String name, Data key, Data value, long threadId, long ttl);
 
     /**
      * This method returns a clone of the original value, so modifying the returned value does not change the actual
@@ -197,11 +195,9 @@ public interface MapCodecTemplate {
      * @param value    New value for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
-     * @param maxIdle  The duration of maximum idle for this entry.
-     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      */
     @Request(id = 16, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void putTransient(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    void putTransient(String name, Data key, Data value, long threadId, long ttl);
 
     /**
      * Puts an entry into this map with a given ttl (time to live) value if the specified key is not already associated
@@ -212,12 +208,10 @@ public interface MapCodecTemplate {
      * @param value    New value for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
-     * @param maxIdle  The duration of maximum idle for this entry.
-     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      * @return returns a clone of the previous value, not the original (identically equal) value previously put into the map.
      */
     @Request(id = 17, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
-    Object putIfAbsent(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    Object putIfAbsent(String name, Data key, Data value, long threadId, long ttl);
 
     /**
      * Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
@@ -229,11 +223,9 @@ public interface MapCodecTemplate {
      * @param value    New value for the map entry.
      * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
      * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
-     * @param maxIdle  The duration of maximum idle for this entry.
-     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
      */
     @Request(id = 18, retryable = false, response = ResponseMessageConst.VOID, partitionIdentifier = "key")
-    void set(String name, Data key, Data value, long threadId, long ttl, @Since("1.7") long maxIdle);
+    void set(String name, Data key, Data value, long threadId, long ttl);
 
     /**
      * Acquires the lock for the specified lease time.After lease time, lock will be released.If the lock is not
@@ -904,7 +896,6 @@ public interface MapCodecTemplate {
     Object eventJournalRead(String name, long startSequence, int minSize, int maxSize,
                             @Nullable Data predicate, @Nullable Data projection);
 
-
     /**
      * Updates TTL (time to live) value of the entry specified by {@code key} with a new TTL value.
      * New TTL value is valid from this operation is invoked, not from the original creation of the entry.
@@ -928,5 +919,90 @@ public interface MapCodecTemplate {
     @Request(id = 73, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "key")
     @Since("1.7")
     Object setTtl(String name, Data key, long ttl);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Operation including max-idle were split from the vanilla put & set ones to support RU.                                   //
+    // When codecs are extended, older members will not know of the new properties, however the ops will still be executed.     //
+    // For instance, when we add `maxIdle` on the `put` codec, then old members will still run the `put` only without max-idle. //
+    // When running on a mixed version cluster (during RU), if the operation from a new client (that knows about max-idle) goes //
+    // to an old member, then there is no way for that member to reject the operation as Unsupported due to the cluster-version.//
+    // To avoid that, we introduce new codecs, thus, the old members will also reject the operation because they are not        //
+    // familiar with the incoming request id.                                                                                   //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
+     * If ttl is 0, then the entry lives forever.This method returns a clone of the previous value, not the original
+     * (identically equal) value previously put into the map.Time resolution for TTL is seconds. The given TTL value is
+     * rounded to the next closest second value.
+     *
+     * @param name     Name of the map.
+     * @param key      Key for the map entry.
+     * @param value    Value for the map entry.
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param maxIdle  The duration of maximum idle for this entry.
+     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+     * @return old value of the entry
+     */
+    @Since("1.7")
+    @Request(id = 74, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
+    Object putWithMaxIdle(String name, Data key, Data value, long threadId, long ttl, long maxIdle);
+
+
+    /**
+     * Same as put except that MapStore, if defined, will not be called to store/persist the entry.
+     * If ttl and maxIdle are 0, then the entry lives forever.
+     *
+     * @param name     Name of the map.
+     * @param key      Key for the map entry.
+     * @param value    Value for the map entry.
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param maxIdle  The duration of maximum idle for this entry.
+     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+     * @return old value of the entry
+     */
+    @Since("1.7")
+    @Request(id = 75, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
+    Object putTransientWithMaxIdle(String name, Data key, Data value, long threadId, long ttl, long maxIdle);
+
+    /**
+     * Puts an entry into this map with a given ttl (time to live) value if the specified key is not already associated
+     * with a value. Entry will expire and get evicted after the ttl or maxIdle, whichever comes first.
+     *
+     * @param name     Name of the map.
+     * @param key      Key for the map entry.
+     * @param value    Value for the map entry.
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param maxIdle  The duration of maximum idle for this entry.
+     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+     * @return old value of the entry
+     */
+    @Since("1.7")
+    @Request(id = 76, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
+    Object putIfAbsentWithMaxIdle(String name, Data key, Data value, long threadId, long ttl, long maxIdle);
+
+    /**
+     * Puts an entry into this map with a given ttl (time to live) value and maxIdle.
+     * Entry will expire and get evicted after the ttl or maxIdle, whichever comes first.
+     * If ttl and maxIdle are 0, then the entry lives forever.
+     *
+     * Similar to the put operation except that set doesn't return the old value, which is more efficient.
+     *
+     * @param name     Name of the map.
+     * @param key      Key for the map entry.
+     * @param value    Value for the map entry.
+     * @param threadId The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+     * @param ttl      The duration in milliseconds after which this entry shall be deleted. O means infinite.
+     * @param maxIdle  The duration of maximum idle for this entry.
+     *                 Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+     * @return old value of the entry
+     */
+    @Since("1.7")
+    @Request(id = 77, retryable = false, response = ResponseMessageConst.DATA, partitionIdentifier = "key")
+    Object setWithMaxIdle(String name, Data key, Data value, long threadId, long ttl, long maxIdle);
+
 
 }
