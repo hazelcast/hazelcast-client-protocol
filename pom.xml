@@ -55,8 +55,8 @@
 
     <properties>
         <!-- Hazelcast branch to download and compile with -->
-        <hazelcast.git.repo>mustafaiman</hazelcast.git.repo>
-        <hazelcast.git.branch>enhancement/setTtl-fix-api</hazelcast.git.branch>
+        <hazelcast.git.repo>tkountis</hazelcast.git.repo>
+        <hazelcast.git.branch>fix/3.11/multiversion_oldclient_newmember_maxIdle</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
