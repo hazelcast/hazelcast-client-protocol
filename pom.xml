@@ -24,7 +24,7 @@
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
     <!-- DO NOT CHANGE THIS VERSION, IT IS MODIFIED VIA SCRIPTS IN RELEASE PROCESS ONLY -->
-    <version>1.7.0-8</version>
+    <version>1.7.0-9</version>
     <name>Hazelcast Client Protocol</name>
     <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
     <url>http://www.hazelcast.com/</url>
