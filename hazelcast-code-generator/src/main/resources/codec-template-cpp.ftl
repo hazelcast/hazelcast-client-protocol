@@ -132,7 +132,7 @@ namespace hazelcast {
                         }
                         </#list>
                         default:
-                            util::ILogger::getLogger().warning() << "[${model.className}::AbstractEventHandler::handle] Unknown message type (" << messageType << ") received on event handler.";
+                            getLogger()->warning() << "[${model.className}::AbstractEventHandler::handle] Unknown message type (" << messageType << ") received on event handler.";
                     }
                 }
                 //************************ EVENTS END **************************************************************************//
