@@ -3,13 +3,11 @@
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.util.ParameterUtil;
 import com.hazelcast.nio.Bits;
-import javax.annotation.Generated;
 
 /**
  * @since ${model.messageSince}
  * update ${util.versionAsString(model.highestParameterVersion)}
  */
-@Generated("Hazelcast.code.generator")
 @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
 public final class ${model.className} {
 
