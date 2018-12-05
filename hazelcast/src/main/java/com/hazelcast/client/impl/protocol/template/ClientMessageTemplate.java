@@ -42,13 +42,15 @@ public interface ClientMessageTemplate {
      * @param serializationVersion   client side supported version to inform server side
      * @param clientHazelcastVersion The Hazelcast version of the client. (e.g. 3.7.2)
      * @param clientName             the name of the client instance
+     * @param attributes             user defined attributes of the client instance
      * @return Returns the address, uuid and owner uuid.
      */
     @Request(id = 2, retryable = true, response = ResponseMessageConst.AUTHENTICATION)
     Object authentication(String username, String password, @Nullable String uuid, @Nullable String ownerUuid,
                           boolean isOwnerConnection, String clientType, byte serializationVersion,
                           @Since(value = "1.3") String clientHazelcastVersion,
-                          @Since(value = "1.7") String clientName);
+                          @Since(value = "1.8") String clientName,
+                          @Since(value = "1.8") List<Map.Entry<String, String>> attributes);
 
     /**
      * @param credentials            Secret byte array for authentication.
@@ -60,6 +62,7 @@ public interface ClientMessageTemplate {
      * @param serializationVersion   client side supported version to inform server side
      * @param clientHazelcastVersion The Hazelcast version of the client. (e.g. 3.7.2)
      * @param clientName             the name of the client instance
+     * @param attributes             user defined attributes of the client instance
      * @return Returns the address, uuid and owner uuid.
      */
 
@@ -67,7 +70,8 @@ public interface ClientMessageTemplate {
     Object authenticationCustom(Data credentials, @Nullable String uuid, @Nullable String ownerUuid, boolean isOwnerConnection,
                                 String clientType, byte serializationVersion,
                                 @Since(value = "1.3") String clientHazelcastVersion,
-                                @Since(value = "1.7") String clientName);
+                                @Since(value = "1.8") String clientName,
+                                @Since(value = "1.8") List<Map.Entry<String, String>> attributes);
 
     /**
      * @param localOnly if true only master node sends events, otherwise all registered nodes send all membership
