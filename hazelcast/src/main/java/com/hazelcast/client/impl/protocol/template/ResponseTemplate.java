@@ -107,12 +107,14 @@ public interface ResponseTemplate {
      *                                  can use this information to restore its needed resources at the member, e.g.
      *                                  registers its listeners. The list will be empty if this is response to non-owner
      *                                  connection request.
+     * @param partitionCount            Returns partition count of the cluster
      * @return Returns the address, uuid and owner uuid.
      */
     @Response(ResponseMessageConst.AUTHENTICATION)
     Object Authentication(byte status, @Nullable Address address, @Nullable String uuid, @Nullable String ownerUuid,
                           byte serializationVersion, @Since(value = "1.3") String serverHazelcastVersion,
-                          @Since(value = "1.3") @Nullable List<Member> clientUnregisteredMembers);
+                          @Since(value = "1.3") @Nullable List<Member> clientUnregisteredMembers,
+                          @Since(value = "1.8") int partitionCount);
 
     /**
      * @param partitions            mappings from member address to list of partition id 's that member owns
@@ -129,7 +131,7 @@ public interface ResponseTemplate {
 
     /**
      * @param response Response as an EntryView Data type.
-     * @param maxIdle The maxIdle value of the entry
+     * @param maxIdle  The maxIdle value of the entry
      */
     @Response(ResponseMessageConst.ENTRY_VIEW)
     void EntryView(@Nullable SimpleEntryView<Data, Data> response, @Since("1.7") long maxIdle);
