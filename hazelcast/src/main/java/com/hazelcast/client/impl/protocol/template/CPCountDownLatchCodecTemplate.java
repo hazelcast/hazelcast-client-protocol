@@ -80,8 +80,10 @@ public interface CPCountDownLatchCodecTemplate {
      * re-enabled for thread scheduling purposes, and Countdown owner is set to
      * null. If the current count equals zero, then nothing happens.
      *
-     * @param groupId   CP group id of this CountDownLatch instance
-     * @param name      Name of the CountDownLatch instance
+     * @param groupId        CP group id of this CountDownLatch instance
+     * @param name           Name of the CountDownLatch instance
+     * @param invocationUid  UID of this invocation
+     * @param expectedRound  The round this invocation will be performed on
      */
     @Request(id = 3, retryable = true, response = ResponseMessageConst.VOID)
     void countDown(RaftGroupId groupId, String name, UUID invocationUid, int expectedRound);
