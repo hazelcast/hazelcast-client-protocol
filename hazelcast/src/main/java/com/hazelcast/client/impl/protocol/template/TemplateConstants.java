@@ -53,6 +53,13 @@ public final class TemplateConstants {
     @Since("1.5") public static final int DYNAMIC_CONFIG_TEMPLATE_ID = 30;
     @Since("1.6") public static final int FLAKE_ID_GENERATOR_TEMPLATE_ID = 31;
     @Since("1.6") public static final int PN_COUNTER_ID_GENERATOR_TEMPLATE_ID = 32;
+    @Since("1.8") public static final int CP_GROUP_TEMPLATE_ID = 33;
+    @Since("1.8") public static final int CP_SESSION_TEMPLATE_ID = 34;
+    @Since("1.8") public static final int CP_ATOMIC_LONG_TEMPLATE_ID = 35;
+    @Since("1.8") public static final int CP_ATOMIC_REF_TEMPLATE_ID = 36;
+    @Since("1.8") public static final int CP_COUNT_DOWN_LATCH_TEMPLATE_ID = 37;
+    @Since("1.8") public static final int CP_FENCED_LOCK_TEMPLATE_ID = 38;
+    @Since("1.8") public static final int CP_SEMAPHORE_TEMPLATE_ID = 39;
 
     private TemplateConstants() {
     }
