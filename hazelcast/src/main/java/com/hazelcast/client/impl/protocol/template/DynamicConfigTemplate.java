@@ -338,6 +338,8 @@ public interface DynamicConfigTemplate {
      *                                              or {@code null}
      * @param partitioningStrategyImplementation    a serialized instance of a partitioning strategy
      * @param hotRestartConfig                      hot restart configuration
+     * @param metadataPolicy                        metadata policy configuration for the supported data types. Valid values
+     *                                              are {@code CREATE_ON_UPDATE} and {@code OFF}
      */
     @Request(id = 14, retryable = false, response = ResponseMessageConst.VOID)
     void addMapConfig(String name, int backupCount, int asyncBackupCount, int timeToLiveSeconds, int maxIdleSeconds,
@@ -355,7 +357,8 @@ public interface DynamicConfigTemplate {
                       @Nullable String partitioningStrategyClassName,
                       @Nullable Data partitioningStrategyImplementation,
                       @Nullable HotRestartConfig hotRestartConfig,
-                      @Since("1.6") int mergeBatchSize);
+                      @Since("1.6") int mergeBatchSize,
+                      @Since("1.8") int metadataPolicy);
 
     /**
      * Adds a new reliable topic configuration to a running cluster.
