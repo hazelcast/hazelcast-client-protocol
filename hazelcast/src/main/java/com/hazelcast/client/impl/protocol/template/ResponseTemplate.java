@@ -24,6 +24,7 @@ import com.hazelcast.annotation.Since;
 import com.hazelcast.client.impl.client.DistributedObjectInfo;
 import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.core.Member;
+import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
@@ -276,4 +277,16 @@ public interface ResponseTemplate {
     @Since("1.6")
     @Response(ResponseMessageConst.CRDT_TIMESTAMPED_LONG)
     void CRDTTimestampedLong(long value, List<Map.Entry<String, Long>> replicaTimestamps, int replicaCount);
+
+    @Since("1.8")
+    @Response(ResponseMessageConst.RAFT_GROUP_ID)
+    void RaftGroupId(RaftGroupId groupId);
+
+    @Since("1.8")
+    @Response(ResponseMessageConst.RAFT_LOCK_OWNERSHIP_STATE_RESPONSE)
+    void RaftLockOwnershipStateResponse(long fence, int lockCount, long sessionId, long threadId);
+
+    @Since("1.8")
+    @Response(ResponseMessageConst.RAFT_SESSION_RESPONSE)
+    void RaftSessionResponse(long sessionId, long ttlMillis, long heartbeatMillis);
 }
