@@ -43,6 +43,10 @@ public interface ClientMessageTemplate {
      * @param clientHazelcastVersion The Hazelcast version of the client. (e.g. 3.7.2)
      * @param clientName             the name of the client instance
      * @param attributes             user defined attributes of the client instance
+     * @param partitionCount         the expected partition count of the cluster. Checked on the server side when provided.
+     *                               Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+     * @param clusterId              the expected id of the cluster. Checked on the server side when provided.
+     *                               Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
      * @return Returns the address, uuid and owner uuid.
      */
     @Request(id = 2, retryable = true, response = ResponseMessageConst.AUTHENTICATION)
@@ -50,7 +54,9 @@ public interface ClientMessageTemplate {
                           boolean isOwnerConnection, String clientType, byte serializationVersion,
                           @Since(value = "1.3") String clientHazelcastVersion,
                           @Since(value = "1.8") String clientName,
-                          @Since(value = "1.8") List<Map.Entry<String, String>> attributes);
+                          @Since(value = "1.8") List<Map.Entry<String, String>> attributes,
+                          @Since(value = "1.8") @Nullable Integer partitionCount,
+                          @Since(value = "1.8") @Nullable String clusterId);
 
     /**
      * @param credentials            Secret byte array for authentication.
@@ -63,6 +69,10 @@ public interface ClientMessageTemplate {
      * @param clientHazelcastVersion The Hazelcast version of the client. (e.g. 3.7.2)
      * @param clientName             the name of the client instance
      * @param attributes             user defined attributes of the client instance
+     * @param partitionCount         the expected partition count of the cluster. Checked on the server side when provided.
+     *                               Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+     * @param clusterId              the expected id of the cluster. Checked on the server side when provided.
+     *                               Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
      * @return Returns the address, uuid and owner uuid.
      */
 
@@ -71,7 +81,9 @@ public interface ClientMessageTemplate {
                                 String clientType, byte serializationVersion,
                                 @Since(value = "1.3") String clientHazelcastVersion,
                                 @Since(value = "1.8") String clientName,
-                                @Since(value = "1.8") List<Map.Entry<String, String>> attributes);
+                                @Since(value = "1.8") List<Map.Entry<String, String>> attributes,
+                                @Since(value = "1.8") @Nullable Integer partitionCount,
+                                @Since(value = "1.8") @Nullable String clusterId);
 
     /**
      * @param localOnly if true only master node sends events, otherwise all registered nodes send all membership
