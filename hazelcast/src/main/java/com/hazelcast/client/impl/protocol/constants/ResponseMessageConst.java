@@ -56,9 +56,6 @@ public final class ResponseMessageConst {
     public static final int EVENT_JOURNAL_INITIAL_SUBSCRIBER_STATE = 125;
     public static final int FLAKE_ID_GEN_ID_BATCH = 126;
     public static final int CRDT_TIMESTAMPED_LONG = 127;
-    public static final int RAFT_GROUP_ID = 128;
-    public static final int RAFT_LOCK_OWNERSHIP_STATE_RESPONSE = 129;
-    public static final int RAFT_SESSION_RESPONSE = 130;
 
     private ResponseMessageConst() {
     }
