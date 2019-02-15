@@ -377,4 +377,11 @@ public interface ClientMessageTemplate {
     @Since(value = "1.6")
     @Request(id = 19, retryable = false, response = ResponseMessageConst.VOID)
     void createProxies(List<Map.Entry<String, String>> proxies);
+
+    /**
+     * @return Returns true if server supports cluster failover
+     */
+    @Since(value = "1.8")
+    @Request(id = 20, retryable = true, response = ResponseMessageConst.BOOLEAN)
+    Object isFailoverSupported();
 }
