@@ -304,7 +304,12 @@ public interface ResponseTemplate {
      * @param name          cluster name
      * @param version       cluster version
      * @param clusterTime   cluster time
-     * @param state         cluster state enum ordinal
+     * @param state         cluster state enum ordinal as following;
+     *                      0:ACTIVE,
+     *                      1:NO_MIGRATION,
+     *                      2:FROZEN
+     *                      3:PASSIVE
+     *                      4:IN_TRANSITION
      */
     @Since("1.8")
     @Response(ResponseMessageConst.CLUSTER_METADATA)
