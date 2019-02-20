@@ -59,6 +59,8 @@ public final class ResponseMessageConst {
     public static final int RAFT_GROUP_ID = 128;
     public static final int RAFT_LOCK_OWNERSHIP_STATE_RESPONSE = 129;
     public static final int RAFT_SESSION_RESPONSE = 130;
+    public static final int CLUSTER_METADATA = 131;
+    public static final int LIST_LONG = 132;
 
     private ResponseMessageConst() {
     }

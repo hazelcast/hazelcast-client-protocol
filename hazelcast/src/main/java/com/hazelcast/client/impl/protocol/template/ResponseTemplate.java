@@ -291,4 +291,24 @@ public interface ResponseTemplate {
     @Since("1.8")
     @Response(ResponseMessageConst.RAFT_SESSION_RESPONSE)
     void RaftSessionResponse(long sessionId, long ttlMillis, long heartbeatMillis);
+
+    /**
+     * @param response  The operation result as an array of long
+     */
+    @Since("1.8")
+    @Response(ResponseMessageConst.LIST_LONG)
+    void ListLong(List<Long> response);
+
+    /**
+     *
+     * @param name          cluster name
+     * @param version       cluster version
+     * @param clusterTime   cluster time
+     * @param state         cluster state enum ordinal
+     */
+    @Since("1.8")
+    @Response(ResponseMessageConst.CLUSTER_METADATA)
+    void ClusterMetadata(String name, String version, long clusterTime, int state);
+
+
 }
