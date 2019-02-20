@@ -17,6 +17,7 @@
 package com.hazelcast.client.impl.protocol.codec;
 
 import com.hazelcast.annotation.Codec;
+import com.hazelcast.client.impl.ClientEngine;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.util.ParameterUtil;
 import com.hazelcast.core.HazelcastException;
@@ -32,10 +33,12 @@ public final class AddressCodec {
     }
 
     public static Address decode(ClientMessage clientMessage) {
+        ClientEngine clientEngine = clientMessage.getClientEngine();
         String host = clientMessage.getStringUtf8();
         int port = clientMessage.getInt();
         try {
-            return new Address(host, port);
+            Address address = new Address(host, port);
+            return clientEngine == null ? address : clientEngine.memberAddressOf(address);
         } catch (UnknownHostException e) {
             throw new HazelcastException(e);
         }
