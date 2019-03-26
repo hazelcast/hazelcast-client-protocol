@@ -195,6 +195,8 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <!-- see http://blog.peterlynch.ca/2010/05/maven-how-to-prevent-generate-sources.html -->
+                        <phase>DISABLE_FORKED_LIFECYCLE_MSOURCES-13</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>

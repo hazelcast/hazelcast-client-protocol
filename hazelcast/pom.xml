@@ -105,9 +105,6 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <arguments>
-                                <argument>${hazelcast.git.branch}</argument>
-                            </arguments>
                             <executable>${basedir}/scripts/cleanDownloaded.sh</executable>
                         </configuration>
                     </execution>
