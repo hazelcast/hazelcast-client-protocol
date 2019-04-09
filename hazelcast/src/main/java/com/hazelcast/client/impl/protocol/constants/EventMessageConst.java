@@ -48,6 +48,7 @@ public final class EventMessageConst {
     public static final int EVENT_IMAPINVALIDATION = 215;
     public static final int EVENT_IMAPBATCHINVALIDATION = 216;
     public static final int EVENT_PARTITIONS = 217;
+    public static final int EVENT_BACKUP = 218;
 
     private EventMessageConst() {
     }

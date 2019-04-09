@@ -391,4 +391,8 @@ public interface ClientMessageTemplate {
     @Since(value = "1.8")
     @Request(id = 20, retryable = true, response = ResponseMessageConst.BOOLEAN)
     Object isFailoverSupported();
+
+    @Since("1.9")
+    @Request(id = 21, retryable = false, response = ResponseMessageConst.STRING, event = EventMessageConst.EVENT_BACKUP)
+    Object localBackupListener();
 }

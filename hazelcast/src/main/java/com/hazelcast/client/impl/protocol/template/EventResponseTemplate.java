@@ -212,4 +212,8 @@ public interface EventResponseTemplate {
     @Since("1.5")
     @EventResponse(EventMessageConst.EVENT_PARTITIONS)
     void Partitions(List<Map.Entry<Address, List<Integer>>> partitions, int partitionStateVersion);
+
+    @Since("1.9")
+    @EventResponse(EventMessageConst.EVENT_BACKUP)
+    void Backup(long backupId);
 }
