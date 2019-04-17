@@ -50,8 +50,6 @@
             <#return "anXid">
         <#case "com.hazelcast.map.impl.querycache.event.QueryCacheEventData">
             <#return "aQueryCacheEventData">
-        <#case "java.util.List<com.hazelcast.mapreduce.JobPartitionState>">
-            <#return "jobPartitionStates">
         <#case "java.util.List<com.hazelcast.map.impl.querycache.event.QueryCacheEventData>">
             <#return "queryCacheEventDatas">
         <#case "java.util.List<com.hazelcast.cache.impl.CacheEventData>">
