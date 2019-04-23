@@ -60,14 +60,14 @@
 
     <properties>
         <!-- Hazelcast branch to download and compile with -->
-        <hazelcast.git.repo>vbekiaris</hazelcast.git.repo>
-        <hazelcast.git.branch>fixes/3.12/connmgr-client</hazelcast.git.branch>
+        <hazelcast.git.repo>vojtechtoman</hazelcast.git.repo>
+        <hazelcast.git.branch>569-reliabletopic-executor</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>8</jdk.version>
         <target.dir>target</target.dir>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -110,6 +110,7 @@
         <powermock.version>1.6.3</powermock.version>
 
         <spotbugs.version>3.1.2</spotbugs.version>
+        <snakeyaml.engine.version>1.0</snakeyaml.engine.version>
 
         <sonar.jacoco.jar>${basedir}/lib/jacocoagent.jar</sonar.jacoco.jar>
         <!--<sonar.phase>post-integration-test</sonar.phase>-->
@@ -380,6 +381,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.9.7</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.snakeyaml</groupId>
+            <artifactId>snakeyaml-engine</artifactId>
+            <version>${snakeyaml.engine.version}</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>

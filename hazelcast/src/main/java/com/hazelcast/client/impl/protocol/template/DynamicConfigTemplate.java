@@ -373,10 +373,13 @@ public interface DynamicConfigTemplate {
      *                              {@code DISCARD_NEWEST}, {@code BLOCK} and {@code ERROR}.
      * @param executor              a serialized {@link java.util.concurrent.Executor} instance to use for executing
      *                              message listeners or {@code null}
+     * @param executorClassName     the class name of a {@link java.util.concurrent.Executor} implementation to use
+     *                              for executing message listeners or {@code null}
      */
     @Request(id = 15, retryable = false, response = ResponseMessageConst.VOID)
     void addReliableTopicConfig(String name, @Nullable List<ListenerConfigHolder> listenerConfigs, int readBatchSize,
-                                boolean statisticsEnabled, String topicOverloadPolicy, @Nullable Data executor);
+                                boolean statisticsEnabled, String topicOverloadPolicy, @Nullable Data executor,
+                                @Since("1.8") @Nullable String executorClassName);
 
     /**
      * Adds a new cache configuration to a running cluster.
