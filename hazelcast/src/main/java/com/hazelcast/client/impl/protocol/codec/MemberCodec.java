@@ -37,7 +37,7 @@ public final class MemberCodec {
         String uuid = clientMessage.getStringUtf8();
         boolean liteMember = clientMessage.getBoolean();
         int attributeSize = clientMessage.getInt();
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, String> attributes = new HashMap<String, String>();
         for (int i = 0; i < attributeSize; i++) {
             String key = clientMessage.getStringUtf8();
             String value = clientMessage.getStringUtf8();
@@ -51,12 +51,11 @@ public final class MemberCodec {
         AddressCodec.encode(member.getAddress(), clientMessage);
         clientMessage.set(member.getUuid());
         clientMessage.set(member.isLiteMember());
-        Map<String, Object> attributes = new HashMap<String, Object>(member.getAttributes());
+        Map<String, String> attributes = new HashMap<String, String>(member.getAttributes());
         clientMessage.set(attributes.size());
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
             clientMessage.set(entry.getKey());
-            Object value = entry.getValue();
-            clientMessage.set(value.toString());
+            clientMessage.set(entry.getValue());
 
         }
     }
@@ -68,12 +67,10 @@ public final class MemberCodec {
         dataSize += Bits.BOOLEAN_SIZE_IN_BYTES;
         // number of attributes field
         dataSize += Bits.INT_SIZE_IN_BYTES;
-        Map<String, Object> attributes = member.getAttributes();
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+        Map<String, String> attributes = member.getAttributes();
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
             dataSize += ParameterUtil.calculateDataSize(entry.getKey());
-            Object value = entry.getValue();
-            //TODO: this is costly to use toString
-            dataSize += ParameterUtil.calculateDataSize(value.toString());
+            dataSize += ParameterUtil.calculateDataSize(entry.getValue());
         }
         return dataSize;
     }
