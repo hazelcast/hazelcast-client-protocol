@@ -24,7 +24,7 @@
     <artifactId>hazelcast-client-protocol-root</artifactId>
     <packaging>pom</packaging>
     <!-- DO NOT CHANGE THIS VERSION, IT IS MODIFIED VIA SCRIPTS IN RELEASE PROCESS ONLY -->
-    <version>1.8.0-8</version>
+    <version>1.8.0</version>
     <name>Hazelcast Client Protocol</name>
     <description>Client Protocol of Hazelcast In-Memory DataGrid</description>
     <url>http://www.hazelcast.com/</url>
@@ -60,8 +60,8 @@
 
     <properties>
         <!-- Hazelcast branch to download and compile with -->
-        <hazelcast.git.repo>vbekiaris</hazelcast.git.repo>
-        <hazelcast.git.branch>fixes/3.12/connmgr-client</hazelcast.git.branch>
+        <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
+        <hazelcast.git.branch>maintenance-3.x</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
