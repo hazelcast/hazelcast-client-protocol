@@ -61,13 +61,13 @@
     <properties>
         <!-- Hazelcast branch to download and compile with -->
         <hazelcast.git.repo>hazelcast</hazelcast.git.repo>
-        <hazelcast.git.branch>maintenance-3.x</hazelcast.git.branch>
+        <hazelcast.git.branch>master</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <target.dir>target</target.dir>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -380,6 +380,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.9.7</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.snakeyaml</groupId>
+            <artifactId>snakeyaml-engine</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
