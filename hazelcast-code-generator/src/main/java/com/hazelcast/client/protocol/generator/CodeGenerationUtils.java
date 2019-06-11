@@ -58,7 +58,7 @@ public final class CodeGenerationUtils {
             put("java.util.Map.Entry", "tuple");
             put("com.hazelcast.nio.Address", "Address");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
             put("com.hazelcast.map.impl.SimpleEntryView", "SimpleEntryView");
         }
@@ -80,7 +80,7 @@ public final class CodeGenerationUtils {
             put("long", "int64");
             put("com.hazelcast.nio.Address", "Address");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
             put("com.hazelcast.map.impl.SimpleEntryView", "DataEntryView");
             put("byte[]", "[]byte");
@@ -113,7 +113,7 @@ public final class CodeGenerationUtils {
             put("boolean", "boolean");
             put("int", "number");
             put("com.hazelcast.nio.Address", "Address");
-            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.Member", "Member");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "any");
             put("java.util.List", "Array");
             put("java.util.Collection", "Array");
@@ -144,7 +144,7 @@ public final class CodeGenerationUtils {
             put("java.util.Map.Entry", "KeyValuePair");
             put("com.hazelcast.nio.Address", "Address");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "DistributedObjectInfo");
-            put("com.hazelcast.core.Member", "Core.IMember");
+            put("com.hazelcast.cluster.Member", "Core.IMember");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "Hazelcast.Client.Request.Cluster.MemberAttributeChange");
             put("com.hazelcast.map.impl.SimpleEntryView", "Hazelcast.Map.SimpleEntryView");
         }
@@ -173,7 +173,7 @@ public final class CodeGenerationUtils {
             put("java.util.Map.Entry", "std::pair");
             put("com.hazelcast.nio.Address", "Address");
             put("com.hazelcast.client.impl.client.DistributedObjectInfo", "impl::DistributedObjectInfo");
-            put("com.hazelcast.core.Member", "Member");
+            put("com.hazelcast.cluster.Member", "Member");
             put("com.hazelcast.cluster.client.MemberAttributeChange", "MemberAttributeChange");
             put("com.hazelcast.map.impl.SimpleEntryView", "EntryView");
             put("java.util.UUID", "util::UUID");

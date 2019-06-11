@@ -22,7 +22,7 @@ import com.hazelcast.annotation.Nullable;
 import com.hazelcast.annotation.Since;
 import com.hazelcast.cache.impl.CacheEventData;
 import com.hazelcast.client.impl.protocol.constants.EventMessageConst;
-import com.hazelcast.core.Member;
+import com.hazelcast.cluster.Member;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
