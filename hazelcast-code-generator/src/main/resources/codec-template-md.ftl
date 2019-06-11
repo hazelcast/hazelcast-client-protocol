@@ -461,7 +461,7 @@ Header only event message, no message body exist.
             <#return "array of byte-array">
         <#case "java.util.List<" + util.DATA_FULL_NAME + ">">
             <#return "array of byte-array">
-        <#case "java.util.List<com.hazelcast.core.Member>">
+        <#case "java.util.List<com.hazelcast.cluster.Member>">
             <#return "array of Member">
         <#case "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>">
             <#return "array of Distributed Object Info">
@@ -479,7 +479,7 @@ Header only event message, no message body exist.
             <#return "array of Entry View">
         <#case "com.hazelcast.nio.Address">
             <#return "Address">
-        <#case "com.hazelcast.core.Member">
+        <#case "com.hazelcast.cluster.Member">
             <#return "Member">
         <#case "javax.transaction.xa.Xid">
             <#return "Transaction Id">

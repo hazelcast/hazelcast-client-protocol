@@ -24,7 +24,7 @@
             <#return "boolean">
         <#case "java.util.List<" + util.DATA_FULL_NAME + ">">
             <#return "datas">
-        <#case "java.util.List<com.hazelcast.core.Member>">
+        <#case "java.util.List<com.hazelcast.cluster.Member>">
             <#return "members">
         <#case "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>">
             <#return "distributedObjectInfos">
@@ -32,7 +32,7 @@
             <#return "aPartitionTable">
         <#case "java.util.List<java.util.Map.Entry<"+ util.DATA_FULL_NAME + "," + util.DATA_FULL_NAME + ">>">
             <#return "aListOfEntry">
-        <#case "java.util.List<java.util.Map.Entry<com.hazelcast.core.Member,java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>">
+        <#case "java.util.List<java.util.Map.Entry<com.hazelcast.cluster.Member,java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>">
             <#return "taskHandlers">
         <#case "com.hazelcast.map.impl.SimpleEntryView<" + util.DATA_FULL_NAME +"," + util.DATA_FULL_NAME +">">
             <#return "anEntryView">
@@ -44,7 +44,7 @@
             <#return "aListOfStringToByteArrEntry">
         <#case "com.hazelcast.nio.Address">
             <#return "anAddress">
-        <#case "com.hazelcast.core.Member">
+        <#case "com.hazelcast.cluster.Member">
             <#return "aMember">
         <#case "javax.transaction.xa.Xid">
             <#return "anXid">
