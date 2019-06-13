@@ -4,7 +4,7 @@
 Some common compound data structures used in the protocol message specification are defined in this section.
 
 ### Array
-In the protocol specification, an array of a data type is frequently used. An array of a data type with n entries 
+In the protocol specification, an array of a data type is frequently used. An array of a data type with n entries
 is encoded as shown below:
 
 |Field|Type|Nullable|Description|
@@ -77,11 +77,11 @@ is encoded as shown below:
 |Enabled|boolean|No|Indicates whether hot restart is enabled|
 |Fsync|boolean|No|When true, disk writes should be followed by an fsync() system call|
 
-### Job Partition State Data Type
+<#-- ### Job Partition State Data Type
 | Field| Type| Nullable| Description|
 |------|-----|---------|------------|
 |Owner Address|Address|No|The address of the partition owner|
-|State value|string|No|Value of the partition state. Possible values are:<br>"WAITING": Partition waits for being calculated. <br>"MAPPING": Partition is in mapping phase. <br>"REDUCING": Partition is in reducing phase (mapping may still not finished when this state is reached since there is a chunked based operation underlying). <br>"PROCESSED": Partition is fully processed <br>"CANCELLED": Partition calculation cancelled due to an internal exception
+|State value|string|No|Value of the partition state. Possible values are:<br>"WAITING": Partition waits for being calculated. <br>"MAPPING": Partition is in mapping phase. <br>"REDUCING": Partition is in reducing phase (mapping may still not finished when this state is reached since there is a chunked based operation underlying). <br>"PROCESSED": Partition is fully processed <br>"CANCELLED": Partition calculation cancelled due to an internal exception -->
 
 ### Listener Config Data Type
 | Field| Type| Nullable| Description|
@@ -325,7 +325,7 @@ The following error codes are defined in the system:
 |TARGET_NOT_MEMBER|56|Indicates operation is sent to a machine that isn't member of the cluster.|
 |TIMEOUT|57|Exception thrown when a blocking operation times out|
 |TOPIC_OVERLOAD|58|Thrown when a publisher wants to write to a topic, but there is not sufficient storage to deal with the event. This exception is only thrown in combination with the reliable topic.|
-|TOPOLOGY_CHANGED|59|Thrown when a topology change happens during the execution of a map reduce job and the com.hazelcast.mapreduce.TopologyChangedStrategy is set to com.hazelcast.mapreduce.TopologyChangedStrategy.CANCEL_RUNNING_OPERATION.|
+<#-- |TOPOLOGY_CHANGED|59|Thrown when a topology change happens during the execution of a map reduce job and the com.hazelcast.mapreduce.TopologyChangedStrategy is set to com.hazelcast.mapreduce.TopologyChangedStrategy.CANCEL_RUNNING_OPERATION.| -->
 |TRANSACTION|60|Thrown when something goes wrong while dealing with transactions and transactional data-structures.|
 |TRANSACTION_NOT_ACTIVE|61|Thrown when an a transactional operation is executed without an active transaction.|
 |TRANSACTION_TIMED_OUT|62|Thrown when a transaction has timed out.|
@@ -485,8 +485,8 @@ Header only event message, no message body exist.
             <#return "Transaction Id">
         <#case "com.hazelcast.map.impl.querycache.event.QueryCacheEventData">
             <#return "Query Cache Event Data">
-        <#case "java.util.List<com.hazelcast.mapreduce.JobPartitionState>">
-            <#return "array of Job Partition State">
+<#--    <#case "java.util.List<com.hazelcast.mapreduce.JobPartitionState>">
+            <#return "array of Job Partition State"> -->
         <#case "java.util.List<com.hazelcast.cache.impl.CacheEventData>">
             <#return "array of Cache Event Data">
         <#case "java.util.List<com.hazelcast.map.impl.querycache.event.QueryCacheEventData>">

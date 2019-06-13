@@ -28,8 +28,6 @@ import com.hazelcast.internal.serialization.impl.HeapData;
 import com.hazelcast.map.impl.SimpleEntryView;
 import com.hazelcast.map.impl.querycache.event.DefaultQueryCacheEventData;
 import com.hazelcast.map.impl.querycache.event.QueryCacheEventData;
-import com.hazelcast.mapreduce.JobPartitionState;
-import com.hazelcast.mapreduce.impl.task.JobPartitionStateImpl;
 import com.hazelcast.nio.Address;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 import com.hazelcast.nio.serialization.Data;

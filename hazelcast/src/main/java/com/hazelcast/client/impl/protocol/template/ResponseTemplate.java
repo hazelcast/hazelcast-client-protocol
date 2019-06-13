@@ -26,7 +26,6 @@ import com.hazelcast.client.impl.protocol.constants.ResponseMessageConst;
 import com.hazelcast.core.Member;
 import com.hazelcast.cp.internal.RaftGroupId;
 import com.hazelcast.map.impl.SimpleEntryView;
-import com.hazelcast.mapreduce.JobPartitionState;
 import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
@@ -138,14 +137,6 @@ public interface ResponseTemplate {
      */
     @Response(ResponseMessageConst.ENTRY_VIEW)
     void EntryView(@Nullable SimpleEntryView<Data, Data> response, @Since("1.7") long maxIdle);
-
-    /**
-     * @param jobPartitionStates The state of the job. See Job Partition State Data Type description for details.
-     * @param processRecords     Number of processed records.
-     * @return The information about the job if exists
-     */
-    @Response(ResponseMessageConst.JOB_PROCESS_INFO)
-    Object JobProcessInfo(List<JobPartitionState> jobPartitionStates, int processRecords);
 
     /***
      * @param tableIndex the last tableIndex processed
