@@ -30,6 +30,7 @@ import com.hazelcast.nio.Address;
 import com.hazelcast.nio.serialization.Data;
 import com.hazelcast.scheduledexecutor.ScheduledTaskHandler;
 
+import javax.transaction.xa.Xid;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -306,5 +307,11 @@ public interface ResponseTemplate {
     @Response(ResponseMessageConst.CLUSTER_METADATA)
     void ClusterMetadata(String name, String version, long clusterTime, int state);
 
+    /**
+     * @param response  The operation result as an array of Xid's
+     */
+    @Since("1.8")
+    @Response(ResponseMessageConst.LIST_XID)
+    void ListXid(List<Xid> response);
 
 }
