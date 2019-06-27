@@ -61,7 +61,7 @@
     <properties>
         <!-- Hazelcast branch to download and compile with -->
         <hazelcast.git.repo>ihsandemir</hazelcast.git.repo>
-        <hazelcast.git.branch>xidCodecChanges</hazelcast.git.branch>
+        <hazelcast.git.branch>removePartitionIdFix</hazelcast.git.branch>
 
         <!-- needed for checkstyle/findbugs -->
         <main.basedir>${project.basedir}</main.basedir>
