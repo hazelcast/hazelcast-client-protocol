@@ -30,9 +30,11 @@ import com.hazelcast.client.impl.protocol.task.dynamicconfig.QueueStoreConfigHol
 import com.hazelcast.client.impl.protocol.task.dynamicconfig.RingbufferStoreConfigHolder;
 import com.hazelcast.config.CacheSimpleConfig.ExpiryPolicyFactoryConfig.TimedExpiryPolicyFactoryConfig;
 import com.hazelcast.config.CacheSimpleEntryListenerConfig;
+import com.hazelcast.config.EventJournalConfig;
 import com.hazelcast.config.HotRestartConfig;
 import com.hazelcast.config.MapAttributeConfig;
 import com.hazelcast.config.MapIndexConfig;
+import com.hazelcast.config.MerkleTreeConfig;
 import com.hazelcast.config.WanReplicationRef;
 import com.hazelcast.nio.serialization.Data;
 
@@ -357,6 +359,8 @@ public interface DynamicConfigTemplate {
                       @Nullable String partitioningStrategyClassName,
                       @Nullable Data partitioningStrategyImplementation,
                       @Nullable HotRestartConfig hotRestartConfig,
+                      @Nullable EventJournalConfig eventJournalConfig,
+                      @Nullable MerkleTreeConfig merkleTreeConfig,
                       @Since("1.6") int mergeBatchSize,
                       @Since("1.8") int metadataPolicy);
 
@@ -428,23 +432,8 @@ public interface DynamicConfigTemplate {
                         @Nullable List<CacheSimpleEntryListenerConfig> cacheEntryListeners,
                         @Nullable EvictionConfigHolder evictionConfig,
                         @Nullable WanReplicationRef wanReplicationRef,
+                        @Nullable EventJournalConfig eventJournalConfig,
                         @Nullable HotRestartConfig hotRestartConfig);
-
-    /**
-     * Adds a new event journal configuration to a running cluster.
-     * If an event journal configuration for the same map or cache name already exists, then
-     * the new configuration is ignored and the existing one is preserved.
-     *
-     * @param mapName           name of {@code IMap} to use as event source
-     * @param cacheName         name of {@code ICache} to use as event source
-     * @param enabled           {@code true} to enable this event journal configuration, otherwise {@code false}
-     * @param capacity          capacity of event journal
-     * @param timeToLiveSeconds time to live (in seconds). This is the time the event journal retains items before removing them
-     *                          from the journal.
-     */
-    @Request(id = 17, retryable = false, response = ResponseMessageConst.VOID)
-    void addEventJournalConfig(@Nullable String mapName, @Nullable String cacheName, boolean enabled, int capacity,
-                               int timeToLiveSeconds);
 
     /**
      * Adds a new flake ID generator configuration to a running cluster.
@@ -518,22 +507,4 @@ public interface DynamicConfigTemplate {
     @Request(id = 22, retryable = false, response = ResponseMessageConst.VOID)
     @Since("1.6")
     void addPNCounterConfig(String name, int replicaCount, boolean statisticsEnabled, @Nullable String quorumName);
-
-
-    /**
-     * Adds a new merkle tree configuration to a running cluster.
-     * If a merkle tree configuration with the given {@code name} already exists, then
-     * the new configuration is ignored and the existing one is preserved.
-     *
-     * @param mapName map name to which this config applies. Map names
-     *                are also matched by pattern and a merkle with map name "default"
-     *                applies to all maps that do not have more specific merkle tree configs.
-     * @param enabled {@code true} to enable this merkle tree configuration, otherwise {@code false}
-     * @param depth   depth of the merkle tree. The depth must be between
-     *                {@value com.hazelcast.config.MerkleTreeConfig#MIN_DEPTH}
-     *                and {@value com.hazelcast.config.MerkleTreeConfig#MAX_DEPTH} (exclusive).
-     */
-    @Request(id = 23, retryable = false, response = ResponseMessageConst.VOID)
-    @Since("1.7")
-    void addMerkleTreeConfig(String mapName, boolean enabled, int depth);
 }
