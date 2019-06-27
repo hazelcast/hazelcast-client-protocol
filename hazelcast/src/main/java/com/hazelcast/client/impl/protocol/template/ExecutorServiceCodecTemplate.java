@@ -45,12 +45,11 @@ public interface ExecutorServiceCodecTemplate {
 
     /**
      * @param uuid        Unique id for the execution.
-     * @param partitionId The id of the partition to execute this cancellation request.
      * @param interrupt   If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
      * @return True if cancelled successfully, false otherwise.
      */
     @Request(id = 3, retryable = false, response = ResponseMessageConst.BOOLEAN, partitionIdentifier = "partitionId")
-    Object cancelOnPartition(String uuid, int partitionId, boolean interrupt);
+    Object cancelOnPartition(String uuid, boolean interrupt);
 
     /**
      * @param uuid      Unique id for the execution.

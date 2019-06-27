@@ -730,27 +730,25 @@ public interface MapCodecTemplate {
      * Fetches specified number of keys from the specified partition starting from specified table index.
      *
      * @param name        Name of the map.
-     * @param partitionId The partition id which owns this record store.
      * @param tableIndex  The slot number (or index) to start the iterator
      * @param batch       The number of items to be batched
      * @return last index processed and list of keys
      */
     @Request(id = 60, retryable = true, response = ResponseMessageConst.CACHE_KEY_ITERATOR_RESULT, partitionIdentifier = "partitionId")
     @Since("1.1")
-    Object fetchKeys(String name, int partitionId, int tableIndex, int batch);
+    Object fetchKeys(String name, int tableIndex, int batch);
 
     /**
      * Fetches specified number of entries from the specified partition starting from specified table index.
      *
      * @param name        Name of the map.
-     * @param partitionId The partition id which owns this record store.
      * @param tableIndex  The slot number (or index) to start the iterator
      * @param batch       The number of items to be batched
      * @return last index processed and list of entries
      */
     @Request(id = 61, retryable = true, response = ResponseMessageConst.ENTRIES_WITH_CURSOR, partitionIdentifier = "partitionId")
     @Since("1.1")
-    Object fetchEntries(String name, int partitionId, int tableIndex, int batch);
+    Object fetchEntries(String name, int tableIndex, int batch);
 
     /**
      * Applies the aggregation logic on all map entries and returns the result
