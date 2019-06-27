@@ -61,6 +61,7 @@ public final class ResponseMessageConst {
     public static final int RAFT_SESSION_RESPONSE = 130;
     public static final int CLUSTER_METADATA = 131;
     public static final int LIST_LONG = 132;
+    public static final int LIST_XID = 133;
 
     private ResponseMessageConst() {
     }
