@@ -1,0 +1,718 @@
+id: 29
+name: ScheduledExecutor
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+- name: shutdown
+  doc: |
+     Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
+     Invocation has no additional effect if already shut down.
+  request:
+    id: 0x1d01
+    retryable: false
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           Name of the scheduler.
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The cluster member where the shutdown for this scheduler will be sent.
+  response:
+    id: 0x0064
+    doc: |
+       TODO DOC
+- name: submitToPartition
+  doc: |
+     Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
+  request:
+    id: 0x1d02
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: type
+        type: byte
+        nullable: false
+        since: 2.0
+        doc: |
+           type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: task
+        type: Data
+        nullable: false
+        since: 2.0
+        doc: |
+           Name The name of the task
+      - name: initialDelayInMillis
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           initial delay in milliseconds
+      - name: periodInMillis
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           period between each run in milliseconds
+  response:
+    id: 0x0064
+    doc: |
+       TODO DOC
+- name: submitToAddress
+  doc: |
+     Submits the task to a member for execution, member is provided in the form of an address.
+  request:
+    id: 0x1d03
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+      - name: type
+        type: byte
+        nullable: false
+        since: 2.0
+        doc: |
+           type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: task
+        type: Data
+        nullable: false
+        since: 2.0
+        doc: |
+           Name The name of the task
+      - name: initialDelayInMillis
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           initial delay in milliseconds
+      - name: periodInMillis
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           period between each run in milliseconds
+  response:
+    id: 0x0064
+    doc: |
+       TODO DOC
+- name: getAllScheduledFutures
+  doc: |
+     Returns all scheduled tasks in for a given scheduler in the given member.
+  request:
+    id: 0x1d04
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+  response:
+    id: 0x0079
+    doc: |
+       A list of scheduled task handlers used to construct the future proxies.
+    params:
+      - name: handlers
+        type: Map_Member_List_ScheduledTaskHandler
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getStatsFromPartition
+  doc: |
+     Returns statistics of the task
+  request:
+    id: 0x1d05
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0078
+    doc: |
+       A snapshot of the task statistics
+    params:
+      - name: lastIdleTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalIdleTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalRuns
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalRunTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: lastRunDurationNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getStatsFromAddress
+  doc: |
+     Returns statistics of the task
+  request:
+    id: 0x1d06
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0078
+    doc: |
+       A snapshot of the task statistics
+    params:
+      - name: lastIdleTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalIdleTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalRuns
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: totalRunTimeNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+      - name: lastRunDurationNanos
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getDelayFromPartition
+  doc: |
+     Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
+  request:
+    id: 0x1d07
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0067
+    doc: |
+       The remaining delay of the task formatted in nanoseconds.
+    params:
+      - name: response
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getDelayFromAddress
+  doc: |
+     Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
+  request:
+    id: 0x1d08
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0067
+    doc: |
+       The remaining delay of the task formatted in nanoseconds.
+    params:
+      - name: response
+        type: long
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: cancelFromPartition
+  doc: |
+     Cancels further execution and scheduling of the task
+  request:
+    id: 0x1d09
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: mayInterruptIfRunning
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           A boolean flag to indicate whether the task should be interrupted.
+  response:
+    id: 0x0065
+    doc: |
+       True if the task was cancelled
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: cancelFromAddress
+  doc: |
+     Cancels further execution and scheduling of the task
+  request:
+    id: 0x1d0a
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+      - name: mayInterruptIfRunning
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           A boolean flag to indicate whether the task should be interrupted.
+  response:
+    id: 0x0065
+    doc: |
+       True if the task was cancelled
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: isCancelledFromPartition
+  doc: |
+     Checks whether a task as identified from the given handler is already cancelled.
+  request:
+    id: 0x1d0b
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0065
+    doc: |
+       True if the task is cancelled
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: isCancelledFromAddress
+  doc: |
+     Checks whether a task as identified from the given handler is already cancelled.
+  request:
+    id: 0x1d0c
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0065
+    doc: |
+       True if the task is cancelled
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: isDoneFromPartition
+  doc: |
+     Checks whether a task is done.
+     @see {@link java.util.concurrent.Future#cancel(boolean)}
+  request:
+    id: 0x1d0d
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0065
+    doc: |
+       True if the task is done
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: isDoneFromAddress
+  doc: |
+     Checks whether a task is done.
+     @see {@link java.util.concurrent.Future#cancel(boolean)}
+  request:
+    id: 0x1d0e
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0065
+    doc: |
+       True if the task is done
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getResultFromPartition
+  doc: |
+     Fetches the result of the task ({@link java.util.concurrent.Callable})
+     The call will blocking until the result is ready.
+  request:
+    id: 0x1d0f
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0069
+    doc: |
+       The result of the completed task, in serialized form ({
+    params:
+      - name: response
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: getResultFromAddress
+  doc: |
+     Fetches the result of the task ({@link java.util.concurrent.Callable})
+     The call will blocking until the result is ready.
+  request:
+    id: 0x1d10
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0069
+    doc: |
+       The result of the completed task, in serialized form ({
+    params:
+      - name: response
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: disposeFromPartition
+  doc: |
+     Dispose the task from the scheduler
+  request:
+    id: 0x1d11
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: taskName
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+  response:
+    id: 0x0064
+    doc: |
+       TODO DOC
+- name: disposeFromAddress
+  doc: |
+     Dispose the task from the scheduler
+  request:
+    id: 0x1d12
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the scheduler.
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of the task
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+        doc: |
+           The address of the member where the task will get scheduled.
+  response:
+    id: 0x0064
+    doc: |
+       TODO DOC
