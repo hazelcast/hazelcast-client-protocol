@@ -34,9 +34,9 @@ import static com.hazelcast.client.impl.protocol.ClientMessage.*;
 {% if method.events|length != 0 %}
 import com.hazelcast.logging.Logger;
 {% endif %}
-{% for event in method.events%}
-import static com.hazelcast.client.impl.protocol.EventMessageConst.EVENT_{{to_upper_snake_case(event.name)}};
-{% endfor %}
+{#{% for event in method.events%}#}
+{#import static com.hazelcast.client.impl.protocol.EventMessageConst.EVENT_{{to_upper_snake_case(event.name)}};#}
+{#{% endfor %}#}
 
 /**
 {% for line in method.doc.splitlines() %}
@@ -49,19 +49,17 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for param in fixed_params(method.request.params) %}
         private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
         {% if loop.last %}
-        private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+        private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypesCodec.LONG_SIZE_IN_BYTES;
         {% endif %}
     {% else %}
-        private static final int REQUEST_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+        private static final int REQUEST_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + FixedSizeTypesCodec.LONG_SIZE_IN_BYTES;
     {% endfor %}
-        private static final int REQUEST_MESSAGE_TYPE = {{ method.response.id }};{#{{ service_name|capital }}Type.{{ service_name|upper }}_{{ to_upper_snake_case(method.name) }}.id();#}
-
+        public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};//hex: {{ '0x%04X,'|format(method.request.id) }}
     {% for param in fixed_params(method.response.params) %}
-        public static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
+        private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
     {% endfor %}
         private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + FixedSizeTypesCodec.LONG_SIZE_IN_BYTES;
-        private static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};{#{{ service_name|capital }}Type.{{ service_name|upper }}_{{ to_upper_snake_case(method.name) }}.id();#}
-
+        public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(method.response.id) }}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
         private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
@@ -71,6 +69,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% else %}
         private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
     {% endfor %}
+        public static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(event.id) }}
 {% endfor %}
 
 {#REQUEST PARAMETERS#}
@@ -91,7 +90,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
         clientMessage.setAcquiresResource({{ method.request.acquiresResource|lower }});
-        clientMessage.setOperationName("{{ service_name|capital }}{{ method.name|capital }}");
+        clientMessage.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, REQUEST_MESSAGE_TYPE);
     {% for param in fixed_params(method.request.params) %}
@@ -177,7 +176,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         initialFrame.flags |= ClientMessage.IS_EVENT;
-        FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, EVENT_{{to_upper_snake_case(event.name)}});
+        FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE);
     {% for param in fixed_params(event.params) %}
         FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
@@ -196,7 +195,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
             Iterator<ClientMessage.Frame> iterator = clientMessage.iterator();
             ClientMessage.Frame frame;
         {% for event in method.events%}
-            if (messageType == EVENT_{{to_upper_snake_case(event.name)}}) {
+            if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
                 frame = iterator.next();
             {% for param in fixed_params(event.params) %}
                 {{ lang_types[param.type] }} {{param.name}} = FixedSizeTypesCodec.decode{{ param.type|capital }}(frame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
