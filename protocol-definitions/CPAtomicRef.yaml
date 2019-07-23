@@ -1,0 +1,221 @@
+id: 36
+name: CPAtomicRef
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+- name: apply
+  doc: |
+     Applies a function on the value
+  request:
+    id: 0x2401
+    retryable: false
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.0
+        doc: |
+           CP group id of this IAtomicReference instance.
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           The name of this IAtomicReference instance.
+      - name: function
+        type: Data
+        nullable: false
+        since: 2.0
+        doc: |
+           The function applied to the value.
+      - name: returnValueType
+        type: int
+        nullable: false
+        since: 2.0
+        doc: |
+           0 returns no value, 1 returns the old value,
+           2 returns the new value
+      - name: alter
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           Denotes whether result of the function will be
+           set to the IAtomicRefInstance
+  response:
+    id: 0x0069
+    doc: |
+       The result of the function application.
+    params:
+      - name: response
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: compareAndSet
+  doc: |
+     Alters the currently stored value by applying a function on it.
+  request:
+    id: 0x2402
+    retryable: false
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.0
+        doc: |
+           CP group id of this IAtomicReference instance.
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           Name of this IAtomicReference instance.
+      - name: oldValue
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           The expected value
+      - name: newValue
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           The new value
+  response:
+    id: 0x0065
+    doc: |
+       true if successful; or false if the actual value
+       was not equal to the expected value.
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: contains
+  doc: |
+     Checks if the reference contains the value.
+  request:
+    id: 0x2403
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.0
+        doc: |
+           CP group id of this IAtomicReference instance.
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           Name of this IAtomicReference instance.
+      - name: value
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           The value to check (is allowed to be null).
+  response:
+    id: 0x0065
+    doc: |
+       true if the value is found, false otherwise.
+    params:
+      - name: response
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: get
+  doc: |
+     Gets the current value.
+  request:
+    id: 0x2405
+    retryable: true
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.0
+        doc: |
+           CP group id of this IAtomicReference instance.
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           Name of this IAtomicReference instance.
+  response:
+    id: 0x0069
+    doc: |
+       The current value
+    params:
+      - name: response
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           TODO DOC
+- name: set
+  doc: |
+     Atomically sets the given value
+  request:
+    id: 0x2406
+    retryable: false
+    acquiresResource: false
+    partitionIdentifier: -1
+    since: 2.0
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.0
+        doc: |
+           CP group id of this IAtomicReference instance.
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+        doc: |
+           Name of this IAtomicReference instance.
+      - name: newValue
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           The value to set
+      - name: returnOldValue
+        type: boolean
+        nullable: false
+        since: 2.0
+        doc: |
+           Denotes whether the old value is returned or not
+  response:
+    id: 0x0069
+    doc: |
+       the old value or null, depending on
+       the {
+    params:
+      - name: response
+        type: Data
+        nullable: true
+        since: 2.0
+        doc: |
+           TODO DOC

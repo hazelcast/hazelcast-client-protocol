@@ -1,0 +1,219 @@
+/**
+ * Copyright (c) 2008-2019, Hazelcast, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.hazelcast.client.impl.protocol.codec;
+
+import com.hazelcast.client.impl.protocol.ClientMessage;
+{#import com.hazelcast.client.impl.protocol.codecs.builtin.FixedSizeTypesCodec;#}
+import com.hazelcast.client.impl.protocol.codec.builtin.*;
+{#import com.hazelcast.internal.serialization.impl.HeapData;#}
+{#import com.hazelcast.nio.serialization.Data;#}
+
+import java.util.Iterator;
+
+import static com.hazelcast.client.impl.protocol.ClientMessage.*;
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.CORRELATION_ID_FIELD_OFFSET;#}
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.DEFAULT_FLAGS;#}
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.NULL_FRAME;#}
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.TYPE_FIELD_OFFSET;#}
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.UNFRAGMENTED_MESSAGE;#}
+{#import static com.hazelcast.client.impl.protocol.ClientMessage.PARTITION_ID_FIELD_OFFSET;#}
+{% if method.events|length != 0 %}
+import com.hazelcast.logging.Logger;
+{% endif %}
+{% for event in method.events%}
+import static com.hazelcast.client.impl.protocol.EventMessageConst.EVENT_{{to_upper_snake_case(event.name)}};
+{% endfor %}
+
+/**
+{% for line in method.doc.splitlines() %}
+ * {{ line }}
+{% endfor %}
+ */
+public class {{ service_name|capital }}{{ method.name|capital }}Codec {
+
+{#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
+    {% for param in fixed_params(method.request.params) %}
+        private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
+        {% if loop.last %}
+        private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+        {% endif %}
+    {% else %}
+        private static final int REQUEST_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+    {% endfor %}
+        private static final int REQUEST_MESSAGE_TYPE = {{ method.response.id }};{#{{ service_name|capital }}Type.{{ service_name|upper }}_{{ to_upper_snake_case(method.name) }}.id();#}
+
+    {% for param in fixed_params(method.response.params) %}
+        public static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
+    {% endfor %}
+        private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + FixedSizeTypesCodec.LONG_SIZE_IN_BYTES;
+        private static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};{#{{ service_name|capital }}Type.{{ service_name|upper }}_{{ to_upper_snake_case(method.name) }}.id();#}
+
+{% for event in method.events%}
+    {% for param in fixed_params(event.params) %}
+        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + FixedSizeTypesCodec.{{param.type.upper()}}_SIZE_IN_BYTES;
+        {% if loop.last %}
+        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+        {% endif %}
+    {% else %}
+        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + FixedSizeTypesCodec.INT_SIZE_IN_BYTES;
+    {% endfor %}
+{% endfor %}
+
+{#REQUEST PARAMETERS#}
+    public static class RequestParameters {
+    {% for param in method.request.params %}
+
+        /**
+        {% for line in param.doc.splitlines() %}
+         * {{ line }}
+        {% endfor %}
+         */
+        public {{ lang_types[param.type] }} {{ param.name }};
+    {% endfor %}
+    }
+
+{#REQUEST_ENCODE#}
+    public static ClientMessage encodeRequest({% for param in method.request.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        ClientMessage clientMessage = ClientMessage.createForEncode();
+        clientMessage.setRetryable({{ method.request.retryable|lower }});
+        clientMessage.setAcquiresResource({{ method.request.acquiresResource|lower }});
+        clientMessage.setOperationName("{{ service_name|capital }}{{ method.name|capital }}");
+        ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
+        FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, REQUEST_MESSAGE_TYPE);
+    {% for param in fixed_params(method.request.params) %}
+        FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+        clientMessage.addFrame(initialFrame);
+    {% for param in var_size_params(method.request.params) %}
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+    {% endfor %}
+        return clientMessage;
+    }
+
+{#REQUEST_DECODE#}
+    public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
+        Iterator<ClientMessage.Frame> iterator = clientMessage.getFrames().iterator();
+        RequestParameters request = new RequestParameters();
+    {% if  fixed_params(method.request.params)|length != 0 %}
+        ClientMessage.Frame initialFrame = iterator.next();
+    {% else %}
+        iterator.next();//empty initial frame
+    {% endif %}
+    {% for param in fixed_params(method.request.params) %}
+        request.{{ param.name }} = FixedSizeTypesCodec.decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% endfor %}
+    {% for param in var_size_params(method.request.params) %}
+        request.{{ param.name }} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+    {% endfor %}
+        return request;
+    }
+
+{#RESPONSE PARAMETERS#}
+    public static class ResponseParameters {
+{% for param in method.response.params %}
+
+        /**
+        {% for line in param.doc.splitlines() %}
+         * {{ line }}
+        {% endfor %}
+         */
+        public {{ lang_types[param.type] }} {{ param.name }};
+{% endfor %}
+    }
+
+{#RESPONSE ENCODE#}
+    public static ClientMessage encodeResponse({% for param in method.response.params %}{{ lang_types[param.type] }} {{param.name}}{% endfor %}) {
+        ClientMessage clientMessage = ClientMessage.createForEncode();
+        ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
+        FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
+        clientMessage.addFrame(initialFrame);
+
+    {% for param in fixed_params(method.response.params) %}
+        FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+    {% for param in var_size_params(method.response.params) %}
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+    {% endfor %}
+        return clientMessage;
+    }
+
+{#RESPONSE DECODE#}
+    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
+        Iterator<ClientMessage.Frame> iterator = clientMessage.getFrames().iterator();
+        ResponseParameters response = new ResponseParameters();
+        {% if  fixed_params(method.response.params)|length != 0 %}
+        ClientMessage.Frame initialFrame = iterator.next();
+        {% else %}
+        iterator.next();//empty initial frame
+        {% endif %}
+    {% for param in fixed_params(method.response.params) %}
+        response.{{ param.name }} = FixedSizeTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% endfor %}
+
+    {% for param in var_size_params(method.response.params) %}
+        response.{{ param.name }} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+    {% endfor %}
+        return response;
+    }
+
+{# EVENTS#}
+{% if method.events|length != 0 %}
+{% for event in method.events%}
+    public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        ClientMessage clientMessage = ClientMessage.createForEncode();
+        ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
+        initialFrame.flags |= ClientMessage.IS_EVENT;
+        FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, EVENT_{{to_upper_snake_case(event.name)}});
+    {% for param in fixed_params(event.params) %}
+        FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+        clientMessage.addFrame(initialFrame);
+    {% for param in var_size_params(event.params) %}
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+    {% endfor %}
+        return clientMessage;
+    }
+    {% endfor %}
+
+    public abstract static class AbstractEventHandler {
+
+        public void handle(ClientMessage clientMessage) {
+            int messageType = clientMessage.getMessageType();
+            Iterator<ClientMessage.Frame> iterator = clientMessage.iterator();
+            ClientMessage.Frame frame;
+        {% for event in method.events%}
+            if (messageType == EVENT_{{to_upper_snake_case(event.name)}}) {
+                frame = iterator.next();
+            {% for param in fixed_params(event.params) %}
+                {{ lang_types[param.type] }} {{param.name}} = FixedSizeTypesCodec.decode{{ param.type|capital }}(frame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+            {% endfor %}
+            {% for param in var_size_params(event.params) %}
+                {{ lang_types[param.type] }} {{param.name}} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+                //for (frame = iterator.next(); !frame.isDataStructureEndFrame(); frame = iterator.next()) { }
+            {% endfor %}
+                handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+                return;
+            }
+        {% endfor %}
+            Logger.getLogger(super.getClass()).finest("Unknown message type received on event handler :" + messageType);
+        }
+    {% for event in method.events%}
+        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+    {% endfor %}
+    }
+{% endif %}
+}
