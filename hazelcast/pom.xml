@@ -27,7 +27,7 @@
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-client-protocol-root</artifactId>
         <!-- DO NOT CHANGE THIS VERSION, IT IS MODIFIED VIA SCRIPTS IN RELEASE PROCESS ONLY -->
-        <version>2.0.0-3</version>
+        <version>2.0.0-4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
