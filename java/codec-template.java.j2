@@ -136,7 +136,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE ENCODE#}
-    public static ClientMessage encodeResponse({% for param in method.response.params %}{{ lang_types[param.type] }} {{param.name}}{% endfor %}) {
+    public static ClientMessage encodeResponse({% for param in method.response.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
