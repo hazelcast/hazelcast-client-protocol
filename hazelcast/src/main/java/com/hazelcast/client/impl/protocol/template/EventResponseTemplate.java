@@ -47,7 +47,8 @@ public interface EventResponseTemplate {
     void Member(Member member, int eventType);
 
     /**
-     * @param uuid          Unique user id of the member serve
+     * @param member        The member whose attribute changed
+     * @param members       The list of members in the cluster
      * @param key           Name of the attribute changed
      * @param operationType Type of the change. Possible values are:
      *                      1: An attribute is added
@@ -56,7 +57,7 @@ public interface EventResponseTemplate {
      *                      otherwise this field is not transferred at all
      */
     @EventResponse(EventMessageConst.EVENT_MEMBERATTRIBUTECHANGE)
-    void MemberAttributeChange(String uuid, String key, int operationType, @Nullable String value);
+    void MemberAttributeChange(Member member, List<Member> members, String key, int operationType, @Nullable String value);
 
     /**
      * @param members The list of members in the cluster. It is used to retrieve the initial list in the cluster when the client
