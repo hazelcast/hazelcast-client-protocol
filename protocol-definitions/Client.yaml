@@ -346,8 +346,14 @@ methods:
     - id: 0x00ca
       name: MemberAttributeChange
       params:
-        - name: uuid
-          type: String
+        - name: member
+          type: Member
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: members
+          type: List_Member
           nullable: false
           since: 2.0
           doc: |

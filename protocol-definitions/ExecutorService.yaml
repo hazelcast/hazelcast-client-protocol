@@ -66,12 +66,6 @@ methods:
         since: 2.0
         doc: |
            Unique id for the execution.
-      - name: partitionId
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the partition to execute this cancellation request.
       - name: interrupt
         type: boolean
         nullable: false
