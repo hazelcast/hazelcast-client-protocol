@@ -32,12 +32,12 @@ methods:
     partitionIdentifier: -1
     since: 2.0
   response:
-    id: 0x006a
+    id: 0x0085
     doc: |
        Array of Xids.
     params:
       - name: response
-        type: List_Data
+        type: List_Xid
         nullable: false
         since: 2.0
         doc: |

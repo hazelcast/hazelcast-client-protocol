@@ -6,7 +6,7 @@ from util import *
 
 start = time.time()
 
-hazelcast_project_root = "../hazelcast3"
+hazelcast_project_root = "../hazelcast4"
 output_dir = hazelcast_project_root + "/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/"
 
 # Pwd

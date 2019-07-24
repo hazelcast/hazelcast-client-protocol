@@ -32,9 +32,6 @@ def create_environment(lang):
     env.globals["lang_types_encode"] = java_types_encode
     env.globals["lang_types_decode"] = java_types_decode
     env.globals["lang_name"] = java_name
-    # env.globals["item_type"] = item_type
-    # env.globals["value_type"] = value_type
-    # env.globals["key_type"] = key_type
     return env
 
 
@@ -46,18 +43,6 @@ FixedLengthTypes = [
     "UUID"
 ]
 
-
-# def item_type(param_type):
-#     return param_type.split("_", 2)[1]
-#
-#
-# def key_type(param_type):
-#     return param_type.split("_", 3)[1]
-#
-#
-# def value_type(param_type):
-#     return param_type.split("_", 3)[2]
-#
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
