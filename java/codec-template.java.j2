@@ -81,12 +81,12 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
          * {{ line }}
         {% endfor %}
          */
-        public {{ lang_types[param.type] }} {{ param.name }};
+        public {{ lang_types_decode(param.type) }} {{ param.name }};
     {% endfor %}
     }
 
 {#REQUEST_ENCODE#}
-    public static ClientMessage encodeRequest({% for param in method.request.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encodeRequest({% for param in method.request.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
         clientMessage.setAcquiresResource({{ method.request.acquiresResource|lower }});
@@ -130,12 +130,12 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
          * {{ line }}
         {% endfor %}
          */
-        public {{ lang_types[param.type] }} {{ param.name }};
+        public {{ lang_types_decode(param.type) }} {{ param.name }};
 {% endfor %}
     }
 
 {#RESPONSE ENCODE#}
-    public static ClientMessage encodeResponse({% for param in method.response.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encodeResponse({% for param in method.response.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         FixedSizeTypesCodec.encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
@@ -172,7 +172,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {# EVENTS#}
 {% if method.events|length != 0 %}
 {% for event in method.events%}
-    public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         initialFrame.flags |= ClientMessage.IS_EVENT;
@@ -198,10 +198,10 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
                 frame = iterator.next();
             {% for param in fixed_params(event.params) %}
-                {{ lang_types[param.type] }} {{param.name}} = FixedSizeTypesCodec.decode{{ param.type|capital }}(frame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+                {{ lang_types_decode(param.type) }} {{param.name}} = FixedSizeTypesCodec.decode{{ param.type|capital }}(frame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
             {% endfor %}
             {% for param in var_size_params(event.params) %}
-                {{ lang_types[param.type] }} {{param.name}} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+                {{ lang_types_decode(param.type) }} {{param.name}} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
                 //for (frame = iterator.next(); !frame.isDataStructureEndFrame(); frame = iterator.next()) { }
             {% endfor %}
                 handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
@@ -211,7 +211,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
             Logger.getLogger(super.getClass()).finest("Unknown message type received on event handler :" + messageType);
         }
     {% for event in method.events%}
-        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types[param.type] }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
     {% endfor %}
     }
 {% endif %}

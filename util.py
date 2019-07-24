@@ -2,7 +2,7 @@ import os
 import yaml
 import re
 from jinja2 import Environment, PackageLoader
-from java import java_types
+from java import java_types_encode, java_types_decode
 
 
 def load_services(protocol_def_dir):
@@ -29,35 +29,35 @@ def create_environment(lang):
     env.globals["to_upper_snake_case"] = to_upper_snake_case
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
-    env.globals["lang_types"] = java_types
+    env.globals["lang_types_encode"] = java_types_encode
+    env.globals["lang_types_decode"] = java_types_decode
     env.globals["lang_name"] = java_name
-    env.globals["item_type"] = item_type
-    env.globals["value_type"] = value_type
-    env.globals["key_type"] = key_type
+    # env.globals["item_type"] = item_type
+    # env.globals["value_type"] = value_type
+    # env.globals["key_type"] = key_type
     return env
 
 
 FixedLengthTypes = [
     "boolean",
+    "byte",
     "int",
     "long",
-    "byte",
-    "Integer",
     "UUID"
 ]
 
 
-def item_type(param_type):
-    return param_type.split("_", 2)[1]
-
-
-def key_type(param_type):
-    return param_type.split("_", 3)[1]
-
-
-def value_type(param_type):
-    return param_type.split("_", 3)[2]
-
+# def item_type(param_type):
+#     return param_type.split("_", 2)[1]
+#
+#
+# def key_type(param_type):
+#     return param_type.split("_", 3)[1]
+#
+#
+# def value_type(param_type):
+#     return param_type.split("_", 3)[2]
+#
 
 def java_name(type_name):
     return type_name.replace("_", "").replace("(", "").replace(")", "")
