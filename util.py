@@ -60,7 +60,7 @@ FixedLengthTypes = [
 #
 
 def java_name(type_name):
-    return type_name.replace("_", "").replace("(", "").replace(")", "")
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
 def is_fixed_type(param):
