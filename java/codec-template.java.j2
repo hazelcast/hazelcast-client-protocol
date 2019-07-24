@@ -145,7 +145,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
     {% for param in var_size_params(method.response.params) %}
-        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+        {{ lang_name(param.type)|capital }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
     {% endfor %}
         return clientMessage;
     }
@@ -164,7 +164,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
 
     {% for param in var_size_params(method.response.params) %}
-        response.{{ param.name }} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+        response.{{ param.name }} = {{ lang_name(param.type)|capital }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
     {% endfor %}
         return response;
     }
