@@ -1,4 +1,18 @@
-java_types = {
+def java_types_encode(key):
+    try:
+        return _java_types_encode[key]
+    except KeyError:
+        return _java_types_common[key]
+
+
+def java_types_decode(key):
+    try:
+        return _java_types_decode[key]
+    except KeyError:
+        return _java_types_common[key]
+
+
+_java_types_common = {
     "boolean": "boolean",
     "int": "int",
     "long": "long",
@@ -33,8 +47,35 @@ java_types = {
     "MapAttributeConfig": "com.hazelcast.config.MapAttributeConfig",
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",
-    "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.ScheduledTaskHandler",
+    "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.ScheduledTaskHandler"
+}
 
+_java_types_encode = {
+    "List_Long": "java.util.Collection<java.lang.Long>",
+    "List_UUID": "java.util.Collection<java.util.UUID>",
+    "List_String": "java.util.Collection<java.lang.String>",
+    "List_Data": "java.util.Collection<com.hazelcast.nio.serialization.Data>",
+    "List_Member": "java.util.Collection<com.hazelcast.cluster.Member>",
+    "List_CacheEventData": "java.util.Collection<com.hazelcast.cache.impl.CacheEventData>",
+    "List_QueryCacheConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder>",
+    "List_DistributedObjectInfo": "java.util.Collection<com.hazelcast.client.impl.client.DistributedObjectInfo>",
+    "List_QueryCacheEventData": "java.util.Collection<com.hazelcast.map.impl.querycache.event.QueryCacheEventData>",
+    "List_MapIndexConfig": "java.util.Collection<com.hazelcast.config.MapIndexConfig>",
+    "List_MapAttributeConfig": "java.util.Collection<com.hazelcast.config.MapAttributeConfig>",
+    "List_ListenerConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
+    "List_CacheSimpleEntryListenerConfig": "java.util.Collection<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
+
+    "Map_String_String": "java.util.Set<java.util.Map.Entry<java.lang.String,java.lang.String>>",
+    "Map_String_byteArray": "java.util.Set<java.util.Map.Entry<java.lang.String,byte[]>>",
+    "Map_Integer_UUID": "java.util.Set<java.util.Map.Entry<java.lang.Integer,java.util.UUID>>",
+    "Map_String_Long": "java.util.Set<java.util.Map.Entry<java.lang.String,java.lang.Long>>",
+    "Map_String_Map_Integer_Long": "java.util.Set<java.util.Map.Entry<java.lang.String,java.util.List<java.util.Map.Entry<java.lang.Integer,java.lang.Long>>>>",
+    "Map_Address_List_Integer": "java.util.Set<java.util.Map.Entry<com.hazelcast.nio.Address,java.util.List<java.lang.Integer>>>",
+    "Map_Data_Data": "java.util.Set<java.util.Map.Entry<com.hazelcast.nio.serialization.Data,com.hazelcast.nio.serialization.Data>>",
+    "Map_Member_List_ScheduledTaskHandler": "java.util.Set<java.util.Map.Entry<com.hazelcast.cluster.Member,java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>"
+}
+
+_java_types_decode = {
     "List_Long": "java.util.List<java.lang.Long>",
     "List_UUID": "java.util.List<java.util.UUID>",
     "List_String": "java.util.List<java.lang.String>",
