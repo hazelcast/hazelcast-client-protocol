@@ -619,12 +619,6 @@ methods:
         since: 2.0
         doc: |
            Name of the cache.
-      - name: partitionId
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The partition id which owns this cache store.
       - name: tableIndex
         type: int
         nullable: false
@@ -1221,12 +1215,6 @@ methods:
         since: 2.0
         doc: |
            Name of the cache.
-      - name: partitionId
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The partition id which owns this cache store.
       - name: tableIndex
         type: int
         nullable: false

@@ -82,6 +82,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% endfor %}
          */
         public {{ lang_types_decode(param.type) }} {{ param.name }};
+        public boolean {{ param.name }}Exist;
     {% endfor %}
     }
 
@@ -131,6 +132,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% endfor %}
          */
         public {{ lang_types_decode(param.type) }} {{ param.name }};
+        public boolean {{ param.name }}Exist;
 {% endfor %}
     }
 

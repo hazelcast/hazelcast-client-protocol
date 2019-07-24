@@ -2444,12 +2444,6 @@ methods:
         since: 2.0
         doc: |
            Name of the map.
-      - name: partitionId
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The partition id which owns this record store.
       - name: tableIndex
         type: int
         nullable: false
@@ -2495,12 +2489,6 @@ methods:
         since: 2.0
         doc: |
            Name of the map.
-      - name: partitionId
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The partition id which owns this record store.
       - name: tableIndex
         type: int
         nullable: false
