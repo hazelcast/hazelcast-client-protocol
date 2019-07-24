@@ -98,7 +98,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         clientMessage.addFrame(initialFrame);
     {% for param in var_size_params(method.request.params) %}
-        {{ lang_name(param.type)|capital }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
     {% endfor %}
         return clientMessage;
     }
@@ -116,7 +116,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         request.{{ param.name }} = FixedSizeTypesCodec.decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
     {% endfor %}
     {% for param in var_size_params(method.request.params) %}
-        request.{{ param.name }} = {{ lang_name(param.type)|capital }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+        request.{{ param.name }} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
     {% endfor %}
         return request;
     }
@@ -145,7 +145,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         FixedSizeTypesCodec.encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
     {% for param in var_size_params(method.response.params) %}
-        {{ lang_name(param.type)|capital }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
     {% endfor %}
         return clientMessage;
     }
@@ -164,7 +164,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
 
     {% for param in var_size_params(method.response.params) %}
-        response.{{ param.name }} = {{ lang_name(param.type)|capital }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+        response.{{ param.name }} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
     {% endfor %}
         return response;
     }
@@ -182,7 +182,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         clientMessage.addFrame(initialFrame);
     {% for param in var_size_params(event.params) %}
-        {{ lang_name(param.type)|capital }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
+        {{ lang_name(param.type) }}Codec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }});
     {% endfor %}
         return clientMessage;
     }
@@ -202,7 +202,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
             {% endfor %}
             {% for param in var_size_params(event.params) %}
                 {{ lang_types_decode(param.type) }} {{param.name}} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
-                {{ lang_types[param.type] }} {{param.name}} = {{ lang_name(param.type)|capital }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
+                {{ lang_types[param.type] }} {{param.name}} = {{ lang_name(param.type) }}Codec.decode{% if param.nullable %}Nullable{% endif %}(iterator);
                 //for (frame = iterator.next(); !frame.isDataStructureEndFrame(); frame = iterator.next()) { }
             {% endfor %}
                 handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
