@@ -29,9 +29,15 @@ def create_environment(lang):
     env.globals["to_upper_snake_case"] = to_upper_snake_case
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
+    env.globals["is_var_sized_list"] = is_var_sized_list
+    env.globals["is_var_sized_map"] = is_var_sized_map
+    env.globals["item_type"] = item_type
+    env.globals["key_type"] = key_type
+    env.globals["value_type"] = value_type
     env.globals["lang_types_encode"] = java_types_encode
     env.globals["lang_types_decode"] = java_types_decode
     env.globals["lang_name"] = java_name
+
     return env
 
 
@@ -41,6 +47,18 @@ FixedLengthTypes = [
     "int",
     "long",
     "UUID"
+]
+
+FixedMapTypes = [
+    'Map_Integer_UUID',
+    'Map_String_Long',
+    'Map_Integer_Long'
+]
+
+FixedListTypes = [
+    'List_Integer',
+    'List_Long',
+    'List_UUID'
 ]
 
 
@@ -82,3 +100,26 @@ def generate_codecs(service, template, output_dir, lang):
     for method in service["methods"]:
         content = template.render(service_name=service["name"], method=method)
         save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + lang, content)
+
+
+def item_type(param_type):
+    if param_type.startswith("List_"):
+        return java_name(param_type.split('_', 1)[1])
+
+
+def key_type(param_type):
+    if param_type.startswith("Map_"):
+        return java_name(param_type.split('_', 2)[1])
+
+
+def value_type(param_type):
+    if param_type.startswith("Map_"):
+        return java_name(param_type.split('_', 2)[2])
+
+
+def is_var_sized_list(param_type):
+    return param_type.startswith("List_") and param_type not in FixedListTypes
+
+
+def is_var_sized_map(param_type):
+    return param_type.startswith("Map_") and param_type not in FixedMapTypes
