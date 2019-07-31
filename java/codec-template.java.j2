@@ -62,24 +62,24 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
     {% for param in fixed_params(method.request.params) %}
-        private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + {{param.type.upper()}}_SIZE_IN_BYTES;
+        private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
         {% if loop.last %}
-        private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
+        private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
         {% endif %}
     {% else %}
-        private static final int REQUEST_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
+        private static final int REQUEST_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
     {% endfor %}
         public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};//hex: {{ '0x%04X,'|format(method.request.id) }}
     {% for param in fixed_params(method.response.params) %}
-        private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + {{param.type.upper()}}_SIZE_IN_BYTES;
+        private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% endfor %}
         private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
         public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(method.response.id) }}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
-        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET{% endif %} + {{param.type.upper()}}_SIZE_IN_BYTES;
+        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
         {% if loop.last %}
-        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + INT_SIZE_IN_BYTES;
+        private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
         {% endif %}
     {% else %}
         private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
