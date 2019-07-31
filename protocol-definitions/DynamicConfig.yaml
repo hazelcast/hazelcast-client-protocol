@@ -978,6 +978,18 @@ methods:
         since: 2.0
         doc: |
            hot restart configuration
+      - name: eventJournalConfig
+        type: EventJournalConfig
+        nullable: true
+        since: 2.0
+        doc: |
+            Event Journal configuration
+      - name: merkleTreeConfig
+        type: MerkleTreeConfig
+        nullable: true
+        since: 2.0
+        doc: |
+          - merkle tree configuration
       - name: mergeBatchSize
         type: int
         nullable: false
@@ -1206,59 +1218,18 @@ methods:
         since: 2.0
         doc: |
            reference to an existing WAN replication configuration
+      - name: eventJournalConfig
+        type: EventJournalConfig
+        nullable: true
+        since: 2.0
+        doc: |
+            Event Journal configuration
       - name: hotRestartConfig
         type: HotRestartConfig
         nullable: true
         since: 2.0
         doc: |
            hot restart configuration
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: addEventJournalConfig
-  doc: |
-     Adds a new event journal configuration to a running cluster.
-     If an event journal configuration for the same map or cache name already exists, then
-     the new configuration is ignored and the existing one is preserved.
-  request:
-    id: 0x1e11
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: true
-        since: 2.0
-        doc: |
-           name of {@code IMap} to use as event source
-      - name: cacheName
-        type: String
-        nullable: true
-        since: 2.0
-        doc: |
-           name of {@code ICache} to use as event source
-      - name: enabled
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           {@code true} to enable this event journal configuration, otherwise {@code false}
-      - name: capacity
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           capacity of event journal
-      - name: timeToLiveSeconds
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           time to live (in seconds). This is the time the event journal retains items before removing them
-           from the journal.
   response:
     id: 0x0064
     doc: |
@@ -1467,44 +1438,6 @@ methods:
            name of an existing configured quorum to be used to determine the minimum number of members
            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
            apply to this lock configuration's operations.
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: addMerkleTreeConfig
-  doc: |
-     Adds a new merkle tree configuration to a running cluster.
-     If a merkle tree configuration with the given {@code name} already exists, then
-     the new configuration is ignored and the existing one is preserved.
-  request:
-    id: 0x1e17
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           map name to which this config applies. Map names
-           are also matched by pattern and a merkle with map name "default"
-           applies to all maps that do not have more specific merkle tree configs.
-      - name: enabled
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           {@code true} to enable this merkle tree configuration, otherwise {@code false}
-      - name: depth
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           depth of the merkle tree. The depth must be between
-           {@value com.hazelcast.config.MerkleTreeConfig#MIN_DEPTH}
-           and {@value com.hazelcast.config.MerkleTreeConfig#MAX_DEPTH} (exclusive).
   response:
     id: 0x0064
     doc: |
