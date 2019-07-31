@@ -20,11 +20,9 @@ lang = 'java'
 env = create_environment(lang)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang)
-msgtype_template = env.get_template("messagetype-template.%s.j2" % lang)
 
 for service in services:
     if "methods" in service:
-        # generate_message_types(service,msgtype_template, output_dir, lang)
         generate_codecs(service, codec_template, output_dir, lang)
 
 
