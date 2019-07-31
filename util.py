@@ -16,6 +16,7 @@ def load_services(protocol_def_dir):
 
 
 def save_file(file, content):
+    os.makedirs(os.path.dirname(file), exist_ok=True)
     with open(file, 'w') as file:
         file.writelines(content)
 
@@ -88,18 +89,13 @@ def var_size_params(params):
     return [p for p in params if not is_fixed_type(p)]
 
 
-def generate_message_types(service, template, output_dir, lang):
-    content = template.render(service=service)
-    save_file(output_dir + capital(service["name"]) + 'MessageType.' + lang, content)
-
-
-def generate_codecs(service, template, output_dir, lang):
+def generate_codecs(service, template, output_dir, extension):
     methods = service["methods"]
     if methods is None:
         print(type(methods))
     for method in service["methods"]:
         content = template.render(service_name=service["name"], method=method)
-        save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + lang, content)
+        save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
 
 
 def item_type(param_type):
