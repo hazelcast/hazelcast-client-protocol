@@ -33,6 +33,8 @@ _java_types_common = {
     "QueryCacheEventData": "com.hazelcast.map.impl.querycache.event.QueryCacheEventData",
     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
+    "EventJournalConfig": "com.hazelcast.config.EventJournalConfig",
+    "MerkleTreeConfig": "com.hazelcast.config.MerkleTreeConfig",
     "TimedExpiryPolicyFactoryConfig": "com.hazelcast.config.CacheSimpleConfig.ExpiryPolicyFactoryConfig.TimedExpiryPolicyFactoryConfig",
     "MapStoreConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.MapStoreConfigHolder",
     "QueueStoreConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueueStoreConfigHolder",
