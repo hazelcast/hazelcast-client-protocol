@@ -72,8 +72,13 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};//hex: {{ '0x%04X,'|format(method.request.id) }}
 {% for param in fixed_params(method.response.params) %}
     private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
-{% endfor %}
+    {% if loop.last %}
+    private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
+    {% endif %}
+{% else %}
     private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
+{% endfor %}
+
     public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(method.response.id) }}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
@@ -84,7 +89,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% else %}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
     {% endfor %}
-    public static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(event.id) }}
+    public static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};//hex: {{ '0x%04X,'|format(event.id) }}
 {% endfor %}
 
 {#REQUEST PARAMETERS#}
