@@ -49,7 +49,6 @@ import java.util.ListIterator;
 
 import static com.hazelcast.client.impl.protocol.ClientMessage.*;
 import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCodec.*;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 {% if method.events|length != 0 %}
 import com.hazelcast.logging.Logger;
 {% endif %}
@@ -59,8 +58,11 @@ import com.hazelcast.logging.Logger;
  * {{ line }}
 {% endfor %}
  */
-public class {{ service_name|capital }}{{ method.name|capital }}Codec {
-
+public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
+    //hex: {{ '0x%04X'|format(method.request.id) }}
+    public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};
+    //hex: {{ '0x%04X'|format(method.response.id) }}
+    public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
 {% for param in fixed_params(method.request.params) %}
     private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
@@ -70,7 +72,6 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% else %}
     private static final int REQUEST_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
 {% endfor %}
-    public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};//hex: {{ '0x%04X,'|format(method.request.id) }}
 {% for param in fixed_params(method.response.params) %}
     private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
@@ -79,8 +80,6 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% else %}
     private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
 {% endfor %}
-
-    public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};//hex: {{ '0x%04X,'|format(method.response.id) }}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
@@ -90,11 +89,15 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% else %}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
     {% endfor %}
-    public static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};//hex: {{ '0x%04X,'|format(event.id) }}
+    //hex: {{ '0x%04X'|format(event.id) }}
+    private static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};
 {% endfor %}
 
+    private {{ service_name|capital }}{{ method.name|capital }}Codec() {
+    }
+
 {#REQUEST PARAMETERS#}
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class RequestParameters {
     {% for param in method.request.params %}
 
@@ -132,7 +135,8 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% if  fixed_params(method.request.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
     {% else %}
-        iterator.next();//empty initial frame
+        //empty initial frame
+        iterator.next();
     {% endif %}
     {% for param in fixed_params(method.request.params) %}
         request.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
@@ -144,7 +148,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE PARAMETERS#}
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
 {% for param in method.response.params %}
 
@@ -180,7 +184,8 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% if  fixed_params(method.response.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
         {% else %}
-        iterator.next();//empty initial frame
+        //empty initial frame
+        iterator.next();
         {% endif %}
     {% for param in fixed_params(method.response.params) %}
         response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
@@ -220,7 +225,8 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
             {% if  fixed_params(event.params)|length != 0 %}
                 ClientMessage.Frame initialFrame = iterator.next();
             {% else %}
-                iterator.next();//empty initial frame
+                //empty initial frame
+                iterator.next();
             {% endif %}
             {% for param in fixed_params(event.params) %}
                 {{ lang_types_decode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
@@ -240,3 +246,4 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 {% endif %}
 }
+
