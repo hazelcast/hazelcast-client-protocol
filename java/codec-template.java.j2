@@ -49,6 +49,7 @@ import java.util.ListIterator;
 
 import static com.hazelcast.client.impl.protocol.ClientMessage.*;
 import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCodec.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 {% if method.events|length != 0 %}
 import com.hazelcast.logging.Logger;
 {% endif %}
@@ -93,6 +94,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% endfor %}
 
 {#REQUEST PARAMETERS#}
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class RequestParameters {
     {% for param in method.request.params %}
 
@@ -142,6 +144,7 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE PARAMETERS#}
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
 {% for param in method.response.params %}
 
@@ -212,12 +215,15 @@ public class {{ service_name|capital }}{{ method.name|capital }}Codec {
         public void handle(ClientMessage clientMessage) {
             int messageType = clientMessage.getMessageType();
             ListIterator<ClientMessage.Frame> iterator = clientMessage.iterator();
-            ClientMessage.Frame frame;
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
-                frame = iterator.next();
+            {% if  fixed_params(event.params)|length != 0 %}
+                ClientMessage.Frame initialFrame = iterator.next();
+            {% else %}
+                iterator.next();//empty initial frame
+            {% endif %}
             {% for param in fixed_params(event.params) %}
-                {{ lang_types_decode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(frame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+                {{ lang_types_decode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
             {% endfor %}
             {% for param in var_size_params(event.params) %}
                 {{ lang_types_decode(param.type) }} {{param.name}} = {{ decode_var_sized(param) }};
