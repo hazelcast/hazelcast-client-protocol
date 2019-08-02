@@ -46,3 +46,4 @@ for service in services:
 end = time.time()
 
 print("Generator took: %d secs" % (end - start))
+print('Generated codecs are at \'%s\'' % os.path.abspath(output_dir))

@@ -102,29 +102,29 @@ def save_file(file, content):
 
 class SupportedLanguages(Enum):
     JAVA = 'java'
-    CPP = 'cpp'
-    CS = 'cs'
-    PY = 'py'
-    NODE = 'node'
-    GO = 'go'
+    # CPP = 'cpp'
+    # CS = 'cs'
+    # PY = 'py'
+    # NODE = 'node'
+    # GO = 'go'
 
 
 output_directories = {
     SupportedLanguages.JAVA: '/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
-    SupportedLanguages.PY: '/hazelcast/protocol/codec/',
-    SupportedLanguages.NODE: '/src/codec/',
-    SupportedLanguages.GO: '/internal/proto/'
+    # SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    # SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    # SupportedLanguages.PY: '/hazelcast/protocol/codec/',
+    # SupportedLanguages.NODE: '/src/codec/',
+    # SupportedLanguages.GO: '/internal/proto/'
 }
 
 file_extensions = {
     SupportedLanguages.JAVA: 'java',
-    SupportedLanguages.CPP: 'cpp',  # TODO header files ?
-    SupportedLanguages.CS: 'cs',
-    SupportedLanguages.PY: 'py',
-    SupportedLanguages.NODE: 'ts',
-    SupportedLanguages.GO: 'go'
+    # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
+    # SupportedLanguages.CS: 'cs',
+    # SupportedLanguages.PY: 'py',
+    # SupportedLanguages.NODE: 'ts',
+    # SupportedLanguages.GO: 'go'
 }
 
 language_specific_funcs = {
