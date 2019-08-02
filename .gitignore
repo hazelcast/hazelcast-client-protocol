@@ -65,3 +65,6 @@ target/
 #MAC
 .DS_Store
 .directory
+
+# Generated codecs
+output/
