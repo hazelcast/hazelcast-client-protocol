@@ -121,7 +121,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for param in fixed_params(method.request.params) %}
         encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
-        clientMessage.addFrame(initialFrame);
+        clientMessage.add(initialFrame);
     {% for param in var_size_params(method.request.params) %}
         {{ encode_var_sized(param) }};
     {% endfor %}
@@ -130,7 +130,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
 {#REQUEST_DECODE#}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
-        ListIterator<ClientMessage.Frame> iterator = clientMessage.iterator();
+        ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
         RequestParameters request = new RequestParameters();
     {% if  fixed_params(method.request.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
@@ -166,7 +166,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
-        clientMessage.addFrame(initialFrame);
+        clientMessage.add(initialFrame);
 
     {% for param in fixed_params(method.response.params) %}
         encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
@@ -179,7 +179,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
 {#RESPONSE DECODE#}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
-        ListIterator<ClientMessage.Frame> iterator = clientMessage.iterator();
+        ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
         ResponseParameters response = new ResponseParameters();
         {% if  fixed_params(method.response.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
@@ -207,7 +207,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for param in fixed_params(event.params) %}
         encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
-        clientMessage.addFrame(initialFrame);
+        clientMessage.add(initialFrame);
     {% for param in var_size_params(event.params) %}
         {{ encode_var_sized(param) }};
     {% endfor %}
@@ -219,7 +219,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
         public void handle(ClientMessage clientMessage) {
             int messageType = clientMessage.getMessageType();
-            ListIterator<ClientMessage.Frame> iterator = clientMessage.iterator();
+            ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
             {% if  fixed_params(event.params)|length != 0 %}
