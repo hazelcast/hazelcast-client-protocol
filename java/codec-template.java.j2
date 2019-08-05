@@ -1,6 +1,6 @@
 {% macro encode_var_sized(param) -%}
-    {% if is_var_sized_list(param.type) -%}
-        ListMultiFrameCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
+    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
@@ -12,8 +12,8 @@
     {% endif %}
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
-    {%- if is_var_sized_list(param.type) -%}
-        ListMultiFrameCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
