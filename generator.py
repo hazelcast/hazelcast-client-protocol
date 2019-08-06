@@ -32,16 +32,17 @@ output_dir = root_dir + output_directories[lang]
 # PWD
 dir_path = os.path.dirname(os.path.realpath(__file__))
 protocol_defs_path = dir_path + '/protocol-definitions/'
+schema_path = dir_path + '/schema/protocol-schema.json'
 
 services = load_services(protocol_defs_path)
+if not validate_services(services, schema_path):
+    exit(-1)
 
 env = create_environment(lang)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str)
 
-for service in services:
-    if "methods" in service:
-        generate_codecs(service, codec_template, output_dir, file_extensions[lang])
+generate_codecs(services, codec_template, output_dir, file_extensions[lang])
 
 end = time.time()
 

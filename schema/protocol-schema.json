@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id": "https://github.com/hazelcast/hazelcast-client-protocol/blob/dev/schema/protocol-schema.json",
+  "title": "Hazelcast Client Protocol Definition",
+  "type": "object",
+  "definitions": {
+    "hexId": {
+      "description": "4 digit hex id",
+      "pattern": "^0x[a-fA-F0-9]{4}$",
+      "example": "0x10AB",
+      "type": "string"
+    },
+    "since": {
+      "enum": [
+        "2.0"
+      ],
+      "default": "2.0"
+    },
+    "param": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "boolean",
+            "byte",
+            "int",
+            "long",
+            "UUID",
+            "byteArray",
+            "longArray",
+            "String",
+            "Data",
+            "Map_Integer_UUID",
+            "Map_Integer_Long",
+            "List_Integer",
+            "List_Long",
+            "List_UUID",
+            "Address",
+            "CacheEventData",
+            "DistributedObjectInfo",
+            "Member",
+            "QueryCacheEventData",
+            "RaftGroupId",
+            "ScheduledTaskHandler",
+            "SimpleEntryView",
+            "WanReplicationRef",
+            "Xid",
+            "CacheSimpleEntryListenerConfig",
+            "EventJournalConfig",
+            "EvictionConfigHolder",
+            "HotRestartConfig",
+            "ListenerConfigHolder",
+            "MapAttributeConfig",
+            "MapIndexConfig",
+            "MapStoreConfigHolder",
+            "MerkleTreeConfig",
+            "NearCacheConfigHolder",
+            "NearCachePreloaderConfig",
+            "PredicateConfigHolder",
+            "QueryCacheConfigHolder",
+            "QueueStoreConfigHolder",
+            "RingbufferStoreConfigHolder",
+            "TimedExpiryPolicyFactoryConfig",
+            "Map_String_String",
+            "Map_String_byteArray",
+            "Map_String_Map_Integer_Long",
+            "Map_Address_List_Integer",
+            "Map_Data_Data",
+            "Map_Member_List_ScheduledTaskHandler",
+            "List_Address",
+            "List_byteArray",
+            "List_CacheEventData",
+            "List_CacheSimpleEntryListenerConfig",
+            "List_Data",
+            "ListCN_Data",
+            "List_DistributedObjectInfo",
+            "List_ListenerConfigHolder",
+            "List_MapAttributeConfig",
+            "List_MapIndexConfig",
+            "List_Member",
+            "List_QueryCacheConfigHolder",
+            "List_QueryCacheEventData",
+            "List_ScheduledTaskHandler",
+            "List_String",
+            "List_Xid"
+          ]
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "since": {
+          "$ref": "#/definitions/since"
+        },
+        "doc": {
+          "type": "string",
+          "description": "parameter documentation"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "nullable",
+        "since",
+        "doc"
+      ]
+    },
+    "event": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/hexId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/param"
+          },
+          "minItems": 0,
+          "uniqueItems": false
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Service unique id"
+    },
+    "name": {
+      "type": "string",
+      "description": "Service name"
+    },
+    "ns": {
+      "type": "string",
+      "description": "Service namespace, used from non-java clients"
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "method name"
+          },
+          "since": {
+            "$ref": "#/definitions/since"
+          },
+          "doc": {
+            "type": "string",
+            "description": "method documentation"
+          },
+          "request": {
+            "type": "object",
+            "description": "Request message definition",
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/hexId",
+                "description": "request message id"
+              },
+              "retryable": {
+                "type": "boolean",
+                "description": "is the request retryable or not"
+              },
+              "acquiresResource": {
+                "type": "boolean",
+                "description": "is the request retryable or not"
+              },
+              "partitionIdentifier": {
+                "enum": [
+                  "-1",
+                  "key",
+                  "name",
+                  "random"
+                ],
+                "default": "-1"
+              },
+              "params": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/param"
+                },
+                "minItems": 0,
+                "uniqueItems": false
+              }
+            }
+          },
+          "response": {
+            "id": {
+              "$ref": "#/definitions/hexId",
+              "description": "response message id"
+            },
+            "params": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/param"
+              },
+              "minItems": 0,
+              "uniqueItems": false
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/event"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": ["name", "since", "doc", "request", "response"]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "ns",
+    "methods"
+  ]
+}
+
+
+
+
+
