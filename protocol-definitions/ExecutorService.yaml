@@ -13,18 +13,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the executor.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: isShutdown
     doc: |
       Returns true if this executor has been shut down.
@@ -33,12 +33,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the executor.
     response:
@@ -49,9 +48,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: cancelOnPartition
     doc: |
       TODO DOC
@@ -60,18 +60,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: uuid
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Unique id for the execution.
         - name: interrupt
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             If true, then the thread interrupt call can be used to cancel the
             thread, otherwise interrupt can not be used.
@@ -83,9 +82,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: cancelOnAddress
     doc: |
       TODO DOC
@@ -94,24 +94,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: uuid
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Unique id for the execution.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Address of the host to execute the request on.
         - name: interrupt
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             If true, then the thread interrupt call can be used to cancel the
             thread, otherwise interrupt can not be used.
@@ -123,9 +122,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: submitToPartition
     doc: |
       TODO DOC
@@ -134,30 +134,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the executor.
         - name: uuid
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Unique id for the execution.
         - name: callable
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The callable object to be executed.
         - name: partitionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The id of the partition which the callable shall be executed on.
     response:
@@ -168,9 +167,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: submitToAddress
     doc: |
       TODO DOC
@@ -179,30 +179,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the executor.
         - name: uuid
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Unique id for the execution.
         - name: callable
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The callable object to be executed.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The member host on which the callable shall be executed on.
     response:
@@ -213,6 +212,7 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

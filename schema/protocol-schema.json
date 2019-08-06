@@ -4,12 +4,6 @@
   "title": "Hazelcast Client Protocol Definition",
   "type": "object",
   "definitions": {
-    "hexId": {
-      "description": "4 digit hex id",
-      "pattern": "^0x[a-fA-F0-9]{4}$",
-      "example": "0x10AB",
-      "type": "string"
-    },
     "since": {
       "enum": [
         "2.0"
@@ -160,7 +154,7 @@
             "description": "Request message definition",
             "properties": {
               "id": {
-                "$ref": "#/definitions/hexId",
+                "type": "integer",
                 "description": "request message id"
               },
               "retryable": {
@@ -176,7 +170,8 @@
                   "-1",
                   "key",
                   "name",
-                  "random"
+                  "random",
+                  "partitionId"
                 ],
                 "default": "-1"
               },
@@ -191,17 +186,20 @@
             }
           },
           "response": {
-            "id": {
-              "$ref": "#/definitions/hexId",
-              "description": "response message id"
-            },
-            "params": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/param"
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "response message id"
               },
-              "minItems": 0,
-              "uniqueItems": false
+              "params": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/param"
+                },
+                "minItems": 0,
+                "uniqueItems": false
+              }
             }
           },
           "events": {

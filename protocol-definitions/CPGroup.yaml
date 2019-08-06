@@ -10,12 +10,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: proxyName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The proxy name of this data structure instance
     response:
@@ -26,9 +25,10 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: destroyCPObject
     doc: |
       Destroys the distributed object with the given name on the requested
@@ -38,27 +38,27 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this distributed object
         - name: serviceName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The service of this distributed object
         - name: objectName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of this distributed object
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

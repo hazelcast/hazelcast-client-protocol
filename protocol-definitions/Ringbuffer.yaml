@@ -13,12 +13,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
     response:
@@ -29,9 +28,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: tailSequence
     doc: >
       Returns the sequence of the tail. The tail is the side of the ringbuffer
@@ -43,12 +43,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
     response:
@@ -59,9 +58,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: headSequence
     doc: >
       Returns the sequence of the head. The head is the side of the ringbuffer
@@ -75,12 +75,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
     response:
@@ -91,9 +90,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: capacity
     doc: |
       Returns the capacity of this Ringbuffer.
@@ -102,12 +102,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
     response:
@@ -118,9 +117,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remainingCapacity
     doc: >
       Returns the remaining capacity of the ringbuffer. The returned value could
@@ -132,12 +132,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
     response:
@@ -148,9 +147,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: add
     doc: >
       Adds an item to the tail of the Ringbuffer. If there is space in the
@@ -180,24 +180,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
         - name: overflowPolicy
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the OverflowPolicy to use.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             to item to add
     response:
@@ -208,9 +207,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: readOne
     doc: >
       Reads one item from the Ringbuffer. If the sequence is one beyond the
@@ -226,18 +226,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
         - name: sequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the sequence of the item to read.
     response:
@@ -248,9 +247,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addAll
     doc: >
       Adds all the items of a collection to the tail of the Ringbuffer. A addAll
@@ -274,24 +274,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the batch of items to add
         - name: overflowPolicy
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the overflowPolicy to use
     response:
@@ -302,9 +301,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: readMany
     doc: >
       Reads a batch of items from the Ringbuffer. If the number of available
@@ -326,36 +326,35 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Ringbuffer
         - name: startSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the startSequence of the first item to read
         - name: minCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the minimum number of items to read.
         - name: maxCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the maximum number of items to read.
         - name: filter
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             Filter is allowed to be null, indicating there is no filter.
     response:
@@ -366,24 +365,25 @@ methods:
         - name: readCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: items
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: itemSeqs
           type: longArray
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: nextSeq
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

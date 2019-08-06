@@ -11,18 +11,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: lockName
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Condition
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -30,19 +29,19 @@ methods:
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The maximum time to wait
         - name: lockName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the lock to wait on.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -55,9 +54,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: beforeAwait
     doc: >
       Causes the current thread to wait until it is signalled or
@@ -97,18 +97,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: lockName
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Condition
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -116,13 +115,13 @@ methods:
         - name: lockName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the lock to wait on.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -130,6 +129,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: signal
     doc: >
       If any threads are waiting on this condition then one is selected for
@@ -147,18 +147,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: lockName
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Condition
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -166,13 +165,14 @@ methods:
         - name: lockName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the lock to wait on.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: signalAll
     doc: >
       If any threads are waiting on this condition then they are all woken up.
@@ -184,18 +184,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: lockName
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Condition
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -203,10 +202,11 @@ methods:
         - name: lockName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the lock to wait on.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

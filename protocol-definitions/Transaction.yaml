@@ -10,24 +10,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: transactionId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The internal Hazelcast transaction id.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The thread id for the transaction.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: create
     doc: |
       TODO DOC
@@ -36,24 +36,23 @@ methods:
       retryable: false
       acquiresResource: true
       partitionIdentifier: -1
-      since: 2
       params:
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The maximum allowed duration for the transaction operations.
         - name: durability
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The durability of the transaction
         - name: transactionType
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Identifies the type of the transaction. Possible values are:
 
@@ -71,7 +70,7 @@ methods:
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The thread id for the transaction.
     response:
@@ -82,9 +81,10 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: rollback
     doc: |
       TODO DOC
@@ -93,21 +93,21 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: transactionId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The internal Hazelcast transaction id.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The thread id for the transaction.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

@@ -17,24 +17,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the name of the PNCounter
         - name: replicaTimestamps
           type: Map_String_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
         - name: targetReplica
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the target replica
     response:
@@ -45,21 +44,22 @@ methods:
         - name: value
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: replicaTimestamps
           type: Map_String_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
         - name: replicaCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: add
     doc: |
       Adds a delta to the PNCounter value. The delta may be negative for a
@@ -76,24 +76,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the name of the PNCounter
         - name: delta
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the delta to add to the counter value, can be negative
         - name: getBeforeUpdate
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             {@code true} if the operation should return the
             counter value before the addition, {@code false}
@@ -101,13 +100,13 @@ methods:
         - name: replicaTimestamps
           type: Map_String_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
         - name: targetReplica
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the target replica
     response:
@@ -118,21 +117,22 @@ methods:
         - name: value
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: replicaTimestamps
           type: Map_String_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
         - name: replicaCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getConfiguredReplicaCount
     doc: |
       Returns the configured number of CRDT replicas for the PN counter with
@@ -144,12 +144,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the name of the PNCounter
     response:
@@ -160,6 +159,7 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

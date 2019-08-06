@@ -11,18 +11,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of CardinalityEstimator
         - name: hash
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             64bit hash code value to add
 
@@ -31,6 +30,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: estimate
     doc: >
       Estimates the cardinality of the aggregation so far.
@@ -41,12 +41,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of CardinalityEstimator
     response:
@@ -57,6 +56,7 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

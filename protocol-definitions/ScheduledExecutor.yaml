@@ -13,18 +13,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the scheduler.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The cluster member where the shutdown for this scheduler will be
             sent.
@@ -32,6 +31,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: submitToPartition
     doc: >
       Submits the task to partition for execution, partition is chosen based on
@@ -41,48 +41,48 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: type
           type: byte
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: task
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name The name of the task
         - name: initialDelayInMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             initial delay in milliseconds
         - name: periodInMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             period between each run in milliseconds
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: submitToAddress
     doc: >
       Submits the task to a member for execution, member is provided in the form
@@ -92,54 +92,54 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
         - name: type
           type: byte
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: task
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name The name of the task
         - name: initialDelayInMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             initial delay in milliseconds
         - name: periodInMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             period between each run in milliseconds
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: getAllScheduledFutures
     doc: |
       Returns all scheduled tasks in for a given scheduler in the given member.
@@ -148,12 +148,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
     response:
@@ -164,9 +163,10 @@ methods:
         - name: handlers
           type: Map_Member_List_ScheduledTaskHandler
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getStatsFromPartition
     doc: |
       Returns statistics of the task
@@ -175,18 +175,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
@@ -197,33 +196,34 @@ methods:
         - name: lastIdleTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalIdleTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalRuns
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalRunTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: lastRunDurationNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getStatsFromAddress
     doc: |
       Returns statistics of the task
@@ -232,24 +232,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
@@ -260,33 +259,34 @@ methods:
         - name: lastIdleTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalIdleTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalRuns
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: totalRunTimeNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: lastRunDurationNanos
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getDelayFromPartition
     doc: >
       Returns the ScheduledFuture's delay in nanoseconds for the task in the
@@ -296,18 +296,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
@@ -318,9 +317,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getDelayFromAddress
     doc: >
       Returns the ScheduledFuture's delay in nanoseconds for the task in the
@@ -330,24 +330,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
@@ -358,9 +357,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: cancelFromPartition
     doc: |
       Cancels further execution and scheduling of the task
@@ -369,24 +369,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: mayInterruptIfRunning
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             A boolean flag to indicate whether the task should be interrupted.
     response:
@@ -397,9 +396,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: cancelFromAddress
     doc: |
       Cancels further execution and scheduling of the task
@@ -408,30 +408,29 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
         - name: mayInterruptIfRunning
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             A boolean flag to indicate whether the task should be interrupted.
     response:
@@ -442,9 +441,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isCancelledFromPartition
     doc: >
       Checks whether a task as identified from the given handler is already
@@ -454,18 +454,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
@@ -476,9 +475,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isCancelledFromAddress
     doc: >
       Checks whether a task as identified from the given handler is already
@@ -488,24 +488,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
@@ -516,9 +515,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isDoneFromPartition
     doc: |
       Checks whether a task is done.
@@ -528,18 +528,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
@@ -550,9 +549,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isDoneFromAddress
     doc: |
       Checks whether a task is done.
@@ -562,24 +562,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
@@ -590,9 +589,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getResultFromPartition
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
@@ -602,18 +602,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
@@ -624,9 +623,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getResultFromAddress
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
@@ -636,24 +636,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
@@ -664,9 +663,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: disposeFromPartition
     doc: |
       Dispose the task from the scheduler
@@ -675,24 +675,24 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: disposeFromAddress
     doc: |
       Dispose the task from the scheduler
@@ -701,27 +701,27 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: schedulerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the scheduler.
         - name: taskName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The name of the task
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

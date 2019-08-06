@@ -10,18 +10,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -33,7 +32,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -43,21 +42,22 @@ methods:
           - name: type
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: keys
             type: List_CacheEventData
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: completionId
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addInvalidationListener
     doc: |
       TODO DOC
@@ -66,18 +66,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -89,7 +88,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -99,31 +98,31 @@ methods:
           - name: name
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               Name of the cache.
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuid
             type: String
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuid
             type: UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequence
             type: long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
       - id: 211
@@ -132,33 +131,34 @@ methods:
           - name: name
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               Name of the cache.
           - name: keys
             type: List_Data
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuids
             type: List_String
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuids
             type: List_UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequences
             type: List_Long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       Clears the contents of the cache, without notifying listeners or
@@ -168,18 +168,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: removeAllKeys
     doc: >
       Removes entries for the specified keys. The order in which the individual
@@ -193,24 +193,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The keys to remove.
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -220,6 +219,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: removeAll
     doc: >
       Removes all of the mappings from this cache. The order that the individual
@@ -235,18 +235,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -256,6 +255,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: containsKey
     doc: >
       Determines if the Cache contains an entry for the specified key. More
@@ -267,18 +267,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose presence in this cache is to be tested.
     response:
@@ -289,9 +288,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: createConfig
     doc: |
       TODO DOC
@@ -300,12 +300,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: cacheConfig
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The cache configuration. Byte-array which is serialized from an
             object implementing
@@ -314,7 +313,7 @@ methods:
         - name: createAlsoOnOthers
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             True if the configuration shall be created on all members, false
             otherwise.
@@ -329,9 +328,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: destroy
     doc: |
       Closes the cache. Clears the internal content and releases any resource.
@@ -340,18 +340,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: entryProcessor
     doc: |
       TODO DOC
@@ -360,24 +360,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the key to the entry
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Entry processor to invoke. Byte-array which is serialized from an
             object implementing
@@ -386,13 +385,13 @@ methods:
         - name: arguments
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             additional arguments to pass to the EntryProcessor
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -407,9 +406,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAll
     doc: >
       Gets a collection of entries from the cache with custom expiry policy,
@@ -425,24 +425,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The keys whose associated values are to be returned.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -457,9 +456,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAndRemove
     doc: >
       Atomically removes the entry for a key only if currently mapped to some
@@ -469,24 +469,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             key with which the specified value is associated
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -500,9 +499,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAndReplace
     doc: >
       Atomically replaces the assigned value of the given key by the specified
@@ -518,30 +518,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose value is replaced.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The new value to be associated with the specified key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -550,7 +549,7 @@ methods:
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -564,9 +563,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getConfig
     doc: |
       TODO DOC
@@ -575,18 +575,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache with prefix.
         - name: simpleName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache without prefix.
     response:
@@ -600,9 +599,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: >
       Retrieves the mapped value of the given key using a custom
@@ -616,24 +616,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose mapped value is to be returned.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -647,9 +646,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: iterate
     doc: >
       The ordering of iteration over entries is undefined. During iteration, any
@@ -665,24 +665,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: batch
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The number of items to be batched
     response:
@@ -693,15 +692,16 @@ methods:
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: listenerRegistration
     doc: |
       TODO DOC
@@ -710,18 +710,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: listenerConfig
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The listener configuration. Byte-array which is serialized from an
             object implementing
@@ -730,14 +729,14 @@ methods:
         - name: shouldRegister
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             true if the listener is being registered, false if the listener is
             being unregistered.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The address of the member server for which the listener is being
             registered for.
@@ -745,6 +744,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: loadAll
     doc: |
       TODO DOC
@@ -753,24 +753,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the keys to load
         - name: replaceExistingValues
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             when true existing values in the Cache will
             be replaced by those loaded from a CacheLoader
@@ -778,6 +777,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: managementConfig
     doc: |
       TODO DOC
@@ -786,36 +786,36 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: isStat
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if enabling statistics, false if enabling management.
         - name: enabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if enabled, false to disable.
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the address of the host to enable.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: putIfAbsent
     doc: >
       Associates the specified key with the given value if and only if there is
@@ -829,37 +829,36 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key that is associated with the specified value.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value that has the specified key associated with it.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             The custom expiry policy for this operation.
             A null value is equivalent to put(Object, Object).
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -873,9 +872,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: put
     doc: |
       TODO DOC
@@ -884,30 +884,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key that has the specified value associated with it.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to be associated with the key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -916,13 +915,13 @@ methods:
         - name: get
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             boolean flag indicating if the previous value should be retrieved.
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -936,9 +935,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: removeEntryListener
     doc: |
       TODO DOC
@@ -947,18 +947,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id assigned during the registration for the listener which shall
             be removed.
@@ -970,9 +969,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: removeInvalidationListener
     doc: |
       TODO DOC
@@ -981,18 +981,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id assigned during the registration for the listener which shall
             be removed.
@@ -1004,9 +1003,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Atomically removes the mapping for a key only if currently mapped to the
@@ -1016,30 +1016,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             key whose mapping is to be removed from the cache
         - name: currentValue
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             value expected to be associated with the specified key.
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -1053,9 +1052,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: replace
     doc: >
       Atomically replaces the currently assigned value for the given key with
@@ -1071,37 +1071,36 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose value is replaced.
         - name: oldValue
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Old value to match if exists before removing. Null means "don't try
             to remove"
         - name: newValue
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The new value to be associated with the specified key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -1110,7 +1109,7 @@ methods:
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             User generated id which shall be received as a field of the cache
             event upon completion of
@@ -1124,9 +1123,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: size
     doc: |
       Total entry count
@@ -1135,12 +1135,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
     response:
@@ -1151,9 +1150,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addPartitionLostListener
     doc: >
       Adds a CachePartitionLostListener. The addPartitionLostListener returns a
@@ -1169,18 +1169,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             if true only node that has the partition sends the request, if false
             sends all partition lost events.
@@ -1192,7 +1191,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1202,15 +1201,16 @@ methods:
           - name: partitionId
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removePartitionLostListener
     doc: >
       Removes the specified cache partition lost listener. Returns silently if
@@ -1220,18 +1220,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Cache
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of registered listener.
     response:
@@ -1242,9 +1241,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putAll
     doc: |
       TODO DOC
@@ -1253,24 +1253,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the cache
         - name: entries
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entries to be put as batch
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             expiry policy for the entry. Byte-array which is serialized from an
             object implementing
@@ -1279,7 +1278,7 @@ methods:
         - name: completionId
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             user generated id which shall be received as a field of the cache
             event upon completion of
@@ -1289,6 +1288,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: iterateEntries
     doc: >
       Fetches specified number of entries from the specified partition starting
@@ -1298,24 +1298,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: batch
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The number of items to be batched
     response:
@@ -1326,15 +1325,16 @@ methods:
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: entries
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addNearCacheInvalidationListener
     doc: >
       Adds listener to cache. This listener will be used to listen near cache
@@ -1348,18 +1348,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1371,7 +1370,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1381,31 +1380,31 @@ methods:
           - name: name
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               Name of the cache.
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuid
             type: String
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuid
             type: UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequence
             type: long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
       - id: 211
@@ -1414,33 +1413,34 @@ methods:
           - name: name
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               Name of the cache.
           - name: keys
             type: List_Data
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuids
             type: List_String
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuids
             type: List_UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequences
             type: List_Long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: fetchNearCacheInvalidationMetadata
     doc: |
       Fetches invalidation metadata from partitions of map.
@@ -1449,18 +1449,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: names
           type: List_String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             names of the caches
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
@@ -1471,15 +1470,16 @@ methods:
         - name: namePartitionSequenceList
           type: Map_String_Map_Integer_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: partitionUuidList
           type: Map_Integer_UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: assignAndGetUuids
     doc: |
       TODO DOC
@@ -1488,7 +1488,6 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
     response:
       id: 123
       doc: |
@@ -1497,9 +1496,10 @@ methods:
         - name: partitionUuidList
           type: Map_Integer_UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: eventJournalSubscribe
     doc: |
       Performs the initial subscription to the cache event journal.
@@ -1510,12 +1510,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the cache
     response:
@@ -1526,15 +1525,16 @@ methods:
         - name: oldestSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: newestSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: eventJournalRead
     doc: >
       Reads from the cache event journal in batches. You may specify the start
@@ -1558,42 +1558,41 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the cache
         - name: startSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the startSequence of the first item to read
         - name: minSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the minimum number of items to read.
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the maximum number of items to read.
         - name: predicate
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the predicate to apply before processing events
         - name: projection
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the projection to apply to journal events
     response:
@@ -1604,27 +1603,28 @@ methods:
         - name: readCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: items
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: itemSeqs
           type: longArray
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: nextSeq
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: setExpiryPolicy
     doc: >
       Associates the specified key with the given {@link
@@ -1638,24 +1638,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the cache
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The keys that are associated with the specified expiry policy.
         - name: expiryPolicy
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             custom expiry policy for this operation
     response:
@@ -1666,6 +1665,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

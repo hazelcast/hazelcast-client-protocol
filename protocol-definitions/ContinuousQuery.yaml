@@ -10,58 +10,57 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: mapName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: cacheName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the cache for query cache.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The predicate to filter events which will be applied to the
             QueryCache.
         - name: batchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The size of batch. After reaching this minimum size, node
             immediately sends buffered events to QueryCache.
         - name: bufferSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Maximum number of events which can be stored in a buffer of
             partition.
         - name: delaySeconds
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The minimum number of delay seconds which an event waits in the
             buffer of node.
         - name: populate
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Flag to enable/disable initial population of the QueryCache.
         - name: coalesce
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Flag to enable/disable coalescing. If true, then only the last
             updated value for a key is placed in the
@@ -75,9 +74,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: publisherCreate
     doc: |
       TODO DOC
@@ -86,58 +86,57 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: mapName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: cacheName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of query cache.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The predicate to filter events which will be applied to the
             QueryCache.
         - name: batchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The size of batch. After reaching this minimum size, node
             immediately sends buffered events to QueryCache.
         - name: bufferSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Maximum number of events which can be stored in a buffer of
             partition.
         - name: delaySeconds
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The minimum number of delay seconds which an event waits in the
             buffer of node.
         - name: populate
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Flag to enable/disable initial population of the QueryCache.
         - name: coalesce
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Flag to enable/disable coalescing. If true, then only the last
             updated value for a key is placed in the
@@ -151,9 +150,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: madePublishable
     doc: |
       TODO DOC
@@ -162,18 +162,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: mapName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: cacheName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of query cache.
     response:
@@ -184,9 +183,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addListener
     doc: |
       TODO DOC
@@ -195,18 +195,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: listenerName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MapListener which will be used to listen this QueryCache
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -218,7 +217,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -228,7 +227,7 @@ methods:
           - name: data
             type: QueryCacheEventData
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
       - id: 213
@@ -237,21 +236,22 @@ methods:
           - name: events
             type: List_QueryCacheEventData
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: source
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionId
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: setReadCursor
     doc: >
       This method can be used to recover from a possible event loss situation.
@@ -270,24 +270,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: associated key
-      since: 2
       params:
         - name: mapName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: cacheName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of query cache.
         - name: sequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The cursor position of the accumulator to be set.
     response:
@@ -298,9 +297,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: destroyCache
     doc: |
       TODO DOC
@@ -309,18 +309,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: mapName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: cacheName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of query cache.
     response:
@@ -331,6 +330,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

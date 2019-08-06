@@ -14,30 +14,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             multimap configuration name
         - name: collectionType
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             value collection type. Valid values are SET and LIST.
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             entry listener configurations
         - name: binary
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to store values in {@code BINARY} format or {@code
             false} to store
@@ -46,26 +45,26 @@ methods:
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             set to {@code true} to enable statistics on this multimap
             configuration
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -76,19 +75,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addRingbufferConfig
     doc: >
       Adds a new ringbuffer configuration to a running cluster.
@@ -101,42 +101,41 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ringbuffer configuration name
         - name: capacity
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             capacity of the ringbuffer
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum number of seconds for each entry to stay in the ringbuffer
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             in memory format of items in the ringbuffer. Valid options are
             {@code BINARY}
@@ -145,13 +144,13 @@ methods:
         - name: ringbufferStoreConfig
           type: RingbufferStoreConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             backing ringbuffer store configuration
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -162,19 +161,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addCardinalityEstimatorConfig
     doc: >
       Adds a new cardinality estimator configuration to a running cluster.
@@ -187,30 +187,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the cardinality estimator configuration
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -221,19 +220,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addLockConfig
     doc: |
       Adds a new lock configuration to a running cluster.
@@ -244,18 +244,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             lock's name
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -267,6 +266,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addListConfig
     doc: |
       Adds a new list configuration to a running cluster.
@@ -277,49 +277,48 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             list's name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             item listener configurations
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum size of the list
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics on the list,
             otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -330,19 +329,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addSetConfig
     doc: |
       Adds a new set configuration to a running cluster.
@@ -353,49 +353,48 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             set's name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             item listener configurations
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum size of the set
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics on the list,
             otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -406,19 +405,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addReplicatedMapConfig
     doc: >
       Adds a new replicated map configuration to a running cluster.
@@ -431,18 +431,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the replicated map configuration
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             data type used to store entries. Valid values are {@code "BINARY"},
             {@code "OBJECT"}
@@ -451,7 +450,7 @@ methods:
         - name: asyncFillup
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to make the replicated map available for reads before
             initial replication
@@ -460,14 +459,14 @@ methods:
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             class name of a class implementing
 
@@ -477,13 +476,13 @@ methods:
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             entry listener configurations
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -494,13 +493,14 @@ methods:
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addTopicConfig
     doc: |
       Adds a new topic configuration to a running cluster.
@@ -511,18 +511,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             topic's name
         - name: globalOrderingEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             when {@code true} all nodes listening to the same topic get their
             messages in
@@ -531,14 +530,14 @@ methods:
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: multiThreadingEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable multi-threaded processing of incoming
             messages, otherwise
@@ -547,13 +546,14 @@ methods:
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             message listener configurations
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addExecutorConfig
     doc: >
       Adds a new executor configuration to a running cluster.
@@ -566,38 +566,37 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             executor's name
         - name: poolSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             executor thread pool size
         - name: queueCapacity
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             capacity of executor queue. A value of {@code 0} implies {@link
             Integer#MAX_VALUE}
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -609,6 +608,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addDurableExecutorConfig
     doc: >
       Adds a new durable executor configuration to a running cluster.
@@ -621,36 +621,35 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             durable executor name
         - name: poolSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             executor thread pool size
         - name: durability
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             executor's durability
         - name: capacity
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             capacity of executor tasks per partition
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -662,6 +661,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addScheduledExecutorConfig
     doc: >
       Adds a new scheduled executor configuration to a running cluster.
@@ -674,37 +674,36 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of scheduled executor
         - name: poolSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of executor threads per member for the executor
         - name: durability
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             durability of the scheduled executor
         - name: capacity
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             maximum number of tasks that a scheduler can have at any given point
             in time per partition
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -715,19 +714,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addSemaphoreConfig
     doc: >
       Adds a new semaphore configuration to a running cluster.
@@ -740,36 +740,35 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             semaphore configuration name
         - name: initialPermits
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             thread count to which the concurrent access is limited
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -781,6 +780,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addQueueConfig
     doc: |
       Adds a new queue configuration to a running cluster.
@@ -791,56 +791,55 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             queue name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             item listeners configuration
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum number of items in the queue
         - name: emptyQueueTtl
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             queue time-to-live in seconds: queue will be destroyed if it stays
             empty or unused for that time
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -851,25 +850,26 @@ methods:
         - name: queueStoreConfig
           type: QueueStoreConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             backing queue store configuration
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addMapConfig
     doc: |
       Adds a new map configuration to a running cluster.
@@ -880,42 +880,41 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum number of seconds for each entry to stay in the map.
         - name: maxIdleSeconds
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum number of seconds for each entry to stay idle in the map
         - name: evictionPolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             eviction policy. Valid values: {@code NONE} (no eviction), {@code
             LRU}
@@ -926,14 +925,14 @@ methods:
         - name: readBackupData
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable reading local backup entries, {@code false}
             otherwise
         - name: cacheDeserializedValues
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             control caching of de-serialized values. Valid values are {@code
             NEVER}
@@ -946,7 +945,7 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             class name of a class implementing
             {@code com.hazelcast.map.merge.MapMergePolicy} to merge entries
@@ -954,33 +953,33 @@ methods:
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             data type used to store entries. Valid values are {@code BINARY},
             {@code OBJECT} and {@code NATIVE}.
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             entry listener configurations
         - name: partitionLostListenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             partition lost listener configurations
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum
@@ -991,7 +990,7 @@ methods:
         - name: mapEvictionPolicy
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             custom {@code com.hazelcast.map.eviction.MapEvictionPolicy}
             implementation
@@ -1000,7 +999,7 @@ methods:
         - name: maxSizeConfigMaxSizePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             maximum size policy. Valid values are {@code PER_NODE},
 
@@ -1014,49 +1013,49 @@ methods:
         - name: maxSizeConfigSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum size of map
         - name: mapStoreConfig
           type: MapStoreConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             configuration of backing map store or {@code null} for none
         - name: nearCacheConfig
           type: NearCacheConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             configuration of near cache or {@code null} for none
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             reference to an existing WAN replication configuration
         - name: mapIndexConfigs
           type: List_MapIndexConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             map index configurations
         - name: mapAttributeConfigs
           type: List_MapAttributeConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             map attributes
         - name: queryCacheConfigs
           type: List_QueryCacheConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             configurations for query caches on this map
         - name: partitioningStrategyClassName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of class implementing {@code
             com.hazelcast.core.PartitioningStrategy}
@@ -1065,37 +1064,37 @@ methods:
         - name: partitioningStrategyImplementation
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             a serialized instance of a partitioning strategy
         - name: hotRestartConfig
           type: HotRestartConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             hot restart configuration
         - name: eventJournalConfig
           type: EventJournalConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             Event Journal configuration
         - name: merkleTreeConfig
           type: MerkleTreeConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             - merkle tree configuration
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: metadataPolicy
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             metadata policy configuration for the supported data types. Valid
             values
@@ -1105,6 +1104,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addReliableTopicConfig
     doc: >
       Adds a new reliable topic configuration to a running cluster.
@@ -1117,37 +1117,36 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of reliable topic
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             message listener configurations
         - name: readBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum number of items to read in a batch.
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: topicOverloadPolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             policy to handle an overloaded topic. Available values are {@code
             DISCARD_OLDEST},
@@ -1156,7 +1155,7 @@ methods:
         - name: executor
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             a serialized {@link java.util.concurrent.Executor} instance to use
             for executing
@@ -1166,6 +1165,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addCacheConfig
     doc: |
       Adds a new cache configuration to a running cluster.
@@ -1176,101 +1176,100 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             cache name
         - name: keyType
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             class name of key type
         - name: valueType
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             class name of value type
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: managementEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable management interface on this cache or {@code
             false}
         - name: readThrough
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             {@code true} to enable read through from a {@code CacheLoader}
         - name: writeThrough
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             {@code true} to enable write through to a {@code CacheWriter}
         - name: cacheLoaderFactory
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             name of cache loader factory class, if one is configured
         - name: cacheWriterFactory
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             name of cache writer factory class, if one is configured
         - name: cacheLoader
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Factory                    name of cache loader factory class, if
             one is configured
         - name: cacheWriter
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             Factory                    name of cache writer factory class, if
             one is configured
         - name: backupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of asynchronous backups
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             data type used to store entries. Valid values are {@code BINARY},
             {@code OBJECT} and {@code NATIVE}.
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum
@@ -1281,7 +1280,7 @@ methods:
         - name: mergePolicy
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of a class implementing {@link
             com.hazelcast.cache.CacheMergePolicy}
@@ -1292,20 +1291,20 @@ methods:
         - name: disablePerEntryInvalidationEvents
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             when {@code true} disables invalidation events for per entry but
             full-flush invalidation events are still enabled.
         - name: partitionLostListenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             partition lost listener configurations
         - name: expiryPolicyFactoryClassName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             expiry policy factory class name. When configuring an expiry policy,
 
@@ -1313,43 +1312,44 @@ methods:
         - name: timedExpiryPolicyFactoryConfig
           type: TimedExpiryPolicyFactoryConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             expiry policy factory with duration configuration
         - name: cacheEntryListeners
           type: List_CacheSimpleEntryListenerConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             cache entry listeners configuration
         - name: evictionConfig
           type: EvictionConfigHolder
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             cache eviction configuration
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             reference to an existing WAN replication configuration
         - name: eventJournalConfig
           type: EventJournalConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             Event Journal configuration
         - name: hotRestartConfig
           type: HotRestartConfig
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             hot restart configuration
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addFlakeIdGeneratorConfig
     doc: >
       Adds a new flake ID generator configuration to a running cluster.
@@ -1362,50 +1362,50 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of {@code FlakeIdGenerator}
         - name: prefetchCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             how many IDs are pre-fetched on the background when one call to
             {@code newId()} is made
         - name: prefetchValidity
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             for how long the pre-fetched IDs can be used
         - name: idOffset
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             {@code true} to enable gathering of statistics, otherwise {@code
             false}
         - name: nodeIdOffset
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addAtomicLongConfig
     doc: >
       Adds a new atomic long configuration to a running cluster.
@@ -1418,18 +1418,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             atomic long's name
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -1440,19 +1439,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addAtomicReferenceConfig
     doc: >
       Adds a new atomic reference configuration to a running cluster.
@@ -1465,18 +1465,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             atomic references's name
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -1487,19 +1486,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addCountDownLatchConfig
     doc: >
       Adds a new count down latch configuration to a running cluster.
@@ -1512,18 +1512,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             count down latch's name
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -1535,6 +1534,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addPNCounterConfig
     doc: >
       Adds a new CRDT PN counter configuration to a running cluster.
@@ -1547,31 +1547,30 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the CRDT PN counter configuration
         - name: replicaCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of replicas on which the CRDT state is kept
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             set to {@code true} to enable statistics on this multimap
             configuration
         - name: quorumName
           type: String
           nullable: true
-          since: 2
+          since: 2.0
           doc: >
             name of an existing configured quorum to be used to determine the
             minimum number of members
@@ -1583,3 +1582,4 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

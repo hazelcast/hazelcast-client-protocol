@@ -16,36 +16,35 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this FencedLock instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this FencedLock instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
     response:
@@ -57,9 +56,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: tryLock
     doc: |
       Attempts to acquire the given FencedLock on the given CP group.
@@ -75,42 +75,41 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this FencedLock instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this FencedLock instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
         - name: timeoutMs
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Duration to wait for lock acquire
     response:
@@ -122,9 +121,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: unlock
     doc: |
       Unlocks the given FencedLock on the given CP group. If the lock is
@@ -137,36 +137,35 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this FencedLock instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this FencedLock instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
     response:
@@ -178,9 +177,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getLockOwnership
     doc: |
       Returns current lock ownership status of the given FencedLock instance.
@@ -189,18 +189,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this FencedLock instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this FencedLock instance
     response:
@@ -211,24 +210,25 @@ methods:
         - name: fence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: lockCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

@@ -11,24 +11,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
         - name: permits
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Number of permits to initialize this ISemaphore
     response:
@@ -39,9 +38,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: acquire
     doc: |
       Acquires the requested amount of permits if available, reducing
@@ -53,48 +53,47 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
         - name: permits
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of permits to acquire
         - name: timeoutMs
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Duration to wait for permit acquire
     response:
@@ -106,9 +105,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: release
     doc: |
       Releases the given number of permits and increases the number of
@@ -118,42 +118,41 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
         - name: permits
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of permits to release
     response:
@@ -164,9 +163,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: drain
     doc: |
       Acquires all available permits at once and returns immediately.
@@ -175,36 +175,35 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
     response:
@@ -215,9 +214,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: change
     doc: |
       Increases or decreases the number of permits by the given value.
@@ -226,42 +226,41 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
         - name: sessionId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Session ID of the caller
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the caller thread
         - name: invocationUid
           type: UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             UID of this invocation
         - name: permits
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             number of permits to increase / decrease
     response:
@@ -272,9 +271,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: availablePermits
     doc: |
       Returns the number of available permits.
@@ -283,18 +283,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this ISemaphore instance
     response:
@@ -305,9 +304,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getSemaphoreType
     doc: |
       Returns true if the semaphore is JDK compatible
@@ -316,12 +316,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: proxyName
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ISemaphore proxy
     response:
@@ -332,6 +331,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

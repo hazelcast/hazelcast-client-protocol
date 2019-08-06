@@ -10,12 +10,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
-      since: 2
       params:
         - name: xid
           type: Xid
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Java XA transaction id as defined in interface
             javax.transaction.xa.Xid.
@@ -23,6 +22,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: collectTransactions
     doc: |
       TODO DOC
@@ -31,7 +31,6 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
     response:
       id: 133
       doc: |
@@ -40,9 +39,10 @@ methods:
         - name: response
           type: List_Xid
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: finalize
     doc: |
       TODO DOC
@@ -51,19 +51,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
-      since: 2
       params:
         - name: xid
           type: Xid
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Java XA transaction id as defined in interface
             javax.transaction.xa.Xid.
         - name: isCommit
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             If true, the transaction is committed else transaction is rolled
             back.
@@ -71,6 +70,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: commit
     doc: |
       TODO DOC
@@ -79,24 +79,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: transactionId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The internal Hazelcast transaction id.
         - name: onePhase
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             If true, the prepare is also done.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: create
     doc: |
       TODO DOC
@@ -105,19 +105,18 @@ methods:
       retryable: false
       acquiresResource: true
       partitionIdentifier: -1
-      since: 2
       params:
         - name: xid
           type: Xid
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Java XA transaction id as defined in interface
             javax.transaction.xa.Xid.
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The timeout in seconds for XA operations such as prepare, commit,
             rollback.
@@ -129,9 +128,10 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: prepare
     doc: |
       TODO DOC
@@ -140,18 +140,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: transactionId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The id of the transaction to prepare.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: rollback
     doc: |
       TODO DOC
@@ -160,15 +160,15 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: transactionId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The id of the transaction to rollback.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

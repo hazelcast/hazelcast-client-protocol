@@ -13,12 +13,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
     response:
@@ -29,9 +28,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: contains
     doc: |
       Returns true if this set contains the specified element.
@@ -40,18 +40,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element whose presence in this set is to be tested
     response:
@@ -62,9 +61,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsAll
     doc: >
       Returns true if this set contains all of the elements of the specified
@@ -76,18 +76,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: items
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection to be checked for containment in this list
     response:
@@ -99,9 +98,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: add
     doc: >
       Adds the specified element to this set if it is not already present
@@ -121,18 +121,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to be added to this set
     response:
@@ -144,9 +143,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Removes the specified element from this set if it is present (optional
@@ -160,18 +160,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Object to be removed from this set, if present
     response:
@@ -183,9 +182,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addAll
     doc: >
       Adds all of the elements in the specified collection to this set if
@@ -201,18 +201,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection containing elements to be added to this set
     response:
@@ -223,9 +222,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRemoveAll
     doc: >
       Removes from this set all of its elements that are contained in the
@@ -239,18 +239,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: values
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The list of values to test for matching the item to remove.
     response:
@@ -261,9 +260,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRetainAll
     doc: >
       Retains only the elements in this set that are contained in the specified
@@ -279,18 +279,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: values
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The list of values to test for matching the item to retain.
     response:
@@ -304,9 +303,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       Removes all of the elements from this set (optional operation). The set
@@ -316,18 +316,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: getAll
     doc: |
       Return the all elements of this collection
@@ -336,12 +336,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
     response:
@@ -352,9 +351,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addListener
     doc: >
       Adds an item listener for this collection. Listener will be notified for
@@ -364,24 +364,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             if set to true, the event shall also include the value.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -393,7 +392,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -403,21 +402,22 @@ methods:
           - name: item
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeListener
     doc: >
       Removes the specified item listener. Returns silently if the specified
@@ -427,18 +427,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The id retrieved during registration.
     response:
@@ -450,9 +449,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this set contains no elements.
@@ -461,12 +461,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Set
     response:
@@ -477,6 +476,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

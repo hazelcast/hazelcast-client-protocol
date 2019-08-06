@@ -10,30 +10,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key to be stored
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to be stored
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -47,9 +46,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: >
       Returns the collection of values associated with the key. The collection
@@ -61,24 +61,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose associated values are to be returned
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -91,9 +90,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: |
       Removes the given key value pair from the multimap.
@@ -102,24 +102,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key of the entry to remove
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -133,9 +132,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: keySet
     doc: >
       Returns the set of keys in the multimap.The collection is NOT backed by
@@ -147,12 +147,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
     response:
@@ -164,9 +163,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: values
     doc: >
       Returns the collection of values in the multimap.The collection is NOT
@@ -178,12 +178,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
     response:
@@ -195,9 +194,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: entrySet
     doc: >
       Returns the set of key-value pairs in the multimap.The collection is NOT
@@ -209,12 +209,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
     response:
@@ -226,9 +225,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsKey
     doc: |
       Returns whether the multimap contains an entry with the key.
@@ -237,24 +237,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose existence is checked.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -267,9 +266,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsValue
     doc: |
       Returns whether the multimap contains an entry with the value.
@@ -278,18 +278,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value whose existence is checked.
     response:
@@ -300,9 +299,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsEntry
     doc: |
       Returns whether the multimap contains the given key-value pair.
@@ -311,30 +311,29 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose existence is checked.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value whose existence is checked.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -347,9 +346,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: size
     doc: |
       Returns the number of key-value pairs in the multimap.
@@ -358,12 +358,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
     response:
@@ -374,9 +373,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: clear
     doc: |
       Clears the multimap. Removes all key-value pairs.
@@ -385,18 +385,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: valueCount
     doc: |
       Returns the number of values that match the given key in the multimap.
@@ -405,24 +405,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose values count is to be returned
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -435,9 +434,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addEntryListenerToKey
     doc: >
       Adds the specified entry listener for the specified key.The listener will
@@ -449,30 +449,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key to listen to
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             True if EntryEvent should contain the value,false otherwise
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -484,7 +483,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -494,45 +493,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               The key to listen to
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListener
     doc: >
       Adds an entry listener for this multimap. The listener will be notified
@@ -542,24 +542,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             True if EntryEvent should contain the value,false otherwise
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -571,7 +570,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -581,45 +580,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeEntryListener
     doc: >
       Removes the specified entry listener. Returns silently if no such listener
@@ -629,18 +629,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Registration id of listener
     response:
@@ -651,9 +650,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: lock
     doc: >
       Acquires the lock for the specified key for the specified lease time.
@@ -671,24 +671,23 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key the Lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -696,14 +695,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -711,6 +710,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: tryLock
     doc: >
       Tries to acquire the lock for the specified key for the specified lease
@@ -726,24 +726,23 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key to lock in this map.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -751,19 +750,19 @@ methods:
         - name: lease
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Time in milliseconds to wait before releasing the lock.
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Maximum time to wait for the lock.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -776,9 +775,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isLocked
     doc: >
       Checks the lock for the specified key. If the lock is acquired, this
@@ -788,18 +788,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key to lock to be checked.
     response:
@@ -810,9 +809,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: unlock
     doc: >
       Releases the lock for the specified key regardless of the lock owner. It
@@ -824,24 +824,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key to Lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -849,7 +848,7 @@ methods:
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -857,6 +856,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: forceUnlock
     doc: >
       Releases the lock for the specified key regardless of the lock owner. It
@@ -868,24 +868,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key to Lock
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -893,6 +892,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: removeEntry
     doc: >
       Removes all the entries with the given key. The collection is NOT backed
@@ -904,30 +904,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key of the entry to remove
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value of the entry to remove
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -941,9 +940,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: delete
     doc: |
       Removes all the entries with the given key.
@@ -952,24 +952,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the MultiMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key of the entry to remove
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -978,3 +977,4 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0

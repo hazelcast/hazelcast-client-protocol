@@ -10,24 +10,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -35,7 +34,7 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key.
     response:
@@ -46,9 +45,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: >
       Returns the value for the specified key, or null if this map does not
@@ -58,24 +58,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -83,7 +82,7 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
     response:
@@ -94,9 +93,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getForUpdate
     doc: >
       Locks the key and then gets and returns the value to which the specified
@@ -108,24 +108,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -133,7 +132,7 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to which the specified key is mapped
     response:
@@ -144,9 +143,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: size
     doc: |
       Returns the number of entries in this map.
@@ -155,24 +155,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -185,9 +184,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this map contains no entries.
@@ -196,24 +196,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -226,9 +225,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: put
     doc: >
       Associates the specified value with the specified key in this map. If the
@@ -242,24 +242,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -267,19 +266,19 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to associate with the key.
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -292,9 +291,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: set
     doc: >
       Associates the specified value with the specified key in this map. If the
@@ -310,24 +310,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -335,19 +334,20 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to associate with key
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: putIfAbsent
     doc: >
       If the specified key is not already associated with a value, associate it
@@ -359,24 +359,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -384,13 +383,13 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to associate with the key when there is no previous value.
     response:
@@ -402,9 +401,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: replace
     doc: >
       Replaces the entry for a key only if it is currently mapped to some value.
@@ -416,24 +416,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -441,13 +440,13 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value replaced the previous value
     response:
@@ -459,9 +458,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: replaceIfSame
     doc: >
       Replaces the entry for a key only if currently mapped to a given value.
@@ -473,24 +473,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -498,19 +497,19 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key.
         - name: oldValue
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Replace the key value if it is the old value.
         - name: newValue
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The new value to replace the old value.
     response:
@@ -521,9 +520,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Removes the mapping for a key from this map if it is present. The map will
@@ -537,24 +537,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -562,7 +561,7 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Remove the mapping for this key.
     response:
@@ -574,9 +573,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: delete
     doc: >
       Removes the mapping for a key from this map if it is present. The map will
@@ -590,24 +590,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -615,13 +614,14 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Remove the mapping for this key.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: removeIfSame
     doc: >
       Removes the entry for a key only if currently mapped to a given value. The
@@ -633,24 +633,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -658,13 +657,13 @@ methods:
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified key
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Remove the key if it has this value.
     response:
@@ -675,9 +674,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: keySet
     doc: >
       Returns a set clone of the keys contained in this map. The set is NOT
@@ -691,24 +691,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -721,9 +720,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: keySetWithPredicate
     doc: >
       Queries the map based on the specified predicate and returns the keys of
@@ -739,24 +739,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -764,7 +763,7 @@ methods:
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Specified query criteria.
     response:
@@ -775,9 +774,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: values
     doc: >
       Returns a collection clone of the values contained in this map. The
@@ -791,24 +791,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -821,9 +820,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: valuesWithPredicate
     doc: >
       Queries the map based on the specified predicate and returns the values of
@@ -839,24 +839,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -864,7 +863,7 @@ methods:
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Specified query criteria.
     response:
@@ -875,9 +874,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsValue
     doc: |
       Returns true if this map contains an entry for the specified value.
@@ -886,24 +886,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Map
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -911,7 +910,7 @@ methods:
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The specified value.
     response:
@@ -922,6 +921,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

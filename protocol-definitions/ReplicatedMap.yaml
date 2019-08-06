@@ -15,30 +15,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key with which the specified value is to be associated.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value to be associated with the specified key
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             ttl in milliseconds to be associated with the specified key-value
             pair
@@ -50,9 +49,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: size
     doc: >
       Returns the number of key-value mappings in this map. If the map contains
@@ -64,12 +64,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -80,9 +79,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Return true if this map contains no key-value mappings
@@ -91,12 +91,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -107,9 +106,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsKey
     doc: |
       Returns true if this map contains a mapping for the specified key.
@@ -118,18 +118,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose associated value is to be returned.
     response:
@@ -140,9 +139,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsValue
     doc: >
       Returns true if this map maps one or more keys to the specified value.
@@ -153,18 +153,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             value whose presence in this map is to be tested
     response:
@@ -175,9 +174,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: >
       Returns the value to which the specified key is mapped, or null if this
@@ -193,18 +193,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The key whose associated value is to be returned
     response:
@@ -216,9 +215,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Removes the mapping for a key from this map if it is present (optional
@@ -235,18 +235,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key with which the specified value is to be associated.
     response:
@@ -258,9 +257,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putAll
     doc: >
       Copies all of the mappings from the specified map to this map (optional
@@ -276,24 +276,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: entries
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entries to be stored in this map
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       The clear operation wipes data out of the replicated maps.It is the only
@@ -309,18 +309,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Replicated Map
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addEntryListenerToKeyWithPredicate
     doc: >
       Adds an continuous entry listener for this map. The listener will be
@@ -332,30 +332,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Replicated Map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key with which the specified value is to be associated.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The predicate for filtering entries
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -367,7 +366,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -377,45 +376,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               Key with which the specified value is to be associated.
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListenerWithPredicate
     doc: >
       Adds an continuous entry listener for this map. The listener will be
@@ -427,24 +427,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Replicated Map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The predicate for filtering entries
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -456,7 +455,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -466,45 +465,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListenerToKey
     doc: >
       Adds the specified entry listener for the specified key. The listener will
@@ -516,24 +516,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Replicated Map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key with which the specified value is to be associated.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -545,7 +544,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -555,45 +554,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               Key with which the specified value is to be associated.
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListener
     doc: >
       Adds an entry listener for this map. The listener will be notified for all
@@ -603,18 +603,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -626,7 +625,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -636,45 +635,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeEntryListener
     doc: >
       Removes the specified entry listener. Returns silently if there was no
@@ -684,18 +684,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the registered entry listener.
     response:
@@ -706,9 +705,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: keySet
     doc: >
       Returns a lazy Set view of the key contained in this map. A LazySet is
@@ -728,12 +728,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -744,9 +743,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: values
     doc: |
       TODO DOC
@@ -755,12 +755,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -771,9 +770,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: entrySet
     doc: |
       TODO DOC
@@ -782,12 +782,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -798,9 +797,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addNearCacheEntryListener
     doc: |
       TODO DOC
@@ -809,24 +809,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the ReplicatedMap
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             True if EntryEvent should contain the value,false otherwise
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -838,7 +837,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -848,42 +847,43 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0

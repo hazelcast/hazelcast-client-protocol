@@ -13,12 +13,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of List
     response:
@@ -29,9 +28,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: contains
     doc: |
       Returns true if this list contains the specified element.
@@ -40,18 +40,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element whose presence in this list is to be tested
     response:
@@ -62,9 +61,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsAll
     doc: >
       Returns true if this list contains all of the elements of the specified
@@ -74,18 +74,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection to be checked for containment in this list
     response:
@@ -97,9 +96,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: add
     doc: >
       Appends the specified element to the end of this list (optional
@@ -115,18 +115,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to be appended to this list
     response:
@@ -137,9 +136,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Removes the first occurrence of the specified element from this list, if
@@ -153,18 +153,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to be removed from this list, if present
     response:
@@ -175,9 +174,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addAll
     doc: >
       Appends all of the elements in the specified collection to the end of this
@@ -193,18 +193,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection containing elements to be added to this list
     response:
@@ -215,9 +214,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRemoveAll
     doc: >
       Removes from this list all of its elements that are contained in the
@@ -227,18 +227,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The list of values to compare for removal.
     response:
@@ -249,9 +248,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRetainAll
     doc: >
       Retains only the elements in this list that are contained in the specified
@@ -263,18 +263,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The list of values to compare for retaining.
     response:
@@ -285,9 +284,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       Removes all of the elements from this list (optional operation). The list
@@ -297,18 +297,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: getAll
     doc: |
       Return the all elements of this collection
@@ -317,12 +317,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
     response:
@@ -333,9 +332,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addListener
     doc: >
       Adds an item listener for this collection. Listener will be notified for
@@ -345,24 +345,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Set to true if you want the event to contain the value.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -374,7 +373,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -384,21 +383,22 @@ methods:
           - name: item
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeListener
     doc: >
       Removes the specified item listener. Returns silently if the specified
@@ -408,18 +408,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -430,9 +429,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this list contains no elements
@@ -441,12 +441,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
     response:
@@ -457,9 +456,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addAllWithIndex
     doc: >
       Inserts all of the elements in the specified collection into this list at
@@ -477,25 +477,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             index at which to insert the first element from the specified
             collection.
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The list of value to insert into the list.
     response:
@@ -506,9 +505,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: |
       Returns the element at the specified position in this list
@@ -517,18 +517,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Index of the element to return
     response:
@@ -539,9 +538,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: set
     doc: |
       The element previously at the specified position
@@ -550,24 +550,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Index of the element to replace
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to be stored at the specified position
     response:
@@ -578,9 +577,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addWithIndex
     doc: >
       Inserts the specified element at the specified position in this list
@@ -592,30 +592,30 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             index at which the specified element is to be inserted
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value to be inserted.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: removeWithIndex
     doc: >
       Removes the element at the specified position in this list (optional
@@ -627,18 +627,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The index of the element to be removed
     response:
@@ -649,9 +648,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: lastIndexOf
     doc: >
       Returns the index of the last occurrence of the specified element in this
@@ -663,18 +663,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to search for
     response:
@@ -686,9 +685,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: indexOf
     doc: >
       Returns the index of the first occurrence of the specified element in this
@@ -700,18 +700,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to search for
     response:
@@ -723,9 +722,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: sub
     doc: >
       Returns a view of the portion of this list between the specified from,
@@ -755,24 +755,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: from
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Low endpoint (inclusive) of the subList
         - name: to
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             High endpoint (exclusive) of the subList
     response:
@@ -783,9 +782,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: iterator
     doc: |
       Returns an iterator over the elements in this list in proper sequence.
@@ -794,12 +794,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
     response:
@@ -810,9 +809,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: listIterator
     doc: >
       Returns a list iterator over the elements in this list (in proper
@@ -828,18 +828,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             index of the first element to be returned from the list iterator next
     response:
@@ -851,6 +850,7 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

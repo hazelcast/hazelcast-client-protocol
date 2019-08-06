@@ -10,12 +10,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
     response:
@@ -26,9 +25,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isLockedByCurrentThread
     doc: |
       Returns whether this lock is locked by current thread or not.
@@ -37,18 +37,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -61,9 +60,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getLockCount
     doc: |
       Returns re-entrant lock hold count, regardless of lock ownership.
@@ -72,12 +72,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
     response:
@@ -88,9 +87,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getRemainingLeaseTime
     doc: >
       Returns remaining lease time in milliseconds. If the lock is not locked
@@ -100,12 +100,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
     response:
@@ -116,9 +115,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: lock
     doc: >
       Acquires the lock for the specified lease time.After lease time, lock will
@@ -132,24 +132,23 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
         - name: leaseTime
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Time to wait before releasing to lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -157,7 +156,7 @@ methods:
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -165,6 +164,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: unlock
     doc: |
       Releases the lock.
@@ -173,18 +173,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -192,7 +191,7 @@ methods:
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -200,6 +199,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: forceUnlock
     doc: >
       Releases the lock regardless of the lock owner. It always successfully
@@ -211,18 +211,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -230,6 +229,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: tryLock
     doc: >
       Tries to acquire the lock for the specified lease time.After lease time,
@@ -245,18 +245,17 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Lock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -264,19 +263,19 @@ methods:
         - name: lease
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             time in milliseconds to wait before releasing the lock.
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Maximum time to wait for the lock.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -289,6 +288,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

@@ -17,30 +17,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -48,7 +47,7 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -60,9 +59,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: >
       This method returns a clone of the original value, so modifying the
@@ -74,24 +74,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -104,9 +103,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Removes the mapping for a key from this map if it is present (optional
@@ -124,24 +124,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -155,9 +154,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: replace
     doc: |
       Replaces the entry for a key only if currently mapped to a given value.
@@ -166,30 +166,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             New value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -203,9 +202,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: replaceIfSame
     doc: >
       Replaces the the entry for a key only if existing values equal to the
@@ -215,38 +215,37 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: testValue
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Test the existing value against this value to find if equal to this
             value.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             New value for the map entry. Only replace with this value if
             existing value is equal to the testValue.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -259,9 +258,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsKey
     doc: |
       Returns true if this map contains a mapping for the specified key.
@@ -270,24 +270,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -300,9 +299,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsValue
     doc: >
       Returns true if this map maps one or more keys to the specified value.This
@@ -314,18 +314,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value to check if exists in the map.
     response:
@@ -336,9 +335,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: removeIfSame
     doc: >
       Removes the mapping for a key from this map if existing value equal to the
@@ -348,24 +348,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Test the existing value against this value to find if equal to this
             value. Only remove the entry from the map if the value is equal to
@@ -373,7 +372,7 @@ methods:
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -386,9 +385,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: delete
     doc: >
       Removes the mapping for a key from this map if it is present.Unlike
@@ -408,24 +408,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -434,6 +433,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: flush
     doc: >
       If this map has a MapStore, this method flushes all the local dirty
@@ -445,18 +445,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: tryRemove
     doc: >
       Tries to remove the entry with the given key from this map within the
@@ -470,24 +470,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -495,7 +494,7 @@ methods:
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             maximum time in milliseconds to wait for acquiring the lock for the
             key.
@@ -507,9 +506,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: tryPut
     doc: >
       Tries to put the given key and value into this map within a specified
@@ -523,30 +523,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             New value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -554,7 +553,7 @@ methods:
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             maximum time in milliseconds to wait for acquiring the lock for the
             key.
@@ -566,9 +565,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putTransient
     doc: >
       Same as put except that MapStore, if defined, will not be called to
@@ -580,30 +580,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             New value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -611,7 +610,7 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -619,6 +618,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: putIfAbsent
     doc: >
       Puts an entry into this map with a given ttl (time to live) value if the
@@ -630,30 +630,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             New value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -661,7 +660,7 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -674,9 +673,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: set
     doc: >
       Puts an entry into this map with a given ttl (time to live) value.Entry
@@ -690,30 +690,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             New value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -721,7 +720,7 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -729,6 +728,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: lock
     doc: >
       Acquires the lock for the specified lease time.After lease time, lock will
@@ -746,24 +746,23 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -771,14 +770,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -786,6 +785,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: tryLock
     doc: >
       Tries to acquire the lock for the specified key for the specified lease
@@ -801,24 +801,23 @@ methods:
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -826,19 +825,19 @@ methods:
         - name: lease
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             time in milliseconds to wait before releasing the lock.
         - name: timeout
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             maximum time to wait for getting the lock.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -850,9 +849,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isLocked
     doc: >
       Checks the lock for the specified key.If the lock is acquired then returns
@@ -862,18 +862,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry to check if it is locked.
     response:
@@ -884,9 +883,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: unlock
     doc: >
       Releases the lock for the specified key. It never blocks and returns
@@ -902,24 +902,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry to unlock
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -927,7 +926,7 @@ methods:
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -935,6 +934,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addInterceptor
     doc: >
       Adds an interceptor for this map. Added interceptor will intercept
@@ -946,18 +946,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: interceptor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             interceptor to add
     response:
@@ -968,9 +967,10 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: removeInterceptor
     doc: >
       Removes the given interceptor for this map so it will not intercept
@@ -980,18 +980,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: id
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             of interceptor
     response:
@@ -1002,9 +1001,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addEntryListenerToKeyWithPredicate
     doc: >
       Adds a MapListener for this map. To receive an event, you should implement
@@ -1016,43 +1016,42 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             predicate for filtering entries.
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if EntryEvent should
             contain the value.
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1064,7 +1063,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1074,45 +1073,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               Key for the map entry.
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListenerWithPredicate
     doc: >
       Adds an continuous entry listener for this map. Listener will get notified
@@ -1124,37 +1124,36 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             predicate for filtering entries.
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if EntryEvent should
             contain the value.
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1166,7 +1165,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1176,45 +1175,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListenerToKey
     doc: >
       Adds a MapListener for this map. To receive an event, you should implement
@@ -1226,36 +1226,35 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if EntryEvent should contain the value.
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1267,7 +1266,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1277,45 +1276,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               Key for the map entry.
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addEntryListener
     doc: >
       Adds a MapListener for this map. To receive an event, you should implement
@@ -1327,30 +1327,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if EntryEvent should contain the value.
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1362,7 +1361,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1372,45 +1371,46 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: value
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: oldValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: addNearCacheEntryListener
     doc: >
       Adds an entry listener for this map. Listener will get notified for all
@@ -1420,24 +1420,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1449,7 +1448,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1459,25 +1458,25 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuid
             type: UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequence
             type: long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
       - id: 216
@@ -1486,27 +1485,28 @@ methods:
           - name: keys
             type: List_Data
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuids
             type: List_String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuids
             type: List_UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequences
             type: List_Long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeEntryListener
     doc: >
       Removes the specified entry listener. Returns silently if there is no such
@@ -1516,18 +1516,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             id of registered listener.
     response:
@@ -1538,9 +1537,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addPartitionLostListener
     doc: >
       Adds a MapPartitionLostListener. The addPartitionLostListener returns a
@@ -1560,18 +1560,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -1583,7 +1582,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -1593,15 +1592,16 @@ methods:
           - name: partitionId
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removePartitionLostListener
     doc: >
       Removes the specified map partition lost listener. Returns silently if
@@ -1611,18 +1611,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             id of register
     response:
@@ -1633,9 +1632,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getEntryView
     doc: >
       Returns the EntryView for the specified key.
@@ -1648,24 +1648,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the key of the entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -1678,15 +1677,16 @@ methods:
         - name: response
           type: SimpleEntryView
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: maxIdle
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: evict
     doc: >
       Evicts the specified key from this map. If a MapStore is defined for this
@@ -1698,24 +1698,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the specified key to evict from this map.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -1728,9 +1727,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: evictAll
     doc: >
       Evicts all keys from this map except the locked ones. If a MapStore is
@@ -1744,18 +1744,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: loadAll
     doc: >
       Loads all keys into the store. This is a batch load operation so that an
@@ -1765,18 +1765,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: replaceExistingValues
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             when <code>true</code>, existing values in the Map will
             be replaced by those loaded from the MapLoader
@@ -1784,6 +1783,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: loadGivenKeys
     doc: >
       Loads the given keys. This is a batch load operation so that an
@@ -1793,24 +1793,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             keys to load
         - name: replaceExistingValues
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             when <code>true</code>, existing values in the Map will be replaced
             by those loaded from the MapLoader
@@ -1818,6 +1817,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: keySet
     doc: >
       Returns a set clone of the keys contained in this map. The set is NOT
@@ -1831,12 +1831,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the map
     response:
@@ -1847,9 +1846,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAll
     doc: >
       Returns the entries for the given keys. If any keys are not present in the
@@ -1867,18 +1867,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: any key belongs to target partition
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             keys to get
     response:
@@ -1889,9 +1888,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: values
     doc: >
       Returns a collection clone of the values contained in this map.
@@ -1906,12 +1906,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
     response:
@@ -1922,9 +1921,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: entrySet
     doc: >
       Returns a Set clone of the mappings contained in this map.
@@ -1939,12 +1939,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
     response:
@@ -1955,9 +1954,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: keySetWithPredicate
     doc: >
       Queries the map based on the specified predicate and returns the keys of
@@ -1973,18 +1973,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -1995,9 +1994,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: valuesWithPredicate
     doc: >
       Queries the map based on the specified predicate and returns the values of
@@ -2013,18 +2013,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2035,9 +2034,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: entriesWithPredicate
     doc: >
       Queries the map based on the specified predicate and returns the matching
@@ -2053,18 +2053,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2075,9 +2074,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addIndex
     doc: >
       Adds an index to this map for the specified entries so that queries can
@@ -2101,30 +2101,30 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: attribute
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             index attribute of value
         - name: ordered
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             true if index should be ordered, false otherwise.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: size
     doc: >
       Returns the number of key-value mappings in this map.  If the map contains
@@ -2136,12 +2136,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             of map
     response:
@@ -2152,9 +2151,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this map contains no key-value mappings.
@@ -2163,12 +2163,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
     response:
@@ -2179,9 +2178,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putAll
     doc: >
       Copies all of the mappings from the specified map to this map (optional
@@ -2203,24 +2203,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: any key belongs to target partition
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entries
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             mappings to be stored in this map
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       This method clears the map and invokes MapStore#deleteAll deleteAll on
@@ -2234,18 +2234,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             of map
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: executeOnKey
     doc: >
       Applies the user defined EntryProcessor to the entry mapped by the key.
@@ -2257,30 +2257,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             processor to execute on the map entry
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the key of the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
@@ -2291,9 +2290,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: submitToKey
     doc: >
       Applies the user defined EntryProcessor to the entry mapped by the key.
@@ -2307,30 +2307,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entry processor to be executed on the entry.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the key of the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
@@ -2341,9 +2340,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: executeOnAllKeys
     doc: >
       Applies the user defined EntryProcessor to the all entries in the
@@ -2353,18 +2353,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entry processor to be executed.
     response:
@@ -2375,9 +2374,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: executeWithPredicate
     doc: >
       Applies the user defined EntryProcessor to the entries in the map which
@@ -2389,24 +2389,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entry processor to be executed.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2417,9 +2416,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: executeOnKeys
     doc: >
       Applies the user defined EntryProcessor to the entries mapped by the
@@ -2431,24 +2431,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             entry processor to be executed.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The keys for the entries for which the entry processor shall be
             executed on.
@@ -2460,9 +2459,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: forceUnlock
     doc: >
       Releases the lock for the specified key regardless of the lock owner.It
@@ -2474,24 +2474,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the key of the map entry.
         - name: referenceId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
@@ -2499,6 +2498,7 @@ methods:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: keySetWithPagingPredicate
     doc: |
       TODO DOC
@@ -2507,18 +2507,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2529,9 +2528,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: valuesWithPagingPredicate
     doc: >
       Queries the map based on the specified predicate and returns the values of
@@ -2547,18 +2547,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2569,9 +2568,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: entriesWithPagingPredicate
     doc: |
       TODO DOC
@@ -2580,18 +2580,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of map
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             specified query criteria.
     response:
@@ -2602,9 +2601,10 @@ methods:
         - name: response
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: clearNearCache
     doc: |
       TODO DOC
@@ -2613,24 +2613,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: target
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: fetchKeys
     doc: >
       Fetches specified number of keys from the specified partition starting
@@ -2640,24 +2640,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: batch
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The number of items to be batched
     response:
@@ -2668,15 +2667,16 @@ methods:
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: keys
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: fetchEntries
     doc: >
       Fetches specified number of entries from the specified partition starting
@@ -2686,24 +2686,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: batch
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The number of items to be batched
     response:
@@ -2714,15 +2713,16 @@ methods:
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: entries
           type: Map_Data_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: aggregate
     doc: |
       Applies the aggregation logic on all map entries and returns the result
@@ -2731,18 +2731,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: aggregator
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             aggregator to aggregate the entries with
     response:
@@ -2753,9 +2752,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: aggregateWithPredicate
     doc: >
       Applies the aggregation logic on map entries filtered with the Predicate
@@ -2765,24 +2765,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: aggregator
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             aggregator to aggregate the entries with
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             predicate to filter the entries with
     response:
@@ -2793,9 +2792,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: project
     doc: |
       Applies the projection logic on all map entries and returns the result
@@ -2804,18 +2804,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: projection
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             projection to transform the entries with. May return null.
     response:
@@ -2826,9 +2825,10 @@ methods:
         - name: response
           type: ListCN_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: projectWithPredicate
     doc: >
       Applies the projection logic on map entries filtered with the Predicate
@@ -2838,24 +2838,23 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: projection
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             projection to transform the entries with. May return null.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             predicate to filter the entries with
     response:
@@ -2866,9 +2865,10 @@ methods:
         - name: response
           type: ListCN_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: fetchNearCacheInvalidationMetadata
     doc: |
       Fetches invalidation metadata from partitions of map.
@@ -2877,18 +2877,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: names
           type: List_String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             names of the maps
         - name: address
           type: Address
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     response:
@@ -2899,15 +2898,16 @@ methods:
         - name: namePartitionSequenceList
           type: Map_String_Map_Integer_Long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: partitionUuidList
           type: Map_Integer_UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: assignAndGetUuids
     doc: |
       TODO DOC
@@ -2916,7 +2916,6 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
     response:
       id: 123
       doc: |
@@ -2925,9 +2924,10 @@ methods:
         - name: partitionUuidList
           type: Map_Integer_UUID
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: removeAll
     doc: |
       Removes all entries which match with the supplied predicate
@@ -2936,24 +2936,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             map name.
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             used to select entries to be removed from map.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addNearCacheInvalidationListener
     doc: >
       Adds listener to map. This listener will be used to listen near cache
@@ -2967,24 +2967,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the map
         - name: listenerFlags
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             flags of enabled listeners.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -2996,7 +2995,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -3006,25 +3005,25 @@ methods:
           - name: key
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuid
             type: UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequence
             type: long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
       - id: 216
@@ -3033,27 +3032,28 @@ methods:
           - name: keys
             type: List_Data
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sourceUuids
             type: List_String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: partitionUuids
             type: List_UUID
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: sequences
             type: List_Long
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: fetchWithQuery
     doc: >
       Fetches the specified number of entries from the specified partition
@@ -3065,36 +3065,35 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map
         - name: tableIndex
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The slot number (or index) to start the iterator
         - name: batch
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The number of items to be batched
         - name: projection
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             projection to transform the entries with
         - name: predicate
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             predicate to filter the entries with
     response:
@@ -3105,15 +3104,16 @@ methods:
         - name: results
           type: ListCN_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: nextTableIndexToReadFrom
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: eventJournalSubscribe
     doc: |
       Performs the initial subscription to the map event journal.
@@ -3124,12 +3124,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the map
     response:
@@ -3140,15 +3139,16 @@ methods:
         - name: oldestSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: newestSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: eventJournalRead
     doc: >
       Reads from the map event journal in batches. You may specify the start
@@ -3172,42 +3172,41 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             name of the map
         - name: startSequence
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the startSequence of the first item to read
         - name: minSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the minimum number of items to read.
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the maximum number of items to read.
         - name: predicate
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the predicate to apply before processing events
         - name: projection
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the projection to apply to journal events
     response:
@@ -3218,27 +3217,28 @@ methods:
         - name: readCount
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: items
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: itemSeqs
           type: longArray
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
         - name: nextSeq
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: setTtl
     doc: >
       Updates TTL (time to live) value of the entry specified by {@code key}
@@ -3270,24 +3270,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
@@ -3299,9 +3298,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putWithMaxIdle
     doc: >
       Puts an entry into this map with a given ttl (time to live) value.Entry
@@ -3317,30 +3317,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -3348,14 +3347,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: maxIdle
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration of maximum idle for this entry.
 
@@ -3368,9 +3367,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putTransientWithMaxIdle
     doc: >
       Same as put except that MapStore, if defined, will not be called to
@@ -3382,30 +3382,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -3413,14 +3412,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: maxIdle
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration of maximum idle for this entry.
 
@@ -3433,9 +3432,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: putIfAbsentWithMaxIdle
     doc: >
       Puts an entry into this map with a given ttl (time to live) value if the
@@ -3447,30 +3447,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -3478,14 +3477,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: maxIdle
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration of maximum idle for this entry.
 
@@ -3498,9 +3497,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: setWithMaxIdle
     doc: >
       Puts an entry into this map with a given ttl (time to live) value and
@@ -3517,30 +3517,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the map.
         - name: key
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Key for the map entry.
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Value for the map entry.
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -3548,14 +3547,14 @@ methods:
         - name: ttl
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration in milliseconds after which this entry shall be
             deleted. O means infinite.
         - name: maxIdle
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The duration of maximum idle for this entry.
 
@@ -3568,6 +3567,7 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

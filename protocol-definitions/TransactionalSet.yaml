@@ -10,24 +10,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Set
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -35,7 +34,7 @@ methods:
         - name: item
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Item added to transactional set
     response:
@@ -46,9 +45,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: |
       Remove item from transactional set.
@@ -57,24 +57,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Set
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -82,7 +81,7 @@ methods:
         - name: item
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Item removed from Transactional Set
     response:
@@ -93,9 +92,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: size
     doc: |
       Returns the size of the set.
@@ -104,24 +104,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Transactional Set
         - name: txnId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             The id of the user thread performing the operation. It is used to
             guarantee that only the lock holder thread (if a lock exists on the
@@ -134,6 +133,7 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

@@ -13,24 +13,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The element to add
         - name: timeoutMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Maximum time in milliseconds to wait for acquiring the lock for the
             key.
@@ -42,9 +41,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: put
     doc: >
       Inserts the specified element into this queue, waiting if necessary for
@@ -54,24 +54,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The element to add
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: size
     doc: >
       Returns the number of elements in this collection.  If this collection
@@ -83,12 +83,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -99,9 +98,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remove
     doc: >
       Retrieves and removes the head of this queue.  This method differs from
@@ -113,18 +113,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element to be removed from this queue, if present
     response:
@@ -135,9 +134,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: poll
     doc: >
       Retrieves and removes the head of this queue, waiting up to the specified
@@ -149,18 +149,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: timeoutMillis
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             Maximum time in milliseconds to wait for acquiring the lock for the
             key.
@@ -172,9 +171,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: take
     doc: >
       Retrieves and removes the head of this queue, waiting if necessary until
@@ -184,12 +184,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -200,9 +199,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: peek
     doc: >
       Retrieves, but does not remove, the head of this queue, or returns null if
@@ -212,12 +212,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -228,9 +227,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: iterator
     doc: >
       Returns an iterator over the elements in this collection.  There are no
@@ -242,12 +242,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -258,9 +257,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: drainTo
     doc: >
       Removes all available elements from this queue and adds them to the given
@@ -278,12 +278,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -294,9 +293,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: drainToMaxSize
     doc: >
       Removes at most the given number of available elements from this queue and
@@ -314,18 +314,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: maxSize
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The maximum number of elements to transfer
     response:
@@ -336,9 +335,10 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: contains
     doc: >
       Returns true if this queue contains the specified element. More formally,
@@ -350,18 +350,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: value
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Element whose presence in this collection is to be tested
     response:
@@ -372,9 +371,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: containsAll
     doc: >
       Return true if this collection contains all of the elements in the
@@ -384,18 +384,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: dataList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection to be checked for containment in this collection
     response:
@@ -407,9 +406,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRemoveAll
     doc: >
       Removes all of this collection's elements that are also contained in the
@@ -421,18 +421,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: dataList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection containing elements to be removed from this collection
     response:
@@ -443,9 +442,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndRetainAll
     doc: >
       Retains only the elements in this collection that are contained in the
@@ -457,18 +457,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: dataList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             collection containing elements to be retained in this collection
     response:
@@ -479,9 +478,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: clear
     doc: >
       Removes all of the elements from this collection (optional operation). The
@@ -493,18 +493,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: addAll
     doc: >
       Adds all of the elements in the specified collection to this collection
@@ -520,18 +520,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: dataList
           type: List_Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Collection containing elements to be added to this collection
     response:
@@ -542,9 +541,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addListener
     doc: >
       Adds an listener for this collection. Listener will be notified or all
@@ -554,25 +554,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             <tt>true</tt> if the updated item should be passed to the item
             listener, <tt>false</tt> otherwise.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: >
             if true fires events that originated from this node only, otherwise
             fires all events
@@ -584,7 +583,7 @@ methods:
         - name: response
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
     events:
@@ -594,21 +593,22 @@ methods:
           - name: item
             type: Data
             nullable: true
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: uuid
             type: String
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
           - name: eventType
             type: int
             nullable: false
-            since: 2
+            since: 2.0
             doc: |
               TODO DOC
+    since: 2.0
   - name: removeListener
     doc: >
       Removes the specified item listener.Returns silently if the specified
@@ -618,18 +618,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
         - name: registrationId
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Id of the listener registration.
     response:
@@ -640,9 +639,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: remainingCapacity
     doc: >
       Returns the number of additional elements that this queue can ideally (in
@@ -658,12 +658,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -674,9 +673,10 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this collection contains no elements.
@@ -685,12 +685,11 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the Queue
     response:
@@ -701,6 +700,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

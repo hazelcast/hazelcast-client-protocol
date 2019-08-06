@@ -10,18 +10,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the function applied on the value, the stored value does not change
     response:
@@ -32,9 +31,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: alter
     doc: |
       Alters the currently stored reference by applying a function on it.
@@ -43,24 +43,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the function that alters the currently stored reference
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: alterAndGet
     doc: >
       Alters the currently stored reference by applying a function on it and
@@ -70,18 +70,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the function that alters the currently stored reference
     response:
@@ -92,9 +91,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAndAlter
     doc: >
       Alters the currently stored reference by applying a function on it on and
@@ -104,18 +104,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             the function that alters the currently stored reference
     response:
@@ -126,9 +125,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: contains
     doc: |
       Checks if the reference contains the value.
@@ -137,18 +137,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: expected
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the value to check (is allowed to be null).
     response:
@@ -159,9 +158,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndSet
     doc: >
       Atomically sets the value to the given updated value only if the current
@@ -171,24 +171,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: expected
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the expected value
         - name: updated
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the new value
     response:
@@ -200,9 +199,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: |
       Gets the current value.
@@ -211,12 +211,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
     response:
@@ -227,9 +226,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: set
     doc: |
       Atomically sets the given value.
@@ -238,24 +238,24 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: newValue
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the new value
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: clear
     doc: |
       Clears the current stored reference.
@@ -264,18 +264,18 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
     response:
       id: 100
       doc: |
         TODO DOC
+    since: 2.0
   - name: getAndSet
     doc: |
       Gets the old value and sets the new value.
@@ -284,18 +284,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: newValue
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the new value.
     response:
@@ -306,9 +305,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: setAndGet
     doc: |
       Sets and gets the value.
@@ -317,18 +317,17 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
         - name: newValue
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             the new value
     response:
@@ -339,9 +338,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: isNull
     doc: |
       Checks if the stored reference is null.
@@ -350,12 +350,11 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
-      since: 2
       params:
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
     response:
@@ -366,6 +365,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0

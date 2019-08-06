@@ -10,24 +10,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The function applied to the value and the value is not
             changed.
@@ -39,9 +38,10 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: alter
     doc: |
       Alters the currently stored value by applying a function on it.
@@ -50,30 +50,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: function
           type: Data
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The function applied to the currently stored value.
         - name: returnValueType
           type: int
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             0 returns the old value, 1 returns the new value
     response:
@@ -84,9 +83,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: addAndGet
     doc: |
       Atomically adds the given value to the current value.
@@ -95,24 +95,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: delta
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to add to the current value
     response:
@@ -123,9 +122,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current
@@ -135,30 +135,29 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: expected
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The expected value
         - name: updated
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The new value
     response:
@@ -170,9 +169,10 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: get
     doc: |
       Gets the current value.
@@ -181,18 +181,17 @@ methods:
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
     response:
@@ -203,9 +202,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAndAdd
     doc: |
       Atomically adds the given value to the current value.
@@ -214,24 +214,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: delta
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The value to add to the current value
     response:
@@ -242,9 +241,10 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
   - name: getAndSet
     doc: |
       Atomically sets the given value and returns the old value.
@@ -253,24 +253,23 @@ methods:
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-      since: 2
       params:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             Name of this IAtomicLong instance.
         - name: newValue
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             The new value
     response:
@@ -281,6 +280,7 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2
+          since: 2.0
           doc: |
             TODO DOC
+    since: 2.0
