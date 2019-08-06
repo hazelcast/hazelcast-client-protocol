@@ -3,10 +3,8 @@ name: DurableExecutor
 ns: Hazelcast.Client.Protocol.Codec
 methods:
   - name: shutdown
-    doc: >
-      Initiates an orderly shutdown in which previously submitted tasks are
-      executed, but no new tasks will be accepted.
-
+    doc: |
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
     request:
       id: 0x1b01

@@ -3,10 +3,8 @@ name: List
 ns: Hazelcast.Client.Protocol.Codec
 methods:
   - name: size
-    doc: >
-      Returns the number of elements in this list.  If this list contains more
-      than Integer.MAX_VALUE elements, returns
-
+    doc: |
+      Returns the number of elements in this list.  If this list contains more than Integer.MAX_VALUE elements, returns
       Integer.MAX_VALUE.
     request:
       id: 0x0501
@@ -62,9 +60,8 @@ methods:
             True if this list contains the specified element, false otherwise
     since: 2.0
   - name: containsAll
-    doc: >
-      Returns true if this list contains all of the elements of the specified
-      collection.
+    doc: |
+      Returns true if this list contains all of the elements of the specified collection.
     request:
       id: 0x0503
       retryable: true
@@ -95,14 +92,10 @@ methods:
             specified collection
     since: 2.0
   - name: add
-    doc: >
-      Appends the specified element to the end of this list (optional
-      operation). Lists that support this operation may
-
+    doc: |
+      Appends the specified element to the end of this list (optional operation). Lists that support this operation may
       place limitations on what elements may be added to this list.  In particular, some lists will refuse to add null
-
       elements, and others will impose restrictions on the type of elements that may be added. List classes should
-
       clearly specify in their documentation any restrictions on what elements may be added.
     request:
       id: 0x0504
@@ -133,12 +126,9 @@ methods:
             true if this list changed as a result of the call, false otherwise
     since: 2.0
   - name: remove
-    doc: >
-      Removes the first occurrence of the specified element from this list, if
-      it is present (optional operation).
-
+    doc: |
+      Removes the first occurrence of the specified element from this list, if it is present (optional operation).
       If this list does not contain the element, it is unchanged.
-
       Returns true if this list contained the specified element (or equivalently, if this list changed as a result of the call).
     request:
       id: 0x0505
@@ -169,14 +159,10 @@ methods:
             True if this list contained the specified element, false otherwise
     since: 2.0
   - name: addAll
-    doc: >
-      Appends all of the elements in the specified collection to the end of this
-      list, in the order that they are
-
+    doc: |
+      Appends all of the elements in the specified collection to the end of this list, in the order that they are
       returned by the specified collection's iterator (optional operation).
-
       The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
-
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
       id: 0x0506
@@ -207,9 +193,8 @@ methods:
             True if this list changed as a result of the call, false otherwise
     since: 2.0
   - name: compareAndRemoveAll
-    doc: >
-      Removes from this list all of its elements that are contained in the
-      specified collection (optional operation).
+    doc: |
+      Removes from this list all of its elements that are contained in the specified collection (optional operation).
     request:
       id: 0x0507
       retryable: false
@@ -239,10 +224,8 @@ methods:
             True if removed at least one of the items, false otherwise.
     since: 2.0
   - name: compareAndRetainAll
-    doc: >
-      Retains only the elements in this list that are contained in the specified
-      collection (optional operation).
-
+    doc: |
+      Retains only the elements in this list that are contained in the specified collection (optional operation).
       In other words, removes from this list all of its elements that are not contained in the specified collection.
     request:
       id: 0x0508
@@ -273,9 +256,8 @@ methods:
             True if this list changed as a result of the call, false otherwise.
     since: 2.0
   - name: clear
-    doc: >
-      Removes all of the elements from this list (optional operation). The list
-      will be empty after this call returns.
+    doc: |
+      Removes all of the elements from this list (optional operation). The list will be empty after this call returns.
     request:
       id: 0x0509
       retryable: false
@@ -317,9 +299,8 @@ methods:
             An array of all item values in the list.
     since: 2.0
   - name: addListener
-    doc: >
-      Adds an item listener for this collection. Listener will be notified for
-      all collection add/remove events.
+    doc: |
+      Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
       id: 0x050b
       retryable: false
@@ -342,9 +323,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            if true fires events that originated from this node only, otherwise
-            fires all events
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
     response:
       id: 0x0068
       params:
@@ -378,9 +358,8 @@ methods:
               TODO DOC
     since: 2.0
   - name: removeListener
-    doc: >
-      Removes the specified item listener. Returns silently if the specified
-      listener was not added before.
+    doc: |
+      Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
       id: 0x050c
       retryable: true
@@ -435,16 +414,11 @@ methods:
             True if this list contains no elements
     since: 2.0
   - name: addAllWithIndex
-    doc: >
-      Inserts all of the elements in the specified collection into this list at
-      the specified position (optional operation).
-
+    doc: |
+      Inserts all of the elements in the specified collection into this list at the specified position (optional operation).
       Shifts the element currently at that position (if any) and any subsequent elements to the right (increases their indices).
-
       The new elements will appear in this list in the order that they are returned by the specified collection's iterator.
-
       The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
-
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
       id: 0x050e
@@ -462,9 +436,8 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            index at which to insert the first element from the specified
-            collection.
+          doc: |
+            index at which to insert the first element from the specified collection.
         - name: valueList
           type: List_Data
           nullable: false
@@ -550,10 +523,8 @@ methods:
             The element previously at the specified position
     since: 2.0
   - name: addWithIndex
-    doc: >
-      Inserts the specified element at the specified position in this list
-      (optional operation). Shifts the element
-
+    doc: |
+      Inserts the specified element at the specified position in this list (optional operation). Shifts the element
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     request:
       id: 0x0511
@@ -583,10 +554,8 @@ methods:
       id: 0x0064
     since: 2.0
   - name: removeWithIndex
-    doc: >
-      Removes the element at the specified position in this list (optional
-      operation). Shifts any subsequent elements
-
+    doc: |
+      Removes the element at the specified position in this list (optional operation). Shifts any subsequent elements
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
     request:
       id: 0x0512
@@ -617,10 +586,8 @@ methods:
             The element previously at the specified position
     since: 2.0
   - name: lastIndexOf
-    doc: >
-      Returns the index of the last occurrence of the specified element in this
-      list, or -1 if this list does not
-
+    doc: |
+      Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
     request:
       id: 0x0513
@@ -652,10 +619,8 @@ methods:
             this list, or -1 if this list does not contain the element
     since: 2.0
   - name: indexOf
-    doc: >
-      Returns the index of the first occurrence of the specified element in this
-      list, or -1 if this list does not
-
+    doc: |
+      Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
     request:
       id: 0x0514
@@ -687,28 +652,17 @@ methods:
             this list, or -1 if this list does not contain the element
     since: 2.0
   - name: sub
-    doc: >
-      Returns a view of the portion of this list between the specified from,
-      inclusive, and to, exclusive.(If from and
-
+    doc: |
+      Returns a view of the portion of this list between the specified from, inclusive, and to, exclusive.(If from and
       to are equal, the returned list is empty.) The returned list is backed by this list, so non-structural changes in
-
       the returned list are reflected in this list, and vice-versa. The returned list supports all of the optional list
-
       operations supported by this list.
-
       This method eliminates the need for explicit range operations (of the sort that commonly exist for arrays).
-
       Any operation that expects a list can be used as a range operation by passing a subList view instead of a whole list.
-
       Similar idioms may be constructed for indexOf and lastIndexOf, and all of the algorithms in the Collections class
-
       can be applied to a subList.
-
       The semantics of the list returned by this method become undefined if the backing list (i.e., this list) is
-
       structurally modified in any way other than via the returned list.(Structural modifications are those that change
-
       the size of this list, or otherwise perturb it in such a fashion that iterations in progress may yield incorrect results.)
     request:
       id: 0x0515
@@ -770,14 +724,10 @@ methods:
             An iterator over the elements in this list in proper sequence
     since: 2.0
   - name: listIterator
-    doc: >
-      Returns a list iterator over the elements in this list (in proper
-      sequence), starting at the specified position
-
+    doc: |
+      Returns a list iterator over the elements in this list (in proper sequence), starting at the specified position
       in the list. The specified index indicates the first element that would be returned by an initial call to
-
       ListIterator#next next. An initial call to ListIterator#previous previous would return the element with the
-
       specified index minus one.
     request:
       id: 0x0517
@@ -795,7 +745,7 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
+          doc: |
             index of the first element to be returned from the list iterator next
     response:
       id: 0x006a

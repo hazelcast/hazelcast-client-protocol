@@ -3,11 +3,9 @@ name: DynamicConfig
 ns: Hazelcast.Client.Protocol.Codec
 methods:
   - name: addMultiMapConfig
-    doc: >
+    doc: |
       Adds a new multimap config to a running cluster.
-
       If a multimap configuration with the given {@code name} already exists, then
-
       the new multimap config is ignored and the existing one is preserved.
     request:
       id: 0x1e01
@@ -37,10 +35,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to store values in {@code BINARY} format or {@code
-            false} to store
-
+          doc: |
+            {@code true} to store values in {@code BINARY} format or {@code false} to store
             values in {@code OBJECT} format.
         - name: backupCount
           type: int
@@ -58,19 +54,15 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            set to {@code true} to enable statistics on this multimap
-            configuration
+          doc: |
+            set to {@code true} to enable statistics on this multimap configuration
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -88,11 +80,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addRingbufferConfig
-    doc: >
+    doc: |
       Adds a new ringbuffer configuration to a running cluster.
-
       If a ringbuffer configuration with the given {@code name} already exists, then
-
       the new ringbuffer config is ignored and the existing one is preserved.
     request:
       id: 0x1e02
@@ -134,10 +124,8 @@ methods:
           type: String
           nullable: false
           since: 2.0
-          doc: >
-            in memory format of items in the ringbuffer. Valid options are
-            {@code BINARY}
-
+          doc: |
+            in memory format of items in the ringbuffer. Valid options are {@code BINARY}
             and {@code OBJECT}
         - name: ringbufferStoreConfig
           type: RingbufferStoreConfigHolder
@@ -149,12 +137,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -172,11 +157,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addCardinalityEstimatorConfig
-    doc: >
+    doc: |
       Adds a new cardinality estimator configuration to a running cluster.
-
       If a cardinality estimator configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e03
@@ -206,12 +189,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -249,12 +229,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064
@@ -304,19 +281,15 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics on the list,
-            otherwise {@code false}
+          doc: |
+            {@code true} to enable gathering of statistics on the list, otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -378,19 +351,15 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics on the list,
-            otherwise {@code false}
+          doc: |
+            {@code true} to enable gathering of statistics on the list, otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -408,11 +377,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addReplicatedMapConfig
-    doc: >
+    doc: |
       Adds a new replicated map configuration to a running cluster.
-
       If a replicated map configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e07
@@ -430,36 +397,29 @@ methods:
           type: String
           nullable: false
           since: 2.0
-          doc: >
-            data type used to store entries. Valid values are {@code "BINARY"},
-            {@code "OBJECT"}
-
+          doc: |
+            data type used to store entries. Valid values are {@code "BINARY"}, {@code "OBJECT"}
             and {@code "NATIVE"}.
         - name: asyncFillup
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to make the replicated map available for reads before
-            initial replication
-
+          doc: |
+            {@code true} to make the replicated map available for reads before initial replication
             is completed, {@code false} otherwise.
         - name: statisticsEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: mergePolicy
           type: String
           nullable: false
           since: 2.0
-          doc: >
+          doc: |
             class name of a class implementing
-
             {@code com.hazelcast.replicatedmap.merge.ReplicatedMapMergePolicy} to merge entries
-
             while recovering from a split brain
         - name: listenerConfigs
           type: List_ListenerConfigHolder
@@ -471,12 +431,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergeBatchSize
           type: int
@@ -508,26 +465,21 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            when {@code true} all nodes listening to the same topic get their
-            messages in
-
+          doc: |
+            when {@code true} all nodes listening to the same topic get their messages in
             the same order
         - name: statisticsEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: multiThreadingEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable multi-threaded processing of incoming
-            messages, otherwise
-
+          doc: |
+            {@code true} to enable multi-threaded processing of incoming messages, otherwise
             a single thread will handle all topic messages
         - name: listenerConfigs
           type: List_ListenerConfigHolder
@@ -539,11 +491,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addExecutorConfig
-    doc: >
+    doc: |
       Adds a new executor configuration to a running cluster.
-
       If an executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e09
@@ -567,36 +517,29 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            capacity of executor queue. A value of {@code 0} implies {@link
-            Integer#MAX_VALUE}
+          doc: |
+            capacity of executor queue. A value of {@code 0} implies {@link Integer#MAX_VALUE}
         - name: statisticsEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064
     since: 2.0
   - name: addDurableExecutorConfig
-    doc: >
+    doc: |
       Adds a new durable executor configuration to a running cluster.
-
       If a durable executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e0a
@@ -632,22 +575,17 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064
     since: 2.0
   - name: addScheduledExecutorConfig
-    doc: >
+    doc: |
       Adds a new scheduled executor configuration to a running cluster.
-
       If a scheduled executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e0b
@@ -677,19 +615,15 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            maximum number of tasks that a scheduler can have at any given point
-            in time per partition
+          doc: |
+            maximum number of tasks that a scheduler can have at any given point in time per partition
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -707,11 +641,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addSemaphoreConfig
-    doc: >
+    doc: |
       Adds a new semaphore configuration to a running cluster.
-
       If a semaphore configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e0c
@@ -747,12 +679,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064
@@ -802,26 +731,21 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            queue time-to-live in seconds: queue will be destroyed if it stays
-            empty or unused for that time
+          doc: |
+            queue time-to-live in seconds: queue will be destroyed if it stays empty or unused for that time
         - name: statisticsEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the queue to remain functional. When {@code null}, quorum does not
-
             apply to this queue configuration's operations.
         - name: queueStoreConfig
           type: QueueStoreConfigHolder
@@ -889,32 +813,24 @@ methods:
           type: String
           nullable: false
           since: 2.0
-          doc: >
-            eviction policy. Valid values: {@code NONE} (no eviction), {@code
-            LRU}
-
+          doc: |
+            eviction policy. Valid values: {@code NONE} (no eviction), {@code LRU}
             (Least Recently Used), {@code LFU} (Least Frequently Used),
-
             {@code RANDOM} (evict random entry).
         - name: readBackupData
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable reading local backup entries, {@code false}
-            otherwise
+          doc: |
+            {@code true} to enable reading local backup entries, {@code false} otherwise
         - name: cacheDeserializedValues
           type: String
           nullable: false
           since: 2.0
-          doc: >
-            control caching of de-serialized values. Valid values are {@code
-            NEVER}
-
+          doc: |
+            control caching of de-serialized values. Valid values are {@code NEVER}
             (Never cache de-serialized object), {@code INDEX_ONLY} (Cache values only
-
             when they are inserted into an index) and {@code ALWAYS} (Always cache
-
             de-serialized values
         - name: mergePolicy
           type: String
@@ -947,42 +863,32 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum
             number of members required in the cluster for the map to remain functional.
-
             When {@code null}, quorum does not apply to this map's operations.
         - name: mapEvictionPolicy
           type: Data
           nullable: true
           since: 2.0
-          doc: >
-            custom {@code com.hazelcast.map.eviction.MapEvictionPolicy}
-            implementation
-
+          doc: |
+            custom {@code com.hazelcast.map.eviction.MapEvictionPolicy} implementation
             or {@code null}
         - name: maxSizeConfigMaxSizePolicy
           type: String
           nullable: false
           since: 2.0
-          doc: >
+          doc: |
             maximum size policy. Valid values are {@code PER_NODE},
-
             {@code PER_PARTITION}, {@code USED_HEAP_PERCENTAGE}, {@code USED_HEAP_SIZE},
-
             {@code FREE_HEAP_PERCENTAGE}, {@code FREE_HEAP_SIZE},
-
             {@code USED_NATIVE_MEMORY_SIZE}, {@code USED_NATIVE_MEMORY_PERCENTAGE},
-
             {@code FREE_NATIVE_MEMORY_SIZE}, {@code FREE_NATIVE_MEMORY_PERCENTAGE}.
         - name: maxSizeConfigSize
           type: int
@@ -1030,10 +936,8 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of class implementing {@code
-            com.hazelcast.core.PartitioningStrategy}
-
+          doc: |
+            name of class implementing {@code com.hazelcast.core.PartitioningStrategy}
             or {@code null}
         - name: partitioningStrategyImplementation
           type: Data
@@ -1069,20 +973,16 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            metadata policy configuration for the supported data types. Valid
-            values
-
+          doc: |
+            metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
     response:
       id: 0x0064
     since: 2.0
   - name: addReliableTopicConfig
-    doc: >
+    doc: |
       Adds a new reliable topic configuration to a running cluster.
-
       If a reliable topic configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e0f
@@ -1112,26 +1012,21 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: topicOverloadPolicy
           type: String
           nullable: false
           since: 2.0
-          doc: >
-            policy to handle an overloaded topic. Available values are {@code
-            DISCARD_OLDEST},
-
+          doc: |
+            policy to handle an overloaded topic. Available values are {@code DISCARD_OLDEST},
             {@code DISCARD_NEWEST}, {@code BLOCK} and {@code ERROR}.
         - name: executor
           type: Data
           nullable: true
           since: 2.0
-          doc: >
-            a serialized {@link java.util.concurrent.Executor} instance to use
-            for executing
-
+          doc: |
+            a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
     response:
       id: 0x0064
@@ -1169,16 +1064,14 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: managementEnabled
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable management interface on this cache or {@code
-            false}
+          doc: |
+            {@code true} to enable management interface on this cache or {@code false}
         - name: readThrough
           type: boolean
           nullable: false
@@ -1207,16 +1100,14 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            Factory                    name of cache loader factory class, if
-            one is configured
+          doc: |
+            Factory                    name of cache loader factory class, if one is configured
         - name: cacheWriter
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            Factory                    name of cache writer factory class, if
-            one is configured
+          doc: |
+            Factory                    name of cache writer factory class, if one is configured
         - name: backupCount
           type: int
           nullable: false
@@ -1240,23 +1131,17 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum
             number of members required in the cluster for the cache to remain functional.
-
             When {@code null}, quorum does not apply to this cache's operations.
         - name: mergePolicy
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of a class implementing {@link
-            com.hazelcast.cache.CacheMergePolicy}
-
+          doc: |
+            name of a class implementing {@link com.hazelcast.cache.CacheMergePolicy}
             that handles merging of values for this cache while recovering from
-
             network partitioning
         - name: disablePerEntryInvalidationEvents
           type: boolean
@@ -1275,9 +1160,8 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
+          doc: |
             expiry policy factory class name. When configuring an expiry policy,
-
             either this or {@ode timedExpiryPolicyFactoryConfig} should be configured.
         - name: timedExpiryPolicyFactoryConfig
           type: TimedExpiryPolicyFactoryConfig
@@ -1319,11 +1203,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addFlakeIdGeneratorConfig
-    doc: >
+    doc: |
       Adds a new flake ID generator configuration to a running cluster.
-
       If a flake ID generator configuration for the same name already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e12
@@ -1341,9 +1223,8 @@ methods:
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            how many IDs are pre-fetched on the background when one call to
-            {@code newId()} is made
+          doc: |
+            how many IDs are pre-fetched on the background when one call to {@code newId()} is made
         - name: prefetchValidity
           type: long
           nullable: false
@@ -1360,9 +1241,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            {@code true} to enable gathering of statistics, otherwise {@code
-            false}
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: nodeIdOffset
           type: long
           nullable: false
@@ -1373,11 +1253,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addAtomicLongConfig
-    doc: >
+    doc: |
       Adds a new atomic long configuration to a running cluster.
-
       If an executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e13
@@ -1395,12 +1273,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -1418,11 +1293,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addAtomicReferenceConfig
-    doc: >
+    doc: |
       Adds a new atomic reference configuration to a running cluster.
-
       If an executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e14
@@ -1440,12 +1313,9 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -1463,11 +1333,9 @@ methods:
       id: 0x0064
     since: 2.0
   - name: addCountDownLatchConfig
-    doc: >
+    doc: |
       Adds a new count down latch configuration to a running cluster.
-
       If an executor configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e15
@@ -1485,22 +1353,17 @@ methods:
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064
     since: 2.0
   - name: addPNCounterConfig
-    doc: >
+    doc: |
       Adds a new CRDT PN counter configuration to a running cluster.
-
       If a PN counter configuration with the given {@code name} already exists, then
-
       the new configuration is ignored and the existing one is preserved.
     request:
       id: 0x1e16
@@ -1524,19 +1387,15 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            set to {@code true} to enable statistics on this multimap
-            configuration
+          doc: |
+            set to {@code true} to enable statistics on this multimap configuration
         - name: quorumName
           type: String
           nullable: true
           since: 2.0
-          doc: >
-            name of an existing configured quorum to be used to determine the
-            minimum number of members
-
+          doc: |
+            name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
-
             apply to this lock configuration's operations.
     response:
       id: 0x0064

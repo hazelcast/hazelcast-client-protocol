@@ -3,10 +3,8 @@ name: ScheduledExecutor
 ns: Hazelcast.Client.Protocol.Codec
 methods:
   - name: shutdown
-    doc: >
-      Initiates an orderly shutdown in which previously submitted tasks are
-      executed, but no new tasks will be accepted.
-
+    doc: |
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
     request:
       id: 0x1d01
@@ -24,16 +22,14 @@ methods:
           type: Address
           nullable: false
           since: 2.0
-          doc: >
-            The cluster member where the shutdown for this scheduler will be
-            sent.
+          doc: |
+            The cluster member where the shutdown for this scheduler will be sent.
     response:
       id: 0x0064
     since: 2.0
   - name: submitToPartition
-    doc: >
-      Submits the task to partition for execution, partition is chosen based on
-      multiple criteria of the given task.
+    doc: |
+      Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
     request:
       id: 0x1d02
       retryable: true
@@ -80,9 +76,8 @@ methods:
       id: 0x0064
     since: 2.0
   - name: submitToAddress
-    doc: >
-      Submits the task to a member for execution, member is provided in the form
-      of an address.
+    doc: |
+      Submits the task to a member for execution, member is provided in the form of an address.
     request:
       id: 0x1d03
       retryable: true
@@ -156,9 +151,8 @@ methods:
           type: Map_Member_List_ScheduledTaskHandler
           nullable: false
           since: 2.0
-          doc: >
-            A list of scheduled task handlers used to construct the future
-            proxies.
+          doc: |
+            A list of scheduled task handlers used to construct the future proxies.
     since: 2.0
   - name: getStatsFromPartition
     doc: |
@@ -277,9 +271,8 @@ methods:
             TODO DOC
     since: 2.0
   - name: getDelayFromPartition
-    doc: >
-      Returns the ScheduledFuture's delay in nanoseconds for the task in the
-      scheduler.
+    doc: |
+      Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
       id: 0x1d07
       retryable: true
@@ -309,9 +302,8 @@ methods:
             The remaining delay of the task formatted in nanoseconds.
     since: 2.0
   - name: getDelayFromAddress
-    doc: >
-      Returns the ScheduledFuture's delay in nanoseconds for the task in the
-      scheduler.
+    doc: |
+      Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
       id: 0x1d08
       retryable: true
@@ -427,9 +419,8 @@ methods:
             True if the task was cancelled
     since: 2.0
   - name: isCancelledFromPartition
-    doc: >
-      Checks whether a task as identified from the given handler is already
-      cancelled.
+    doc: |
+      Checks whether a task as identified from the given handler is already cancelled.
     request:
       id: 0x1d0b
       retryable: true
@@ -459,9 +450,8 @@ methods:
             True if the task is cancelled
     since: 2.0
   - name: isCancelledFromAddress
-    doc: >
-      Checks whether a task as identified from the given handler is already
-      cancelled.
+    doc: |
+      Checks whether a task as identified from the given handler is already cancelled.
     request:
       id: 0x1d0c
       retryable: true

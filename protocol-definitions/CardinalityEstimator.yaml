@@ -30,9 +30,8 @@ methods:
       id: 0x0064
     since: 2.0
   - name: estimate
-    doc: >
+    doc: |
       Estimates the cardinality of the aggregation so far.
-
       If it was previously estimated and never invalidated, then the cached version is used.
     request:
       id: 0x1c02

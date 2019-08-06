@@ -58,9 +58,8 @@ methods:
       id: 0x0064
     since: 2.0
   - name: alterAndGet
-    doc: >
-      Alters the currently stored reference by applying a function on it and
-      gets the result.
+    doc: |
+      Alters the currently stored reference by applying a function on it and gets the result.
     request:
       id: 0x0b03
       retryable: false
@@ -90,9 +89,8 @@ methods:
             the new value, the result of the applied function.
     since: 2.0
   - name: getAndAlter
-    doc: >
-      Alters the currently stored reference by applying a function on it on and
-      gets the old value.
+    doc: |
+      Alters the currently stored reference by applying a function on it on and gets the old value.
     request:
       id: 0x0b04
       retryable: false
@@ -153,9 +151,8 @@ methods:
             true if the value is found, false otherwise.
     since: 2.0
   - name: compareAndSet
-    doc: >
-      Atomically sets the value to the given updated value only if the current
-      value the expected value.
+    doc: |
+      Atomically sets the value to the given updated value only if the current value the expected value.
     request:
       id: 0x0b06
       retryable: false

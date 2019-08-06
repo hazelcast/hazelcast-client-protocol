@@ -27,10 +27,8 @@ methods:
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The id of the user thread performing the operation. It is used to
-            guarantee that only the lock holder thread (if a lock exists on the
-            entry) can perform the requested operation.
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: item
           type: Data
           nullable: false
@@ -72,10 +70,8 @@ methods:
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The id of the user thread performing the operation. It is used to
-            guarantee that only the lock holder thread (if a lock exists on the
-            entry) can perform the requested operation.
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: item
           type: Data
           nullable: false
@@ -117,10 +113,8 @@ methods:
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The id of the user thread performing the operation. It is used to
-            guarantee that only the lock holder thread (if a lock exists on the
-            entry) can perform the requested operation.
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
       id: 0x0066
       params:

@@ -27,30 +27,26 @@ methods:
           type: Data
           nullable: false
           since: 2.0
-          doc: >
-            The predicate to filter events which will be applied to the
-            QueryCache.
+          doc: |
+            The predicate to filter events which will be applied to the QueryCache.
         - name: batchSize
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            The size of batch. After reaching this minimum size, node
-            immediately sends buffered events to QueryCache.
+          doc: |
+            The size of batch. After reaching this minimum size, node immediately sends buffered events to QueryCache.
         - name: bufferSize
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            Maximum number of events which can be stored in a buffer of
-            partition.
+          doc: |
+            Maximum number of events which can be stored in a buffer of partition.
         - name: delaySeconds
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The minimum number of delay seconds which an event waits in the
-            buffer of node.
+          doc: |
+            The minimum number of delay seconds which an event waits in the buffer of node.
         - name: populate
           type: boolean
           nullable: false
@@ -61,10 +57,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            Flag to enable/disable coalescing. If true, then only the last
-            updated value for a key is placed in the
-
+          doc: |
+            Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
             batch, otherwise all changed values are included in the update.
     response:
       id: 0x0075
@@ -101,30 +95,26 @@ methods:
           type: Data
           nullable: false
           since: 2.0
-          doc: >
-            The predicate to filter events which will be applied to the
-            QueryCache.
+          doc: |
+            The predicate to filter events which will be applied to the QueryCache.
         - name: batchSize
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            The size of batch. After reaching this minimum size, node
-            immediately sends buffered events to QueryCache.
+          doc: |
+            The size of batch. After reaching this minimum size, node immediately sends buffered events to QueryCache.
         - name: bufferSize
           type: int
           nullable: false
           since: 2.0
-          doc: >
-            Maximum number of events which can be stored in a buffer of
-            partition.
+          doc: |
+            Maximum number of events which can be stored in a buffer of partition.
         - name: delaySeconds
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The minimum number of delay seconds which an event waits in the
-            buffer of node.
+          doc: |
+            The minimum number of delay seconds which an event waits in the buffer of node.
         - name: populate
           type: boolean
           nullable: false
@@ -135,10 +125,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            Flag to enable/disable coalescing. If true, then only the last
-            updated value for a key is placed in the
-
+          doc: |
+            Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
             batch, otherwise all changed values are included in the update.
     response:
       id: 0x006a
@@ -200,9 +188,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            if true fires events that originated from this node only, otherwise
-            fires all events
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
     response:
       id: 0x0068
       params:
@@ -245,17 +232,12 @@ methods:
               TODO DOC
     since: 2.0
   - name: setReadCursor
-    doc: >
+    doc: |
       This method can be used to recover from a possible event loss situation.
-
       This method tries to make consistent the data in this `QueryCache` with the data in the underlying `IMap`
-
       by replaying the events after last consistently received ones. As a result of this replaying logic, same event may
-
       appear more than once to the `QueryCache` listeners.
-
       This method returns `false` if the event is not in the buffer of event publisher side. That means recovery is not
-
       possible.
     request:
       id: 0x1805

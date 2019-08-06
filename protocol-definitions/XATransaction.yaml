@@ -15,9 +15,8 @@ methods:
           type: Xid
           nullable: false
           since: 2.0
-          doc: >
-            Java XA transaction id as defined in interface
-            javax.transaction.xa.Xid.
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
     response:
       id: 0x0064
     since: 2.0
@@ -52,16 +51,14 @@ methods:
           type: Xid
           nullable: false
           since: 2.0
-          doc: >
-            Java XA transaction id as defined in interface
-            javax.transaction.xa.Xid.
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
         - name: isCommit
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            If true, the transaction is committed else transaction is rolled
-            back.
+          doc: |
+            If true, the transaction is committed else transaction is rolled back.
     response:
       id: 0x0064
     since: 2.0
@@ -102,16 +99,14 @@ methods:
           type: Xid
           nullable: false
           since: 2.0
-          doc: >
-            Java XA transaction id as defined in interface
-            javax.transaction.xa.Xid.
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
         - name: timeout
           type: long
           nullable: false
           since: 2.0
-          doc: >
-            The timeout in seconds for XA operations such as prepare, commit,
-            rollback.
+          doc: |
+            The timeout in seconds for XA operations such as prepare, commit, rollback.
     response:
       id: 0x0068
       params:

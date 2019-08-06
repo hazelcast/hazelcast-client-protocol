@@ -3,10 +3,8 @@ name: ExecutorService
 ns: Hazelcast.Client.Protocol.Codec
 methods:
   - name: shutdown
-    doc: >
-      Initiates an orderly shutdown in which previously submitted tasks are
-      executed, but no new tasks will be accepted.
-
+    doc: |
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
     request:
       id: 0x0901
@@ -67,9 +65,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            If true, then the thread interrupt call can be used to cancel the
-            thread, otherwise interrupt can not be used.
+          doc: |
+            If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
     response:
       id: 0x0065
       params:
@@ -105,9 +102,8 @@ methods:
           type: boolean
           nullable: false
           since: 2.0
-          doc: >
-            If true, then the thread interrupt call can be used to cancel the
-            thread, otherwise interrupt can not be used.
+          doc: |
+            If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
     response:
       id: 0x0065
       params:
