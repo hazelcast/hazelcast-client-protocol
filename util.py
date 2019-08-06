@@ -4,6 +4,7 @@ import re
 from jinja2 import Environment, PackageLoader
 from java import java_types_encode, java_types_decode
 from enum import Enum
+import json, jsonschema
 
 FixedLengthTypes = [
     "boolean",
@@ -52,13 +53,15 @@ def var_size_params(params):
     return [p for p in params if not is_fixed_type(p)]
 
 
-def generate_codecs(service, template, output_dir, extension):
-    methods = service["methods"]
-    if methods is None:
-        print(type(methods))
-    for method in service["methods"]:
-        content = template.render(service_name=service["name"], method=method)
-        save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
+def generate_codecs(services, template, output_dir, extension):
+    for service in services:
+        if "methods" in service:
+            methods = service["methods"]
+            if methods is None:
+                print(type(methods))
+            for method in service["methods"]:
+                content = template.render(service_name=service["name"], method=method)
+                save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
 
 
 def item_type(lang_name, param_type):
@@ -92,6 +95,19 @@ def load_services(protocol_def_dir):
             data = yaml.load(file, Loader=yaml.Loader)
             services.append(data)
     return services
+
+
+def validate_services(services, schema_path):
+    valid = True
+    with open(schema_path, 'r') as schema_file:
+        schema = json.load(schema_file)
+        for service in services:
+            try:
+                jsonschema.validate(service, schema)
+            except jsonschema.ValidationError as e:
+                print("Validation error: %s. schema:%s" % (e.message, list(e.relative_schema_path)))
+                valid = False
+    return valid
 
 
 def save_file(file, content):
