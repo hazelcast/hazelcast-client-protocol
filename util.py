@@ -65,7 +65,7 @@ def generate_codecs(services, template, output_dir, extension):
 
 
 def item_type(lang_name, param_type):
-    if param_type.startswith("List_"):
+    if param_type.startswith("List_") or param_type.startswith("ListCN_"):
         return lang_name(param_type.split('_', 1)[1])
 
 
@@ -81,6 +81,10 @@ def value_type(lang_name, param_type):
 
 def is_var_sized_list(param_type):
     return param_type.startswith("List_") and param_type not in FixedListTypes
+
+
+def is_var_sized_list_contains_nullable(param_type):
+    return param_type.startswith("ListCN_") and param_type not in FixedListTypes
 
 
 def is_var_sized_map(param_type):
@@ -166,6 +170,7 @@ def create_environment(lang):
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
     env.globals["is_var_sized_list"] = is_var_sized_list
+    env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable
     env.globals["is_var_sized_map"] = is_var_sized_map
     env.globals["item_type"] = item_type
     env.globals["key_type"] = key_type
