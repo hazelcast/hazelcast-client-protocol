@@ -9,7 +9,7 @@ methods:
 
       Integer.MAX_VALUE.
     request:
-      id: 1281
+      id: 0x0501
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -21,22 +21,20 @@ methods:
           doc: |
             Name of List
     response:
-      id: 102
-      doc: |
-        The number of elements in this list
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of elements in this list
     since: 2.0
   - name: contains
     doc: |
       Returns true if this list contains the specified element.
     request:
-      id: 1282
+      id: 0x0502
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -54,23 +52,21 @@ methods:
           doc: |
             Element whose presence in this list is to be tested
     response:
-      id: 101
-      doc: |
-        True if this list contains the specified element, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list contains the specified element, false otherwise
     since: 2.0
   - name: containsAll
     doc: >
       Returns true if this list contains all of the elements of the specified
       collection.
     request:
-      id: 1283
+      id: 0x0503
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -88,17 +84,15 @@ methods:
           doc: |
             Collection to be checked for containment in this list
     response:
-      id: 101
-      doc: |
-        True if this list contains all of the elements of the
-        specified collection
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list contains all of the elements of the
+            specified collection
     since: 2.0
   - name: add
     doc: >
@@ -111,7 +105,7 @@ methods:
 
       clearly specify in their documentation any restrictions on what elements may be added.
     request:
-      id: 1284
+      id: 0x0504
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -129,16 +123,14 @@ methods:
           doc: |
             Element to be appended to this list
     response:
-      id: 101
-      doc: |
-        true if this list changed as a result of the call, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if this list changed as a result of the call, false otherwise
     since: 2.0
   - name: remove
     doc: >
@@ -149,7 +141,7 @@ methods:
 
       Returns true if this list contained the specified element (or equivalently, if this list changed as a result of the call).
     request:
-      id: 1285
+      id: 0x0505
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -167,16 +159,14 @@ methods:
           doc: |
             Element to be removed from this list, if present
     response:
-      id: 101
-      doc: |
-        True if this list contained the specified element, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list contained the specified element, false otherwise
     since: 2.0
   - name: addAll
     doc: >
@@ -189,7 +179,7 @@ methods:
 
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
-      id: 1286
+      id: 0x0506
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -207,23 +197,21 @@ methods:
           doc: |
             Collection containing elements to be added to this list
     response:
-      id: 101
-      doc: |
-        True if this list changed as a result of the call, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list changed as a result of the call, false otherwise
     since: 2.0
   - name: compareAndRemoveAll
     doc: >
       Removes from this list all of its elements that are contained in the
       specified collection (optional operation).
     request:
-      id: 1287
+      id: 0x0507
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -241,16 +229,14 @@ methods:
           doc: |
             The list of values to compare for removal.
     response:
-      id: 101
-      doc: |
-        True if removed at least one of the items, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if removed at least one of the items, false otherwise.
     since: 2.0
   - name: compareAndRetainAll
     doc: >
@@ -259,7 +245,7 @@ methods:
 
       In other words, removes from this list all of its elements that are not contained in the specified collection.
     request:
-      id: 1288
+      id: 0x0508
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -277,23 +263,21 @@ methods:
           doc: |
             The list of values to compare for retaining.
     response:
-      id: 101
-      doc: |
-        True if this list changed as a result of the call, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list changed as a result of the call, false otherwise.
     since: 2.0
   - name: clear
     doc: >
       Removes all of the elements from this list (optional operation). The list
       will be empty after this call returns.
     request:
-      id: 1289
+      id: 0x0509
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -305,15 +289,13 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: getAll
     doc: |
       Return the all elements of this collection
     request:
-      id: 1290
+      id: 0x050a
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -325,23 +307,21 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 106
-      doc: |
-        An array of all item values in the list.
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            An array of all item values in the list.
     since: 2.0
   - name: addListener
     doc: >
       Adds an item listener for this collection. Listener will be notified for
       all collection add/remove events.
     request:
-      id: 1291
+      id: 0x050b
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -366,18 +346,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        Registration id for the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Registration id for the listener.
     events:
-      - id: 204
+      - id: 0x00cc
         name: Item
         params:
           - name: item
@@ -404,7 +382,7 @@ methods:
       Removes the specified item listener. Returns silently if the specified
       listener was not added before.
     request:
-      id: 1292
+      id: 0x050c
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -422,22 +400,20 @@ methods:
           doc: |
             The id of the listener which was provided during registration.
     response:
-      id: 101
-      doc: |
-        True if unregistered, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if unregistered, false otherwise.
     since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this list contains no elements
     request:
-      id: 1293
+      id: 0x050d
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -449,16 +425,14 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 101
-      doc: |
-        True if this list contains no elements
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list contains no elements
     since: 2.0
   - name: addAllWithIndex
     doc: >
@@ -473,7 +447,7 @@ methods:
 
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
-      id: 1294
+      id: 0x050e
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -498,22 +472,20 @@ methods:
           doc: |
             The list of value to insert into the list.
     response:
-      id: 101
-      doc: |
-        True if this list changed as a result of the call, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this list changed as a result of the call, false otherwise.
     since: 2.0
   - name: get
     doc: |
       Returns the element at the specified position in this list
     request:
-      id: 1295
+      id: 0x050f
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -531,22 +503,20 @@ methods:
           doc: |
             Index of the element to return
     response:
-      id: 105
-      doc: |
-        The element at the specified position in this list
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The element at the specified position in this list
     since: 2.0
   - name: set
     doc: |
       The element previously at the specified position
     request:
-      id: 1296
+      id: 0x0510
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -570,16 +540,14 @@ methods:
           doc: |
             Element to be stored at the specified position
     response:
-      id: 105
-      doc: |
-        The element previously at the specified position
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The element previously at the specified position
     since: 2.0
   - name: addWithIndex
     doc: >
@@ -588,7 +556,7 @@ methods:
 
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     request:
-      id: 1297
+      id: 0x0511
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -612,9 +580,7 @@ methods:
           doc: |
             Value to be inserted.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: removeWithIndex
     doc: >
@@ -623,7 +589,7 @@ methods:
 
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
     request:
-      id: 1298
+      id: 0x0512
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -641,16 +607,14 @@ methods:
           doc: |
             The index of the element to be removed
     response:
-      id: 105
-      doc: |
-        The element previously at the specified position
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The element previously at the specified position
     since: 2.0
   - name: lastIndexOf
     doc: >
@@ -659,7 +623,7 @@ methods:
 
       contain the element.
     request:
-      id: 1299
+      id: 0x0513
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -677,17 +641,15 @@ methods:
           doc: |
             Element to search for
     response:
-      id: 102
-      doc: |
-        the index of the last occurrence of the specified element in
-        this list, or -1 if this list does not contain the element
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the index of the last occurrence of the specified element in
+            this list, or -1 if this list does not contain the element
     since: 2.0
   - name: indexOf
     doc: >
@@ -696,7 +658,7 @@ methods:
 
       contain the element.
     request:
-      id: 1300
+      id: 0x0514
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -714,17 +676,15 @@ methods:
           doc: |
             Element to search for
     response:
-      id: 102
-      doc: |
-        The index of the first occurrence of the specified element in
-        this list, or -1 if this list does not contain the element
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The index of the first occurrence of the specified element in
+            this list, or -1 if this list does not contain the element
     since: 2.0
   - name: sub
     doc: >
@@ -751,7 +711,7 @@ methods:
 
       the size of this list, or otherwise perturb it in such a fashion that iterations in progress may yield incorrect results.)
     request:
-      id: 1301
+      id: 0x0515
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -775,22 +735,20 @@ methods:
           doc: |
             High endpoint (exclusive) of the subList
     response:
-      id: 106
-      doc: |
-        A view of the specified range within this list
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A view of the specified range within this list
     since: 2.0
   - name: iterator
     doc: |
       Returns an iterator over the elements in this list in proper sequence.
     request:
-      id: 1302
+      id: 0x0516
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -802,16 +760,14 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 106
-      doc: |
-        An iterator over the elements in this list in proper sequence
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            An iterator over the elements in this list in proper sequence
     since: 2.0
   - name: listIterator
     doc: >
@@ -824,7 +780,7 @@ methods:
 
       specified index minus one.
     request:
-      id: 1303
+      id: 0x0517
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -842,15 +798,13 @@ methods:
           doc: >
             index of the first element to be returned from the list iterator next
     response:
-      id: 106
-      doc: |
-        a list iterator over the elements in this list (in proper
-        sequence), starting at the specified position in the list
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            a list iterator over the elements in this list (in proper
+            sequence), starting at the specified position in the list
     since: 2.0

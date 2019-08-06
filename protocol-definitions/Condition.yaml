@@ -7,7 +7,7 @@ methods:
       Causes the current thread to wait until it is signalled or interrupted, or
       the specified waiting time elapses.
     request:
-      id: 2049
+      id: 0x0801
       retryable: true
       acquiresResource: false
       partitionIdentifier: lockName
@@ -46,17 +46,15 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 101
-      doc: >
-        False if the waiting time detectably elapsed before return from the
-        method, else true
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            False if the waiting time detectably elapsed before return from the
+            method, else true
     since: 2.0
   - name: beforeAwait
     doc: >
@@ -93,7 +91,7 @@ methods:
 
       case the implementation must ensure that the signal is redirected to another waiting thread, if there is one.
     request:
-      id: 2050
+      id: 0x0802
       retryable: true
       acquiresResource: false
       partitionIdentifier: lockName
@@ -126,9 +124,7 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: signal
     doc: >
@@ -143,7 +139,7 @@ methods:
 
       ILLEGAL_MONITOR_STATE will be thrown.
     request:
-      id: 2051
+      id: 0x0803
       retryable: false
       acquiresResource: false
       partitionIdentifier: lockName
@@ -169,9 +165,7 @@ methods:
           doc: |
             Name of the lock to wait on.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: signalAll
     doc: >
@@ -180,7 +174,7 @@ methods:
 
       before it can return from
     request:
-      id: 2052
+      id: 0x0804
       retryable: false
       acquiresResource: false
       partitionIdentifier: lockName
@@ -206,7 +200,5 @@ methods:
           doc: |
             Name of the lock to wait on.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0

@@ -6,7 +6,7 @@ methods:
     doc: |
       Adds a new item to the transactional list.
     request:
-      id: 4865
+      id: 0x1301
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -38,22 +38,20 @@ methods:
           doc: |
             The new item added to the transactionalList
     response:
-      id: 101
-      doc: |
-        True if the item is added successfully, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if the item is added successfully, false otherwise
     since: 2.0
   - name: remove
     doc: |
       Remove item from the transactional list
     request:
-      id: 4866
+      id: 0x1302
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -85,22 +83,20 @@ methods:
           doc: |
             Item to remove to transactional List
     response:
-      id: 101
-      doc: |
-        True if the removed successfully,false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if the removed successfully,false otherwise
     since: 2.0
   - name: size
     doc: |
       Returns the size of the list
     request:
-      id: 4867
+      id: 0x1303
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -126,14 +122,12 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 102
-      doc: |
-        The size of the list
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The size of the list
     since: 2.0

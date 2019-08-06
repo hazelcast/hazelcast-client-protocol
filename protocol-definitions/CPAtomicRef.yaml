@@ -6,7 +6,7 @@ methods:
     doc: |
       Applies a function on the value
     request:
-      id: 9217
+      id: 0x2401
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -44,22 +44,20 @@ methods:
             Denotes whether result of the function will be
             set to the IAtomicRefInstance
     response:
-      id: 105
-      doc: |
-        The result of the function application.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the function application.
     since: 2.0
   - name: compareAndSet
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
-      id: 9218
+      id: 0x2402
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -89,23 +87,21 @@ methods:
           doc: |
             The new value
     response:
-      id: 101
-      doc: |
-        true if successful; or false if the actual value
-        was not equal to the expected value.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if successful; or false if the actual value
+            was not equal to the expected value.
     since: 2.0
   - name: contains
     doc: |
       Checks if the reference contains the value.
     request:
-      id: 9219
+      id: 0x2403
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -129,22 +125,20 @@ methods:
           doc: |
             The value to check (is allowed to be null).
     response:
-      id: 101
-      doc: |
-        true if the value is found, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if the value is found, false otherwise.
     since: 2.0
   - name: get
     doc: |
       Gets the current value.
     request:
-      id: 9221
+      id: 0x2405
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -162,22 +156,20 @@ methods:
           doc: |
             Name of this IAtomicReference instance.
     response:
-      id: 105
-      doc: |
-        The current value
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The current value
     since: 2.0
   - name: set
     doc: |
       Atomically sets the given value
     request:
-      id: 9222
+      id: 0x2406
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -207,15 +199,13 @@ methods:
           doc: |
             Denotes whether the old value is returned or not
     response:
-      id: 105
-      doc: |
-        the old value or null, depending on
-        the {
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            the old value or null, depending on
+            the {
     since: 2.0

@@ -10,7 +10,7 @@ methods:
 
       the new multimap config is ignored and the existing one is preserved.
     request:
-      id: 7681
+      id: 0x1e01
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -85,9 +85,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addRingbufferConfig
     doc: >
@@ -97,7 +95,7 @@ methods:
 
       the new ringbuffer config is ignored and the existing one is preserved.
     request:
-      id: 7682
+      id: 0x1e02
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -171,9 +169,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addCardinalityEstimatorConfig
     doc: >
@@ -183,7 +179,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7683
+      id: 0x1e03
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -230,9 +226,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addLockConfig
     doc: |
@@ -240,7 +234,7 @@ methods:
       If a lock configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7684
+      id: 0x1e04
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -263,9 +257,7 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addListConfig
     doc: |
@@ -273,7 +265,7 @@ methods:
       If a list configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7685
+      id: 0x1e05
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -339,9 +331,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addSetConfig
     doc: |
@@ -349,7 +339,7 @@ methods:
       If a set configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7686
+      id: 0x1e06
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -415,9 +405,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addReplicatedMapConfig
     doc: >
@@ -427,7 +415,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7687
+      id: 0x1e07
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -497,9 +485,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addTopicConfig
     doc: |
@@ -507,7 +493,7 @@ methods:
       If a topic configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7688
+      id: 0x1e08
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -550,9 +536,7 @@ methods:
           doc: |
             message listener configurations
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addExecutorConfig
     doc: >
@@ -562,7 +546,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7689
+      id: 0x1e09
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -605,9 +589,7 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addDurableExecutorConfig
     doc: >
@@ -617,7 +599,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7690
+      id: 0x1e0a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -658,9 +640,7 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addScheduledExecutorConfig
     doc: >
@@ -670,7 +650,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7691
+      id: 0x1e0b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -724,9 +704,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addSemaphoreConfig
     doc: >
@@ -736,7 +714,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7692
+      id: 0x1e0c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -777,9 +755,7 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addQueueConfig
     doc: |
@@ -787,7 +763,7 @@ methods:
       If a queue configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7693
+      id: 0x1e0d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -866,9 +842,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addMapConfig
     doc: |
@@ -876,7 +850,7 @@ methods:
       If a map configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7694
+      id: 0x1e0e
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1101,9 +1075,7 @@ methods:
 
             are {@code CREATE_ON_UPDATE} and {@code OFF}
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addReliableTopicConfig
     doc: >
@@ -1113,7 +1085,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7695
+      id: 0x1e0f
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1162,9 +1134,7 @@ methods:
 
             message listeners or {@code null}
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addCacheConfig
     doc: |
@@ -1172,7 +1142,7 @@ methods:
       If a cache configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7696
+      id: 0x1e10
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1346,9 +1316,7 @@ methods:
           doc: |
             hot restart configuration
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addFlakeIdGeneratorConfig
     doc: >
@@ -1358,7 +1326,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7698
+      id: 0x1e12
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1402,9 +1370,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addAtomicLongConfig
     doc: >
@@ -1414,7 +1380,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7699
+      id: 0x1e13
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1449,9 +1415,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addAtomicReferenceConfig
     doc: >
@@ -1461,7 +1425,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7700
+      id: 0x1e14
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1496,9 +1460,7 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addCountDownLatchConfig
     doc: >
@@ -1508,7 +1470,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7701
+      id: 0x1e15
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1531,9 +1493,7 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addPNCounterConfig
     doc: >
@@ -1543,7 +1503,7 @@ methods:
 
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 7702
+      id: 0x1e16
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1579,7 +1539,5 @@ methods:
 
             apply to this lock configuration's operations.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0

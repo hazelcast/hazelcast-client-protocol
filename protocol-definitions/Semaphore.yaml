@@ -6,7 +6,7 @@ methods:
     doc: |
       Try to initialize this ISemaphore instance with the given permit count
     request:
-      id: 3329
+      id: 0x0d01
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -24,16 +24,14 @@ methods:
           doc: |
             The given permit count
     response:
-      id: 101
-      doc: |
-        True if initialization succeeds, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if initialization succeeds, false otherwise.
     since: 2.0
   - name: acquire
     doc: >
@@ -52,7 +50,7 @@ methods:
 
       waiting for a permit, then  is thrown and the current thread's interrupted status is cleared.
     request:
-      id: 3330
+      id: 0x0d02
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -70,9 +68,7 @@ methods:
           doc: |
             The given permit count
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: availablePermits
     doc: >
@@ -81,7 +77,7 @@ methods:
 
       debugging and testing purposes.
     request:
-      id: 3331
+      id: 0x0d03
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -93,22 +89,20 @@ methods:
           doc: |
             Name of the Semaphore
     response:
-      id: 102
-      doc: |
-        The number of permits available in this semaphore.
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of permits available in this semaphore.
     since: 2.0
   - name: drainPermits
     doc: |
       Acquires and returns all permits that are immediately available.
     request:
-      id: 3332
+      id: 0x0d04
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -120,16 +114,14 @@ methods:
           doc: |
             Name of the Semaphore
     response:
-      id: 102
-      doc: |
-        The number of permits drained
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of permits drained
     since: 2.0
   - name: reducePermits
     doc: >
@@ -138,7 +130,7 @@ methods:
 
       does not block waiting for permits to become available.
     request:
-      id: 3333
+      id: 0x0d05
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -156,9 +148,7 @@ methods:
           doc: |
             The number of permits to remove
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: release
     doc: >
@@ -169,7 +159,7 @@ methods:
 
       acquire()acquire methods. Correct usage of a semaphore is established by programming convention in the application.
     request:
-      id: 3334
+      id: 0x0d06
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -187,9 +177,7 @@ methods:
           doc: |
             The number of permits to remove
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: tryAcquire
     doc: >
@@ -200,7 +188,7 @@ methods:
 
       method will return immediately with the value false and the number of available permits is unchanged.
     request:
-      id: 3335
+      id: 0x0d07
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -224,17 +212,15 @@ methods:
           doc: |
             The maximum time to wait for a permit
     response:
-      id: 101
-      doc: >
-        true if all permits were acquired,  false if the waiting time elapsed
-        before all permits could be acquired
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            true if all permits were acquired,  false if the waiting time
+            elapsed before all permits could be acquired
     since: 2.0
   - name: increasePermits
     doc: >
@@ -243,7 +229,7 @@ methods:
 
       in that it does not effect the amount of permits this caller has attached.
     request:
-      id: 3336
+      id: 0x0d08
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -262,7 +248,5 @@ methods:
             The number of permits to add
             @throws IllegalArgumentException if {@code increase} is negative
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0

@@ -6,7 +6,7 @@ methods:
     doc: |
       Stores a key-value pair in the multimap.
     request:
-      id: 4353
+      id: 0x1101
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -44,23 +44,21 @@ methods:
           doc: |
             The value to be stored
     response:
-      id: 101
-      doc: >
-        True if the size of the multimap is increased, false if the multimap
-        already contains the key-value pair.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            True if the size of the multimap is increased, false if the multimap
+            already contains the key-value pair.
     since: 2.0
   - name: get
     doc: |
       Returns the collection of values associated with the key.
     request:
-      id: 4354
+      id: 0x1102
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -92,22 +90,20 @@ methods:
           doc: |
             The key whose associated values are returned
     response:
-      id: 106
-      doc: |
-        The collection of the values associated with the key
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The collection of the values associated with the key
     since: 2.0
   - name: remove
     doc: |
       Removes the given key value pair from the multimap.
     request:
-      id: 4355
+      id: 0x1103
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -139,23 +135,21 @@ methods:
           doc: |
             The key whose associated values are returned
     response:
-      id: 106
-      doc: >
-        True if the size of the multimap changed after the remove operation,
-        false otherwise.
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            True if the size of the multimap changed after the remove operation,
+            false otherwise.
     since: 2.0
   - name: removeEntry
     doc: |
       Removes all the entries associated with the given key.
     request:
-      id: 4356
+      id: 0x1104
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -193,23 +187,21 @@ methods:
           doc: |
             The value to be stored
     response:
-      id: 101
-      doc: >
-        True if the size of the multimap changed after the remove operation,
-        false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            True if the size of the multimap changed after the remove operation,
+            false otherwise.
     since: 2.0
   - name: valueCount
     doc: |
       Returns the number of values matching the given key in the multimap.
     request:
-      id: 4357
+      id: 0x1105
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -241,22 +233,20 @@ methods:
           doc: |
             The key whose number of values are returned
     response:
-      id: 102
-      doc: |
-        The number of values matching the given key in the multimap
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of values matching the given key in the multimap
     since: 2.0
   - name: size
     doc: |
       Returns the number of key-value pairs in the multimap.
     request:
-      id: 4358
+      id: 0x1106
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -282,14 +272,12 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 102
-      doc: |
-        The number of key-value pairs in the multimap
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of key-value pairs in the multimap
     since: 2.0

@@ -6,7 +6,7 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 6145
+      id: 0x1801
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -67,22 +67,20 @@ methods:
 
             batch, otherwise all changed values are included in the update.
     response:
-      id: 117
-      doc: |
-        Array of key-value pairs.
+      id: 0x0075
       params:
         - name: response
           type: Map_Data_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Array of key-value pairs.
     since: 2.0
   - name: publisherCreate
     doc: |
       TODO DOC
     request:
-      id: 6146
+      id: 0x1802
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -143,22 +141,20 @@ methods:
 
             batch, otherwise all changed values are included in the update.
     response:
-      id: 106
-      doc: |
-        Array of keys.
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Array of keys.
     since: 2.0
   - name: madePublishable
     doc: |
       TODO DOC
     request:
-      id: 6147
+      id: 0x1803
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -176,22 +172,20 @@ methods:
           doc: |
             Name of query cache.
     response:
-      id: 101
-      doc: |
-        True if successfully set as publishable, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if successfully set as publishable, false otherwise.
     since: 2.0
   - name: addListener
     doc: |
       TODO DOC
     request:
-      id: 6148
+      id: 0x1804
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -210,18 +204,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        Registration id for the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Registration id for the listener.
     events:
-      - id: 212
+      - id: 0x00d4
         name: QueryCacheSingle
         params:
           - name: data
@@ -230,7 +222,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 213
+      - id: 0x00d5
         name: QueryCacheBatch
         params:
           - name: events
@@ -266,10 +258,10 @@ methods:
 
       possible.
     request:
-      id: 6149
+      id: 0x1805
       retryable: false
       acquiresResource: false
-      partitionIdentifier: associated key
+      partitionIdentifier: associated key with sequence
       params:
         - name: mapName
           type: String
@@ -290,22 +282,20 @@ methods:
           doc: |
             The cursor position of the accumulator to be set.
     response:
-      id: 101
-      doc: |
-        True if the cursor position could be set, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if the cursor position could be set, false otherwise.
     since: 2.0
   - name: destroyCache
     doc: |
       TODO DOC
     request:
-      id: 6150
+      id: 0x1806
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -323,14 +313,12 @@ methods:
           doc: |
             Name of query cache.
     response:
-      id: 101
-      doc: |
-        True if all cache is destroyed, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if all cache is destroyed, false otherwise.
     since: 2.0

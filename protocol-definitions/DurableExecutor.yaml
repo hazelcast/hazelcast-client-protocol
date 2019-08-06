@@ -9,7 +9,7 @@ methods:
 
       Invocation has no additional effect if already shut down.
     request:
-      id: 6913
+      id: 0x1b01
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -21,15 +21,13 @@ methods:
           doc: |
             Name of the executor.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: isShutdown
     doc: |
       Returns true if this executor has been shut down.
     request:
-      id: 6914
+      id: 0x1b02
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -41,22 +39,20 @@ methods:
           doc: |
             Name of the executor.
     response:
-      id: 101
-      doc: |
-        true if this executor has been shut down
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if this executor has been shut down
     since: 2.0
   - name: submitToPartition
     doc: |
       Submits the task to partition for execution
     request:
-      id: 6915
+      id: 0x1b03
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -74,22 +70,20 @@ methods:
           doc: |
             The callable object to be executed.
     response:
-      id: 102
-      doc: |
-        the sequence for the submitted execution.
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the sequence for the submitted execution.
     since: 2.0
   - name: retrieveResult
     doc: |
       Retrieves the result of the execution with the given sequence
     request:
-      id: 6916
+      id: 0x1b04
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -107,22 +101,20 @@ methods:
           doc: |
             Sequence of the execution.
     response:
-      id: 105
-      doc: |
-        The result of the callable execution with the given sequence.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the callable execution with the given sequence.
     since: 2.0
   - name: disposeResult
     doc: |
       Disposes the result of the execution with the given sequence
     request:
-      id: 6917
+      id: 0x1b05
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -140,15 +132,13 @@ methods:
           doc: |
             Sequence of the execution.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: retrieveAndDisposeResult
     doc: |
       Retrieves and disposes the result of the execution with the given sequence
     request:
-      id: 6918
+      id: 0x1b06
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -166,14 +156,12 @@ methods:
           doc: |
             Sequence of the execution.
     response:
-      id: 105
-      doc: |
-        The result of the callable execution with the given sequence.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the callable execution with the given sequence.
     since: 2.0

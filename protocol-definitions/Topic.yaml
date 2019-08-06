@@ -6,7 +6,7 @@ methods:
     doc: |
       Publishes the message to all subscribers of this topic
     request:
-      id: 1025
+      id: 0x0401
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -24,9 +24,7 @@ methods:
           doc: |
             The message to publish to all subscribers of this topic
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addMessageListener
     doc: >
@@ -35,7 +33,7 @@ methods:
 
       MessageListener is called. More than one message listener can be added on one instance.
     request:
-      id: 1026
+      id: 0x0402
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -53,18 +51,16 @@ methods:
           doc: |
             if true listens only local events on registered member
     response:
-      id: 104
-      doc: |
-        returns the registration id
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            returns the registration id
     events:
-      - id: 205
+      - id: 0x00cd
         name: Topic
         params:
           - name: item
@@ -91,7 +87,7 @@ methods:
       Stops receiving messages for the given message listener.If the given
       listener already removed, this method does nothing.
     request:
-      id: 1027
+      id: 0x0403
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -109,14 +105,12 @@ methods:
           doc: |
             Id of listener registration.
     response:
-      id: 101
-      doc: |
-        True if registration is removed, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if registration is removed, false otherwise
     since: 2.0

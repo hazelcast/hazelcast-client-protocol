@@ -11,7 +11,7 @@ methods:
 
       to define when the value is outdated and thus should be removed from the replicated map.
     request:
-      id: 3585
+      id: 0x0e01
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -42,16 +42,14 @@ methods:
             ttl in milliseconds to be associated with the specified key-value
             pair
     response:
-      id: 105
-      doc: |
-        The old value if existed for the key.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The old value if existed for the key.
     since: 2.0
   - name: size
     doc: >
@@ -60,7 +58,7 @@ methods:
 
       returns Integer.MAX_VALUE.
     request:
-      id: 3586
+      id: 0x0e02
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -72,22 +70,20 @@ methods:
           doc: |
             Name of the ReplicatedMap
     response:
-      id: 102
-      doc: |
-        the number of key-value mappings in this map.
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the number of key-value mappings in this map.
     since: 2.0
   - name: isEmpty
     doc: |
       Return true if this map contains no key-value mappings
     request:
-      id: 3587
+      id: 0x0e03
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -99,22 +95,20 @@ methods:
           doc: |
             Name of the ReplicatedMap
     response:
-      id: 101
-      doc: |
-        <tt>True</tt> if this map contains no key-value mappings
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            <tt>True</tt> if this map contains no key-value mappings
     since: 2.0
   - name: containsKey
     doc: |
       Returns true if this map contains a mapping for the specified key.
     request:
-      id: 3588
+      id: 0x0e04
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -132,16 +126,14 @@ methods:
           doc: |
             The key whose associated value is to be returned.
     response:
-      id: 101
-      doc: |
-        <tt>True</tt> if this map contains a mapping for the specified key
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            <tt>True</tt> if this map contains a mapping for the specified key
     since: 2.0
   - name: containsValue
     doc: >
@@ -149,7 +141,7 @@ methods:
 
       This operation will probably require time linear in the map size for most implementations of the Map interface.
     request:
-      id: 3589
+      id: 0x0e05
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -167,16 +159,15 @@ methods:
           doc: |
             value whose presence in this map is to be tested
     response:
-      id: 101
-      doc: |
-        <tt>true</tt> if this map maps one or more keys to the specified value
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            <tt>true</tt> if this map maps one or more keys to the specified
+            value
     since: 2.0
   - name: get
     doc: >
@@ -189,7 +180,7 @@ methods:
 
       explicitly maps the key to null.  The #containsKey operation may be used to distinguish these two cases.
     request:
-      id: 3590
+      id: 0x0e06
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -207,17 +198,15 @@ methods:
           doc: |
             The key whose associated value is to be returned
     response:
-      id: 105
-      doc: >
-        The value to which the specified key is mapped, or null if this map
-        contains no mapping for the key
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            The value to which the specified key is mapped, or null if this map
+            contains no mapping for the key
     since: 2.0
   - name: remove
     doc: >
@@ -231,7 +220,7 @@ methods:
 
       explicitly mapped the key to null. The map will not contain a mapping for the specified key once the call returns.
     request:
-      id: 3591
+      id: 0x0e07
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -249,17 +238,15 @@ methods:
           doc: |
             Key with which the specified value is to be associated.
     response:
-      id: 105
-      doc: >
-        the previous value associated with <tt>key</tt>, or <tt>null</tt> if
-        there was no mapping for <tt>key</tt>.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            the previous value associated with <tt>key</tt>, or <tt>null</tt> if
+            there was no mapping for <tt>key</tt>.
     since: 2.0
   - name: putAll
     doc: >
@@ -272,7 +259,7 @@ methods:
 
       operation is in progress.
     request:
-      id: 3592
+      id: 0x0e08
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -290,9 +277,7 @@ methods:
           doc: |
             entries to be stored in this map
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: clear
     doc: >
@@ -305,7 +290,7 @@ methods:
 
       method throws a OPERATION_TIMEOUT back to the caller.
     request:
-      id: 3593
+      id: 0x0e09
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -317,9 +302,7 @@ methods:
           doc: |
             Name of the Replicated Map
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: addEntryListenerToKeyWithPredicate
     doc: >
@@ -328,7 +311,7 @@ methods:
 
       events filtered by the given predicate.
     request:
-      id: 3594
+      id: 0x0e0a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -359,18 +342,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        A unique string  which is used as a key to remove the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique string  which is used as a key to remove the listener.
     events:
-      - id: 203
+      - id: 0x00cb
         name: Entry
         params:
           - name: key
@@ -423,7 +404,7 @@ methods:
 
       events filtered by the given predicate.
     request:
-      id: 3595
+      id: 0x0e0b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -448,18 +429,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        A unique string  which is used as a key to remove the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique string  which is used as a key to remove the listener.
     events:
-      - id: 203
+      - id: 0x00cb
         name: Entry
         params:
           - name: key
@@ -512,7 +491,7 @@ methods:
 
       add/remove/update/evict events of the specified key only.
     request:
-      id: 3596
+      id: 0x0e0c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -537,18 +516,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        A unique string  which is used as a key to remove the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique string  which is used as a key to remove the listener.
     events:
-      - id: 203
+      - id: 0x00cb
         name: Entry
         params:
           - name: key
@@ -599,7 +576,7 @@ methods:
       Adds an entry listener for this map. The listener will be notified for all
       map add/remove/update/evict events.
     request:
-      id: 3597
+      id: 0x0e0d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -618,18 +595,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        A unique string  which is used as a key to remove the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique string  which is used as a key to remove the listener.
     events:
-      - id: 203
+      - id: 0x00cb
         name: Entry
         params:
           - name: key
@@ -680,7 +655,7 @@ methods:
       Removes the specified entry listener. Returns silently if there was no
       such listener added before.
     request:
-      id: 3598
+      id: 0x0e0e
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -698,16 +673,14 @@ methods:
           doc: |
             ID of the registered entry listener.
     response:
-      id: 101
-      doc: |
-        True if registration is removed, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if registration is removed, false otherwise.
     since: 2.0
   - name: keySet
     doc: >
@@ -724,7 +697,7 @@ methods:
 
       the data, please copy the resulting set into a new java.util.HashSet.
     request:
-      id: 3599
+      id: 0x0e0f
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -736,22 +709,20 @@ methods:
           doc: |
             Name of the ReplicatedMap
     response:
-      id: 106
-      doc: |
-        A lazy set view of the keys contained in this map.
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A lazy set view of the keys contained in this map.
     since: 2.0
   - name: values
     doc: |
       TODO DOC
     request:
-      id: 3600
+      id: 0x0e10
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -763,22 +734,20 @@ methods:
           doc: |
             Name of the ReplicatedMap
     response:
-      id: 106
-      doc: |
-        A collection view of the values contained in this map.
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A collection view of the values contained in this map.
     since: 2.0
   - name: entrySet
     doc: |
       TODO DOC
     request:
-      id: 3601
+      id: 0x0e11
       retryable: true
       acquiresResource: false
       partitionIdentifier: random
@@ -790,22 +759,20 @@ methods:
           doc: |
             Name of the ReplicatedMap
     response:
-      id: 117
-      doc: |
-        A lazy set view of the mappings contained in this map.
+      id: 0x0075
       params:
         - name: response
           type: Map_Data_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A lazy set view of the mappings contained in this map.
     since: 2.0
   - name: addNearCacheEntryListener
     doc: |
       TODO DOC
     request:
-      id: 3602
+      id: 0x0e12
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -830,18 +797,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        A unique string  which is used as a key to remove the listener.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique string  which is used as a key to remove the listener.
     events:
-      - id: 203
+      - id: 0x00cb
         name: Entry
         params:
           - name: key

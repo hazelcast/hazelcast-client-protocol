@@ -9,7 +9,7 @@ methods:
 
       become available.
     request:
-      id: 5121
+      id: 0x1401
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -47,24 +47,22 @@ methods:
           doc: |
             How long to wait before giving up, in milliseconds
     response:
-      id: 101
-      doc: >
-        <tt>true</tt> if successful, or <tt>false</tt> if the specified waiting
-        time elapses before space is available
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            <tt>true</tt> if successful, or <tt>false</tt> if the specified
+            waiting time elapses before space is available
     since: 2.0
   - name: take
     doc: >
       Retrieves and removes the head of this queue, waiting if necessary until
       an element becomes available.
     request:
-      id: 5122
+      id: 0x1402
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -90,16 +88,14 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 105
-      doc: |
-        The head of this queue
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The head of this queue
     since: 2.0
   - name: poll
     doc: >
@@ -108,7 +104,7 @@ methods:
 
       to become available.
     request:
-      id: 5123
+      id: 0x1403
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -140,24 +136,22 @@ methods:
           doc: |
             How long to wait before giving up, in milliseconds
     response:
-      id: 105
-      doc: >
-        The head of this queue, or <tt>null</tt> if the specified waiting time
-        elapses before an element is available
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            The head of this queue, or <tt>null</tt> if the specified waiting
+            time elapses before an element is available
     since: 2.0
   - name: peek
     doc: >
       Retrieves, but does not remove, the head of this queue, or returns null if
       this queue is empty.
     request:
-      id: 5124
+      id: 0x1404
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -189,16 +183,14 @@ methods:
           doc: |
             How long to wait before giving up, in milliseconds
     response:
-      id: 105
-      doc: |
-        The value at the head of the queue.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The value at the head of the queue.
     since: 2.0
   - name: size
     doc: >
@@ -207,7 +199,7 @@ methods:
 
       elements, returns Integer.MAX_VALUE.
     request:
-      id: 5125
+      id: 0x1405
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -233,14 +225,12 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 102
-      doc: |
-        The number of elements in this collection
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of elements in this collection
     since: 2.0

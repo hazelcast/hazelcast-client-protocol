@@ -13,7 +13,7 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 8193
+      id: 0x2001
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -37,9 +37,7 @@ methods:
           doc: |
             the target replica
     response:
-      id: 127
-      doc: |
-        the current value of the counter
+      id: 0x007f
       params:
         - name: value
           type: long
@@ -72,7 +70,7 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 8194
+      id: 0x2002
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -110,9 +108,7 @@ methods:
           doc: |
             the target replica
     response:
-      id: 127
-      doc: |
-        the value before the update if {
+      id: 0x007f
       params:
         - name: value
           type: long
@@ -140,7 +136,7 @@ methods:
       The actual replica count may be less, depending on the number of data
       members in the cluster (members that own data).
     request:
-      id: 8195
+      id: 0x2003
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -152,14 +148,12 @@ methods:
           doc: |
             the name of the PNCounter
     response:
-      id: 102
-      doc: |
-        the configured replica count
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the configured replica count
     since: 2.0

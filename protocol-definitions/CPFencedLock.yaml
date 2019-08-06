@@ -12,7 +12,7 @@ methods:
       is closed between reentrant acquires, the call fails with
       {@code LockOwnershipLostException}.
     request:
-      id: 9729
+      id: 0x2601
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -48,17 +48,15 @@ methods:
           doc: |
             UID of this invocation
     response:
-      id: 103
-      doc: |
-        a valid fencing token (positive number) if the lock
-        is acquired, otherwise -1.
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            a valid fencing token (positive number) if the lock
+            is acquired, otherwise -1.
     since: 2.0
   - name: tryLock
     doc: |
@@ -71,7 +69,7 @@ methods:
       duration passes. If the session is closed between reentrant acquires,
       the call fails with {@code LockOwnershipLostException}.
     request:
-      id: 9730
+      id: 0x2602
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -113,17 +111,15 @@ methods:
           doc: |
             Duration to wait for lock acquire
     response:
-      id: 103
-      doc: |
-        a valid fencing token (positive number) if the lock
-        is acquired, otherwise -1.
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            a valid fencing token (positive number) if the lock
+            is acquired, otherwise -1.
     since: 2.0
   - name: unlock
     doc: |
@@ -133,7 +129,7 @@ methods:
       {@code LockOwnershipLostException}. Returns true if the lock is still
       held by the caller after a successful unlock() call, false otherwise.
     request:
-      id: 9731
+      id: 0x2603
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -169,23 +165,21 @@ methods:
           doc: |
             UID of this invocation
     response:
-      id: 101
-      doc: |
-        true if the lock is still held by the caller after
-        a successful unlock() call, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if the lock is still held by the caller after
+            a successful unlock() call, false otherwise.
     since: 2.0
   - name: getLockOwnership
     doc: |
       Returns current lock ownership status of the given FencedLock instance.
     request:
-      id: 9732
+      id: 0x2604
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -203,9 +197,7 @@ methods:
           doc: |
             Name of this FencedLock instance
     response:
-      id: 129
-      doc: |
-        current ownership status of this FencedLock
+      id: 0x0081
       params:
         - name: fence
           type: long

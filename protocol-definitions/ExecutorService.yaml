@@ -9,7 +9,7 @@ methods:
 
       Invocation has no additional effect if already shut down.
     request:
-      id: 2305
+      id: 0x0901
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -21,15 +21,13 @@ methods:
           doc: |
             Name of the executor.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: isShutdown
     doc: |
       Returns true if this executor has been shut down.
     request:
-      id: 2306
+      id: 0x0902
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -41,22 +39,20 @@ methods:
           doc: |
             Name of the executor.
     response:
-      id: 101
-      doc: |
-        true if this executor has been shut down
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if this executor has been shut down
     since: 2.0
   - name: cancelOnPartition
     doc: |
       TODO DOC
     request:
-      id: 2307
+      id: 0x0903
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -75,22 +71,20 @@ methods:
             If true, then the thread interrupt call can be used to cancel the
             thread, otherwise interrupt can not be used.
     response:
-      id: 101
-      doc: |
-        True if cancelled successfully, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if cancelled successfully, false otherwise.
     since: 2.0
   - name: cancelOnAddress
     doc: |
       TODO DOC
     request:
-      id: 2308
+      id: 0x0904
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -115,22 +109,20 @@ methods:
             If true, then the thread interrupt call can be used to cancel the
             thread, otherwise interrupt can not be used.
     response:
-      id: 101
-      doc: |
-        True if cancelled successfully, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if cancelled successfully, false otherwise.
     since: 2.0
   - name: submitToPartition
     doc: |
       TODO DOC
     request:
-      id: 2309
+      id: 0x0905
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -160,22 +152,20 @@ methods:
           doc: |
             The id of the partition which the callable shall be executed on.
     response:
-      id: 105
-      doc: |
-        The result of the callable execution.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the callable execution.
     since: 2.0
   - name: submitToAddress
     doc: |
       TODO DOC
     request:
-      id: 2310
+      id: 0x0906
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -205,14 +195,12 @@ methods:
           doc: |
             The member host on which the callable shall be executed on.
     response:
-      id: 105
-      doc: |
-        The result of the callable execution.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the callable execution.
     since: 2.0

@@ -6,7 +6,7 @@ methods:
     doc: |
       Applies a function on the value, the actual stored value will not change
     request:
-      id: 8961
+      id: 0x2301
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -31,22 +31,20 @@ methods:
             The function applied to the value and the value is not
             changed.
     response:
-      id: 105
-      doc: |
-        The result of the function application.
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            The result of the function application.
     since: 2.0
   - name: alter
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
-      id: 8962
+      id: 0x2302
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -76,9 +74,7 @@ methods:
           doc: |
             0 returns the old value, 1 returns the new value
     response:
-      id: 103
-      doc: |
-        TODO DOC
+      id: 0x0067
       params:
         - name: response
           type: long
@@ -91,7 +87,7 @@ methods:
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 8963
+      id: 0x2303
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -115,23 +111,21 @@ methods:
           doc: |
             The value to add to the current value
     response:
-      id: 103
-      doc: |
-        the updated value, the given value added to the current value
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the updated value, the given value added to the current value
     since: 2.0
   - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current
       value the expected value.
     request:
-      id: 8964
+      id: 0x2304
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -161,23 +155,21 @@ methods:
           doc: |
             The new value
     response:
-      id: 101
-      doc: |
-        true if successful; or false if the actual value
-        was not equal to the expected value.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if successful; or false if the actual value
+            was not equal to the expected value.
     since: 2.0
   - name: get
     doc: |
       Gets the current value.
     request:
-      id: 8965
+      id: 0x2305
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -195,22 +187,20 @@ methods:
           doc: |
             Name of this IAtomicLong instance.
     response:
-      id: 103
-      doc: |
-        The current value
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The current value
     since: 2.0
   - name: getAndAdd
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 8966
+      id: 0x2306
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -234,22 +224,20 @@ methods:
           doc: |
             The value to add to the current value
     response:
-      id: 103
-      doc: |
-        the old value before the add
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the old value before the add
     since: 2.0
   - name: getAndSet
     doc: |
       Atomically sets the given value and returns the old value.
     request:
-      id: 8967
+      id: 0x2307
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -273,14 +261,12 @@ methods:
           doc: |
             The new value
     response:
-      id: 103
-      doc: |
-        the old value
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the old value
     since: 2.0

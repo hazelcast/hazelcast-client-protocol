@@ -6,7 +6,7 @@ methods:
     doc: |
       Creates a session for the caller on the given CP group.
     request:
-      id: 8705
+      id: 0x2201
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -24,9 +24,7 @@ methods:
           doc: |
             Name of the caller HazelcastInstance
     response:
-      id: 130
-      doc: |
-        ID of the new session
+      id: 0x0082
       params:
         - name: sessionId
           type: long
@@ -51,7 +49,7 @@ methods:
     doc: |
       Closes the given session on the given CP group
     request:
-      id: 8706
+      id: 0x2202
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -69,24 +67,22 @@ methods:
           doc: |
             ID of the session
     response:
-      id: 101
-      doc: |
-        true if the session is found & closed,
-        false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if the session is found & closed,
+            false otherwise.
     since: 2.0
   - name: heartbeatSession
     doc: |
       Commits a heartbeat for the given session on the given cP group and
       extends its session expiration time.
     request:
-      id: 8707
+      id: 0x2203
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -104,16 +100,14 @@ methods:
           doc: |
             ID of the session
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: generateThreadId
     doc: |
       Generates a new ID for the caller thread. The ID is unique in the given
       CP group.
     request:
-      id: 8708
+      id: 0x2204
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -125,14 +119,12 @@ methods:
           doc: |
             ID of the CP group
     response:
-      id: 103
-      doc: |
-        A unique ID for the caller thread
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A unique ID for the caller thread
     since: 2.0

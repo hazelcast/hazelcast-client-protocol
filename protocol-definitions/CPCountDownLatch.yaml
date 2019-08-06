@@ -8,7 +8,7 @@ methods:
       If the count is not zero, then this method does nothing
       and returns false
     request:
-      id: 9473
+      id: 0x2501
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -33,17 +33,15 @@ methods:
             The number of times countDown must be invoked before
             threads can pass through await
     response:
-      id: 101
-      doc: |
-        true if the new count was set,
-        false if the current count is not zero.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if the new count was set,
+            false if the current count is not zero.
     since: 2.0
   - name: await
     doc: |
@@ -64,7 +62,7 @@ methods:
       waiting time elapses then the value false is returned.  If the time is
       less than or equal to zero, the method will not wait at all.
     request:
-      id: 9474
+      id: 0x2502
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -94,17 +92,15 @@ methods:
           doc: |
             The maximum time in milliseconds to wait
     response:
-      id: 101
-      doc: |
-        true if the count reached zero, false if
-        the waiting time elapsed before the count reached 0
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if the count reached zero, false if
+            the waiting time elapsed before the count reached 0
     since: 2.0
   - name: countDown
     doc: |
@@ -114,7 +110,7 @@ methods:
       re-enabled for thread scheduling purposes, and Countdown owner is set to
       null. If the current count equals zero, then nothing happens.
     request:
-      id: 9475
+      id: 0x2503
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -144,15 +140,13 @@ methods:
           doc: |
             The round this invocation will be performed on
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: getCount
     doc: |
       Returns the current count.
     request:
-      id: 9476
+      id: 0x2504
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -170,23 +164,21 @@ methods:
           doc: |
             Name of the CountDownLatch instance
     response:
-      id: 102
-      doc: |
-        The current count of this CountDownLatch instance
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The current count of this CountDownLatch instance
     since: 2.0
   - name: getRound
     doc: |
       Returns the current round. A round completes when the count value
       reaches to 0 and a new round starts afterwards.
     request:
-      id: 9477
+      id: 0x2505
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -204,14 +196,12 @@ methods:
           doc: |
             Name of the CountDownLatch instance
     response:
-      id: 102
-      doc: |
-        The current round of this CountDownLatch instance
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The current round of this CountDownLatch instance
     since: 2.0

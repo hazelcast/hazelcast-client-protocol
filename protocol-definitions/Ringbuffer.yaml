@@ -9,7 +9,7 @@ methods:
 
       head completed the first looparound the ring. This is because no items are getting retired.
     request:
-      id: 6401
+      id: 0x1901
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -21,16 +21,14 @@ methods:
           doc: |
             Name of the Ringbuffer
     response:
-      id: 103
-      doc: |
-        the size
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the size
     since: 2.0
   - name: tailSequence
     doc: >
@@ -39,7 +37,7 @@ methods:
 
       The initial value of the tail is -1.
     request:
-      id: 6402
+      id: 0x1902
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -51,16 +49,14 @@ methods:
           doc: |
             Name of the Ringbuffer
     response:
-      id: 103
-      doc: |
-        the sequence of the tail
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the sequence of the tail
     since: 2.0
   - name: headSequence
     doc: >
@@ -71,7 +67,7 @@ methods:
 
       The initial value of the head is 0 (1 more than tail).
     request:
-      id: 6403
+      id: 0x1903
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -83,22 +79,20 @@ methods:
           doc: |
             Name of the Ringbuffer
     response:
-      id: 103
-      doc: |
-        the sequence of the head
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the sequence of the head
     since: 2.0
   - name: capacity
     doc: |
       Returns the capacity of this Ringbuffer.
     request:
-      id: 6404
+      id: 0x1904
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -110,16 +104,14 @@ methods:
           doc: |
             Name of the Ringbuffer
     response:
-      id: 103
-      doc: |
-        the capacity
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the capacity
     since: 2.0
   - name: remainingCapacity
     doc: >
@@ -128,7 +120,7 @@ methods:
 
       If ttl is not set, the remaining capacity will always be the capacity.
     request:
-      id: 6405
+      id: 0x1905
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -140,16 +132,14 @@ methods:
           doc: |
             Name of the Ringbuffer
     response:
-      id: 103
-      doc: |
-        the remaining capacity
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the remaining capacity
     since: 2.0
   - name: add
     doc: >
@@ -176,7 +166,7 @@ methods:
 
       to find that item.
     request:
-      id: 6406
+      id: 0x1906
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -200,16 +190,14 @@ methods:
           doc: |
             to item to add
     response:
-      id: 103
-      doc: |
-        the sequence of the added item, or -1 if the add failed.
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the sequence of the added item, or -1 if the add failed.
     since: 2.0
   - name: readOne
     doc: >
@@ -222,7 +210,7 @@ methods:
 
       call is going to block. In the future we could add e.g. tryReadOne(long sequence, long timeout, TimeUnit unit).
     request:
-      id: 6408
+      id: 0x1908
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -240,16 +228,14 @@ methods:
           doc: |
             the sequence of the item to read.
     response:
-      id: 105
-      doc: |
-        the read item
+      id: 0x0069
       params:
         - name: response
           type: Data
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            the read item
     since: 2.0
   - name: addAll
     doc: >
@@ -270,7 +256,7 @@ methods:
 
       The result of the future contains the sequenceId of the last written item
     request:
-      id: 6409
+      id: 0x1909
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -294,16 +280,14 @@ methods:
           doc: |
             the overflowPolicy to use
     response:
-      id: 103
-      doc: |
-        the ICompletableFuture to synchronize on completion.
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            the ICompletableFuture to synchronize on completion.
     since: 2.0
   - name: readMany
     doc: >
@@ -322,7 +306,7 @@ methods:
 
       This reduces the amount of IO and the number of operations being executed, and can result in a significant performance improvement.
     request:
-      id: 6410
+      id: 0x190a
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -358,9 +342,7 @@ methods:
           doc: |
             Filter is allowed to be null, indicating there is no filter.
     response:
-      id: 115
-      doc: |
-        a future containing the items read.
+      id: 0x0073
       params:
         - name: readCount
           type: int

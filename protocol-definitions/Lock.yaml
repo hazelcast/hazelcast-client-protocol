@@ -6,7 +6,7 @@ methods:
     doc: |
       Returns whether this lock is locked or not.
     request:
-      id: 1793
+      id: 0x0701
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -18,22 +18,20 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 101
-      doc: |
-        True if this lock is locked, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this lock is locked, false otherwise.
     since: 2.0
   - name: isLockedByCurrentThread
     doc: |
       Returns whether this lock is locked by current thread or not.
     request:
-      id: 1794
+      id: 0x0702
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -53,22 +51,20 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 101
-      doc: |
-        True if this lock is locked by current thread, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this lock is locked by current thread, false otherwise.
     since: 2.0
   - name: getLockCount
     doc: |
       Returns re-entrant lock hold count, regardless of lock ownership.
     request:
-      id: 1795
+      id: 0x0703
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -80,23 +76,21 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 102
-      doc: |
-        The lock hold count.
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The lock hold count.
     since: 2.0
   - name: getRemainingLeaseTime
     doc: >
       Returns remaining lease time in milliseconds. If the lock is not locked
       then -1 will be returned
     request:
-      id: 1796
+      id: 0x0704
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -108,16 +102,14 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 103
-      doc: |
-        Remaining lease time in milliseconds.
+      id: 0x0067
       params:
         - name: response
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Remaining lease time in milliseconds.
     since: 2.0
   - name: lock
     doc: >
@@ -128,7 +120,7 @@ methods:
 
       has been acquired.
     request:
-      id: 1797
+      id: 0x0705
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
@@ -161,15 +153,13 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: unlock
     doc: |
       Releases the lock.
     request:
-      id: 1798
+      id: 0x0706
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -196,9 +186,7 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: forceUnlock
     doc: >
@@ -207,7 +195,7 @@ methods:
 
       and returns immediately.
     request:
-      id: 1799
+      id: 0x0707
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -226,9 +214,7 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: tryLock
     doc: >
@@ -241,7 +227,7 @@ methods:
 
       time elapses.
     request:
-      id: 1800
+      id: 0x0708
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
@@ -280,15 +266,13 @@ methods:
             The client-wide unique id for this request. It is used to make the
             request idempotent by sending the same reference id during retries.
     response:
-      id: 101
-      doc: >
-        true if the lock was acquired and false if the waiting time elapsed
-        before the lock was acquired.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            true if the lock was acquired and false if the waiting time elapsed
+            before the lock was acquired.
     since: 2.0

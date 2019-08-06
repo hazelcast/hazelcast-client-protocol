@@ -6,7 +6,7 @@ methods:
     doc: |
       Add new item to transactional set.
     request:
-      id: 4609
+      id: 0x1201
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -38,22 +38,20 @@ methods:
           doc: |
             Item added to transactional set
     response:
-      id: 101
-      doc: |
-        True if item is added successfully
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if item is added successfully
     since: 2.0
   - name: remove
     doc: |
       Remove item from transactional set.
     request:
-      id: 4610
+      id: 0x1202
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -85,22 +83,20 @@ methods:
           doc: |
             Item removed from Transactional Set
     response:
-      id: 101
-      doc: |
-        True if item is remove successfully
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if item is remove successfully
     since: 2.0
   - name: size
     doc: |
       Returns the size of the set.
     request:
-      id: 4611
+      id: 0x1203
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -126,14 +122,12 @@ methods:
             guarantee that only the lock holder thread (if a lock exists on the
             entry) can perform the requested operation.
     response:
-      id: 102
-      doc: |
-        The size of the set
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The size of the set
     since: 2.0

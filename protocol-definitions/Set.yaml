@@ -9,7 +9,7 @@ methods:
 
       elements, returns Integer.MAX_VALUE.
     request:
-      id: 1537
+      id: 0x0601
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -21,22 +21,20 @@ methods:
           doc: |
             Name of the Set
     response:
-      id: 102
-      doc: |
-        The number of elements in this set (its cardinality)
+      id: 0x0066
       params:
         - name: response
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The number of elements in this set (its cardinality)
     since: 2.0
   - name: contains
     doc: |
       Returns true if this set contains the specified element.
     request:
-      id: 1538
+      id: 0x0602
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -54,16 +52,14 @@ methods:
           doc: |
             Element whose presence in this set is to be tested
     response:
-      id: 101
-      doc: |
-        True if this set contains the specified element, false otherwise
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this set contains the specified element, false otherwise
     since: 2.0
   - name: containsAll
     doc: >
@@ -72,7 +68,7 @@ methods:
 
       also a set, this method returns true if it is a subset of this set.
     request:
-      id: 1539
+      id: 0x0603
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -90,17 +86,15 @@ methods:
           doc: |
             Collection to be checked for containment in this list
     response:
-      id: 101
-      doc: |
-        true if this set contains all of the elements of the
-        specified collection
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            true if this set contains all of the elements of the
+            specified collection
     since: 2.0
   - name: add
     doc: >
@@ -117,7 +111,7 @@ methods:
 
       Individual set implementations should clearly document any restrictions on the elements that they may contain.
     request:
-      id: 1540
+      id: 0x0604
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -135,17 +129,15 @@ methods:
           doc: |
             Element to be added to this set
     response:
-      id: 101
-      doc: |
-        True if this set did not already contain the specified
-        element and the element is added, returns false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this set did not already contain the specified
+            element and the element is added, returns false otherwise.
     since: 2.0
   - name: remove
     doc: >
@@ -156,7 +148,7 @@ methods:
 
       (This set will not contain the element once the call returns.)
     request:
-      id: 1541
+      id: 0x0605
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -174,17 +166,15 @@ methods:
           doc: |
             Object to be removed from this set, if present
     response:
-      id: 101
-      doc: >
-        True if this set contained the specified element and it is removed
-        successfully
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            True if this set contained the specified element and it is removed
+            successfully
     since: 2.0
   - name: addAll
     doc: >
@@ -197,7 +187,7 @@ methods:
 
       collection is modified while the operation is in progress.
     request:
-      id: 1542
+      id: 0x0606
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -215,16 +205,14 @@ methods:
           doc: |
             Collection containing elements to be added to this set
     response:
-      id: 101
-      doc: |
-        True if this set changed as a result of the call
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this set changed as a result of the call
     since: 2.0
   - name: compareAndRemoveAll
     doc: >
@@ -235,7 +223,7 @@ methods:
 
       asymmetric set difference of the two sets.
     request:
-      id: 1543
+      id: 0x0607
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -253,16 +241,15 @@ methods:
           doc: |
             The list of values to test for matching the item to remove.
     response:
-      id: 101
-      doc: >
-        true if at least one item in values existed and removed, false otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            true if at least one item in values existed and removed, false
+            otherwise.
     since: 2.0
   - name: compareAndRetainAll
     doc: >
@@ -275,7 +262,7 @@ methods:
 
       intersection of the two sets.
     request:
-      id: 1544
+      id: 0x0608
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -293,26 +280,24 @@ methods:
           doc: |
             The list of values to test for matching the item to retain.
     response:
-      id: 101
-      doc: >
-        true if at least one item in values existed and it is retained, false
-        otherwise. All items not in valueSet but
-
-        in the Set are removed.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            true if at least one item in values existed and it is retained,
+            false otherwise. All items not in valueSet but
+
+            in the Set are removed.
     since: 2.0
   - name: clear
     doc: >
       Removes all of the elements from this set (optional operation). The set
       will be empty after this call returns.
     request:
-      id: 1545
+      id: 0x0609
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -324,15 +309,13 @@ methods:
           doc: |
             Name of the Set
     response:
-      id: 100
-      doc: |
-        TODO DOC
+      id: 0x0064
     since: 2.0
   - name: getAll
     doc: |
       Return the all elements of this collection
     request:
-      id: 1546
+      id: 0x060a
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -344,23 +327,21 @@ methods:
           doc: |
             Name of the Set
     response:
-      id: 106
-      doc: |
-        Array of all values in the Set
+      id: 0x006a
       params:
         - name: response
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Array of all values in the Set
     since: 2.0
   - name: addListener
     doc: >
       Adds an item listener for this collection. Listener will be notified for
       all collection add/remove events.
     request:
-      id: 1547
+      id: 0x060b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -385,18 +366,16 @@ methods:
             if true fires events that originated from this node only, otherwise
             fires all events
     response:
-      id: 104
-      doc: |
-        The registration id.
+      id: 0x0068
       params:
         - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The registration id.
     events:
-      - id: 204
+      - id: 0x00cc
         name: Item
         params:
           - name: item
@@ -423,7 +402,7 @@ methods:
       Removes the specified item listener. Returns silently if the specified
       listener was not added before.
     request:
-      id: 1548
+      id: 0x060c
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -441,23 +420,21 @@ methods:
           doc: |
             The id retrieved during registration.
     response:
-      id: 101
-      doc: >
-        true if the listener with the provided id existed and removed, false
-        otherwise.
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
-          doc: |
-            TODO DOC
+          doc: >
+            true if the listener with the provided id existed and removed, false
+            otherwise.
     since: 2.0
   - name: isEmpty
     doc: |
       Returns true if this set contains no elements.
     request:
-      id: 1549
+      id: 0x060d
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -469,14 +446,12 @@ methods:
           doc: |
             Name of the Set
     response:
-      id: 101
-      doc: |
-        True if this set contains no elements
+      id: 0x0065
       params:
         - name: response
           type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            True if this set contains no elements
     since: 2.0
