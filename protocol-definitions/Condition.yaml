@@ -2,176 +2,211 @@ id: 8
 name: Condition
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: await
-  doc: |
-     Causes the current thread to wait until it is signalled or interrupted, or the specified waiting time elapses.
-  request:
-    id: 0x0801
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: lockName
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Condition
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-      - name: timeout
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The maximum time to wait
-      - name: lockName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the lock to wait on.
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0065
-    doc: |
-       False if the waiting time detectably elapsed before return from the method, else true
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: beforeAwait
-  doc: |
-     Causes the current thread to wait until it is signalled or Thread#interrupt interrupted. The lock associated with
-     this Condition is atomically released and the current thread becomes disabled for thread scheduling purposes and
-     lies dormant until one of four things happens:
-     Some other thread invokes the #signal method for this Condition and the current thread happens to be chosen as the
-     thread to be awakened; or Some other thread invokes the #signalAll method for this Condition; or Some other thread
-     Thread#interrupt interrupts the current thread, and interruption of thread suspension is supported; or A spurious wakeup occurs.
-     In all cases, before this method can return the current thread must re-acquire the lock associated with this condition.
-     When the thread returns it is guaranteed to hold this lock. If the current thread: has its interrupted status set
-     on entry to this method; or is Thread#interrupt interrupted while waiting and interruption of thread suspension
-     is supported, then INTERRUPTED is thrown and the current thread's interrupted status is cleared. It is
-     not specified, in the first case, whether or not the test for interruption occurs before the lock is released.
-     The current thread is assumed to hold the lock associated with this Condition when this method is called.
-     It is up to the implementation to determine if this is the case and if not, how to respond. Typically, an exception will be
-     thrown (such as ILLEGAL_MONITOR_STATE) and the implementation must document that fact.
-     An implementation can favor responding to an interrupt over normal method return in response to a signal. In that
-     case the implementation must ensure that the signal is redirected to another waiting thread, if there is one.
-  request:
-    id: 0x0802
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: lockName
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Condition
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-      - name: lockName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the lock to wait on.
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: signal
-  doc: |
-     If any threads are waiting on this condition then one is selected for waking up.That thread must then re-acquire
-     the lock before returning from await. An implementation may (and typically does) require that the
-     current thread hold the lock associated with this Condition when this method is called. Implementations must
-     document this precondition and any actions taken if the lock is not held. Typically, an exception such as
-     ILLEGAL_MONITOR_STATE will be thrown.
-  request:
-    id: 0x0803
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: lockName
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Condition
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-      - name: lockName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the lock to wait on.
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: signalAll
-  doc: |
-     If any threads are waiting on this condition then they are all woken up. Each thread must re-acquire the lock
-     before it can return from
-  request:
-    id: 0x0804
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: lockName
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Condition
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-      - name: lockName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the lock to wait on.
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
+  - name: await
+    doc: >
+      Causes the current thread to wait until it is signalled or interrupted, or
+      the specified waiting time elapses.
+    request:
+      id: 2049
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: lockName
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Condition
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The id of the user thread performing the operation. It is used to
+            guarantee that only the lock holder thread (if a lock exists on the
+            entry) can perform the requested operation.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            The maximum time to wait
+        - name: lockName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the lock to wait on.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The client-wide unique id for this request. It is used to make the
+            request idempotent by sending the same reference id during retries.
+    response:
+      id: 101
+      doc: >
+        False if the waiting time detectably elapsed before return from the
+        method, else true
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: beforeAwait
+    doc: >
+      Causes the current thread to wait until it is signalled or
+      Thread#interrupt interrupted. The lock associated with
+
+      this Condition is atomically released and the current thread becomes disabled for thread scheduling purposes and
+
+      lies dormant until one of four things happens:
+
+      Some other thread invokes the #signal method for this Condition and the current thread happens to be chosen as the
+
+      thread to be awakened; or Some other thread invokes the #signalAll method for this Condition; or Some other thread
+
+      Thread#interrupt interrupts the current thread, and interruption of thread suspension is supported; or A spurious wakeup occurs.
+
+      In all cases, before this method can return the current thread must re-acquire the lock associated with this condition.
+
+      When the thread returns it is guaranteed to hold this lock. If the current thread: has its interrupted status set
+
+      on entry to this method; or is Thread#interrupt interrupted while waiting and interruption of thread suspension
+
+      is supported, then INTERRUPTED is thrown and the current thread's interrupted status is cleared. It is
+
+      not specified, in the first case, whether or not the test for interruption occurs before the lock is released.
+
+      The current thread is assumed to hold the lock associated with this Condition when this method is called.
+
+      It is up to the implementation to determine if this is the case and if not, how to respond. Typically, an exception will be
+
+      thrown (such as ILLEGAL_MONITOR_STATE) and the implementation must document that fact.
+
+      An implementation can favor responding to an interrupt over normal method return in response to a signal. In that
+
+      case the implementation must ensure that the signal is redirected to another waiting thread, if there is one.
+    request:
+      id: 2050
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: lockName
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Condition
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The id of the user thread performing the operation. It is used to
+            guarantee that only the lock holder thread (if a lock exists on the
+            entry) can perform the requested operation.
+        - name: lockName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the lock to wait on.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The client-wide unique id for this request. It is used to make the
+            request idempotent by sending the same reference id during retries.
+    response:
+      id: 100
+      doc: |
+        TODO DOC
+  - name: signal
+    doc: >
+      If any threads are waiting on this condition then one is selected for
+      waking up.That thread must then re-acquire
+
+      the lock before returning from await. An implementation may (and typically does) require that the
+
+      current thread hold the lock associated with this Condition when this method is called. Implementations must
+
+      document this precondition and any actions taken if the lock is not held. Typically, an exception such as
+
+      ILLEGAL_MONITOR_STATE will be thrown.
+    request:
+      id: 2051
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: lockName
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Condition
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The id of the user thread performing the operation. It is used to
+            guarantee that only the lock holder thread (if a lock exists on the
+            entry) can perform the requested operation.
+        - name: lockName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the lock to wait on.
+    response:
+      id: 100
+      doc: |
+        TODO DOC
+  - name: signalAll
+    doc: >
+      If any threads are waiting on this condition then they are all woken up.
+      Each thread must re-acquire the lock
+
+      before it can return from
+    request:
+      id: 2052
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: lockName
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Condition
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The id of the user thread performing the operation. It is used to
+            guarantee that only the lock holder thread (if a lock exists on the
+            entry) can perform the requested operation.
+        - name: lockName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the lock to wait on.
+    response:
+      id: 100
+      doc: |
+        TODO DOC

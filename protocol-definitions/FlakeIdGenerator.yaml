@@ -2,48 +2,48 @@ id: 31
 name: FlakeIdGenerator
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: newIdBatch
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1f01
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: batchSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-  response:
-    id: 0x007e
+  - name: newIdBatch
     doc: |
-       TODO DOC
-    params:
-      - name: base
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: increment
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: batchSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
+      TODO DOC
+    request:
+      id: 7937
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: batchSize
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+    response:
+      id: 126
+      doc: |
+        TODO DOC
+      params:
+        - name: base
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: increment
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: batchSize
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC

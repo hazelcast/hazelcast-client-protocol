@@ -2,63 +2,63 @@ id: 33
 name: CPGroup
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: createCPGroup
-  doc: |
-     Creates a new CP group with the given name
-  request:
-    id: 0x2101
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: proxyName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The proxy name of this data structure instance
-  response:
-    id: 0x0080
+  - name: createCPGroup
     doc: |
-       ID of the CP group that contains the CP object
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: destroyCPObject
-  doc: |
-     Destroys the distributed object with the given name on the requested
-     CP group
-  request:
-    id: 0x2102
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           CP group id of this distributed object
-      - name: serviceName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The service of this distributed object
-      - name: objectName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The name of this distributed object
-  response:
-    id: 0x0064
+      Creates a new CP group with the given name
+    request:
+      id: 8449
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: proxyName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            The proxy name of this data structure instance
+    response:
+      id: 128
+      doc: |
+        ID of the CP group that contains the CP object
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: destroyCPObject
     doc: |
-       TODO DOC
+      Destroys the distributed object with the given name on the requested
+      CP group
+    request:
+      id: 8450
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            CP group id of this distributed object
+        - name: serviceName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            The service of this distributed object
+        - name: objectName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            The name of this distributed object
+    response:
+      id: 100
+      doc: |
+        TODO DOC

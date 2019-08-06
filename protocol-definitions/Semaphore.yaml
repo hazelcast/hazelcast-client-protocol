@@ -2,247 +2,267 @@ id: 13
 name: Semaphore
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: init
-  doc: |
-     Try to initialize this ISemaphore instance with the given permit count
-  request:
-    id: 0x0d01
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: permits
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The given permit count
-  response:
-    id: 0x0065
+  - name: init
     doc: |
-       True if initialization succeeds, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: acquire
-  doc: |
-     Acquires the given number of permits if they are available, and returns immediately, reducing the number of
-     available permits by the given amount. If insufficient permits are available then the current thread becomes
-     disabled for thread scheduling purposes and lies dormant until one of three things happens: some other thread
-     invokes one of the methods for this semaphore, the current thread is next to be assigned permits and the number
-     of available permits satisfies this request, this ISemaphore instance is destroyed, or some other thread
-     the current thread. If the current thread has its interrupted status set on entry to this method, or is  while
-     waiting for a permit, then  is thrown and the current thread's interrupted status is cleared.
-  request:
-    id: 0x0d02
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: permits
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The given permit count
-  response:
-    id: 0x0064
+      Try to initialize this ISemaphore instance with the given permit count
+    request:
+      id: 3329
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: permits
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The given permit count
+    response:
+      id: 101
+      doc: |
+        True if initialization succeeds, false otherwise.
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: acquire
+    doc: >
+      Acquires the given number of permits if they are available, and returns
+      immediately, reducing the number of
+
+      available permits by the given amount. If insufficient permits are available then the current thread becomes
+
+      disabled for thread scheduling purposes and lies dormant until one of three things happens: some other thread
+
+      invokes one of the methods for this semaphore, the current thread is next to be assigned permits and the number
+
+      of available permits satisfies this request, this ISemaphore instance is destroyed, or some other thread
+
+      the current thread. If the current thread has its interrupted status set on entry to this method, or is  while
+
+      waiting for a permit, then  is thrown and the current thread's interrupted status is cleared.
+    request:
+      id: 3330
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: permits
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The given permit count
+    response:
+      id: 100
+      doc: |
+        TODO DOC
+  - name: availablePermits
+    doc: >
+      Returns the current number of permits currently available in this
+      semaphore. This method is typically used for
+
+      debugging and testing purposes.
+    request:
+      id: 3331
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+    response:
+      id: 102
+      doc: |
+        The number of permits available in this semaphore.
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: drainPermits
     doc: |
-       TODO DOC
-- name: availablePermits
-  doc: |
-     Returns the current number of permits currently available in this semaphore. This method is typically used for
-     debugging and testing purposes.
-  request:
-    id: 0x0d03
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-  response:
-    id: 0x0066
-    doc: |
-       The number of permits available in this semaphore.
-    params:
-      - name: response
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: drainPermits
-  doc: |
-     Acquires and returns all permits that are immediately available.
-  request:
-    id: 0x0d04
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-  response:
-    id: 0x0066
-    doc: |
-       The number of permits drained
-    params:
-      - name: response
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: reducePermits
-  doc: |
-     Shrinks the number of available permits by the indicated reduction. This method differs from  acquire in that it
-     does not block waiting for permits to become available.
-  request:
-    id: 0x0d05
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: reduction
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The number of permits to remove
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: release
-  doc: |
-     Releases the given number of permits, increasing the number of available permits by that amount. There is no
-     requirement that a thread that releases a permit must have acquired that permit by calling one of the
-     acquire()acquire methods. Correct usage of a semaphore is established by programming convention in the application.
-  request:
-    id: 0x0d06
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: permits
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The number of permits to remove
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: tryAcquire
-  doc: |
-     Acquires the given number of permits, if they are available, and returns immediately, with the value true,
-     reducing the number of available permits by the given amount. If insufficient permits are available then this
-     method will return immediately with the value false and the number of available permits is unchanged.
-  request:
-    id: 0x0d07
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: permits
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The number of permits to remove
-      - name: timeout
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The maximum time to wait for a permit
-  response:
-    id: 0x0065
-    doc: |
-       true if all permits were acquired,  false if the waiting time elapsed before all permits could be acquired
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: increasePermits
-  doc: |
-     Increases the number of available permits by the indicated amount. This method differs from {@code release}
-     in that it does not effect the amount of permits this caller has attached.
-  request:
-    id: 0x0d08
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: name
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the Semaphore
-      - name: increase
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The number of permits to add
-           @throws IllegalArgumentException if {@code increase} is negative
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
+      Acquires and returns all permits that are immediately available.
+    request:
+      id: 3332
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+    response:
+      id: 102
+      doc: |
+        The number of permits drained
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: reducePermits
+    doc: >
+      Shrinks the number of available permits by the indicated reduction. This
+      method differs from  acquire in that it
+
+      does not block waiting for permits to become available.
+    request:
+      id: 3333
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: reduction
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The number of permits to remove
+    response:
+      id: 100
+      doc: |
+        TODO DOC
+  - name: release
+    doc: >
+      Releases the given number of permits, increasing the number of available
+      permits by that amount. There is no
+
+      requirement that a thread that releases a permit must have acquired that permit by calling one of the
+
+      acquire()acquire methods. Correct usage of a semaphore is established by programming convention in the application.
+    request:
+      id: 3334
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: permits
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The number of permits to remove
+    response:
+      id: 100
+      doc: |
+        TODO DOC
+  - name: tryAcquire
+    doc: >
+      Acquires the given number of permits, if they are available, and returns
+      immediately, with the value true,
+
+      reducing the number of available permits by the given amount. If insufficient permits are available then this
+
+      method will return immediately with the value false and the number of available permits is unchanged.
+    request:
+      id: 3335
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: permits
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The number of permits to remove
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            The maximum time to wait for a permit
+    response:
+      id: 101
+      doc: >
+        true if all permits were acquired,  false if the waiting time elapsed
+        before all permits could be acquired
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: increasePermits
+    doc: >
+      Increases the number of available permits by the indicated amount. This
+      method differs from {@code release}
+
+      in that it does not effect the amount of permits this caller has attached.
+    request:
+      id: 3336
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: name
+      since: 2
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the Semaphore
+        - name: increase
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            The number of permits to add
+            @throws IllegalArgumentException if {@code increase} is negative
+    response:
+      id: 100
+      doc: |
+        TODO DOC

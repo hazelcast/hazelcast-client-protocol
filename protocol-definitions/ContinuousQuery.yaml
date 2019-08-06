@@ -2,317 +2,335 @@ id: 24
 name: ContinuousQuery
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: publisherCreateWithValue
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1801
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the map.
-      - name: cacheName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the cache for query cache.
-      - name: predicate
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The predicate to filter events which will be applied to the QueryCache.
-      - name: batchSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The size of batch. After reaching this minimum size, node immediately sends buffered events to QueryCache.
-      - name: bufferSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           Maximum number of events which can be stored in a buffer of partition.
-      - name: delaySeconds
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The minimum number of delay seconds which an event waits in the buffer of node.
-      - name: populate
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           Flag to enable/disable initial population of the QueryCache.
-      - name: coalesce
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
-           batch, otherwise all changed values are included in the update.
-  response:
-    id: 0x0075
+  - name: publisherCreateWithValue
     doc: |
-       Array of key-value pairs.
-    params:
-      - name: response
-        type: Map_Data_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: publisherCreate
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1802
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the map.
-      - name: cacheName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of query cache.
-      - name: predicate
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The predicate to filter events which will be applied to the QueryCache.
-      - name: batchSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           The size of batch. After reaching this minimum size, node immediately sends buffered events to QueryCache.
-      - name: bufferSize
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           Maximum number of events which can be stored in a buffer of partition.
-      - name: delaySeconds
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The minimum number of delay seconds which an event waits in the buffer of node.
-      - name: populate
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           Flag to enable/disable initial population of the QueryCache.
-      - name: coalesce
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
-           batch, otherwise all changed values are included in the update.
-  response:
-    id: 0x006a
-    doc: |
-       Array of keys.
-    params:
-      - name: response
-        type: List_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: madePublishable
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1803
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the map.
-      - name: cacheName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of query cache.
-  response:
-    id: 0x0065
-    doc: |
-       True if successfully set as publishable, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: addListener
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1804
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: listenerName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MapListener which will be used to listen this QueryCache
-      - name: localOnly
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           if true fires events that originated from this node only, otherwise fires all events
-  response:
-    id: 0x0068
-    doc: |
-       Registration id for the listener.
-    params:
-      - name: response
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-  events:
-    - id: 0x00d4
-      name: QueryCacheSingle
+      TODO DOC
+    request:
+      id: 6145
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
       params:
-        - name: data
-          type: QueryCacheEventData
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-    - id: 0x00d5
-      name: QueryCacheBatch
-      params:
-        - name: events
-          type: List_QueryCacheEventData
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: source
+        - name: mapName
           type: String
           nullable: false
-          since: 2.0
+          since: 2
           doc: |
-            TODO DOC
-        - name: partitionId
+            Name of the map.
+        - name: cacheName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the cache for query cache.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2
+          doc: >
+            The predicate to filter events which will be applied to the
+            QueryCache.
+        - name: batchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 2
+          doc: >
+            The size of batch. After reaching this minimum size, node
+            immediately sends buffered events to QueryCache.
+        - name: bufferSize
+          type: int
+          nullable: false
+          since: 2
+          doc: >
+            Maximum number of events which can be stored in a buffer of
+            partition.
+        - name: delaySeconds
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The minimum number of delay seconds which an event waits in the
+            buffer of node.
+        - name: populate
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            Flag to enable/disable initial population of the QueryCache.
+        - name: coalesce
+          type: boolean
+          nullable: false
+          since: 2
+          doc: >
+            Flag to enable/disable coalescing. If true, then only the last
+            updated value for a key is placed in the
+
+            batch, otherwise all changed values are included in the update.
+    response:
+      id: 117
+      doc: |
+        Array of key-value pairs.
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2
           doc: |
             TODO DOC
-- name: setReadCursor
-  doc: |
-     This method can be used to recover from a possible event loss situation.
-     This method tries to make consistent the data in this `QueryCache` with the data in the underlying `IMap`
-     by replaying the events after last consistently received ones. As a result of this replaying logic, same event may
-     appear more than once to the `QueryCache` listeners.
-     This method returns `false` if the event is not in the buffer of event publisher side. That means recovery is not
-     possible.
-  request:
-    id: 0x1805
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: associated key
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the map.
-      - name: cacheName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of query cache.
-      - name: sequence
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The cursor position of the accumulator to be set.
-  response:
-    id: 0x0065
+  - name: publisherCreate
     doc: |
-       True if the cursor position could be set, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: destroyCache
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1806
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: mapName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the map.
-      - name: cacheName
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of query cache.
-  response:
-    id: 0x0065
+      TODO DOC
+    request:
+      id: 6146
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the map.
+        - name: cacheName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of query cache.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2
+          doc: >
+            The predicate to filter events which will be applied to the
+            QueryCache.
+        - name: batchSize
+          type: int
+          nullable: false
+          since: 2
+          doc: >
+            The size of batch. After reaching this minimum size, node
+            immediately sends buffered events to QueryCache.
+        - name: bufferSize
+          type: int
+          nullable: false
+          since: 2
+          doc: >
+            Maximum number of events which can be stored in a buffer of
+            partition.
+        - name: delaySeconds
+          type: long
+          nullable: false
+          since: 2
+          doc: >
+            The minimum number of delay seconds which an event waits in the
+            buffer of node.
+        - name: populate
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            Flag to enable/disable initial population of the QueryCache.
+        - name: coalesce
+          type: boolean
+          nullable: false
+          since: 2
+          doc: >
+            Flag to enable/disable coalescing. If true, then only the last
+            updated value for a key is placed in the
+
+            batch, otherwise all changed values are included in the update.
+    response:
+      id: 106
+      doc: |
+        Array of keys.
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: madePublishable
     doc: |
-       True if all cache is destroyed, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
+      TODO DOC
+    request:
+      id: 6147
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the map.
+        - name: cacheName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of query cache.
+    response:
+      id: 101
+      doc: |
+        True if successfully set as publishable, false otherwise.
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: addListener
+    doc: |
+      TODO DOC
+    request:
+      id: 6148
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: listenerName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the MapListener which will be used to listen this QueryCache
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2
+          doc: >
+            if true fires events that originated from this node only, otherwise
+            fires all events
+    response:
+      id: 104
+      doc: |
+        Registration id for the listener.
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+    events:
+      - id: 212
+        name: QueryCacheSingle
+        params:
+          - name: data
+            type: QueryCacheEventData
+            nullable: false
+            since: 2
+            doc: |
+              TODO DOC
+      - id: 213
+        name: QueryCacheBatch
+        params:
+          - name: events
+            type: List_QueryCacheEventData
+            nullable: false
+            since: 2
+            doc: |
+              TODO DOC
+          - name: source
+            type: String
+            nullable: false
+            since: 2
+            doc: |
+              TODO DOC
+          - name: partitionId
+            type: int
+            nullable: false
+            since: 2
+            doc: |
+              TODO DOC
+  - name: setReadCursor
+    doc: >
+      This method can be used to recover from a possible event loss situation.
+
+      This method tries to make consistent the data in this `QueryCache` with the data in the underlying `IMap`
+
+      by replaying the events after last consistently received ones. As a result of this replaying logic, same event may
+
+      appear more than once to the `QueryCache` listeners.
+
+      This method returns `false` if the event is not in the buffer of event publisher side. That means recovery is not
+
+      possible.
+    request:
+      id: 6149
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: associated key
+      since: 2
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the map.
+        - name: cacheName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of query cache.
+        - name: sequence
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            The cursor position of the accumulator to be set.
+    response:
+      id: 101
+      doc: |
+        True if the cursor position could be set, false otherwise.
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: destroyCache
+    doc: |
+      TODO DOC
+    request:
+      id: 6150
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of the map.
+        - name: cacheName
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of query cache.
+    response:
+      id: 101
+      doc: |
+        True if all cache is destroyed, false otherwise.
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC

@@ -2,233 +2,233 @@ id: 38
 name: CPFencedLock
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: lock
-  doc: |
-     Acquires the given FencedLock on the given CP group. If the lock is
-     acquired, a valid fencing token (positive number) is returned. If not
-     acquired because of max reentrant entry limit, the call returns -1.
-     If the lock is held by some other endpoint when this method is called,
-     the caller thread is blocked until the lock is released. If the session
-     is closed between reentrant acquires, the call fails with
-     {@code LockOwnershipLostException}.
-  request:
-    id: 0x2601
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           CP group id of this FencedLock instance
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of this FencedLock instance
-      - name: sessionId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Session ID of the caller
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           ID of the caller thread
-      - name: invocationUid
-        type: UUID
-        nullable: false
-        since: 2.0
-        doc: |
-           UID of this invocation
-  response:
-    id: 0x0067
+  - name: lock
     doc: |
-       a valid fencing token (positive number) if the lock
-       is acquired, otherwise -1.
-    params:
-      - name: response
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: tryLock
-  doc: |
-     Attempts to acquire the given FencedLock on the given CP group.
-     If the lock is acquired, a valid fencing token (positive number) is
-     returned. If not acquired either because of max reentrant entry limit or
-     the lock is not free during the timeout duration, the call returns -1.
-     If the lock is held by some other endpoint when this method is called,
-     the caller thread is blocked until the lock is released or the timeout
-     duration passes. If the session is closed between reentrant acquires,
-     the call fails with {@code LockOwnershipLostException}.
-  request:
-    id: 0x2602
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           CP group id of this FencedLock instance
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of this FencedLock instance
-      - name: sessionId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Session ID of the caller
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           ID of the caller thread
-      - name: invocationUid
-        type: UUID
-        nullable: false
-        since: 2.0
-        doc: |
-           UID of this invocation
-      - name: timeoutMs
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Duration to wait for lock acquire
-  response:
-    id: 0x0067
+      Acquires the given FencedLock on the given CP group. If the lock is
+      acquired, a valid fencing token (positive number) is returned. If not
+      acquired because of max reentrant entry limit, the call returns -1.
+      If the lock is held by some other endpoint when this method is called,
+      the caller thread is blocked until the lock is released. If the session
+      is closed between reentrant acquires, the call fails with
+      {@code LockOwnershipLostException}.
+    request:
+      id: 9729
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            CP group id of this FencedLock instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of this FencedLock instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2
+          doc: |
+            UID of this invocation
+    response:
+      id: 103
+      doc: |
+        a valid fencing token (positive number) if the lock
+        is acquired, otherwise -1.
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: tryLock
     doc: |
-       a valid fencing token (positive number) if the lock
-       is acquired, otherwise -1.
-    params:
-      - name: response
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: unlock
-  doc: |
-     Unlocks the given FencedLock on the given CP group. If the lock is
-     not acquired, the call fails with {@link IllegalMonitorStateException}.
-     If the session is closed while holding the lock, the call fails with
-     {@code LockOwnershipLostException}. Returns true if the lock is still
-     held by the caller after a successful unlock() call, false otherwise.
-  request:
-    id: 0x2603
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           CP group id of this FencedLock instance
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of this FencedLock instance
-      - name: sessionId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Session ID of the caller
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           ID of the caller thread
-      - name: invocationUid
-        type: UUID
-        nullable: false
-        since: 2.0
-        doc: |
-           UID of this invocation
-  response:
-    id: 0x0065
+      Attempts to acquire the given FencedLock on the given CP group.
+      If the lock is acquired, a valid fencing token (positive number) is
+      returned. If not acquired either because of max reentrant entry limit or
+      the lock is not free during the timeout duration, the call returns -1.
+      If the lock is held by some other endpoint when this method is called,
+      the caller thread is blocked until the lock is released or the timeout
+      duration passes. If the session is closed between reentrant acquires,
+      the call fails with {@code LockOwnershipLostException}.
+    request:
+      id: 9730
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            CP group id of this FencedLock instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of this FencedLock instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2
+          doc: |
+            UID of this invocation
+        - name: timeoutMs
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            Duration to wait for lock acquire
+    response:
+      id: 103
+      doc: |
+        a valid fencing token (positive number) if the lock
+        is acquired, otherwise -1.
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: unlock
     doc: |
-       true if the lock is still held by the caller after
-       a successful unlock() call, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: getLockOwnership
-  doc: |
-     Returns current lock ownership status of the given FencedLock instance.
-  request:
-    id: 0x2604
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: groupId
-        type: RaftGroupId
-        nullable: false
-        since: 2.0
-        doc: |
-           CP group id of this FencedLock instance
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of this FencedLock instance
-  response:
-    id: 0x0081
+      Unlocks the given FencedLock on the given CP group. If the lock is
+      not acquired, the call fails with {@link IllegalMonitorStateException}.
+      If the session is closed while holding the lock, the call fails with
+      {@code LockOwnershipLostException}. Returns true if the lock is still
+      held by the caller after a successful unlock() call, false otherwise.
+    request:
+      id: 9731
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            CP group id of this FencedLock instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of this FencedLock instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2
+          doc: |
+            UID of this invocation
+    response:
+      id: 101
+      doc: |
+        true if the lock is still held by the caller after
+        a successful unlock() call, false otherwise.
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+  - name: getLockOwnership
     doc: |
-       current ownership status of this FencedLock
-    params:
-      - name: fence
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: lockCount
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: sessionId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
+      Returns current lock ownership status of the given FencedLock instance.
+    request:
+      id: 9732
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      since: 2
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2
+          doc: |
+            CP group id of this FencedLock instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2
+          doc: |
+            Name of this FencedLock instance
+    response:
+      id: 129
+      doc: |
+        current ownership status of this FencedLock
+      params:
+        - name: fence
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: lockCount
+          type: int
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2
+          doc: |
+            TODO DOC
