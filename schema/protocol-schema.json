@@ -4,12 +4,6 @@
   "title": "Hazelcast Client Protocol Definition",
   "type": "object",
   "definitions": {
-    "hexId": {
-      "description": "4 digit hex id",
-      "pattern": "^0x[a-fA-F0-9]{4}$",
-      "example": "0x10AB",
-      "type": "integer"
-    },
     "since": {
       "enum": [
         2.0
@@ -113,11 +107,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "id": {
-          "$ref": "#/definitions/hexId"
-        },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "Event name"
         },
         "params": {
           "type": "array",
@@ -134,24 +126,28 @@
   "properties": {
     "id": {
       "type": "integer",
-      "description": "Service unique id"
+      "minimum": 1,
+      "maximum": 255,
+      "description": "Service unique id, 0-255"
     },
     "name": {
       "type": "string",
       "description": "Service name"
-    },
-    "ns": {
-      "type": "string",
-      "description": "Service namespace, used from non-java clients"
     },
     "methods": {
       "type": "array",
       "items": {
         "additionalProperties": false,
         "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 255,
+            "description": "Method unique id, 0-255"
+          },
           "name": {
             "type": "string",
-            "description": "method name"
+            "description": "Method name"
           },
           "since": {
             "$ref": "#/definitions/since"
@@ -165,32 +161,17 @@
             "description": "Request message definition",
             "additionalProperties": false,
             "properties": {
-              "id": {
-                "$ref": "#/definitions/hexId",
-                "description": "request message id"
-              },
               "retryable": {
                 "type": "boolean",
-                "description": "is the request retryable or not"
+                "description": "Is the request retryable or not"
               },
               "acquiresResource": {
                 "type": "boolean",
-                "description": "is the request retryable or not"
+                "description": "Does the request acquire resource or not"
               },
               "partitionIdentifier": {
-                "enum": [
-                  -1,
-                  "key",
-                  "name",
-                  "random",
-                  "partitionId",
-                  "lockName",
-                  "associated key with sequence",
-                  "any key belongs to target partition",
-                  "taskName",
-                  "xid"
-                ],
-                "default": -1
+                "type": "string",
+                "description": "How should the partition Id calculated for this request. Used in documentation."
               },
               "params": {
                 "type": "array",
@@ -200,16 +181,13 @@
                 "minItems": 0,
                 "uniqueItems": false
               }
-            }
+            },
+            "required": ["retryable", "acquiresResource", "partitionIdentifier"]
           },
           "response": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "id": {
-                "$ref": "#/definitions/hexId",
-                "description": "response message id"
-              },
               "params": {
                 "type": "array",
                 "items": {

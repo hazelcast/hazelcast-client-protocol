@@ -125,7 +125,7 @@ class SupportedLanguages(Enum):
     # CPP = 'cpp'
     # CS = 'cs'
     # PY = 'py'
-    # NODE = 'node'
+    # TS = 'ts'
     # GO = 'go'
 
 
@@ -134,7 +134,7 @@ output_directories = {
     # SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     # SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
     # SupportedLanguages.PY: '/hazelcast/protocol/codec/',
-    # SupportedLanguages.NODE: '/src/codec/',
+    # SupportedLanguages.TS: '/src/codec/',
     # SupportedLanguages.GO: '/internal/proto/'
 }
 
@@ -143,7 +143,7 @@ file_extensions = {
     # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     # SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
-    # SupportedLanguages.NODE: 'ts',
+    # SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
 }
 
