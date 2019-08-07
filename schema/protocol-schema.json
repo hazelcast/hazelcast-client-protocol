@@ -8,16 +8,17 @@
       "description": "4 digit hex id",
       "pattern": "^0x[a-fA-F0-9]{4}$",
       "example": "0x10AB",
-      "type": "string"
+      "type": "integer"
     },
     "since": {
       "enum": [
-        "2.0"
+        2.0
       ],
-      "default": "2.0"
+      "default": 2.0
     },
     "param": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "name": {
           "type": "string"
@@ -67,6 +68,7 @@
             "Map_String_String",
             "Map_String_byteArray",
             "Map_String_Map_Integer_Long",
+            "Map_String_Long",
             "Map_Address_List_Integer",
             "Map_Data_Data",
             "Map_Member_List_ScheduledTaskHandler",
@@ -109,6 +111,7 @@
     },
     "event": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "id": {
           "$ref": "#/definitions/hexId"
@@ -127,6 +130,7 @@
       }
     }
   },
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "integer",
@@ -143,6 +147,7 @@
     "methods": {
       "type": "array",
       "items": {
+        "additionalProperties": false,
         "properties": {
           "name": {
             "type": "string",
@@ -158,6 +163,7 @@
           "request": {
             "type": "object",
             "description": "Request message definition",
+            "additionalProperties": false,
             "properties": {
               "id": {
                 "$ref": "#/definitions/hexId",
@@ -173,12 +179,18 @@
               },
               "partitionIdentifier": {
                 "enum": [
-                  "-1",
+                  -1,
                   "key",
                   "name",
-                  "random"
+                  "random",
+                  "partitionId",
+                  "lockName",
+                  "associated key with sequence",
+                  "any key belongs to target partition",
+                  "taskName",
+                  "xid"
                 ],
-                "default": "-1"
+                "default": -1
               },
               "params": {
                 "type": "array",
@@ -191,17 +203,21 @@
             }
           },
           "response": {
-            "id": {
-              "$ref": "#/definitions/hexId",
-              "description": "response message id"
-            },
-            "params": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/param"
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/hexId",
+                "description": "response message id"
               },
-              "minItems": 0,
-              "uniqueItems": false
+              "params": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/param"
+                },
+                "minItems": 0,
+                "uniqueItems": false
+              }
             }
           },
           "events": {
@@ -223,8 +239,3 @@
     "methods"
   ]
 }
-
-
-
-
-

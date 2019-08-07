@@ -2,168 +2,154 @@ id: 22
 name: XATransaction
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: clearRemote
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1601
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: xid
-    since: 2.0
-    params:
-      - name: xid
-        type: Xid
-        nullable: false
-        since: 2.0
-        doc: |
-           Java XA transaction id as defined in interface javax.transaction.xa.Xid.
-  response:
-    id: 0x0064
+  - name: clearRemote
     doc: |
-       TODO DOC
-- name: collectTransactions
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1602
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
+      TODO DOC
+    request:
+      id: 0x1601
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: xid
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 2.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+    response:
+      id: 0x0064
     since: 2.0
-  response:
-    id: 0x0085
+  - name: collectTransactions
     doc: |
-       Array of Xids.
-    params:
-      - name: response
-        type: List_Xid
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: finalize
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1603
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: xid
+      TODO DOC
+    request:
+      id: 0x1602
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      id: 0x0085
+      params:
+        - name: response
+          type: List_Xid
+          nullable: false
+          since: 2.0
+          doc: |
+            Array of Xids.
     since: 2.0
-    params:
-      - name: xid
-        type: Xid
-        nullable: false
-        since: 2.0
-        doc: |
-           Java XA transaction id as defined in interface javax.transaction.xa.Xid.
-      - name: isCommit
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           If true, the transaction is committed else transaction is rolled back.
-  response:
-    id: 0x0064
+  - name: finalize
     doc: |
-       TODO DOC
-- name: commit
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1604
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
+      TODO DOC
+    request:
+      id: 0x1603
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: xid
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 2.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+        - name: isCommit
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            If true, the transaction is committed else transaction is rolled back.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: transactionId
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The internal Hazelcast transaction id.
-      - name: onePhase
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           If true, the prepare is also done.
-  response:
-    id: 0x0064
+  - name: commit
     doc: |
-       TODO DOC
-- name: create
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1605
-    retryable: false
-    acquiresResource: true
-    partitionIdentifier: -1
+      TODO DOC
+    request:
+      id: 0x1604
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The internal Hazelcast transaction id.
+        - name: onePhase
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            If true, the prepare is also done.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: xid
-        type: Xid
-        nullable: false
-        since: 2.0
-        doc: |
-           Java XA transaction id as defined in interface javax.transaction.xa.Xid.
-      - name: timeout
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The timeout in seconds for XA operations such as prepare, commit, rollback.
-  response:
-    id: 0x0068
+  - name: create
     doc: |
-       The transaction unique identifier.
-    params:
-      - name: response
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: prepare
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1606
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
+      TODO DOC
+    request:
+      id: 0x1605
+      retryable: false
+      acquiresResource: true
+      partitionIdentifier: -1
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 2.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The timeout in seconds for XA operations such as prepare, commit, rollback.
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The transaction unique identifier.
     since: 2.0
-    params:
-      - name: transactionId
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the transaction to prepare.
-  response:
-    id: 0x0064
+  - name: prepare
     doc: |
-       TODO DOC
-- name: rollback
-  doc: |
-     TODO DOC
-  request:
-    id: 0x1607
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
+      TODO DOC
+    request:
+      id: 0x1606
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the transaction to prepare.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: transactionId
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the transaction to rollback.
-  response:
-    id: 0x0064
+  - name: rollback
     doc: |
-       TODO DOC
+      TODO DOC
+    request:
+      id: 0x1607
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the transaction to rollback.
+    response:
+      id: 0x0064
+    since: 2.0
