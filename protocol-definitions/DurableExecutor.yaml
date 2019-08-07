@@ -2,176 +2,164 @@ id: 27
 name: DurableExecutor
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: shutdown
-  doc: |
-     Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
-     Invocation has no additional effect if already shut down.
-  request:
-    id: 0x1b01
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-  response:
-    id: 0x0064
+  - name: shutdown
     doc: |
-       TODO DOC
-- name: isShutdown
-  doc: |
-     Returns true if this executor has been shut down.
-  request:
-    id: 0x1b02
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
+      Invocation has no additional effect if already shut down.
+    request:
+      id: 0x1b01
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-  response:
-    id: 0x0065
+  - name: isShutdown
     doc: |
-       true if this executor has been shut down
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: submitToPartition
-  doc: |
-     Submits the task to partition for execution
-  request:
-    id: 0x1b03
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: partitionId
+      Returns true if this executor has been shut down.
+    request:
+      id: 0x1b02
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if this executor has been shut down
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-      - name: callable
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The callable object to be executed.
-  response:
-    id: 0x0066
+  - name: submitToPartition
     doc: |
-       the sequence for the submitted execution.
-    params:
-      - name: response
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: retrieveResult
-  doc: |
-     Retrieves the result of the execution with the given sequence
-  request:
-    id: 0x1b04
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: partitionId
+      Submits the task to partition for execution
+    request:
+      id: 0x1b03
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: callable
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The callable object to be executed.
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            the sequence for the submitted execution.
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-      - name: sequence
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           Sequence of the execution.
-  response:
-    id: 0x0069
+  - name: retrieveResult
     doc: |
-       The result of the callable execution with the given sequence.
-    params:
-      - name: response
-        type: Data
-        nullable: true
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: disposeResult
-  doc: |
-     Disposes the result of the execution with the given sequence
-  request:
-    id: 0x1b05
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: partitionId
+      Retrieves the result of the execution with the given sequence
+    request:
+      id: 0x1b04
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: sequence
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Sequence of the execution.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The result of the callable execution with the given sequence.
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-      - name: sequence
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           Sequence of the execution.
-  response:
-    id: 0x0064
+  - name: disposeResult
     doc: |
-       TODO DOC
-- name: retrieveAndDisposeResult
-  doc: |
-     Retrieves and disposes the result of the execution with the given sequence
-  request:
-    id: 0x1b06
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: partitionId
+      Disposes the result of the execution with the given sequence
+    request:
+      id: 0x1b05
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: sequence
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Sequence of the execution.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the executor.
-      - name: sequence
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           Sequence of the execution.
-  response:
-    id: 0x0069
+  - name: retrieveAndDisposeResult
     doc: |
-       The result of the callable execution with the given sequence.
-    params:
-      - name: response
-        type: Data
-        nullable: true
-        since: 2.0
-        doc: |
-           TODO DOC
+      Retrieves and disposes the result of the execution with the given sequence
+    request:
+      id: 0x1b06
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: sequence
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Sequence of the execution.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The result of the callable execution with the given sequence.
+    since: 2.0

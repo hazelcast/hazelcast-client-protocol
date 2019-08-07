@@ -2,915 +2,871 @@ id: 2
 name: MultiMap
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-- name: put
-  doc: |
-     Stores a key-value pair in the multimap.
-  request:
-    id: 0x0201
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key to be stored
-      - name: value
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The value to be stored
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-  response:
-    id: 0x0065
+  - name: put
     doc: |
-       True if size of the multimap is increased, false if the multimap already contains the key-value pair.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: get
-  doc: |
-     Returns the collection of values associated with the key. The collection is NOT backed by the map, so changes to
-     the map are NOT reflected in the collection, and vice-versa.
-  request:
-    id: 0x0202
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key whose associated values are to be returned
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-  response:
-    id: 0x006a
-    doc: |
-       The collection of the values associated with the key.
-    params:
-      - name: response
-        type: List_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: remove
-  doc: |
-     Removes the given key value pair from the multimap.
-  request:
-    id: 0x0203
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key of the entry to remove
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-  response:
-    id: 0x006a
-    doc: |
-       True if the size of the multimap changed after the remove operation, false otherwise.
-    params:
-      - name: response
-        type: List_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: keySet
-  doc: |
-     Returns the set of keys in the multimap.The collection is NOT backed by the map, so changes to the map are NOT
-     reflected in the collection, and vice-versa.
-  request:
-    id: 0x0204
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-  response:
-    id: 0x006a
-    doc: |
-       The set of keys in the multimap. The returned set might be modifiable but it has no effect on the multimap.
-    params:
-      - name: response
-        type: List_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: values
-  doc: |
-     Returns the collection of values in the multimap.The collection is NOT backed by the map, so changes to the map
-     are NOT reflected in the collection, and vice-versa.
-  request:
-    id: 0x0205
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-  response:
-    id: 0x006a
-    doc: |
-       The collection of values in the multimap. the returned collection might be modifiable but it has no effect on the multimap.
-    params:
-      - name: response
-        type: List_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: entrySet
-  doc: |
-     Returns the set of key-value pairs in the multimap.The collection is NOT backed by the map, so changes to the map
-     are NOT reflected in the collection, and vice-versa
-  request:
-    id: 0x0206
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-  response:
-    id: 0x0075
-    doc: |
-       The set of key-value pairs in the multimap. The returned set might be modifiable but it has no effect on the multimap.
-    params:
-      - name: response
-        type: Map_Data_Data
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: containsKey
-  doc: |
-     Returns whether the multimap contains an entry with the key.
-  request:
-    id: 0x0207
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key whose existence is checked.
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-  response:
-    id: 0x0065
-    doc: |
-       True if the multimap contains an entry with the key, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: containsValue
-  doc: |
-     Returns whether the multimap contains an entry with the value.
-  request:
-    id: 0x0208
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: value
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The value whose existence is checked.
-  response:
-    id: 0x0065
-    doc: |
-       True if the multimap contains an entry with the value, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: containsEntry
-  doc: |
-     Returns whether the multimap contains the given key-value pair.
-  request:
-    id: 0x0209
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key whose existence is checked.
-      - name: value
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The value whose existence is checked.
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-  response:
-    id: 0x0065
-    doc: |
-       True if the multimap contains the key-value pair, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: size
-  doc: |
-     Returns the number of key-value pairs in the multimap.
-  request:
-    id: 0x020a
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-  response:
-    id: 0x0066
-    doc: |
-       The number of key-value pairs in the multimap.
-    params:
-      - name: response
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: clear
-  doc: |
-     Clears the multimap. Removes all key-value pairs.
-  request:
-    id: 0x020b
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: valueCount
-  doc: |
-     Returns the number of values that match the given key in the multimap.
-  request:
-    id: 0x020c
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key whose values count is to be returned
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-  response:
-    id: 0x0066
-    doc: |
-       The number of values that match the given key in the multimap
-    params:
-      - name: response
-        type: int
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: addEntryListenerToKey
-  doc: |
-     Adds the specified entry listener for the specified key.The listener will be notified for all
-     add/remove/update/evict events for the specified key only.
-  request:
-    id: 0x020d
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key to listen to
-      - name: includeValue
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           True if EntryEvent should contain the value,false otherwise
-      - name: localOnly
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           if true fires events that originated from this node only, otherwise fires all events
-  response:
-    id: 0x0068
-    doc: |
-       Returns registration id for the entry listener
-    params:
-      - name: response
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-  events:
-    - id: 0x00cb
-      name: Entry
+      Stores a key-value pair in the multimap.
+    request:
+      id: 0x0201
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
       params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
         - name: key
           type: Data
-          nullable: true
+          nullable: false
+          since: 2.0
+          doc: |
+            The key to be stored
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The value to be stored
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if size of the multimap is increased, false if the multimap already contains the key-value pair.
+    since: 2.0
+  - name: get
+    doc: |
+      Returns the collection of values associated with the key. The collection is NOT backed by the map, so changes to
+      the map are NOT reflected in the collection, and vice-versa.
+    request:
+      id: 0x0202
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key whose associated values are to be returned
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The collection of the values associated with the key.
+    since: 2.0
+  - name: remove
+    doc: |
+      Removes the given key value pair from the multimap.
+    request:
+      id: 0x0203
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key of the entry to remove
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the size of the multimap changed after the remove operation, false otherwise.
+    since: 2.0
+  - name: keySet
+    doc: |
+      Returns the set of keys in the multimap.The collection is NOT backed by the map, so changes to the map are NOT
+      reflected in the collection, and vice-versa.
+    request:
+      id: 0x0204
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The set of keys in the multimap. The returned set might be modifiable but it has no effect on the multimap.
+    since: 2.0
+  - name: values
+    doc: |
+      Returns the collection of values in the multimap.The collection is NOT backed by the map, so changes to the map
+      are NOT reflected in the collection, and vice-versa.
+    request:
+      id: 0x0205
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The collection of values in the multimap. the returned collection might be modifiable but it has no effect on the multimap.
+    since: 2.0
+  - name: entrySet
+    doc: |
+      Returns the set of key-value pairs in the multimap.The collection is NOT backed by the map, so changes to the map
+      are NOT reflected in the collection, and vice-versa
+    request:
+      id: 0x0206
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The set of key-value pairs in the multimap. The returned set might be modifiable but it has no effect on the multimap.
+    since: 2.0
+  - name: containsKey
+    doc: |
+      Returns whether the multimap contains an entry with the key.
+    request:
+      id: 0x0207
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key whose existence is checked.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the multimap contains an entry with the key, false otherwise.
+    since: 2.0
+  - name: containsValue
+    doc: |
+      Returns whether the multimap contains an entry with the value.
+    request:
+      id: 0x0208
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The value whose existence is checked.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the multimap contains an entry with the value, false otherwise.
+    since: 2.0
+  - name: containsEntry
+    doc: |
+      Returns whether the multimap contains the given key-value pair.
+    request:
+      id: 0x0209
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key whose existence is checked.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The value whose existence is checked.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the multimap contains the key-value pair, false otherwise.
+    since: 2.0
+  - name: size
+    doc: |
+      Returns the number of key-value pairs in the multimap.
+    request:
+      id: 0x020a
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of key-value pairs in the multimap.
+    since: 2.0
+  - name: clear
+    doc: |
+      Clears the multimap. Removes all key-value pairs.
+    request:
+      id: 0x020b
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: valueCount
+    doc: |
+      Returns the number of values that match the given key in the multimap.
+    request:
+      id: 0x020c
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key whose values count is to be returned
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of values that match the given key in the multimap
+    since: 2.0
+  - name: addEntryListenerToKey
+    doc: |
+      Adds the specified entry listener for the specified key.The listener will be notified for all
+      add/remove/update/evict events for the specified key only.
+    request:
+      id: 0x020d
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
           since: 2.0
           doc: |
             The key to listen to
-        - name: value
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: oldValue
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: mergingValue
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: eventType
-          type: int
+        - name: includeValue
+          type: boolean
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-        - name: uuid
+            True if EntryEvent should contain the value,false otherwise
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-        - name: numberOfAffectedEntries
-          type: int
+            Returns registration id for the entry listener
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              The key to listen to
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: addEntryListener
+    doc: |
+      Adds an entry listener for this multimap. The listener will be notified for all multimap add/remove/update/evict events.
+    request:
+      id: 0x020e
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-- name: addEntryListener
-  doc: |
-     Adds an entry listener for this multimap. The listener will be notified for all multimap add/remove/update/evict events.
-  request:
-    id: 0x020e
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: -1
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: includeValue
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           True if EntryEvent should contain the value,false otherwise
-      - name: localOnly
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           if true fires events that originated from this node only, otherwise fires all events
-  response:
-    id: 0x0068
-    doc: |
-       Returns registration id for the entry listener
-    params:
-      - name: response
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-  events:
-    - id: 0x00cb
-      name: Entry
+            Name of the MultiMap
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if EntryEvent should contain the value,false otherwise
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
       params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns registration id for the entry listener
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: removeEntryListener
+    doc: |
+      Removes the specified entry listener. Returns silently if no such listener was added before.
+    request:
+      id: 0x020f
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: registrationId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Registration id of listener
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if registration is removed, false otherwise
+    since: 2.0
+  - name: lock
+    doc: |
+      Acquires the lock for the specified key for the specified lease time. After the lease time, the lock will be
+      released. If the lock is not available, then the current thread becomes disabled for thread scheduling
+      purposes and lies dormant until the lock has been acquired. Scope of the lock is for this map only. The acquired
+      lock is only for the key in this map.Locks are re-entrant, so if the key is locked N times, then it should be
+      unlocked N times before another thread can acquire it.
+    request:
+      id: 0x0210
+      retryable: true
+      acquiresResource: true
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
         - name: key
           type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: value
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: oldValue
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: mergingValue
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: eventType
-          type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-        - name: uuid
+            The key the Lock
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: tryLock
+    doc: |
+      Tries to acquire the lock for the specified key for the specified lease time. After lease time, the lock will be
+      released. If the lock is not available, then the current thread becomes disabled for thread scheduling purposes
+      and lies dormant until one of two things happens:the lock is acquired by the current thread, or the specified
+      waiting time elapses.
+    request:
+      id: 0x0211
+      retryable: true
+      acquiresResource: true
+      partitionIdentifier: key
+      params:
+        - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-        - name: numberOfAffectedEntries
-          type: int
+            Name of the MultiMap
+        - name: key
+          type: Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-- name: removeEntryListener
-  doc: |
-     Removes the specified entry listener. Returns silently if no such listener was added before.
-  request:
-    id: 0x020f
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: -1
+            Key to lock in this map.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+        - name: lease
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Time in milliseconds to wait before releasing the lock.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum time to wait for the lock.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the lock was acquired and false if the waiting time elapsed before the lock acquired
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: registrationId
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Registration id of listener
-  response:
-    id: 0x0065
+  - name: isLocked
     doc: |
-       True if registration is removed, false otherwise
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: lock
-  doc: |
-     Acquires the lock for the specified key for the specified lease time. After the lease time, the lock will be
-     released. If the lock is not available, then the current thread becomes disabled for thread scheduling
-     purposes and lies dormant until the lock has been acquired. Scope of the lock is for this map only. The acquired
-     lock is only for the key in this map.Locks are re-entrant, so if the key is locked N times, then it should be
-     unlocked N times before another thread can acquire it.
-  request:
-    id: 0x0210
-    retryable: true
-    acquiresResource: true
-    partitionIdentifier: key
+      Checks the lock for the specified key. If the lock is acquired, this method returns true, else it returns false.
+    request:
+      id: 0x0212
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key to lock to be checked.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the lock acquired,false otherwise
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key the Lock
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-      - name: ttl
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The duration in milliseconds after which this entry shall be deleted. O means infinite.
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0064
+  - name: unlock
     doc: |
-       TODO DOC
-- name: tryLock
-  doc: |
-     Tries to acquire the lock for the specified key for the specified lease time. After lease time, the lock will be
-     released. If the lock is not available, then the current thread becomes disabled for thread scheduling purposes
-     and lies dormant until one of two things happens:the lock is acquired by the current thread, or the specified
-     waiting time elapses.
-  request:
-    id: 0x0211
-    retryable: true
-    acquiresResource: true
-    partitionIdentifier: key
+      Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
+      never blocks and returns immediately.
+    request:
+      id: 0x0213
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key to Lock
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           Key to lock in this map.
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-      - name: lease
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Time in milliseconds to wait before releasing the lock.
-      - name: timeout
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           Maximum time to wait for the lock.
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0065
+  - name: forceUnlock
     doc: |
-       True if the lock was acquired and false if the waiting time elapsed before the lock acquired
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: isLocked
-  doc: |
-     Checks the lock for the specified key. If the lock is acquired, this method returns true, else it returns false.
-  request:
-    id: 0x0212
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
+      Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
+      never blocks and returns immediately.
+    request:
+      id: 0x0214
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key to Lock
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           Key to lock to be checked.
-  response:
-    id: 0x0065
+  - name: removeEntry
     doc: |
-       True if the lock acquired,false otherwise
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: unlock
-  doc: |
-     Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
-     never blocks and returns immediately.
-  request:
-    id: 0x0213
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
+      Removes all the entries with the given key. The collection is NOT backed by the map, so changes to the map are
+      NOT reflected in the collection, and vice-versa.
+    request:
+      id: 0x0215
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key of the entry to remove
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The value of the entry to remove
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if the size of the multimap changed after the remove operation, false otherwise.
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key to Lock
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0064
+  - name: delete
     doc: |
-       TODO DOC
-- name: forceUnlock
-  doc: |
-     Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
-     never blocks and returns immediately.
-  request:
-    id: 0x0214
-    retryable: true
-    acquiresResource: false
-    partitionIdentifier: key
+      Removes all the entries with the given key.
+    request:
+      id: 0x0216
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the MultiMap
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The key of the entry to remove
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
+    response:
+      id: 0x0064
     since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key to Lock
-      - name: referenceId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
-- name: removeEntry
-  doc: |
-     Removes all the entries with the given key. The collection is NOT backed by the map, so changes to the map are
-     NOT reflected in the collection, and vice-versa.
-  request:
-    id: 0x0215
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key of the entry to remove
-      - name: value
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The value of the entry to remove
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-  response:
-    id: 0x0065
-    doc: |
-       True if the size of the multimap changed after the remove operation, false otherwise.
-    params:
-      - name: response
-        type: boolean
-        nullable: false
-        since: 2.0
-        doc: |
-           TODO DOC
-- name: delete
-  doc: |
-     Removes all the entries with the given key.
-  request:
-    id: 0x0216
-    retryable: false
-    acquiresResource: false
-    partitionIdentifier: key
-    since: 2.0
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.0
-        doc: |
-           Name of the MultiMap
-      - name: key
-        type: Data
-        nullable: false
-        since: 2.0
-        doc: |
-           The key of the entry to remove
-      - name: threadId
-        type: long
-        nullable: false
-        since: 2.0
-        doc: |
-           The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-  response:
-    id: 0x0064
-    doc: |
-       TODO DOC
