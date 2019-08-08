@@ -1,0 +1,323 @@
+id: 39
+name: CPSemaphore
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: init
+    doc: |
+      Initializes the ISemaphore instance with the given permit number, if not
+      initialized before.
+    request:
+      id: 0x2701
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Number of permits to initialize this ISemaphore
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the ISemaphore is initialized with this call
+    since: 2.0
+  - name: acquire
+    doc: |
+      Acquires the requested amount of permits if available, reducing
+      the number of available permits. If no enough permits are available,
+      then the current thread becomes disabled for thread scheduling purposes
+      and lies dormant until other threads release enough permits.
+    request:
+      id: 0x2702
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of permits to acquire
+        - name: timeoutMs
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Duration to wait for permit acquire
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if requested permits are acquired,
+            false otherwise
+    since: 2.0
+  - name: release
+    doc: |
+      Releases the given number of permits and increases the number of
+      available permits by that amount.
+    request:
+      id: 0x2703
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of permits to release
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true
+    since: 2.0
+  - name: drain
+    doc: |
+      Acquires all available permits at once and returns immediately.
+    request:
+      id: 0x2704
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of acquired permits
+    since: 2.0
+  - name: change
+    doc: |
+      Increases or decreases the number of permits by the given value.
+    request:
+      id: 0x2705
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of permits to increase / decrease
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true
+    since: 2.0
+  - name: availablePermits
+    doc: |
+      Returns the number of available permits.
+    request:
+      id: 0x2706
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of available permits
+    since: 2.0
+  - name: getSemaphoreType
+    doc: |
+      Returns true if the semaphore is JDK compatible
+    request:
+      id: 0x2707
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: proxyName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the ISemaphore proxy
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the semaphore is JDK compatible
+    since: 2.0

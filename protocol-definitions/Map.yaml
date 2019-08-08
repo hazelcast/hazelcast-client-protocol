@@ -1,0 +1,3164 @@
+id: 1
+name: Map
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: put
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
+      If ttl is 0, then the entry lives forever.This method returns a clone of the previous value, not the original
+      (identically equal) value previously put into the map.Time resolution for TTL is seconds. The given TTL value is
+      rounded to the next closest second value.
+    request:
+      id: 0x0101
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            old value of the entry
+    since: 2.0
+  - name: get
+    doc: |
+      This method returns a clone of the original value, so modifying the returned value does not change the actual
+      value in the map. You should put the modified value back to make changes visible to all nodes.
+    request:
+      id: 0x0102
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The value for the key if exists
+    since: 2.0
+  - name: remove
+    doc: |
+      Removes the mapping for a key from this map if it is present (optional operation).
+      Returns the value to which this map previously associated the key, or null if the map contained no mapping for the key.
+      If this map permits null values, then a return value of null does not necessarily indicate that the map contained no mapping for the key; it's also
+      possible that the map explicitly mapped the key to null. The map will not contain a mapping for the specified key once the
+      call returns.
+    request:
+      id: 0x0103
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            Clone of the removed value, not the original (identically equal) value previously put into the map.
+    since: 2.0
+  - name: replace
+    doc: |
+      Replaces the entry for a key only if currently mapped to a given value.
+    request:
+      id: 0x0104
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            Clone of the previous value, not the original (identically equal) value previously put into the map.
+    since: 2.0
+  - name: replaceIfSame
+    doc: |
+      Replaces the the entry for a key only if existing values equal to the testValue
+    request:
+      id: 0x0105
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: testValue
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Test the existing value against this value to find if equal to this value.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry. Only replace with this value if existing value is equal to the testValue.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if value is replaced with new one, false otherwise
+    since: 2.0
+  - name: containsKey
+    doc: |
+      Returns true if this map contains a mapping for the specified key.
+    request:
+      id: 0x0109
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if the key exists, otherwise returns false.
+    since: 2.0
+  - name: containsValue
+    doc: |
+      Returns true if this map maps one or more keys to the specified value.This operation will probably require time
+      linear in the map size for most implementations of the Map interface.
+    request:
+      id: 0x010a
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value to check if exists in the map.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if the value exists, otherwise returns false.
+    since: 2.0
+  - name: removeIfSame
+    doc: |
+      Removes the mapping for a key from this map if existing value equal to the this value
+    request:
+      id: 0x010b
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Test the existing value against this value to find if equal to this value. Only remove the entry from the map if the value is equal to this value.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if the key exists and removed, otherwise returns false.
+    since: 2.0
+  - name: delete
+    doc: |
+      Removes the mapping for a key from this map if it is present.Unlike remove(Object), this operation does not return
+      the removed value, which avoids the serialization cost of the returned value.If the removed value will not be used,
+      a delete operation is preferred over a remove operation for better performance. The map will not contain a mapping
+      for the specified key once the call returns.
+      This method breaks the contract of EntryListener. When an entry is removed by delete(), it fires an EntryEvent
+      with a null oldValue. Also, a listener with predicates will have null values, so only keys can be queried via predicates
+    request:
+      id: 0x010c
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: flush
+    doc: |
+      If this map has a MapStore, this method flushes all the local dirty entries by calling MapStore.storeAll()
+      and/or MapStore.deleteAll().
+    request:
+      id: 0x010d
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: tryRemove
+    doc: |
+      Tries to remove the entry with the given key from this map within the specified timeout value.
+      If the key is already locked by another thread and/or member, then this operation will wait the timeout
+      amount for acquiring the lock.
+    request:
+      id: 0x010e
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            maximum time in milliseconds to wait for acquiring the lock for the key.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if successful, otherwise returns false
+    since: 2.0
+  - name: tryPut
+    doc: |
+      Tries to put the given key and value into this map within a specified timeout value. If this method returns false,
+      it means that the caller thread could not acquire the lock for the key within the timeout duration,
+      thus the put operation is not successful.
+    request:
+      id: 0x010f
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            maximum time in milliseconds to wait for acquiring the lock for the key.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if successful, otherwise returns false
+    since: 2.0
+  - name: putTransient
+    doc: |
+      Same as put except that MapStore, if defined, will not be called to store/persist the entry.
+      If ttl is 0, then the entry lives forever.
+    request:
+      id: 0x0110
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: putIfAbsent
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value if the specified key is not already associated
+      with a value. Entry will expire and get evicted after the ttl.
+    request:
+      id: 0x0111
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            returns a clone of the previous value, not the original (identically equal) value previously put into the map.
+    since: 2.0
+  - name: set
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
+      If ttl is 0, then the entry lives forever. Similar to the put operation except that set doesn't
+      return the old value, which is more efficient.
+    request:
+      id: 0x0112
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: lock
+    doc: |
+      Acquires the lock for the specified lease time.After lease time, lock will be released.If the lock is not
+      available then the current thread becomes disabled for thread scheduling purposes and lies dormant until the lock
+      has been acquired.
+      Scope of the lock is this map only. Acquired lock is only for the key in this map. Locks are re-entrant,
+      so if the key is locked N times then it should be unlocked N times before another thread can acquire it.
+    request:
+      id: 0x0113
+      retryable: true
+      acquiresResource: true
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: tryLock
+    doc: |
+      Tries to acquire the lock for the specified key for the specified lease time.After lease time, the lock will be
+      released.If the lock is not available, then the current thread becomes disabled for thread scheduling
+      purposes and lies dormant until one of two things happens the lock is acquired by the current thread, or
+      the specified waiting time elapses.
+    request:
+      id: 0x0114
+      retryable: true
+      acquiresResource: true
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: lease
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            time in milliseconds to wait before releasing the lock.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            maximum time to wait for getting the lock.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if successful, otherwise returns false
+    since: 2.0
+  - name: isLocked
+    doc: |
+      Checks the lock for the specified key.If the lock is acquired then returns true, else returns false.
+    request:
+      id: 0x0115
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry to check if it is locked.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if the entry is locked, otherwise returns false
+    since: 2.0
+  - name: unlock
+    doc: |
+      Releases the lock for the specified key. It never blocks and returns immediately.
+      If the current thread is the holder of this lock, then the hold count is decremented.If the hold count is zero,
+      then the lock is released.  If the current thread is not the holder of this lock,
+      then ILLEGAL_MONITOR_STATE is thrown.
+    request:
+      id: 0x0116
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry to unlock
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: addInterceptor
+    doc: |
+      Adds an interceptor for this map. Added interceptor will intercept operations
+      and execute user defined methods and will cancel operations if user defined method throw exception.
+    request:
+      id: 0x0117
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: interceptor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            interceptor to add
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            id of registered interceptor.
+    since: 2.0
+  - name: removeInterceptor
+    doc: |
+      Removes the given interceptor for this map so it will not intercept operations anymore.
+    request:
+      id: 0x0118
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: id
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            of interceptor
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if successful, otherwise returns false
+    since: 2.0
+  - name: addEntryListenerToKeyWithPredicate
+    doc: |
+      Adds a MapListener for this map. To receive an event, you should implement a corresponding MapListener
+      sub-interface for that event.
+    request:
+      id: 0x0119
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            predicate for filtering entries.
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if EntryEvent should
+            contain the value.
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              Key for the map entry.
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: addEntryListenerWithPredicate
+    doc: |
+      Adds an continuous entry listener for this map. Listener will get notified for map add/remove/update/evict events
+      filtered by the given predicate.
+    request:
+      id: 0x011a
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            predicate for filtering entries.
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if EntryEvent should
+            contain the value.
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: addEntryListenerToKey
+    doc: |
+      Adds a MapListener for this map. To receive an event, you should implement a corresponding MapListener
+      sub-interface for that event.
+    request:
+      id: 0x011b
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if EntryEvent should contain the value.
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              Key for the map entry.
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: addEntryListener
+    doc: |
+      Adds a MapListener for this map. To receive an event, you should implement a corresponding MapListener
+      sub-interface for that event.
+    request:
+      id: 0x011c
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if EntryEvent should contain the value.
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00cb
+        name: Entry
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: value
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: oldValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: mergingValue
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: numberOfAffectedEntries
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: addNearCacheEntryListener
+    doc: |
+      Adds an entry listener for this map. Listener will get notified for all map add/remove/update/evict events.
+    request:
+      id: 0x011d
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00d7
+        name: IMapInvalidation
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sourceUuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionUuid
+            type: UUID
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sequence
+            type: long
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - id: 0x00d8
+        name: IMapBatchInvalidation
+        params:
+          - name: keys
+            type: List_Data
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sourceUuids
+            type: List_String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionUuids
+            type: List_UUID
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sequences
+            type: List_Long
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: removeEntryListener
+    doc: |
+      Removes the specified entry listener. Returns silently if there is no such listener added before.
+    request:
+      id: 0x011e
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: registrationId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            id of registered listener.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if registration is removed, false otherwise.
+    since: 2.0
+  - name: addPartitionLostListener
+    doc: |
+      Adds a MapPartitionLostListener. The addPartitionLostListener returns a register-id. This id is needed to remove
+      the MapPartitionLostListener using the removePartitionLostListener(String) method.
+      There is no check for duplicate registrations, so if you register the listener twice, it will get events twice.
+      IMPORTANT: Please see com.hazelcast.partition.PartitionLostListener for weaknesses.
+      IMPORTANT: Listeners registered from HazelcastClient may miss some of the map partition lost events due
+      to design limitations.
+    request:
+      id: 0x011f
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            returns the registration id for the MapPartitionLostListener.
+    events:
+      - id: 0x00d1
+        name: MapPartitionLost
+        params:
+          - name: partitionId
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: uuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: removePartitionLostListener
+    doc: |
+      Removes the specified map partition lost listener. Returns silently if there is no such listener added before.
+    request:
+      id: 0x0120
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: registrationId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            id of register
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if registration is removed, false otherwise.
+    since: 2.0
+  - name: getEntryView
+    doc: |
+      Returns the EntryView for the specified key.
+      This method returns a clone of original mapping, modifying the returned value does not change the actual value
+      in the map. One should put modified value back to make changes visible to all nodes.
+    request:
+      id: 0x0121
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the key of the entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x006f
+      params:
+        - name: response
+          type: SimpleEntryView
+          nullable: true
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: maxIdle
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: evict
+    doc: |
+      Evicts the specified key from this map. If a MapStore is defined for this map, then the entry is not deleted
+      from the underlying MapStore, evict only removes the entry from the memory.
+    request:
+      id: 0x0122
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the specified key to evict from this map.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the key is evicted, false otherwise.
+    since: 2.0
+  - name: evictAll
+    doc: |
+      Evicts all keys from this map except the locked ones. If a MapStore is defined for this map, deleteAll is not
+      called by this method. If you do want to deleteAll to be called use the clear method. The EVICT_ALL event is
+      fired for any registered listeners.
+    request:
+      id: 0x0123
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: loadAll
+    doc: |
+      Loads all keys into the store. This is a batch load operation so that an implementation can optimize the multiple loads.
+    request:
+      id: 0x0124
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: replaceExistingValues
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            when <code>true</code>, existing values in the Map will
+            be replaced by those loaded from the MapLoader
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: loadGivenKeys
+    doc: |
+      Loads the given keys. This is a batch load operation so that an implementation can optimize the multiple loads.
+    request:
+      id: 0x0125
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: keys
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            keys to load
+        - name: replaceExistingValues
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            when <code>true</code>, existing values in the Map will be replaced by those loaded from the MapLoader
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: keySet
+    doc: |
+      Returns a set clone of the keys contained in this map. The set is NOT backed by the map, so changes to the map
+      are NOT reflected in the set, and vice-versa. This method is always executed by a distributed query, so it may
+      throw a QueryResultSizeExceededException if query result size limit is configured.
+    request:
+      id: 0x0126
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of the map
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            a set clone of the keys contained in this map.
+    since: 2.0
+  - name: getAll
+    doc: |
+      Returns the entries for the given keys. If any keys are not present in the Map, it will call loadAll The returned
+      map is NOT backed by the original map, so changes to the original map are NOT reflected in the returned map, and vice-versa.
+      Please note that all the keys in the request should belong to the partition id to which this request is being sent, all keys
+      matching to a different partition id shall be ignored. The API implementation using this request may need to send multiple
+      of these request messages for filling a request for a key set if the keys belong to different partitions.
+    request:
+      id: 0x0127
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: keys
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            keys to get
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            values for the provided keys.
+    since: 2.0
+  - name: values
+    doc: |
+      Returns a collection clone of the values contained in this map.
+      The collection is NOT backed by the map, so changes to the map are NOT reflected in the collection, and vice-versa.
+      This method is always executed by a distributed query, so it may throw a QueryResultSizeExceededException
+      if query result size limit is configured.
+    request:
+      id: 0x0128
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            All values in the map
+    since: 2.0
+  - name: entrySet
+    doc: |
+      Returns a Set clone of the mappings contained in this map.
+      The collection is NOT backed by the map, so changes to the map are NOT reflected in the collection, and vice-versa.
+      This method is always executed by a distributed query, so it may throw a QueryResultSizeExceededException
+      if query result size limit is configured.
+    request:
+      id: 0x0129
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            a set clone of the keys mappings in this map
+    since: 2.0
+  - name: keySetWithPredicate
+    doc: |
+      Queries the map based on the specified predicate and returns the keys of matching entries. Specified predicate
+      runs on all members in parallel.The set is NOT backed by the map, so changes to the map are NOT reflected in the
+      set, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
+    request:
+      id: 0x012a
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            result key set for the query.
+    since: 2.0
+  - name: valuesWithPredicate
+    doc: |
+      Queries the map based on the specified predicate and returns the values of matching entries.Specified predicate
+      runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
+      in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
+    request:
+      id: 0x012b
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            result value collection of the query.
+    since: 2.0
+  - name: entriesWithPredicate
+    doc: |
+      Queries the map based on the specified predicate and returns the matching entries.Specified predicate
+      runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
+      in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
+    request:
+      id: 0x012c
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            result key-value entry collection of the query.
+    since: 2.0
+  - name: addIndex
+    doc: |
+      Adds an index to this map for the specified entries so that queries can run faster.If you are querying your values
+      mostly based on age and active then you should consider indexing these fields.
+      Index attribute should either have a getter method or be public.You should also make sure to add the indexes before
+      adding entries to this map.
+      Indexing time is executed in parallel on each partition by operation threads. The Map is not blocked during this
+      operation.The time taken in proportional to the size of the Map and the number Members.
+      Until the index finishes being created, any searches for the attribute will use a full Map scan, thus avoiding
+      using a partially built index and returning incorrect results.
+    request:
+      id: 0x012d
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: attribute
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            index attribute of value
+        - name: ordered
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if index should be ordered, false otherwise.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: size
+    doc: |
+      Returns the number of key-value mappings in this map.  If the map contains more than Integer.MAX_VALUE elements,
+      returns Integer.MAX_VALUE
+    request:
+      id: 0x012e
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            of map
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            the number of key-value mappings in this map
+    since: 2.0
+  - name: isEmpty
+    doc: |
+      Returns true if this map contains no key-value mappings.
+    request:
+      id: 0x012f
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if this map contains no key-value mappings
+    since: 2.0
+  - name: putAll
+    doc: |
+      Copies all of the mappings from the specified map to this map (optional operation).The effect of this call is
+      equivalent to that of calling put(Object,Object) put(k, v) on this map once for each mapping from key k to value
+      v in the specified map.The behavior of this operation is undefined if the specified map is modified while the
+      operation is in progress.
+      Please note that all the keys in the request should belong to the partition id to which this request is being sent, all keys
+      matching to a different partition id shall be ignored. The API implementation using this request may need to send multiple
+      of these request messages for filling a request for a key set if the keys belong to different partitions.
+    request:
+      id: 0x0130
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entries
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            mappings to be stored in this map
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: clear
+    doc: |
+      This method clears the map and invokes MapStore#deleteAll deleteAll on MapStore which, if connected to a database,
+      will delete the records from that database. The MAP_CLEARED event is fired for any registered listeners.
+      To clear a map without calling MapStore#deleteAll, use #evictAll.
+    request:
+      id: 0x0131
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            of map
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: executeOnKey
+    doc: |
+      Applies the user defined EntryProcessor to the entry mapped by the key. Returns the the object which is result of
+      the process() method of EntryProcessor.
+    request:
+      id: 0x0132
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entryProcessor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            processor to execute on the map entry
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the key of the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            result of entry process.
+    since: 2.0
+  - name: submitToKey
+    doc: |
+      Applies the user defined EntryProcessor to the entry mapped by the key. Returns immediately with a Future
+      representing that task.EntryProcessor is not cancellable, so calling Future.cancel() method won't cancel the
+      operation of EntryProcessor.
+    request:
+      id: 0x0133
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entryProcessor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            entry processor to be executed on the entry.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the key of the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            result of entry process.
+    since: 2.0
+  - name: executeOnAllKeys
+    doc: |
+      Applies the user defined EntryProcessor to the all entries in the map.Returns the results mapped by each key in the map.
+    request:
+      id: 0x0134
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entryProcessor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            entry processor to be executed.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            results of entry process on the entries
+    since: 2.0
+  - name: executeWithPredicate
+    doc: |
+      Applies the user defined EntryProcessor to the entries in the map which satisfies provided predicate.
+      Returns the results mapped by each key in the map.
+    request:
+      id: 0x0135
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entryProcessor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            entry processor to be executed.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            results of entry process on the entries matching the query criteria
+    since: 2.0
+  - name: executeOnKeys
+    doc: |
+      Applies the user defined EntryProcessor to the entries mapped by the collection of keys.The results mapped by
+      each key in the collection.
+    request:
+      id: 0x0136
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entryProcessor
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            entry processor to be executed.
+        - name: keys
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The keys for the entries for which the entry processor shall be executed on.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            results of entry process on the entries with the provided keys
+    since: 2.0
+  - name: forceUnlock
+    doc: |
+      Releases the lock for the specified key regardless of the lock owner.It always successfully unlocks the key,
+      never blocks,and returns immediately.
+    request:
+      id: 0x0137
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the key of the map entry.
+        - name: referenceId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: keySetWithPagingPredicate
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0138
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x006a
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            result keys for the query.
+    since: 2.0
+  - name: valuesWithPagingPredicate
+    doc: |
+      Queries the map based on the specified predicate and returns the values of matching entries. Specified predicate
+      runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
+      in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
+    request:
+      id: 0x0139
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            values for the query.
+    since: 2.0
+  - name: entriesWithPagingPredicate
+    doc: |
+      TODO DOC
+    request:
+      id: 0x013a
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            specified query criteria.
+    response:
+      id: 0x0075
+      params:
+        - name: response
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            key-value pairs for the query.
+    since: 2.0
+  - name: clearNearCache
+    doc: |
+      TODO DOC
+    request:
+      id: 0x013b
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: target
+          type: Address
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: fetchKeys
+    doc: |
+      Fetches specified number of keys from the specified partition starting from specified table index.
+    request:
+      id: 0x013c
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: tableIndex
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The slot number (or index) to start the iterator
+        - name: batch
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of items to be batched
+    response:
+      id: 0x0074
+      params:
+        - name: tableIndex
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The slot number (or index) to start the iterator
+        - name: keys
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: fetchEntries
+    doc: |
+      Fetches specified number of entries from the specified partition starting from specified table index.
+    request:
+      id: 0x013d
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: tableIndex
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The slot number (or index) to start the iterator
+        - name: batch
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of items to be batched
+    response:
+      id: 0x0076
+      params:
+        - name: tableIndex
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The slot number (or index) to start the iterator
+        - name: entries
+          type: Map_Data_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: aggregate
+    doc: |
+      Applies the aggregation logic on all map entries and returns the result
+    request:
+      id: 0x013e
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: aggregator
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            aggregator to aggregate the entries with
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            the aggregation result
+    since: 2.0
+  - name: aggregateWithPredicate
+    doc: |
+      Applies the aggregation logic on map entries filtered with the Predicate and returns the result
+    request:
+      id: 0x013f
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: aggregator
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            aggregator to aggregate the entries with
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            predicate to filter the entries with
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            the aggregation result
+    since: 2.0
+  - name: project
+    doc: |
+      Applies the projection logic on all map entries and returns the result
+    request:
+      id: 0x0140
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: projection
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            projection to transform the entries with. May return null.
+    response:
+      id: 0x0077
+      params:
+        - name: response
+          type: ListCN_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the resulted collection upon transformation to the type of the projection
+    since: 2.0
+  - name: projectWithPredicate
+    doc: |
+      Applies the projection logic on map entries filtered with the Predicate and returns the result
+    request:
+      id: 0x0141
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: projection
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            projection to transform the entries with. May return null.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            predicate to filter the entries with
+    response:
+      id: 0x0077
+      params:
+        - name: response
+          type: ListCN_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the resulted collection upon transformation to the type of the projection
+    since: 2.0
+  - name: fetchNearCacheInvalidationMetadata
+    doc: |
+      Fetches invalidation metadata from partitions of map.
+    request:
+      id: 0x0142
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: names
+          type: List_String
+          nullable: false
+          since: 2.0
+          doc: |
+            names of the maps
+        - name: address
+          type: Address
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    response:
+      id: 0x007a
+      params:
+        - name: namePartitionSequenceList
+          type: Map_String_Map_Integer_Long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: partitionUuidList
+          type: Map_Integer_UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: assignAndGetUuids
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0143
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      id: 0x007b
+      params:
+        - name: partitionUuidList
+          type: Map_Integer_UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            partitionId to assigned uuid entry list
+    since: 2.0
+  - name: removeAll
+    doc: |
+      Removes all entries which match with the supplied predicate
+    request:
+      id: 0x0144
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            map name.
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            used to select entries to be removed from map.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: addNearCacheInvalidationListener
+    doc: |
+      Adds listener to map. This listener will be used to listen near cache invalidation events.
+      Eventually consistent client near caches should use this method to add invalidation listeners
+      instead of {@link #addNearCacheEntryListener(String, int, boolean)}
+    request:
+      id: 0x0145
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of the map
+        - name: listenerFlags
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            flags of enabled listeners.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      id: 0x0068
+      params:
+        - name: response
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            A unique string which is used as a key to remove the listener.
+    events:
+      - id: 0x00d7
+        name: IMapInvalidation
+        params:
+          - name: key
+            type: Data
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sourceUuid
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionUuid
+            type: UUID
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sequence
+            type: long
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - id: 0x00d8
+        name: IMapBatchInvalidation
+        params:
+          - name: keys
+            type: List_Data
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sourceUuids
+            type: List_String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionUuids
+            type: List_UUID
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: sequences
+            type: List_Long
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+    since: 2.0
+  - name: fetchWithQuery
+    doc: |
+      Fetches the specified number of entries from the specified partition starting from specified table index
+      that match the predicate and applies the projection logic on them.
+    request:
+      id: 0x0146
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map
+        - name: tableIndex
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The slot number (or index) to start the iterator
+        - name: batch
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of items to be batched
+        - name: projection
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            projection to transform the entries with
+        - name: predicate
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            predicate to filter the entries with
+    response:
+      id: 0x007c
+      params:
+        - name: results
+          type: ListCN_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: nextTableIndexToReadFrom
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: eventJournalSubscribe
+    doc: |
+      Performs the initial subscription to the map event journal.
+      This includes retrieving the event journal sequences of the
+      oldest and newest event in the journal.
+    request:
+      id: 0x0147
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of the map
+    response:
+      id: 0x007d
+      params:
+        - name: oldestSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: newestSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: eventJournalRead
+    doc: |
+      Reads from the map event journal in batches. You may specify the start sequence,
+      the minumum required number of items in the response, the maximum number of items
+      in the response, a predicate that the events should pass and a projection to
+      apply to the events in the journal.
+      If the event journal currently contains less events than {@code minSize}, the
+      call will wait until it has sufficient items.
+      The predicate, filter and projection may be {@code null} in which case all elements are returned
+      and no projection is applied.
+    request:
+      id: 0x0148
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of the map
+        - name: startSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the startSequence of the first item to read
+        - name: minSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            the minimum number of items to read.
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            the maximum number of items to read.
+        - name: predicate
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            the predicate to apply before processing events
+        - name: projection
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            the projection to apply to journal events
+    response:
+      id: 0x0073
+      params:
+        - name: readCount
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: items
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: itemSeqs
+          type: longArray
+          nullable: true
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: nextSeq
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: setTtl
+    doc: |
+      Updates TTL (time to live) value of the entry specified by {@code key} with a new TTL value.
+      New TTL value is valid from this operation is invoked, not from the original creation of the entry.
+      If the entry does not exist or already expired, then this call has no effect.
+      <p>
+      The entry will expire and get evicted after the TTL. If the TTL is 0,
+      then the entry lives forever. If the TTL is negative, then the TTL
+      from the map configuration will be used (default: forever).
+
+      If there is no entry with key {@code key}, this call has no effect.
+
+      <b>Warning:</b>
+      <p>
+      Time resolution for TTL is seconds. The given TTL value is rounded to the next closest second value.
+    request:
+      id: 0x0149
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            'true' if the entry is affected, 'false' otherwise
+    since: 2.0
+  - name: putWithMaxIdle
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value.Entry will expire and get evicted after the ttl
+      If ttl is 0, then the entry lives forever.This method returns a clone of the previous value, not the original
+      (identically equal) value previously put into the map.Time resolution for TTL is seconds. The given TTL value is
+      rounded to the next closest second value.
+    request:
+      id: 0x014a
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: maxIdle
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration of maximum idle for this entry.
+            Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            old value of the entry
+    since: 2.0
+  - name: putTransientWithMaxIdle
+    doc: |
+      Same as put except that MapStore, if defined, will not be called to store/persist the entry.
+      If ttl and maxIdle are 0, then the entry lives forever.
+    request:
+      id: 0x014b
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: maxIdle
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration of maximum idle for this entry.
+            Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            old value of the entry
+    since: 2.0
+  - name: putIfAbsentWithMaxIdle
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value if the specified key is not already associated
+      with a value. Entry will expire and get evicted after the ttl or maxIdle, whichever comes first.
+    request:
+      id: 0x014c
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: maxIdle
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration of maximum idle for this entry.
+            Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            old value of the entry
+    since: 2.0
+  - name: setWithMaxIdle
+    doc: |
+      Puts an entry into this map with a given ttl (time to live) value and maxIdle.
+      Entry will expire and get evicted after the ttl or maxIdle, whichever comes first.
+      If ttl and maxIdle are 0, then the entry lives forever.
+
+      Similar to the put operation except that set doesn't return the old value, which is more efficient.
+    request:
+      id: 0x014d
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Key for the map entry.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            Value for the map entry.
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: ttl
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds after which this entry shall be deleted. O means infinite.
+        - name: maxIdle
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration of maximum idle for this entry.
+            Milliseconds of idle, after which this entry shall be deleted. O means infinite.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            old value of the entry
+    since: 2.0

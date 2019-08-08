@@ -1,0 +1,202 @@
+id: 9
+name: ExecutorService
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: shutdown
+    doc: |
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
+      Invocation has no additional effect if already shut down.
+    request:
+      id: 0x0901
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: isShutdown
+    doc: |
+      Returns true if this executor has been shut down.
+    request:
+      id: 0x0902
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if this executor has been shut down
+    since: 2.0
+  - name: cancelOnPartition
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0903
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: uuid
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Unique id for the execution.
+        - name: interrupt
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if cancelled successfully, false otherwise.
+    since: 2.0
+  - name: cancelOnAddress
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0904
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Unique id for the execution.
+        - name: address
+          type: Address
+          nullable: false
+          since: 2.0
+          doc: |
+            Address of the host to execute the request on.
+        - name: interrupt
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            If true, then the thread interrupt call can be used to cancel the thread, otherwise interrupt can not be used.
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            True if cancelled successfully, false otherwise.
+    since: 2.0
+  - name: submitToPartition
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0905
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: partitionId
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: uuid
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Unique id for the execution.
+        - name: callable
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The callable object to be executed.
+        - name: partitionId
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the partition which the callable shall be executed on.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The result of the callable execution.
+    since: 2.0
+  - name: submitToAddress
+    doc: |
+      TODO DOC
+    request:
+      id: 0x0906
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the executor.
+        - name: uuid
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Unique id for the execution.
+        - name: callable
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The callable object to be executed.
+        - name: address
+          type: Address
+          nullable: false
+          since: 2.0
+          doc: |
+            The member host on which the callable shall be executed on.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The result of the callable execution.
+    since: 2.0

@@ -1,0 +1,272 @@
+id: 35
+name: CPAtomicLong
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: apply
+    doc: |
+      Applies a function on the value, the actual stored value will not change
+    request:
+      id: 0x2301
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: function
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The function applied to the value and the value is not
+            changed.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The result of the function application.
+    since: 2.0
+  - name: alter
+    doc: |
+      Alters the currently stored value by applying a function on it.
+    request:
+      id: 0x2302
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: function
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The function applied to the currently stored value.
+        - name: returnValueType
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            0 returns the old value, 1 returns the new value
+    response:
+      id: 0x0067
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    since: 2.0
+  - name: addAndGet
+    doc: |
+      Atomically adds the given value to the current value.
+    request:
+      id: 0x2303
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: delta
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The value to add to the current value
+    response:
+      id: 0x0067
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the updated value, the given value added to the current value
+    since: 2.0
+  - name: compareAndSet
+    doc: |
+      Atomically sets the value to the given updated value only if the current
+      value the expected value.
+    request:
+      id: 0x2304
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: expected
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The expected value
+        - name: updated
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The new value
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if successful; or false if the actual value
+            was not equal to the expected value.
+    since: 2.0
+  - name: get
+    doc: |
+      Gets the current value.
+    request:
+      id: 0x2305
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+    response:
+      id: 0x0067
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The current value
+    since: 2.0
+  - name: getAndAdd
+    doc: |
+      Atomically adds the given value to the current value.
+    request:
+      id: 0x2306
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: delta
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The value to add to the current value
+    response:
+      id: 0x0067
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the old value before the add
+    since: 2.0
+  - name: getAndSet
+    doc: |
+      Atomically sets the given value and returns the old value.
+    request:
+      id: 0x2307
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this IAtomicLong instance.
+        - name: newValue
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The new value
+    response:
+      id: 0x0067
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the old value
+    since: 2.0

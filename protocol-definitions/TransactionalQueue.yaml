@@ -1,0 +1,216 @@
+id: 20
+name: TransactionalQueue
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: offer
+    doc: |
+      Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
+      become available.
+    request:
+      id: 0x1401
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transcational Queue
+        - name: txnId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: item
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The element to add
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            How long to wait before giving up, in milliseconds
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            <tt>true</tt> if successful, or <tt>false</tt> if the specified waiting time elapses before space is available
+    since: 2.0
+  - name: take
+    doc: |
+      Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
+    request:
+      id: 0x1402
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The head of this queue
+    since: 2.0
+  - name: poll
+    doc: |
+      Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
+      to become available.
+    request:
+      id: 0x1403
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            How long to wait before giving up, in milliseconds
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The head of this queue, or <tt>null</tt> if the specified waiting time elapses before an element is available
+    since: 2.0
+  - name: peek
+    doc: |
+      Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+    request:
+      id: 0x1404
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            How long to wait before giving up, in milliseconds
+    response:
+      id: 0x0069
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The value at the head of the queue.
+    since: 2.0
+  - name: size
+    doc: |
+      Returns the number of elements in this collection.If this collection contains more than Integer.MAX_VALUE
+      elements, returns Integer.MAX_VALUE.
+    request:
+      id: 0x1405
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of elements in this collection
+    since: 2.0

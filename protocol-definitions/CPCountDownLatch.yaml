@@ -1,0 +1,207 @@
+id: 37
+name: CPCountDownLatch
+ns: Hazelcast.Client.Protocol.Codec
+methods:
+  - name: trySetCount
+    doc: |
+      Sets the count to the given value if the current count is zero.
+      If the count is not zero, then this method does nothing
+      and returns false
+    request:
+      id: 0x2501
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this CountDownLatch instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the CountDownLatch instance
+        - name: count
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The number of times countDown must be invoked before
+            threads can pass through await
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the new count was set,
+            false if the current count is not zero.
+    since: 2.0
+  - name: await
+    doc: |
+      Causes the current thread to wait until the latch has counted down
+      to zero, or an exception is thrown, or the specified waiting time
+      elapses. If the current count is zero then this method returns
+      immediately with the value true. If the current count is greater than
+      zero, then the current thread becomes disabled for thread scheduling
+      purposes and lies dormant until one of five things happen: the count
+      reaches zero due to invocations of the {@code countDown} method, this
+      ICountDownLatch instance is destroyed, the countdown owner becomes
+      disconnected, some other thread Thread#interrupt interrupts the current
+      thread, or the specified waiting time elapses. If the count reaches zero
+      then the method returns with the value true. If the current thread has
+      its interrupted status set on entry to this method, or is interrupted
+      while waiting, then {@code InterruptedException} is thrown
+      and the current thread's interrupted status is cleared. If the specified
+      waiting time elapses then the value false is returned.  If the time is
+      less than or equal to zero, the method will not wait at all.
+    request:
+      id: 0x2502
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this CountDownLatch instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this CountDownLatch instance
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: timeoutMs
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The maximum time in milliseconds to wait
+    response:
+      id: 0x0065
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the count reached zero, false if
+            the waiting time elapsed before the count reached 0
+    since: 2.0
+  - name: countDown
+    doc: |
+      Decrements the count of the latch, releasing all waiting threads if
+      the count reaches zero. If the current count is greater than zero, then
+      it is decremented. If the new count is zero: All waiting threads are
+      re-enabled for thread scheduling purposes, and Countdown owner is set to
+      null. If the current count equals zero, then nothing happens.
+    request:
+      id: 0x2503
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this CountDownLatch instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the CountDownLatch instance
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: expectedRound
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The round this invocation will be performed on
+    response:
+      id: 0x0064
+    since: 2.0
+  - name: getCount
+    doc: |
+      Returns the current count.
+    request:
+      id: 0x2504
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this CountDownLatch instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the CountDownLatch instance
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The current count of this CountDownLatch instance
+    since: 2.0
+  - name: getRound
+    doc: |
+      Returns the current round. A round completes when the count value
+      reaches to 0 and a new round starts afterwards.
+    request:
+      id: 0x2505
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this CountDownLatch instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the CountDownLatch instance
+    response:
+      id: 0x0066
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The current round of this CountDownLatch instance
+    since: 2.0
