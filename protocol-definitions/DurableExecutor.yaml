@@ -7,7 +7,6 @@ methods:
       Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
     request:
-      id: 0x1b01
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -18,14 +17,13 @@ methods:
           since: 2.0
           doc: |
             Name of the executor.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 1
   - name: isShutdown
     doc: |
       Returns true if this executor has been shut down.
     request:
-      id: 0x1b02
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -37,7 +35,6 @@ methods:
           doc: |
             Name of the executor.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -46,11 +43,11 @@ methods:
           doc: |
             true if this executor has been shut down
     since: 2.0
+    id: 2
   - name: submitToPartition
     doc: |
       Submits the task to partition for execution
     request:
-      id: 0x1b03
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -68,7 +65,6 @@ methods:
           doc: |
             The callable object to be executed.
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -77,11 +73,11 @@ methods:
           doc: |
             the sequence for the submitted execution.
     since: 2.0
+    id: 3
   - name: retrieveResult
     doc: |
       Retrieves the result of the execution with the given sequence
     request:
-      id: 0x1b04
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -99,7 +95,6 @@ methods:
           doc: |
             Sequence of the execution.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -108,11 +103,11 @@ methods:
           doc: |
             The result of the callable execution with the given sequence.
     since: 2.0
+    id: 4
   - name: disposeResult
     doc: |
       Disposes the result of the execution with the given sequence
     request:
-      id: 0x1b05
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -129,14 +124,13 @@ methods:
           since: 2.0
           doc: |
             Sequence of the execution.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 5
   - name: retrieveAndDisposeResult
     doc: |
       Retrieves and disposes the result of the execution with the given sequence
     request:
-      id: 0x1b06
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -154,7 +148,6 @@ methods:
           doc: |
             Sequence of the execution.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -163,3 +156,4 @@ methods:
           doc: |
             The result of the callable execution with the given sequence.
     since: 2.0
+    id: 6

@@ -13,7 +13,6 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 0x2001
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -37,7 +36,6 @@ methods:
           doc: |
             the target replica
     response:
-      id: 0x007f
       params:
         - name: value
           type: long
@@ -58,6 +56,7 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 1
   - name: add
     doc: |
       Adds a delta to the PNCounter value. The delta may be negative for a
@@ -70,7 +69,6 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 0x2002
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -108,7 +106,6 @@ methods:
           doc: |
             the target replica
     response:
-      id: 0x007f
       params:
         - name: value
           type: long
@@ -129,6 +126,7 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 2
   - name: getConfiguredReplicaCount
     doc: |
       Returns the configured number of CRDT replicas for the PN counter with
@@ -136,7 +134,6 @@ methods:
       The actual replica count may be less, depending on the number of data
       members in the cluster (members that own data).
     request:
-      id: 0x2003
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -148,7 +145,6 @@ methods:
           doc: |
             the name of the PNCounter
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -157,3 +153,4 @@ methods:
           doc: |
             the configured replica count
     since: 2.0
+    id: 3

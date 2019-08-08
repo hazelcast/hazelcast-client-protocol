@@ -126,13 +126,17 @@
   "properties": {
     "id": {
       "type": "integer",
-      "minimum": 1,
+      "minimum": 0,
       "maximum": 255,
       "description": "Service unique id, 0-255"
     },
     "name": {
       "type": "string",
       "description": "Service name"
+    },
+    "ns": {
+      "type": "string",
+      "description": "Namespace for the protocol definitions"
     },
     "methods": {
       "type": "array",
@@ -141,7 +145,7 @@
         "properties": {
           "id": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 255,
             "description": "Method unique id, 0-255"
           },
@@ -170,7 +174,7 @@
                 "description": "Does the request acquire resource or not"
               },
               "partitionIdentifier": {
-                "type": "string",
+                "type": ["integer", "string"],
                 "description": "How should the partition Id calculated for this request. Used in documentation."
               },
               "params": {

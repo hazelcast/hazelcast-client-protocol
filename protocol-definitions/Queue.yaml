@@ -7,7 +7,6 @@ methods:
       Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
       become available.
     request:
-      id: 0x0301
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -31,7 +30,6 @@ methods:
           doc: |
             Maximum time in milliseconds to wait for acquiring the lock for the key.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -40,11 +38,11 @@ methods:
           doc: |
             <tt>True</tt> if the element was added to this queue, else <tt>false</tt>
     since: 2.0
+    id: 1
   - name: put
     doc: |
       Inserts the specified element into this queue, waiting if necessary for space to become available.
     request:
-      id: 0x0302
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -61,15 +59,14 @@ methods:
           since: 2.0
           doc: |
             The element to add
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 2
   - name: size
     doc: |
       Returns the number of elements in this collection.  If this collection contains more than Integer.MAX_VALUE
       elements, returns Integer.MAX_VALUE
     request:
-      id: 0x0303
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -81,7 +78,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -90,12 +86,12 @@ methods:
           doc: |
             The number of elements in this collection
     since: 2.0
+    id: 3
   - name: remove
     doc: |
       Retrieves and removes the head of this queue.  This method differs from poll only in that it throws an exception
       if this queue is empty.
     request:
-      id: 0x0304
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -113,7 +109,6 @@ methods:
           doc: |
             Element to be removed from this queue, if present
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -122,12 +117,12 @@ methods:
           doc: |
             <tt>true</tt> if this queue changed as a result of the call
     since: 2.0
+    id: 4
   - name: poll
     doc: |
       Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
       to become available.
     request:
-      id: 0x0305
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -145,7 +140,6 @@ methods:
           doc: |
             Maximum time in milliseconds to wait for acquiring the lock for the key.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -154,11 +148,11 @@ methods:
           doc: |
             The head of this queue, or <tt>null</tt> if this queue is empty
     since: 2.0
+    id: 5
   - name: take
     doc: |
       Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
     request:
-      id: 0x0306
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -170,7 +164,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -179,11 +172,11 @@ methods:
           doc: |
             The head of this queue
     since: 2.0
+    id: 6
   - name: peek
     doc: |
       Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     request:
-      id: 0x0307
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -195,7 +188,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -204,12 +196,12 @@ methods:
           doc: |
             The head of this queue, or <tt>null</tt> if this queue is empty
     since: 2.0
+    id: 7
   - name: iterator
     doc: |
       Returns an iterator over the elements in this collection.  There are no guarantees concerning the order in which
       the elements are returned (unless this collection is an instance of some class that provides a guarantee).
     request:
-      id: 0x0308
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -221,7 +213,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -230,6 +221,7 @@ methods:
           doc: |
             list of all data in queue
     since: 2.0
+    id: 8
   - name: drainTo
     doc: |
       Removes all available elements from this queue and adds them to the given collection.  This operation may be more
@@ -238,7 +230,6 @@ methods:
       thrown. Attempts to drain a queue to itself result in ILLEGAL_ARGUMENT. Further, the behavior of
       this operation is undefined if the specified collection is modified while the operation is in progress.
     request:
-      id: 0x0309
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -250,7 +241,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -259,6 +249,7 @@ methods:
           doc: |
             list of all removed data in queue
     since: 2.0
+    id: 9
   - name: drainToMaxSize
     doc: |
       Removes at most the given number of available elements from this queue and adds them to the given collection.
@@ -267,7 +258,6 @@ methods:
       ILLEGAL_ARGUMENT. Further, the behavior of this operation is undefined if the specified collection is
       modified while the operation is in progress.
     request:
-      id: 0x030a
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -285,7 +275,6 @@ methods:
           doc: |
             The maximum number of elements to transfer
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -294,12 +283,12 @@ methods:
           doc: |
             list of all removed data in result of this method
     since: 2.0
+    id: 10
   - name: contains
     doc: |
       Returns true if this queue contains the specified element. More formally, returns true if and only if this queue
       contains at least one element e such that value.equals(e)
     request:
-      id: 0x030b
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -317,7 +306,6 @@ methods:
           doc: |
             Element whose presence in this collection is to be tested
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -326,11 +314,11 @@ methods:
           doc: |
             <tt>true</tt> if this collection contains the specified element
     since: 2.0
+    id: 11
   - name: containsAll
     doc: |
       Return true if this collection contains all of the elements in the specified collection.
     request:
-      id: 0x030c
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -348,7 +336,6 @@ methods:
           doc: |
             Collection to be checked for containment in this collection
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -357,12 +344,12 @@ methods:
           doc: |
             <tt>true</tt> if this collection contains all of the elements in the specified collection
     since: 2.0
+    id: 12
   - name: compareAndRemoveAll
     doc: |
       Removes all of this collection's elements that are also contained in the specified collection (optional operation).
       After this call returns, this collection will contain no elements in common with the specified collection.
     request:
-      id: 0x030d
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -380,7 +367,6 @@ methods:
           doc: |
             Collection containing elements to be removed from this collection
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -389,12 +375,12 @@ methods:
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
     since: 2.0
+    id: 13
   - name: compareAndRetainAll
     doc: |
       Retains only the elements in this collection that are contained in the specified collection (optional operation).
       In other words, removes from this collection all of its elements that are not contained in the specified collection.
     request:
-      id: 0x030e
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -412,7 +398,6 @@ methods:
           doc: |
             collection containing elements to be retained in this collection
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -421,12 +406,12 @@ methods:
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
     since: 2.0
+    id: 14
   - name: clear
     doc: |
       Removes all of the elements from this collection (optional operation). The collection will be empty after this
       method returns.
     request:
-      id: 0x030f
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -437,9 +422,9 @@ methods:
           since: 2.0
           doc: |
             Name of the Queue
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 15
   - name: addAll
     doc: |
       Adds all of the elements in the specified collection to this collection (optional operation).The behavior of this
@@ -447,7 +432,6 @@ methods:
       (This implies that the behavior of this call is undefined if the specified collection is this collection,
       and this collection is nonempty.)
     request:
-      id: 0x0310
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -465,7 +449,6 @@ methods:
           doc: |
             Collection containing elements to be added to this collection
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -474,11 +457,11 @@ methods:
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
     since: 2.0
+    id: 16
   - name: addListener
     doc: |
       Adds an listener for this collection. Listener will be notified or all collection add/remove events.
     request:
-      id: 0x0311
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -502,7 +485,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -511,8 +493,7 @@ methods:
           doc: |
             The registration id
     events:
-      - id: 0x00cc
-        name: Item
+      - name: Item
         params:
           - name: item
             type: Data
@@ -533,11 +514,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 17
   - name: removeListener
     doc: |
       Removes the specified item listener.Returns silently if the specified listener was not added before.
     request:
-      id: 0x0312
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -555,7 +536,6 @@ methods:
           doc: |
             Id of the listener registration.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -564,6 +544,7 @@ methods:
           doc: |
             True if the item listener is removed, false otherwise
     since: 2.0
+    id: 18
   - name: remainingCapacity
     doc: |
       Returns the number of additional elements that this queue can ideally (in the absence of memory or resource
@@ -571,7 +552,6 @@ methods:
       always tell if an attempt to insert an element will succeed by inspecting remainingCapacity because it may be
       the case that another thread is about to insert or remove an element.
     request:
-      id: 0x0313
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -583,7 +563,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -592,11 +571,11 @@ methods:
           doc: |
             The remaining capacity
     since: 2.0
+    id: 19
   - name: isEmpty
     doc: |
       Returns true if this collection contains no elements.
     request:
-      id: 0x0314
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -608,7 +587,6 @@ methods:
           doc: |
             Name of the Queue
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -617,3 +595,4 @@ methods:
           doc: |
             <tt>True</tt> if this collection contains no elements
     since: 2.0
+    id: 20

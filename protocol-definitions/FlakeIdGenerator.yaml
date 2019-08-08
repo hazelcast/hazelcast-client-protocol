@@ -6,7 +6,6 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 0x1f01
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -24,7 +23,6 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 0x007e
       params:
         - name: base
           type: long
@@ -45,3 +43,4 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 1

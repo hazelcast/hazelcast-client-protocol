@@ -7,7 +7,6 @@ methods:
       Returns the number of elements in this list.  If this list contains more than Integer.MAX_VALUE elements, returns
       Integer.MAX_VALUE.
     request:
-      id: 0x0501
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -19,7 +18,6 @@ methods:
           doc: |
             Name of List
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -28,11 +26,11 @@ methods:
           doc: |
             The number of elements in this list
     since: 2.0
+    id: 1
   - name: contains
     doc: |
       Returns true if this list contains the specified element.
     request:
-      id: 0x0502
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -50,7 +48,6 @@ methods:
           doc: |
             Element whose presence in this list is to be tested
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -59,11 +56,11 @@ methods:
           doc: |
             True if this list contains the specified element, false otherwise
     since: 2.0
+    id: 2
   - name: containsAll
     doc: |
       Returns true if this list contains all of the elements of the specified collection.
     request:
-      id: 0x0503
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -81,7 +78,6 @@ methods:
           doc: |
             Collection to be checked for containment in this list
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -91,6 +87,7 @@ methods:
             True if this list contains all of the elements of the
             specified collection
     since: 2.0
+    id: 3
   - name: add
     doc: |
       Appends the specified element to the end of this list (optional operation). Lists that support this operation may
@@ -98,7 +95,6 @@ methods:
       elements, and others will impose restrictions on the type of elements that may be added. List classes should
       clearly specify in their documentation any restrictions on what elements may be added.
     request:
-      id: 0x0504
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -116,7 +112,6 @@ methods:
           doc: |
             Element to be appended to this list
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -125,13 +120,13 @@ methods:
           doc: |
             true if this list changed as a result of the call, false otherwise
     since: 2.0
+    id: 4
   - name: remove
     doc: |
       Removes the first occurrence of the specified element from this list, if it is present (optional operation).
       If this list does not contain the element, it is unchanged.
       Returns true if this list contained the specified element (or equivalently, if this list changed as a result of the call).
     request:
-      id: 0x0505
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -149,7 +144,6 @@ methods:
           doc: |
             Element to be removed from this list, if present
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -158,6 +152,7 @@ methods:
           doc: |
             True if this list contained the specified element, false otherwise
     since: 2.0
+    id: 5
   - name: addAll
     doc: |
       Appends all of the elements in the specified collection to the end of this list, in the order that they are
@@ -165,7 +160,6 @@ methods:
       The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
-      id: 0x0506
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -183,7 +177,6 @@ methods:
           doc: |
             Collection containing elements to be added to this list
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -192,11 +185,11 @@ methods:
           doc: |
             True if this list changed as a result of the call, false otherwise
     since: 2.0
+    id: 6
   - name: compareAndRemoveAll
     doc: |
       Removes from this list all of its elements that are contained in the specified collection (optional operation).
     request:
-      id: 0x0507
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -214,7 +207,6 @@ methods:
           doc: |
             The list of values to compare for removal.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -223,12 +215,12 @@ methods:
           doc: |
             True if removed at least one of the items, false otherwise.
     since: 2.0
+    id: 7
   - name: compareAndRetainAll
     doc: |
       Retains only the elements in this list that are contained in the specified collection (optional operation).
       In other words, removes from this list all of its elements that are not contained in the specified collection.
     request:
-      id: 0x0508
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -246,7 +238,6 @@ methods:
           doc: |
             The list of values to compare for retaining.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -255,11 +246,11 @@ methods:
           doc: |
             True if this list changed as a result of the call, false otherwise.
     since: 2.0
+    id: 8
   - name: clear
     doc: |
       Removes all of the elements from this list (optional operation). The list will be empty after this call returns.
     request:
-      id: 0x0509
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -270,14 +261,13 @@ methods:
           since: 2.0
           doc: |
             Name of the List
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 9
   - name: getAll
     doc: |
       Return the all elements of this collection
     request:
-      id: 0x050a
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -289,7 +279,6 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -298,11 +287,11 @@ methods:
           doc: |
             An array of all item values in the list.
     since: 2.0
+    id: 10
   - name: addListener
     doc: |
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
-      id: 0x050b
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -326,7 +315,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -335,8 +323,7 @@ methods:
           doc: |
             Registration id for the listener.
     events:
-      - id: 0x00cc
-        name: Item
+      - name: Item
         params:
           - name: item
             type: Data
@@ -357,11 +344,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 11
   - name: removeListener
     doc: |
       Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
-      id: 0x050c
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -379,7 +366,6 @@ methods:
           doc: |
             The id of the listener which was provided during registration.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -388,11 +374,11 @@ methods:
           doc: |
             True if unregistered, false otherwise.
     since: 2.0
+    id: 12
   - name: isEmpty
     doc: |
       Returns true if this list contains no elements
     request:
-      id: 0x050d
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -404,7 +390,6 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -413,6 +398,7 @@ methods:
           doc: |
             True if this list contains no elements
     since: 2.0
+    id: 13
   - name: addAllWithIndex
     doc: |
       Inserts all of the elements in the specified collection into this list at the specified position (optional operation).
@@ -421,7 +407,6 @@ methods:
       The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
-      id: 0x050e
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -445,7 +430,6 @@ methods:
           doc: |
             The list of value to insert into the list.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -454,11 +438,11 @@ methods:
           doc: |
             True if this list changed as a result of the call, false otherwise.
     since: 2.0
+    id: 14
   - name: get
     doc: |
       Returns the element at the specified position in this list
     request:
-      id: 0x050f
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -476,7 +460,6 @@ methods:
           doc: |
             Index of the element to return
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -485,11 +468,11 @@ methods:
           doc: |
             The element at the specified position in this list
     since: 2.0
+    id: 15
   - name: set
     doc: |
       The element previously at the specified position
     request:
-      id: 0x0510
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -513,7 +496,6 @@ methods:
           doc: |
             Element to be stored at the specified position
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -522,12 +504,12 @@ methods:
           doc: |
             The element previously at the specified position
     since: 2.0
+    id: 16
   - name: addWithIndex
     doc: |
       Inserts the specified element at the specified position in this list (optional operation). Shifts the element
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     request:
-      id: 0x0511
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -550,15 +532,14 @@ methods:
           since: 2.0
           doc: |
             Value to be inserted.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 17
   - name: removeWithIndex
     doc: |
       Removes the element at the specified position in this list (optional operation). Shifts any subsequent elements
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
     request:
-      id: 0x0512
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -576,7 +557,6 @@ methods:
           doc: |
             The index of the element to be removed
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -585,12 +565,12 @@ methods:
           doc: |
             The element previously at the specified position
     since: 2.0
+    id: 18
   - name: lastIndexOf
     doc: |
       Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
     request:
-      id: 0x0513
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -608,7 +588,6 @@ methods:
           doc: |
             Element to search for
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -618,12 +597,12 @@ methods:
             the index of the last occurrence of the specified element in
             this list, or -1 if this list does not contain the element
     since: 2.0
+    id: 19
   - name: indexOf
     doc: |
       Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
     request:
-      id: 0x0514
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -641,7 +620,6 @@ methods:
           doc: |
             Element to search for
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -651,6 +629,7 @@ methods:
             The index of the first occurrence of the specified element in
             this list, or -1 if this list does not contain the element
     since: 2.0
+    id: 20
   - name: sub
     doc: |
       Returns a view of the portion of this list between the specified from, inclusive, and to, exclusive.(If from and
@@ -665,7 +644,6 @@ methods:
       structurally modified in any way other than via the returned list.(Structural modifications are those that change
       the size of this list, or otherwise perturb it in such a fashion that iterations in progress may yield incorrect results.)
     request:
-      id: 0x0515
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -689,7 +667,6 @@ methods:
           doc: |
             High endpoint (exclusive) of the subList
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -698,11 +675,11 @@ methods:
           doc: |
             A view of the specified range within this list
     since: 2.0
+    id: 21
   - name: iterator
     doc: |
       Returns an iterator over the elements in this list in proper sequence.
     request:
-      id: 0x0516
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -714,7 +691,6 @@ methods:
           doc: |
             Name of the List
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -723,6 +699,7 @@ methods:
           doc: |
             An iterator over the elements in this list in proper sequence
     since: 2.0
+    id: 22
   - name: listIterator
     doc: |
       Returns a list iterator over the elements in this list (in proper sequence), starting at the specified position
@@ -730,7 +707,6 @@ methods:
       ListIterator#next next. An initial call to ListIterator#previous previous would return the element with the
       specified index minus one.
     request:
-      id: 0x0517
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -748,7 +724,6 @@ methods:
           doc: |
             index of the first element to be returned from the list iterator next
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -758,3 +733,4 @@ methods:
             a list iterator over the elements in this list (in proper
             sequence), starting at the specified position in the list
     since: 2.0
+    id: 23

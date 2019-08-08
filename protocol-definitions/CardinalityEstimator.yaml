@@ -7,7 +7,6 @@ methods:
       Add a new hash in the estimation set. This is the method you want to
       use to feed hash values into the estimator.
     request:
-      id: 0x1c01
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -26,15 +25,14 @@ methods:
             64bit hash code value to add
 
             @since 1.3
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 1
   - name: estimate
     doc: |
       Estimates the cardinality of the aggregation so far.
       If it was previously estimated and never invalidated, then the cached version is used.
     request:
-      id: 0x1c02
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -46,7 +44,6 @@ methods:
           doc: |
             The name of CardinalityEstimator
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -55,3 +52,4 @@ methods:
           doc: |
             the previous cached estimation or the newly computed one.
     since: 2.0
+    id: 2

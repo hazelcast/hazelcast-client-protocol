@@ -6,7 +6,6 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 0x1601
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
@@ -17,19 +16,17 @@ methods:
           since: 2.0
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 1
   - name: collectTransactions
     doc: |
       TODO DOC
     request:
-      id: 0x1602
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x0085
       params:
         - name: response
           type: List_Xid
@@ -38,11 +35,11 @@ methods:
           doc: |
             Array of Xids.
     since: 2.0
+    id: 2
   - name: finalize
     doc: |
       TODO DOC
     request:
-      id: 0x1603
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
@@ -59,14 +56,13 @@ methods:
           since: 2.0
           doc: |
             If true, the transaction is committed else transaction is rolled back.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 3
   - name: commit
     doc: |
       TODO DOC
     request:
-      id: 0x1604
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -83,14 +79,13 @@ methods:
           since: 2.0
           doc: |
             If true, the prepare is also done.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 4
   - name: create
     doc: |
       TODO DOC
     request:
-      id: 0x1605
       retryable: false
       acquiresResource: true
       partitionIdentifier: -1
@@ -108,7 +103,6 @@ methods:
           doc: |
             The timeout in seconds for XA operations such as prepare, commit, rollback.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -117,11 +111,11 @@ methods:
           doc: |
             The transaction unique identifier.
     since: 2.0
+    id: 5
   - name: prepare
     doc: |
       TODO DOC
     request:
-      id: 0x1606
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -132,14 +126,13 @@ methods:
           since: 2.0
           doc: |
             The id of the transaction to prepare.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 6
   - name: rollback
     doc: |
       TODO DOC
     request:
-      id: 0x1607
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -150,6 +143,6 @@ methods:
           since: 2.0
           doc: |
             The id of the transaction to rollback.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 7

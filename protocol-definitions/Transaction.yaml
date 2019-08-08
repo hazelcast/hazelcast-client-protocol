@@ -6,7 +6,6 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 0x1701
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -23,14 +22,13 @@ methods:
           since: 2.0
           doc: |
             The thread id for the transaction.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 1
   - name: create
     doc: |
       TODO DOC
     request:
-      id: 0x1702
       retryable: false
       acquiresResource: true
       partitionIdentifier: -1
@@ -66,7 +64,6 @@ methods:
           doc: |
             The thread id for the transaction.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -75,11 +72,11 @@ methods:
           doc: |
             The transaction id for the created transaction.
     since: 2.0
+    id: 2
   - name: rollback
     doc: |
       TODO DOC
     request:
-      id: 0x1703
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -96,6 +93,6 @@ methods:
           since: 2.0
           doc: |
             The thread id for the transaction.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 3

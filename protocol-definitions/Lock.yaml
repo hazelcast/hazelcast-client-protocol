@@ -6,7 +6,6 @@ methods:
     doc: |
       Returns whether this lock is locked or not.
     request:
-      id: 0x0701
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -18,7 +17,6 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -27,11 +25,11 @@ methods:
           doc: |
             True if this lock is locked, false otherwise.
     since: 2.0
+    id: 1
   - name: isLockedByCurrentThread
     doc: |
       Returns whether this lock is locked by current thread or not.
     request:
-      id: 0x0702
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -49,7 +47,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -58,11 +55,11 @@ methods:
           doc: |
             True if this lock is locked by current thread, false otherwise.
     since: 2.0
+    id: 2
   - name: getLockCount
     doc: |
       Returns re-entrant lock hold count, regardless of lock ownership.
     request:
-      id: 0x0703
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -74,7 +71,6 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -83,11 +79,11 @@ methods:
           doc: |
             The lock hold count.
     since: 2.0
+    id: 3
   - name: getRemainingLeaseTime
     doc: |
       Returns remaining lease time in milliseconds. If the lock is not locked then -1 will be returned
     request:
-      id: 0x0704
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -99,7 +95,6 @@ methods:
           doc: |
             Name of the Lock
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -108,13 +103,13 @@ methods:
           doc: |
             Remaining lease time in milliseconds.
     since: 2.0
+    id: 4
   - name: lock
     doc: |
       Acquires the lock for the specified lease time.After lease time, lock will be released.If the lock is not
       available then the current thread becomes disabled for thread scheduling purposes and lies dormant until the lock
       has been acquired.
     request:
-      id: 0x0705
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
@@ -143,14 +138,13 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 5
   - name: unlock
     doc: |
       Releases the lock.
     request:
-      id: 0x0706
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -173,15 +167,14 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 6
   - name: forceUnlock
     doc: |
       Releases the lock regardless of the lock owner. It always successfully unlocks, never blocks,
       and returns immediately.
     request:
-      id: 0x0707
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -198,9 +191,9 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 7
   - name: tryLock
     doc: |
       Tries to acquire the lock for the specified lease time.After lease time, the lock will be released.
@@ -208,7 +201,6 @@ methods:
       dormant until one of two things happens: the lock is acquired by the current thread, or the specified waiting
       time elapses.
     request:
-      id: 0x0708
       retryable: true
       acquiresResource: true
       partitionIdentifier: name
@@ -244,7 +236,6 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -253,3 +244,4 @@ methods:
           doc: |
             true if the lock was acquired and false if the waiting time elapsed before the lock was acquired.
     since: 2.0
+    id: 8

@@ -6,7 +6,6 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 0x1801
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -61,7 +60,6 @@ methods:
             Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
             batch, otherwise all changed values are included in the update.
     response:
-      id: 0x0075
       params:
         - name: response
           type: Map_Data_Data
@@ -70,11 +68,11 @@ methods:
           doc: |
             Array of key-value pairs.
     since: 2.0
+    id: 1
   - name: publisherCreate
     doc: |
       TODO DOC
     request:
-      id: 0x1802
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -129,7 +127,6 @@ methods:
             Flag to enable/disable coalescing. If true, then only the last updated value for a key is placed in the
             batch, otherwise all changed values are included in the update.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -138,11 +135,11 @@ methods:
           doc: |
             Array of keys.
     since: 2.0
+    id: 2
   - name: madePublishable
     doc: |
       TODO DOC
     request:
-      id: 0x1803
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -160,7 +157,6 @@ methods:
           doc: |
             Name of query cache.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -169,11 +165,11 @@ methods:
           doc: |
             True if successfully set as publishable, false otherwise.
     since: 2.0
+    id: 3
   - name: addListener
     doc: |
       TODO DOC
     request:
-      id: 0x1804
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -191,7 +187,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -200,8 +195,7 @@ methods:
           doc: |
             Registration id for the listener.
     events:
-      - id: 0x00d4
-        name: QueryCacheSingle
+      - name: QueryCacheSingle
         params:
           - name: data
             type: QueryCacheEventData
@@ -209,8 +203,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 0x00d5
-        name: QueryCacheBatch
+      - name: QueryCacheBatch
         params:
           - name: events
             type: List_QueryCacheEventData
@@ -231,6 +224,7 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 4
   - name: setReadCursor
     doc: |
       This method can be used to recover from a possible event loss situation.
@@ -240,7 +234,6 @@ methods:
       This method returns `false` if the event is not in the buffer of event publisher side. That means recovery is not
       possible.
     request:
-      id: 0x1805
       retryable: false
       acquiresResource: false
       partitionIdentifier: associated key with sequence
@@ -264,7 +257,6 @@ methods:
           doc: |
             The cursor position of the accumulator to be set.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -273,11 +265,11 @@ methods:
           doc: |
             True if the cursor position could be set, false otherwise.
     since: 2.0
+    id: 5
   - name: destroyCache
     doc: |
       TODO DOC
     request:
-      id: 0x1806
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -295,7 +287,6 @@ methods:
           doc: |
             Name of query cache.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -304,3 +295,4 @@ methods:
           doc: |
             True if all cache is destroyed, false otherwise.
     since: 2.0
+    id: 6

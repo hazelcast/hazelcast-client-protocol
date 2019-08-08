@@ -6,7 +6,6 @@ methods:
     doc: |
       TODO DOC
     request:
-      id: 0x1501
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -24,7 +23,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -33,8 +31,7 @@ methods:
           doc: |
             Registration id for the registered listener.
     events:
-      - id: 0x00d2
-        name: Cache
+      - name: Cache
         params:
           - name: type
             type: int
@@ -55,11 +52,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 1
   - name: addInvalidationListener
     doc: |
       TODO DOC
     request:
-      id: 0x1502
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -77,7 +74,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -86,8 +82,7 @@ methods:
           doc: |
             Registration id for the registered listener.
     events:
-      - id: 0x00d0
-        name: CacheInvalidation
+      - name: CacheInvalidation
         params:
           - name: name
             type: String
@@ -119,8 +114,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 0x00d3
-        name: CacheBatchInvalidation
+      - name: CacheBatchInvalidation
         params:
           - name: name
             type: String
@@ -153,11 +147,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 2
   - name: clear
     doc: |
       Clears the contents of the cache, without notifying listeners or CacheWriters.
     request:
-      id: 0x1503
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -168,16 +162,15 @@ methods:
           since: 2.0
           doc: |
             Name of the cache.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 3
   - name: removeAllKeys
     doc: |
       Removes entries for the specified keys. The order in which the individual entries are removed is undefined.
       For every entry in the key set, the following are called: any registered CacheEntryRemovedListeners if the cache
       is a write-through cache, the CacheWriter. If the key set is empty, the CacheWriter is not called.
     request:
-      id: 0x1504
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -201,9 +194,9 @@ methods:
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 4
   - name: removeAll
     doc: |
       Removes all of the mappings from this cache. The order that the individual entries are removed is undefined.
@@ -211,7 +204,6 @@ methods:
       a write-through cache, the CacheWriter.If the cache is empty, the CacheWriter is not called.
       This is potentially an expensive operation as listeners are invoked. Use  #clear() to avoid this.
     request:
-      id: 0x1505
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -229,15 +221,14 @@ methods:
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 5
   - name: containsKey
     doc: |
       Determines if the Cache contains an entry for the specified key. More formally, returns true if and only if this
       cache contains a mapping for a key k such that key.equals(k). (There can be at most one such mapping.)
     request:
-      id: 0x1506
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -255,7 +246,6 @@ methods:
           doc: |
             The key whose presence in this cache is to be tested.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -264,11 +254,11 @@ methods:
           doc: |
             Returns true if cache value for the key exists, false otherwise.
     since: 2.0
+    id: 6
   - name: createConfig
     doc: |
       TODO DOC
     request:
-      id: 0x1507
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -287,7 +277,6 @@ methods:
           doc: |
             True if the configuration shall be created on all members, false otherwise.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -297,11 +286,11 @@ methods:
             The created configuration object. Byte-array which is serialized from an object implementing
             javax.cache.configuration.Configuration interface.
     since: 2.0
+    id: 7
   - name: destroy
     doc: |
       Closes the cache. Clears the internal content and releases any resource.
     request:
-      id: 0x1508
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -312,14 +301,13 @@ methods:
           since: 2.0
           doc: |
             Name of the cache.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 8
   - name: entryProcessor
     doc: |
       TODO DOC
     request:
-      id: 0x1509
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -357,7 +345,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -366,6 +353,7 @@ methods:
           doc: |
             the result of the processing, if any, defined by the EntryProcessor implementation
     since: 2.0
+    id: 9
   - name: getAll
     doc: |
       Gets a collection of entries from the cache with custom expiry policy, returning them as Map of the values
@@ -373,7 +361,6 @@ methods:
       configured javax.cache.integration.CacheLoader might be called to retrieve the values of the keys from any kind
       of external resource.
     request:
-      id: 0x150a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -398,7 +385,6 @@ methods:
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
     response:
-      id: 0x0075
       params:
         - name: response
           type: Map_Data_Data
@@ -408,11 +394,11 @@ methods:
             A map of entries that were found for the given keys. Keys not found
             in the cache are not in the returned map.
     since: 2.0
+    id: 10
   - name: getAndRemove
     doc: |
       Atomically removes the entry for a key only if currently mapped to some value.
     request:
-      id: 0x150b
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -437,7 +423,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -446,6 +431,7 @@ methods:
           doc: |
             the value if one existed or null if no mapping existed for this key
     since: 2.0
+    id: 11
   - name: getAndReplace
     doc: |
       Atomically replaces the assigned value of the given key by the specified value using a custom
@@ -453,7 +439,6 @@ methods:
       write-through operation mode, the underlying configured javax.cache.integration.CacheWriter might be called to
       store the value of the key to any kind of external resource.
     request:
-      id: 0x150c
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -491,7 +476,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -500,11 +484,11 @@ methods:
           doc: |
             The old value previously assigned to the given key.
     since: 2.0
+    id: 12
   - name: getConfig
     doc: |
       TODO DOC
     request:
-      id: 0x150d
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -522,7 +506,6 @@ methods:
           doc: |
             Name of the cache without prefix.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -532,13 +515,13 @@ methods:
             The cache configuration. Byte-array which is serialized from an object implementing
             javax.cache.configuration.Configuration interface.
     since: 2.0
+    id: 13
   - name: get
     doc: |
       Retrieves the mapped value of the given key using a custom javax.cache.expiry.ExpiryPolicy. If no mapping exists
       null is returned. If the cache is configured for read-through operation mode, the underlying configured
       javax.cache.integration.CacheLoader might be called to retrieve the value of the key from any kind of external resource.
     request:
-      id: 0x150e
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -563,7 +546,6 @@ methods:
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -572,6 +554,7 @@ methods:
           doc: |
             The value assigned to the given key, or null if not assigned.
     since: 2.0
+    id: 14
   - name: iterate
     doc: |
       The ordering of iteration over entries is undefined. During iteration, any entries that are a). read will have
@@ -579,7 +562,6 @@ methods:
       CacheEntryRemoveListeners notified. java.util.Iterator#next() may return null if the entry is no longer present,
       has expired or has been evicted.
     request:
-      id: 0x150f
       retryable: false
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -603,7 +585,6 @@ methods:
           doc: |
             The number of items to be batched
     response:
-      id: 0x0074
       params:
         - name: tableIndex
           type: int
@@ -618,11 +599,11 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 15
   - name: listenerRegistration
     doc: |
       TODO DOC
     request:
-      id: 0x1510
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -652,14 +633,13 @@ methods:
           since: 2.0
           doc: |
             The address of the member server for which the listener is being registered for.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 16
   - name: loadAll
     doc: |
       TODO DOC
     request:
-      id: 0x1511
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -683,14 +663,13 @@ methods:
           doc: |
             when true existing values in the Cache will
             be replaced by those loaded from a CacheLoader
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 17
   - name: managementConfig
     doc: |
       TODO DOC
     request:
-      id: 0x1512
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -719,16 +698,15 @@ methods:
           since: 2.0
           doc: |
             the address of the host to enable.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 18
   - name: putIfAbsent
     doc: |
       Associates the specified key with the given value if and only if there is not yet a mapping defined for the
       specified key. If the cache is configured for write-through operation mode, the underlying configured
       javax.cache.integration.CacheWriter might be called to store the value of the key to any kind of external resource.
     request:
-      id: 0x1513
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -766,7 +744,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -775,11 +752,11 @@ methods:
           doc: |
             true if a value was set, false otherwise.
     since: 2.0
+    id: 19
   - name: put
     doc: |
       TODO DOC
     request:
-      id: 0x1514
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -823,7 +800,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -832,11 +808,11 @@ methods:
           doc: |
             The value previously assigned to the given key, or null if not assigned.
     since: 2.0
+    id: 20
   - name: removeEntryListener
     doc: |
       TODO DOC
     request:
-      id: 0x1515
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -854,7 +830,6 @@ methods:
           doc: |
             The id assigned during the registration for the listener which shall be removed.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -863,11 +838,11 @@ methods:
           doc: |
             true if the listener is de-registered, false otherwise
     since: 2.0
+    id: 21
   - name: removeInvalidationListener
     doc: |
       TODO DOC
     request:
-      id: 0x1516
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -885,7 +860,6 @@ methods:
           doc: |
             The id assigned during the registration for the listener which shall be removed.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -894,11 +868,11 @@ methods:
           doc: |
             true if the listener is de-registered, false otherwise
     since: 2.0
+    id: 22
   - name: remove
     doc: |
       Atomically removes the mapping for a key only if currently mapped to the given value.
     request:
-      id: 0x1517
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -929,7 +903,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -938,6 +911,7 @@ methods:
           doc: |
             returns false if there was no matching key
     since: 2.0
+    id: 23
   - name: replace
     doc: |
       Atomically replaces the currently assigned value for the given key with the specified newValue if and only if the
@@ -945,7 +919,6 @@ methods:
       If the cache is configured for write-through operation mode, the underlying configured
       javax.cache.integration.CacheWriter might be called to store the value of the key to any kind of external resource.
     request:
-      id: 0x1518
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -989,7 +962,6 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -998,11 +970,11 @@ methods:
           doc: |
             The replaced value.
     since: 2.0
+    id: 24
   - name: size
     doc: |
       Total entry count
     request:
-      id: 0x1519
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -1014,7 +986,6 @@ methods:
           doc: |
             Name of the cache.
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -1023,6 +994,7 @@ methods:
           doc: |
             total entry count
     since: 2.0
+    id: 25
   - name: addPartitionLostListener
     doc: |
       Adds a CachePartitionLostListener. The addPartitionLostListener returns a registration ID. This ID is needed to remove the
@@ -1030,7 +1002,6 @@ methods:
       registrations, so if you register the listener twice, it will get events twice.Listeners registered from
       HazelcastClient may miss some of the cache partition lost events due to design limitations.
     request:
-      id: 0x151a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1049,7 +1020,6 @@ methods:
             if true only node that has the partition sends the request, if false
             sends all partition lost events.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -1058,8 +1028,7 @@ methods:
           doc: |
             returns the registration id for the CachePartitionLostListener.
     events:
-      - id: 0x00d6
-        name: CachePartitionLost
+      - name: CachePartitionLost
         params:
           - name: partitionId
             type: int
@@ -1074,11 +1043,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 26
   - name: removePartitionLostListener
     doc: |
       Removes the specified cache partition lost listener. Returns silently if there is no such listener added before
     request:
-      id: 0x151b
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -1096,7 +1065,6 @@ methods:
           doc: |
             ID of registered listener.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -1105,11 +1073,11 @@ methods:
           doc: |
             true if registration is removed, false otherwise.
     since: 2.0
+    id: 27
   - name: putAll
     doc: |
       TODO DOC
     request:
-      id: 0x151c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1140,14 +1108,13 @@ methods:
           doc: |
             user generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 28
   - name: iterateEntries
     doc: |
       Fetches specified number of entries from the specified partition starting from specified table index.
     request:
-      id: 0x151d
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -1171,7 +1138,6 @@ methods:
           doc: |
             The number of items to be batched
     response:
-      id: 0x0076
       params:
         - name: tableIndex
           type: int
@@ -1186,13 +1152,13 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 29
   - name: addNearCacheInvalidationListener
     doc: |
       Adds listener to cache. This listener will be used to listen near cache invalidation events.
       Eventually consistent client near caches should use this method to add invalidation listeners
       instead of {@link #addInvalidationListener(String, boolean)}
     request:
-      id: 0x151e
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1210,7 +1176,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -1219,8 +1184,7 @@ methods:
           doc: |
             Registration id for the registered listener.
     events:
-      - id: 0x00d0
-        name: CacheInvalidation
+      - name: CacheInvalidation
         params:
           - name: name
             type: String
@@ -1252,8 +1216,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 0x00d3
-        name: CacheBatchInvalidation
+      - name: CacheBatchInvalidation
         params:
           - name: name
             type: String
@@ -1286,11 +1249,11 @@ methods:
             doc: |
               TODO DOC
     since: 2.0
+    id: 30
   - name: fetchNearCacheInvalidationMetadata
     doc: |
       Fetches invalidation metadata from partitions of map.
     request:
-      id: 0x151f
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1308,7 +1271,6 @@ methods:
           doc: |
             TODO DOC
     response:
-      id: 0x007a
       params:
         - name: namePartitionSequenceList
           type: Map_String_Map_Integer_Long
@@ -1323,16 +1285,15 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 31
   - name: assignAndGetUuids
     doc: |
       TODO DOC
     request:
-      id: 0x1520
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x007b
       params:
         - name: partitionUuidList
           type: Map_Integer_UUID
@@ -1341,13 +1302,13 @@ methods:
           doc: |
             partitionId to assigned uuid entry list
     since: 2.0
+    id: 32
   - name: eventJournalSubscribe
     doc: |
       Performs the initial subscription to the cache event journal.
       This includes retrieving the event journal sequences of the
       oldest and newest event in the journal.
     request:
-      id: 0x1521
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -1359,7 +1320,6 @@ methods:
           doc: |
             name of the cache
     response:
-      id: 0x007d
       params:
         - name: oldestSequence
           type: long
@@ -1374,6 +1334,7 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 33
   - name: eventJournalRead
     doc: |
       Reads from the cache event journal in batches. You may specify the start sequence,
@@ -1385,7 +1346,6 @@ methods:
       The predicate, filter and projection may be {@code null} in which case all elements are returned
       and no projection is applied.
     request:
-      id: 0x1522
       retryable: true
       acquiresResource: false
       partitionIdentifier: partitionId
@@ -1427,7 +1387,6 @@ methods:
           doc: |
             the projection to apply to journal events
     response:
-      id: 0x0073
       params:
         - name: readCount
           type: int
@@ -1454,13 +1413,13 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 34
   - name: setExpiryPolicy
     doc: |
       Associates the specified key with the given {@link javax.cache.expiry.ExpiryPolicy}.
       {@code expiryPolicy} takes precedence for these particular {@code keys} against any cache wide expiry policy.
       If some keys in {@code keys} do not exist or are already expired, this call has no effect for those.
     request:
-      id: 0x1523
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1484,7 +1443,6 @@ methods:
           doc: |
             custom expiry policy for this operation
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -1493,3 +1451,4 @@ methods:
           doc: |
             {
     since: 2.0
+    id: 35

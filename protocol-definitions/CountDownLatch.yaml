@@ -15,7 +15,6 @@ methods:
       and the current thread's interrupted status is cleared. If the specified waiting time elapses then the value false
       is returned.  If the time is less than or equal to zero, the method will not wait at all.
     request:
-      id: 0x0c01
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -33,7 +32,6 @@ methods:
           doc: |
             The maximum time in milliseconds to wait
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -42,13 +40,13 @@ methods:
           doc: |
             True if the count reached zero, false if the waiting time elapsed before the count reached zero
     since: 2.0
+    id: 1
   - name: countDown
     doc: |
       Decrements the count of the latch, releasing all waiting threads if the count reaches zero. If the current count
       is greater than zero, then it is decremented. If the new count is zero: All waiting threads are re-enabled for
       thread scheduling purposes, and Countdown owner is set to null. If the current count equals zero, then nothing happens.
     request:
-      id: 0x0c02
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -59,14 +57,13 @@ methods:
           since: 2.0
           doc: |
             Name of the CountDownLatch
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 2
   - name: getCount
     doc: |
       Returns the current count.
     request:
-      id: 0x0c03
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -78,7 +75,6 @@ methods:
           doc: |
             Name of the CountDownLatch
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -87,12 +83,12 @@ methods:
           doc: |
             The current count for the latch.
     since: 2.0
+    id: 3
   - name: trySetCount
     doc: |
       Sets the count to the given value if the current count is zero. If the count is not zero, then this method does
       nothing and returns false
     request:
-      id: 0x0c04
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -110,7 +106,6 @@ methods:
           doc: |
             The number of times countDown must be invoked before threads can pass through await
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -119,3 +114,4 @@ methods:
           doc: |
             True if the new count was set, false if the current count is not zero.
     since: 2.0
+    id: 4

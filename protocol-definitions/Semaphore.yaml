@@ -6,7 +6,6 @@ methods:
     doc: |
       Try to initialize this ISemaphore instance with the given permit count
     request:
-      id: 0x0d01
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -24,7 +23,6 @@ methods:
           doc: |
             The given permit count
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -33,6 +31,7 @@ methods:
           doc: |
             True if initialization succeeds, false otherwise.
     since: 2.0
+    id: 1
   - name: acquire
     doc: |
       Acquires the given number of permits if they are available, and returns immediately, reducing the number of
@@ -43,7 +42,6 @@ methods:
       the current thread. If the current thread has its interrupted status set on entry to this method, or is  while
       waiting for a permit, then  is thrown and the current thread's interrupted status is cleared.
     request:
-      id: 0x0d02
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -60,15 +58,14 @@ methods:
           since: 2.0
           doc: |
             The given permit count
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 2
   - name: availablePermits
     doc: |
       Returns the current number of permits currently available in this semaphore. This method is typically used for
       debugging and testing purposes.
     request:
-      id: 0x0d03
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -80,7 +77,6 @@ methods:
           doc: |
             Name of the Semaphore
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -89,11 +85,11 @@ methods:
           doc: |
             The number of permits available in this semaphore.
     since: 2.0
+    id: 3
   - name: drainPermits
     doc: |
       Acquires and returns all permits that are immediately available.
     request:
-      id: 0x0d04
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -105,7 +101,6 @@ methods:
           doc: |
             Name of the Semaphore
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -114,12 +109,12 @@ methods:
           doc: |
             The number of permits drained
     since: 2.0
+    id: 4
   - name: reducePermits
     doc: |
       Shrinks the number of available permits by the indicated reduction. This method differs from  acquire in that it
       does not block waiting for permits to become available.
     request:
-      id: 0x0d05
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -136,16 +131,15 @@ methods:
           since: 2.0
           doc: |
             The number of permits to remove
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 5
   - name: release
     doc: |
       Releases the given number of permits, increasing the number of available permits by that amount. There is no
       requirement that a thread that releases a permit must have acquired that permit by calling one of the
       acquire()acquire methods. Correct usage of a semaphore is established by programming convention in the application.
     request:
-      id: 0x0d06
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -162,16 +156,15 @@ methods:
           since: 2.0
           doc: |
             The number of permits to remove
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 6
   - name: tryAcquire
     doc: |
       Acquires the given number of permits, if they are available, and returns immediately, with the value true,
       reducing the number of available permits by the given amount. If insufficient permits are available then this
       method will return immediately with the value false and the number of available permits is unchanged.
     request:
-      id: 0x0d07
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -195,7 +188,6 @@ methods:
           doc: |
             The maximum time to wait for a permit
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -204,12 +196,12 @@ methods:
           doc: |
             true if all permits were acquired,  false if the waiting time elapsed before all permits could be acquired
     since: 2.0
+    id: 7
   - name: increasePermits
     doc: |
       Increases the number of available permits by the indicated amount. This method differs from {@code release}
       in that it does not effect the amount of permits this caller has attached.
     request:
-      id: 0x0d08
       retryable: false
       acquiresResource: true
       partitionIdentifier: name
@@ -227,6 +219,6 @@ methods:
           doc: |
             The number of permits to add
             @throws IllegalArgumentException if {@code increase} is negative
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 8

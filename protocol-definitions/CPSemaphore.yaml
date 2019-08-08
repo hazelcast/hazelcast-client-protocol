@@ -7,7 +7,6 @@ methods:
       Initializes the ISemaphore instance with the given permit number, if not
       initialized before.
     request:
-      id: 0x2701
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -31,7 +30,6 @@ methods:
           doc: |
             Number of permits to initialize this ISemaphore
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -40,6 +38,7 @@ methods:
           doc: |
             true if the ISemaphore is initialized with this call
     since: 2.0
+    id: 1
   - name: acquire
     doc: |
       Acquires the requested amount of permits if available, reducing
@@ -47,7 +46,6 @@ methods:
       then the current thread becomes disabled for thread scheduling purposes
       and lies dormant until other threads release enough permits.
     request:
-      id: 0x2702
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -95,7 +93,6 @@ methods:
           doc: |
             Duration to wait for permit acquire
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -105,12 +102,12 @@ methods:
             true if requested permits are acquired,
             false otherwise
     since: 2.0
+    id: 2
   - name: release
     doc: |
       Releases the given number of permits and increases the number of
       available permits by that amount.
     request:
-      id: 0x2703
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -152,7 +149,6 @@ methods:
           doc: |
             number of permits to release
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -161,11 +157,11 @@ methods:
           doc: |
             true
     since: 2.0
+    id: 3
   - name: drain
     doc: |
       Acquires all available permits at once and returns immediately.
     request:
-      id: 0x2704
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -201,7 +197,6 @@ methods:
           doc: |
             UID of this invocation
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -210,11 +205,11 @@ methods:
           doc: |
             number of acquired permits
     since: 2.0
+    id: 4
   - name: change
     doc: |
       Increases or decreases the number of permits by the given value.
     request:
-      id: 0x2705
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -256,7 +251,6 @@ methods:
           doc: |
             number of permits to increase / decrease
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -265,11 +259,11 @@ methods:
           doc: |
             true
     since: 2.0
+    id: 5
   - name: availablePermits
     doc: |
       Returns the number of available permits.
     request:
-      id: 0x2706
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -287,7 +281,6 @@ methods:
           doc: |
             Name of this ISemaphore instance
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -296,11 +289,11 @@ methods:
           doc: |
             number of available permits
     since: 2.0
+    id: 6
   - name: getSemaphoreType
     doc: |
       Returns true if the semaphore is JDK compatible
     request:
-      id: 0x2707
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -312,7 +305,6 @@ methods:
           doc: |
             Name of the ISemaphore proxy
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -321,3 +313,4 @@ methods:
           doc: |
             true if the semaphore is JDK compatible
     since: 2.0
+    id: 7

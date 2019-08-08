@@ -6,7 +6,6 @@ methods:
     doc: |
       Creates a session for the caller on the given CP group.
     request:
-      id: 0x2201
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -24,7 +23,6 @@ methods:
           doc: |
             Name of the caller HazelcastInstance
     response:
-      id: 0x0082
       params:
         - name: sessionId
           type: long
@@ -45,11 +43,11 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 1
   - name: closeSession
     doc: |
       Closes the given session on the given CP group
     request:
-      id: 0x2202
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -67,7 +65,6 @@ methods:
           doc: |
             ID of the session
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -77,12 +74,12 @@ methods:
             true if the session is found & closed,
             false otherwise.
     since: 2.0
+    id: 2
   - name: heartbeatSession
     doc: |
       Commits a heartbeat for the given session on the given cP group and
       extends its session expiration time.
     request:
-      id: 0x2203
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -99,15 +96,14 @@ methods:
           since: 2.0
           doc: |
             ID of the session
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 3
   - name: generateThreadId
     doc: |
       Generates a new ID for the caller thread. The ID is unique in the given
       CP group.
     request:
-      id: 0x2204
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -119,7 +115,6 @@ methods:
           doc: |
             ID of the CP group
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -128,3 +123,4 @@ methods:
           doc: |
             A unique ID for the caller thread
     since: 2.0
+    id: 4

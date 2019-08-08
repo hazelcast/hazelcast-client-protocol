@@ -6,7 +6,6 @@ methods:
     doc: |
       Creates a new CP group with the given name
     request:
-      id: 0x2101
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -18,7 +17,6 @@ methods:
           doc: |
             The proxy name of this data structure instance
     response:
-      id: 0x0080
       params:
         - name: groupId
           type: RaftGroupId
@@ -27,12 +25,12 @@ methods:
           doc: |
             ID of the CP group that contains the CP object
     since: 2.0
+    id: 1
   - name: destroyCPObject
     doc: |
       Destroys the distributed object with the given name on the requested
       CP group
     request:
-      id: 0x2102
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -55,6 +53,6 @@ methods:
           since: 2.0
           doc: |
             The name of this distributed object
-    response:
-      id: 0x0064
+    response: {}
     since: 2.0
+    id: 2

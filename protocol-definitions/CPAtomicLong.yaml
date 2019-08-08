@@ -6,7 +6,6 @@ methods:
     doc: |
       Applies a function on the value, the actual stored value will not change
     request:
-      id: 0x2301
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -31,7 +30,6 @@ methods:
             The function applied to the value and the value is not
             changed.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -40,11 +38,11 @@ methods:
           doc: |
             The result of the function application.
     since: 2.0
+    id: 1
   - name: alter
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
-      id: 0x2302
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -74,7 +72,6 @@ methods:
           doc: |
             0 returns the old value, 1 returns the new value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -83,11 +80,11 @@ methods:
           doc: |
             TODO DOC
     since: 2.0
+    id: 2
   - name: addAndGet
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 0x2303
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -111,7 +108,6 @@ methods:
           doc: |
             The value to add to the current value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -120,12 +116,12 @@ methods:
           doc: |
             the updated value, the given value added to the current value
     since: 2.0
+    id: 3
   - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current
       value the expected value.
     request:
-      id: 0x2304
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -155,7 +151,6 @@ methods:
           doc: |
             The new value
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -165,11 +160,11 @@ methods:
             true if successful; or false if the actual value
             was not equal to the expected value.
     since: 2.0
+    id: 4
   - name: get
     doc: |
       Gets the current value.
     request:
-      id: 0x2305
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -187,7 +182,6 @@ methods:
           doc: |
             Name of this IAtomicLong instance.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -196,11 +190,11 @@ methods:
           doc: |
             The current value
     since: 2.0
+    id: 5
   - name: getAndAdd
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 0x2306
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -224,7 +218,6 @@ methods:
           doc: |
             The value to add to the current value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -233,11 +226,11 @@ methods:
           doc: |
             the old value before the add
     since: 2.0
+    id: 6
   - name: getAndSet
     doc: |
       Atomically sets the given value and returns the old value.
     request:
-      id: 0x2307
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -261,7 +254,6 @@ methods:
           doc: |
             The new value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -270,3 +262,4 @@ methods:
           doc: |
             the old value
     since: 2.0
+    id: 7
