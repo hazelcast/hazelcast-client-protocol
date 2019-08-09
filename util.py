@@ -1,10 +1,13 @@
+import json
+import jsonschema
 import os
-import yaml
 import re
-from jinja2 import Environment, PackageLoader
-from java import java_types_encode, java_types_decode
 from enum import Enum
-import json, jsonschema
+
+import yaml
+from jinja2 import Environment, PackageLoader
+
+from java import java_types_encode, java_types_decode
 
 FixedLengthTypes = [
     "boolean",
@@ -54,14 +57,21 @@ def var_size_params(params):
 
 
 def generate_codecs(services, template, output_dir, extension):
+    id_fmt = "0x%02x%02x%02x"
     for service in services:
         if "methods" in service:
             methods = service["methods"]
             if methods is None:
                 print(type(methods))
             for method in service["methods"]:
-                method_id = "0x%02x%02x" % (service["id"], method["id"])
-                content = template.render(method_id=method_id, service_name=service["name"], method=method)
+                method["request"]["id"] = id_fmt % (service["id"], method["id"], 0)
+                method["response"]["id"] = id_fmt % (service["id"], method["id"], 1)
+                events = method.get("events", None)
+                if events is not None:
+                    for i in range(len(events)):
+                        method["events"][i]["id"] = id_fmt % (service["id"], method["id"], i + 2)
+
+                content = template.render(service_name=service["name"], method=method)
                 save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
 
 
