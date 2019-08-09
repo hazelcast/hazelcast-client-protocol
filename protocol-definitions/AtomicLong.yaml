@@ -1,12 +1,12 @@
 id: 10
 name: AtomicLong
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: apply
+  - id: 1
+    name: apply
+    since: 2.0
     doc: |
       Applies a function on the value, the actual stored value will not change.
     request:
-      id: 0x0a01
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -24,7 +24,6 @@ methods:
           doc: |
             The function applied to the value, the value is not changed.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -32,12 +31,12 @@ methods:
           since: 2.0
           doc: |
             The result of the function application.
+  - id: 2
+    name: alter
     since: 2.0
-  - name: alter
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
-      id: 0x0a02
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -54,14 +53,13 @@ methods:
           since: 2.0
           doc: |
             The function applied to the currently stored value.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 3
+    name: alterAndGet
     since: 2.0
-  - name: alterAndGet
     doc: |
       Alters the currently stored value by applying a function on it and gets the result.
     request:
-      id: 0x0a03
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -79,7 +77,6 @@ methods:
           doc: |
             The function applied to the currently stored value.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -87,12 +84,12 @@ methods:
           since: 2.0
           doc: |
             The result of the function application.
+  - id: 4
+    name: getAndAlter
     since: 2.0
-  - name: getAndAlter
     doc: |
       Alters the currently stored value by applying a function on it on and gets the old value.
     request:
-      id: 0x0a04
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -110,7 +107,6 @@ methods:
           doc: |
             The function applied to the currently stored value.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -118,12 +114,12 @@ methods:
           since: 2.0
           doc: |
             The old value before the function application.
+  - id: 5
+    name: addAndGet
     since: 2.0
-  - name: addAndGet
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 0x0a05
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -141,7 +137,6 @@ methods:
           doc: |
             the value to add to the current value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -149,12 +144,12 @@ methods:
           since: 2.0
           doc: |
             the updated value, the given value added to the current value
+  - id: 6
+    name: compareAndSet
     since: 2.0
-  - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current value the expected value.
     request:
-      id: 0x0a06
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -178,7 +173,6 @@ methods:
           doc: |
             the new value
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -187,12 +181,12 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
+  - id: 7
+    name: decrementAndGet
     since: 2.0
-  - name: decrementAndGet
     doc: |
       Atomically decrements the current value by one.
     request:
-      id: 0x0a07
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -204,7 +198,6 @@ methods:
           doc: |
             The name of this IAtomicLong instance.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -212,12 +205,12 @@ methods:
           since: 2.0
           doc: |
             the updated value, the current value decremented by one
+  - id: 8
+    name: get
     since: 2.0
-  - name: get
     doc: |
       Gets the current value.
     request:
-      id: 0x0a08
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -229,7 +222,6 @@ methods:
           doc: |
             The name of this IAtomicLong instance.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -237,12 +229,12 @@ methods:
           since: 2.0
           doc: |
             the current value
+  - id: 9
+    name: getAndAdd
     since: 2.0
-  - name: getAndAdd
     doc: |
       Atomically adds the given value to the current value.
     request:
-      id: 0x0a09
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -260,7 +252,6 @@ methods:
           doc: |
             the value to add to the current value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -268,12 +259,12 @@ methods:
           since: 2.0
           doc: |
             the old value before the add
+  - id: 10
+    name: getAndSet
     since: 2.0
-  - name: getAndSet
     doc: |
       Atomically sets the given value and returns the old value.
     request:
-      id: 0x0a0a
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -291,7 +282,6 @@ methods:
           doc: |
             the new value
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -299,12 +289,12 @@ methods:
           since: 2.0
           doc: |
             the old value
+  - id: 11
+    name: incrementAndGet
     since: 2.0
-  - name: incrementAndGet
     doc: |
       Atomically increments the current value by one.
     request:
-      id: 0x0a0b
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -316,7 +306,6 @@ methods:
           doc: |
             The name of this IAtomicLong instance.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -324,12 +313,12 @@ methods:
           since: 2.0
           doc: |
             The updated value, the current value incremented by one
+  - id: 12
+    name: getAndIncrement
     since: 2.0
-  - name: getAndIncrement
     doc: |
       Atomically increments the current value by one.
     request:
-      id: 0x0a0c
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -341,7 +330,6 @@ methods:
           doc: |
             The name of this IAtomicLong instance.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -349,12 +337,12 @@ methods:
           since: 2.0
           doc: |
             the old value
+  - id: 13
+    name: set
     since: 2.0
-  - name: set
     doc: |
       Atomically sets the given value.
     request:
-      id: 0x0a0d
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -371,6 +359,4 @@ methods:
           since: 2.0
           doc: |
             The new value
-    response:
-      id: 0x0064
-    since: 2.0
+    response: {}

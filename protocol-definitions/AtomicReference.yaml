@@ -1,12 +1,12 @@
 id: 11
 name: AtomicReference
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: apply
+  - id: 1
+    name: apply
+    since: 2.0
     doc: |
       Applies a function on the value, the actual stored value will not change.
     request:
-      id: 0x0b01
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -24,7 +24,6 @@ methods:
           doc: |
             the function applied on the value, the stored value does not change
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -32,12 +31,12 @@ methods:
           since: 2.0
           doc: |
             the result of the function application
+  - id: 2
+    name: alter
     since: 2.0
-  - name: alter
     doc: |
       Alters the currently stored reference by applying a function on it.
     request:
-      id: 0x0b02
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -54,14 +53,13 @@ methods:
           since: 2.0
           doc: |
             the function that alters the currently stored reference
-    response:
-      id: 0x0064
+    response: {}
+  - id: 3
+    name: alterAndGet
     since: 2.0
-  - name: alterAndGet
     doc: |
       Alters the currently stored reference by applying a function on it and gets the result.
     request:
-      id: 0x0b03
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -79,7 +77,6 @@ methods:
           doc: |
             the function that alters the currently stored reference
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -87,12 +84,12 @@ methods:
           since: 2.0
           doc: |
             the new value, the result of the applied function.
+  - id: 4
+    name: getAndAlter
     since: 2.0
-  - name: getAndAlter
     doc: |
       Alters the currently stored reference by applying a function on it on and gets the old value.
     request:
-      id: 0x0b04
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -110,7 +107,6 @@ methods:
           doc: |
             the function that alters the currently stored reference
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -118,12 +114,12 @@ methods:
           since: 2.0
           doc: |
             the old value, the value before the function is applied
+  - id: 5
+    name: contains
     since: 2.0
-  - name: contains
     doc: |
       Checks if the reference contains the value.
     request:
-      id: 0x0b05
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -141,7 +137,6 @@ methods:
           doc: |
             the value to check (is allowed to be null).
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -149,12 +144,12 @@ methods:
           since: 2.0
           doc: |
             true if the value is found, false otherwise.
+  - id: 6
+    name: compareAndSet
     since: 2.0
-  - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current value the expected value.
     request:
-      id: 0x0b06
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -178,7 +173,6 @@ methods:
           doc: |
             the new value
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -187,12 +181,12 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
+  - id: 8
+    name: get
     since: 2.0
-  - name: get
     doc: |
       Gets the current value.
     request:
-      id: 0x0b08
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -204,7 +198,6 @@ methods:
           doc: |
             Name of the AtomicReference distributed object instance.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -212,12 +205,12 @@ methods:
           since: 2.0
           doc: |
             the current value
+  - id: 9
+    name: set
     since: 2.0
-  - name: set
     doc: |
       Atomically sets the given value.
     request:
-      id: 0x0b09
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -234,14 +227,13 @@ methods:
           since: 2.0
           doc: |
             the new value
-    response:
-      id: 0x0064
+    response: {}
+  - id: 10
+    name: clear
     since: 2.0
-  - name: clear
     doc: |
       Clears the current stored reference.
     request:
-      id: 0x0b0a
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -252,14 +244,13 @@ methods:
           since: 2.0
           doc: |
             Name of the AtomicReference distributed object instance.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 11
+    name: getAndSet
     since: 2.0
-  - name: getAndSet
     doc: |
       Gets the old value and sets the new value.
     request:
-      id: 0x0b0b
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -277,7 +268,6 @@ methods:
           doc: |
             the new value.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -285,12 +275,12 @@ methods:
           since: 2.0
           doc: |
             the old value.
+  - id: 12
+    name: setAndGet
     since: 2.0
-  - name: setAndGet
     doc: |
       Sets and gets the value.
     request:
-      id: 0x0b0c
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -308,7 +298,6 @@ methods:
           doc: |
             the new value
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -316,12 +305,12 @@ methods:
           since: 2.0
           doc: |
             the new value
+  - id: 13
+    name: isNull
     since: 2.0
-  - name: isNull
     doc: |
       Checks if the stored reference is null.
     request:
-      id: 0x0b0d
       retryable: true
       acquiresResource: false
       partitionIdentifier: name
@@ -333,7 +322,6 @@ methods:
           doc: |
             Name of the AtomicReference distributed object instance.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -341,4 +329,3 @@ methods:
           since: 2.0
           doc: |
             true if null, false otherwise.
-    since: 2.0

@@ -1,14 +1,14 @@
 id: 30
 name: DynamicConfig
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: addMultiMapConfig
+  - id: 1
+    name: addMultiMapConfig
+    since: 2.0
     doc: |
       Adds a new multimap config to a running cluster.
       If a multimap configuration with the given {@code name} already exists, then
       the new multimap config is ignored and the existing one is preserved.
     request:
-      id: 0x1e01
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -76,16 +76,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 2
+    name: addRingbufferConfig
     since: 2.0
-  - name: addRingbufferConfig
     doc: |
       Adds a new ringbuffer configuration to a running cluster.
       If a ringbuffer configuration with the given {@code name} already exists, then
       the new ringbuffer config is ignored and the existing one is preserved.
     request:
-      id: 0x1e02
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -153,16 +152,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 3
+    name: addCardinalityEstimatorConfig
     since: 2.0
-  - name: addCardinalityEstimatorConfig
     doc: |
       Adds a new cardinality estimator configuration to a running cluster.
       If a cardinality estimator configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e03
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -205,16 +203,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 4
+    name: addLockConfig
     since: 2.0
-  - name: addLockConfig
     doc: |
       Adds a new lock configuration to a running cluster.
       If a lock configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e04
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -233,16 +230,15 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 5
+    name: addListConfig
     since: 2.0
-  - name: addListConfig
     doc: |
       Adds a new list configuration to a running cluster.
       If a list configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e05
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -303,16 +299,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 6
+    name: addSetConfig
     since: 2.0
-  - name: addSetConfig
     doc: |
       Adds a new set configuration to a running cluster.
       If a set configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e06
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -373,16 +368,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 7
+    name: addReplicatedMapConfig
     since: 2.0
-  - name: addReplicatedMapConfig
     doc: |
       Adds a new replicated map configuration to a running cluster.
       If a replicated map configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e07
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -441,16 +435,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 8
+    name: addTopicConfig
     since: 2.0
-  - name: addTopicConfig
     doc: |
       Adds a new topic configuration to a running cluster.
       If a topic configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e08
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -487,16 +480,15 @@ methods:
           since: 2.0
           doc: |
             message listener configurations
-    response:
-      id: 0x0064
+    response: {}
+  - id: 9
+    name: addExecutorConfig
     since: 2.0
-  - name: addExecutorConfig
     doc: |
       Adds a new executor configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e09
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -533,16 +525,15 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 10
+    name: addDurableExecutorConfig
     since: 2.0
-  - name: addDurableExecutorConfig
     doc: |
       Adds a new durable executor configuration to a running cluster.
       If a durable executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -579,16 +570,15 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 11
+    name: addScheduledExecutorConfig
     since: 2.0
-  - name: addScheduledExecutorConfig
     doc: |
       Adds a new scheduled executor configuration to a running cluster.
       If a scheduled executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -637,16 +627,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 12
+    name: addSemaphoreConfig
     since: 2.0
-  - name: addSemaphoreConfig
     doc: |
       Adds a new semaphore configuration to a running cluster.
       If a semaphore configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -683,16 +672,15 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 13
+    name: addQueueConfig
     since: 2.0
-  - name: addQueueConfig
     doc: |
       Adds a new queue configuration to a running cluster.
       If a queue configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -765,16 +753,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 14
+    name: addMapConfig
     since: 2.0
-  - name: addMapConfig
     doc: |
       Adds a new map configuration to a running cluster.
       If a map configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0e
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -976,16 +963,15 @@ methods:
           doc: |
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
-    response:
-      id: 0x0064
+    response: {}
+  - id: 15
+    name: addReliableTopicConfig
     since: 2.0
-  - name: addReliableTopicConfig
     doc: |
       Adds a new reliable topic configuration to a running cluster.
       If a reliable topic configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e0f
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1028,16 +1014,15 @@ methods:
           doc: |
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
-    response:
-      id: 0x0064
+    response: {}
+  - id: 16
+    name: addCacheConfig
     since: 2.0
-  - name: addCacheConfig
     doc: |
       Adds a new cache configuration to a running cluster.
       If a cache configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e10
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1199,16 +1184,15 @@ methods:
           since: 2.0
           doc: |
             hot restart configuration
-    response:
-      id: 0x0064
+    response: {}
+  - id: 18
+    name: addFlakeIdGeneratorConfig
     since: 2.0
-  - name: addFlakeIdGeneratorConfig
     doc: |
       Adds a new flake ID generator configuration to a running cluster.
       If a flake ID generator configuration for the same name already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e12
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1249,16 +1233,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 19
+    name: addAtomicLongConfig
     since: 2.0
-  - name: addAtomicLongConfig
     doc: |
       Adds a new atomic long configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e13
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1289,16 +1272,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 20
+    name: addAtomicReferenceConfig
     since: 2.0
-  - name: addAtomicReferenceConfig
     doc: |
       Adds a new atomic reference configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e14
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1329,16 +1311,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 21
+    name: addCountDownLatchConfig
     since: 2.0
-  - name: addCountDownLatchConfig
     doc: |
       Adds a new count down latch configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e15
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1357,16 +1338,15 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 22
+    name: addPNCounterConfig
     since: 2.0
-  - name: addPNCounterConfig
     doc: |
       Adds a new CRDT PN counter configuration to a running cluster.
       If a PN counter configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
-      id: 0x1e16
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -1397,6 +1377,4 @@ methods:
             name of an existing configured quorum to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
-    response:
-      id: 0x0064
-    since: 2.0
+    response: {}

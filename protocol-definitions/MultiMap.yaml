@@ -1,12 +1,12 @@
 id: 2
 name: MultiMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: put
+  - id: 1
+    name: put
+    since: 2.0
     doc: |
       Stores a key-value pair in the multimap.
     request:
-      id: 0x0201
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -36,7 +36,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -44,13 +43,13 @@ methods:
           since: 2.0
           doc: |
             True if size of the multimap is increased, false if the multimap already contains the key-value pair.
+  - id: 2
+    name: get
     since: 2.0
-  - name: get
     doc: |
       Returns the collection of values associated with the key. The collection is NOT backed by the map, so changes to
       the map are NOT reflected in the collection, and vice-versa.
     request:
-      id: 0x0202
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -74,7 +73,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -82,12 +80,12 @@ methods:
           since: 2.0
           doc: |
             The collection of the values associated with the key.
+  - id: 3
+    name: remove
     since: 2.0
-  - name: remove
     doc: |
       Removes the given key value pair from the multimap.
     request:
-      id: 0x0203
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -111,7 +109,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -119,13 +116,13 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 4
+    name: keySet
     since: 2.0
-  - name: keySet
     doc: |
       Returns the set of keys in the multimap.The collection is NOT backed by the map, so changes to the map are NOT
       reflected in the collection, and vice-versa.
     request:
-      id: 0x0204
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -137,7 +134,6 @@ methods:
           doc: |
             Name of the MultiMap
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -145,13 +141,13 @@ methods:
           since: 2.0
           doc: |
             The set of keys in the multimap. The returned set might be modifiable but it has no effect on the multimap.
+  - id: 5
+    name: values
     since: 2.0
-  - name: values
     doc: |
       Returns the collection of values in the multimap.The collection is NOT backed by the map, so changes to the map
       are NOT reflected in the collection, and vice-versa.
     request:
-      id: 0x0205
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -163,7 +159,6 @@ methods:
           doc: |
             Name of the MultiMap
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -171,13 +166,13 @@ methods:
           since: 2.0
           doc: |
             The collection of values in the multimap. the returned collection might be modifiable but it has no effect on the multimap.
+  - id: 6
+    name: entrySet
     since: 2.0
-  - name: entrySet
     doc: |
       Returns the set of key-value pairs in the multimap.The collection is NOT backed by the map, so changes to the map
       are NOT reflected in the collection, and vice-versa
     request:
-      id: 0x0206
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -189,7 +184,6 @@ methods:
           doc: |
             Name of the MultiMap
     response:
-      id: 0x0075
       params:
         - name: response
           type: Map_Data_Data
@@ -197,12 +191,12 @@ methods:
           since: 2.0
           doc: |
             The set of key-value pairs in the multimap. The returned set might be modifiable but it has no effect on the multimap.
+  - id: 7
+    name: containsKey
     since: 2.0
-  - name: containsKey
     doc: |
       Returns whether the multimap contains an entry with the key.
     request:
-      id: 0x0207
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -226,7 +220,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -234,12 +227,12 @@ methods:
           since: 2.0
           doc: |
             True if the multimap contains an entry with the key, false otherwise.
+  - id: 8
+    name: containsValue
     since: 2.0
-  - name: containsValue
     doc: |
       Returns whether the multimap contains an entry with the value.
     request:
-      id: 0x0208
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -257,7 +250,6 @@ methods:
           doc: |
             The value whose existence is checked.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -265,12 +257,12 @@ methods:
           since: 2.0
           doc: |
             True if the multimap contains an entry with the value, false otherwise.
+  - id: 9
+    name: containsEntry
     since: 2.0
-  - name: containsEntry
     doc: |
       Returns whether the multimap contains the given key-value pair.
     request:
-      id: 0x0209
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -300,7 +292,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -308,12 +299,12 @@ methods:
           since: 2.0
           doc: |
             True if the multimap contains the key-value pair, false otherwise.
+  - id: 10
+    name: size
     since: 2.0
-  - name: size
     doc: |
       Returns the number of key-value pairs in the multimap.
     request:
-      id: 0x020a
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -325,7 +316,6 @@ methods:
           doc: |
             Name of the MultiMap
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -333,12 +323,12 @@ methods:
           since: 2.0
           doc: |
             The number of key-value pairs in the multimap.
+  - id: 11
+    name: clear
     since: 2.0
-  - name: clear
     doc: |
       Clears the multimap. Removes all key-value pairs.
     request:
-      id: 0x020b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -349,14 +339,13 @@ methods:
           since: 2.0
           doc: |
             Name of the MultiMap
-    response:
-      id: 0x0064
+    response: {}
+  - id: 12
+    name: valueCount
     since: 2.0
-  - name: valueCount
     doc: |
       Returns the number of values that match the given key in the multimap.
     request:
-      id: 0x020c
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -380,7 +369,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -388,13 +376,13 @@ methods:
           since: 2.0
           doc: |
             The number of values that match the given key in the multimap
+  - id: 13
+    name: addEntryListenerToKey
     since: 2.0
-  - name: addEntryListenerToKey
     doc: |
       Adds the specified entry listener for the specified key.The listener will be notified for all
       add/remove/update/evict events for the specified key only.
     request:
-      id: 0x020d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -424,7 +412,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -433,8 +420,7 @@ methods:
           doc: |
             Returns registration id for the entry listener
     events:
-      - id: 0x00cb
-        name: Entry
+      - name: Entry
         params:
           - name: key
             type: Data
@@ -478,12 +464,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 14
+    name: addEntryListener
     since: 2.0
-  - name: addEntryListener
     doc: |
       Adds an entry listener for this multimap. The listener will be notified for all multimap add/remove/update/evict events.
     request:
-      id: 0x020e
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -507,7 +493,6 @@ methods:
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -516,8 +501,7 @@ methods:
           doc: |
             Returns registration id for the entry listener
     events:
-      - id: 0x00cb
-        name: Entry
+      - name: Entry
         params:
           - name: key
             type: Data
@@ -561,12 +545,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 15
+    name: removeEntryListener
     since: 2.0
-  - name: removeEntryListener
     doc: |
       Removes the specified entry listener. Returns silently if no such listener was added before.
     request:
-      id: 0x020f
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -584,7 +568,6 @@ methods:
           doc: |
             Registration id of listener
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -592,8 +575,9 @@ methods:
           since: 2.0
           doc: |
             True if registration is removed, false otherwise
+  - id: 16
+    name: lock
     since: 2.0
-  - name: lock
     doc: |
       Acquires the lock for the specified key for the specified lease time. After the lease time, the lock will be
       released. If the lock is not available, then the current thread becomes disabled for thread scheduling
@@ -601,7 +585,6 @@ methods:
       lock is only for the key in this map.Locks are re-entrant, so if the key is locked N times, then it should be
       unlocked N times before another thread can acquire it.
     request:
-      id: 0x0210
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
@@ -636,17 +619,16 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 17
+    name: tryLock
     since: 2.0
-  - name: tryLock
     doc: |
       Tries to acquire the lock for the specified key for the specified lease time. After lease time, the lock will be
       released. If the lock is not available, then the current thread becomes disabled for thread scheduling purposes
       and lies dormant until one of two things happens:the lock is acquired by the current thread, or the specified
       waiting time elapses.
     request:
-      id: 0x0211
       retryable: true
       acquiresResource: true
       partitionIdentifier: key
@@ -688,7 +670,6 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -696,12 +677,12 @@ methods:
           since: 2.0
           doc: |
             True if the lock was acquired and false if the waiting time elapsed before the lock acquired
+  - id: 18
+    name: isLocked
     since: 2.0
-  - name: isLocked
     doc: |
       Checks the lock for the specified key. If the lock is acquired, this method returns true, else it returns false.
     request:
-      id: 0x0212
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -719,7 +700,6 @@ methods:
           doc: |
             Key to lock to be checked.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -727,13 +707,13 @@ methods:
           since: 2.0
           doc: |
             True if the lock acquired,false otherwise
+  - id: 19
+    name: unlock
     since: 2.0
-  - name: unlock
     doc: |
       Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
       never blocks and returns immediately.
     request:
-      id: 0x0213
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -762,15 +742,14 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 20
+    name: forceUnlock
     since: 2.0
-  - name: forceUnlock
     doc: |
       Releases the lock for the specified key regardless of the lock owner. It always successfully unlocks the key,
       never blocks and returns immediately.
     request:
-      id: 0x0214
       retryable: true
       acquiresResource: false
       partitionIdentifier: key
@@ -793,15 +772,14 @@ methods:
           since: 2.0
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 21
+    name: removeEntry
     since: 2.0
-  - name: removeEntry
     doc: |
       Removes all the entries with the given key. The collection is NOT backed by the map, so changes to the map are
       NOT reflected in the collection, and vice-versa.
     request:
-      id: 0x0215
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -831,7 +809,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -839,12 +816,12 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 22
+    name: delete
     since: 2.0
-  - name: delete
     doc: |
       Removes all the entries with the given key.
     request:
-      id: 0x0216
       retryable: false
       acquiresResource: false
       partitionIdentifier: key
@@ -867,6 +844,4 @@ methods:
           since: 2.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
-    response:
-      id: 0x0064
-    since: 2.0
+    response: {}

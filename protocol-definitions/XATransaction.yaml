@@ -1,12 +1,12 @@
 id: 22
 name: XATransaction
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: clearRemote
+  - id: 1
+    name: clearRemote
+    since: 2.0
     doc: |
       TODO DOC
     request:
-      id: 0x1601
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
@@ -17,19 +17,17 @@ methods:
           since: 2.0
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 2
+    name: collectTransactions
     since: 2.0
-  - name: collectTransactions
     doc: |
       TODO DOC
     request:
-      id: 0x1602
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x0085
       params:
         - name: response
           type: List_Xid
@@ -37,12 +35,12 @@ methods:
           since: 2.0
           doc: |
             Array of Xids.
+  - id: 3
+    name: finalize
     since: 2.0
-  - name: finalize
     doc: |
       TODO DOC
     request:
-      id: 0x1603
       retryable: false
       acquiresResource: false
       partitionIdentifier: xid
@@ -59,14 +57,13 @@ methods:
           since: 2.0
           doc: |
             If true, the transaction is committed else transaction is rolled back.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 4
+    name: commit
     since: 2.0
-  - name: commit
     doc: |
       TODO DOC
     request:
-      id: 0x1604
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -83,14 +80,13 @@ methods:
           since: 2.0
           doc: |
             If true, the prepare is also done.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 5
+    name: create
     since: 2.0
-  - name: create
     doc: |
       TODO DOC
     request:
-      id: 0x1605
       retryable: false
       acquiresResource: true
       partitionIdentifier: -1
@@ -108,7 +104,6 @@ methods:
           doc: |
             The timeout in seconds for XA operations such as prepare, commit, rollback.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -116,12 +111,12 @@ methods:
           since: 2.0
           doc: |
             The transaction unique identifier.
+  - id: 6
+    name: prepare
     since: 2.0
-  - name: prepare
     doc: |
       TODO DOC
     request:
-      id: 0x1606
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -132,14 +127,13 @@ methods:
           since: 2.0
           doc: |
             The id of the transaction to prepare.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 7
+    name: rollback
     since: 2.0
-  - name: rollback
     doc: |
       TODO DOC
     request:
-      id: 0x1607
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -150,6 +144,4 @@ methods:
           since: 2.0
           doc: |
             The id of the transaction to rollback.
-    response:
-      id: 0x0064
-    since: 2.0
+    response: {}

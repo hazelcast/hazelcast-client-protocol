@@ -1,8 +1,9 @@
 id: 38
 name: CPFencedLock
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: lock
+  - id: 1
+    name: lock
+    since: 2.0
     doc: |
       Acquires the given FencedLock on the given CP group. If the lock is
       acquired, a valid fencing token (positive number) is returned. If not
@@ -12,7 +13,6 @@ methods:
       is closed between reentrant acquires, the call fails with
       {@code LockOwnershipLostException}.
     request:
-      id: 0x2601
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -48,7 +48,6 @@ methods:
           doc: |
             UID of this invocation
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -57,8 +56,9 @@ methods:
           doc: |
             a valid fencing token (positive number) if the lock
             is acquired, otherwise -1.
+  - id: 2
+    name: tryLock
     since: 2.0
-  - name: tryLock
     doc: |
       Attempts to acquire the given FencedLock on the given CP group.
       If the lock is acquired, a valid fencing token (positive number) is
@@ -69,7 +69,6 @@ methods:
       duration passes. If the session is closed between reentrant acquires,
       the call fails with {@code LockOwnershipLostException}.
     request:
-      id: 0x2602
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -111,7 +110,6 @@ methods:
           doc: |
             Duration to wait for lock acquire
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -120,8 +118,9 @@ methods:
           doc: |
             a valid fencing token (positive number) if the lock
             is acquired, otherwise -1.
+  - id: 3
+    name: unlock
     since: 2.0
-  - name: unlock
     doc: |
       Unlocks the given FencedLock on the given CP group. If the lock is
       not acquired, the call fails with {@link IllegalMonitorStateException}.
@@ -129,7 +128,6 @@ methods:
       {@code LockOwnershipLostException}. Returns true if the lock is still
       held by the caller after a successful unlock() call, false otherwise.
     request:
-      id: 0x2603
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -165,7 +163,6 @@ methods:
           doc: |
             UID of this invocation
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -174,12 +171,12 @@ methods:
           doc: |
             true if the lock is still held by the caller after
             a successful unlock() call, false otherwise.
+  - id: 4
+    name: getLockOwnership
     since: 2.0
-  - name: getLockOwnership
     doc: |
       Returns current lock ownership status of the given FencedLock instance.
     request:
-      id: 0x2604
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -197,7 +194,6 @@ methods:
           doc: |
             Name of this FencedLock instance
     response:
-      id: 0x0081
       params:
         - name: fence
           type: long
@@ -223,4 +219,3 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    since: 2.0

@@ -1,8 +1,9 @@
 id: 32
 name: PNCounter
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: get
+  - id: 1
+    name: get
+    since: 2.0
     doc: |
       Query operation to retrieve the current value of the PNCounter.
       <p>
@@ -13,7 +14,6 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 0x2001
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -37,7 +37,6 @@ methods:
           doc: |
             the target replica
     response:
-      id: 0x007f
       params:
         - name: value
           type: long
@@ -57,8 +56,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 2
+    name: add
     since: 2.0
-  - name: add
     doc: |
       Adds a delta to the PNCounter value. The delta may be negative for a
       subtraction.
@@ -70,7 +70,6 @@ methods:
       If smart routing is disabled, the actual member processing the client
       message may act as a proxy.
     request:
-      id: 0x2002
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -108,7 +107,6 @@ methods:
           doc: |
             the target replica
     response:
-      id: 0x007f
       params:
         - name: value
           type: long
@@ -128,15 +126,15 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 3
+    name: getConfiguredReplicaCount
     since: 2.0
-  - name: getConfiguredReplicaCount
     doc: |
       Returns the configured number of CRDT replicas for the PN counter with
       the given {@code name}.
       The actual replica count may be less, depending on the number of data
       members in the cluster (members that own data).
     request:
-      id: 0x2003
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -148,7 +146,6 @@ methods:
           doc: |
             the name of the PNCounter
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -156,4 +153,3 @@ methods:
           since: 2.0
           doc: |
             the configured replica count
-    since: 2.0
