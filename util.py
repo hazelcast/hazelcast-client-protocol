@@ -60,7 +60,8 @@ def generate_codecs(services, template, output_dir, extension):
             if methods is None:
                 print(type(methods))
             for method in service["methods"]:
-                content = template.render(service_name=service["name"], method=method)
+                method_id = "0x%02x%02x" % (service["id"], method["id"])
+                content = template.render(method_id=method_id, service_name=service["name"], method=method)
                 save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
 
 
