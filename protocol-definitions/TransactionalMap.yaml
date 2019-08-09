@@ -1,12 +1,12 @@
 id: 16
 name: TransactionalMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: containsKey
+  - id: 1
+    name: containsKey
+    since: 2.0
     doc: |
       Returns true if this map contains an entry for the specified key.
     request:
-      id: 0x1001
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -36,7 +36,6 @@ methods:
           doc: |
             The specified key.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -44,12 +43,12 @@ methods:
           since: 2.0
           doc: |
             True if this map contains an entry for the specified key.
+  - id: 2
+    name: get
     since: 2.0
-  - name: get
     doc: |
       Returns the value for the specified key, or null if this map does not contain this key.
     request:
-      id: 0x1002
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -79,7 +78,6 @@ methods:
           doc: |
             The specified key
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -87,13 +85,13 @@ methods:
           since: 2.0
           doc: |
             The value for the specified key
+  - id: 3
+    name: getForUpdate
     since: 2.0
-  - name: getForUpdate
     doc: |
       Locks the key and then gets and returns the value to which the specified key is mapped. Lock will be released at
       the end of the transaction (either commit or rollback).
     request:
-      id: 0x1003
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -123,7 +121,6 @@ methods:
           doc: |
             The value to which the specified key is mapped
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -131,12 +128,12 @@ methods:
           since: 2.0
           doc: |
             The value for the specified key
+  - id: 4
+    name: size
     since: 2.0
-  - name: size
     doc: |
       Returns the number of entries in this map.
     request:
-      id: 0x1004
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -160,7 +157,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -168,12 +164,12 @@ methods:
           since: 2.0
           doc: |
             The number of entries in this map.
+  - id: 5
+    name: isEmpty
     since: 2.0
-  - name: isEmpty
     doc: |
       Returns true if this map contains no entries.
     request:
-      id: 0x1005
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -197,7 +193,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -205,14 +200,14 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this map contains no entries.
+  - id: 6
+    name: put
     since: 2.0
-  - name: put
     doc: |
       Associates the specified value with the specified key in this map. If the map previously contained a mapping for
       the key, the old value is replaced by the specified value. The object to be put will be accessible only in the
       current transaction context till transaction is committed.
     request:
-      id: 0x1006
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -254,7 +249,6 @@ methods:
           doc: |
             The duration in milliseconds after which this entry shall be deleted. O means infinite.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -262,15 +256,15 @@ methods:
           since: 2.0
           doc: |
             Previous value associated with key or  null if there was no mapping for key
+  - id: 7
+    name: set
     since: 2.0
-  - name: set
     doc: |
       Associates the specified value with the specified key in this map. If the map previously contained a mapping for
       the key, the old value is replaced by the specified value. This method is preferred to #put(Object, Object)
       if the old value is not needed.
       The object to be set will be accessible only in the current transaction context until the transaction is committed.
     request:
-      id: 0x1007
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -305,15 +299,14 @@ methods:
           since: 2.0
           doc: |
             The value to associate with key
-    response:
-      id: 0x0064
+    response: {}
+  - id: 8
+    name: putIfAbsent
     since: 2.0
-  - name: putIfAbsent
     doc: |
       If the specified key is not already associated with a value, associate it with the given value.
       The object to be put will be accessible only in the current transaction context until the transaction is committed.
     request:
-      id: 0x1008
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -349,7 +342,6 @@ methods:
           doc: |
             The value to associate with the key when there is no previous value.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -357,13 +349,13 @@ methods:
           since: 2.0
           doc: |
             The previous value associated with key, or null if there was no mapping for key.
+  - id: 9
+    name: replace
     since: 2.0
-  - name: replace
     doc: |
       Replaces the entry for a key only if it is currently mapped to some value. The object to be replaced will be
       accessible only in the current transaction context until the transaction is committed.
     request:
-      id: 0x1009
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -399,7 +391,6 @@ methods:
           doc: |
             The value replaced the previous value
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -407,13 +398,13 @@ methods:
           since: 2.0
           doc: |
             The previous value associated with key, or null if there was no mapping for key.
+  - id: 10
+    name: replaceIfSame
     since: 2.0
-  - name: replaceIfSame
     doc: |
       Replaces the entry for a key only if currently mapped to a given value. The object to be replaced will be
       accessible only in the current transaction context until the transaction is committed.
     request:
-      id: 0x100a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -455,7 +446,6 @@ methods:
           doc: |
             The new value to replace the old value.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -463,14 +453,14 @@ methods:
           since: 2.0
           doc: |
             true if the value was replaced.
+  - id: 11
+    name: remove
     since: 2.0
-  - name: remove
     doc: |
       Removes the mapping for a key from this map if it is present. The map will not contain a mapping for the
       specified key once the call returns. The object to be removed will be accessible only in the current transaction
       context until the transaction is committed.
     request:
-      id: 0x100b
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -500,7 +490,6 @@ methods:
           doc: |
             Remove the mapping for this key.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -508,14 +497,14 @@ methods:
           since: 2.0
           doc: |
             The previous value associated with key, or null if there was no mapping for key
+  - id: 12
+    name: delete
     since: 2.0
-  - name: delete
     doc: |
       Removes the mapping for a key from this map if it is present. The map will not contain a mapping for the specified
       key once the call returns. This method is preferred to #remove(Object) if the old value is not needed. The object
       to be deleted will be removed from only the current transaction context until the transaction is committed.
     request:
-      id: 0x100c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -544,15 +533,14 @@ methods:
           since: 2.0
           doc: |
             Remove the mapping for this key.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 13
+    name: removeIfSame
     since: 2.0
-  - name: removeIfSame
     doc: |
       Removes the entry for a key only if currently mapped to a given value. The object to be removed will be removed
       from only the current transaction context until the transaction is committed.
     request:
-      id: 0x100d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -588,7 +576,6 @@ methods:
           doc: |
             Remove the key if it has this value.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -596,14 +583,14 @@ methods:
           since: 2.0
           doc: |
             True if the value was removed
+  - id: 14
+    name: keySet
     since: 2.0
-  - name: keySet
     doc: |
       Returns a set clone of the keys contained in this map. The set is NOT backed by the map, so changes to the map
       are NOT reflected in the set, and vice-versa. This method is always executed by a distributed query, so it may throw
       a QueryResultSizeExceededException if query result size limit is configured.
     request:
-      id: 0x100e
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -627,7 +614,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -635,15 +621,15 @@ methods:
           since: 2.0
           doc: |
             A set clone of the keys contained in this map.
+  - id: 15
+    name: keySetWithPredicate
     since: 2.0
-  - name: keySetWithPredicate
     doc: |
       Queries the map based on the specified predicate and returns the keys of matching entries. Specified predicate
       runs on all members in parallel.The set is NOT backed by the map, so changes to the map are NOT reflected in the
       set, and vice-versa. This method is always executed by a distributed query, so it may throw a
       QueryResultSizeExceededException if query result size limit is configured.
     request:
-      id: 0x100f
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -673,7 +659,6 @@ methods:
           doc: |
             Specified query criteria.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -681,14 +666,14 @@ methods:
           since: 2.0
           doc: |
             Result key set for the query.
+  - id: 16
+    name: values
     since: 2.0
-  - name: values
     doc: |
       Returns a collection clone of the values contained in this map. The collection is NOT backed by the map,
       so changes to the map are NOT reflected in the collection, and vice-versa. This method is always executed by a
       distributed query, so it may throw a QueryResultSizeExceededException if query result size limit is configured.
     request:
-      id: 0x1010
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -712,7 +697,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -720,15 +704,15 @@ methods:
           since: 2.0
           doc: |
             All values in the map
+  - id: 17
+    name: valuesWithPredicate
     since: 2.0
-  - name: valuesWithPredicate
     doc: |
       Queries the map based on the specified predicate and returns the values of matching entries.Specified predicate
       runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
       in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw
       a QueryResultSizeExceededException if query result size limit is configured.
     request:
-      id: 0x1011
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -758,7 +742,6 @@ methods:
           doc: |
             Specified query criteria.
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -766,12 +749,12 @@ methods:
           since: 2.0
           doc: |
             Result value collection of the query.
+  - id: 18
+    name: containsValue
     since: 2.0
-  - name: containsValue
     doc: |
       Returns true if this map contains an entry for the specified value.
     request:
-      id: 0x1012
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -801,7 +784,6 @@ methods:
           doc: |
             The specified value.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -809,4 +791,3 @@ methods:
           since: 2.0
           doc: |
             True if this map contains an entry for the specified key.
-    since: 2.0

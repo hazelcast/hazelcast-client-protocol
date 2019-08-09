@@ -1,12 +1,12 @@
 id: 4
 name: Topic
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: publish
+  - id: 1
+    name: publish
+    since: 2.0
     doc: |
       Publishes the message to all subscribers of this topic
     request:
-      id: 0x0401
       retryable: false
       acquiresResource: false
       partitionIdentifier: name
@@ -23,15 +23,14 @@ methods:
           since: 2.0
           doc: |
             The message to publish to all subscribers of this topic
-    response:
-      id: 0x0064
+    response: {}
+  - id: 2
+    name: addMessageListener
     since: 2.0
-  - name: addMessageListener
     doc: |
       Subscribes to this topic. When someone publishes a message on this topic. onMessage() function of the given
       MessageListener is called. More than one message listener can be added on one instance.
     request:
-      id: 0x0402
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -49,7 +48,6 @@ methods:
           doc: |
             if true listens only local events on registered member
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -58,8 +56,7 @@ methods:
           doc: |
             returns the registration id
     events:
-      - id: 0x00cd
-        name: Topic
+      - name: Topic
         params:
           - name: item
             type: Data
@@ -79,12 +76,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 3
+    name: removeMessageListener
     since: 2.0
-  - name: removeMessageListener
     doc: |
       Stops receiving messages for the given message listener.If the given listener already removed, this method does nothing.
     request:
-      id: 0x0403
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -102,7 +99,6 @@ methods:
           doc: |
             Id of listener registration.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -110,4 +106,3 @@ methods:
           since: 2.0
           doc: |
             True if registration is removed, false otherwise
-    since: 2.0

@@ -1,13 +1,13 @@
 id: 29
 name: ScheduledExecutor
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: shutdown
+  - id: 1
+    name: shutdown
+    since: 2.0
     doc: |
       Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
     request:
-      id: 0x1d01
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -24,14 +24,13 @@ methods:
           since: 2.0
           doc: |
             The cluster member where the shutdown for this scheduler will be sent.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 2
+    name: submitToPartition
     since: 2.0
-  - name: submitToPartition
     doc: |
       Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
     request:
-      id: 0x1d02
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -72,14 +71,13 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
-    response:
-      id: 0x0064
+    response: {}
+  - id: 3
+    name: submitToAddress
     since: 2.0
-  - name: submitToAddress
     doc: |
       Submits the task to a member for execution, member is provided in the form of an address.
     request:
-      id: 0x1d03
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -126,14 +124,13 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
-    response:
-      id: 0x0064
+    response: {}
+  - id: 4
+    name: getAllScheduledFutures
     since: 2.0
-  - name: getAllScheduledFutures
     doc: |
       Returns all scheduled tasks in for a given scheduler in the given member.
     request:
-      id: 0x1d04
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -145,7 +142,6 @@ methods:
           doc: |
             The name of the scheduler.
     response:
-      id: 0x0079
       params:
         - name: handlers
           type: Map_Member_List_ScheduledTaskHandler
@@ -153,12 +149,12 @@ methods:
           since: 2.0
           doc: |
             A list of scheduled task handlers used to construct the future proxies.
+  - id: 5
+    name: getStatsFromPartition
     since: 2.0
-  - name: getStatsFromPartition
     doc: |
       Returns statistics of the task
     request:
-      id: 0x1d05
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -176,7 +172,6 @@ methods:
           doc: |
             The name of the task
     response:
-      id: 0x0078
       params:
         - name: lastIdleTimeNanos
           type: long
@@ -208,12 +203,12 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 6
+    name: getStatsFromAddress
     since: 2.0
-  - name: getStatsFromAddress
     doc: |
       Returns statistics of the task
     request:
-      id: 0x1d06
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -237,7 +232,6 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response:
-      id: 0x0078
       params:
         - name: lastIdleTimeNanos
           type: long
@@ -269,12 +263,12 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 7
+    name: getDelayFromPartition
     since: 2.0
-  - name: getDelayFromPartition
     doc: |
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
-      id: 0x1d07
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -292,7 +286,6 @@ methods:
           doc: |
             The name of the task
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -300,12 +293,12 @@ methods:
           since: 2.0
           doc: |
             The remaining delay of the task formatted in nanoseconds.
+  - id: 8
+    name: getDelayFromAddress
     since: 2.0
-  - name: getDelayFromAddress
     doc: |
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
-      id: 0x1d08
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -329,7 +322,6 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response:
-      id: 0x0067
       params:
         - name: response
           type: long
@@ -337,12 +329,12 @@ methods:
           since: 2.0
           doc: |
             The remaining delay of the task formatted in nanoseconds.
+  - id: 9
+    name: cancelFromPartition
     since: 2.0
-  - name: cancelFromPartition
     doc: |
       Cancels further execution and scheduling of the task
     request:
-      id: 0x1d09
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -366,7 +358,6 @@ methods:
           doc: |
             A boolean flag to indicate whether the task should be interrupted.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -374,12 +365,12 @@ methods:
           since: 2.0
           doc: |
             True if the task was cancelled
+  - id: 10
+    name: cancelFromAddress
     since: 2.0
-  - name: cancelFromAddress
     doc: |
       Cancels further execution and scheduling of the task
     request:
-      id: 0x1d0a
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -409,7 +400,6 @@ methods:
           doc: |
             A boolean flag to indicate whether the task should be interrupted.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -417,12 +407,12 @@ methods:
           since: 2.0
           doc: |
             True if the task was cancelled
+  - id: 11
+    name: isCancelledFromPartition
     since: 2.0
-  - name: isCancelledFromPartition
     doc: |
       Checks whether a task as identified from the given handler is already cancelled.
     request:
-      id: 0x1d0b
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -440,7 +430,6 @@ methods:
           doc: |
             The name of the task
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -448,12 +437,12 @@ methods:
           since: 2.0
           doc: |
             True if the task is cancelled
+  - id: 12
+    name: isCancelledFromAddress
     since: 2.0
-  - name: isCancelledFromAddress
     doc: |
       Checks whether a task as identified from the given handler is already cancelled.
     request:
-      id: 0x1d0c
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -477,7 +466,6 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -485,13 +473,13 @@ methods:
           since: 2.0
           doc: |
             True if the task is cancelled
+  - id: 13
+    name: isDoneFromPartition
     since: 2.0
-  - name: isDoneFromPartition
     doc: |
       Checks whether a task is done.
       @see {@link java.util.concurrent.Future#cancel(boolean)}
     request:
-      id: 0x1d0d
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -509,7 +497,6 @@ methods:
           doc: |
             The name of the task
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -517,13 +504,13 @@ methods:
           since: 2.0
           doc: |
             True if the task is done
+  - id: 14
+    name: isDoneFromAddress
     since: 2.0
-  - name: isDoneFromAddress
     doc: |
       Checks whether a task is done.
       @see {@link java.util.concurrent.Future#cancel(boolean)}
     request:
-      id: 0x1d0e
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -547,7 +534,6 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -555,13 +541,13 @@ methods:
           since: 2.0
           doc: |
             True if the task is done
+  - id: 15
+    name: getResultFromPartition
     since: 2.0
-  - name: getResultFromPartition
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
       The call will blocking until the result is ready.
     request:
-      id: 0x1d0f
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -579,7 +565,6 @@ methods:
           doc: |
             The name of the task
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -587,13 +572,13 @@ methods:
           since: 2.0
           doc: |
             The result of the completed task, in serialized form ({
+  - id: 16
+    name: getResultFromAddress
     since: 2.0
-  - name: getResultFromAddress
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
       The call will blocking until the result is ready.
     request:
-      id: 0x1d10
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -617,7 +602,6 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response:
-      id: 0x0069
       params:
         - name: response
           type: Data
@@ -625,12 +609,12 @@ methods:
           since: 2.0
           doc: |
             The result of the completed task, in serialized form ({
+  - id: 17
+    name: disposeFromPartition
     since: 2.0
-  - name: disposeFromPartition
     doc: |
       Dispose the task from the scheduler
     request:
-      id: 0x1d11
       retryable: true
       acquiresResource: false
       partitionIdentifier: taskName
@@ -647,14 +631,13 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-    response:
-      id: 0x0064
+    response: {}
+  - id: 18
+    name: disposeFromAddress
     since: 2.0
-  - name: disposeFromAddress
     doc: |
       Dispose the task from the scheduler
     request:
-      id: 0x1d12
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -677,6 +660,4 @@ methods:
           since: 2.0
           doc: |
             The address of the member where the task will get scheduled.
-    response:
-      id: 0x0064
-    since: 2.0
+    response: {}

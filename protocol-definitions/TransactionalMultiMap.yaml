@@ -1,12 +1,12 @@
 id: 17
 name: TransactionalMultiMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: put
+  - id: 1
+    name: put
+    since: 2.0
     doc: |
       Stores a key-value pair in the multimap.
     request:
-      id: 0x1101
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -42,7 +42,6 @@ methods:
           doc: |
             The value to be stored
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -50,12 +49,12 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap is increased, false if the multimap already contains the key-value pair.
+  - id: 2
+    name: get
     since: 2.0
-  - name: get
     doc: |
       Returns the collection of values associated with the key.
     request:
-      id: 0x1102
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -85,7 +84,6 @@ methods:
           doc: |
             The key whose associated values are returned
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -93,12 +91,12 @@ methods:
           since: 2.0
           doc: |
             The collection of the values associated with the key
+  - id: 3
+    name: remove
     since: 2.0
-  - name: remove
     doc: |
       Removes the given key value pair from the multimap.
     request:
-      id: 0x1103
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -128,7 +126,6 @@ methods:
           doc: |
             The key whose associated values are returned
     response:
-      id: 0x006a
       params:
         - name: response
           type: List_Data
@@ -136,12 +133,12 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 4
+    name: removeEntry
     since: 2.0
-  - name: removeEntry
     doc: |
       Removes all the entries associated with the given key.
     request:
-      id: 0x1104
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -177,7 +174,6 @@ methods:
           doc: |
             The value to be stored
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -185,12 +181,12 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 5
+    name: valueCount
     since: 2.0
-  - name: valueCount
     doc: |
       Returns the number of values matching the given key in the multimap.
     request:
-      id: 0x1105
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -220,7 +216,6 @@ methods:
           doc: |
             The key whose number of values are returned
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -228,12 +223,12 @@ methods:
           since: 2.0
           doc: |
             The number of values matching the given key in the multimap
+  - id: 6
+    name: size
     since: 2.0
-  - name: size
     doc: |
       Returns the number of key-value pairs in the multimap.
     request:
-      id: 0x1106
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -257,7 +252,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -265,4 +259,3 @@ methods:
           since: 2.0
           doc: |
             The number of key-value pairs in the multimap
-    since: 2.0
