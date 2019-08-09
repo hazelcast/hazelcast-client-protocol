@@ -1,6 +1,5 @@
 id: 8
 name: Condition
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: await

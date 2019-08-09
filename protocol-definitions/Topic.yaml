@@ -1,6 +1,5 @@
 id: 4
 name: Topic
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: publish

@@ -1,6 +1,5 @@
 id: 36
 name: CPAtomicRef
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: apply

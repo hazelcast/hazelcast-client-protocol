@@ -1,6 +1,5 @@
 id: 13
 name: Semaphore
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: init

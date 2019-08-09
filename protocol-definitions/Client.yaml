@@ -1,6 +1,5 @@
 id: 0
 name: Client
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 2
     name: authentication

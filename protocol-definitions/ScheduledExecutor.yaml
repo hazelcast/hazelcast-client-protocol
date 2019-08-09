@@ -1,6 +1,5 @@
 id: 29
 name: ScheduledExecutor
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: shutdown

@@ -1,6 +1,5 @@
 id: 12
 name: CountDownLatch
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: await

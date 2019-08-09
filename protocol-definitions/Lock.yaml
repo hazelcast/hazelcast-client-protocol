@@ -1,6 +1,5 @@
 id: 7
 name: Lock
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: isLocked

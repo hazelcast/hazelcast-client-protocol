@@ -1,6 +1,5 @@
 id: 18
 name: TransactionalSet
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: add

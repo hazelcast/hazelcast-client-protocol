@@ -1,6 +1,5 @@
 id: 21
 name: Cache
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: addEntryListener

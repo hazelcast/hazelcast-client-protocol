@@ -1,6 +1,5 @@
 id: 23
 name: Transaction
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: commit

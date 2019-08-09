@@ -1,6 +1,5 @@
 id: 14
 name: ReplicatedMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: put

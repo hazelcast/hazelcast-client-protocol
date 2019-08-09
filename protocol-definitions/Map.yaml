@@ -1,6 +1,5 @@
 id: 1
 name: Map
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: put

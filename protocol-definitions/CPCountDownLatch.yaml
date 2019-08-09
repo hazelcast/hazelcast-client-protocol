@@ -1,6 +1,5 @@
 id: 37
 name: CPCountDownLatch
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: trySetCount

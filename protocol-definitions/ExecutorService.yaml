@@ -1,6 +1,5 @@
 id: 9
 name: ExecutorService
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: shutdown

@@ -1,6 +1,5 @@
 id: 31
 name: FlakeIdGenerator
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: newIdBatch

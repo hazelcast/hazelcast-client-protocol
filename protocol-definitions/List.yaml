@@ -1,6 +1,5 @@
 id: 5
 name: List
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: size

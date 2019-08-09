@@ -1,6 +1,5 @@
 id: 17
 name: TransactionalMultiMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: put

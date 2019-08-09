@@ -1,6 +1,5 @@
 id: 16
 name: TransactionalMap
-ns: Hazelcast.Client.Protocol.Codec
 methods:
   - id: 1
     name: containsKey
