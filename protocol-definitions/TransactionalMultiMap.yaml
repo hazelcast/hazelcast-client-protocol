@@ -2,7 +2,9 @@ id: 17
 name: TransactionalMultiMap
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: put
+  - id: 1
+    name: put
+    since: 2.0
     doc: |
       Stores a key-value pair in the multimap.
     request:
@@ -48,9 +50,9 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap is increased, false if the multimap already contains the key-value pair.
+  - id: 2
+    name: get
     since: 2.0
-    id: 1
-  - name: get
     doc: |
       Returns the collection of values associated with the key.
     request:
@@ -90,9 +92,9 @@ methods:
           since: 2.0
           doc: |
             The collection of the values associated with the key
+  - id: 3
+    name: remove
     since: 2.0
-    id: 2
-  - name: remove
     doc: |
       Removes the given key value pair from the multimap.
     request:
@@ -132,9 +134,9 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 4
+    name: removeEntry
     since: 2.0
-    id: 3
-  - name: removeEntry
     doc: |
       Removes all the entries associated with the given key.
     request:
@@ -180,9 +182,9 @@ methods:
           since: 2.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
+  - id: 5
+    name: valueCount
     since: 2.0
-    id: 4
-  - name: valueCount
     doc: |
       Returns the number of values matching the given key in the multimap.
     request:
@@ -222,9 +224,9 @@ methods:
           since: 2.0
           doc: |
             The number of values matching the given key in the multimap
+  - id: 6
+    name: size
     since: 2.0
-    id: 5
-  - name: size
     doc: |
       Returns the number of key-value pairs in the multimap.
     request:
@@ -258,5 +260,3 @@ methods:
           since: 2.0
           doc: |
             The number of key-value pairs in the multimap
-    since: 2.0
-    id: 6

@@ -2,7 +2,9 @@ id: 4
 name: Topic
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: publish
+  - id: 1
+    name: publish
+    since: 2.0
     doc: |
       Publishes the message to all subscribers of this topic
     request:
@@ -23,9 +25,9 @@ methods:
           doc: |
             The message to publish to all subscribers of this topic
     response: {}
+  - id: 2
+    name: addMessageListener
     since: 2.0
-    id: 1
-  - name: addMessageListener
     doc: |
       Subscribes to this topic. When someone publishes a message on this topic. onMessage() function of the given
       MessageListener is called. More than one message listener can be added on one instance.
@@ -75,9 +77,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 3
+    name: removeMessageListener
     since: 2.0
-    id: 2
-  - name: removeMessageListener
     doc: |
       Stops receiving messages for the given message listener.If the given listener already removed, this method does nothing.
     request:
@@ -105,5 +107,3 @@ methods:
           since: 2.0
           doc: |
             True if registration is removed, false otherwise
-    since: 2.0
-    id: 3

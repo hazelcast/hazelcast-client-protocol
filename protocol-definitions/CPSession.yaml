@@ -2,7 +2,9 @@ id: 34
 name: CPSession
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: createSession
+  - id: 1
+    name: createSession
+    since: 2.0
     doc: |
       Creates a session for the caller on the given CP group.
     request:
@@ -42,9 +44,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 2
+    name: closeSession
     since: 2.0
-    id: 1
-  - name: closeSession
     doc: |
       Closes the given session on the given CP group
     request:
@@ -73,9 +75,9 @@ methods:
           doc: |
             true if the session is found & closed,
             false otherwise.
+  - id: 3
+    name: heartbeatSession
     since: 2.0
-    id: 2
-  - name: heartbeatSession
     doc: |
       Commits a heartbeat for the given session on the given cP group and
       extends its session expiration time.
@@ -97,9 +99,9 @@ methods:
           doc: |
             ID of the session
     response: {}
+  - id: 4
+    name: generateThreadId
     since: 2.0
-    id: 3
-  - name: generateThreadId
     doc: |
       Generates a new ID for the caller thread. The ID is unique in the given
       CP group.
@@ -122,5 +124,3 @@ methods:
           since: 2.0
           doc: |
             A unique ID for the caller thread
-    since: 2.0
-    id: 4

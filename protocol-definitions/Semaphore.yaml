@@ -2,7 +2,9 @@ id: 13
 name: Semaphore
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: init
+  - id: 1
+    name: init
+    since: 2.0
     doc: |
       Try to initialize this ISemaphore instance with the given permit count
     request:
@@ -30,9 +32,9 @@ methods:
           since: 2.0
           doc: |
             True if initialization succeeds, false otherwise.
+  - id: 2
+    name: acquire
     since: 2.0
-    id: 1
-  - name: acquire
     doc: |
       Acquires the given number of permits if they are available, and returns immediately, reducing the number of
       available permits by the given amount. If insufficient permits are available then the current thread becomes
@@ -59,9 +61,9 @@ methods:
           doc: |
             The given permit count
     response: {}
+  - id: 3
+    name: availablePermits
     since: 2.0
-    id: 2
-  - name: availablePermits
     doc: |
       Returns the current number of permits currently available in this semaphore. This method is typically used for
       debugging and testing purposes.
@@ -84,9 +86,9 @@ methods:
           since: 2.0
           doc: |
             The number of permits available in this semaphore.
+  - id: 4
+    name: drainPermits
     since: 2.0
-    id: 3
-  - name: drainPermits
     doc: |
       Acquires and returns all permits that are immediately available.
     request:
@@ -108,9 +110,9 @@ methods:
           since: 2.0
           doc: |
             The number of permits drained
+  - id: 5
+    name: reducePermits
     since: 2.0
-    id: 4
-  - name: reducePermits
     doc: |
       Shrinks the number of available permits by the indicated reduction. This method differs from  acquire in that it
       does not block waiting for permits to become available.
@@ -132,9 +134,9 @@ methods:
           doc: |
             The number of permits to remove
     response: {}
+  - id: 6
+    name: release
     since: 2.0
-    id: 5
-  - name: release
     doc: |
       Releases the given number of permits, increasing the number of available permits by that amount. There is no
       requirement that a thread that releases a permit must have acquired that permit by calling one of the
@@ -157,9 +159,9 @@ methods:
           doc: |
             The number of permits to remove
     response: {}
+  - id: 7
+    name: tryAcquire
     since: 2.0
-    id: 6
-  - name: tryAcquire
     doc: |
       Acquires the given number of permits, if they are available, and returns immediately, with the value true,
       reducing the number of available permits by the given amount. If insufficient permits are available then this
@@ -195,9 +197,9 @@ methods:
           since: 2.0
           doc: |
             true if all permits were acquired,  false if the waiting time elapsed before all permits could be acquired
+  - id: 8
+    name: increasePermits
     since: 2.0
-    id: 7
-  - name: increasePermits
     doc: |
       Increases the number of available permits by the indicated amount. This method differs from {@code release}
       in that it does not effect the amount of permits this caller has attached.
@@ -220,5 +222,3 @@ methods:
             The number of permits to add
             @throws IllegalArgumentException if {@code increase} is negative
     response: {}
-    since: 2.0
-    id: 8

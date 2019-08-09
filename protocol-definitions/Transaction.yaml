@@ -2,7 +2,9 @@ id: 23
 name: Transaction
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: commit
+  - id: 1
+    name: commit
+    since: 2.0
     doc: |
       TODO DOC
     request:
@@ -23,9 +25,9 @@ methods:
           doc: |
             The thread id for the transaction.
     response: {}
+  - id: 2
+    name: create
     since: 2.0
-    id: 1
-  - name: create
     doc: |
       TODO DOC
     request:
@@ -71,9 +73,9 @@ methods:
           since: 2.0
           doc: |
             The transaction id for the created transaction.
+  - id: 3
+    name: rollback
     since: 2.0
-    id: 2
-  - name: rollback
     doc: |
       TODO DOC
     request:
@@ -94,5 +96,3 @@ methods:
           doc: |
             The thread id for the transaction.
     response: {}
-    since: 2.0
-    id: 3

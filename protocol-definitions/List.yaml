@@ -2,7 +2,9 @@ id: 5
 name: List
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: size
+  - id: 1
+    name: size
+    since: 2.0
     doc: |
       Returns the number of elements in this list.  If this list contains more than Integer.MAX_VALUE elements, returns
       Integer.MAX_VALUE.
@@ -25,9 +27,9 @@ methods:
           since: 2.0
           doc: |
             The number of elements in this list
+  - id: 2
+    name: contains
     since: 2.0
-    id: 1
-  - name: contains
     doc: |
       Returns true if this list contains the specified element.
     request:
@@ -55,9 +57,9 @@ methods:
           since: 2.0
           doc: |
             True if this list contains the specified element, false otherwise
+  - id: 3
+    name: containsAll
     since: 2.0
-    id: 2
-  - name: containsAll
     doc: |
       Returns true if this list contains all of the elements of the specified collection.
     request:
@@ -86,9 +88,9 @@ methods:
           doc: |
             True if this list contains all of the elements of the
             specified collection
+  - id: 4
+    name: add
     since: 2.0
-    id: 3
-  - name: add
     doc: |
       Appends the specified element to the end of this list (optional operation). Lists that support this operation may
       place limitations on what elements may be added to this list.  In particular, some lists will refuse to add null
@@ -119,9 +121,9 @@ methods:
           since: 2.0
           doc: |
             true if this list changed as a result of the call, false otherwise
+  - id: 5
+    name: remove
     since: 2.0
-    id: 4
-  - name: remove
     doc: |
       Removes the first occurrence of the specified element from this list, if it is present (optional operation).
       If this list does not contain the element, it is unchanged.
@@ -151,9 +153,9 @@ methods:
           since: 2.0
           doc: |
             True if this list contained the specified element, false otherwise
+  - id: 6
+    name: addAll
     since: 2.0
-    id: 5
-  - name: addAll
     doc: |
       Appends all of the elements in the specified collection to the end of this list, in the order that they are
       returned by the specified collection's iterator (optional operation).
@@ -184,9 +186,9 @@ methods:
           since: 2.0
           doc: |
             True if this list changed as a result of the call, false otherwise
+  - id: 7
+    name: compareAndRemoveAll
     since: 2.0
-    id: 6
-  - name: compareAndRemoveAll
     doc: |
       Removes from this list all of its elements that are contained in the specified collection (optional operation).
     request:
@@ -214,9 +216,9 @@ methods:
           since: 2.0
           doc: |
             True if removed at least one of the items, false otherwise.
+  - id: 8
+    name: compareAndRetainAll
     since: 2.0
-    id: 7
-  - name: compareAndRetainAll
     doc: |
       Retains only the elements in this list that are contained in the specified collection (optional operation).
       In other words, removes from this list all of its elements that are not contained in the specified collection.
@@ -245,9 +247,9 @@ methods:
           since: 2.0
           doc: |
             True if this list changed as a result of the call, false otherwise.
+  - id: 9
+    name: clear
     since: 2.0
-    id: 8
-  - name: clear
     doc: |
       Removes all of the elements from this list (optional operation). The list will be empty after this call returns.
     request:
@@ -262,9 +264,9 @@ methods:
           doc: |
             Name of the List
     response: {}
+  - id: 10
+    name: getAll
     since: 2.0
-    id: 9
-  - name: getAll
     doc: |
       Return the all elements of this collection
     request:
@@ -286,9 +288,9 @@ methods:
           since: 2.0
           doc: |
             An array of all item values in the list.
+  - id: 11
+    name: addListener
     since: 2.0
-    id: 10
-  - name: addListener
     doc: |
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
@@ -343,9 +345,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 12
+    name: removeListener
     since: 2.0
-    id: 11
-  - name: removeListener
     doc: |
       Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
@@ -373,9 +375,9 @@ methods:
           since: 2.0
           doc: |
             True if unregistered, false otherwise.
+  - id: 13
+    name: isEmpty
     since: 2.0
-    id: 12
-  - name: isEmpty
     doc: |
       Returns true if this list contains no elements
     request:
@@ -397,9 +399,9 @@ methods:
           since: 2.0
           doc: |
             True if this list contains no elements
+  - id: 14
+    name: addAllWithIndex
     since: 2.0
-    id: 13
-  - name: addAllWithIndex
     doc: |
       Inserts all of the elements in the specified collection into this list at the specified position (optional operation).
       Shifts the element currently at that position (if any) and any subsequent elements to the right (increases their indices).
@@ -437,9 +439,9 @@ methods:
           since: 2.0
           doc: |
             True if this list changed as a result of the call, false otherwise.
+  - id: 15
+    name: get
     since: 2.0
-    id: 14
-  - name: get
     doc: |
       Returns the element at the specified position in this list
     request:
@@ -467,9 +469,9 @@ methods:
           since: 2.0
           doc: |
             The element at the specified position in this list
+  - id: 16
+    name: set
     since: 2.0
-    id: 15
-  - name: set
     doc: |
       The element previously at the specified position
     request:
@@ -503,9 +505,9 @@ methods:
           since: 2.0
           doc: |
             The element previously at the specified position
+  - id: 17
+    name: addWithIndex
     since: 2.0
-    id: 16
-  - name: addWithIndex
     doc: |
       Inserts the specified element at the specified position in this list (optional operation). Shifts the element
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
@@ -533,9 +535,9 @@ methods:
           doc: |
             Value to be inserted.
     response: {}
+  - id: 18
+    name: removeWithIndex
     since: 2.0
-    id: 17
-  - name: removeWithIndex
     doc: |
       Removes the element at the specified position in this list (optional operation). Shifts any subsequent elements
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
@@ -564,9 +566,9 @@ methods:
           since: 2.0
           doc: |
             The element previously at the specified position
+  - id: 19
+    name: lastIndexOf
     since: 2.0
-    id: 18
-  - name: lastIndexOf
     doc: |
       Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
@@ -596,9 +598,9 @@ methods:
           doc: |
             the index of the last occurrence of the specified element in
             this list, or -1 if this list does not contain the element
+  - id: 20
+    name: indexOf
     since: 2.0
-    id: 19
-  - name: indexOf
     doc: |
       Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
@@ -628,9 +630,9 @@ methods:
           doc: |
             The index of the first occurrence of the specified element in
             this list, or -1 if this list does not contain the element
+  - id: 21
+    name: sub
     since: 2.0
-    id: 20
-  - name: sub
     doc: |
       Returns a view of the portion of this list between the specified from, inclusive, and to, exclusive.(If from and
       to are equal, the returned list is empty.) The returned list is backed by this list, so non-structural changes in
@@ -674,9 +676,9 @@ methods:
           since: 2.0
           doc: |
             A view of the specified range within this list
+  - id: 22
+    name: iterator
     since: 2.0
-    id: 21
-  - name: iterator
     doc: |
       Returns an iterator over the elements in this list in proper sequence.
     request:
@@ -698,9 +700,9 @@ methods:
           since: 2.0
           doc: |
             An iterator over the elements in this list in proper sequence
+  - id: 23
+    name: listIterator
     since: 2.0
-    id: 22
-  - name: listIterator
     doc: |
       Returns a list iterator over the elements in this list (in proper sequence), starting at the specified position
       in the list. The specified index indicates the first element that would be returned by an initial call to
@@ -732,5 +734,3 @@ methods:
           doc: |
             a list iterator over the elements in this list (in proper
             sequence), starting at the specified position in the list
-    since: 2.0
-    id: 23

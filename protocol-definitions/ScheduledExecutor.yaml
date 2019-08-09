@@ -2,7 +2,9 @@ id: 29
 name: ScheduledExecutor
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: shutdown
+  - id: 1
+    name: shutdown
+    since: 2.0
     doc: |
       Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
@@ -24,9 +26,9 @@ methods:
           doc: |
             The cluster member where the shutdown for this scheduler will be sent.
     response: {}
+  - id: 2
+    name: submitToPartition
     since: 2.0
-    id: 1
-  - name: submitToPartition
     doc: |
       Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
     request:
@@ -71,9 +73,9 @@ methods:
           doc: |
             period between each run in milliseconds
     response: {}
+  - id: 3
+    name: submitToAddress
     since: 2.0
-    id: 2
-  - name: submitToAddress
     doc: |
       Submits the task to a member for execution, member is provided in the form of an address.
     request:
@@ -124,9 +126,9 @@ methods:
           doc: |
             period between each run in milliseconds
     response: {}
+  - id: 4
+    name: getAllScheduledFutures
     since: 2.0
-    id: 3
-  - name: getAllScheduledFutures
     doc: |
       Returns all scheduled tasks in for a given scheduler in the given member.
     request:
@@ -148,9 +150,9 @@ methods:
           since: 2.0
           doc: |
             A list of scheduled task handlers used to construct the future proxies.
+  - id: 5
+    name: getStatsFromPartition
     since: 2.0
-    id: 4
-  - name: getStatsFromPartition
     doc: |
       Returns statistics of the task
     request:
@@ -202,9 +204,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 6
+    name: getStatsFromAddress
     since: 2.0
-    id: 5
-  - name: getStatsFromAddress
     doc: |
       Returns statistics of the task
     request:
@@ -262,9 +264,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 7
+    name: getDelayFromPartition
     since: 2.0
-    id: 6
-  - name: getDelayFromPartition
     doc: |
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
@@ -292,9 +294,9 @@ methods:
           since: 2.0
           doc: |
             The remaining delay of the task formatted in nanoseconds.
+  - id: 8
+    name: getDelayFromAddress
     since: 2.0
-    id: 7
-  - name: getDelayFromAddress
     doc: |
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
@@ -328,9 +330,9 @@ methods:
           since: 2.0
           doc: |
             The remaining delay of the task formatted in nanoseconds.
+  - id: 9
+    name: cancelFromPartition
     since: 2.0
-    id: 8
-  - name: cancelFromPartition
     doc: |
       Cancels further execution and scheduling of the task
     request:
@@ -364,9 +366,9 @@ methods:
           since: 2.0
           doc: |
             True if the task was cancelled
+  - id: 10
+    name: cancelFromAddress
     since: 2.0
-    id: 9
-  - name: cancelFromAddress
     doc: |
       Cancels further execution and scheduling of the task
     request:
@@ -406,9 +408,9 @@ methods:
           since: 2.0
           doc: |
             True if the task was cancelled
+  - id: 11
+    name: isCancelledFromPartition
     since: 2.0
-    id: 10
-  - name: isCancelledFromPartition
     doc: |
       Checks whether a task as identified from the given handler is already cancelled.
     request:
@@ -436,9 +438,9 @@ methods:
           since: 2.0
           doc: |
             True if the task is cancelled
+  - id: 12
+    name: isCancelledFromAddress
     since: 2.0
-    id: 11
-  - name: isCancelledFromAddress
     doc: |
       Checks whether a task as identified from the given handler is already cancelled.
     request:
@@ -472,9 +474,9 @@ methods:
           since: 2.0
           doc: |
             True if the task is cancelled
+  - id: 13
+    name: isDoneFromPartition
     since: 2.0
-    id: 12
-  - name: isDoneFromPartition
     doc: |
       Checks whether a task is done.
       @see {@link java.util.concurrent.Future#cancel(boolean)}
@@ -503,9 +505,9 @@ methods:
           since: 2.0
           doc: |
             True if the task is done
+  - id: 14
+    name: isDoneFromAddress
     since: 2.0
-    id: 13
-  - name: isDoneFromAddress
     doc: |
       Checks whether a task is done.
       @see {@link java.util.concurrent.Future#cancel(boolean)}
@@ -540,9 +542,9 @@ methods:
           since: 2.0
           doc: |
             True if the task is done
+  - id: 15
+    name: getResultFromPartition
     since: 2.0
-    id: 14
-  - name: getResultFromPartition
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
       The call will blocking until the result is ready.
@@ -571,9 +573,9 @@ methods:
           since: 2.0
           doc: |
             The result of the completed task, in serialized form ({
+  - id: 16
+    name: getResultFromAddress
     since: 2.0
-    id: 15
-  - name: getResultFromAddress
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
       The call will blocking until the result is ready.
@@ -608,9 +610,9 @@ methods:
           since: 2.0
           doc: |
             The result of the completed task, in serialized form ({
+  - id: 17
+    name: disposeFromPartition
     since: 2.0
-    id: 16
-  - name: disposeFromPartition
     doc: |
       Dispose the task from the scheduler
     request:
@@ -631,9 +633,9 @@ methods:
           doc: |
             The name of the task
     response: {}
+  - id: 18
+    name: disposeFromAddress
     since: 2.0
-    id: 17
-  - name: disposeFromAddress
     doc: |
       Dispose the task from the scheduler
     request:
@@ -660,5 +662,3 @@ methods:
           doc: |
             The address of the member where the task will get scheduled.
     response: {}
-    since: 2.0
-    id: 18

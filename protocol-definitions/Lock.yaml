@@ -2,7 +2,9 @@ id: 7
 name: Lock
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: isLocked
+  - id: 1
+    name: isLocked
+    since: 2.0
     doc: |
       Returns whether this lock is locked or not.
     request:
@@ -24,9 +26,9 @@ methods:
           since: 2.0
           doc: |
             True if this lock is locked, false otherwise.
+  - id: 2
+    name: isLockedByCurrentThread
     since: 2.0
-    id: 1
-  - name: isLockedByCurrentThread
     doc: |
       Returns whether this lock is locked by current thread or not.
     request:
@@ -54,9 +56,9 @@ methods:
           since: 2.0
           doc: |
             True if this lock is locked by current thread, false otherwise.
+  - id: 3
+    name: getLockCount
     since: 2.0
-    id: 2
-  - name: getLockCount
     doc: |
       Returns re-entrant lock hold count, regardless of lock ownership.
     request:
@@ -78,9 +80,9 @@ methods:
           since: 2.0
           doc: |
             The lock hold count.
+  - id: 4
+    name: getRemainingLeaseTime
     since: 2.0
-    id: 3
-  - name: getRemainingLeaseTime
     doc: |
       Returns remaining lease time in milliseconds. If the lock is not locked then -1 will be returned
     request:
@@ -102,9 +104,9 @@ methods:
           since: 2.0
           doc: |
             Remaining lease time in milliseconds.
+  - id: 5
+    name: lock
     since: 2.0
-    id: 4
-  - name: lock
     doc: |
       Acquires the lock for the specified lease time.After lease time, lock will be released.If the lock is not
       available then the current thread becomes disabled for thread scheduling purposes and lies dormant until the lock
@@ -139,9 +141,9 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response: {}
+  - id: 6
+    name: unlock
     since: 2.0
-    id: 5
-  - name: unlock
     doc: |
       Releases the lock.
     request:
@@ -168,9 +170,9 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response: {}
+  - id: 7
+    name: forceUnlock
     since: 2.0
-    id: 6
-  - name: forceUnlock
     doc: |
       Releases the lock regardless of the lock owner. It always successfully unlocks, never blocks,
       and returns immediately.
@@ -192,9 +194,9 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response: {}
+  - id: 8
+    name: tryLock
     since: 2.0
-    id: 7
-  - name: tryLock
     doc: |
       Tries to acquire the lock for the specified lease time.After lease time, the lock will be released.
       If the lock is not available, then the current thread becomes disabled for thread scheduling purposes and lies
@@ -243,5 +245,3 @@ methods:
           since: 2.0
           doc: |
             true if the lock was acquired and false if the waiting time elapsed before the lock was acquired.
-    since: 2.0
-    id: 8

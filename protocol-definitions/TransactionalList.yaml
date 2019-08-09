@@ -2,7 +2,9 @@ id: 19
 name: TransactionalList
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: add
+  - id: 1
+    name: add
+    since: 2.0
     doc: |
       Adds a new item to the transactional list.
     request:
@@ -42,9 +44,9 @@ methods:
           since: 2.0
           doc: |
             True if the item is added successfully, false otherwise
+  - id: 2
+    name: remove
     since: 2.0
-    id: 1
-  - name: remove
     doc: |
       Remove item from the transactional list
     request:
@@ -84,9 +86,9 @@ methods:
           since: 2.0
           doc: |
             True if the removed successfully,false otherwise
+  - id: 3
+    name: size
     since: 2.0
-    id: 2
-  - name: size
     doc: |
       Returns the size of the list
     request:
@@ -120,5 +122,3 @@ methods:
           since: 2.0
           doc: |
             The size of the list
-    since: 2.0
-    id: 3

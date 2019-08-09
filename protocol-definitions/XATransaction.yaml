@@ -2,7 +2,9 @@ id: 22
 name: XATransaction
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: clearRemote
+  - id: 1
+    name: clearRemote
+    since: 2.0
     doc: |
       TODO DOC
     request:
@@ -17,9 +19,9 @@ methods:
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
     response: {}
+  - id: 2
+    name: collectTransactions
     since: 2.0
-    id: 1
-  - name: collectTransactions
     doc: |
       TODO DOC
     request:
@@ -34,9 +36,9 @@ methods:
           since: 2.0
           doc: |
             Array of Xids.
+  - id: 3
+    name: finalize
     since: 2.0
-    id: 2
-  - name: finalize
     doc: |
       TODO DOC
     request:
@@ -57,9 +59,9 @@ methods:
           doc: |
             If true, the transaction is committed else transaction is rolled back.
     response: {}
+  - id: 4
+    name: commit
     since: 2.0
-    id: 3
-  - name: commit
     doc: |
       TODO DOC
     request:
@@ -80,9 +82,9 @@ methods:
           doc: |
             If true, the prepare is also done.
     response: {}
+  - id: 5
+    name: create
     since: 2.0
-    id: 4
-  - name: create
     doc: |
       TODO DOC
     request:
@@ -110,9 +112,9 @@ methods:
           since: 2.0
           doc: |
             The transaction unique identifier.
+  - id: 6
+    name: prepare
     since: 2.0
-    id: 5
-  - name: prepare
     doc: |
       TODO DOC
     request:
@@ -127,9 +129,9 @@ methods:
           doc: |
             The id of the transaction to prepare.
     response: {}
+  - id: 7
+    name: rollback
     since: 2.0
-    id: 6
-  - name: rollback
     doc: |
       TODO DOC
     request:
@@ -144,5 +146,3 @@ methods:
           doc: |
             The id of the transaction to rollback.
     response: {}
-    since: 2.0
-    id: 7

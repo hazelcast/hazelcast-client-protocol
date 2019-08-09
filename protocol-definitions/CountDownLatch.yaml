@@ -2,7 +2,9 @@ id: 12
 name: CountDownLatch
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: await
+  - id: 1
+    name: await
+    since: 2.0
     doc: |
       Causes the current thread to wait until the latch has counted down to zero, or an exception is thrown, or the
       specified waiting time elapses. If the current count is zero then this method returns immediately with the value
@@ -39,9 +41,9 @@ methods:
           since: 2.0
           doc: |
             True if the count reached zero, false if the waiting time elapsed before the count reached zero
+  - id: 2
+    name: countDown
     since: 2.0
-    id: 1
-  - name: countDown
     doc: |
       Decrements the count of the latch, releasing all waiting threads if the count reaches zero. If the current count
       is greater than zero, then it is decremented. If the new count is zero: All waiting threads are re-enabled for
@@ -58,9 +60,9 @@ methods:
           doc: |
             Name of the CountDownLatch
     response: {}
+  - id: 3
+    name: getCount
     since: 2.0
-    id: 2
-  - name: getCount
     doc: |
       Returns the current count.
     request:
@@ -82,9 +84,9 @@ methods:
           since: 2.0
           doc: |
             The current count for the latch.
+  - id: 4
+    name: trySetCount
     since: 2.0
-    id: 3
-  - name: trySetCount
     doc: |
       Sets the count to the given value if the current count is zero. If the count is not zero, then this method does
       nothing and returns false
@@ -113,5 +115,3 @@ methods:
           since: 2.0
           doc: |
             True if the new count was set, false if the current count is not zero.
-    since: 2.0
-    id: 4

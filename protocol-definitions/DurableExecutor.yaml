@@ -2,7 +2,9 @@ id: 27
 name: DurableExecutor
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: shutdown
+  - id: 1
+    name: shutdown
+    since: 2.0
     doc: |
       Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
@@ -18,9 +20,9 @@ methods:
           doc: |
             Name of the executor.
     response: {}
+  - id: 2
+    name: isShutdown
     since: 2.0
-    id: 1
-  - name: isShutdown
     doc: |
       Returns true if this executor has been shut down.
     request:
@@ -42,9 +44,9 @@ methods:
           since: 2.0
           doc: |
             true if this executor has been shut down
+  - id: 3
+    name: submitToPartition
     since: 2.0
-    id: 2
-  - name: submitToPartition
     doc: |
       Submits the task to partition for execution
     request:
@@ -72,9 +74,9 @@ methods:
           since: 2.0
           doc: |
             the sequence for the submitted execution.
+  - id: 4
+    name: retrieveResult
     since: 2.0
-    id: 3
-  - name: retrieveResult
     doc: |
       Retrieves the result of the execution with the given sequence
     request:
@@ -102,9 +104,9 @@ methods:
           since: 2.0
           doc: |
             The result of the callable execution with the given sequence.
+  - id: 5
+    name: disposeResult
     since: 2.0
-    id: 4
-  - name: disposeResult
     doc: |
       Disposes the result of the execution with the given sequence
     request:
@@ -125,9 +127,9 @@ methods:
           doc: |
             Sequence of the execution.
     response: {}
+  - id: 6
+    name: retrieveAndDisposeResult
     since: 2.0
-    id: 5
-  - name: retrieveAndDisposeResult
     doc: |
       Retrieves and disposes the result of the execution with the given sequence
     request:
@@ -155,5 +157,3 @@ methods:
           since: 2.0
           doc: |
             The result of the callable execution with the given sequence.
-    since: 2.0
-    id: 6

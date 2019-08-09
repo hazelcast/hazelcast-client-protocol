@@ -2,7 +2,9 @@ id: 38
 name: CPFencedLock
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: lock
+  - id: 1
+    name: lock
+    since: 2.0
     doc: |
       Acquires the given FencedLock on the given CP group. If the lock is
       acquired, a valid fencing token (positive number) is returned. If not
@@ -55,9 +57,9 @@ methods:
           doc: |
             a valid fencing token (positive number) if the lock
             is acquired, otherwise -1.
+  - id: 2
+    name: tryLock
     since: 2.0
-    id: 1
-  - name: tryLock
     doc: |
       Attempts to acquire the given FencedLock on the given CP group.
       If the lock is acquired, a valid fencing token (positive number) is
@@ -117,9 +119,9 @@ methods:
           doc: |
             a valid fencing token (positive number) if the lock
             is acquired, otherwise -1.
+  - id: 3
+    name: unlock
     since: 2.0
-    id: 2
-  - name: unlock
     doc: |
       Unlocks the given FencedLock on the given CP group. If the lock is
       not acquired, the call fails with {@link IllegalMonitorStateException}.
@@ -170,9 +172,9 @@ methods:
           doc: |
             true if the lock is still held by the caller after
             a successful unlock() call, false otherwise.
+  - id: 4
+    name: getLockOwnership
     since: 2.0
-    id: 3
-  - name: getLockOwnership
     doc: |
       Returns current lock ownership status of the given FencedLock instance.
     request:
@@ -218,5 +220,3 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    since: 2.0
-    id: 4

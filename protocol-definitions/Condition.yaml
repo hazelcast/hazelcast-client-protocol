@@ -2,7 +2,9 @@ id: 8
 name: Condition
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: await
+  - id: 1
+    name: await
+    since: 2.0
     doc: |
       Causes the current thread to wait until it is signalled or interrupted, or the specified waiting time elapses.
     request:
@@ -48,9 +50,9 @@ methods:
           since: 2.0
           doc: |
             False if the waiting time detectably elapsed before return from the method, else true
+  - id: 2
+    name: beforeAwait
     since: 2.0
-    id: 1
-  - name: beforeAwait
     doc: |
       Causes the current thread to wait until it is signalled or Thread#interrupt interrupted. The lock associated with
       this Condition is atomically released and the current thread becomes disabled for thread scheduling purposes and
@@ -98,9 +100,9 @@ methods:
           doc: |
             The client-wide unique id for this request. It is used to make the request idempotent by sending the same reference id during retries.
     response: {}
+  - id: 3
+    name: signal
     since: 2.0
-    id: 2
-  - name: signal
     doc: |
       If any threads are waiting on this condition then one is selected for waking up.That thread must then re-acquire
       the lock before returning from await. An implementation may (and typically does) require that the
@@ -131,9 +133,9 @@ methods:
           doc: |
             Name of the lock to wait on.
     response: {}
+  - id: 4
+    name: signalAll
     since: 2.0
-    id: 3
-  - name: signalAll
     doc: |
       If any threads are waiting on this condition then they are all woken up. Each thread must re-acquire the lock
       before it can return from
@@ -161,5 +163,3 @@ methods:
           doc: |
             Name of the lock to wait on.
     response: {}
-    since: 2.0
-    id: 4

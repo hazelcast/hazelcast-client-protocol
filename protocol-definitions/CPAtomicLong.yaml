@@ -2,7 +2,9 @@ id: 35
 name: CPAtomicLong
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: apply
+  - id: 1
+    name: apply
+    since: 2.0
     doc: |
       Applies a function on the value, the actual stored value will not change
     request:
@@ -37,9 +39,9 @@ methods:
           since: 2.0
           doc: |
             The result of the function application.
+  - id: 2
+    name: alter
     since: 2.0
-    id: 1
-  - name: alter
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
@@ -79,9 +81,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 3
+    name: addAndGet
     since: 2.0
-    id: 2
-  - name: addAndGet
     doc: |
       Atomically adds the given value to the current value.
     request:
@@ -115,9 +117,9 @@ methods:
           since: 2.0
           doc: |
             the updated value, the given value added to the current value
+  - id: 4
+    name: compareAndSet
     since: 2.0
-    id: 3
-  - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current
       value the expected value.
@@ -159,9 +161,9 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
+  - id: 5
+    name: get
     since: 2.0
-    id: 4
-  - name: get
     doc: |
       Gets the current value.
     request:
@@ -189,9 +191,9 @@ methods:
           since: 2.0
           doc: |
             The current value
+  - id: 6
+    name: getAndAdd
     since: 2.0
-    id: 5
-  - name: getAndAdd
     doc: |
       Atomically adds the given value to the current value.
     request:
@@ -225,9 +227,9 @@ methods:
           since: 2.0
           doc: |
             the old value before the add
+  - id: 7
+    name: getAndSet
     since: 2.0
-    id: 6
-  - name: getAndSet
     doc: |
       Atomically sets the given value and returns the old value.
     request:
@@ -261,5 +263,3 @@ methods:
           since: 2.0
           doc: |
             the old value
-    since: 2.0
-    id: 7

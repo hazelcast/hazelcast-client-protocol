@@ -2,7 +2,9 @@ id: 33
 name: CPGroup
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: createCPGroup
+  - id: 1
+    name: createCPGroup
+    since: 2.0
     doc: |
       Creates a new CP group with the given name
     request:
@@ -24,9 +26,9 @@ methods:
           since: 2.0
           doc: |
             ID of the CP group that contains the CP object
+  - id: 2
+    name: destroyCPObject
     since: 2.0
-    id: 1
-  - name: destroyCPObject
     doc: |
       Destroys the distributed object with the given name on the requested
       CP group
@@ -54,5 +56,3 @@ methods:
           doc: |
             The name of this distributed object
     response: {}
-    since: 2.0
-    id: 2

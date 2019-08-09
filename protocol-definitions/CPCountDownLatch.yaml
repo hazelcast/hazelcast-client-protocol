@@ -2,7 +2,9 @@ id: 37
 name: CPCountDownLatch
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: trySetCount
+  - id: 1
+    name: trySetCount
+    since: 2.0
     doc: |
       Sets the count to the given value if the current count is zero.
       If the count is not zero, then this method does nothing
@@ -40,9 +42,9 @@ methods:
           doc: |
             true if the new count was set,
             false if the current count is not zero.
+  - id: 2
+    name: await
     since: 2.0
-    id: 1
-  - name: await
     doc: |
       Causes the current thread to wait until the latch has counted down
       to zero, or an exception is thrown, or the specified waiting time
@@ -98,9 +100,9 @@ methods:
           doc: |
             true if the count reached zero, false if
             the waiting time elapsed before the count reached 0
+  - id: 3
+    name: countDown
     since: 2.0
-    id: 2
-  - name: countDown
     doc: |
       Decrements the count of the latch, releasing all waiting threads if
       the count reaches zero. If the current count is greater than zero, then
@@ -137,9 +139,9 @@ methods:
           doc: |
             The round this invocation will be performed on
     response: {}
+  - id: 4
+    name: getCount
     since: 2.0
-    id: 3
-  - name: getCount
     doc: |
       Returns the current count.
     request:
@@ -167,9 +169,9 @@ methods:
           since: 2.0
           doc: |
             The current count of this CountDownLatch instance
+  - id: 5
+    name: getRound
     since: 2.0
-    id: 4
-  - name: getRound
     doc: |
       Returns the current round. A round completes when the count value
       reaches to 0 and a new round starts afterwards.
@@ -198,5 +200,3 @@ methods:
           since: 2.0
           doc: |
             The current round of this CountDownLatch instance
-    since: 2.0
-    id: 5

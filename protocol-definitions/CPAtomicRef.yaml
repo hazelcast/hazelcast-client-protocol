@@ -2,7 +2,9 @@ id: 36
 name: CPAtomicRef
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: apply
+  - id: 1
+    name: apply
+    since: 2.0
     doc: |
       Applies a function on the value
     request:
@@ -50,9 +52,9 @@ methods:
           since: 2.0
           doc: |
             The result of the function application.
+  - id: 2
+    name: compareAndSet
     since: 2.0
-    id: 1
-  - name: compareAndSet
     doc: |
       Alters the currently stored value by applying a function on it.
     request:
@@ -93,9 +95,9 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
+  - id: 3
+    name: contains
     since: 2.0
-    id: 2
-  - name: contains
     doc: |
       Checks if the reference contains the value.
     request:
@@ -129,9 +131,9 @@ methods:
           since: 2.0
           doc: |
             true if the value is found, false otherwise.
+  - id: 5
+    name: get
     since: 2.0
-    id: 3
-  - name: get
     doc: |
       Gets the current value.
     request:
@@ -159,9 +161,9 @@ methods:
           since: 2.0
           doc: |
             The current value
+  - id: 6
+    name: set
     since: 2.0
-    id: 5
-  - name: set
     doc: |
       Atomically sets the given value
     request:
@@ -202,5 +204,3 @@ methods:
           doc: |
             the old value or null, depending on
             the {
-    since: 2.0
-    id: 6

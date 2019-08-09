@@ -2,7 +2,9 @@ id: 3
 name: Queue
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: offer
+  - id: 1
+    name: offer
+    since: 2.0
     doc: |
       Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
       become available.
@@ -37,9 +39,9 @@ methods:
           since: 2.0
           doc: |
             <tt>True</tt> if the element was added to this queue, else <tt>false</tt>
+  - id: 2
+    name: put
     since: 2.0
-    id: 1
-  - name: put
     doc: |
       Inserts the specified element into this queue, waiting if necessary for space to become available.
     request:
@@ -60,9 +62,9 @@ methods:
           doc: |
             The element to add
     response: {}
+  - id: 3
+    name: size
     since: 2.0
-    id: 2
-  - name: size
     doc: |
       Returns the number of elements in this collection.  If this collection contains more than Integer.MAX_VALUE
       elements, returns Integer.MAX_VALUE
@@ -85,9 +87,9 @@ methods:
           since: 2.0
           doc: |
             The number of elements in this collection
+  - id: 4
+    name: remove
     since: 2.0
-    id: 3
-  - name: remove
     doc: |
       Retrieves and removes the head of this queue.  This method differs from poll only in that it throws an exception
       if this queue is empty.
@@ -116,9 +118,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this queue changed as a result of the call
+  - id: 5
+    name: poll
     since: 2.0
-    id: 4
-  - name: poll
     doc: |
       Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
       to become available.
@@ -147,9 +149,9 @@ methods:
           since: 2.0
           doc: |
             The head of this queue, or <tt>null</tt> if this queue is empty
+  - id: 6
+    name: take
     since: 2.0
-    id: 5
-  - name: take
     doc: |
       Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
     request:
@@ -171,9 +173,9 @@ methods:
           since: 2.0
           doc: |
             The head of this queue
+  - id: 7
+    name: peek
     since: 2.0
-    id: 6
-  - name: peek
     doc: |
       Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     request:
@@ -195,9 +197,9 @@ methods:
           since: 2.0
           doc: |
             The head of this queue, or <tt>null</tt> if this queue is empty
+  - id: 8
+    name: iterator
     since: 2.0
-    id: 7
-  - name: iterator
     doc: |
       Returns an iterator over the elements in this collection.  There are no guarantees concerning the order in which
       the elements are returned (unless this collection is an instance of some class that provides a guarantee).
@@ -220,9 +222,9 @@ methods:
           since: 2.0
           doc: |
             list of all data in queue
+  - id: 9
+    name: drainTo
     since: 2.0
-    id: 8
-  - name: drainTo
     doc: |
       Removes all available elements from this queue and adds them to the given collection.  This operation may be more
       efficient than repeatedly polling this queue.  A failure encountered while attempting to add elements to
@@ -248,9 +250,9 @@ methods:
           since: 2.0
           doc: |
             list of all removed data in queue
+  - id: 10
+    name: drainToMaxSize
     since: 2.0
-    id: 9
-  - name: drainToMaxSize
     doc: |
       Removes at most the given number of available elements from this queue and adds them to the given collection.
       A failure encountered while attempting to add elements to collection may result in elements being in neither,
@@ -282,9 +284,9 @@ methods:
           since: 2.0
           doc: |
             list of all removed data in result of this method
+  - id: 11
+    name: contains
     since: 2.0
-    id: 10
-  - name: contains
     doc: |
       Returns true if this queue contains the specified element. More formally, returns true if and only if this queue
       contains at least one element e such that value.equals(e)
@@ -313,9 +315,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this collection contains the specified element
+  - id: 12
+    name: containsAll
     since: 2.0
-    id: 11
-  - name: containsAll
     doc: |
       Return true if this collection contains all of the elements in the specified collection.
     request:
@@ -343,9 +345,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this collection contains all of the elements in the specified collection
+  - id: 13
+    name: compareAndRemoveAll
     since: 2.0
-    id: 12
-  - name: compareAndRemoveAll
     doc: |
       Removes all of this collection's elements that are also contained in the specified collection (optional operation).
       After this call returns, this collection will contain no elements in common with the specified collection.
@@ -374,9 +376,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
+  - id: 14
+    name: compareAndRetainAll
     since: 2.0
-    id: 13
-  - name: compareAndRetainAll
     doc: |
       Retains only the elements in this collection that are contained in the specified collection (optional operation).
       In other words, removes from this collection all of its elements that are not contained in the specified collection.
@@ -405,9 +407,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
+  - id: 15
+    name: clear
     since: 2.0
-    id: 14
-  - name: clear
     doc: |
       Removes all of the elements from this collection (optional operation). The collection will be empty after this
       method returns.
@@ -423,9 +425,9 @@ methods:
           doc: |
             Name of the Queue
     response: {}
+  - id: 16
+    name: addAll
     since: 2.0
-    id: 15
-  - name: addAll
     doc: |
       Adds all of the elements in the specified collection to this collection (optional operation).The behavior of this
       operation is undefined if the specified collection is modified while the operation is in progress.
@@ -456,9 +458,9 @@ methods:
           since: 2.0
           doc: |
             <tt>true</tt> if this collection changed as a result of the call
+  - id: 17
+    name: addListener
     since: 2.0
-    id: 16
-  - name: addListener
     doc: |
       Adds an listener for this collection. Listener will be notified or all collection add/remove events.
     request:
@@ -513,9 +515,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 18
+    name: removeListener
     since: 2.0
-    id: 17
-  - name: removeListener
     doc: |
       Removes the specified item listener.Returns silently if the specified listener was not added before.
     request:
@@ -543,9 +545,9 @@ methods:
           since: 2.0
           doc: |
             True if the item listener is removed, false otherwise
+  - id: 19
+    name: remainingCapacity
     since: 2.0
-    id: 18
-  - name: remainingCapacity
     doc: |
       Returns the number of additional elements that this queue can ideally (in the absence of memory or resource
       constraints) accept without blocking, or Integer.MAX_VALUE if there is no intrinsic limit. Note that you cannot
@@ -570,9 +572,9 @@ methods:
           since: 2.0
           doc: |
             The remaining capacity
+  - id: 20
+    name: isEmpty
     since: 2.0
-    id: 19
-  - name: isEmpty
     doc: |
       Returns true if this collection contains no elements.
     request:
@@ -594,5 +596,3 @@ methods:
           since: 2.0
           doc: |
             <tt>True</tt> if this collection contains no elements
-    since: 2.0
-    id: 20

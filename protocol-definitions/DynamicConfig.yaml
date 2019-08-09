@@ -2,7 +2,9 @@ id: 30
 name: DynamicConfig
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: addMultiMapConfig
+  - id: 1
+    name: addMultiMapConfig
+    since: 2.0
     doc: |
       Adds a new multimap config to a running cluster.
       If a multimap configuration with the given {@code name} already exists, then
@@ -76,9 +78,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 2
+    name: addRingbufferConfig
     since: 2.0
-    id: 1
-  - name: addRingbufferConfig
     doc: |
       Adds a new ringbuffer configuration to a running cluster.
       If a ringbuffer configuration with the given {@code name} already exists, then
@@ -152,9 +154,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 3
+    name: addCardinalityEstimatorConfig
     since: 2.0
-    id: 2
-  - name: addCardinalityEstimatorConfig
     doc: |
       Adds a new cardinality estimator configuration to a running cluster.
       If a cardinality estimator configuration with the given {@code name} already exists, then
@@ -203,9 +205,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 4
+    name: addLockConfig
     since: 2.0
-    id: 3
-  - name: addLockConfig
     doc: |
       Adds a new lock configuration to a running cluster.
       If a lock configuration with the given {@code name} already exists, then
@@ -230,9 +232,9 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
+  - id: 5
+    name: addListConfig
     since: 2.0
-    id: 4
-  - name: addListConfig
     doc: |
       Adds a new list configuration to a running cluster.
       If a list configuration with the given {@code name} already exists, then
@@ -299,9 +301,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 6
+    name: addSetConfig
     since: 2.0
-    id: 5
-  - name: addSetConfig
     doc: |
       Adds a new set configuration to a running cluster.
       If a set configuration with the given {@code name} already exists, then
@@ -368,9 +370,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 7
+    name: addReplicatedMapConfig
     since: 2.0
-    id: 6
-  - name: addReplicatedMapConfig
     doc: |
       Adds a new replicated map configuration to a running cluster.
       If a replicated map configuration with the given {@code name} already exists, then
@@ -435,9 +437,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 8
+    name: addTopicConfig
     since: 2.0
-    id: 7
-  - name: addTopicConfig
     doc: |
       Adds a new topic configuration to a running cluster.
       If a topic configuration with the given {@code name} already exists, then
@@ -480,9 +482,9 @@ methods:
           doc: |
             message listener configurations
     response: {}
+  - id: 9
+    name: addExecutorConfig
     since: 2.0
-    id: 8
-  - name: addExecutorConfig
     doc: |
       Adds a new executor configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
@@ -525,9 +527,9 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
+  - id: 10
+    name: addDurableExecutorConfig
     since: 2.0
-    id: 9
-  - name: addDurableExecutorConfig
     doc: |
       Adds a new durable executor configuration to a running cluster.
       If a durable executor configuration with the given {@code name} already exists, then
@@ -570,9 +572,9 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
+  - id: 11
+    name: addScheduledExecutorConfig
     since: 2.0
-    id: 10
-  - name: addScheduledExecutorConfig
     doc: |
       Adds a new scheduled executor configuration to a running cluster.
       If a scheduled executor configuration with the given {@code name} already exists, then
@@ -627,9 +629,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 12
+    name: addSemaphoreConfig
     since: 2.0
-    id: 11
-  - name: addSemaphoreConfig
     doc: |
       Adds a new semaphore configuration to a running cluster.
       If a semaphore configuration with the given {@code name} already exists, then
@@ -672,9 +674,9 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
+  - id: 13
+    name: addQueueConfig
     since: 2.0
-    id: 12
-  - name: addQueueConfig
     doc: |
       Adds a new queue configuration to a running cluster.
       If a queue configuration with the given {@code name} already exists, then
@@ -753,9 +755,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 14
+    name: addMapConfig
     since: 2.0
-    id: 13
-  - name: addMapConfig
     doc: |
       Adds a new map configuration to a running cluster.
       If a map configuration with the given {@code name} already exists, then
@@ -963,9 +965,9 @@ methods:
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
     response: {}
+  - id: 15
+    name: addReliableTopicConfig
     since: 2.0
-    id: 14
-  - name: addReliableTopicConfig
     doc: |
       Adds a new reliable topic configuration to a running cluster.
       If a reliable topic configuration with the given {@code name} already exists, then
@@ -1014,9 +1016,9 @@ methods:
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
     response: {}
+  - id: 16
+    name: addCacheConfig
     since: 2.0
-    id: 15
-  - name: addCacheConfig
     doc: |
       Adds a new cache configuration to a running cluster.
       If a cache configuration with the given {@code name} already exists, then
@@ -1184,9 +1186,9 @@ methods:
           doc: |
             hot restart configuration
     response: {}
+  - id: 18
+    name: addFlakeIdGeneratorConfig
     since: 2.0
-    id: 16
-  - name: addFlakeIdGeneratorConfig
     doc: |
       Adds a new flake ID generator configuration to a running cluster.
       If a flake ID generator configuration for the same name already exists, then
@@ -1233,9 +1235,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 19
+    name: addAtomicLongConfig
     since: 2.0
-    id: 18
-  - name: addAtomicLongConfig
     doc: |
       Adds a new atomic long configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
@@ -1272,9 +1274,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 20
+    name: addAtomicReferenceConfig
     since: 2.0
-    id: 19
-  - name: addAtomicReferenceConfig
     doc: |
       Adds a new atomic reference configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
@@ -1311,9 +1313,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 21
+    name: addCountDownLatchConfig
     since: 2.0
-    id: 20
-  - name: addCountDownLatchConfig
     doc: |
       Adds a new count down latch configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
@@ -1338,9 +1340,9 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
+  - id: 22
+    name: addPNCounterConfig
     since: 2.0
-    id: 21
-  - name: addPNCounterConfig
     doc: |
       Adds a new CRDT PN counter configuration to a running cluster.
       If a PN counter configuration with the given {@code name} already exists, then
@@ -1377,5 +1379,3 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, quorum does not
             apply to this lock configuration's operations.
     response: {}
-    since: 2.0
-    id: 22

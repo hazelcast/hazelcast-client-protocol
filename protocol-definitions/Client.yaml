@@ -2,7 +2,9 @@ id: 0
 name: Client
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: authentication
+  - id: 2
+    name: authentication
+    since: 2.0
     doc: |
       TODO DOC
     request:
@@ -144,9 +146,9 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+  - id: 3
+    name: authenticationCustom
     since: 2.0
-    id: 2
-  - name: authenticationCustom
     doc: |
       TODO DOC
     request:
@@ -282,9 +284,9 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+  - id: 4
+    name: addMembershipListener
     since: 2.0
-    id: 3
-  - name: addMembershipListener
     doc: |
       TODO DOC
     request:
@@ -362,9 +364,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 5
+    name: createProxy
     since: 2.0
-    id: 4
-  - name: createProxy
     doc: |
       TODO DOC
     request:
@@ -410,9 +412,9 @@ methods:
           doc: |
             TODO DOC
     response: {}
+  - id: 6
+    name: destroyProxy
     since: 2.0
-    id: 5
-  - name: destroyProxy
     doc: |
       TODO DOC
     request:
@@ -452,9 +454,9 @@ methods:
             "hz:core:txManagerService"
             "hz:impl:xaService"
     response: {}
+  - id: 8
+    name: getPartitions
     since: 2.0
-    id: 6
-  - name: getPartitions
     doc: |
       TODO DOC
     request:
@@ -475,9 +477,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 9
+    name: removeAllListeners
     since: 2.0
-    id: 8
-  - name: removeAllListeners
     doc: |
       TODO DOC
     request:
@@ -485,9 +487,9 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
     response: {}
+  - id: 10
+    name: addPartitionLostListener
     since: 2.0
-    id: 9
-  - name: addPartitionLostListener
     doc: |
       TODO DOC
     request:
@@ -531,9 +533,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 11
+    name: removePartitionLostListener
     since: 2.0
-    id: 10
-  - name: removePartitionLostListener
     doc: |
       TODO DOC
     request:
@@ -555,9 +557,9 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
+  - id: 12
+    name: getDistributedObjects
     since: 2.0
-    id: 11
-  - name: getDistributedObjects
     doc: |
       TODO DOC
     request:
@@ -572,9 +574,9 @@ methods:
           since: 2.0
           doc: |
             An array of distributed object info in the cluster.
+  - id: 13
+    name: addDistributedObjectListener
     since: 2.0
-    id: 12
-  - name: addDistributedObjectListener
     doc: |
       TODO DOC
     request:
@@ -618,9 +620,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 14
+    name: removeDistributedObjectListener
     since: 2.0
-    id: 13
-  - name: removeDistributedObjectListener
     doc: |
       TODO DOC
     request:
@@ -642,9 +644,9 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
+  - id: 15
+    name: ping
     since: 2.0
-    id: 14
-  - name: ping
     doc: |
       TODO DOC
     request:
@@ -652,9 +654,9 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
     response: {}
+  - id: 16
+    name: statistics
     since: 2.0
-    id: 15
-  - name: statistics
     doc: |
       The statistics is a String that is composed of key=value pairs separated by ',' . The following characters
       ('=' '.' ',' '\') should be escaped in IMap and ICache names by the escape character ('\'). E.g. if the map name is
@@ -817,9 +819,9 @@ methods:
           doc: |
             The key=value pairs separated by the ',' character
     response: {}
+  - id: 17
+    name: deployClasses
     since: 2.0
-    id: 16
-  - name: deployClasses
     doc: |
       Deploys the list of classes to cluster
       Each item is a Map.Entry<String, byte[]> in the list.
@@ -836,9 +838,9 @@ methods:
           doc: |
             list of class definitions
     response: {}
+  - id: 18
+    name: addPartitionListener
     since: 2.0
-    id: 17
-  - name: addPartitionListener
     doc: |
       TODO DOC
     request:
@@ -861,9 +863,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 19
+    name: createProxies
     since: 2.0
-    id: 18
-  - name: createProxies
     doc: |
       Proxies will be created on all cluster members.
       If the member is  a lite member, a replicated map will not be created.
@@ -885,9 +887,9 @@ methods:
             Each entry's value is service name.
             For possible service names see createProxy message.
     response: {}
+  - id: 20
+    name: isFailoverSupported
     since: 2.0
-    id: 19
-  - name: isFailoverSupported
     doc: |
       TODO DOC
     request:
@@ -902,5 +904,3 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports cluster failover
-    since: 2.0
-    id: 20

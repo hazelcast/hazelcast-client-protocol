@@ -2,7 +2,9 @@ id: 32
 name: PNCounter
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: get
+  - id: 1
+    name: get
+    since: 2.0
     doc: |
       Query operation to retrieve the current value of the PNCounter.
       <p>
@@ -55,9 +57,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 2
+    name: add
     since: 2.0
-    id: 1
-  - name: add
     doc: |
       Adds a delta to the PNCounter value. The delta may be negative for a
       subtraction.
@@ -125,9 +127,9 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 3
+    name: getConfiguredReplicaCount
     since: 2.0
-    id: 2
-  - name: getConfiguredReplicaCount
     doc: |
       Returns the configured number of CRDT replicas for the PN counter with
       the given {@code name}.
@@ -152,5 +154,3 @@ methods:
           since: 2.0
           doc: |
             the configured replica count
-    since: 2.0
-    id: 3

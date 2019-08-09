@@ -2,7 +2,9 @@ id: 6
 name: Set
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: size
+  - id: 1
+    name: size
+    since: 2.0
     doc: |
       Returns the number of elements in this set (its cardinality). If this set contains more than Integer.MAX_VALUE
       elements, returns Integer.MAX_VALUE.
@@ -25,9 +27,9 @@ methods:
           since: 2.0
           doc: |
             The number of elements in this set (its cardinality)
+  - id: 2
+    name: contains
     since: 2.0
-    id: 1
-  - name: contains
     doc: |
       Returns true if this set contains the specified element.
     request:
@@ -55,9 +57,9 @@ methods:
           since: 2.0
           doc: |
             True if this set contains the specified element, false otherwise
+  - id: 3
+    name: containsAll
     since: 2.0
-    id: 2
-  - name: containsAll
     doc: |
       Returns true if this set contains all of the elements of the specified collection. If the specified collection is
       also a set, this method returns true if it is a subset of this set.
@@ -87,9 +89,9 @@ methods:
           doc: |
             true if this set contains all of the elements of the
             specified collection
+  - id: 4
+    name: add
     since: 2.0
-    id: 3
-  - name: add
     doc: |
       Adds the specified element to this set if it is not already present (optional operation).
       If this set already contains the element, the call leaves the set unchanged and returns false.In combination with
@@ -123,9 +125,9 @@ methods:
           doc: |
             True if this set did not already contain the specified
             element and the element is added, returns false otherwise.
+  - id: 5
+    name: remove
     since: 2.0
-    id: 4
-  - name: remove
     doc: |
       Removes the specified element from this set if it is present (optional operation).
       Returns true if this set contained the element (or equivalently, if this set changed as a result of the call).
@@ -155,9 +157,9 @@ methods:
           since: 2.0
           doc: |
             True if this set contained the specified element and it is removed successfully
+  - id: 6
+    name: addAll
     since: 2.0
-    id: 5
-  - name: addAll
     doc: |
       Adds all of the elements in the specified collection to this set if they're not already present
       (optional operation). If the specified collection is also a set, the addAll operation effectively modifies this
@@ -188,9 +190,9 @@ methods:
           since: 2.0
           doc: |
             True if this set changed as a result of the call
+  - id: 7
+    name: compareAndRemoveAll
     since: 2.0
-    id: 6
-  - name: compareAndRemoveAll
     doc: |
       Removes from this set all of its elements that are contained in the specified collection (optional operation).
       If the specified collection is also a set, this operation effectively modifies this set so that its value is the
@@ -220,9 +222,9 @@ methods:
           since: 2.0
           doc: |
             true if at least one item in values existed and removed, false otherwise.
+  - id: 8
+    name: compareAndRetainAll
     since: 2.0
-    id: 7
-  - name: compareAndRetainAll
     doc: |
       Retains only the elements in this set that are contained in the specified collection (optional operation).
       In other words, removes from this set all of its elements that are not contained in the specified collection.
@@ -254,9 +256,9 @@ methods:
           doc: |
             true if at least one item in values existed and it is retained, false otherwise. All items not in valueSet but
             in the Set are removed.
+  - id: 9
+    name: clear
     since: 2.0
-    id: 8
-  - name: clear
     doc: |
       Removes all of the elements from this set (optional operation). The set will be empty after this call returns.
     request:
@@ -271,9 +273,9 @@ methods:
           doc: |
             Name of the Set
     response: {}
+  - id: 10
+    name: getAll
     since: 2.0
-    id: 9
-  - name: getAll
     doc: |
       Return the all elements of this collection
     request:
@@ -295,9 +297,9 @@ methods:
           since: 2.0
           doc: |
             Array of all values in the Set
+  - id: 11
+    name: addListener
     since: 2.0
-    id: 10
-  - name: addListener
     doc: |
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
@@ -352,9 +354,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 12
+    name: removeListener
     since: 2.0
-    id: 11
-  - name: removeListener
     doc: |
       Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
@@ -382,9 +384,9 @@ methods:
           since: 2.0
           doc: |
             true if the listener with the provided id existed and removed, false otherwise.
+  - id: 13
+    name: isEmpty
     since: 2.0
-    id: 12
-  - name: isEmpty
     doc: |
       Returns true if this set contains no elements.
     request:
@@ -406,5 +408,3 @@ methods:
           since: 2.0
           doc: |
             True if this set contains no elements
-    since: 2.0
-    id: 13

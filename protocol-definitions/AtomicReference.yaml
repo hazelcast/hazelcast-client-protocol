@@ -2,7 +2,9 @@ id: 11
 name: AtomicReference
 ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: apply
+  - id: 1
+    name: apply
+    since: 2.0
     doc: |
       Applies a function on the value, the actual stored value will not change.
     request:
@@ -30,9 +32,9 @@ methods:
           since: 2.0
           doc: |
             the result of the function application
+  - id: 2
+    name: alter
     since: 2.0
-    id: 1
-  - name: alter
     doc: |
       Alters the currently stored reference by applying a function on it.
     request:
@@ -53,9 +55,9 @@ methods:
           doc: |
             the function that alters the currently stored reference
     response: {}
+  - id: 3
+    name: alterAndGet
     since: 2.0
-    id: 2
-  - name: alterAndGet
     doc: |
       Alters the currently stored reference by applying a function on it and gets the result.
     request:
@@ -83,9 +85,9 @@ methods:
           since: 2.0
           doc: |
             the new value, the result of the applied function.
+  - id: 4
+    name: getAndAlter
     since: 2.0
-    id: 3
-  - name: getAndAlter
     doc: |
       Alters the currently stored reference by applying a function on it on and gets the old value.
     request:
@@ -113,9 +115,9 @@ methods:
           since: 2.0
           doc: |
             the old value, the value before the function is applied
+  - id: 5
+    name: contains
     since: 2.0
-    id: 4
-  - name: contains
     doc: |
       Checks if the reference contains the value.
     request:
@@ -143,9 +145,9 @@ methods:
           since: 2.0
           doc: |
             true if the value is found, false otherwise.
+  - id: 6
+    name: compareAndSet
     since: 2.0
-    id: 5
-  - name: compareAndSet
     doc: |
       Atomically sets the value to the given updated value only if the current value the expected value.
     request:
@@ -180,9 +182,9 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
+  - id: 8
+    name: get
     since: 2.0
-    id: 6
-  - name: get
     doc: |
       Gets the current value.
     request:
@@ -204,9 +206,9 @@ methods:
           since: 2.0
           doc: |
             the current value
+  - id: 9
+    name: set
     since: 2.0
-    id: 8
-  - name: set
     doc: |
       Atomically sets the given value.
     request:
@@ -227,9 +229,9 @@ methods:
           doc: |
             the new value
     response: {}
+  - id: 10
+    name: clear
     since: 2.0
-    id: 9
-  - name: clear
     doc: |
       Clears the current stored reference.
     request:
@@ -244,9 +246,9 @@ methods:
           doc: |
             Name of the AtomicReference distributed object instance.
     response: {}
+  - id: 11
+    name: getAndSet
     since: 2.0
-    id: 10
-  - name: getAndSet
     doc: |
       Gets the old value and sets the new value.
     request:
@@ -274,9 +276,9 @@ methods:
           since: 2.0
           doc: |
             the old value.
+  - id: 12
+    name: setAndGet
     since: 2.0
-    id: 11
-  - name: setAndGet
     doc: |
       Sets and gets the value.
     request:
@@ -304,9 +306,9 @@ methods:
           since: 2.0
           doc: |
             the new value
+  - id: 13
+    name: isNull
     since: 2.0
-    id: 12
-  - name: isNull
     doc: |
       Checks if the stored reference is null.
     request:
@@ -328,5 +330,3 @@ methods:
           since: 2.0
           doc: |
             true if null, false otherwise.
-    since: 2.0
-    id: 13
