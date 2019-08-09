@@ -1,12 +1,12 @@
 id: 18
 name: TransactionalSet
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: add
+  - id: 1
+    name: add
+    since: 2.0
     doc: |
       Add new item to transactional set.
     request:
-      id: 0x1201
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -36,7 +36,6 @@ methods:
           doc: |
             Item added to transactional set
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -44,12 +43,12 @@ methods:
           since: 2.0
           doc: |
             True if item is added successfully
+  - id: 2
+    name: remove
     since: 2.0
-  - name: remove
     doc: |
       Remove item from transactional set.
     request:
-      id: 0x1202
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -79,7 +78,6 @@ methods:
           doc: |
             Item removed from Transactional Set
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -87,12 +85,12 @@ methods:
           since: 2.0
           doc: |
             True if item is remove successfully
+  - id: 3
+    name: size
     since: 2.0
-  - name: size
     doc: |
       Returns the size of the set.
     request:
-      id: 0x1203
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -116,7 +114,6 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
-      id: 0x0066
       params:
         - name: response
           type: int
@@ -124,4 +121,3 @@ methods:
           since: 2.0
           doc: |
             The size of the set
-    since: 2.0

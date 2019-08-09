@@ -59,9 +59,9 @@ import com.hazelcast.logging.Logger;
 {% endfor %}
  */
 public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
-    //hex: {{ '0x%04X'|format(method.request.id) }}
+    //hex: {{ '0x%06X'|format(method.request.id) }}
     public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};
-    //hex: {{ '0x%04X'|format(method.response.id) }}
+    //hex: {{ '0x%06X'|format(method.response.id) }}
     public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
 {% for param in fixed_params(method.request.params) %}
@@ -89,7 +89,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% else %}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
     {% endfor %}
-    //hex: {{ '0x%04X'|format(event.id) }}
+    //hex: {{ '0x%06X'|format(event.id) }}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};
 {% endfor %}
 

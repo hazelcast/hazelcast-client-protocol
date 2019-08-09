@@ -1,12 +1,12 @@
 id: 0
 name: Client
-ns: Hazelcast.Client.Protocol.Codec
 methods:
-  - name: authentication
+  - id: 2
+    name: authentication
+    since: 2.0
     doc: |
       TODO DOC
     request:
-      id: 0x0002
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -87,7 +87,6 @@ methods:
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
     response:
-      id: 0x006b
       params:
         - name: status
           type: byte
@@ -146,12 +145,12 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+  - id: 3
+    name: authenticationCustom
     since: 2.0
-  - name: authenticationCustom
     doc: |
       TODO DOC
     request:
-      id: 0x0003
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -226,7 +225,6 @@ methods:
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
     response:
-      id: 0x006b
       params:
         - name: status
           type: byte
@@ -285,12 +283,12 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+  - id: 4
+    name: addMembershipListener
     since: 2.0
-  - name: addMembershipListener
     doc: |
       TODO DOC
     request:
-      id: 0x0004
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -303,7 +301,6 @@ methods:
             if true only master node sends events, otherwise all registered nodes send all membership
             changes.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -312,8 +309,7 @@ methods:
           doc: |
             Returns the registration id for the listener.
     events:
-      - id: 0x00c8
-        name: Member
+      - name: Member
         params:
           - name: member
             type: Member
@@ -327,8 +323,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 0x00c9
-        name: MemberList
+      - name: MemberList
         params:
           - name: members
             type: List_Member
@@ -336,8 +331,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-      - id: 0x00ca
-        name: MemberAttributeChange
+      - name: MemberAttributeChange
         params:
           - name: member
             type: Member
@@ -369,12 +363,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 5
+    name: createProxy
     since: 2.0
-  - name: createProxy
     doc: |
       TODO DOC
     request:
-      id: 0x0005
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -416,14 +410,13 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-    response:
-      id: 0x0064
+    response: {}
+  - id: 6
+    name: destroyProxy
     since: 2.0
-  - name: destroyProxy
     doc: |
       TODO DOC
     request:
-      id: 0x0006
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -459,19 +452,17 @@ methods:
             "hz:impl:topicService"
             "hz:core:txManagerService"
             "hz:impl:xaService"
-    response:
-      id: 0x0064
+    response: {}
+  - id: 8
+    name: getPartitions
     since: 2.0
-  - name: getPartitions
     doc: |
       TODO DOC
     request:
-      id: 0x0008
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x006c
       params:
         - name: partitions
           type: Map_Address_List_Integer
@@ -485,23 +476,22 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+  - id: 9
+    name: removeAllListeners
     since: 2.0
-  - name: removeAllListeners
     doc: |
       TODO DOC
     request:
-      id: 0x0009
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-    response:
-      id: 0x0064
+    response: {}
+  - id: 10
+    name: addPartitionLostListener
     since: 2.0
-  - name: addPartitionLostListener
     doc: |
       TODO DOC
     request:
-      id: 0x000a
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -514,7 +504,6 @@ methods:
             if true only node that has the partition sends the request, if false
             sends all partition lost events.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -523,8 +512,7 @@ methods:
           doc: |
             The listener registration id.
     events:
-      - id: 0x00ce
-        name: PartitionLost
+      - name: PartitionLost
         params:
           - name: partitionId
             type: int
@@ -544,12 +532,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 11
+    name: removePartitionLostListener
     since: 2.0
-  - name: removePartitionLostListener
     doc: |
       TODO DOC
     request:
-      id: 0x000b
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -561,7 +549,6 @@ methods:
           doc: |
             The id assigned during the listener registration.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -569,17 +556,16 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
+  - id: 12
+    name: getDistributedObjects
     since: 2.0
-  - name: getDistributedObjects
     doc: |
       TODO DOC
     request:
-      id: 0x000c
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x006e
       params:
         - name: response
           type: List_DistributedObjectInfo
@@ -587,12 +573,12 @@ methods:
           since: 2.0
           doc: |
             An array of distributed object info in the cluster.
+  - id: 13
+    name: addDistributedObjectListener
     since: 2.0
-  - name: addDistributedObjectListener
     doc: |
       TODO DOC
     request:
-      id: 0x000d
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -605,7 +591,6 @@ methods:
             If set to true, the server adds the listener only to itself, otherwise the listener is is added for all
             members in the cluster.
     response:
-      id: 0x0068
       params:
         - name: response
           type: String
@@ -614,8 +599,7 @@ methods:
           doc: |
             The registration id for the distributed object listener.
     events:
-      - id: 0x00cf
-        name: DistributedObject
+      - name: DistributedObject
         params:
           - name: name
             type: String
@@ -635,12 +619,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 14
+    name: removeDistributedObjectListener
     since: 2.0
-  - name: removeDistributedObjectListener
     doc: |
       TODO DOC
     request:
-      id: 0x000e
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
@@ -652,7 +636,6 @@ methods:
           doc: |
             The id assigned during the registration.
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -660,19 +643,19 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
+  - id: 15
+    name: ping
     since: 2.0
-  - name: ping
     doc: |
       TODO DOC
     request:
-      id: 0x000f
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
-    response:
-      id: 0x0064
+    response: {}
+  - id: 16
+    name: statistics
     since: 2.0
-  - name: statistics
     doc: |
       The statistics is a String that is composed of key=value pairs separated by ',' . The following characters
       ('=' '.' ',' '\') should be escaped in IMap and ICache names by the escape character ('\'). E.g. if the map name is
@@ -824,7 +807,6 @@ methods:
       nc.hz/StatICacheName.lastPersistenceWrittenBytes=0,nc.hz/StatICacheName.misses=1,nc.hz/StatICacheName.ownedEntryCount=1,
       nc.hz/StatICacheName.expirations=0,nc.hz/StatICacheName.ownedEntryMemoryCost=140
     request:
-      id: 0x0010
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -835,16 +817,15 @@ methods:
           since: 2.0
           doc: |
             The key=value pairs separated by the ',' character
-    response:
-      id: 0x0064
+    response: {}
+  - id: 17
+    name: deployClasses
     since: 2.0
-  - name: deployClasses
     doc: |
       Deploys the list of classes to cluster
       Each item is a Map.Entry<String, byte[]> in the list.
       key of entry is full class name, and byte[] is the class definition.
     request:
-      id: 0x0011
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -855,22 +836,19 @@ methods:
           since: 2.0
           doc: |
             list of class definitions
-    response:
-      id: 0x0064
+    response: {}
+  - id: 18
+    name: addPartitionListener
     since: 2.0
-  - name: addPartitionListener
     doc: |
       TODO DOC
     request:
-      id: 0x0012
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
-    response:
-      id: 0x0064
+    response: {}
     events:
-      - id: 0x00d9
-        name: Partitions
+      - name: Partitions
         params:
           - name: partitions
             type: Map_Address_List_Integer
@@ -884,8 +862,9 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+  - id: 19
+    name: createProxies
     since: 2.0
-  - name: createProxies
     doc: |
       Proxies will be created on all cluster members.
       If the member is  a lite member, a replicated map will not be created.
@@ -893,7 +872,6 @@ methods:
       Exceptions related to a proxy creation failure is not send to the client.
       A proxy creation failure does not cancel this operation, all proxies will be attempted to be created.
     request:
-      id: 0x0013
       retryable: false
       acquiresResource: false
       partitionIdentifier: -1
@@ -907,19 +885,17 @@ methods:
             Each entry's key is distributed object name.
             Each entry's value is service name.
             For possible service names see createProxy message.
-    response:
-      id: 0x0064
+    response: {}
+  - id: 20
+    name: isFailoverSupported
     since: 2.0
-  - name: isFailoverSupported
     doc: |
       TODO DOC
     request:
-      id: 0x0014
       retryable: true
       acquiresResource: false
       partitionIdentifier: -1
     response:
-      id: 0x0065
       params:
         - name: response
           type: boolean
@@ -927,4 +903,3 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports cluster failover
-    since: 2.0
