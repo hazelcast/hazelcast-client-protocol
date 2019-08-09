@@ -64,12 +64,12 @@ def generate_codecs(services, template, output_dir, extension):
             if methods is None:
                 print(type(methods))
             for method in service["methods"]:
-                method["request"]["id"] = id_fmt % (service["id"], method["id"], 0)
-                method["response"]["id"] = id_fmt % (service["id"], method["id"], 1)
+                method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
+                method["response"]["id"] = int(id_fmt % (service["id"], method["id"], 1), 16)
                 events = method.get("events", None)
                 if events is not None:
                     for i in range(len(events)):
-                        method["events"][i]["id"] = id_fmt % (service["id"], method["id"], i + 2)
+                        method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
                 content = template.render(service_name=service["name"], method=method)
                 save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
