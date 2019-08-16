@@ -56,13 +56,13 @@ methods:
           since: 2.0
           doc: |
             set to {@code true} to enable statistics on this multimap configuration
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -132,13 +132,13 @@ methods:
           since: 2.0
           doc: |
             backing ringbuffer store configuration
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -183,13 +183,13 @@ methods:
           since: 2.0
           doc: |
             number of asynchronous backups
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -222,13 +222,13 @@ methods:
           since: 2.0
           doc: |
             lock's name
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
   - id: 5
@@ -279,13 +279,13 @@ methods:
           since: 2.0
           doc: |
             {@code true} to enable gathering of statistics on the list, otherwise {@code false}
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -348,13 +348,13 @@ methods:
           since: 2.0
           doc: |
             {@code true} to enable gathering of statistics on the list, otherwise {@code false}
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -421,13 +421,13 @@ methods:
           since: 2.0
           doc: |
             entry listener configurations
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergeBatchSize
           type: int
@@ -517,13 +517,13 @@ methods:
           since: 2.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
   - id: 10
@@ -562,13 +562,13 @@ methods:
           since: 2.0
           doc: |
             capacity of executor tasks per partition
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
   - id: 11
@@ -607,13 +607,13 @@ methods:
           since: 2.0
           doc: |
             maximum number of tasks that a scheduler can have at any given point in time per partition
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -664,13 +664,13 @@ methods:
           since: 2.0
           doc: |
             number of asynchronous backups
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
   - id: 13
@@ -727,13 +727,13 @@ methods:
           since: 2.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the queue to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the queue to remain functional. When {@code null}, split brain protection does not
             apply to this queue configuration's operations.
         - name: queueStoreConfig
           type: QueueStoreConfigHolder
@@ -852,14 +852,14 @@ methods:
           since: 2.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum
+            name of an existing configured split brain protection to be used to determine the minimum
             number of members required in the cluster for the map to remain functional.
-            When {@code null}, quorum does not apply to this map's operations.
+            When {@code null}, split brain protection does not apply to this map's operations.
         - name: mapEvictionPolicy
           type: Data
           nullable: true
@@ -1112,14 +1112,14 @@ methods:
           doc: |
             data type used to store entries. Valid values are {@code BINARY},
             {@code OBJECT} and {@code NATIVE}.
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum
+            name of an existing configured split brain protection to be used to determine the minimum
             number of members required in the cluster for the cache to remain functional.
-            When {@code null}, quorum does not apply to this cache's operations.
+            When {@code null}, split brain protection does not apply to this cache's operations.
         - name: mergePolicy
           type: String
           nullable: true
@@ -1252,13 +1252,13 @@ methods:
           since: 2.0
           doc: |
             atomic long's name
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -1291,13 +1291,13 @@ methods:
           since: 2.0
           doc: |
             atomic references's name
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
         - name: mergePolicy
           type: String
@@ -1330,13 +1330,13 @@ methods:
           since: 2.0
           doc: |
             count down latch's name
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
   - id: 22
@@ -1369,12 +1369,12 @@ methods:
           since: 2.0
           doc: |
             set to {@code true} to enable statistics on this multimap configuration
-        - name: quorumName
+        - name: splitBrainProtectionName
           type: String
           nullable: true
           since: 2.0
           doc: |
-            name of an existing configured quorum to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, quorum does not
+            name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
