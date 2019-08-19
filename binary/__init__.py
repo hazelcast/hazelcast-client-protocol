@@ -15,7 +15,7 @@ VarLengthTypes = [
 
 FixedMapTypes = [
     'Map_Integer_UUID',
-    'Map_String_Long',
+    'Map_UUID_Long',
     'Map_Integer_Long'
 ]
 
@@ -60,7 +60,6 @@ CustomConfigTypes = [
 VarLengthMapTypes = [
     'Map_String_String',
     'Map_String_byteArray',
-    'Map_String_Long',
     'Map_String_Map_Integer_Long',
     'Map_Address_List_Integer',
     'Map_Data_Data',
