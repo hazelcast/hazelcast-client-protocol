@@ -137,12 +137,6 @@ methods:
           since: 2.0
           doc: |
             The callable object to be executed.
-        - name: partitionId
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The id of the partition which the callable shall be executed on.
     response:
       params:
         - name: response
