@@ -97,7 +97,7 @@ You can generate codecs for your favorite language by calling,
 
 ```bash
 
-./generator.py [--root-dir ROOT_DIRECTORY] [--lang LANGUAGE]
+./generator.py [-r ROOT_DIRECTORY] [-l LANGUAGE] [-p PROTOCOL_DEFS_PATH] [-o OUTPUT_DIRECTORY]
 
 ```
 
@@ -114,12 +114,29 @@ where
      
 `JAVA` will be the default value if left empty.
 
+* `PROTOCOL_DEFS_PATH` is the directory containing the `yaml` definitions of the protocol. If left empty, 
+this value will be defaulted to the `./protocol-definitions`
+
+* `OUTPUT_DIRECTORY` is the output directory for the generated codecs relative to the `ROOT_DIRECTORY`. If left empty,
+this will be inferred from the selected `LANGUAGE`. 
+
 If you want to generate java codecs into your development repo, and let's assume your local hazelcast git repo is at 
 `~/git/hazelcast/` then you can call,
 
 ```bash
-./generator.py --root-dir ~/git/hazelcast/
+./generator.py -r ~/git/hazelcast/
 ```
+
+to generate the codecs at the `ROOT_DIRECTORY/OUTPUT_DIRECTORY` which is `~/git/hazelcast/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/`.
+See that the `OUTPUT_DIRECTORY` is inferred from the language, namely `hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/` for `JAVA`. 
+
+If you want to specify an output directory relative to the root directory, you can call
+
+```bash
+./generator.py -r ~/git/hazelcast/ -o custom/out 
+```
+
+This command will generate the codecs at the `~/git/hazelcast/custom/out`.
 
 ### Schema Validation
 
