@@ -72,7 +72,7 @@ def generate_codecs(services, template, output_dir, extension):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
                 content = template.render(service_name=service["name"], method=method)
-                save_file(output_dir + capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension, content)
+                save_file(os.path.join(output_dir, capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension), content)
 
 
 def item_type(lang_name, param_type):
@@ -106,9 +106,11 @@ def load_services(protocol_def_dir):
     service_list = os.listdir(protocol_def_dir)
     services = []
     for service_file in service_list:
-        with open(protocol_def_dir + service_file, 'r') as file:
-            data = yaml.load(file, Loader=yaml.Loader)
-            services.append(data)
+        file_path = os.path.join(protocol_def_dir, service_file)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as file:
+                data = yaml.load(file, Loader=yaml.Loader)
+                services.append(data)
     return services
 
 
@@ -141,12 +143,12 @@ class SupportedLanguages(Enum):
 
 
 output_directories = {
-    SupportedLanguages.JAVA: '/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    # SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    # SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
-    # SupportedLanguages.PY: '/hazelcast/protocol/codec/',
-    # SupportedLanguages.TS: '/src/codec/',
-    # SupportedLanguages.GO: '/internal/proto/'
+    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
+    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    # SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    # SupportedLanguages.TS: 'src/codec/',
+    # SupportedLanguages.GO: 'internal/proto/'
 }
 
 file_extensions = {

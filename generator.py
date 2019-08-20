@@ -13,26 +13,43 @@ parser = argparse.ArgumentParser(description='Hazelcast Code Generator generates
 parser.add_argument('-r', '--root-dir',
                     dest='root_dir', action='store',
                     metavar='ROOT_DIRECTORY', default=None,
-                    type=str, help='Root directory for the generated codecs (default is ./output/[LANGUAGE])')
+                    type=str, help='Root directory for the generated codecs (default value is ./output/[LANGUAGE])')
 
 parser.add_argument('-l', '--lang',
                     dest='lang', action='store',
                     metavar='LANGUAGE', default='java',
                     choices=[lang.value for lang in SupportedLanguages],
-                    type=str, help='Language to generate codecs for (default is java)')
+                    type=str, help='Language to generate codecs for (default default is java)')
+
+parser.add_argument('-p', '--protocol-definitions-path',
+                    dest='proto_path', action='store',
+                    metavar='PROTOCOL_DEFS_PATH', default=None,
+                    type=str, help='Path of protocol definitions directory (default value is ./protocol-definitions)')
+
+parser.add_argument('-o', '--output-dir',
+                    dest='out_dir', action='store',
+                    metavar='OUTPUT_DIRECTORY', default=None,
+                    type=str, help='Path of the output directory relative to the '
+                                   'root directory (default value is set according to the selected '
+                                   'language)')
 
 args = parser.parse_args()
-lang_str = args.lang
+lang_str_arg = args.lang
 root_dir_arg = args.root_dir
-lang = SupportedLanguages[lang_str.upper()]
+proto_path_arg = args.proto_path
+out_dir_arg = args.out_dir
 
-root_dir = root_dir_arg if root_dir_arg is not None else './output/' + lang_str
-output_dir = root_dir + output_directories[lang]
+lang = SupportedLanguages[lang_str_arg.upper()]
 
-# PWD
-dir_path = os.path.dirname(os.path.realpath(__file__))
-protocol_defs_path = dir_path + '/protocol-definitions/'
-schema_path = dir_path + '/schema/protocol-schema.json'
+
+curr_dir = os.path.dirname(os.path.realpath(__file__))
+
+root_dir = root_dir_arg if root_dir_arg is not None else os.path.join(curr_dir, 'output', lang_str_arg)
+relative_output_dir = out_dir_arg if out_dir_arg is not None else output_directories[lang]
+output_dir = os.path.join(root_dir, relative_output_dir)
+
+protocol_defs_path = proto_path_arg if proto_path_arg is not None else os.path.join(curr_dir, 'protocol-definitions')
+schema_path = os.path.join(curr_dir, 'schema', 'protocol-schema.json')
 
 services = load_services(protocol_defs_path)
 if not validate_services(services, schema_path):
@@ -40,7 +57,7 @@ if not validate_services(services, schema_path):
 
 env = create_environment(lang)
 
-codec_template = env.get_template("codec-template.%s.j2" % lang_str)
+codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
 generate_codecs(services, codec_template, output_dir, file_extensions[lang])
 
