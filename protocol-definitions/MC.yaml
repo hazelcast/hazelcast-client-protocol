@@ -1,0 +1,67 @@
+id: 40
+name: MC
+methods:
+  - id: 1
+    name: ChangeClusterStateRequest
+    since: 2.0
+    doc: |
+      Changes the state of a cluster.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: newState
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New state of the cluster.
+    response: {}
+  - id: 2
+    name: GetMapConfigRequest
+    since: 2.0
+    doc: |
+      Gets the config of a map.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.0
+          doc: |
+            The config of the map.
+  - id: 3
+    name: UpdateMapConfigRequest
+    since: 2.0
+    doc: |
+      Updates the config of a map.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: newMapConfig
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            New config for the map.
+    response: {}
