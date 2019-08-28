@@ -173,7 +173,7 @@ language_specific_funcs = {
 }
 
 
-def create_environment(lang):
+def create_environment(lang, namespace):
     env = Environment(loader=PackageLoader(lang.value, '.'))
     env.trim_blocks = True
     env.lstrip_blocks = True
@@ -191,5 +191,6 @@ def create_environment(lang):
     env.globals["lang_types_encode"] = language_specific_funcs['lang_types_encode'][lang]
     env.globals["lang_types_decode"] = language_specific_funcs['lang_types_decode'][lang]
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]
+    env.globals["namespace"] = namespace
 
     return env

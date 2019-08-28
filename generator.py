@@ -33,11 +33,18 @@ parser.add_argument('-o', '--output-dir',
                                    'root directory (default value is set according to the selected '
                                    'language)')
 
+parser.add_argument('-n', '--namespace',
+                    dest='namespace', action='store',
+                    metavar='NAMESPACE', default=None,
+                    type=str, help='Namespace for the generated codecs (default value is inferred from the '
+                                   'selected language)')
+
 args = parser.parse_args()
 lang_str_arg = args.lang
 root_dir_arg = args.root_dir
 proto_path_arg = args.proto_path
 out_dir_arg = args.out_dir
+namespace_arg = args.namespace
 
 lang = SupportedLanguages[lang_str_arg.upper()]
 
@@ -55,7 +62,7 @@ services = load_services(protocol_defs_path)
 if not validate_services(services, schema_path):
     exit(-1)
 
-env = create_environment(lang)
+env = create_environment(lang, namespace_arg)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
