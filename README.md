@@ -97,7 +97,7 @@ You can generate codecs for your favorite language by calling,
 
 ```bash
 
-./generator.py [-r ROOT_DIRECTORY] [-l LANGUAGE] [-p PROTOCOL_DEFS_PATH] [-o OUTPUT_DIRECTORY]
+./generator.py [-r ROOT_DIRECTORY] [-l LANGUAGE] [-p PROTOCOL_DEFS_PATH] [-o OUTPUT_DIRECTORY] [-n NAMESPACE]
 
 ```
 
@@ -119,6 +119,8 @@ this value will be defaulted to the `./protocol-definitions`
 
 * `OUTPUT_DIRECTORY` is the output directory for the generated codecs relative to the `ROOT_DIRECTORY`. If left empty,
 this will be inferred from the selected `LANGUAGE`. 
+
+* `NAMESPACE` is the namespace for the generated codecs. If left empty, this will be inferred from the selected `LANGUAGE`. 
 
 If you want to generate java codecs into your development repo, and let's assume your local hazelcast git repo is at 
 `~/git/hazelcast/` then you can call,
