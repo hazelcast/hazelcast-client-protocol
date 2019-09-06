@@ -148,12 +148,12 @@ class SupportedLanguages(Enum):
 
 
 output_directories = {
-    SupportedLanguages.JAVA: '/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    # SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    # SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
-    # SupportedLanguages.PY: '/hazelcast/protocol/codec/',
-    SupportedLanguages.TS: '/src/codec/',
-    # SupportedLanguages.GO: '/internal/proto/'
+    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
+    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    # SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    SupportedLanguages.TS: 'src/codec/',
+    # SupportedLanguages.GO: 'internal/proto/'
 }
 
 file_extensions = {
@@ -177,7 +177,6 @@ language_specific_funcs = {
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
         SupportedLanguages.TS: ts_name
-
     }
 }
 

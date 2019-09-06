@@ -3,10 +3,10 @@
 ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}
 {% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }} , {{ item_type(lang_name, param.type) }}Codec.encode)
 {%- elif is_var_sized_map(param.type) -%}
-MapCodec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }} ,{{ key_type(lang_name, param.type) }}Codec.encode,  {{ value_type(lang_name, param.type) }}Codec.encode)
+MapCodec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }} , {{ key_type(lang_name, param.type) }}Codec.encode,  {{ value_type(lang_name, param.type) }}Codec.encode)
 {%- else -%}
 {%- if param.nullable -%}
-    CodecUtil.encodeNullable(clientMessage,  {{ param.name }} , {{ lang_name(param.type) }}Codec.encode )
+    CodecUtil.encodeNullable(clientMessage,  {{ param.name }}, {{ lang_name(param.type) }}Codec.encode )
 {%- else -%}
     {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
 {%- endif %}
@@ -202,7 +202,7 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#RESPONSE DECODE#}
      static decodeResponse(clientMessage: ClientMessage): ResponseParameters {
         const response: ResponseParameters = new ResponseParameters();
-    {% if fixed_params(method.request.params)|length != 0 %}
+    {% if fixed_params(method.response.params)|length != 0 %}
         const frame: Frame = clientMessage.get();
         const initialFrame: Frame = frame.next;
     {% else %}
@@ -242,7 +242,7 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
         const messageType = clientMessage.getMessageType();
     {% for event in method.events%}
         if (messageType === {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
-    {% if fixed_params(method.request.params)|length != 0 %}
+    {% if fixed_params(event.params)|length != 0 %}
         const frame: Frame = clientMessage.get();
         const initialFrame: Frame = frame.next;
     {% else %}

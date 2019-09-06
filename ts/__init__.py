@@ -73,9 +73,9 @@ _ts_types_encode = {
     "Map_String_byteArray": "Array<[string, Buffer]>",
     "Map_Integer_UUID": "Array<[number, UUID]>",
     "Map_String_Long": "Array<[string, Long]>",
-    "Map_String_Map_Integer_Long": "Array<[string, Array<[number,Long]>]>",
+    "Map_String_Map_Integer_Long": "Array<[string, Array<[number, Long]>]>",
     "Map_Address_List_Integer": "Array<[Address, Array<number>]>",
-    "Map_Data_Data": "Array<[Data,Data]>",
+    "Map_Data_Data": "Array<[Data, Data]>",
     "Map_Member_List_ScheduledTaskHandler": "Array<[Member, Array<ScheduledTaskHandler>]>"
 }
 
@@ -96,12 +96,12 @@ _ts_types_decode = {
     "List_ListenerConfigHolder": "Array<ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "Array<CacheSimpleEntryListenerConfig>",
 
-    "Map_String_String": "Array<[string,string]>",
-    "Map_String_byteArray": "Array<[string,Buffer]>",
-    "Map_Integer_UUID": "Array<[number,UUID]>",
-    "Map_String_Long": "Array<[string,Long]>",
-    "Map_String_Map_Integer_Long": "Array<[string, Array<[number,Long]>]>",
+    "Map_String_String": "Array<[string, string]>",
+    "Map_String_byteArray": "Array<[string, Buffer]>",
+    "Map_Integer_UUID": "Array<[number, UUID]>",
+    "Map_String_Long": "Array<[string, Long]>",
+    "Map_String_Map_Integer_Long": "Array<[string, Array<[number, Long]>]>",
     "Map_Address_List_Integer": "Array<[Address, Array<number>]>",
-    "Map_Data_Data": "Array<[Data,Data]>",
+    "Map_Data_Data": "Array<[Data, Data]>",
     "Map_Member_List_ScheduledTaskHandler": "Array<[Member, Array<ScheduledTaskHandler>]>"
 }
