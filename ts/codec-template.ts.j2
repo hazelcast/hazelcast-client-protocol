@@ -1,0 +1,266 @@
+{% macro encode_var_sized(param) -%}
+{% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}
+{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }} , {{ item_type(lang_name, param.type) }}Codec.encode)
+{%- elif is_var_sized_map(param.type) -%}
+MapCodec.encode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ param.name }} ,{{ key_type(lang_name, param.type) }}Codec.encode,  {{ value_type(lang_name, param.type) }}Codec.encode)
+{%- else -%}
+{%- if param.nullable -%}
+    CodecUtil.encodeNullable(clientMessage,  {{ param.name }} , {{ lang_name(param.type) }}Codec.encode )
+{%- else -%}
+    {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
+{%- endif %}
+{% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(frame, {{ item_type(lang_name, param.type) }}Codec.decode)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(frame, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            CodecUtil.decodeNullable(frame, {{ lang_name(param.type) }}Codec.decode)
+        {%- else -%}
+            {{ lang_name(param.type) }}Codec.decode(frame)
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro %}
+/*
+ * Copyright (c) 2008-2019, Hazelcast, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{#  <imports>  #}
+{# TODO: Remove unused imports  #}
+import * as Long from 'long';
+import {Address} from '../Address';
+import {AddressCodec} from '../builtin/AddressCodec';
+import {MemberCodec} from '../builtin/MemberCodec';
+import {Data} from '../serialization/Data';
+import {SimpleEntryViewCodec} from '../builtin/SimpleEntryViewCodec';
+import {DistributedObjectInfoCodec} from '../builtin/DistributedObjectInfoCodec';
+import {DistributedObjectInfo} from '../builtin/DistributedObjectInfo';
+import {Member} from '../core/Member';
+import {UUID} from '../core/UUID';
+import {FixedSizeTypes} from '../builtin/FixedSizeTypes';
+import {BitsUtil} from '../BitsUtil';
+import {ClientConnection} from '../invocation/ClientConnection';
+import {ClientMessage, Frame} from '../ClientMessage';
+import {Buffer} from 'safe-buffer';
+import {ClientProtocolErrorCodes} from '../protocol/ClientProtocolErrorCodes';
+import {CodecUtil} from '../builtin/CodecUtil';
+import {DataCodec} from '../builtin/DataCodec';
+import {ErrorCodec} from '../protocol/ErrorCodec';
+import {ErrorsCodec} from '../protocol/ErrorsCodec';
+import {ListIntegerCodec} from '../builtin/ListIntegerCodec';
+import {ListUUIDCodec} from '../builtin/ListUUIDCodec';
+import {ListLongCodec} from '../builtin/ListLongCodec';
+import {ListMultiFrameCodec} from '../builtin/ListMultiFrameCodec';
+import {LongArrayCodec} from '../builtin/LongArrayCodec';
+import {MapCodec} from '../builtin/MapCodec';
+import {MapIntegerLongCodec} from '../builtin/MapIntegerLongCodec';
+import {MapIntegerUUIDCodec} from '../builtin/MapIntegerUUIDCodec';
+import {MapStringLongCodec} from '../builtin/MapStringLongCodec';
+import {MapUUIDLongCodec} from '../builtin/MapUUIDLongCodec';
+import {StackTraceElementCodec} from '../protocol/StackTraceElementCodec';
+import {StringCodec} from '../builtin/StringCodec';
+
+{#REQUEST PARAMETERS#}
+/* tslint:disabled:URF-UNREAD-PUBLIC-OR-PROTECTED-FIELD */
+export class RequestParameters {
+{% for param in method.request.params %}
+
+    /**
+    {% for line in param.doc.splitlines() %}
+     * {{ line }}
+    {% endfor %}
+     */
+    public {{param.name}}: {{ lang_types_decode(param.type) }};
+{% endfor %}
+}
+
+{#RESPONSE PARAMETERS#}
+/* tslint:disable:URF-UNREAD-PUBLIC-OR-PROTECTED-FIELD */
+export class ResponseParameters {
+{% for param in method.response.params %}
+
+    /**
+    {% for line in param.doc.splitlines() %}
+     * {{ line }}
+    {% endfor %}
+     */
+    public {{ param.name }}: {{ lang_types_decode(param.type) }};
+{% endfor %}
+}
+
+/**
+{% for line in method.doc.splitlines() %}
+ * {{ line }}
+{% endfor %}
+ */
+/* tslint:disable:max-line-length no-bitwise */
+export class {{ service_name|capital }}{{ method.name|capital }}Codec {
+    // hex: {{ '0x%06X'|format(method.request.id) }}
+    public static REQUEST_MESSAGE_TYPE = {{ method.request.id }};
+    // hex: {{ '0x%06X'|format(method.response.id) }}
+    public static RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
+{#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
+{% for param in fixed_params(method.request.params) %}
+    private static REQUEST_{{ to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}ClientMessage.PARTITION_ID_FIELD_OFFSET + FixedSizeTypes.INT_SIZE_IN_BYTES{% else %}{{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + FixedSizeTypes.{{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+    {% if loop.last %}
+    private static REQUEST_INITIAL_FRAME_SIZE = {{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypes.{{param.type.upper()}}_SIZE_IN_BYTES;
+    {% endif %}
+{% else %}
+    private static REQUEST_INITIAL_FRAME_SIZE = ClientMessage.PARTITION_ID_FIELD_OFFSET + FixedSizeTypes.INT_SIZE_IN_BYTES;
+{% endfor %}
+{% for param in fixed_params(method.response.params) %}
+    private static RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}ClientMessage.CORRELATION_ID_FIELD_OFFSET + FixedSizeTypes.LONG_SIZE_IN_BYTES{% else %}{{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + FixedSizeTypes.{{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+    {% if loop.last %}
+    private static RESPONSE_INITIAL_FRAME_SIZE = {{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypes.{{param.type.upper()}}_SIZE_IN_BYTES;
+    {% endif %}
+{% else %}
+    private static RESPONSE_INITIAL_FRAME_SIZE = ClientMessage.CORRELATION_ID_FIELD_OFFSET + FixedSizeTypes.LONG_SIZE_IN_BYTES;
+{% endfor %}
+{% for event in method.events%}
+    {% for param in fixed_params(event.params) %}
+    private static EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}ClientMessage.PARTITION_ID_FIELD_OFFSET + FixedSizeTypes.INT_SIZE_IN_BYTES{% else %}{{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + FixedSizeTypes.{{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+    {% if loop.last %}
+    private static EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + FixedSizeTypes.{{param.type.upper()}}_SIZE_IN_BYTES;
+    {% endif %}
+    {% else %}
+    private static EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = ClientMessage.PARTITION_ID_FIELD_OFFSET + FixedSizeTypes.INT_SIZE_IN_BYTES;
+    {% endfor %}
+    // hex: {{ '0x%06X'|format(event.id) }}
+    private static EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};
+{% endfor %}
+
+{#REQUEST_ENCODE#}
+    static encodeRequest({% for param in method.request.params %}{{param.name}}: {{lang_types_encode(param.type)}}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
+        const clientMessage = ClientMessage.createForEncode();
+        clientMessage.setRetryable({{ method.request.retryable|lower }});
+        clientMessage.setAcquiresResource({{ method.request.acquiresResource|lower }});
+        clientMessage.setOperationName('{{ service_name|capital }}.{{ method.name|capital }}');
+        const initialFrame: Frame = new Frame(Buffer.allocUnsafe({{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_INITIAL_FRAME_SIZE), ClientMessage.UNFRAGMENTED_MESSAGE);
+        FixedSizeTypes.encodeInt(initialFrame.content, ClientMessage.TYPE_FIELD_OFFSET, {{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_MESSAGE_TYPE);
+    {% for param in fixed_params(method.request.params) %}
+        FixedSizeTypes.encode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+        clientMessage.add(initialFrame);
+    {% for param in var_size_params(method.request.params) %}
+        {{ encode_var_sized(param) }};
+    {% endfor %}
+        return clientMessage;
+    }
+
+{#REQUEST_DECODE#}
+    static decodeRequest(clientMessage: ClientMessage): RequestParameters {
+        const request: RequestParameters = new RequestParameters();
+    {% if fixed_params(method.request.params)|length != 0 %}
+        const frame: Frame = clientMessage.get();
+        const initialFrame: Frame = frame.next;
+    {% else %}
+        // empty initial frame
+        let frame: Frame = clientMessage.get();
+        frame = frame.next;
+    {% endif %}
+    {% for param in fixed_params(method.request.params) %}
+        request.{{ param.name }} =  FixedSizeTypes.decode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% endfor %}
+    {% for param in var_size_params(method.request.params) %}
+        request.{{ param.name }} = {{ decode_var_sized(param) }};
+    {% endfor %}
+        return request;
+    }
+
+{#RESPONSE ENCODE#}
+     static encodeResponse({% for param in method.response.params %}{{param.name}}: {{ lang_types_encode(param.type) }} {% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
+        const clientMessage = ClientMessage.createForEncode();
+        const initialFrame: Frame = new Frame(Buffer.allocUnsafe({{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_INITIAL_FRAME_SIZE), ClientMessage.UNFRAGMENTED_MESSAGE);
+        FixedSizeTypes.encodeInt(initialFrame.content, ClientMessage.TYPE_FIELD_OFFSET, {{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_MESSAGE_TYPE);
+        clientMessage.add(initialFrame);
+
+    {% for param in fixed_params(method.response.params) %}
+        FixedSizeTypes.encode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+    {% for param in var_size_params(method.response.params) %}
+        {{ encode_var_sized(param) }};
+    {% endfor %}
+        return clientMessage;
+    }
+
+{#RESPONSE DECODE#}
+     static decodeResponse(clientMessage: ClientMessage): ResponseParameters {
+        const response: ResponseParameters = new ResponseParameters();
+    {% if fixed_params(method.request.params)|length != 0 %}
+        const frame: Frame = clientMessage.get();
+        const initialFrame: Frame = frame.next;
+    {% else %}
+        // empty initial frame
+        let frame: Frame = clientMessage.get();
+        frame = frame.next;
+    {% endif %}
+    {% for param in fixed_params(method.response.params) %}
+        response.{{ param.name }} =  FixedSizeTypes.decode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% endfor %}
+    {% for param in var_size_params(method.response.params) %}
+        response.{{ param.name }} = {{ decode_var_sized(param) }};
+    {% endfor %}
+        return response;
+    }
+{# EVENTS#}
+{% if method.events|length != 0 %}
+
+{% for event in method.events%}
+     static encode{{ event.name|capital }}Event({% for param in event.params %} {{param.name}}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
+        const clientMessage = ClientMessage.createForEncode();
+        const initialFrame: Frame = new Frame(Buffer.allocUnsafe({{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE), ClientMessage.UNFRAGMENTED_MESSAGE);
+        initialFrame.flags |= ClientMessage.IS_EVENT_FLAG;
+        FixedSizeTypes.encodeInt(initialFrame.content, ClientMessage.TYPE_FIELD_OFFSET, {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE);
+    {% for param in fixed_params(event.params) %}
+        FixedSizeTypes.encode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% endfor %}
+        clientMessage.add(initialFrame);
+    {% for param in var_size_params(event.params) %}
+        {{ encode_var_sized(param) }};
+    {% endfor %}
+        return clientMessage;
+    }
+    {% endfor %}
+
+    static handle(clientMessage: ClientMessage,  {% for event in method.events %}handle{{ event.name|capital }}: any, {% endfor %}toObjectFunction: (data: Data) => any = null): void {
+        const messageType = clientMessage.getMessageType();
+    {% for event in method.events%}
+        if (messageType === {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
+    {% if fixed_params(method.request.params)|length != 0 %}
+        const frame: Frame = clientMessage.get();
+        const initialFrame: Frame = frame.next;
+    {% else %}
+        // empty initial frame
+        let frame: Frame = clientMessage.get();
+        frame = frame.next;
+    {% endif %}
+    {% for param in fixed_params(event.params) %}
+        const {{param.name}}: {{ lang_types_decode(param.type) }}  = FixedSizeTypes.decode{{ param.type|capital }}(initialFrame.content, {{ service_name|capital }}{{ method.name|capital }}Codec.EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% endfor %}
+    {% for param in var_size_params(event.params) %}
+        const {{param.name}}: {{ lang_types_decode(param.type) }} = {{ decode_var_sized(param) }};
+    {% endfor %}
+        handle{{ event.name|capital }}({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+        return;
+        }
+{% endfor %}
+    }
+{% endif %}
+}
+

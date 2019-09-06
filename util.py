@@ -8,6 +8,7 @@ import yaml
 from jinja2 import Environment, PackageLoader
 
 from java import java_types_encode, java_types_decode
+from ts import ts_types_encode, ts_types_decode
 
 FixedLengthTypes = [
     "boolean",
@@ -31,6 +32,10 @@ FixedListTypes = [
 
 
 def java_name(type_name):
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
+
+
+def ts_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
@@ -138,17 +143,17 @@ class SupportedLanguages(Enum):
     # CPP = 'cpp'
     # CS = 'cs'
     # PY = 'py'
-    # TS = 'ts'
+    TS = 'ts'
     # GO = 'go'
 
 
 output_directories = {
-    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    # SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
-    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
-    # SupportedLanguages.TS: 'src/codec/',
-    # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.JAVA: '/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
+    # SupportedLanguages.CPP: '/hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    # SupportedLanguages.CS: '/Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    # SupportedLanguages.PY: '/hazelcast/protocol/codec/',
+    SupportedLanguages.TS: '/src/codec/',
+    # SupportedLanguages.GO: '/internal/proto/'
 }
 
 file_extensions = {
@@ -156,19 +161,23 @@ file_extensions = {
     # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     # SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
-    # SupportedLanguages.TS: 'ts',
+    SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
 }
 
 language_specific_funcs = {
     'lang_types_encode': {
-        SupportedLanguages.JAVA: java_types_encode
+        SupportedLanguages.JAVA: java_types_encode,
+        SupportedLanguages.TS: ts_types_encode
     },
     'lang_types_decode': {
-        SupportedLanguages.JAVA: java_types_decode
+        SupportedLanguages.JAVA: java_types_decode,
+        SupportedLanguages.TS: ts_types_decode
     },
     'lang_name': {
-        SupportedLanguages.JAVA: java_name
+        SupportedLanguages.JAVA: java_name,
+        SupportedLanguages.TS: ts_name
+
     }
 }
 
