@@ -457,7 +457,7 @@ methods:
     response:
       params:
         - name: partitions
-          type: Map_Address_List_Integer
+          type: EntryList_Address_List_Integer
           nullable: false
           since: 2.0
           doc: |
@@ -823,7 +823,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: classDefinitions
-          type: Map_String_byteArray
+          type: EntryList_String_byteArray
           nullable: false
           since: 2.0
           doc: |
@@ -843,7 +843,7 @@ methods:
       - name: Partitions
         params:
           - name: partitions
-            type: Map_Address_List_Integer
+            type: EntryList_Address_List_Integer
             nullable: false
             since: 2.0
             doc: |
@@ -869,7 +869,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: proxies
-          type: Map_String_String
+          type: EntryList_String_String
           nullable: false
           since: 2.0
           doc: |

@@ -1,0 +1,745 @@
+customTypes:
+  - name: Address
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: host
+        type: String
+        nullable: false
+        since: 2.0
+      - name: port
+        type: int
+        nullable: false
+        since: 2.0
+  - name: CacheEventData
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: cacheEventType
+        type: Enum_int_CacheEventType
+        nullable: false
+        since: 2.0
+      - name: dataKey
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: dataValue
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: dataOldValue
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: oldValueAvailable
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: CacheSimpleEntryListenerConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: oldValueRequired
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: synchronous
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: cacheEntryListenerFactory
+        type: String
+        nullable: true
+        since: 2.0
+      - name: cacheEntryEventFilterFactory
+        type: String
+        nullable: true
+        since: 2.0
+  - name: DistributedObjectInfo
+    since: 2.0
+    params:
+      - name: serviceName
+        type: String
+        nullable: false
+        since: 2.0
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+  - name: ErrorHolder
+    since: 2.0
+    params:
+      - name: errorCode
+        type: int
+        nullable: false
+        since: 2.0
+      - name: className
+        type: String
+        nullable: false
+        since: 2.0
+      - name: message
+        type: String
+        nullable: true
+        since: 2.0
+      - name: stackTraceElements
+        type: List_StackTraceElement
+        nullable: false
+        since: 2.0
+  - name: EventJournalConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: capacity
+        type: int
+        nullable: false
+        since: 2.0
+      - name: timeToLiveSeconds
+        type: int
+        nullable: false
+        since: 2.0
+  - name: EvictionConfigHolder
+    since: 2.0
+    params:
+      - name: size
+        type: int
+        nullable: false
+        since: 2.0
+      - name: maxSizePolicy
+        type: String
+        nullable: false
+        since: 2.0
+      - name: evictionPolicy
+        type: String
+        nullable: false
+        since: 2.0
+      - name: comparatorClassName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: comparator
+        type: Data
+        nullable: true
+        since: 2.0
+  - name: HotRestartConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: fsync
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: ListenerConfigHolder
+    since: 2.0
+    params:
+      - name: listenerType
+        type: int
+        nullable: false
+        since: 2.0
+      - name: listenerImplementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: className
+        type: String
+        nullable: true
+        since: 2.0
+      - name: includeValue
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: local
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: AttributeConfig
+    since: 2.0
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: extractorClassName
+        type: String
+        nullable: false
+        since: 2.0
+  - name: MapIndexConfig
+    since: 2.0
+    params:
+      - name: attribute
+        type: String
+        nullable: false
+        since: 2.0
+      - name: ordered
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: MapStoreConfigHolder
+    since: 2.0
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: writeCoalescing
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: writeDelaySeconds
+        type: int
+        nullable: false
+        since: 2.0
+      - name: writeBatchSize
+        type: int
+        nullable: false
+        since: 2.0
+      - name: className
+        type: String
+        nullable: true
+        since: 2.0
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: factoryClassName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: factoryImplementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: properties
+        type: Map_String_String
+        nullable: true
+        since: 2.0
+      - name: initialLoadMode
+        type: String
+        nullable: false
+        since: 2.0
+  - name: Member
+    since: 2.0
+    params:
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+      - name: uuid
+        type: UUID
+        nullable: false
+        since: 2.0
+      - name: attributes
+        type: Map_String_String
+        nullable: false
+        since: 2.0
+      - name: liteMember
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: MerkleTreeConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: depth
+        type: int
+        nullable: false
+        since: 2.0
+  - name: NearCacheConfigHolder
+    since: 2.0
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: inMemoryFormat
+        type: String
+        nullable: false
+        since: 2.0
+      - name: serializeKeys
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: invalidateOnChange
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: timeToLiveSeconds
+        type: int
+        nullable: false
+        since: 2.0
+      - name: maxIdleSeconds
+        type: int
+        nullable: false
+        since: 2.0
+      - name: evictionConfigHolder
+        type: EvictionConfigHolder
+        nullable: false
+        since: 2.0
+      - name: cacheLocalEntries
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: localUpdatePolicy
+        type: String
+        nullable: false
+        since: 2.0
+      - name: preloaderConfig
+        type: NearCachePreloaderConfig
+        nullable: true
+        since: 2.0
+  - name: NearCachePreloaderConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: directory
+        type: String
+        nullable: false
+        since: 2.0
+      - name: storeInitialDelaySeconds
+        type: int
+        nullable: false
+        since: 2.0
+      - name: storeIntervalSeconds
+        type: int
+        nullable: false
+        since: 2.0
+  - name: PredicateConfigHolder
+    since: 2.0
+    params:
+      - name: className
+        type: String
+        nullable: true
+        since: 2.0
+      - name: sql
+        type: String
+        nullable: true
+        since: 2.0
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.0
+  - name: QueryCacheConfigHolder
+    since: 2.0
+    params:
+      - name: batchSize
+        type: int
+        nullable: false
+        since: 2.0
+      - name: bufferSize
+        type: int
+        nullable: false
+        since: 2.0
+      - name: delaySeconds
+        type: int
+        nullable: false
+        since: 2.0
+      - name: includeValue
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: populate
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: coalesce
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: inMemoryFormat
+        type: String
+        nullable: false
+        since: 2.0
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: predicateConfigHolder
+        type: PredicateConfigHolder
+        nullable: false
+        since: 2.0
+      - name: evictionConfigHolder
+        type: EvictionConfigHolder
+        nullable: false
+        since: 2.0
+      - name: listenerConfigs
+        type: List_ListenerConfigHolder
+        nullable: true
+        since: 2.0
+      - name: indexConfigs
+        type: List_MapIndexConfig
+        nullable: true
+        since: 2.0
+  - name: QueryCacheEventData
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: dataKey
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: dataNewValue
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: sequence
+        type: long
+        nullable: false
+        since: 2.0
+      - name: eventType
+        type: int
+        nullable: false
+        since: 2.0
+      - name: partitionId
+        type: int
+        nullable: false
+        since: 2.0
+  - name: QueueStoreConfigHolder
+    since: 2.0
+    params:
+      - name: className
+        type: String
+        nullable: true
+        since: 2.0
+      - name: factoryClassName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: factoryImplementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: properties
+        type: Map_String_String
+        nullable: true
+        since: 2.0
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: RaftGroupId
+    since: 2.0
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: seed
+        type: long
+        nullable: false
+        since: 2.0
+      - name: id
+        type: long
+        nullable: false
+        since: 2.0
+  - name: RingbufferStoreConfigHolder
+    since: 2.0
+    params:
+      - name: className
+        type: String
+        nullable: true
+        since: 2.0
+      - name: factoryClassName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: factoryImplementation
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: properties
+        type: Map_String_String
+        nullable: true
+        since: 2.0
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: ScheduledTaskHandler
+    since: 2.0
+    params:
+      - name: address
+        type: Address
+        nullable: true
+        since: 2.0
+      - name: partitionId
+        type: int
+        nullable: false
+        since: 2.0
+      - name: schedulerName
+        type: String
+        nullable: false
+        since: 2.0
+      - name: taskName
+        type: String
+        nullable: false
+        since: 2.0
+  - name: SimpleEntryView
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: key
+        type: Data
+        nullable: false
+        since: 2.0
+      - name: value
+        type: Data
+        nullable: false
+        since: 2.0
+      - name: cost
+        type: long
+        nullable: false
+        since: 2.0
+      - name: creationTime
+        type: long
+        nullable: false
+        since: 2.0
+      - name: expirationTime
+        type: long
+        nullable: false
+        since: 2.0
+      - name: hits
+        type: long
+        nullable: false
+        since: 2.0
+      - name: lastAccessTime
+        type: long
+        nullable: false
+        since: 2.0
+      - name: lastStoredTime
+        type: long
+        nullable: false
+        since: 2.0
+      - name: lastUpdateTime
+        type: long
+        nullable: false
+        since: 2.0
+      - name: version
+        type: long
+        nullable: false
+        since: 2.0
+      - name: ttl
+        type: long
+        nullable: false
+        since: 2.0
+      - name: maxIdle
+        type: long
+        nullable: false
+        since: 2.0
+  - name: StackTraceElement
+    since: 2.0
+    params:
+      - name: className
+        type: String
+        nullable: false
+        since: 2.0
+      - name: methodName
+        type: String
+        nullable: false
+        since: 2.0
+      - name: fileName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: lineNumber
+        type: int
+        nullable: false
+        since: 2.0
+  - name: DurationConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: durationAmount
+        type: long
+        nullable: false
+        since: 2.0
+      - name: timeUnit
+        type: Enum_String_TimeUnit
+        nullable: false
+        since: 2.0
+  - name: TimedExpiryPolicyFactoryConfig
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: expiryPolicyType
+        type: Enum_String_ExpiryPolicyType
+        nullable: false
+        since: 2.0
+      - name: durationConfig
+        type: DurationConfig
+        nullable: False
+        since: 2.0
+  - name: WanReplicationRef
+    since: 2.0
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: mergePolicy
+        type: String
+        nullable: false
+        since: 2.0
+      - name: filters
+        type: List_String
+        nullable: true
+        since: 2.0
+      - name: republishingEnabled
+        type: boolean
+        nullable: false
+        since: 2.0
+  - name: Xid
+    since: 2.0
+    params:
+      - name: formatId
+        type: int
+        nullable: false
+        since: 2.0
+      - name: globalTransactionId
+        type: byteArray
+        nullable: false
+        since: 2.0
+      - name: branchQualifier
+        type: byteArray
+        nullable: false
+        since: 2.0
+  - name: MergePolicyConfig
+    since: 2.0
+    params:
+      - name: policy
+        type: String
+        nullable: false
+        since: 2.0
+      - name: batchSize
+        type: int
+        nullable: false
+        since: 2.0
+  - name: CacheConfigHolder
+    since: 2.0
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.0
+      - name: managerPrefix
+        type: String
+        nullable: true
+        since: 2.0
+      - name: uriString
+        type: String
+        nullable: true
+        since: 2.0
+      - name: backupCount
+        type: int
+        nullable: false
+        since: 2.0
+      - name: asyncBackupCount
+        type: int
+        nullable: false
+        since: 2.0
+      - name: inMemoryFormat
+        type: String
+        nullable: false
+        since: 2.0
+      - name: evictionConfigHolder
+        type: EvictionConfigHolder
+        nullable: false
+        since: 2.0
+      - name: wanReplicationRef
+        type: WanReplicationRef
+        nullable: true
+        since: 2.0
+      - name: keyClassName
+        type: String
+        nullable: false
+        since: 2.0
+      - name: valueClassName
+        type: String
+        nullable: false
+        since: 2.0
+      - name: cacheLoaderFactory
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: cacheWriterFactory
+        type: Data
+        nullable: true
+        since: 2.0
+      - name: expiryPolicyFactory
+        type: Data
+        nullable: false
+        since: 2.0
+      - name: readThrough
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: writeThrough
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: storeByValue
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: managementEnabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: statisticsEnabled
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: hotRestartConfig
+        type: HotRestartConfig
+        nullable: true
+        since: 2.0
+      - name: eventJournalConfig
+        type: EventJournalConfig
+        nullable: true
+        since: 2.0
+      - name: splitBrainProtectionName
+        type: String
+        nullable: true
+        since: 2.0
+      - name: listenerConfigurations
+        type: List_Data
+        nullable: true
+        since: 2.0
+      - name: mergePolicyConfig
+        type: MergePolicyConfig
+        nullable: false
+        since: 2.0
+      - name: disablePerEntryInvalidationEvents
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: cachePartitionLostListenerConfigs
+        type: List_ListenerConfigHolder
+        nullable: true
+        since: 2.0

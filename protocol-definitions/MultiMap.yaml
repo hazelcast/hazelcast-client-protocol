@@ -186,7 +186,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |

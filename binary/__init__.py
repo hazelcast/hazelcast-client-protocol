@@ -3,7 +3,14 @@ FixedLengthTypes = [
     "byte",
     "int",
     "long",
-    "UUID"
+    "UUID",
+    'Enum_int_CacheEventType',
+]
+
+EnumTypes = [
+    "Enum_int_CacheEventType",
+    "Enum_String_TimeUnit",
+    "Enum_String_ExpiryPolicyType",
 ]
 
 VarLengthTypes = [
@@ -13,10 +20,14 @@ VarLengthTypes = [
     'Data'
 ]
 
+FixedEntryListTypes = [
+    'EntryList_Integer_UUID',
+    'EntryList_UUID_Long',
+    'EntryList_Integer_Long',
+    'EntryList_Long_byteArray',
+]
+
 FixedMapTypes = [
-    'Map_Integer_UUID',
-    'Map_UUID_Long',
-    'Map_Integer_Long'
 ]
 
 FixedListTypes = [
@@ -35,7 +46,9 @@ CustomTypes = [
     'ScheduledTaskHandler',
     'SimpleEntryView',
     'WanReplicationRef',
-    'Xid'
+    'Xid',
+    'ErrorHolder',
+    'StackTraceElement',
 ]
 
 CustomConfigTypes = [
@@ -54,17 +67,23 @@ CustomConfigTypes = [
     'QueryCacheConfigHolder',
     'QueueStoreConfigHolder',
     'RingbufferStoreConfigHolder',
-    'TimedExpiryPolicyFactoryConfig'
+    'TimedExpiryPolicyFactoryConfig',
+    'DurationConfig',
+    'MergePolicyConfig',
+    'CacheConfigHolder',
+]
+
+VarLengthEntryListTypes = [
+    'EntryList_String_String',
+    'EntryList_String_byteArray',
+    'EntryList_String_EntryList_Integer_Long',
+    'EntryList_Address_List_Integer',
+    'EntryList_Data_Data',
+    'EntryList_Member_List_ScheduledTaskHandler',
 ]
 
 VarLengthMapTypes = [
     'Map_String_String',
-    'Map_String_byteArray',
-    'Map_Long_byteArray',
-    'Map_String_Map_Integer_Long',
-    'Map_Address_List_Integer',
-    'Map_Data_Data',
-    'Map_Member_List_ScheduledTaskHandler'
 ]
 
 VarLengthListTypes = [
@@ -83,7 +102,8 @@ VarLengthListTypes = [
     'List_ScheduledTaskHandler',
     'List_String',
     'List_Xid',
+    'List_StackTraceElement',
 ]
 
-AllTypes = FixedLengthTypes + VarLengthTypes + FixedMapTypes + FixedListTypes + CustomTypes + CustomConfigTypes \
-           + VarLengthMapTypes + VarLengthListTypes
+AllTypes = FixedLengthTypes + EnumTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \
+           + CustomTypes + CustomConfigTypes + VarLengthEntryListTypes + VarLengthMapTypes + VarLengthListTypes

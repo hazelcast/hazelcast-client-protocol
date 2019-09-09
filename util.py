@@ -8,36 +8,28 @@ from enum import Enum
 import yaml
 from jinja2 import Environment, PackageLoader
 
+from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
-
-FixedLengthTypes = [
-    "boolean",
-    "byte",
-    "int",
-    "long",
-    "UUID"
-]
-
-FixedMapTypes = [
-    'Map_Integer_UUID',
-    'Map_UUID_Long',
-    'Map_Long_byteArray',
-    'Map_Integer_Long'
-]
-
-FixedListTypes = [
-    'List_Integer',
-    'List_Long',
-    'List_UUID'
-]
 
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
+def param_name(type_name):
+    return type_name[0].lower() + type_name[1:]
+
+
 def is_fixed_type(param):
     return param["type"] in FixedLengthTypes
+
+
+def is_enum(type):
+    return type.startswith("Enum_")
+
+
+def enum_type(lang_name, param_type):
+    return lang_name(param_type.split('_', 2)[1])
 
 
 def capital(txt):
@@ -78,19 +70,27 @@ def generate_codecs(services, template, output_dir, extension):
                 save_file(os.path.join(output_dir, capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension), content)
 
 
+def generate_custom_codecs(services, template, output_dir, extension):
+    os.makedirs(output_dir, exist_ok=True)
+    for service in services:
+        if "customTypes" in service:
+            custom_types = service["customTypes"]
+            for codec in custom_types:
+                content = template.render(codec=codec)
+                save_file(os.path.join(output_dir, capital(codec["name"]) + 'Codec.' + extension), content)
+
+
 def item_type(lang_name, param_type):
     if param_type.startswith("List_") or param_type.startswith("ListCN_"):
         return lang_name(param_type.split('_', 1)[1])
 
 
 def key_type(lang_name, param_type):
-    if param_type.startswith("Map_"):
-        return lang_name(param_type.split('_', 2)[1])
+    return lang_name(param_type.split('_', 2)[1])
 
 
 def value_type(lang_name, param_type):
-    if param_type.startswith("Map_"):
-        return lang_name(param_type.split('_', 2)[2])
+    return lang_name(param_type.split('_', 2)[2])
 
 
 def is_var_sized_list(param_type):
@@ -103,6 +103,10 @@ def is_var_sized_list_contains_nullable(param_type):
 
 def is_var_sized_map(param_type):
     return param_type.startswith("Map_") and param_type not in FixedMapTypes
+
+
+def is_var_sized_entry_list(param_type):
+    return param_type.startswith("EntryList_") and param_type not in FixedEntryListTypes
 
 
 def load_services(protocol_def_dir):
@@ -174,6 +178,9 @@ language_specific_funcs = {
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name
+    },
+    'param_name': {
+        SupportedLanguages.JAVA: param_name
     }
 }
 
@@ -189,13 +196,17 @@ def create_environment(lang, namespace):
     env.globals["var_size_params"] = var_size_params
     env.globals["is_var_sized_list"] = is_var_sized_list
     env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable
+    env.globals["is_var_sized_entry_list"] = is_var_sized_entry_list
     env.globals["is_var_sized_map"] = is_var_sized_map
+    env.globals["is_enum"] = is_enum
     env.globals["item_type"] = item_type
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
+    env.globals["enum_type"] = enum_type
     env.globals["lang_types_encode"] = language_specific_funcs['lang_types_encode'][lang]
     env.globals["lang_types_decode"] = language_specific_funcs['lang_types_decode'][lang]
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]
     env.globals["namespace"] = namespace
+    env.globals["param_name"] = language_specific_funcs['param_name'][lang]
 
     return env
