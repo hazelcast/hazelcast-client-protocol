@@ -42,6 +42,7 @@ _java_types_common = {
     "NearCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.NearCacheConfigHolder",
     "EvictionConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder",
 
+    "CacheConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.CacheConfigHolder",
     "CacheEventData": "com.hazelcast.cache.impl.CacheEventData",
     "QueryCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder",
     "DistributedObjectInfo": "com.hazelcast.client.impl.client.DistributedObjectInfo",
