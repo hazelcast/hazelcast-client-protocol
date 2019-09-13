@@ -907,8 +907,8 @@ methods:
           since: 2.0
           doc: |
             map index configurations
-        - name: mapAttributeConfigs
-          type: List_MapAttributeConfig
+        - name: attributeConfigs
+          type: List_AttributeConfig
           nullable: true
           since: 2.0
           doc: |
