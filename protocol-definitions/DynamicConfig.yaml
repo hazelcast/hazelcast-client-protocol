@@ -629,51 +629,6 @@ methods:
             TODO DOC
     response: {}
   - id: 12
-    name: addSemaphoreConfig
-    since: 2.0
-    doc: |
-      Adds a new semaphore configuration to a running cluster.
-      If a semaphore configuration with the given {@code name} already exists, then
-      the new configuration is ignored and the existing one is preserved.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            semaphore configuration name
-        - name: initialPermits
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            thread count to which the concurrent access is limited
-        - name: backupCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            number of synchronous backups
-        - name: asyncBackupCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            number of asynchronous backups
-        - name: splitBrainProtectionName
-          type: String
-          nullable: true
-          since: 2.0
-          doc: |
-            name of an existing configured split brain protection to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
-            apply to this lock configuration's operations.
-    response: {}
-  - id: 13
     name: addQueueConfig
     since: 2.0
     doc: |
@@ -754,7 +709,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 14
+  - id: 13
     name: addMapConfig
     since: 2.0
     doc: |
@@ -964,7 +919,7 @@ methods:
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
     response: {}
-  - id: 15
+  - id: 14
     name: addReliableTopicConfig
     since: 2.0
     doc: |
@@ -1015,7 +970,7 @@ methods:
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
     response: {}
-  - id: 16
+  - id: 15
     name: addCacheConfig
     since: 2.0
     doc: |
@@ -1185,7 +1140,7 @@ methods:
           doc: |
             hot restart configuration
     response: {}
-  - id: 18
+  - id: 16
     name: addFlakeIdGeneratorConfig
     since: 2.0
     doc: |
@@ -1234,7 +1189,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 19
+  - id: 17
     name: addAtomicLongConfig
     since: 2.0
     doc: |
@@ -1273,7 +1228,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 20
+  - id: 18
     name: addAtomicReferenceConfig
     since: 2.0
     doc: |
@@ -1312,34 +1267,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 21
-    name: addCountDownLatchConfig
-    since: 2.0
-    doc: |
-      Adds a new count down latch configuration to a running cluster.
-      If an executor configuration with the given {@code name} already exists, then
-      the new configuration is ignored and the existing one is preserved.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            count down latch's name
-        - name: splitBrainProtectionName
-          type: String
-          nullable: true
-          since: 2.0
-          doc: |
-            name of an existing configured split brain protection to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
-            apply to this lock configuration's operations.
-    response: {}
-  - id: 22
+  - id: 19
     name: addPNCounterConfig
     since: 2.0
     doc: |
