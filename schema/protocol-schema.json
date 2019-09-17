@@ -43,6 +43,7 @@
             "SimpleEntryView",
             "WanReplicationRef",
             "Xid",
+            "CacheConfigHolder",
             "CacheSimpleEntryListenerConfig",
             "EventJournalConfig",
             "EvictionConfigHolder",

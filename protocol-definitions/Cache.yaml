@@ -265,12 +265,11 @@ methods:
       partitionIdentifier: name
       params:
         - name: cacheConfig
-          type: Data
+          type: CacheConfigHolder
           nullable: false
           since: 2.0
           doc: |
-            The cache configuration. Byte-array which is serialized from an object implementing
-            javax.cache.configuration.Configuration interface.
+            The cache configuration.
         - name: createAlsoOnOthers
           type: boolean
           nullable: false
@@ -280,12 +279,11 @@ methods:
     response:
       params:
         - name: response
-          type: Data
+          type: CacheConfigHolder
           nullable: true
           since: 2.0
           doc: |
-            The created configuration object. Byte-array which is serialized from an object implementing
-            javax.cache.configuration.Configuration interface.
+            The created configuration object.
   - id: 8
     name: destroy
     since: 2.0
@@ -509,12 +507,11 @@ methods:
     response:
       params:
         - name: response
-          type: Data
+          type: CacheConfigHolder
           nullable: true
           since: 2.0
           doc: |
-            The cache configuration. Byte-array which is serialized from an object implementing
-            javax.cache.configuration.Configuration interface.
+            The cache configuration.
   - id: 14
     name: get
     since: 2.0
