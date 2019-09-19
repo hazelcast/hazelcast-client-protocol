@@ -1,3 +1,4 @@
+import hashlib
 import json
 import jsonschema
 import os
@@ -57,6 +58,7 @@ def var_size_params(params):
 
 
 def generate_codecs(services, template, output_dir, extension):
+    os.makedirs(output_dir, exist_ok=True)
     id_fmt = "0x%02x%02x%02x"
     for service in services:
         if "methods" in service:
@@ -128,9 +130,11 @@ def validate_services(services, schema_path):
 
 
 def save_file(file, content):
-    os.makedirs(os.path.dirname(file), exist_ok=True)
+    m = hashlib.md5()
+    m.update(content.encode("utf-8"))
+    codec_hash = m.hexdigest()
     with open(file, 'w') as file:
-        file.writelines(content)
+        file.writelines(content.replace('!codec_hash!', codec_hash))
 
 
 class SupportedLanguages(Enum):
