@@ -5,24 +5,31 @@ methods:
     name: init
     since: 2.0
     doc: |
-      Try to initialize this ISemaphore instance with the given permit count
+      Initializes the ISemaphore instance with the given permit number, if not
+      initialized before.
     request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            Name of the Semaphore
+            Name of this ISemaphore instance
         - name: permits
           type: int
           nullable: false
           since: 2.0
           doc: |
-            The given permit count
+            Number of permits to initialize this ISemaphore
     response:
       params:
         - name: response
@@ -30,164 +37,62 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            True if initialization succeeds, false otherwise.
+            true if the ISemaphore is initialized with this call
   - id: 2
     name: acquire
     since: 2.0
     doc: |
-      Acquires the given number of permits if they are available, and returns immediately, reducing the number of
-      available permits by the given amount. If insufficient permits are available then the current thread becomes
-      disabled for thread scheduling purposes and lies dormant until one of three things happens: some other thread
-      invokes one of the methods for this semaphore, the current thread is next to be assigned permits and the number
-      of available permits satisfies this request, this ISemaphore instance is destroyed, or some other thread
-      the current thread. If the current thread has its interrupted status set on entry to this method, or is  while
-      waiting for a permit, then  is thrown and the current thread's interrupted status is cleared.
-    request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the Semaphore
-        - name: permits
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The given permit count
-    response: {}
-  - id: 3
-    name: availablePermits
-    since: 2.0
-    doc: |
-      Returns the current number of permits currently available in this semaphore. This method is typically used for
-      debugging and testing purposes.
+      Acquires the requested amount of permits if available, reducing
+      the number of available permits. If no enough permits are available,
+      then the current thread becomes disabled for thread scheduling purposes
+      and lies dormant until other threads release enough permits.
     request:
       retryable: true
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            Name of the Semaphore
-    response:
-      params:
-        - name: response
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The number of permits available in this semaphore.
-  - id: 4
-    name: drainPermits
-    since: 2.0
-    doc: |
-      Acquires and returns all permits that are immediately available.
-    request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the Semaphore
-    response:
-      params:
-        - name: response
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The number of permits drained
-  - id: 5
-    name: reducePermits
-    since: 2.0
-    doc: |
-      Shrinks the number of available permits by the indicated reduction. This method differs from  acquire in that it
-      does not block waiting for permits to become available.
-    request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the Semaphore
-        - name: reduction
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The number of permits to remove
-    response: {}
-  - id: 6
-    name: release
-    since: 2.0
-    doc: |
-      Releases the given number of permits, increasing the number of available permits by that amount. There is no
-      requirement that a thread that releases a permit must have acquired that permit by calling one of the
-      acquire()acquire methods. Correct usage of a semaphore is established by programming convention in the application.
-    request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the Semaphore
-        - name: permits
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The number of permits to remove
-    response: {}
-  - id: 7
-    name: tryAcquire
-    since: 2.0
-    doc: |
-      Acquires the given number of permits, if they are available, and returns immediately, with the value true,
-      reducing the number of available permits by the given amount. If insufficient permits are available then this
-      method will return immediately with the value false and the number of available permits is unchanged.
-    request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the Semaphore
-        - name: permits
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            The number of permits to remove
-        - name: timeout
+            Name of this ISemaphore instance
+        - name: sessionId
           type: long
           nullable: false
           since: 2.0
           doc: |
-            The maximum time to wait for a permit
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of permits to acquire
+        - name: timeoutMs
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Duration to wait for permit acquire
     response:
       params:
         - name: response
@@ -195,29 +100,216 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            true if all permits were acquired,  false if the waiting time elapsed before all permits could be acquired
-  - id: 8
-    name: increasePermits
+            true if requested permits are acquired,
+            false otherwise
+  - id: 3
+    name: release
     since: 2.0
     doc: |
-      Increases the number of available permits by the indicated amount. This method differs from {@code release}
-      in that it does not effect the amount of permits this caller has attached.
+      Releases the given number of permits and increases the number of
+      available permits by that amount.
     request:
-      retryable: false
-      acquiresResource: true
-      partitionIdentifier: name
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            Name of the Semaphore
-        - name: increase
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
           type: int
           nullable: false
           since: 2.0
           doc: |
-            The number of permits to add
-            @throws IllegalArgumentException if {@code increase} is negative
-    response: {}
+            number of permits to release
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true
+  - id: 4
+    name: drain
+    since: 2.0
+    doc: |
+      Acquires all available permits at once and returns immediately.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+    response:
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of acquired permits
+  - id: 5
+    name: change
+    since: 2.0
+    doc: |
+      Increases or decreases the number of permits by the given value.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Session ID of the caller
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the caller thread
+        - name: invocationUid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UID of this invocation
+        - name: permits
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of permits to increase / decrease
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true
+  - id: 6
+    name: availablePermits
+    since: 2.0
+    doc: |
+      Returns the number of available permits.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this ISemaphore instance
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of this ISemaphore instance
+    response:
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of available permits
+  - id: 7
+    name: getSemaphoreType
+    since: 2.0
+    doc: |
+      Returns true if the semaphore is JDK compatible
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: proxyName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the ISemaphore proxy
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if the semaphore is JDK compatible

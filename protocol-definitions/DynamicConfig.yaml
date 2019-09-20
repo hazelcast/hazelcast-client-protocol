@@ -628,51 +628,6 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 12
-    name: addSemaphoreConfig
-    since: 2.0
-    doc: |
-      Adds a new semaphore configuration to a running cluster.
-      If a semaphore configuration with the given {@code name} already exists, then
-      the new configuration is ignored and the existing one is preserved.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            semaphore configuration name
-        - name: initialPermits
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            thread count to which the concurrent access is limited
-        - name: backupCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            number of synchronous backups
-        - name: asyncBackupCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            number of asynchronous backups
-        - name: splitBrainProtectionName
-          type: String
-          nullable: true
-          since: 2.0
-          doc: |
-            name of an existing configured split brain protection to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
-            apply to this lock configuration's operations.
-    response: {}
   - id: 13
     name: addQueueConfig
     since: 2.0
