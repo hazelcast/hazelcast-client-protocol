@@ -46,10 +46,10 @@ package {{ namespace }};
 package com.hazelcast.client.impl.protocol.codec;
 {% endif %}
 
+import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 
-import javax.annotation.Generated;
 import java.util.ListIterator;
 
 import static com.hazelcast.client.impl.protocol.ClientMessage.*;
@@ -70,7 +70,7 @@ import com.hazelcast.logging.Logger;
  * {{ line }}
 {% endfor %}
  */
-@Generated({"!codec_hash!"})
+@Generated("!codec_hash!")
 public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     //hex: {{ '0x%06X'|format(method.request.id) }}
     public static final int REQUEST_MESSAGE_TYPE = {{ method.request.id }};
