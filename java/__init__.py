@@ -72,6 +72,7 @@ _java_types_encode = {
 
     "Map_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "Map_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
+    "Map_Long_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.Long, byte[]>>",
     "Map_Integer_UUID": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.util.UUID>>",
     "Map_UUID_Long": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "Map_String_Map_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
@@ -99,6 +100,7 @@ _java_types_decode = {
 
     "Map_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "Map_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",
+    "Map_Long_byteArray": "java.util.List<java.util.Map.Entry<java.lang.Long, byte[]>>",
     "Map_Integer_UUID": "java.util.List<java.util.Map.Entry<java.lang.Integer, java.util.UUID>>",
     "Map_UUID_Long": "java.util.List<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "Map_String_Map_Integer_Long": "java.util.List<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
