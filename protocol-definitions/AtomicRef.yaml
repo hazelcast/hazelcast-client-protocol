@@ -1,5 +1,5 @@
-id: 36
-name: CPAtomicRef
+id: 11
+name: AtomicRef
 methods:
   - id: 1
     name: apply
