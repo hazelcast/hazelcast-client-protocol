@@ -42,11 +42,12 @@ _java_types_common = {
     "NearCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.NearCacheConfigHolder",
     "EvictionConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.EvictionConfigHolder",
 
+    "CacheConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.CacheConfigHolder",
     "CacheEventData": "com.hazelcast.cache.impl.CacheEventData",
     "QueryCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder",
     "DistributedObjectInfo": "com.hazelcast.client.impl.client.DistributedObjectInfo",
     "IndexConfig": "com.hazelcast.config.IndexConfig",
-    "MapAttributeConfig": "com.hazelcast.config.MapAttributeConfig",
+    "AttributeConfig": "com.hazelcast.config.AttributeConfig",
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",
     "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.ScheduledTaskHandler"
@@ -65,7 +66,7 @@ _java_types_encode = {
     "List_DistributedObjectInfo": "java.util.Collection<com.hazelcast.client.impl.client.DistributedObjectInfo>",
     "List_QueryCacheEventData": "java.util.Collection<com.hazelcast.map.impl.querycache.event.QueryCacheEventData>",
     "List_IndexConfig": "java.util.Collection<com.hazelcast.config.IndexConfig>",
-    "List_MapAttributeConfig": "java.util.Collection<com.hazelcast.config.MapAttributeConfig>",
+    "List_AttributeConfig": "java.util.Collection<com.hazelcast.config.AttributeConfig>",
     "List_ListenerConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "java.util.Collection<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
 
@@ -92,7 +93,7 @@ _java_types_decode = {
     "List_DistributedObjectInfo": "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>",
     "List_QueryCacheEventData": "java.util.List<com.hazelcast.map.impl.querycache.event.QueryCacheEventData>",
     "List_IndexConfig": "java.util.List<com.hazelcast.config.IndexConfig>",
-    "List_MapAttributeConfig": "java.util.List<com.hazelcast.config.MapAttributeConfig>",
+    "List_AttributeConfig": "java.util.List<com.hazelcast.config.AttributeConfig>",
     "List_ListenerConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "java.util.List<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
 
