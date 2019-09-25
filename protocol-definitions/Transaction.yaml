@@ -12,7 +12,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: transactionId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -67,7 +67,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -83,7 +83,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: transactionId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |

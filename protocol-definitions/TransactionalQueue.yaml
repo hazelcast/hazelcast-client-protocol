@@ -19,7 +19,7 @@ methods:
           doc: |
             Name of the Transcational Queue
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -67,7 +67,7 @@ methods:
           doc: |
             Name of the Transactional Queue
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -104,7 +104,7 @@ methods:
           doc: |
             Name of the Transactional Queue
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -146,7 +146,7 @@ methods:
           doc: |
             Name of the Transactional Queue
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -189,7 +189,7 @@ methods:
           doc: |
             Name of the Transactional Queue
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |

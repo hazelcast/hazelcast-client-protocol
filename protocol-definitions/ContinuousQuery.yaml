@@ -190,7 +190,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
