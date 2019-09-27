@@ -27,7 +27,7 @@ methods:
     response:
       params:
         - name: elements
-          type: Map_Long_byteArray
+          type: EntryList_Long_byteArray
           nullable: false
           since: 2.0
           doc: |

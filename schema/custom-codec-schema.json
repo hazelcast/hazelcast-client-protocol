@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "id": "https://github.com/hazelcast/hazelcast-client-protocol/blob/master/schema/protocol-schema.json",
-  "title": "Hazelcast Client Protocol Definition",
+  "id": "https://github.com/hazelcast/hazelcast-client-protocol/blob/master/schema/custom-codec-schema.json",
+  "title": "Hazelcast Client Protocol Custom Codec Definitions",
   "type": "object",
   "definitions": {
     "since": {
@@ -98,130 +98,52 @@
         },
         "since": {
           "$ref": "#/definitions/since"
-        },
-        "doc": {
-          "type": "string",
-          "description": "parameter documentation"
         }
       },
       "required": [
         "name",
         "type",
         "nullable",
-        "since",
-        "doc"
+        "since"
       ]
-    },
-    "event": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Event name"
-        },
-        "params": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/param"
-          },
-          "minItems": 0,
-          "uniqueItems": false
-        }
-      }
     }
   },
   "additionalProperties": false,
   "properties": {
-    "id": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 255,
-      "description": "Service unique id, 0-255"
-    },
-    "name": {
-      "type": "string",
-      "description": "Service name"
-    },
-    "methods": {
+    "customTypes": {
       "type": "array",
       "items": {
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 255,
-            "description": "Method unique id, 1-255"
-          },
           "name": {
             "type": "string",
-            "description": "Method name"
+            "description": "Name of the custom type"
           },
           "since": {
             "$ref": "#/definitions/since"
           },
-          "doc": {
-            "type": "string",
-            "description": "method documentation"
+          "returnWithFactory": {
+            "type": "boolean",
+            "description": "True if the decode method should return with factory instead of the constructor"
           },
-          "request": {
-            "type": "object",
-            "description": "Request message definition",
-            "additionalProperties": false,
-            "properties": {
-              "retryable": {
-                "type": "boolean",
-                "description": "Is the request retryable or not"
-              },
-              "acquiresResource": {
-                "type": "boolean",
-                "description": "Does the request acquire resource or not"
-              },
-              "partitionIdentifier": {
-                "type": ["integer", "string"],
-                "description": "How should the partition Id calculated for this request. Used in documentation."
-              },
-              "params": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/param"
-                },
-                "minItems": 0,
-                "uniqueItems": false
-              }
-            },
-            "required": ["retryable", "acquiresResource", "partitionIdentifier"]
-          },
-          "response": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "params": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/param"
-                },
-                "minItems": 0,
-                "uniqueItems": false
-              }
-            }
-          },
-          "events": {
+          "params": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/event"
+              "$ref": "#/definitions/param"
             },
-            "minItems": 1,
-            "uniqueItems": true
+            "minItems": 0,
+            "uniqueItems": false
           }
         },
-        "required": ["name", "since", "doc", "request", "response"]
+        "required": [
+          "name",
+          "since",
+          "params"
+        ]
       }
     }
   },
   "required": [
-    "name",
-    "methods"
+    "customTypes"
   ]
 }

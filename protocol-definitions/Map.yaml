@@ -1624,7 +1624,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -1678,7 +1678,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -1777,7 +1777,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -1890,7 +1890,7 @@ methods:
           doc: |
             name of map
         - name: entries
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2027,7 +2027,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2064,7 +2064,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2101,7 +2101,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2194,7 +2194,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2224,7 +2224,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2331,7 +2331,7 @@ methods:
           doc: |
             The slot number (or index) to start the iterator
         - name: entries
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -2493,13 +2493,13 @@ methods:
     response:
       params:
         - name: namePartitionSequenceList
-          type: Map_String_Map_Integer_Long
+          type: EntryList_String_EntryList_Integer_Long
           nullable: false
           since: 2.0
           doc: |
             TODO DOC
         - name: partitionUuidList
-          type: Map_Integer_UUID
+          type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |
@@ -2516,7 +2516,7 @@ methods:
     response:
       params:
         - name: partitionUuidList
-          type: Map_Integer_UUID
+          type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |

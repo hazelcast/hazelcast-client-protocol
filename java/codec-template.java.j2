@@ -1,6 +1,8 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
@@ -14,6 +16,8 @@
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
@@ -46,9 +50,10 @@ package {{ namespace }};
 package com.hazelcast.client.impl.protocol.codec;
 {% endif %}
 
-import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.ClientMessage;
+import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
+import com.hazelcast.client.impl.protocol.codec.custom.*;
 
 import java.util.ListIterator;
 
@@ -179,11 +184,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
-        clientMessage.add(initialFrame);
-
     {% for param in fixed_params(method.response.params) %}
         encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
+        clientMessage.add(initialFrame);
+
     {% for param in var_size_params(method.response.params) %}
         {{ encode_var_sized(param) }};
     {% endfor %}
@@ -221,6 +226,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
+
     {% for param in var_size_params(event.params) %}
         {{ encode_var_sized(param) }};
     {% endfor %}
@@ -242,10 +248,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
                 iterator.next();
             {% endif %}
             {% for param in fixed_params(event.params) %}
-                {{ lang_types_decode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+                {{ lang_types_encode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
             {% endfor %}
             {% for param in var_size_params(event.params) %}
-                {{ lang_types_decode(param.type) }} {{param.name}} = {{ decode_var_sized(param) }};
+                {{ lang_types_encode(param.type) }} {{param.name}} = {{ decode_var_sized(param) }};
             {% endfor %}
                 handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
                 return;
