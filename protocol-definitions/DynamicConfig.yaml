@@ -204,33 +204,6 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 4
-    name: addLockConfig
-    since: 2.0
-    doc: |
-      Adds a new lock configuration to a running cluster.
-      If a lock configuration with the given {@code name} already exists, then
-      the new configuration is ignored and the existing one is preserved.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            lock's name
-        - name: splitBrainProtectionName
-          type: String
-          nullable: true
-          since: 2.0
-          doc: |
-            name of an existing configured split brain protection to be used to determine the minimum number of members
-            required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
-            apply to this lock configuration's operations.
-    response: {}
   - id: 5
     name: addListConfig
     since: 2.0
