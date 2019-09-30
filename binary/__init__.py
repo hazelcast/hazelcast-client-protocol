@@ -5,10 +5,12 @@ FixedLengthTypes = [
     "long",
     "UUID",
     'Enum_int_CacheEventType',
+    'Enum_int_IndexType',
 ]
 
 EnumTypes = [
     "Enum_int_CacheEventType",
+    'Enum_int_IndexType',
     "Enum_String_TimeUnit",
     "Enum_String_ExpiryPolicyType",
 ]
