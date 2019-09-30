@@ -241,7 +241,7 @@ methods:
           doc: |
             Name of the ReplicatedMap
         - name: entries
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -305,7 +305,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -344,7 +344,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |
@@ -387,7 +387,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -426,7 +426,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |
@@ -469,7 +469,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -508,7 +508,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |
@@ -544,7 +544,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -583,7 +583,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |
@@ -611,7 +611,7 @@ methods:
           doc: |
             Name of the ReplicatedMap
         - name: registrationId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -696,7 +696,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -732,7 +732,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -771,7 +771,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |

@@ -5,6 +5,8 @@ import argparse
 
 from util import *
 
+PROTOCOL_VERSION = 2.0
+
 start = time.time()
 
 parser = argparse.ArgumentParser(description='Hazelcast Code Generator generates code of client protocol '
@@ -39,6 +41,7 @@ parser.add_argument('-n', '--namespace',
                     type=str, help='Namespace for the generated codecs (default value is inferred from the '
                                    'selected language)')
 
+
 args = parser.parse_args()
 lang_str_arg = args.lang
 root_dir_arg = args.root_dir
@@ -56,19 +59,33 @@ relative_output_dir = out_dir_arg if out_dir_arg is not None else output_directo
 output_dir = os.path.join(root_dir, relative_output_dir)
 
 protocol_defs_path = proto_path_arg if proto_path_arg is not None else os.path.join(curr_dir, 'protocol-definitions')
-schema_path = os.path.join(curr_dir, 'schema', 'protocol-schema.json')
+custom_protocol_defs_path = os.path.join(protocol_defs_path, 'custom')
 
-services = load_services(protocol_defs_path)
-if not validate_services(services, schema_path):
+schema_path = os.path.join(curr_dir, 'schema', 'protocol-schema.json')
+custom_codec_schema_path = os.path.join(curr_dir, 'schema', 'custom-codec-schema.json')
+
+protocol_defs = load_services(protocol_defs_path)
+if not validate_services(protocol_defs, schema_path):
     exit(-1)
 
 env = create_environment(lang, namespace_arg)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
-generate_codecs(services, codec_template, output_dir, file_extensions[lang])
+generate_codecs(protocol_defs, codec_template, output_dir, file_extensions[lang])
+print('Generated codecs are at \'%s\'' % os.path.abspath(output_dir))
+
+if os.path.exists(custom_protocol_defs_path):
+    custom_protocol_defs = load_services(custom_protocol_defs_path)
+    if not validate_services(custom_protocol_defs, custom_codec_schema_path):
+        exit(-1)
+
+    custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)
+    custom_codec_output_dir = os.path.join(output_dir, 'custom')
+    generate_custom_codecs(custom_protocol_defs, custom_codec_template, custom_codec_output_dir,
+                           file_extensions[lang])
+    print('Generated custom codecs are at \'%s\'' % custom_codec_output_dir)
 
 end = time.time()
 
 print("Generator took: %d secs" % (end - start))
-print('Generated codecs are at \'%s\'' % os.path.abspath(output_dir))

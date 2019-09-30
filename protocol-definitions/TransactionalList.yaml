@@ -18,7 +18,7 @@ methods:
           doc: |
             Name of the Transactional List
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -60,7 +60,7 @@ methods:
           doc: |
             Name of the Transactional List
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -102,7 +102,7 @@ methods:
           doc: |
             Name of the Transactional List
         - name: txnId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |

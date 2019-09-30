@@ -26,7 +26,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -77,7 +77,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -98,7 +98,7 @@ methods:
             doc: |
               TODO DOC
           - name: sourceUuid
-            type: String
+            type: UUID
             nullable: true
             since: 2.0
             doc: |
@@ -130,7 +130,7 @@ methods:
             doc: |
               TODO DOC
           - name: sourceUuids
-            type: List_String
+            type: List_UUID
             nullable: true
             since: 2.0
             doc: |
@@ -386,7 +386,7 @@ methods:
     response:
       params:
         - name: response
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -822,7 +822,7 @@ methods:
           doc: |
             Name of the cache.
         - name: registrationId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -852,7 +852,7 @@ methods:
           doc: |
             Name of the cache.
         - name: registrationId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -996,7 +996,7 @@ methods:
     since: 2.0
     doc: |
       Adds a CachePartitionLostListener. The addPartitionLostListener returns a registration ID. This ID is needed to remove the
-      CachePartitionLostListener using the #removePartitionLostListener(String) method. There is no check for duplicate
+      CachePartitionLostListener using the #removePartitionLostListener(UUID) method. There is no check for duplicate
       registrations, so if you register the listener twice, it will get events twice.Listeners registered from
       HazelcastClient may miss some of the cache partition lost events due to design limitations.
     request:
@@ -1020,7 +1020,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -1035,7 +1035,7 @@ methods:
             doc: |
               TODO DOC
           - name: uuid
-            type: String
+            type: UUID
             nullable: false
             since: 2.0
             doc: |
@@ -1057,7 +1057,7 @@ methods:
           doc: |
             Name of the Cache
         - name: registrationId
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -1087,7 +1087,7 @@ methods:
           doc: |
             name of the cache
         - name: entries
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -1144,7 +1144,7 @@ methods:
           doc: |
             The slot number (or index) to start the iterator
         - name: entries
-          type: Map_Data_Data
+          type: EntryList_Data_Data
           nullable: false
           since: 2.0
           doc: |
@@ -1176,7 +1176,7 @@ methods:
     response:
       params:
         - name: response
-          type: String
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -1197,7 +1197,7 @@ methods:
             doc: |
               TODO DOC
           - name: sourceUuid
-            type: String
+            type: UUID
             nullable: true
             since: 2.0
             doc: |
@@ -1229,7 +1229,7 @@ methods:
             doc: |
               TODO DOC
           - name: sourceUuids
-            type: List_String
+            type: List_UUID
             nullable: true
             since: 2.0
             doc: |
@@ -1271,13 +1271,13 @@ methods:
     response:
       params:
         - name: namePartitionSequenceList
-          type: Map_String_Map_Integer_Long
+          type: EntryList_String_EntryList_Integer_Long
           nullable: false
           since: 2.0
           doc: |
             TODO DOC
         - name: partitionUuidList
-          type: Map_Integer_UUID
+          type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |
@@ -1294,7 +1294,7 @@ methods:
     response:
       params:
         - name: partitionUuidList
-          type: Map_Integer_UUID
+          type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |

@@ -5,24 +5,31 @@ methods:
     name: apply
     since: 2.0
     doc: |
-      Applies a function on the value, the actual stored value will not change.
+      Applies a function on the value, the actual stored value will not change
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: function
           type: Data
           nullable: false
           since: 2.0
           doc: |
-            The function applied to the value, the value is not changed.
+            The function applied to the value and the value is not
+            changed.
     response:
       params:
         - name: response
@@ -39,82 +46,41 @@ methods:
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: function
           type: Data
           nullable: false
           since: 2.0
           doc: |
             The function applied to the currently stored value.
-    response: {}
+        - name: returnValueType
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            0 returns the old value, 1 returns the new value
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
   - id: 3
-    name: alterAndGet
-    since: 2.0
-    doc: |
-      Alters the currently stored value by applying a function on it and gets the result.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
-        - name: function
-          type: Data
-          nullable: false
-          since: 2.0
-          doc: |
-            The function applied to the currently stored value.
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            The result of the function application.
-  - id: 4
-    name: getAndAlter
-    since: 2.0
-    doc: |
-      Alters the currently stored value by applying a function on it on and gets the old value.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
-        - name: function
-          type: Data
-          nullable: false
-          since: 2.0
-          doc: |
-            The function applied to the currently stored value.
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            The old value before the function application.
-  - id: 5
     name: addAndGet
     since: 2.0
     doc: |
@@ -122,20 +88,26 @@ methods:
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: delta
           type: long
           nullable: false
           since: 2.0
           doc: |
-            the value to add to the current value
+            The value to add to the current value
     response:
       params:
         - name: response
@@ -144,34 +116,41 @@ methods:
           since: 2.0
           doc: |
             the updated value, the given value added to the current value
-  - id: 6
+  - id: 4
     name: compareAndSet
     since: 2.0
     doc: |
-      Atomically sets the value to the given updated value only if the current value the expected value.
+      Atomically sets the value to the given updated value only if the current
+      value the expected value.
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: expected
           type: long
           nullable: false
           since: 2.0
           doc: |
-            the expected value
+            The expected value
         - name: updated
           type: long
           nullable: false
           since: 2.0
           doc: |
-            the new value
+            The new value
     response:
       params:
         - name: response
@@ -181,46 +160,28 @@ methods:
           doc: |
             true if successful; or false if the actual value
             was not equal to the expected value.
-  - id: 7
-    name: decrementAndGet
-    since: 2.0
-    doc: |
-      Atomically decrements the current value by one.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            the updated value, the current value decremented by one
-  - id: 8
+  - id: 5
     name: get
     since: 2.0
     doc: |
       Gets the current value.
     request:
-      retryable: false
+      retryable: true
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
     response:
       params:
         - name: response
@@ -228,8 +189,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            the current value
-  - id: 9
+            The current value
+  - id: 6
     name: getAndAdd
     since: 2.0
     doc: |
@@ -237,20 +198,26 @@ methods:
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: delta
           type: long
           nullable: false
           since: 2.0
           doc: |
-            the value to add to the current value
+            The value to add to the current value
     response:
       params:
         - name: response
@@ -259,7 +226,7 @@ methods:
           since: 2.0
           doc: |
             the old value before the add
-  - id: 10
+  - id: 7
     name: getAndSet
     since: 2.0
     doc: |
@@ -267,96 +234,31 @@ methods:
     request:
       retryable: false
       acquiresResource: false
-      partitionIdentifier: name
+      partitionIdentifier: -1
       params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.0
+          doc: |
+            CP group id of this IAtomicLong instance.
         - name: name
           type: String
           nullable: false
           since: 2.0
           doc: |
-            The name of this IAtomicLong instance.
-        - name: newValue
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            the new value
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            the old value
-  - id: 11
-    name: incrementAndGet
-    since: 2.0
-    doc: |
-      Atomically increments the current value by one.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            The updated value, the current value incremented by one
-  - id: 12
-    name: getAndIncrement
-    since: 2.0
-    doc: |
-      Atomically increments the current value by one.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
-    response:
-      params:
-        - name: response
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            the old value
-  - id: 13
-    name: set
-    since: 2.0
-    doc: |
-      Atomically sets the given value.
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: name
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            The name of this IAtomicLong instance.
+            Name of this IAtomicLong instance.
         - name: newValue
           type: long
           nullable: false
           since: 2.0
           doc: |
             The new value
-    response: {}
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the old value

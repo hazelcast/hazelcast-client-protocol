@@ -144,7 +144,7 @@ methods:
     response:
       params:
         - name: handlers
-          type: Map_Member_List_ScheduledTaskHandler
+          type: EntryList_Member_List_ScheduledTaskHandler
           nullable: false
           since: 2.0
           doc: |

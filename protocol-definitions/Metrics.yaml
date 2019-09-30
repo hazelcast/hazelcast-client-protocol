@@ -1,0 +1,40 @@
+id: 39
+name: Metrics
+methods:
+  - id: 1
+    name: readMetrics
+    since: 2.0
+    doc: |
+      Reads the recorded metrics starting with the smallest sequence number
+      greater or equals to the sequence number set in fromSequence.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            The UUID of the member that is supposed to read the metrics from.
+        - name: fromSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence the recorded metrics should be read starting with.
+    response:
+      params:
+        - name: elements
+          type: EntryList_Long_byteArray
+          nullable: false
+          since: 2.0
+          doc: |
+            The map of timestamp and compressed metrics data
+        - name: nextSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence number that the next task should start with
