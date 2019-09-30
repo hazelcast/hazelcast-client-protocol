@@ -54,8 +54,6 @@ import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 
-import java.util.ListIterator;
-
 import static com.hazelcast.client.impl.protocol.codec.builtin.CodecUtil.fastForwardToEndFrame;
 import static com.hazelcast.client.impl.protocol.ClientMessage.*;
 import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCodec.*;
@@ -73,7 +71,7 @@ public final class {{ codec.name|capital }}Codec {
     }
 
     public static void encode(ClientMessage clientMessage, {{ lang_types_encode(codec.name) }} {{ param_name(codec.name) }}) {
-        clientMessage.add(BEGIN_FRAME);
+        clientMessage.add(BEGIN_FRAME.copy());
         {% for param in fixed_params(codec.params) %}
         {% if loop.first %}
 
@@ -91,10 +89,10 @@ public final class {{ codec.name|capital }}Codec {
         {{ encode_var_sized(param) }};
         {% endfor %}
 
-        clientMessage.add(END_FRAME);
+        clientMessage.add(END_FRAME.copy());
     }
 
-    public static {{ lang_types_decode(codec.name) }} decode(ListIterator<ClientMessage.Frame> iterator) {
+    public static {{ lang_types_decode(codec.name) }} decode(ClientMessage.FrameIterator iterator) {
         // begin frame
         iterator.next();
         {% for param in fixed_params(codec.params) %}
