@@ -91,12 +91,12 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     private static final int REQUEST_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
 {% endfor %}
 {% for param in fixed_params(method.response.params) %}
-    private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+    private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}RESPONSE_BACKUP_ACKS_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
     private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
     {% endif %}
 {% else %}
-    private static final int RESPONSE_INITIAL_FRAME_SIZE = CORRELATION_ID_FIELD_OFFSET + LONG_SIZE_IN_BYTES;
+    private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_BACKUP_ACKS_FIELD_OFFSET + INT_SIZE_IN_BYTES;
 {% endfor %}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
