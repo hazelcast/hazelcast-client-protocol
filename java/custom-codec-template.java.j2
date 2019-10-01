@@ -92,7 +92,7 @@ public final class {{ codec.name|capital }}Codec {
         clientMessage.add(END_FRAME.copy());
     }
 
-    public static {{ lang_types_decode(codec.name) }} decode(ClientMessage.FrameIterator iterator) {
+    public static {{ lang_types_decode(codec.name) }} decode(ClientMessage.ForwardFrameIterator iterator) {
         // begin frame
         iterator.next();
         {% for param in fixed_params(codec.params) %}
