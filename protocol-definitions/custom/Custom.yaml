@@ -756,7 +756,7 @@ customTypes:
     params:
       - name: inMemoryFormat
         type: String
-        nullable: false
+        nullable: true
         since: 2.0
       - name: backupCount
         type: int
@@ -792,5 +792,5 @@ customTypes:
         since: 2.0
       - name: mergePolicy
         type: String
-        nullable: false
+        nullable: true
         since: 2.0

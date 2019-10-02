@@ -59,7 +59,7 @@ methods:
           doc: |
             Name of the map.
         - name: newMapConfig
-          type: Data
+          type: MapConfigHolder
           nullable: false
           since: 2.0
           doc: |
