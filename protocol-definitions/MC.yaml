@@ -37,7 +37,7 @@ methods:
     response:
       params:
         - name: response
-          type: Data
+          type: MapConfigHolder
           nullable: true
           since: 2.0
           doc: |
