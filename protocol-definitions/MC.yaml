@@ -2,7 +2,7 @@ id: 40
 name: MC
 methods:
   - id: 1
-    name: ChangeClusterStateRequest
+    name: changeClusterStateRequest
     since: 2.0
     doc: |
       Changes the state of a cluster.
@@ -19,7 +19,7 @@ methods:
             New state of the cluster.
     response: {}
   - id: 2
-    name: GetMapConfigRequest
+    name: getMapConfigRequest
     since: 2.0
     doc: |
       Gets the config of a map.
@@ -43,7 +43,7 @@ methods:
           doc: |
             The config of the map.
   - id: 3
-    name: UpdateMapConfigRequest
+    name: updateMapConfigRequest
     since: 2.0
     doc: |
       Updates the config of a map.
