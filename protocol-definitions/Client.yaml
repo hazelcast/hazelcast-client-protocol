@@ -895,3 +895,29 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports cluster failover
+  - id: 21
+    name: localBackupListener
+    since: 2.0
+    doc: |
+      Adds listener for backup acks
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns the registration id for the listener.
+    events:
+      - name: backup
+        params:
+          - name: sourceInvocationCorrelationId
+            type: long
+            nullable: false
+            since: 2.0
+            doc: |
+              correlation id of the invocation that backup acks belong to
