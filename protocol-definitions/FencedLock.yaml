@@ -1,5 +1,5 @@
-id: 38
-name: CPFencedLock
+id: 7
+name: FencedLock
 methods:
   - id: 1
     name: lock
