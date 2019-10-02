@@ -90,7 +90,9 @@
             "Enum_int_CacheEventType",
             "Enum_String_TimeUnit",
             "Enum_String_ExpiryPolicyType",
-            "MergePolicyConfig"
+            "Enum_String_ClusterState",
+            "MergePolicyConfig",
+            "ClusterStateHolder"
           ]
         },
         "nullable": {

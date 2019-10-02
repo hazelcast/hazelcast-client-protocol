@@ -743,3 +743,11 @@ customTypes:
         type: List_ListenerConfigHolder
         nullable: true
         since: 2.0
+  - name: ClusterStateHolder
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: state
+        type: Enum_String_ClusterState
+        nullable: false
+        since: 2.0

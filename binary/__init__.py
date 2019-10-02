@@ -11,6 +11,7 @@ EnumTypes = [
     "Enum_int_CacheEventType",
     "Enum_String_TimeUnit",
     "Enum_String_ExpiryPolicyType",
+    "Enum_String_ClusterState",
 ]
 
 VarLengthTypes = [
@@ -49,6 +50,7 @@ CustomTypes = [
     'Xid',
     'ErrorHolder',
     'StackTraceElement',
+    'ClusterStateHolder',
 ]
 
 CustomConfigTypes = [
