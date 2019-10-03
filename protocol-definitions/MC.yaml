@@ -1,8 +1,45 @@
-id: 40
+id: 39
 name: MC
 methods:
   - id: 1
-    name: changeClusterStateRequest
+    name: readMetrics
+    since: 2.0
+    doc: |
+      Reads the recorded metrics starting with the smallest sequence number
+      greater or equals to the sequence number set in fromSequence.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            The UUID of the member that is supposed to read the metrics from.
+        - name: fromSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence the recorded metrics should be read starting with.
+    response:
+      params:
+        - name: elements
+          type: EntryList_Long_byteArray
+          nullable: false
+          since: 2.0
+          doc: |
+            The map of timestamp and compressed metrics data
+        - name: nextSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence number that the next task should start with
+  - id: 2
+    name: changeClusterState
     since: 2.0
     doc: |
       Changes the state of a cluster.
@@ -18,8 +55,8 @@ methods:
           doc: |
             New state of the cluster.
     response: {}
-  - id: 2
-    name: getMapConfigRequest
+  - id: 3
+    name: getMapConfig
     since: 2.0
     doc: |
       Gets the config of a map.
@@ -42,8 +79,8 @@ methods:
           since: 2.0
           doc: |
             The config of the map.
-  - id: 3
-    name: updateMapConfigRequest
+  - id: 4
+    name: updateMapConfig
     since: 2.0
     doc: |
       Updates the config of a map.
