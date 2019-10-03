@@ -1786,14 +1786,7 @@ methods:
     name: addIndex
     since: 2.0
     doc: |
-      Adds an index to this map for the specified entries so that queries can run faster.If you are querying your values
-      mostly based on age and active then you should consider indexing these fields.
-      Index attribute should either have a getter method or be public.You should also make sure to add the indexes before
-      adding entries to this map.
-      Indexing time is executed in parallel on each partition by operation threads. The Map is not blocked during this
-      operation.The time taken in proportional to the size of the Map and the number Members.
-      Until the index finishes being created, any searches for the attribute will use a full Map scan, thus avoiding
-      using a partially built index and returning incorrect results.
+      Adds an index to this map with specified configuration.
     request:
       retryable: false
       acquiresResource: false
@@ -1804,19 +1797,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            name of map
-        - name: attribute
-          type: String
+            Name of map.
+        - name: indexConfig
+          type: IndexConfig
           nullable: false
           since: 2.0
           doc: |
-            index attribute of value
-        - name: ordered
-          type: boolean
-          nullable: false
-          since: 2.0
-          doc: |
-            true if index should be ordered, false otherwise.
+            Index configuration.
     response: {}
   - id: 46
     name: size

@@ -5,10 +5,12 @@ FixedLengthTypes = [
     "long",
     "UUID",
     'Enum_int_CacheEventType',
+    'Enum_int_IndexType',
 ]
 
 EnumTypes = [
     "Enum_int_CacheEventType",
+    'Enum_int_IndexType',
     "Enum_String_TimeUnit",
     "Enum_String_ExpiryPolicyType",
 ]
@@ -58,7 +60,7 @@ CustomConfigTypes = [
     'HotRestartConfig',
     'ListenerConfigHolder',
     'AttributeConfig',
-    'MapIndexConfig',
+    'IndexConfig',
     'MapStoreConfigHolder',
     'MerkleTreeConfig',
     'NearCacheConfigHolder',
@@ -95,7 +97,7 @@ VarLengthListTypes = [
     'List_DistributedObjectInfo',
     'List_ListenerConfigHolder',
     'List_AttributeConfig',
-    'List_MapIndexConfig',
+    'List_IndexConfig',
     'List_Member',
     'List_QueryCacheConfigHolder',
     'List_QueryCacheEventData',

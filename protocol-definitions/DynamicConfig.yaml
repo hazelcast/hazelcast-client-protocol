@@ -829,12 +829,12 @@ methods:
           since: 2.0
           doc: |
             reference to an existing WAN replication configuration
-        - name: mapIndexConfigs
-          type: List_MapIndexConfig
+        - name: indexConfigs
+          type: List_IndexConfig
           nullable: true
           since: 2.0
           doc: |
-            map index configurations
+            index configurations
         - name: attributeConfigs
           type: List_AttributeConfig
           nullable: true

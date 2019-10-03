@@ -174,15 +174,20 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
-  - name: MapIndexConfig
+  - name: IndexConfig
     since: 2.0
+    returnWithFactory: true
     params:
-      - name: attribute
+      - name: name
         type: String
+        nullable: true
+        since: 2.0
+      - name: type
+        type: Enum_int_IndexType
         nullable: false
         since: 2.0
-      - name: ordered
-        type: boolean
+      - name: attributes
+        type: List_String
         nullable: false
         since: 2.0
   - name: MapStoreConfigHolder
@@ -385,7 +390,7 @@ customTypes:
         nullable: true
         since: 2.0
       - name: indexConfigs
-        type: List_MapIndexConfig
+        type: List_IndexConfig
         nullable: true
         since: 2.0
   - name: QueryCacheEventData
