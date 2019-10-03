@@ -60,7 +60,7 @@ _java_types_common = {
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",
 
-    "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
+    "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>"
 }
 
 _java_types_encode = {
