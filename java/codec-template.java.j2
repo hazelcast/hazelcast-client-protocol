@@ -55,8 +55,6 @@ import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
 import com.hazelcast.client.impl.protocol.codec.custom.*;
 
-import java.util.ListIterator;
-
 import static com.hazelcast.client.impl.protocol.ClientMessage.*;
 import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCodec.*;
 {% if method.events|length != 0 %}
@@ -148,7 +146,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
 {#REQUEST_DECODE#}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
-        ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
+        ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         RequestParameters request = new RequestParameters();
     {% if  fixed_params(method.request.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
@@ -197,7 +195,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
 {#RESPONSE DECODE#}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
-        ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
+        ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
         {% if  fixed_params(method.response.params)|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
@@ -238,7 +236,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
         public void handle(ClientMessage clientMessage) {
             int messageType = clientMessage.getMessageType();
-            ListIterator<ClientMessage.Frame> iterator = clientMessage.listIterator();
+            ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
             {% if  fixed_params(event.params)|length != 0 %}
