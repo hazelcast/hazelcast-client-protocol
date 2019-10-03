@@ -1,4 +1,4 @@
-id: 25
+id: 23
 name: Ringbuffer
 methods:
   - id: 1
@@ -172,7 +172,7 @@ methods:
           since: 2.0
           doc: |
             the sequence of the added item, or -1 if the add failed.
-  - id: 8
+  - id: 7
     name: readOne
     since: 2.0
     doc: |
@@ -205,7 +205,7 @@ methods:
           since: 2.0
           doc: |
             the read item
-  - id: 9
+  - id: 8
     name: addAll
     since: 2.0
     doc: |
@@ -248,7 +248,7 @@ methods:
           since: 2.0
           doc: |
             the CompletionStage to synchronize on completion.
-  - id: 10
+  - id: 9
     name: readMany
     since: 2.0
     doc: |

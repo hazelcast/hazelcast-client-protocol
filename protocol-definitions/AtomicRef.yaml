@@ -1,4 +1,4 @@
-id: 11
+id: 10
 name: AtomicRef
 methods:
   - id: 1
@@ -130,7 +130,7 @@ methods:
           since: 2.0
           doc: |
             true if the value is found, false otherwise.
-  - id: 5
+  - id: 4
     name: get
     since: 2.0
     doc: |
@@ -160,7 +160,7 @@ methods:
           since: 2.0
           doc: |
             The current value
-  - id: 6
+  - id: 5
     name: set
     since: 2.0
     doc: |

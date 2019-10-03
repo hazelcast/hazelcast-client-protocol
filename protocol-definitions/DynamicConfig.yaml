@@ -1,4 +1,4 @@
-id: 30
+id: 28
 name: DynamicConfig
 methods:
   - id: 1
@@ -204,7 +204,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 5
+  - id: 4
     name: addListConfig
     since: 2.0
     doc: |
@@ -273,7 +273,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 6
+  - id: 5
     name: addSetConfig
     since: 2.0
     doc: |
@@ -342,7 +342,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 7
+  - id: 6
     name: addReplicatedMapConfig
     since: 2.0
     doc: |
@@ -409,7 +409,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 8
+  - id: 7
     name: addTopicConfig
     since: 2.0
     doc: |
@@ -454,7 +454,7 @@ methods:
           doc: |
             message listener configurations
     response: {}
-  - id: 9
+  - id: 8
     name: addExecutorConfig
     since: 2.0
     doc: |
@@ -499,7 +499,7 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
-  - id: 10
+  - id: 9
     name: addDurableExecutorConfig
     since: 2.0
     doc: |
@@ -544,7 +544,7 @@ methods:
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
     response: {}
-  - id: 11
+  - id: 10
     name: addScheduledExecutorConfig
     since: 2.0
     doc: |
@@ -601,7 +601,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 13
+  - id: 11
     name: addQueueConfig
     since: 2.0
     doc: |
@@ -682,7 +682,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 14
+  - id: 12
     name: addMapConfig
     since: 2.0
     doc: |
@@ -892,7 +892,7 @@ methods:
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
     response: {}
-  - id: 15
+  - id: 13
     name: addReliableTopicConfig
     since: 2.0
     doc: |
@@ -943,7 +943,7 @@ methods:
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
     response: {}
-  - id: 16
+  - id: 14
     name: addCacheConfig
     since: 2.0
     doc: |
@@ -1113,7 +1113,7 @@ methods:
           doc: |
             hot restart configuration
     response: {}
-  - id: 18
+  - id: 15
     name: addFlakeIdGeneratorConfig
     since: 2.0
     doc: |
@@ -1162,7 +1162,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 22
+  - id: 16
     name: addPNCounterConfig
     since: 2.0
     doc: |
