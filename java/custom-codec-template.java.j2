@@ -2,14 +2,14 @@
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ item_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryList.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {% if is_enum(param.type) %}{{ lang_name(enum_type(lang_name, param.type)) }}{% else %}{{ lang_name(param.type) }}{% endif %}Codec::encode)
+            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec::encode)
         {%- else -%}
-            {% if is_enum(param.type) %}{{ lang_name(enum_type(lang_name, param.type)) }}{% else %}{{ lang_name(param.type) }}{% endif %}Codec.encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
+            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -22,9 +22,9 @@
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {% if is_enum(param.type) %}{{ lang_name(enum_type(lang_name, param.type)) }}{% else %}{{ lang_name(param.type) }}{% endif %}Codec::decode)
+            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
         {%- else -%}
-            {% if is_enum(param.type) %}{{ lang_name(enum_type(lang_name, param.type)) }}{% else %}{{ lang_name(param.type) }}{% endif %}Codec.decode(iterator)
+            {{ lang_name(param.type) }}Codec.decode(iterator)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
@@ -61,9 +61,9 @@ import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCod
 @Generated("!codec_hash!")
 public final class {{ codec.name|capital }}Codec {
     {% for param in fixed_params(codec.params) %}
-    private static final int {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET = {% if loop.first %}0{% else %}{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {% if is_enum(loop.previtem.type) %}{{ enum_type(lang_name, loop.previtem.type).upper() }}{% else %}{{ loop.previtem.type.upper() }}{% endif %}_SIZE_IN_BYTES{% endif %};
+    private static final int {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET = {% if loop.first %}0{% else %}{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
-    private static final int INITIAL_FRAME_SIZE = {{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {% if is_enum(param.type) %}{{ enum_type(lang_name, param.type).upper() }}{% else %}{{ param.type.upper() }}{% endif %}_SIZE_IN_BYTES;
+    private static final int INITIAL_FRAME_SIZE = {{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES;
     {% endif %}
     {% endfor %}
 
@@ -77,7 +77,7 @@ public final class {{ codec.name|capital }}Codec {
 
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[INITIAL_FRAME_SIZE]);
         {% endif %}
-        encode{% if is_enum(param.type) %}{{ enum_type(lang_name, param.type)|capital }}{% else %}{{ param.type|capital }}{% endif %}(initialFrame.content, {{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}());
+        encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}());
         {% if loop.last %}
         clientMessage.add(initialFrame);
         {% endif %}
@@ -100,7 +100,7 @@ public final class {{ codec.name|capital }}Codec {
 
         ClientMessage.Frame initialFrame = iterator.next();
         {% endif %}
-        {{ lang_types_decode(param.type) }} {{ param.name }} = decode{% if is_enum(param.type) %}{{ enum_type(lang_name, param.type)|capital }}{% else %}{{ param.type|capital }}{% endif %}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        {{ lang_types_decode(param.type) }} {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
         {% endfor %}
         {% for param in var_size_params(codec.params) %}
         {% if loop.first %}
