@@ -24,6 +24,7 @@
             "int",
             "long",
             "UUID",
+            "enum",
             "byteArray",
             "longArray",
             "String",
@@ -88,10 +89,6 @@
             "List_Xid",
             "List_StackTraceElement",
             "Map_String_String",
-            "Enum_int_CacheEventType",
-            "Enum_int_IndexType",
-            "Enum_String_TimeUnit",
-            "Enum_String_ExpiryPolicyType",
             "MergePolicyConfig"
           ]
         },

@@ -24,14 +24,6 @@ def is_fixed_type(param):
     return param["type"] in FixedLengthTypes
 
 
-def is_enum(type):
-    return type.startswith("Enum_")
-
-
-def enum_type(lang_name, param_type):
-    return lang_name(param_type.split('_', 2)[1])
-
-
 def capital(txt):
     return txt[0].capitalize() + txt[1:]
 
@@ -198,11 +190,9 @@ def create_environment(lang, namespace):
     env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable
     env.globals["is_var_sized_entry_list"] = is_var_sized_entry_list
     env.globals["is_var_sized_map"] = is_var_sized_map
-    env.globals["is_enum"] = is_enum
     env.globals["item_type"] = item_type
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
-    env.globals["enum_type"] = enum_type
     env.globals["lang_types_encode"] = language_specific_funcs['lang_types_encode'][lang]
     env.globals["lang_types_decode"] = language_specific_funcs['lang_types_decode'][lang]
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]
