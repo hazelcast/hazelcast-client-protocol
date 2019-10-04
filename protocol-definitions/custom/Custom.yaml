@@ -20,7 +20,7 @@ customTypes:
         nullable: false
         since: 2.0
       - name: cacheEventType
-        type: Enum_int_CacheEventType
+        type: enum
         nullable: false
         since: 2.0
       - name: dataKey
@@ -183,7 +183,7 @@ customTypes:
         nullable: true
         since: 2.0
       - name: type
-        type: Enum_int_IndexType
+        type: enum
         nullable: false
         since: 2.0
       - name: attributes
@@ -585,7 +585,7 @@ customTypes:
         nullable: false
         since: 2.0
       - name: timeUnit
-        type: Enum_String_TimeUnit
+        type: enum
         nullable: false
         since: 2.0
   - name: TimedExpiryPolicyFactoryConfig
@@ -593,7 +593,7 @@ customTypes:
     returnWithFactory: true
     params:
       - name: expiryPolicyType
-        type: Enum_String_ExpiryPolicyType
+        type: enum
         nullable: false
         since: 2.0
       - name: durationConfig

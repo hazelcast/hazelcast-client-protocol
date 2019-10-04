@@ -4,15 +4,7 @@ FixedLengthTypes = [
     "int",
     "long",
     "UUID",
-    'Enum_int_CacheEventType',
-    'Enum_int_IndexType',
-]
-
-EnumTypes = [
-    "Enum_int_CacheEventType",
-    'Enum_int_IndexType',
-    "Enum_String_TimeUnit",
-    "Enum_String_ExpiryPolicyType",
+    "enum"
 ]
 
 VarLengthTypes = [
@@ -107,5 +99,5 @@ VarLengthListTypes = [
     'List_StackTraceElement',
 ]
 
-AllTypes = FixedLengthTypes + EnumTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \
+AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \
            + CustomTypes + CustomConfigTypes + VarLengthEntryListTypes + VarLengthMapTypes + VarLengthListTypes

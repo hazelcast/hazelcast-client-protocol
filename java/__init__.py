@@ -20,10 +20,7 @@ _java_types_common = {
     "Integer": "java.lang.Integer",
     "Long": "java.lang.Long",
     "UUID": "java.util.UUID",
-    "Enum_int_CacheEventType": "int",
-    "Enum_int_IndexType": "int",
-    "Enum_String_TimeUnit": "String",
-    "Enum_String_ExpiryPolicyType": "String",
+    "enum": "int",
 
     "longArray": "long[]",
     "byteArray": "byte[]",
