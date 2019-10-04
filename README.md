@@ -105,6 +105,7 @@ You can generate codecs for a specific language by calling,
 where 
 
 * `ROOT_DIRECTORY` is the root folder for the generated codecs. If left empty, default value is set to `./output/[LANGUAGE]`.
+
 * `LANGUAGE` is one of 
     * `java` : Java
     * `cpp` : C++
@@ -153,8 +154,8 @@ The generator also uses this schema during code generation for validation purpos
 
 ### Custom Types
 
-If you are going to use a custom type, a type that is not defined in the [currently supported types](binary/__init__.py),  
-as the type of your parameters, you need to define how to encode and decode this in the protocol level.
+If you are going to use a custom type, a complex type that is not defined in the [currently supported types](binary/__init__.py),  
+as the type of your parameters in the protocol definitions, you need to define how to encode and decode this in the protocol level.
 
 A custom type definitions has the following structure:
 
@@ -175,20 +176,20 @@ customTypes:
 ```
 
 With this definition, code generator will generate a custom codec for your type and 
-calls its encode or decode methods when encoding and decoding your parameter. 
+calls its encode or decode methods when encoding and decoding the parameters with this custom type. 
 There are a few points to consider. 
 
 The codec for the custom type accesses the parameters defined in `params` using a 
 predefined getter pattern in its encode method. These patterns are specific to each `LANGUAGE`.
 
-For example, for the `java`, if the parameter is a `boolean` it is accessed as `customType1.isParamName1()`, 
-`customType1.getParamName2()` otherwise. So, make sure that your custom types satisfies 
+For example, for the `java`, if the parameter is a `boolean` it is accessed as `customType1.isParamName1()`.
+For other types `customType1.getParamName2()` pattern is used. So, make sure that your custom types satisfies 
 this getter contract.
 
 For the decode method of the custom type codec, there are two ways to generate a
-an instance of the custom type. Default way is the constructing the object using a constructor
-with the defined parameters in the order of their definition. For example, by default
-the instance of the `CustomType1` will be created as `new CustomType1(paramName1, paramName2)`.
+an instance of the custom type. Default way is constructing the object using a constructor
+with parameters defined in the `params` in the order of their definition. For example, by default
+the instance of the `CustomType1` will be created with the following expression `new CustomType1(paramName1, paramName2)`.
 
 If the custom type does not have a public constructor that takes the defined parameters in the order
 of their definition, then you need to write a factory method to generate the object from these parameters.
@@ -197,4 +198,10 @@ To use a factory method as a way to create the custom type, you should set `retu
 Then, depending on the selected `LANGUAGE`, a custom factory method will be called to create the object.
 
 For example, for the `java`, the following will be called `CustomTypeFactory.createCustomType1(paramName1, paramName2)`.
-You need to add this method to the `CustomTypeFactory` class in the Hazelcast side.
+You need to add the `CustomType1 createCustomType1(boolean paramName1, String paramName2)` method to the `CustomTypeFactory` class in the Hazelcast side.
+
+For the parameters of the custom type definition, an extra step is required for the `enum` types. 
+`enum`s are represented as integers in the protocol level. So, you need to specify how to convert `enum` type
+to integer by adding an encoder method to the `FixedSizeTypesCodec` for the enum type. 
+Also, you need to set `returnWithFactory` to `true` and add a factory method as described above. In the factory method,
+you will receive an integer for the `enum` and expected to convert it to your `enum` type and construct the object with it.
