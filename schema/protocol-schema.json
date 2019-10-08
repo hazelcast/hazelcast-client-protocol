@@ -45,7 +45,6 @@
             "WanReplicationRef",
             "Xid",
             "CacheConfigHolder",
-            "MapConfigHolder",
             "CacheSimpleEntryListenerConfig",
             "EventJournalConfig",
             "EvictionConfigHolder",

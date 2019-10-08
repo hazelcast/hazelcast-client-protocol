@@ -48,7 +48,6 @@ _java_types_common = {
 
     "MergePolicyConfig": "com.hazelcast.config.MergePolicyConfig",
     "CacheConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.CacheConfigHolder",
-    "MapConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.MapConfigHolder",
     "CacheEventData": "com.hazelcast.cache.impl.CacheEventData",
     "QueryCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder",
     "DistributedObjectInfo": "com.hazelcast.client.impl.client.DistributedObjectInfo",

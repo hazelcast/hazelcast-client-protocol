@@ -65,7 +65,6 @@ CustomConfigTypes = [
     'DurationConfig',
     'MergePolicyConfig',
     'CacheConfigHolder',
-    'MapConfigHolder',
 ]
 
 VarLengthEntryListTypes = [

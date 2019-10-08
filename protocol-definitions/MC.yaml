@@ -73,12 +73,66 @@ methods:
             Name of the map.
     response:
       params:
-        - name: response
-          type: MapConfigHolder
+        - name: inMemoryFormat
+          type: int
           nullable: true
           since: 2.0
           doc: |
-            The config of the map.
+            ID value of the in memory storage format of the map.
+        - name: backupCount
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Backup count of the map.
+        - name: asyncBackupCount
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Async backup count of the map.
+        - name: timeToLiveSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Time to live seconds for the map entries.
+        - name: maxIdleSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum idle seconds for the map entries.
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum size of the map.
+        - name: maxSizePolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            ID value of the maximum size policy of the map.
+        - name: readBackupData
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether reading from backup data is allowed.
+        - name: evictionPolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            ID value of the eviction policy of the map.
+        - name: mergePolicy
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Classname of the SplitBrainMergePolicy for the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
@@ -95,10 +149,41 @@ methods:
           since: 2.0
           doc: |
             Name of the map.
-        - name: newMapConfig
-          type: MapConfigHolder
+        - name: timeToLiveSeconds
+          type: int
           nullable: false
           since: 2.0
           doc: |
-            New config for the map.
+            Time to live seconds for the map entries.
+        - name: maxIdleSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum idle seconds for the map entries.
+        - name: evictionPolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            ID value of the eviction policy of the map.
+        - name: readBackupData
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether reading from backup data is allowed.
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum size of the map.
+        - name: maxSizePolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            ID value of the maximum size policy of the map.
+
     response: {}
