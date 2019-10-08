@@ -75,7 +75,7 @@ methods:
       params:
         - name: inMemoryFormat
           type: int
-          nullable: true
+          nullable: false
           since: 2.0
           doc: |
             ID value of the in memory storage format of the map.
@@ -129,7 +129,7 @@ methods:
             ID value of the eviction policy of the map.
         - name: mergePolicy
           type: String
-          nullable: true
+          nullable: false
           since: 2.0
           doc: |
             Classname of the SplitBrainMergePolicy for the map.
