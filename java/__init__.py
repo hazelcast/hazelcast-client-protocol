@@ -27,7 +27,7 @@ _java_types_common = {
     "String": "java.lang.String",
     "Data": "com.hazelcast.nio.serialization.Data",
 
-    "Address": "com.hazelcast.nio.Address",
+    "Address": "com.hazelcast.cluster.Address",
     "ErrorHolder": "com.hazelcast.client.impl.protocol.exception.ErrorHolder",
     "StackTraceElement": "java.lang.StackTraceElement",
     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data>",
@@ -89,7 +89,7 @@ _java_types_encode = {
     "EntryList_Integer_UUID": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.util.UUID>>",
     "EntryList_UUID_Long": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_Address_List_Integer": "java.util.Collection<java.util.Map.Entry<com.hazelcast.nio.Address, java.util.List<java.lang.Integer>>>",
+    "EntryList_Address_List_Integer": "java.util.Collection<java.util.Map.Entry<com.hazelcast.cluster.Address, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data>>",
     "EntryList_Member_List_ScheduledTaskHandler": "java.util.Collection<java.util.Map.Entry<com.hazelcast.cluster.Member, java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>"
 }
@@ -124,7 +124,7 @@ _java_types_decode = {
     "EntryList_Integer_UUID": "java.util.List<java.util.Map.Entry<java.lang.Integer, java.util.UUID>>",
     "EntryList_UUID_Long": "java.util.List<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.List<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_Address_List_Integer": "java.util.List<java.util.Map.Entry<com.hazelcast.nio.Address, java.util.List<java.lang.Integer>>>",
+    "EntryList_Address_List_Integer": "java.util.List<java.util.Map.Entry<com.hazelcast.cluster.Address, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data>>",
     "EntryList_Member_List_ScheduledTaskHandler": "java.util.List<java.util.Map.Entry<com.hazelcast.cluster.Member, java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>"
 }
