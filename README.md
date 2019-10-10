@@ -205,3 +205,6 @@ For the parameters of the custom type definition, an extra step is required for 
 to integer by adding an encoder method to the `FixedSizeTypesCodec` for the enum type. 
 Also, you need to set `returnWithFactory` to `true` and add a factory method as described above. In the factory method,
 you will receive an integer for the `enum` and expected to convert it to your `enum` type and construct the object with it.
+
+Custom type definitions are also validated against a [schema](/schema/custom-codec-schema.json). See the [Schema Validation](#schema-validation) 
+section for details of the validation.
