@@ -119,6 +119,94 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+        - name: members
+          type: List_Member
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: partitions
+          type: EntryList_Address_List_Integer
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: partitionStateVersion
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    events:
+      - name: Partitions
+        params:
+          - name: partitions
+            type: EntryList_Address_List_Integer
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionStateVersion
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: Member
+        params:
+          - name: member
+            type: Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: MemberList
+        params:
+          - name: members
+            type: List_Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: MemberAttributeChange
+        params:
+          - name: member
+            type: Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: members
+            type: List_Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: key
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: operationType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: value
+            type: String
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
+
   - id: 3
     name: authenticationCustom
     since: 2.0
@@ -231,6 +319,93 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+        - name: members
+          type: List_Member
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: partitions
+          type: EntryList_Address_List_Integer
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+        - name: partitionStateVersion
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            TODO DOC
+    events:
+      - name: Partitions
+        params:
+          - name: partitions
+            type: EntryList_Address_List_Integer
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: partitionStateVersion
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: Member
+        params:
+          - name: member
+            type: Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: eventType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: MemberList
+        params:
+          - name: members
+            type: List_Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+      - name: MemberAttributeChange
+        params:
+          - name: member
+            type: Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: members
+            type: List_Member
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: key
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: operationType
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              TODO DOC
+          - name: value
+            type: String
+            nullable: true
+            since: 2.0
+            doc: |
+              TODO DOC
   - id: 4
     name: addMembershipListener
     since: 2.0
