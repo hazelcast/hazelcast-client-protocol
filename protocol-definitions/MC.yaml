@@ -78,7 +78,10 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID value of the in memory storage format of the map.
+            The in memory storage format of the map:
+            0 - Binary
+            1 - Object
+            2 - Native
         - name: backupCount
           type: int
           nullable: false
@@ -114,7 +117,17 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID value of the maximum size policy of the map.
+            The maximum size policy of the map:
+            0 - PER_NODE
+            1 - PER_PARTITION
+            2 - USED_HEAP_PERCENTAGE
+            3 - USED_HEAP_SIZE
+            4 - FREE_HEAP_PERCENTAGE
+            5 - FREE_HEAP_SIZE
+            6 - USED_NATIVE_MEMORY_SIZE
+            7 - USED_NATIVE_MEMORY_PERCENTAGE
+            8 - FREE_NATIVE_MEMORY_SIZE
+            9 - FREE_NATIVE_MEMORY_PERCENTAGE
         - name: readBackupData
           type: boolean
           nullable: false
@@ -126,7 +139,11 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID value of the eviction policy of the map.
+            The eviction policy of the map:
+            0 - LRU
+            1 - LFU
+            2 - NONE
+            3 - RANDOM
         - name: mergePolicy
           type: String
           nullable: false
@@ -166,7 +183,11 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID value of the eviction policy of the map.
+            The eviction policy of the map:
+            0 - LRU
+            1 - LFU
+            2 - NONE
+            3 - RANDOM
         - name: readBackupData
           type: boolean
           nullable: false
@@ -184,6 +205,15 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID value of the maximum size policy of the map.
-
+            The maximum size policy of the map:
+            0 - PER_NODE
+            1 - PER_PARTITION
+            2 - USED_HEAP_PERCENTAGE
+            3 - USED_HEAP_SIZE
+            4 - FREE_HEAP_PERCENTAGE
+            5 - FREE_HEAP_SIZE
+            6 - USED_NATIVE_MEMORY_SIZE
+            7 - USED_NATIVE_MEMORY_PERCENTAGE
+            8 - FREE_NATIVE_MEMORY_SIZE
+            9 - FREE_NATIVE_MEMORY_PERCENTAGE
     response: {}
