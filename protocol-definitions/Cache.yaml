@@ -1230,7 +1230,7 @@ methods:
               TODO DOC
           - name: sourceUuids
             type: List_UUID
-            nullable: true
+            nullable: false
             since: 2.0
             doc: |
               TODO DOC
