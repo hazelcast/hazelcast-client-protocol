@@ -1,0 +1,219 @@
+id: 39
+name: MC
+methods:
+  - id: 1
+    name: readMetrics
+    since: 2.0
+    doc: |
+      Reads the recorded metrics starting with the smallest sequence number
+      greater or equals to the sequence number set in fromSequence.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            The UUID of the member that is supposed to read the metrics from.
+        - name: fromSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence the recorded metrics should be read starting with.
+    response:
+      params:
+        - name: elements
+          type: EntryList_Long_byteArray
+          nullable: false
+          since: 2.0
+          doc: |
+            The map of timestamp and compressed metrics data
+        - name: nextSequence
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The sequence number that the next task should start with
+  - id: 2
+    name: changeClusterState
+    since: 2.0
+    doc: |
+      Changes the state of a cluster.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: newState
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the new state of the cluster.
+    response: {}
+  - id: 3
+    name: getMapConfig
+    since: 2.0
+    doc: |
+      Gets the config of a map.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+    response:
+      params:
+        - name: inMemoryFormat
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The in memory storage format of the map:
+            0 - Binary
+            1 - Object
+            2 - Native
+        - name: backupCount
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Backup count of the map.
+        - name: asyncBackupCount
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Async backup count of the map.
+        - name: timeToLiveSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Time to live seconds for the map entries.
+        - name: maxIdleSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum idle seconds for the map entries.
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum size of the map.
+        - name: maxSizePolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The maximum size policy of the map:
+            0 - PER_NODE
+            1 - PER_PARTITION
+            2 - USED_HEAP_PERCENTAGE
+            3 - USED_HEAP_SIZE
+            4 - FREE_HEAP_PERCENTAGE
+            5 - FREE_HEAP_SIZE
+            6 - USED_NATIVE_MEMORY_SIZE
+            7 - USED_NATIVE_MEMORY_PERCENTAGE
+            8 - FREE_NATIVE_MEMORY_SIZE
+            9 - FREE_NATIVE_MEMORY_PERCENTAGE
+        - name: readBackupData
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether reading from backup data is allowed.
+        - name: evictionPolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The eviction policy of the map:
+            0 - LRU
+            1 - LFU
+            2 - NONE
+            3 - RANDOM
+        - name: mergePolicy
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Classname of the SplitBrainMergePolicy for the map.
+  - id: 4
+    name: updateMapConfig
+    since: 2.0
+    doc: |
+      Updates the config of a map.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: mapName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the map.
+        - name: timeToLiveSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Time to live seconds for the map entries.
+        - name: maxIdleSeconds
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum idle seconds for the map entries.
+        - name: evictionPolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The eviction policy of the map:
+            0 - LRU
+            1 - LFU
+            2 - NONE
+            3 - RANDOM
+        - name: readBackupData
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether reading from backup data is allowed.
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Maximum size of the map.
+        - name: maxSizePolicy
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The maximum size policy of the map:
+            0 - PER_NODE
+            1 - PER_PARTITION
+            2 - USED_HEAP_PERCENTAGE
+            3 - USED_HEAP_SIZE
+            4 - FREE_HEAP_PERCENTAGE
+            5 - FREE_HEAP_SIZE
+            6 - USED_NATIVE_MEMORY_SIZE
+            7 - USED_NATIVE_MEMORY_PERCENTAGE
+            8 - FREE_NATIVE_MEMORY_SIZE
+            9 - FREE_NATIVE_MEMORY_PERCENTAGE
+    response: {}
