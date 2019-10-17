@@ -222,3 +222,96 @@ methods:
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
     response: {}
+  - id: 5
+    name: getMemberConfig
+    since: 2.0
+    doc: |
+      Gets the effective config of a member rendered as XML.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params: []
+    response:
+      params:
+        - name: configXml
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Effective config of a member rendered as XML.
+  - id: 6
+    name: runGc
+    since: 2.0
+    doc: |
+      Requests garbage collection to be performed on the member's JVM.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params: []
+    response: {}
+  - id: 7
+    name: getThreadDump
+    since: 2.0
+    doc: |
+      Takes a thread dump of the member's JVM.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: dumpDeadLocks
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether only dead-locked threads or all threads should be dumped.
+    response:
+      params:
+        - name: threadDump
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Thread dump of the member's JVM.
+  - id: 8
+    name: shutdownMember
+    since: 2.0
+    doc: |
+      Shuts down a member.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params: []
+    response: {}
+  - id: 9
+    name: promoteMember
+    since: 2.0
+    doc: |
+      Promotes a lite member to a data member.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params: []
+    response: {}
+  - id: 10
+    name: getSystemProperties
+    since: 2.0
+    doc: |
+      Gets the system properties of a member.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+      params: []
+    response:
+      params:
+        - name: systemProperties
+          type: EntryList_String_String
+          nullable: false
+          since: 2.0
+          doc: |
+            System properties of the member.
