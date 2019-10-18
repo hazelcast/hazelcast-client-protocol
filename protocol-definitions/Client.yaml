@@ -11,18 +11,26 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
       params:
-        - name: username
+        - name: clusterName
           type: String
           nullable: false
+          since: 2.0
+          doc: |
+            Cluster name that client will connect to.
+        - name: username
+          type: String
+          nullable: true
           since: 2.0
           doc: |
             Name of the user for authentication.
+            Used in case Client Identity Config, otherwise it should be passed null.
         - name: password
           type: String
-          nullable: false
+          nullable: true
           since: 2.0
           doc: |
             Password for the user.
+            Used in case Client Identity Config, otherwise it should be passed null.
         - name: uuid
           type: UUID
           nullable: true
@@ -129,6 +137,12 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
       params:
+        - name: clusterName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Cluster name that client will connect to.
         - name: credentials
           type: Data
           nullable: false
