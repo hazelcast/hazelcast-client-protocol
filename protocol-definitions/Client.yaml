@@ -16,7 +16,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Cluster name that will client connect to.
+            Cluster name that client will connect to.
         - name: username
           type: String
           nullable: true
@@ -142,7 +142,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Cluster name that will client connect to.
+            Cluster name that client will connect to.
         - name: credentials
           type: Data
           nullable: false
