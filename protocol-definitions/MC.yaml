@@ -53,7 +53,12 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            ID of the new state of the cluster.
+            New state of the cluster:
+            0 - ACTIVE
+            1 - NO_MIGRATION
+            2 - FROZEN
+            3 - PASSIVE
+            4 - IN_TRANSITION (not allowed)
     response: {}
   - id: 3
     name: getMapConfig
