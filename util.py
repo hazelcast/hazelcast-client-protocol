@@ -121,7 +121,7 @@ def validate_services(services, schema_path):
             try:
                 jsonschema.validate(service, schema)
             except jsonschema.ValidationError as e:
-                print("Validation error: %s. schema:%s" % (e.message, list(e.relative_schema_path)))
+                print("Validation error on %s: %s" % (service.get('name', None), e))
                 valid = False
     return valid
 
