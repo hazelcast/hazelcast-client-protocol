@@ -247,7 +247,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            the ICompletableFuture to synchronize on completion.
+            the CompletionStage to synchronize on completion.
   - id: 10
     name: readMany
     since: 2.0
