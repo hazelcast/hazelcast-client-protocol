@@ -59,7 +59,9 @@ def generate_codecs(services, template, output_dir, extension):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
                 content = template.render(service_name=service["name"], method=method)
-                save_file(os.path.join(output_dir, capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension), content)
+                save_file(
+                    os.path.join(output_dir, capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension),
+                    content)
 
 
 def generate_custom_codecs(services, template, output_dir, extension):
@@ -117,13 +119,46 @@ def validate_services(services, schema_path):
     valid = True
     with open(schema_path, 'r') as schema_file:
         schema = json.load(schema_file)
-        for service in services:
-            try:
-                jsonschema.validate(service, schema)
-            except jsonschema.ValidationError as e:
-                print("Validation error on %s: %s" % (service.get('name', None), e))
+        for i in range(len(services)):
+            service = services[i]
+            # Validate id ordering of services.
+            service_id = service.get('id', None)
+            if i != service_id:
+                print('Check the service id of the %s. Expected: %s, found: %s.' % (
+                    service.get('name', None), i, service_id))
+                valid = False
+            # Validate id ordering of service methods.
+            methods = service.get('methods', [])
+            for j in range(len(methods)):
+                method = methods[j]
+                method_id = method.get('id', None)
+                if (j + 1) != method_id:
+                    print('Check the method id of %s#%s. Expected: %s, found: %s' % (
+                        service.get('name', None), method.get('name', None), (j + 1), method_id))
+                    valid = False
+            # Validate against the schema.
+            if not validate_against_schema(service, schema):
                 valid = False
     return valid
+
+
+def validate_custom_protocol_definitions(services, schema_path):
+    valid = True
+    with open(schema_path, 'r') as schema_file:
+        schema = json.load(schema_file)
+    for service in services:
+        if not validate_against_schema(service, schema):
+            valid = False
+    return valid
+
+
+def validate_against_schema(service, schema):
+    try:
+        jsonschema.validate(service, schema)
+    except jsonschema.ValidationError as e:
+        print("Validation error on %s: %s" % (service.get('name', None), e))
+        return False
+    return True
 
 
 def save_file(file, content):

@@ -65,6 +65,7 @@ schema_path = os.path.join(curr_dir, 'schema', 'protocol-schema.json')
 custom_codec_schema_path = os.path.join(curr_dir, 'schema', 'custom-codec-schema.json')
 
 protocol_defs = load_services(protocol_defs_path)
+protocol_defs = sorted(protocol_defs, key=lambda proto_def: proto_def['id'])
 if not validate_services(protocol_defs, schema_path):
     exit(-1)
 
@@ -77,7 +78,7 @@ print('Generated codecs are at \'%s\'' % os.path.abspath(output_dir))
 
 if os.path.exists(custom_protocol_defs_path):
     custom_protocol_defs = load_services(custom_protocol_defs_path)
-    if not validate_services(custom_protocol_defs, custom_codec_schema_path):
+    if not validate_custom_protocol_definitions(custom_protocol_defs, custom_codec_schema_path):
         exit(-1)
 
     custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)

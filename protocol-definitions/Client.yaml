@@ -1,7 +1,7 @@
 id: 0
 name: Client
 methods:
-  - id: 2
+  - id: 1
     name: authentication
     since: 2.0
     doc: |
@@ -127,7 +127,7 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
-  - id: 3
+  - id: 2
     name: authenticationCustom
     since: 2.0
     doc: |
@@ -245,7 +245,7 @@ methods:
           doc: |
             the expected id of the cluster. Checked on the server side when provided.
             Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
-  - id: 4
+  - id: 3
     name: addMembershipListener
     since: 2.0
     doc: |
@@ -325,7 +325,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 5
+  - id: 4
     name: createProxy
     since: 2.0
     doc: |
@@ -369,7 +369,7 @@ methods:
           doc: |
             TODO DOC
     response: {}
-  - id: 6
+  - id: 5
     name: destroyProxy
     since: 2.0
     doc: |
@@ -407,7 +407,7 @@ methods:
             "hz:core:txManagerService"
             "hz:impl:xaService"
     response: {}
-  - id: 8
+  - id: 6
     name: getPartitions
     since: 2.0
     doc: |
@@ -430,7 +430,7 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 9
+  - id: 7
     name: removeAllListeners
     since: 2.0
     doc: |
@@ -440,7 +440,7 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
     response: {}
-  - id: 10
+  - id: 8
     name: addPartitionLostListener
     since: 2.0
     doc: |
@@ -486,7 +486,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 11
+  - id: 9
     name: removePartitionLostListener
     since: 2.0
     doc: |
@@ -510,7 +510,7 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 12
+  - id: 10
     name: getDistributedObjects
     since: 2.0
     doc: |
@@ -527,7 +527,7 @@ methods:
           since: 2.0
           doc: |
             An array of distributed object info in the cluster.
-  - id: 13
+  - id: 11
     name: addDistributedObjectListener
     since: 2.0
     doc: |
@@ -573,7 +573,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 14
+  - id: 12
     name: removeDistributedObjectListener
     since: 2.0
     doc: |
@@ -597,7 +597,7 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 15
+  - id: 13
     name: ping
     since: 2.0
     doc: |
@@ -607,7 +607,7 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
     response: {}
-  - id: 16
+  - id: 14
     name: statistics
     since: 2.0
     doc: |
@@ -772,7 +772,7 @@ methods:
           doc: |
             The key=value pairs separated by the ',' character
     response: {}
-  - id: 17
+  - id: 15
     name: deployClasses
     since: 2.0
     doc: |
@@ -791,7 +791,7 @@ methods:
           doc: |
             list of class definitions
     response: {}
-  - id: 18
+  - id: 16
     name: addPartitionListener
     since: 2.0
     doc: |
@@ -816,7 +816,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 19
+  - id: 17
     name: createProxies
     since: 2.0
     doc: |
@@ -840,7 +840,7 @@ methods:
             Each entry's value is service name.
             For possible service names see createProxy message.
     response: {}
-  - id: 20
+  - id: 18
     name: isFailoverSupported
     since: 2.0
     doc: |
@@ -857,7 +857,7 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports cluster failover
-  - id: 21
+  - id: 19
     name: localBackupListener
     since: 2.0
     doc: |
