@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 
 from binary.util import *
+from jinja2.exceptions import TemplateNotFound
+
+
+def get_binary_templates(lang, version):
+    env = create_environment_for_binary_generator(lang, version)
+    templates = {}
+    try:
+        templates['Client'] = env.get_template('client-binary-compatibility-template.j2')
+        templates['Member'] = env.get_template('member-binary-compatibility-template.j2')
+    except TemplateNotFound as err:
+        return err, None
+    return None, templates
 
 
 def save_binary_files(binary_output_dir, protocol_defs_path, version, services):
@@ -11,14 +23,8 @@ def save_binary_files(binary_output_dir, protocol_defs_path, version, services):
             _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services)
 
 
-def save_test_files(test_output_dir, lang, version, services):
+def save_test_files(test_output_dir, lang, version, services, templates):
     os.makedirs(test_output_dir, exist_ok=True)
-    env = create_environment_for_binary_generator(lang, version)
-    templates = {
-        'Client': env.get_template('client-binary-compatibility-template.j2'),
-        'Member': env.get_template('member-binary-compatibility-template.j2'),
-    }
-
     class_name = binary_test_names[lang](version)
 
     for test_type in ['Client', 'Member']:
