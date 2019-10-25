@@ -13,6 +13,7 @@ formats = {
     'int': '<I',
     'long': '<q',
     'short': '<H',
+    'enum': '<I',
 }
 
 sizes = {
@@ -21,14 +22,8 @@ sizes = {
     'int': INT_SIZE_IN_BYTES,
     'long': LONG_SIZE_IN_BYTES,
     'UUID': UUID_SIZE_IN_BYTES,
+    'enum': INT_SIZE_IN_BYTES,
 }
-
-
-def get_size_for_type(type):
-    if is_enum(type):
-        return sizes[enum_type(lambda m: m, type)]
-    return sizes[type]
-
 
 id_fmt = "0x%02x%02x%02x"
 
@@ -39,9 +34,11 @@ def read_definition(definition, protocol_defs_path):
         return yaml.load(file, Loader=yaml.Loader)
 
 
-def get_custom_type_params():
-    upper_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    definitions = read_definition('Custom', os.path.join(upper_dir, 'protocol-definitions', 'custom'))
+def get_custom_type_params(protocol_defs_path):
+    custom_codec_defs_path = os.path.join(protocol_defs_path, 'custom')
+    if not os.path.exists(custom_codec_defs_path):
+        return {}
+    definitions = read_definition('Custom', custom_codec_defs_path)
     params = {}
     custom_types = definitions["customTypes"]
     for definition in custom_types:
@@ -88,6 +85,12 @@ class ClientMessage:
 
 
 class Encoder:
+    CUSTOM_TYPE_PARAMS = None
+
+    @staticmethod
+    def init_custom_type_params(protocol_defs_path):
+        Encoder.CUSTOM_TYPE_PARAMS = get_custom_type_params(protocol_defs_path)
+
     @staticmethod
     def encode_request(request, nullable=False):
         params = request.get("params", [])
@@ -138,32 +141,32 @@ class Encoder:
 class FixSizedEncoder:
     @staticmethod
     def create_initial_frame(fix_sized_params, message_id, offset, nullable=False):
-        frame_size = sum([get_size_for_type(p["type"]) for p in fix_sized_params])
+        frame_size = sum([sizes[p["type"]] for p in fix_sized_params])
         frame = bytearray(offset + frame_size)
         struct.pack_into(formats['int'], frame, TYPE_FIELD_OFFSET, message_id)
         for param in fix_sized_params:
             FixSizedEncoder.pack_into(frame, offset, param["type"], nullable=nullable and param["nullable"])
-            offset += get_size_for_type(param["type"])
+            offset += sizes[param["type"]]
 
         return Frame(frame, UNFRAGMENTED_MESSAGE)
 
     @staticmethod
-    def encode_fix_sized_map_frame(client_message, key_type, value_type):
-        entry_size = get_size_for_type(key_type) + get_size_for_type(value_type)
+    def encode_fix_sized_entry_list_frame(client_message, key_type, value_type):
+        entry_size = sizes[key_type] + sizes[value_type]
         obj = reference_objects.map_objects[key_type][value_type]
         content = bytearray(entry_size * len(obj))
         offset = 0
         for key in obj:
             FixSizedEncoder.pack_into(content, offset, key_type, key)
-            offset += get_size_for_type(key_type)
+            offset += sizes[key_type]
             FixSizedEncoder.pack_into(content, offset, value_type, obj[key])
-            offset += get_size_for_type(value_type)
+            offset += sizes[value_type]
         client_message.add_frame(Frame(content))
 
     @staticmethod
     def encode_fix_sized_list_frame(client_message, item_type):
         obj = reference_objects.list_objects[item_type]
-        content = bytearray(get_size_for_type(item_type) * len(obj))
+        content = bytearray(sizes[item_type] * len(obj))
         offset = 0
         for item in obj:
             FixSizedEncoder.pack_into(content, offset, item_type, item)
@@ -176,26 +179,22 @@ class FixSizedEncoder:
             struct.pack_into(formats["boolean"], buffer, offset, nullable)
             if nullable:
                 return
-            offset += get_size_for_type("boolean")
+            offset += sizes["boolean"]
             struct.pack_into(formats["long"], buffer, offset, val.most_sig_bits)
-            offset += get_size_for_type("long")
+            offset += sizes["long"]
             struct.pack_into(formats["long"], buffer, offset, val.least_sig_bits)
-        elif is_enum(type):
-            struct.pack_into(formats[enum_type(lambda m: m, type)], buffer, offset, val)
         else:
             struct.pack_into(formats[type], buffer, offset, val)
 
 
 class CustomTypeEncoder:
-    params = get_custom_type_params()
-
     @staticmethod
     def encode_custom_type(client_message, type, nullable=False):
         if nullable:
             client_message.add_frame(NULL_FRAME)
             return
 
-        params = CustomTypeEncoder.params.get(type)
+        params = Encoder.CUSTOM_TYPE_PARAMS.get(type, [])
 
         fix_sized_params = fixed_params(params)
         var_sized_params = var_size_params(params)
@@ -212,14 +211,14 @@ class CustomTypeEncoder:
 
     @staticmethod
     def create_initial_frame(fix_sized_params, nullable=False):
-        frame_size = sum([get_size_for_type(p["type"]) for p in fix_sized_params])
+        frame_size = sum([sizes[p["type"]] for p in fix_sized_params])
         if frame_size == 0:
             return None
         frame = bytearray(frame_size)
         offset = 0
         for param in fix_sized_params:
             FixSizedEncoder.pack_into(frame, offset, param["type"], nullable=nullable and param["nullable"])
-            offset += get_size_for_type(param["type"])
+            offset += sizes[param["type"]]
 
         return Frame(frame, DEFAULT_FLAGS)
 
@@ -301,11 +300,6 @@ class VarSizedEncoder:
 
     @staticmethod
     def encoder_for(type):
-        if is_enum(type):
-            real_type = enum_type(lambda m: m, type)
-            encoder = functools.partial(VarSizedEncoder.encoders.get(real_type, None),
-                                        value=reference_objects.objects.get(type))
-            return encoder
         encoder = VarSizedEncoder.encoders.get(type, None)
         if encoder is not None:
             return encoder
@@ -318,11 +312,11 @@ VarSizedEncoder.encoders = {
     'longArray': VarSizedEncoder.encode_long_array_frame,
     'String': VarSizedEncoder.encode_string_frame,
     'Data': VarSizedEncoder.encode_data_frame,
-    'EntryList_Integer_UUID': functools.partial(FixSizedEncoder.encode_fix_sized_map_frame,
+    'EntryList_Integer_UUID': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                                 key_type='int', value_type='UUID'),
-    'EntryList_UUID_Long': functools.partial(FixSizedEncoder.encode_fix_sized_map_frame,
+    'EntryList_UUID_Long': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                              key_type='UUID', value_type='long'),
-    'EntryList_Integer_Long': functools.partial(FixSizedEncoder.encode_fix_sized_map_frame,
+    'EntryList_Integer_Long': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                                 key_type='int', value_type='long'),
     'EntryList_Long_byteArray': VarSizedEncoder.encode_long_byte_array_entry_list,
     'List_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='int'),
@@ -384,7 +378,7 @@ reference_objects_dict = {
     'HotRestartConfig': 'aHotRestartConfig',
     'ListenerConfigHolder': 'aListenerConfigHolder',
     'AttributeConfig': 'aAttributeConfig',
-    'MapIndexConfig': 'aMapIndexConfig',
+    'IndexConfig': 'anIndexConfig',
     'MapStoreConfigHolder': 'aMapStoreConfigHolder',
     'MerkleTreeConfig': 'aMerkleTreeConfig',
     'NearCacheConfigHolder': 'aNearCacheConfigHolder',
@@ -412,7 +406,7 @@ reference_objects_dict = {
     'List_DistributedObjectInfo': 'aListOfDistributedObjectInfo',
     'List_ListenerConfigHolder': 'aListOfListenerConfigHolders',
     'List_AttributeConfig': 'aListOfAttributeConfigs',
-    'List_MapIndexConfig': 'aListOfMapIndexConfigs',
+    'List_IndexConfig': 'aListOfIndexConfigs',
     'List_Member': 'aListOfMembers',
     'List_QueryCacheConfigHolder': 'aListOfQueryCacheConfigHolders',
     'List_QueryCacheEventData': 'aListOfQueryCacheEventData',
@@ -435,3 +429,13 @@ def create_environment_for_binary_generator(lang, version):
     env.globals['protocol_version'] = version
     env.globals['reference_objects_dict'] = reference_objects_dict
     return env
+
+
+binary_test_names = {
+    SupportedLanguages.JAVA: lambda version: '{type}Compatibility{null}Test_' + '_'.join(version.split('.')) + '.java',
+    # SupportedLanguages.CPP: '',
+    # SupportedLanguages.CS: '',
+    # SupportedLanguages.PY: '',
+    # SupportedLanguages.TS: '',
+    # SupportedLanguages.GO: '',
+}

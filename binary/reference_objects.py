@@ -23,11 +23,7 @@ STRING = "localhost"
 
 DATA = b'111313123131313131'
 
-ENUM_INT_CACHE_EVENT_TYPE = 1
-
-ENUM_STRING_TIMEUNIT = 'SECONDS'
-
-ENUM_STRING_EXPIRY_POLICY_TYPE = 'CREATED'
+ENUM = 1
 
 objects = {
     'boolean': BOOLEAN,
@@ -39,9 +35,7 @@ objects = {
     'longArray': LONGARRAY,
     'String': STRING,
     'Data': DATA,
-    'Enum_int_CacheEventType': ENUM_INT_CACHE_EVENT_TYPE,
-    'Enum_String_TimeUnit': ENUM_STRING_TIMEUNIT,
-    'Enum_String_ExpiryPolicyType': ENUM_STRING_EXPIRY_POLICY_TYPE
+    'enum': ENUM
 }
 
 map_objects = {
