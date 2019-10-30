@@ -8,7 +8,6 @@ methods:
       Creates a session for the caller on the given CP group.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -50,7 +49,6 @@ methods:
       Closes the given session on the given CP group
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -82,7 +80,6 @@ methods:
       extends its session expiration time.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -106,7 +103,6 @@ methods:
       CP group.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId

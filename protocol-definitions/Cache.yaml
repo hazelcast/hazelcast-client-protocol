@@ -8,7 +8,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -59,7 +58,6 @@ methods:
       Clears the contents of the cache, without notifying listeners or CacheWriters.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -78,7 +76,6 @@ methods:
       is a write-through cache, the CacheWriter. If the key set is empty, the CacheWriter is not called.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -111,7 +108,6 @@ methods:
       This is potentially an expensive operation as listeners are invoked. Use  #clear() to avoid this.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -136,7 +132,6 @@ methods:
       cache contains a mapping for a key k such that key.equals(k). (There can be at most one such mapping.)
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -166,7 +161,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: cacheConfig
@@ -196,7 +190,6 @@ methods:
       Closes the cache. Clears the internal content and releases any resource.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -213,7 +206,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -266,7 +258,6 @@ methods:
       of external resource.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -304,7 +295,6 @@ methods:
       Atomically removes the entry for a key only if currently mapped to some value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -344,7 +334,6 @@ methods:
       store the value of the key to any kind of external resource.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -394,7 +383,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -426,7 +414,6 @@ methods:
       javax.cache.integration.CacheLoader might be called to retrieve the value of the key from any kind of external resource.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -466,7 +453,6 @@ methods:
       has expired or has been evicted.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -508,7 +494,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -544,7 +529,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -574,7 +558,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -611,7 +594,6 @@ methods:
       javax.cache.integration.CacheWriter might be called to store the value of the key to any kind of external resource.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -661,7 +643,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -717,7 +698,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -747,7 +727,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -777,7 +756,6 @@ methods:
       Atomically removes the mapping for a key only if currently mapped to the given value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -823,7 +801,6 @@ methods:
       javax.cache.integration.CacheWriter might be called to store the value of the key to any kind of external resource.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -879,7 +856,6 @@ methods:
       Total entry count
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -906,7 +882,6 @@ methods:
       HazelcastClient may miss some of the cache partition lost events due to design limitations.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -952,7 +927,6 @@ methods:
       Removes the specified cache partition lost listener. Returns silently if there is no such listener added before
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -982,7 +956,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1019,7 +992,6 @@ methods:
       Fetches specified number of entries from the specified partition starting from specified table index.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -1061,7 +1033,6 @@ methods:
       Adds listener to cache. This listener will be used to listen near cache invalidation events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1156,7 +1127,6 @@ methods:
       Fetches invalidation metadata from partitions of map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: names
@@ -1192,7 +1162,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -1211,7 +1180,6 @@ methods:
       oldest and newest event in the journal.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -1248,7 +1216,6 @@ methods:
       and no projection is applied.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -1322,7 +1289,6 @@ methods:
       If some keys in {@code keys} do not exist or are already expired, this call has no effect for those.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

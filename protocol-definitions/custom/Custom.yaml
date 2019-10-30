@@ -760,3 +760,41 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
+  - name: MemberInfo
+    since: 2.0
+    params:
+      - name: address
+        type: Address
+        nullable: false
+        since: 2.0
+      - name: uuid
+        type: UUID
+        nullable: false
+        since: 2.0
+      - name: attributes
+        type: Map_String_String
+        nullable: false
+        since: 2.0
+      - name: liteMember
+        type: boolean
+        nullable: false
+        since: 2.0
+      - name: version
+        type: MemberVersion
+        nullable: false
+        since: 2.0
+  - name: MemberVersion
+    since: 2.0
+    params:
+      - name: major
+        type: int
+        nullable: false
+        since: 2.0
+      - name: minor
+        type: int
+        nullable: false
+        since: 2.0
+      - name: patch
+        type: int
+        nullable: false
+        since: 2.0

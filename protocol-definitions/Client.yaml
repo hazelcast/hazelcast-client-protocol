@@ -8,7 +8,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: clusterName
@@ -67,20 +66,6 @@ methods:
           since: 2.0
           doc: |
             User defined labels of the client instance
-        - name: partitionCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            the expected partition count of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
-        - name: clusterId
-          type: UUID
-          nullable: true
-          since: 2.0
-          doc: |
-            the expected id of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
     response:
       params:
         - name: status
@@ -118,15 +103,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            the expected partition count of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+            Partition count of the cluster.
         - name: clusterId
           type: UUID
           nullable: false
           since: 2.0
           doc: |
-            the expected id of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+            UUID of the cluster that the client authenticated.
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -134,7 +117,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: clusterName
@@ -185,20 +167,6 @@ methods:
           since: 2.0
           doc: |
             User defined labels of the client instance
-        - name: partitionCount
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            the expected partition count of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
-        - name: clusterId
-          type: UUID
-          nullable: true
-          since: 2.0
-          doc: |
-            the expected id of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
     response:
       params:
         - name: status
@@ -236,23 +204,20 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            the expected partition count of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+            Partition count of the cluster.
         - name: clusterId
           type: UUID
           nullable: false
           since: 2.0
           doc: |
-            the expected id of the cluster. Checked on the server side when provided.
-            Authentication fails and 3:NOT_ALLOWED_IN_CLUSTER returned, in case of mismatch
+            The cluster id of the cluster.
   - id: 3
-    name: addMembershipListener
+    name: addClusterViewListener
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: localOnly
@@ -262,47 +227,39 @@ methods:
           doc: |
             if true only master node sends events, otherwise all registered nodes send all membership
             changes.
-    response:
-      params:
-        - name: response
-          type: UUID
-          nullable: false
-          since: 2.0
-          doc: |
-            Returns the registration id for the listener.
+    response: {}
     events:
-      - name: Member
+      - name: MembersView
         params:
-          - name: member
-            type: Member
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: eventType
+          - name: version
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
-      - name: MemberList
-        params:
-          - name: members
-            type: List_Member
+              Incremental member list version
+          - name: memberInfos
+            type: List_MemberInfo
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of member infos  at the cluster associated with the given version
+              params:
+          - name: partitions
+            type: EntryList_Address_List_Integer
+            nullable: false
+            since: 2.0
+            doc: |
+              The partition table. In each entry, it has address and list of partitions belonging to that address
+          - name: partitionStateVersion
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              Incremental state version of the partition table
       - name: MemberAttributeChange
         params:
           - name: member
             type: Member
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: members
-            type: List_Member
             nullable: false
             since: 2.0
             doc: |
@@ -332,7 +289,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -362,12 +318,6 @@ methods:
             "hz:impl:topicService"
             "hz:core:txManagerService"
             "hz:impl:xaService"
-        - name: target
-          type: Address
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
     response: {}
   - id: 5
     name: destroyProxy
@@ -376,7 +326,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -408,46 +357,21 @@ methods:
             "hz:impl:xaService"
     response: {}
   - id: 6
-    name: getPartitions
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-    response:
-      params:
-        - name: partitions
-          type: EntryList_Address_List_Integer
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: partitionStateVersion
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-  - id: 7
     name: removeAllListeners
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
-  - id: 8
+  - id: 7
     name: addPartitionLostListener
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: localOnly
@@ -486,14 +410,13 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 9
+  - id: 8
     name: removePartitionLostListener
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: registrationId
@@ -510,14 +433,13 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 10
+  - id: 9
     name: getDistributedObjects
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -527,14 +449,13 @@ methods:
           since: 2.0
           doc: |
             An array of distributed object info in the cluster.
-  - id: 11
+  - id: 10
     name: addDistributedObjectListener
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: localOnly
@@ -573,14 +494,13 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 12
+  - id: 11
     name: removeDistributedObjectListener
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: registrationId
@@ -597,17 +517,16 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 13
+  - id: 12
     name: ping
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
-  - id: 14
+  - id: 13
     name: statistics
     since: 2.0
     doc: |
@@ -771,7 +690,6 @@ methods:
 
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: timestamp
@@ -793,7 +711,7 @@ methods:
           doc: |
             Compressed byte array containing all metrics collected by the client.
     response: {}
-  - id: 15
+  - id: 14
     name: deployClasses
     since: 2.0
     doc: |
@@ -802,7 +720,6 @@ methods:
       key of entry is full class name, and byte[] is the class definition.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: classDefinitions
@@ -812,32 +729,7 @@ methods:
           doc: |
             list of class definitions
     response: {}
-  - id: 16
-    name: addPartitionListener
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-    response: {}
-    events:
-      - name: Partitions
-        params:
-          - name: partitions
-            type: EntryList_Address_List_Integer
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: partitionStateVersion
-            type: int
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-  - id: 17
+  - id: 15
     name: createProxies
     since: 2.0
     doc: |
@@ -848,7 +740,6 @@ methods:
       A proxy creation failure does not cancel this operation, all proxies will be attempted to be created.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: proxies
@@ -861,14 +752,13 @@ methods:
             Each entry's value is service name.
             For possible service names see createProxy message.
     response: {}
-  - id: 18
+  - id: 16
     name: isFailoverSupported
     since: 2.0
     doc: |
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -878,14 +768,13 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports cluster failover
-  - id: 19
+  - id: 17
     name: localBackupListener
     since: 2.0
     doc: |
       Adds listener for backup acks
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:

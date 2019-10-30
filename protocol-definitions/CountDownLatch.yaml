@@ -10,7 +10,6 @@ methods:
       and returns false
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -63,7 +62,6 @@ methods:
       less than or equal to zero, the method will not wait at all.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -110,7 +108,6 @@ methods:
       null. If the current count equals zero, then nothing happens.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -145,7 +142,6 @@ methods:
       Returns the current count.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -176,7 +172,6 @@ methods:
       reaches to 0 and a new round starts afterwards.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId

@@ -35,7 +35,6 @@ A basic method structure example:
        Documentation of the method call
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: None
       params:
         - name: parameter1

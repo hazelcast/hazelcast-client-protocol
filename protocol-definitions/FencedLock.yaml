@@ -14,7 +14,6 @@ methods:
       {@code LockOwnershipLostException}.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -70,7 +69,6 @@ methods:
       the call fails with {@code LockOwnershipLostException}.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -129,7 +127,6 @@ methods:
       held by the caller after a successful unlock() call, false otherwise.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -178,7 +175,6 @@ methods:
       Returns current lock ownership status of the given FencedLock instance.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId

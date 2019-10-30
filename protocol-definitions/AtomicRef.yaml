@@ -8,7 +8,6 @@ methods:
       Applies a function on the value
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -58,7 +57,6 @@ methods:
       Alters the currently stored value by applying a function on it.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -101,7 +99,6 @@ methods:
       Checks if the reference contains the value.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -137,7 +134,6 @@ methods:
       Gets the current value.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -167,7 +163,6 @@ methods:
       Atomically sets the given value
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId

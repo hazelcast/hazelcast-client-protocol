@@ -9,7 +9,6 @@ methods:
       become available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -45,7 +44,6 @@ methods:
       Inserts the specified element into this queue, waiting if necessary for space to become available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -69,7 +67,6 @@ methods:
       elements, returns Integer.MAX_VALUE
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -94,7 +91,6 @@ methods:
       if this queue is empty.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -125,7 +121,6 @@ methods:
       to become available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -155,7 +150,6 @@ methods:
       Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -179,7 +173,6 @@ methods:
       Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -204,7 +197,6 @@ methods:
       the elements are returned (unless this collection is an instance of some class that provides a guarantee).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -232,7 +224,6 @@ methods:
       this operation is undefined if the specified collection is modified while the operation is in progress.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -260,7 +251,6 @@ methods:
       modified while the operation is in progress.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -291,7 +281,6 @@ methods:
       contains at least one element e such that value.equals(e)
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -321,7 +310,6 @@ methods:
       Return true if this collection contains all of the elements in the specified collection.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -352,7 +340,6 @@ methods:
       After this call returns, this collection will contain no elements in common with the specified collection.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -383,7 +370,6 @@ methods:
       In other words, removes from this collection all of its elements that are not contained in the specified collection.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -414,7 +400,6 @@ methods:
       method returns.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -434,7 +419,6 @@ methods:
       and this collection is nonempty.)
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -464,7 +448,6 @@ methods:
       Adds an listener for this collection. Listener will be notified or all collection add/remove events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -521,7 +504,6 @@ methods:
       Removes the specified item listener.Returns silently if the specified listener was not added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -554,7 +536,6 @@ methods:
       the case that another thread is about to insert or remove an element.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -578,7 +559,6 @@ methods:
       Returns true if this collection contains no elements.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name

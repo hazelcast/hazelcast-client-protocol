@@ -8,7 +8,6 @@ methods:
       Publishes the message to all subscribers of this topic
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -32,7 +31,6 @@ methods:
       MessageListener is called. More than one message listener can be added on one instance.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -83,7 +81,6 @@ methods:
       Stops receiving messages for the given message listener.If the given listener already removed, this method does nothing.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

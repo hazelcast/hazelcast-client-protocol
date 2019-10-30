@@ -8,7 +8,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: xid
       params:
         - name: xid
@@ -25,7 +24,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -42,7 +40,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: xid
       params:
         - name: xid
@@ -65,7 +62,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: transactionId
@@ -88,7 +84,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: true
       partitionIdentifier: -1
       params:
         - name: xid
@@ -118,7 +113,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: transactionId
@@ -135,7 +129,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: transactionId

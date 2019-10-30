@@ -9,7 +9,6 @@ methods:
       Invocation has no additional effect if already shut down.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -26,7 +25,6 @@ methods:
       Returns true if this executor has been shut down.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -50,7 +48,6 @@ methods:
       Submits the task to partition for execution
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -80,7 +77,6 @@ methods:
       Retrieves the result of the execution with the given sequence
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -110,7 +106,6 @@ methods:
       Disposes the result of the execution with the given sequence
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -133,7 +128,6 @@ methods:
       Retrieves and disposes the result of the execution with the given sequence
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name

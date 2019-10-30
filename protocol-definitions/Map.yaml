@@ -11,7 +11,6 @@ methods:
       rounded to the next closest second value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -60,7 +59,6 @@ methods:
       value in the map. You should put the modified value back to make changes visible to all nodes.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -100,7 +98,6 @@ methods:
       call returns.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -136,7 +133,6 @@ methods:
       Replaces the entry for a key only if currently mapped to a given value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -178,7 +174,6 @@ methods:
       Replaces the the entry for a key only if existing values equal to the testValue
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -226,7 +221,6 @@ methods:
       Returns true if this map contains a mapping for the specified key.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -263,7 +257,6 @@ methods:
       linear in the map size for most implementations of the Map interface.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -293,7 +286,6 @@ methods:
       Removes the mapping for a key from this map if existing value equal to the this value
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -340,7 +332,6 @@ methods:
       with a null oldValue. Also, a listener with predicates will have null values, so only keys can be queried via predicates
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -370,7 +361,6 @@ methods:
       and/or MapStore.deleteAll().
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -389,7 +379,6 @@ methods:
       amount for acquiring the lock.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -433,7 +422,6 @@ methods:
       thus the put operation is not successful.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -482,7 +470,6 @@ methods:
       If ttl is 0, then the entry lives forever.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -524,7 +511,6 @@ methods:
       with a value. Entry will expire and get evicted after the ttl.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -574,7 +560,6 @@ methods:
       return the old value, which is more efficient.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -619,7 +604,6 @@ methods:
       so if the key is locked N times then it should be unlocked N times before another thread can acquire it.
     request:
       retryable: true
-      acquiresResource: true
       partitionIdentifier: key
       params:
         - name: name
@@ -663,7 +647,6 @@ methods:
       the specified waiting time elapses.
     request:
       retryable: true
-      acquiresResource: true
       partitionIdentifier: key
       params:
         - name: name
@@ -717,7 +700,6 @@ methods:
       Checks the lock for the specified key.If the lock is acquired then returns true, else returns false.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -750,7 +732,6 @@ methods:
       then ILLEGAL_MONITOR_STATE is thrown.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -786,7 +767,6 @@ methods:
       and execute user defined methods and will cancel operations if user defined method throw exception.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -816,7 +796,6 @@ methods:
       Removes the given interceptor for this map so it will not intercept operations anymore.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -847,7 +826,6 @@ methods:
       sub-interface for that event.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -948,7 +926,6 @@ methods:
       filtered by the given predicate.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1043,7 +1020,6 @@ methods:
       sub-interface for that event.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1137,7 +1113,6 @@ methods:
       sub-interface for that event.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1224,7 +1199,6 @@ methods:
       Removes the specified entry listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1259,7 +1233,6 @@ methods:
       to design limitations.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1304,7 +1277,6 @@ methods:
       Removes the specified map partition lost listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1336,7 +1308,6 @@ methods:
       in the map. One should put modified value back to make changes visible to all nodes.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -1379,7 +1350,6 @@ methods:
       from the underlying MapStore, evict only removes the entry from the memory.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -1417,7 +1387,6 @@ methods:
       fired for any registered listeners.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1434,7 +1403,6 @@ methods:
       Loads all keys into the store. This is a batch load operation so that an implementation can optimize the multiple loads.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1458,7 +1426,6 @@ methods:
       Loads the given keys. This is a batch load operation so that an implementation can optimize the multiple loads.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1489,7 +1456,6 @@ methods:
       throw a QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1517,7 +1483,6 @@ methods:
       of these request messages for filling a request for a key set if the keys belong to different partitions.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: any key belongs to target partition
       params:
         - name: name
@@ -1550,7 +1515,6 @@ methods:
       if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1577,7 +1541,6 @@ methods:
       if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1604,7 +1567,6 @@ methods:
       QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1637,7 +1599,6 @@ methods:
       QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1670,7 +1631,6 @@ methods:
       QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1700,7 +1660,6 @@ methods:
       Adds an index to this map with specified configuration.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1724,7 +1683,6 @@ methods:
       returns Integer.MAX_VALUE
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1748,7 +1706,6 @@ methods:
       Returns true if this map contains no key-value mappings.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1778,7 +1735,6 @@ methods:
       of these request messages for filling a request for a key set if the keys belong to different partitions.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: any key belongs to target partition
       params:
         - name: name
@@ -1803,7 +1759,6 @@ methods:
       To clear a map without calling MapStore#deleteAll, use #evictAll.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1821,7 +1776,6 @@ methods:
       the process() method of EntryProcessor.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -1865,7 +1819,6 @@ methods:
       operation of EntryProcessor.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -1907,7 +1860,6 @@ methods:
       Applies the user defined EntryProcessor to the all entries in the map.Returns the results mapped by each key in the map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1938,7 +1890,6 @@ methods:
       Returns the results mapped by each key in the map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -1975,7 +1926,6 @@ methods:
       each key in the collection.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2012,7 +1962,6 @@ methods:
       never blocks,and returns immediately.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -2041,7 +1990,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2074,7 +2022,6 @@ methods:
       QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2104,7 +2051,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2134,7 +2080,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2157,7 +2102,6 @@ methods:
       Fetches specified number of keys from the specified partition starting from specified table index.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -2199,7 +2143,6 @@ methods:
       Fetches specified number of entries from the specified partition starting from specified table index.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -2241,7 +2184,6 @@ methods:
       Applies the aggregation logic on all map entries and returns the result
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2271,7 +2213,6 @@ methods:
       Applies the aggregation logic on map entries filtered with the Predicate and returns the result
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2307,7 +2248,6 @@ methods:
       Applies the projection logic on all map entries and returns the result
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2337,7 +2277,6 @@ methods:
       Applies the projection logic on map entries filtered with the Predicate and returns the result
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2373,7 +2312,6 @@ methods:
       Fetches invalidation metadata from partitions of map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: names
@@ -2409,7 +2347,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -2426,7 +2363,6 @@ methods:
       Removes all entries which match with the supplied predicate
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2449,7 +2385,6 @@ methods:
       Adds listener to map. This listener will be used to listen near cache invalidation events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -2539,7 +2474,6 @@ methods:
       that match the predicate and applies the projection logic on them.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -2595,7 +2529,6 @@ methods:
       oldest and newest event in the journal.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -2632,7 +2565,6 @@ methods:
       and no projection is applied.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: partitionId
       params:
         - name: name
@@ -2716,7 +2648,6 @@ methods:
       Time resolution for TTL is seconds. The given TTL value is rounded to the next closest second value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -2755,7 +2686,6 @@ methods:
       rounded to the next closest second value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -2811,7 +2741,6 @@ methods:
       If ttl and maxIdle are 0, then the entry lives forever.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -2867,7 +2796,6 @@ methods:
       with a value. Entry will expire and get evicted after the ttl or maxIdle, whichever comes first.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -2926,7 +2854,6 @@ methods:
       Similar to the put operation except that set doesn't return the old value, which is more efficient.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name

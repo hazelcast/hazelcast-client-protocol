@@ -9,7 +9,6 @@ methods:
       become available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -57,7 +56,6 @@ methods:
       Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -94,7 +92,6 @@ methods:
       to become available.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -136,7 +133,6 @@ methods:
       Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -179,7 +175,6 @@ methods:
       elements, returns Integer.MAX_VALUE.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
