@@ -1,3 +1,4 @@
+# Requires smart client to work, i.e. does not work with unisocket clients
 id: 32
 name: MC
 methods:
@@ -64,7 +65,7 @@ methods:
     name: getMapConfig
     since: 2.0
     doc: |
-      Gets the config of a map.
+      Gets the config of a map on the member it's called on.
     request:
       retryable: true
       acquiresResource: false
@@ -159,7 +160,7 @@ methods:
     name: updateMapConfig
     since: 2.0
     doc: |
-      Updates the config of a map.
+      Updates the config of a map on the member it's called on.
     request:
       retryable: false
       acquiresResource: false
@@ -243,7 +244,7 @@ methods:
     name: runGc
     since: 2.0
     doc: |
-      Requests garbage collection to be performed on the member's JVM.
+      Requests garbage collection to be performed on the member it's called on.
     request:
       retryable: false
       acquiresResource: false
@@ -253,7 +254,7 @@ methods:
     name: getThreadDump
     since: 2.0
     doc: |
-      Takes a thread dump of the member's JVM.
+      Takes a thread dump of the member it's called on.
     request:
       retryable: false
       acquiresResource: false
@@ -277,7 +278,7 @@ methods:
     name: shutdownMember
     since: 2.0
     doc: |
-      Shuts down a member.
+      Shuts down the member it's called on.
     request:
       retryable: false
       acquiresResource: false
@@ -287,7 +288,7 @@ methods:
     name: promoteLiteMember
     since: 2.0
     doc: |
-      Promotes a lite member to a data member.
+      Promotes the lite member it's called on to a data member.
     request:
       retryable: false
       acquiresResource: false
@@ -297,7 +298,7 @@ methods:
     name: getSystemProperties
     since: 2.0
     doc: |
-      Gets the system properties of a member.
+      Gets the system properties of the member it's called on.
     request:
       retryable: true
       acquiresResource: false
