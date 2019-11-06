@@ -256,6 +256,12 @@ methods:
       acquiresResource: false
       partitionIdentifier: -1
       params:
+        - name: eTag
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ETag value of the config.
         - name: clientBwListMode
           type: int
           nullable: false
