@@ -327,4 +327,4 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            Last TimedMemberState of the member, serialized as JSON.
+            Latest TimedMemberState of the member, serialized as JSON.
