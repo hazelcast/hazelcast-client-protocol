@@ -10,11 +10,13 @@ from jinja2 import Environment, PackageLoader
 
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
-
+from cs import cs_types_encode, cs_types_decode, cs_escape_keyword
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
+def cs_name(type_name):
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 def param_name(type_name):
     return type_name[0].lower() + type_name[1:]
@@ -172,7 +174,7 @@ def save_file(file, content):
 class SupportedLanguages(Enum):
     JAVA = 'java'
     # CPP = 'cpp'
-    # CS = 'cs'
+    CS = 'cs'
     # PY = 'py'
     # TS = 'ts'
     # GO = 'go'
@@ -181,7 +183,7 @@ class SupportedLanguages(Enum):
 output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    # SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
@@ -190,7 +192,7 @@ output_directories = {
 file_extensions = {
     SupportedLanguages.JAVA: 'java',
     # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
-    # SupportedLanguages.CS: 'cs',
+    SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
     # SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
@@ -198,17 +200,24 @@ file_extensions = {
 
 language_specific_funcs = {
     'lang_types_encode': {
-        SupportedLanguages.JAVA: java_types_encode
+        SupportedLanguages.JAVA: java_types_encode,
+        SupportedLanguages.CS: cs_types_encode,
     },
     'lang_types_decode': {
-        SupportedLanguages.JAVA: java_types_decode
+        SupportedLanguages.JAVA: java_types_decode,
+        SupportedLanguages.CS: cs_types_decode,
     },
     'lang_name': {
-        SupportedLanguages.JAVA: java_name
+        SupportedLanguages.JAVA: java_name,
+        SupportedLanguages.CS: cs_name,
     },
     'param_name': {
-        SupportedLanguages.JAVA: param_name
-    }
+        SupportedLanguages.JAVA: param_name,
+        SupportedLanguages.CS: param_name,
+    },
+    'escape_keyword' : {
+        SupportedLanguages.CS: cs_escape_keyword,
+    },
 }
 
 
@@ -233,5 +242,6 @@ def create_environment(lang, namespace):
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]
     env.globals["namespace"] = namespace
     env.globals["param_name"] = language_specific_funcs['param_name'][lang]
+    env.globals["escape_keyword"] = language_specific_funcs['escape_keyword'][lang]
 
     return env
