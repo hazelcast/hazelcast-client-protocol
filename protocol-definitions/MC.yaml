@@ -1,3 +1,4 @@
+# Requires smart client to work, i.e. does not work with unisocket clients
 id: 32
 name: MC
 methods:
@@ -64,7 +65,7 @@ methods:
     name: getMapConfig
     since: 2.0
     doc: |
-      Gets the config of a map.
+      Gets the config of a map on the member it's called on.
     request:
       retryable: true
       acquiresResource: false
@@ -159,7 +160,7 @@ methods:
     name: updateMapConfig
     since: 2.0
     doc: |
-      Updates the config of a map.
+      Updates the config of a map on the member it's called on.
     request:
       retryable: false
       acquiresResource: false
@@ -222,3 +223,91 @@ methods:
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
     response: {}
+  - id: 5
+    name: getMemberConfig
+    since: 2.0
+    doc: |
+      Gets the effective config of a member rendered as XML.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: configXml
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Effective config of a member rendered as XML.
+  - id: 6
+    name: runGc
+    since: 2.0
+    doc: |
+      Requests garbage collection to be performed on the member it's called on.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 7
+    name: getThreadDump
+    since: 2.0
+    doc: |
+      Takes a thread dump of the member it's called on.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: dumpDeadLocks
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether only dead-locked threads or all threads should be dumped.
+    response:
+      params:
+        - name: threadDump
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Thread dump of the member's JVM.
+  - id: 8
+    name: shutdownMember
+    since: 2.0
+    doc: |
+      Shuts down the member it's called on.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 9
+    name: promoteLiteMember
+    since: 2.0
+    doc: |
+      Promotes the lite member it's called on to a data member.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 10
+    name: getSystemProperties
+    since: 2.0
+    doc: |
+      Gets the system properties of the member it's called on.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: systemProperties
+          type: EntryList_String_String
+          nullable: false
+          since: 2.0
+          doc: |
+            System properties of the member.
