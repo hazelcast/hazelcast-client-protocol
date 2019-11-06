@@ -43,6 +43,7 @@ CustomTypes = [
     'Xid',
     'ErrorHolder',
     'StackTraceElement',
+    'ClientBwListEntry',
 ]
 
 CustomConfigTypes = [
@@ -97,6 +98,7 @@ VarLengthListTypes = [
     'List_String',
     'List_Xid',
     'List_StackTraceElement',
+    'List_ClientBwListEntry',
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

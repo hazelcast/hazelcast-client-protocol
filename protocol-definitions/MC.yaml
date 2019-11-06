@@ -222,3 +222,54 @@ methods:
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
     response: {}
+  - id: 5
+    name: matchMCConfig
+    since: 2.0
+    doc: |
+      Checks if local MC config (client filter list) has the same ETag as provided.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: eTag
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ETag value of current MC config.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            true if ETag values are equal; or false otherwise.
+  - id: 6
+    name: applyMCConfig
+    since: 2.0
+    doc: |
+      Applies given MC config (client filter list).
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: clientBwListMode
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The mode for client filtering:
+            0 - DISABLED
+            1 - WHITELIST
+            2 - BLACKLIST
+        - name: clientBwListEntries
+          type: List_ClientBwListEntry
+          nullable: true
+          since: 2.0
+          doc: |
+            Client filter list entries.
+
+    response: {}
