@@ -4,6 +4,7 @@ import jsonschema
 import os
 import re
 from enum import Enum
+from yaml import MarkedYAMLError
 
 import yaml
 from jinja2 import Environment, PackageLoader
@@ -12,11 +13,14 @@ from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedM
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword
 
+
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
+
 def cs_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
+
 
 def param_name(type_name):
     return type_name[0].lower() + type_name[1:]
@@ -60,10 +64,12 @@ def generate_codecs(services, template, output_dir, extension):
                     for i in range(len(events)):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
-                content = template.render(service_name=service["name"], method=method)
-                save_file(
-                    os.path.join(output_dir, capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension),
-                    content)
+                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension
+                try:
+                    content = template.render(service_name=service["name"], method=method)
+                    save_file(os.path.join(output_dir, codec_file_name), content)
+                except NotImplementedError:
+                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
 
 def generate_custom_codecs(services, template, output_dir, extension):
@@ -72,8 +78,12 @@ def generate_custom_codecs(services, template, output_dir, extension):
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
-                content = template.render(codec=codec)
-                save_file(os.path.join(output_dir, capital(codec["name"]) + 'Codec.' + extension), content)
+                codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                try:
+                    content = template.render(codec=codec)
+                    save_file(os.path.join(output_dir, codec_file_name), content)
+                except NotImplementedError:
+                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
 
 def item_type(lang_name, param_type):
@@ -112,7 +122,11 @@ def load_services(protocol_def_dir):
         file_path = os.path.join(protocol_def_dir, service_file)
         if os.path.isfile(file_path):
             with open(file_path, 'r') as file:
-                data = yaml.load(file, Loader=yaml.Loader)
+                try:
+                    data = yaml.load(file, Loader=yaml.Loader)
+                except MarkedYAMLError as err:
+                    print(err)
+                    exit(-1)
                 services.append(data)
     return services
 
@@ -180,10 +194,19 @@ class SupportedLanguages(Enum):
     # GO = 'go'
 
 
-output_directories = {
+codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    # SupportedLanguages.TS: 'src/codec/',
+    # SupportedLanguages.GO: 'internal/proto/'
+}
+
+custom_codec_output_directories = {
+    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
+    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
@@ -215,7 +238,8 @@ language_specific_funcs = {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
     },
-    'escape_keyword' : {
+    'escape_keyword': {
+        SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
     },
 }
