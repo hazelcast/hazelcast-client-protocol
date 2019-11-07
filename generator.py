@@ -84,8 +84,8 @@ lang = SupportedLanguages[lang_str_arg.upper()]
 curr_dir = os.path.dirname(os.path.realpath(__file__))
 
 root_dir = root_dir_arg if root_dir_arg is not None else os.path.join(curr_dir, 'output', lang_str_arg)
-relative_output_dir = out_dir_arg if out_dir_arg is not None else output_directories[lang]
-output_dir = os.path.join(root_dir, relative_output_dir)
+relative_codec_output_dir = out_dir_arg if out_dir_arg is not None else codec_output_directories[lang]
+codec_output_dir = os.path.join(root_dir, relative_codec_output_dir)
 
 protocol_defs_path = proto_path_arg if proto_path_arg is not None else os.path.join(curr_dir, 'protocol-definitions')
 custom_protocol_defs_path = os.path.join(protocol_defs_path, 'custom')
@@ -102,8 +102,8 @@ env = create_environment(lang, namespace_arg)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
-generate_codecs(protocol_defs, codec_template, output_dir, file_extensions[lang])
-print('Generated codecs are at \'%s\'' % os.path.abspath(output_dir))
+generate_codecs(protocol_defs, codec_template, codec_output_dir, file_extensions[lang])
+print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
 
 if os.path.exists(custom_protocol_defs_path):
     custom_protocol_defs = load_services(custom_protocol_defs_path)
@@ -111,17 +111,17 @@ if os.path.exists(custom_protocol_defs_path):
         exit(-1)
 
     custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)
-    custom_codec_output_dir = os.path.join(output_dir, 'custom')
-    generate_custom_codecs(custom_protocol_defs, custom_codec_template, custom_codec_output_dir,
-                           file_extensions[lang])
+    relative_custom_codec_output_dir = out_dir_arg if out_dir_arg is not None else custom_codec_output_directories[lang]
+    custom_codec_output_dir = os.path.join(root_dir, relative_custom_codec_output_dir)
+    generate_custom_codecs(custom_protocol_defs, custom_codec_template, custom_codec_output_dir, file_extensions[lang])
     print('Generated custom codecs are at \'%s\'' % custom_codec_output_dir)
 
-relative_test_output_dir = test_out_dir_arg if test_out_dir_arg is not None else test_output_directories[lang]
-relative_binary_output_dir = bin_out_dir_arg if bin_out_dir_arg is not None else binary_output_directories[lang]
-test_output_dir = os.path.join(root_dir, relative_test_output_dir)
-binary_output_dir = os.path.join(root_dir, relative_binary_output_dir)
-
 if not no_binary_arg:
+    relative_test_output_dir = test_out_dir_arg if test_out_dir_arg is not None else test_output_directories[lang]
+    relative_binary_output_dir = bin_out_dir_arg if bin_out_dir_arg is not None else binary_output_directories[lang]
+    test_output_dir = os.path.join(root_dir, relative_test_output_dir)
+    binary_output_dir = os.path.join(root_dir, relative_binary_output_dir)
+
     error, binary_templates = get_binary_templates(lang, version_arg)
     if binary_templates is not None:
         save_test_files(test_output_dir, lang, version_arg, protocol_defs, binary_templates)
