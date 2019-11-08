@@ -311,3 +311,20 @@ methods:
           since: 2.0
           doc: |
             System properties of the member.
+  - id: 11
+    name: getTimedMemberState
+    since: 2.0
+    doc: |
+      Gets the latest TimedMemberState of the member it's called on.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: timedMemberStateJson
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Latest TimedMemberState of the member, serialized as JSON.
