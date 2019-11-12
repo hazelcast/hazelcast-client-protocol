@@ -76,7 +76,7 @@ namespace Hazelcast.Client.Protocol.Codec.Custom
 
         public static void Encode(ClientMessage clientMessage, {{ lang_types_encode(codec.name) }} {{ param_name(codec.name) }})
         {
-            clientMessage.Add(BeginFrame);
+            clientMessage.Add(BeginFrame.Copy());
             {% for param in fixed_params(codec.params) %}
             {% if loop.first %}
 
