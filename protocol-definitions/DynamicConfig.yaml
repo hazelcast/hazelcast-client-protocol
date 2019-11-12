@@ -386,7 +386,7 @@ methods:
           since: 2.0
           doc: |
             class name of a class implementing
-            {@code com.hazelcast.replicatedmap.merge.ReplicatedMapMergePolicy} to merge entries
+            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
             while recovering from a split brain
         - name: listenerConfigs
           type: List_ListenerConfigHolder
@@ -699,7 +699,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            name of the map
         - name: backupCount
           type: int
           nullable: false
@@ -724,14 +724,12 @@ methods:
           since: 2.0
           doc: |
             maximum number of seconds for each entry to stay idle in the map
-        - name: evictionPolicy
-          type: String
-          nullable: false
+        - name: evictionConfig
+          type: EvictionConfigHolder
+          nullable: true
           since: 2.0
           doc: |
-            eviction policy. Valid values: {@code NONE} (no eviction), {@code LRU}
-            (Least Recently Used), {@code LFU} (Least Frequently Used),
-            {@code RANDOM} (evict random entry).
+            map eviction configuration
         - name: readBackupData
           type: boolean
           nullable: false
@@ -753,8 +751,14 @@ methods:
           since: 2.0
           doc: |
             class name of a class implementing
-            {@code com.hazelcast.map.merge.MapMergePolicy} to merge entries
+            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
             while recovering from a split brain
+        - name: mergeBatchSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of entries to be sent in a merge operation
         - name: inMemoryFormat
           type: String
           nullable: false
@@ -788,29 +792,6 @@ methods:
             name of an existing configured split brain protection to be used to determine the minimum
             number of members required in the cluster for the map to remain functional.
             When {@code null}, split brain protection does not apply to this map's operations.
-        - name: mapEvictionPolicy
-          type: Data
-          nullable: true
-          since: 2.0
-          doc: |
-            custom {@code com.hazelcast.map.eviction.MapEvictionPolicy} implementation
-            or {@code null}
-        - name: maxSizeConfigMaxSizePolicy
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            maximum size policy. Valid values are {@code PER_NODE},
-            {@code PER_PARTITION}, {@code USED_HEAP_PERCENTAGE}, {@code USED_HEAP_SIZE},
-            {@code FREE_HEAP_PERCENTAGE}, {@code FREE_HEAP_SIZE},
-            {@code USED_NATIVE_MEMORY_SIZE}, {@code USED_NATIVE_MEMORY_PERCENTAGE},
-            {@code FREE_NATIVE_MEMORY_SIZE}, {@code FREE_NATIVE_MEMORY_PERCENTAGE}.
-        - name: maxSizeConfigSize
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            maximum size of map
         - name: mapStoreConfig
           type: MapStoreConfigHolder
           nullable: true
@@ -871,19 +852,13 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            Event Journal configuration
+            event journal configuration
         - name: merkleTreeConfig
           type: MerkleTreeConfig
           nullable: true
           since: 2.0
           doc: |
-            - merkle tree configuration
-        - name: mergeBatchSize
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
+            merkle tree configuration
         - name: metadataPolicy
           type: int
           nullable: false
@@ -1014,13 +989,13 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            Factory                    name of cache loader factory class, if one is configured
+            Factory name of cache loader factory class, if one is configured
         - name: cacheWriter
           type: String
           nullable: true
           since: 2.0
           doc: |
-            Factory                    name of cache writer factory class, if one is configured
+            Factory name of cache writer factory class, if one is configured
         - name: backupCount
           type: int
           nullable: false
@@ -1053,9 +1028,15 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            name of a class implementing {@link com.hazelcast.cache.CacheMergePolicy}
+            name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
             that handles merging of values for this cache while recovering from
             network partitioning
+        - name: mergeBatchSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            number of entries to be sent in a merge operation
         - name: disablePerEntryInvalidationEvents
           type: boolean
           nullable: false
