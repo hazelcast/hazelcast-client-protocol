@@ -441,3 +441,229 @@ methods:
           doc: |
             Minor component of the new cluster version.
     response: {}
+  - id: 17
+    name: changeWanReplicationState
+    since: 2.0
+    doc: |
+      Stop, pause or resume WAN replication for the given WAN replication and publisher.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: wanReplicationName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the WAN replication to change state of.
+        - name: wanPublisherId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the WAN publisher to change state of.
+        - name: newState
+          type: byte
+          nullable: false
+          since: 2.0
+          doc: |
+            New state for the WAN publisher:
+            0 - REPLICATING
+            1 - PAUSED
+            2 - STOPPED
+    response: {}
+  - id: 18
+    name: clearWanQueues
+    since: 2.0
+    doc: |
+      Clear WAN replication queues for the given wan replication and publisher
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: wanReplicationName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the WAN replication to clear WAN replication queues of.
+        - name: wanPublisherId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the WAN publisher to clear WAN replication queues of.
+    response: {}
+  - id: 19
+    name: addWanReplicationConfig
+    since: 2.0
+    doc: |
+      Add a new WAN replication configuration
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the WAN replication to add
+        - name: targetCluster
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the target cluster
+        - name: publisherId
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            - ID used for identifying the publisher in a WanReplicationConfig.
+        - name: endpoints
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Comma separated list of target cluster members
+        - name: queueCapacity
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Capacity of the primary and backup queue for WAN replication events
+        - name: batchSize
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The maximum batch size that can be sent to target cluster
+        - name: batchMaxDelayMillis
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The maximum amount of time in milliseconds to wait before sending a batch
+             of events to target cluster, if `batch size` of events have not arrived
+             within this duration
+        - name: responseTimeoutMillis
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The duration in milliseconds for the wait time before retrying to
+            send the events to target cluster again in case the acknowledgement
+            has not arrived.
+        - name: ackType
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            The strategy for when the target cluster should acknowledge that
+            a WAN event batch has been processed:
+            0 - ACK_ON_RECEIPT
+            1 - ACK_ON_OPERATION_COMPLETE
+        - name: queueFullBehavior
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Behaviour of this WAN publisher when the WAN queue is full:
+            0 - DISCARD_AFTER_MUTATION
+            1 - THROW_EXCEPTION
+            2 - THROW_EXCEPTION_ONLY_IF_REPLICATION_ACTIVE
+    response:
+      params:
+        - name: addedPublisherIds
+          type: List_String
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns the IDs for the WAN publishers which were added to the configuration.
+        - name: ignoredPublisherIds
+          type: List_String
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns the IDs for the WAN publishers which were ignored and not added to
+            the configuration.
+  - id: 20
+    name: wanSyncMap
+    since: 2.0
+    doc: |
+      Initiate WAN sync for a specific map or all maps
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: wanReplicationName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the WAN replication to initiate WAN sync for
+        - name: wanPublisherId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the WAN publisher to initiate WAN sync for
+        - name: wanSyncType
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            Whether all maps are going to be synced or only a single one:
+            0 - ALL_MAPS
+            1 - SINGLE_MAP
+        - name: mapName
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Name of the map to trigger WAN sync on, null if all maps are to be synced
+    response:
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UUID of the synchronization
+  - id: 21
+    name: checkWanConsistency
+    since: 2.0
+    doc: |
+      Initiate WAN consistency check for a specific map
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: wanReplicationName
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the WAN replication to initiate WAN consistency check for
+        - name: wanPublisherId
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the WAN publisher to initiate WAN consistency check for
+        - name: mapName
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Name of the map to initiate WAN consistency check for
+    response:
+      params:
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 2.0
+          doc: |
+            UUID of the consistency check request or null if consistency
+            check is ignored because of the configuration
