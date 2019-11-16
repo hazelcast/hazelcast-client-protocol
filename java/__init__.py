@@ -55,6 +55,7 @@ _java_types_common = {
     "AttributeConfig": "com.hazelcast.config.AttributeConfig",
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",
+    "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
 
     "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>"
 }
@@ -65,6 +66,7 @@ _java_types_encode = {
     "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.ScheduledTaskHandler",
     "Xid": "javax.transaction.xa.Xid",
     "Member": "com.hazelcast.cluster.Member",
+    "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_UUID": "java.util.Collection<java.util.UUID>",
@@ -82,6 +84,7 @@ _java_types_encode = {
     "List_ListenerConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "java.util.Collection<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
     "List_StackTraceElement": "java.util.Collection<java.lang.StackTraceElement>",
+    "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -100,6 +103,7 @@ _java_types_decode = {
     "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.impl.ScheduledTaskHandlerImpl",
     "Xid": "com.hazelcast.transaction.impl.xa.SerializableXID",
     "Member": "com.hazelcast.client.impl.MemberImpl",
+    "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_UUID": "java.util.List<java.util.UUID>",
@@ -117,6 +121,7 @@ _java_types_decode = {
     "List_ListenerConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "java.util.List<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
     "List_StackTraceElement": "java.util.List<java.lang.StackTraceElement>",
+    "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",

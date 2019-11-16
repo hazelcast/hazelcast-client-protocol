@@ -62,6 +62,7 @@
             "RingbufferStoreConfigHolder",
             "TimedExpiryPolicyFactoryConfig",
             "DurationConfig",
+            "ClientBwListEntry",
             "EntryList_String_String",
             "EntryList_String_byteArray",
             "EntryList_Long_byteArray",
@@ -87,6 +88,7 @@
             "List_String",
             "List_Xid",
             "List_StackTraceElement",
+            "List_ClientBwListEntry",
             "Map_String_String",
             "MergePolicyConfig"
           ]

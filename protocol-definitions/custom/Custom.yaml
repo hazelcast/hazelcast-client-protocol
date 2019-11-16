@@ -748,3 +748,15 @@ customTypes:
         type: List_ListenerConfigHolder
         nullable: true
         since: 2.0
+  - name: ClientBwListEntry
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: type
+        type: enum
+        nullable: false
+        since: 2.0
+      - name: value
+        type: String
+        nullable: false
+        since: 2.0
