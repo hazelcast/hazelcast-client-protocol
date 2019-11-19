@@ -53,101 +53,6 @@ methods:
             doc: |
               TODO DOC
   - id: 2
-    name: addInvalidationListener
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: false
-      acquiresResource: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            Name of the cache.
-        - name: localOnly
-          type: boolean
-          nullable: false
-          since: 2.0
-          doc: |
-            if true fires events that originated from this node only, otherwise fires all events
-    response:
-      params:
-        - name: response
-          type: UUID
-          nullable: false
-          since: 2.0
-          doc: |
-            Registration id for the registered listener.
-    events:
-      - name: CacheInvalidation
-        params:
-          - name: name
-            type: String
-            nullable: false
-            since: 2.0
-            doc: |
-              Name of the cache.
-          - name: key
-            type: Data
-            nullable: true
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: sourceUuid
-            type: UUID
-            nullable: true
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: partitionUuid
-            type: UUID
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: sequence
-            type: long
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-      - name: CacheBatchInvalidation
-        params:
-          - name: name
-            type: String
-            nullable: false
-            since: 2.0
-            doc: |
-              Name of the cache.
-          - name: keys
-            type: List_Data
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: sourceUuids
-            type: List_UUID
-            nullable: true
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: partitionUuids
-            type: List_UUID
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: sequences
-            type: List_Long
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-  - id: 3
     name: clear
     since: 2.0
     doc: |
@@ -164,7 +69,7 @@ methods:
           doc: |
             Name of the cache.
     response: {}
-  - id: 4
+  - id: 3
     name: removeAllKeys
     since: 2.0
     doc: |
@@ -196,7 +101,7 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
-  - id: 5
+  - id: 4
     name: removeAll
     since: 2.0
     doc: |
@@ -223,7 +128,7 @@ methods:
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
-  - id: 6
+  - id: 5
     name: containsKey
     since: 2.0
     doc: |
@@ -254,7 +159,7 @@ methods:
           since: 2.0
           doc: |
             Returns true if cache value for the key exists, false otherwise.
-  - id: 7
+  - id: 6
     name: createConfig
     since: 2.0
     doc: |
@@ -284,7 +189,7 @@ methods:
           since: 2.0
           doc: |
             The created configuration object.
-  - id: 8
+  - id: 7
     name: destroy
     since: 2.0
     doc: |
@@ -301,7 +206,7 @@ methods:
           doc: |
             Name of the cache.
     response: {}
-  - id: 9
+  - id: 8
     name: entryProcessor
     since: 2.0
     doc: |
@@ -351,7 +256,7 @@ methods:
           since: 2.0
           doc: |
             the result of the processing, if any, defined by the EntryProcessor implementation
-  - id: 10
+  - id: 9
     name: getAll
     since: 2.0
     doc: |
@@ -392,7 +297,7 @@ methods:
           doc: |
             A map of entries that were found for the given keys. Keys not found
             in the cache are not in the returned map.
-  - id: 11
+  - id: 10
     name: getAndRemove
     since: 2.0
     doc: |
@@ -429,7 +334,7 @@ methods:
           since: 2.0
           doc: |
             the value if one existed or null if no mapping existed for this key
-  - id: 12
+  - id: 11
     name: getAndReplace
     since: 2.0
     doc: |
@@ -482,7 +387,7 @@ methods:
           since: 2.0
           doc: |
             The old value previously assigned to the given key.
-  - id: 13
+  - id: 12
     name: getConfig
     since: 2.0
     doc: |
@@ -512,7 +417,7 @@ methods:
           since: 2.0
           doc: |
             The cache configuration.
-  - id: 14
+  - id: 13
     name: get
     since: 2.0
     doc: |
@@ -551,7 +456,7 @@ methods:
           since: 2.0
           doc: |
             The value assigned to the given key, or null if not assigned.
-  - id: 15
+  - id: 14
     name: iterate
     since: 2.0
     doc: |
@@ -596,7 +501,7 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 16
+  - id: 15
     name: listenerRegistration
     since: 2.0
     doc: |
@@ -632,7 +537,7 @@ methods:
           doc: |
             The address of the member server for which the listener is being registered for.
     response: {}
-  - id: 17
+  - id: 16
     name: loadAll
     since: 2.0
     doc: |
@@ -662,7 +567,7 @@ methods:
             when true existing values in the Cache will
             be replaced by those loaded from a CacheLoader
     response: {}
-  - id: 18
+  - id: 17
     name: managementConfig
     since: 2.0
     doc: |
@@ -697,7 +602,7 @@ methods:
           doc: |
             the address of the host to enable.
     response: {}
-  - id: 19
+  - id: 18
     name: putIfAbsent
     since: 2.0
     doc: |
@@ -749,7 +654,7 @@ methods:
           since: 2.0
           doc: |
             true if a value was set, false otherwise.
-  - id: 20
+  - id: 19
     name: put
     since: 2.0
     doc: |
@@ -805,7 +710,7 @@ methods:
           since: 2.0
           doc: |
             The value previously assigned to the given key, or null if not assigned.
-  - id: 21
+  - id: 20
     name: removeEntryListener
     since: 2.0
     doc: |
@@ -835,7 +740,7 @@ methods:
           since: 2.0
           doc: |
             true if the listener is de-registered, false otherwise
-  - id: 22
+  - id: 21
     name: removeInvalidationListener
     since: 2.0
     doc: |
@@ -865,7 +770,7 @@ methods:
           since: 2.0
           doc: |
             true if the listener is de-registered, false otherwise
-  - id: 23
+  - id: 22
     name: remove
     since: 2.0
     doc: |
@@ -908,7 +813,7 @@ methods:
           since: 2.0
           doc: |
             returns false if there was no matching key
-  - id: 24
+  - id: 23
     name: replace
     since: 2.0
     doc: |
@@ -967,7 +872,7 @@ methods:
           since: 2.0
           doc: |
             The replaced value.
-  - id: 25
+  - id: 24
     name: size
     since: 2.0
     doc: |
@@ -991,7 +896,7 @@ methods:
           since: 2.0
           doc: |
             total entry count
-  - id: 26
+  - id: 25
     name: addPartitionLostListener
     since: 2.0
     doc: |
@@ -1040,7 +945,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 27
+  - id: 26
     name: removePartitionLostListener
     since: 2.0
     doc: |
@@ -1070,7 +975,7 @@ methods:
           since: 2.0
           doc: |
             true if registration is removed, false otherwise.
-  - id: 28
+  - id: 27
     name: putAll
     since: 2.0
     doc: |
@@ -1107,7 +1012,7 @@ methods:
             user generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
-  - id: 29
+  - id: 28
     name: iterateEntries
     since: 2.0
     doc: |
@@ -1149,13 +1054,11 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 30
+  - id: 29
     name: addNearCacheInvalidationListener
     since: 2.0
     doc: |
       Adds listener to cache. This listener will be used to listen near cache invalidation events.
-      Eventually consistent client near caches should use this method to add invalidation listeners
-      instead of {@link #addInvalidationListener(String, boolean)}
     request:
       retryable: false
       acquiresResource: false
@@ -1246,7 +1149,7 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
-  - id: 31
+  - id: 30
     name: fetchNearCacheInvalidationMetadata
     since: 2.0
     doc: |
@@ -1282,7 +1185,7 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 32
+  - id: 31
     name: assignAndGetUuids
     since: 2.0
     doc: |
@@ -1299,7 +1202,7 @@ methods:
           since: 2.0
           doc: |
             partitionId to assigned uuid entry list
-  - id: 33
+  - id: 32
     name: eventJournalSubscribe
     since: 2.0
     doc: |
@@ -1331,7 +1234,7 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 34
+  - id: 33
     name: eventJournalRead
     since: 2.0
     doc: |
@@ -1410,7 +1313,7 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
-  - id: 35
+  - id: 34
     name: setExpiryPolicy
     since: 2.0
     doc: |

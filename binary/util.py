@@ -389,6 +389,7 @@ reference_objects_dict = {
     'RingbufferStoreConfigHolder': 'aRingbufferStoreConfigHolder',
     'TimedExpiryPolicyFactoryConfig': 'aTimedExpiryPolicyFactoryConfig',
     'DurationConfig': 'aDurationConfig',
+    'ClientBwListEntry': 'aClientBwListEntry',
     'EntryList_String_String': 'aListOfStringToString',
     'EntryList_String_byteArray': 'aListOfStringToByteArray',
     'EntryList_Long_byteArray': 'aListOfLongToByteArray',
@@ -414,6 +415,7 @@ reference_objects_dict = {
     'List_String': 'aListOfStrings',
     'List_Xid': 'aListOfXids',
     'List_StackTraceElement': 'aListOfStackTraceElements',
+    'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
 }
