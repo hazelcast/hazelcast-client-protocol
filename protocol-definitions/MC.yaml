@@ -346,7 +346,7 @@ methods:
             ETag value of current MC config.
     response:
       params:
-        - name: response
+        - name: result
           type: boolean
           nullable: false
           since: 2.0
@@ -384,7 +384,7 @@ methods:
           doc: |
             Client filter list entries.
     response: {}
-  - id: 17
+  - id: 14
     name: runScript
     since: 2.0
     doc: |
@@ -414,7 +414,7 @@ methods:
           since: 2.0
           doc: |
             Execution result: script output.
-  - id: 18
+  - id: 15
     name: runConsoleCommand
     since: 2.0
     doc: |
