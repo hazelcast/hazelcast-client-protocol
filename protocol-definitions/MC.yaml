@@ -384,3 +384,63 @@ methods:
           doc: |
             Client filter list entries.
     response: {}
+  - id: 17
+    name: runScript
+    since: 2.0
+    doc: |
+      Runs given script on the member it's called on.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: script
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The script to be executed.
+        - name: engine
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The name of script engine which will be used for the execution.
+    response:
+      params:
+        - name: result
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Execution result: script output.
+  - id: 18
+    name: runConsoleCommand
+    since: 2.0
+    doc: |
+      Runs given console command on the member it's called on.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: command
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The console command to be executed.
+        - name: namespace
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Optional namespace to be set before the command is executed.
+    response:
+      params:
+        - name: result
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Execution result: console command output.
