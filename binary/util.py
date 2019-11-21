@@ -433,6 +433,8 @@ def create_environment_for_binary_generator(lang, version):
     env.globals['lang_types_encode'] = language_specific_funcs['lang_types_encode'][lang]
     env.globals['protocol_version'] = version
     env.globals['reference_objects_dict'] = reference_objects_dict
+    env.globals['type_filter'] = lambda params, param_type: list(
+        filter(lambda elem: elem['type'] == param_type, params))
     return env
 
 

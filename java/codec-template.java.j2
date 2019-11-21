@@ -1,3 +1,6 @@
+{% set fixed_request_params, var_size_request_params = fixed_params(method.request.params), var_size_params(method.request.params) -%}
+{% set fixed_response_params, var_size_response_params = fixed_params(method.response.params), var_size_params(method.response.params) -%}
+
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
@@ -13,11 +16,11 @@
         {%- endif %}
     {% endif %}
 {%- endmacro %}
-{% macro decode_var_sized(param) -%}
+{% macro decode_var_sized(param, is_response=False) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode{% if param.type == 'EntryList_Data_Data' and is_response %}, {{ param.name }}BiConsumer{% endif %})
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
@@ -82,7 +85,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     //hex: {{ '0x%06X'|format(method.response.id) }}
     public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
-{% for param in fixed_params(method.request.params) %}
+{% for param in fixed_request_params %}
     private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
     private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
@@ -90,7 +93,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% else %}
     private static final int REQUEST_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
 {% endfor %}
-{% for param in fixed_params(method.response.params) %}
+{% for param in fixed_response_params %}
     private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}RESPONSE_BACKUP_ACKS_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
     private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
@@ -135,11 +138,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         clientMessage.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, REQUEST_MESSAGE_TYPE);
-    {% for param in fixed_params(method.request.params) %}
+    {% for param in fixed_request_params %}
         encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
-    {% for param in var_size_params(method.request.params) %}
+    {% for param in var_size_request_params %}
         {{ encode_var_sized(param) }};
     {% endfor %}
         return clientMessage;
@@ -149,16 +152,16 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         RequestParameters request = new RequestParameters();
-    {% if  fixed_params(method.request.params)|length != 0 %}
+    {% if fixed_request_params|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
     {% else %}
         //empty initial frame
         iterator.next();
     {% endif %}
-    {% for param in fixed_params(method.request.params) %}
+    {% for param in fixed_request_params %}
         request.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
     {% endfor %}
-    {% for param in var_size_params(method.request.params) %}
+    {% for param in var_size_request_params %}
         request.{{ param.name }} = {{ decode_var_sized(param) }};
     {% endfor %}
         return request;
@@ -168,13 +171,15 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
 {% for param in method.response.params %}
+    {% if param.type != 'EntryList_Data_Data' %}
 
         /**
         {% for line in param.doc.splitlines() %}
          * {{ line }}
         {% endfor %}
          */
-        public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+        public {% if param.nullable %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+    {% endif %}
 {% endfor %}
     }
 
@@ -183,32 +188,32 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
-    {% for param in fixed_params(method.response.params) %}
+    {% for param in fixed_response_params %}
         encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
 
-    {% for param in var_size_params(method.response.params) %}
+    {% for param in var_size_response_params %}
         {{ encode_var_sized(param) }};
     {% endfor %}
         return clientMessage;
     }
 
 {#RESPONSE DECODE#}
-    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
+    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage{% for param in var_size_response_params %}{% if param.type == 'EntryList_Data_Data' %}, java.util.function.BiConsumer<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data> {{ param.name }}BiConsumer{% endif %}{% endfor %}) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
-        {% if  fixed_params(method.response.params)|length != 0 %}
+        {% if fixed_response_params|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
         {% else %}
         //empty initial frame
         iterator.next();
         {% endif %}
-    {% for param in fixed_params(method.response.params) %}
+    {% for param in fixed_response_params %}
         response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
     {% endfor %}
-    {% for param in var_size_params(method.response.params) %}
-        response.{{ param.name }} = {{ decode_var_sized(param) }};
+    {% for param in var_size_response_params %}
+        {%+ if param.type != 'EntryList_Data_Data' %}response.{{ param.name }} = {% endif %}{{ decode_var_sized(param, True) }};
     {% endfor %}
         return response;
     }
@@ -240,7 +245,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
-            {% if  fixed_params(event.params)|length != 0 %}
+            {% if fixed_params(event.params)|length != 0 %}
                 ClientMessage.Frame initialFrame = iterator.next();
             {% else %}
                 //empty initial frame
