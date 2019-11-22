@@ -448,7 +448,6 @@ methods:
       Runs given script on the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: engine
@@ -478,7 +477,6 @@ methods:
       Runs given console command on the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: namespace
