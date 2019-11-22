@@ -483,7 +483,7 @@ methods:
       params:
         - name: result
           type: String
-          nullable: false
+          nullable: true
           since: 2.0
           doc: |
             Execution result: script output.
