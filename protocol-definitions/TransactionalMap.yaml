@@ -8,7 +8,6 @@ methods:
       Returns true if this map contains an entry for the specified key.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -50,7 +49,6 @@ methods:
       Returns the value for the specified key, or null if this map does not contain this key.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -93,7 +91,6 @@ methods:
       the end of the transaction (either commit or rollback).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -135,7 +132,6 @@ methods:
       Returns the number of entries in this map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -171,7 +167,6 @@ methods:
       Returns true if this map contains no entries.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -209,7 +204,6 @@ methods:
       current transaction context till transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -266,7 +260,6 @@ methods:
       The object to be set will be accessible only in the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -308,7 +301,6 @@ methods:
       The object to be put will be accessible only in the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -357,7 +349,6 @@ methods:
       accessible only in the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -406,7 +397,6 @@ methods:
       accessible only in the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -462,7 +452,6 @@ methods:
       context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -506,7 +495,6 @@ methods:
       to be deleted will be removed from only the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -542,7 +530,6 @@ methods:
       from only the current transaction context until the transaction is committed.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -592,7 +579,6 @@ methods:
       a QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -631,7 +617,6 @@ methods:
       QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -675,7 +660,6 @@ methods:
       distributed query, so it may throw a QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -714,7 +698,6 @@ methods:
       a QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -756,7 +739,6 @@ methods:
       Returns true if this map contains an entry for the specified value.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

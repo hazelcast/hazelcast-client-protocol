@@ -81,7 +81,7 @@
             "List_ListenerConfigHolder",
             "List_AttributeConfig",
             "List_IndexConfig",
-            "List_Member",
+            "List_MemberInfo",
             "List_QueryCacheConfigHolder",
             "List_QueryCacheEventData",
             "List_ScheduledTaskHandler",
@@ -90,7 +90,9 @@
             "List_StackTraceElement",
             "List_ClientBwListEntry",
             "Map_String_String",
-            "MergePolicyConfig"
+            "MergePolicyConfig",
+            "MemberVersion",
+            "MemberInfo"
           ]
         },
         "nullable": {
@@ -174,10 +176,6 @@
                 "type": "boolean",
                 "description": "Is the request retryable or not"
               },
-              "acquiresResource": {
-                "type": "boolean",
-                "description": "Does the request acquire resource or not"
-              },
               "partitionIdentifier": {
                 "type": ["integer", "string"],
                 "description": "How should the partition Id calculated for this request. Used in documentation."
@@ -191,7 +189,7 @@
                 "uniqueItems": false
               }
             },
-            "required": ["retryable", "acquiresResource", "partitionIdentifier"]
+            "required": ["retryable", "partitionIdentifier"]
           },
           "response": {
             "type": "object",

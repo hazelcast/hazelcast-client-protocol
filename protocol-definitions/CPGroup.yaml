@@ -8,7 +8,6 @@ methods:
       Creates a new CP group with the given name
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: proxyName
@@ -33,7 +32,6 @@ methods:
       CP group
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId

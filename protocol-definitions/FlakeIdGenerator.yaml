@@ -8,7 +8,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

@@ -10,7 +10,6 @@ methods:
       greater or equals to the sequence number set in fromSequence.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: uuid
@@ -46,7 +45,6 @@ methods:
       Changes the state of a cluster.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: newState
@@ -68,7 +66,6 @@ methods:
       Gets the config of a map on the member it's called on.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
@@ -163,7 +160,6 @@ methods:
       Updates the config of a map on the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
@@ -230,7 +226,6 @@ methods:
       Gets the effective config of a member rendered as XML.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -247,7 +242,6 @@ methods:
       Requests garbage collection to be performed on the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
   - id: 7
@@ -257,7 +251,6 @@ methods:
       Takes a thread dump of the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: dumpDeadLocks
@@ -281,7 +274,6 @@ methods:
       Shuts down the member it's called on.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
   - id: 9
@@ -291,7 +283,6 @@ methods:
       Promotes the lite member it's called on to a data member.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
   - id: 10
@@ -301,7 +292,6 @@ methods:
       Gets the system properties of the member it's called on.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -318,7 +308,6 @@ methods:
       Gets the latest TimedMemberState of the member it's called on.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -335,7 +324,6 @@ methods:
       Checks if local MC config (client filter list) has the same ETag as provided.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: eTag
@@ -359,7 +347,6 @@ methods:
       Applies given MC config (client filter list).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: eTag
@@ -391,7 +378,6 @@ methods:
       Gets the current metadata of a cluster.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
     response:
       params:
@@ -431,7 +417,6 @@ methods:
       Shuts down the cluster.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
     response: {}
   - id: 16
@@ -441,7 +426,6 @@ methods:
       Changes the cluster version.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: majorVersion

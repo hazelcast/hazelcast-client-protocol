@@ -9,7 +9,6 @@ methods:
       Integer.MAX_VALUE.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -33,7 +32,6 @@ methods:
       Returns true if this list contains the specified element.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -63,7 +61,6 @@ methods:
       Returns true if this list contains all of the elements of the specified collection.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -97,7 +94,6 @@ methods:
       clearly specify in their documentation any restrictions on what elements may be added.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -129,7 +125,6 @@ methods:
       Returns true if this list contained the specified element (or equivalently, if this list changed as a result of the call).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -162,7 +157,6 @@ methods:
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -192,7 +186,6 @@ methods:
       Removes from this list all of its elements that are contained in the specified collection (optional operation).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -223,7 +216,6 @@ methods:
       In other words, removes from this list all of its elements that are not contained in the specified collection.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -253,7 +245,6 @@ methods:
       Removes all of the elements from this list (optional operation). The list will be empty after this call returns.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -270,7 +261,6 @@ methods:
       Return the all elements of this collection
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -294,7 +284,6 @@ methods:
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -351,7 +340,6 @@ methods:
       Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -381,7 +369,6 @@ methods:
       Returns true if this list contains no elements
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -409,7 +396,6 @@ methods:
       (Note that this will occur if the specified collection is this list, and it's nonempty.)
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -445,7 +431,6 @@ methods:
       Returns the element at the specified position in this list
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -475,7 +460,6 @@ methods:
       The element previously at the specified position
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -512,7 +496,6 @@ methods:
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -542,7 +525,6 @@ methods:
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -573,7 +555,6 @@ methods:
       contain the element.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -605,7 +586,6 @@ methods:
       contain the element.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -646,7 +626,6 @@ methods:
       the size of this list, or otherwise perturb it in such a fashion that iterations in progress may yield incorrect results.)
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -682,7 +661,6 @@ methods:
       Returns an iterator over the elements in this list in proper sequence.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -709,7 +687,6 @@ methods:
       specified index minus one.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name

@@ -8,7 +8,6 @@ methods:
       Add new item to transactional set.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -50,7 +49,6 @@ methods:
       Remove item from transactional set.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -92,7 +90,6 @@ methods:
       Returns the size of the set.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

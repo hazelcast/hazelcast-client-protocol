@@ -8,7 +8,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
@@ -75,7 +74,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
@@ -142,7 +140,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
@@ -172,7 +169,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: listenerName
@@ -236,7 +232,6 @@ methods:
       possible.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: associated key with sequence
       params:
         - name: mapName
@@ -272,7 +267,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: mapName
