@@ -385,6 +385,79 @@ methods:
             Client filter list entries.
     response: {}
   - id: 14
+    name: getClusterMetadata
+    since: 2.0
+    doc: |
+      Gets the current metadata of a cluster.
+    request:
+      retryable: true
+      acquiresResource: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: currentState
+          type: byte
+          nullable: false
+          since: 2.0
+          doc: |
+            Current state of the cluster:
+            0 - ACTIVE
+            1 - NO_MIGRATION
+            2 - FROZEN
+            3 - PASSIVE
+            4 - IN_TRANSITION (not allowed)
+        - name: memberVersion
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Current version of the member.
+        - name: jetVersion
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Current Jet version of the member.
+        - name: clusterTime
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            Cluster-wide time in milliseconds.
+  - id: 15
+    name: shutdownCluster
+    since: 2.0
+    doc: |
+      Shuts down the cluster.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 16
+    name: changeClusterVersion
+    since: 2.0
+    doc: |
+      Changes the cluster version.
+    request:
+      retryable: false
+      acquiresResource: false
+      partitionIdentifier: -1
+      params:
+        - name: majorVersion
+          type: byte
+          nullable: false
+          since: 2.0
+          doc: |
+            Major component of the new cluster version.
+        - name: minorVersion
+          type: byte
+          nullable: false
+          since: 2.0
+          doc: |
+            Minor component of the new cluster version.
+    response: {}
+  - id: 17
     name: runScript
     since: 2.0
     doc: |
@@ -414,7 +487,7 @@ methods:
           since: 2.0
           doc: |
             Execution result: script output.
-  - id: 15
+  - id: 18
     name: runConsoleCommand
     since: 2.0
     doc: |
