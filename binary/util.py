@@ -409,6 +409,7 @@ reference_objects_dict = {
     'List_AttributeConfig': 'aListOfAttributeConfigs',
     'List_IndexConfig': 'aListOfIndexConfigs',
     'List_Member': 'aListOfMembers',
+    'List_MemberInfo': 'aListOfMemberInfos',
     'List_QueryCacheConfigHolder': 'aListOfQueryCacheConfigHolders',
     'List_QueryCacheEventData': 'aListOfQueryCacheEventData',
     'List_ScheduledTaskHandler': 'aListOfScheduledTaskHandler',

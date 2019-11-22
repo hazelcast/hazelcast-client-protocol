@@ -9,7 +9,6 @@ methods:
       use to feed hash values into the estimator.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -35,7 +34,6 @@ methods:
       If it was previously estimated and never invalidated, then the cached version is used.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name

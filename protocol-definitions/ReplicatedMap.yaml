@@ -10,7 +10,6 @@ methods:
       to define when the value is outdated and thus should be removed from the replicated map.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -53,7 +52,6 @@ methods:
       returns Integer.MAX_VALUE.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -77,7 +75,6 @@ methods:
       Return true if this map contains no key-value mappings
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -101,7 +98,6 @@ methods:
       Returns true if this map contains a mapping for the specified key.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -132,7 +128,6 @@ methods:
       This operation will probably require time linear in the map size for most implementations of the Map interface.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -165,7 +160,6 @@ methods:
       explicitly maps the key to null.  The #containsKey operation may be used to distinguish these two cases.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -198,7 +192,6 @@ methods:
       explicitly mapped the key to null. The map will not contain a mapping for the specified key once the call returns.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: key
       params:
         - name: name
@@ -231,7 +224,6 @@ methods:
       operation is in progress.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -257,7 +249,6 @@ methods:
       method throws a OPERATION_TIMEOUT back to the caller.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -275,7 +266,6 @@ methods:
       events filtered by the given predicate.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -363,7 +353,6 @@ methods:
       events filtered by the given predicate.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -445,7 +434,6 @@ methods:
       add/remove/update/evict events of the specified key only.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -526,7 +514,6 @@ methods:
       Adds an entry listener for this map. The listener will be notified for all map add/remove/update/evict events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -601,7 +588,6 @@ methods:
       Removes the specified entry listener. Returns silently if there was no such listener added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -636,7 +622,6 @@ methods:
       the data, please copy the resulting set into a new java.util.HashSet.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -660,7 +645,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -684,7 +668,6 @@ methods:
       TODO DOC
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: random
       params:
         - name: name
@@ -708,7 +691,6 @@ methods:
       TODO DOC
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

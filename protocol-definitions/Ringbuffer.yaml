@@ -9,7 +9,6 @@ methods:
       head completed the first looparound the ring. This is because no items are getting retired.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -34,7 +33,6 @@ methods:
       The initial value of the tail is -1.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -60,7 +58,6 @@ methods:
       The initial value of the head is 0 (1 more than tail).
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -84,7 +81,6 @@ methods:
       Returns the capacity of this Ringbuffer.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -109,7 +105,6 @@ methods:
       If ttl is not set, the remaining capacity will always be the capacity.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -143,7 +138,6 @@ methods:
       to find that item.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -182,7 +176,6 @@ methods:
       call is going to block. In the future we could add e.g. tryReadOne(long sequence, long timeout, TimeUnit unit).
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -219,7 +212,6 @@ methods:
       The result of the future contains the sequenceId of the last written item
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -261,7 +253,6 @@ methods:
       This reduces the amount of IO and the number of operations being executed, and can result in a significant performance improvement.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name

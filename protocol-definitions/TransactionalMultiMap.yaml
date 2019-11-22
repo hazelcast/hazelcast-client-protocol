@@ -8,7 +8,6 @@ methods:
       Stores a key-value pair in the multimap.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -56,7 +55,6 @@ methods:
       Returns the collection of values associated with the key.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -98,7 +96,6 @@ methods:
       Removes the given key value pair from the multimap.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -140,7 +137,6 @@ methods:
       Removes all the entries associated with the given key.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -188,7 +184,6 @@ methods:
       Returns the number of values matching the given key in the multimap.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -230,7 +225,6 @@ methods:
       Returns the number of key-value pairs in the multimap.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

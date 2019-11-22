@@ -9,7 +9,6 @@ methods:
       Invocation has no additional effect if already shut down.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -32,7 +31,6 @@ methods:
       Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -79,7 +77,6 @@ methods:
       Submits the task to a member for execution, member is provided in the form of an address.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -132,7 +129,6 @@ methods:
       Returns all scheduled tasks in for a given scheduler in the given member.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -156,7 +152,6 @@ methods:
       Returns statistics of the task
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -210,7 +205,6 @@ methods:
       Returns statistics of the task
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -270,7 +264,6 @@ methods:
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -300,7 +293,6 @@ methods:
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -336,7 +328,6 @@ methods:
       Cancels further execution and scheduling of the task
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -372,7 +363,6 @@ methods:
       Cancels further execution and scheduling of the task
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -414,7 +404,6 @@ methods:
       Checks whether a task as identified from the given handler is already cancelled.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -444,7 +433,6 @@ methods:
       Checks whether a task as identified from the given handler is already cancelled.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -481,7 +469,6 @@ methods:
       @see {@link java.util.concurrent.Future#cancel(boolean)}
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -512,7 +499,6 @@ methods:
       @see {@link java.util.concurrent.Future#cancel(boolean)}
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -549,7 +535,6 @@ methods:
       The call will blocking until the result is ready.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -580,7 +565,6 @@ methods:
       The call will blocking until the result is ready.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName
@@ -616,7 +600,6 @@ methods:
       Dispose the task from the scheduler
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: taskName
       params:
         - name: schedulerName
@@ -639,7 +622,6 @@ methods:
       Dispose the task from the scheduler
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: schedulerName

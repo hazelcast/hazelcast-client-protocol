@@ -9,7 +9,6 @@ methods:
       elements, returns Integer.MAX_VALUE.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -33,7 +32,6 @@ methods:
       Returns true if this set contains the specified element.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -64,7 +62,6 @@ methods:
       also a set, this method returns true if it is a subset of this set.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -100,7 +97,6 @@ methods:
       Individual set implementations should clearly document any restrictions on the elements that they may contain.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -133,7 +129,6 @@ methods:
       (This set will not contain the element once the call returns.)
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -166,7 +161,6 @@ methods:
       collection is modified while the operation is in progress.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -198,7 +192,6 @@ methods:
       asymmetric set difference of the two sets.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -231,7 +224,6 @@ methods:
       intersection of the two sets.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -262,7 +254,6 @@ methods:
       Removes all of the elements from this set (optional operation). The set will be empty after this call returns.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -279,7 +270,6 @@ methods:
       Return the all elements of this collection
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name
@@ -303,7 +293,6 @@ methods:
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -360,7 +349,6 @@ methods:
       Removes the specified item listener. Returns silently if the specified listener was not added before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -390,7 +378,6 @@ methods:
       Returns true if this set contains no elements.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: name
       params:
         - name: name

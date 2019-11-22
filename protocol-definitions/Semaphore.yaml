@@ -9,7 +9,6 @@ methods:
       initialized before.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -48,7 +47,6 @@ methods:
       and lies dormant until other threads release enough permits.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -110,7 +108,6 @@ methods:
       available permits by that amount.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -164,7 +161,6 @@ methods:
       Acquires all available permits at once and returns immediately.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -212,7 +208,6 @@ methods:
       Increases or decreases the number of permits by the given value.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -266,7 +261,6 @@ methods:
       Returns the number of available permits.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: groupId
@@ -296,7 +290,6 @@ methods:
       Returns true if the semaphore is JDK compatible
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: proxyName

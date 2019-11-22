@@ -15,7 +15,6 @@ methods:
       message may act as a proxy.
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -71,7 +70,6 @@ methods:
       message may act as a proxy.
     request:
       retryable: false
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name
@@ -136,7 +134,6 @@ methods:
       members in the cluster (members that own data).
     request:
       retryable: true
-      acquiresResource: false
       partitionIdentifier: -1
       params:
         - name: name

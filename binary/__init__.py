@@ -44,6 +44,8 @@ CustomTypes = [
     'ErrorHolder',
     'StackTraceElement',
     'ClientBwListEntry',
+    'MemberInfo',
+    'MemberVersion',
 ]
 
 CustomConfigTypes = [
@@ -91,7 +93,7 @@ VarLengthListTypes = [
     'List_ListenerConfigHolder',
     'List_AttributeConfig',
     'List_IndexConfig',
-    'List_Member',
+    'List_MemberInfo',
     'List_QueryCacheConfigHolder',
     'List_QueryCacheEventData',
     'List_ScheduledTaskHandler',
