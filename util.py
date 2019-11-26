@@ -131,27 +131,28 @@ def load_services(protocol_def_dir):
     return services
 
 
-def validate_services(services, schema_path):
+def validate_services(services, schema_path, no_id_check):
     valid = True
     with open(schema_path, 'r') as schema_file:
         schema = json.load(schema_file)
         for i in range(len(services)):
             service = services[i]
-            # Validate id ordering of services.
-            service_id = service.get('id', None)
-            if i != service_id:
-                print('Check the service id of the %s. Expected: %s, found: %s.' % (
-                    service.get('name', None), i, service_id))
-                valid = False
-            # Validate id ordering of service methods.
-            methods = service.get('methods', [])
-            for j in range(len(methods)):
-                method = methods[j]
-                method_id = method.get('id', None)
-                if (j + 1) != method_id:
-                    print('Check the method id of %s#%s. Expected: %s, found: %s' % (
-                        service.get('name', None), method.get('name', None), (j + 1), method_id))
+            if not no_id_check:
+                # Validate id ordering of services.
+                service_id = service.get('id', None)
+                if i != service_id:
+                    print('Check the service id of the %s. Expected: %s, found: %s.' % (
+                        service.get('name', None), i, service_id))
                     valid = False
+                # Validate id ordering of service methods.
+                methods = service.get('methods', [])
+                for j in range(len(methods)):
+                    method = methods[j]
+                    method_id = method.get('id', None)
+                    if (j + 1) != method_id:
+                        print('Check the method id of %s#%s. Expected: %s, found: %s' % (
+                            service.get('name', None), method.get('name', None), (j + 1), method_id))
+                        valid = False
             # Validate against the schema.
             if not validate_against_schema(service, schema):
                 valid = False
