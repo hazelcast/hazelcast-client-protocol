@@ -334,7 +334,7 @@ methods:
             ETag value of current MC config.
     response:
       params:
-        - name: response
+        - name: result
           type: boolean
           nullable: false
           since: 2.0
@@ -441,3 +441,61 @@ methods:
           doc: |
             Minor component of the new cluster version.
     response: {}
+  - id: 17
+    name: runScript
+    since: 2.0
+    doc: |
+      Runs given script on the member it's called on.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: engine
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The name of script engine which will be used for the execution.
+        - name: script
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The script to be executed.
+    response:
+      params:
+        - name: result
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Execution result: script output.
+  - id: 18
+    name: runConsoleCommand
+    since: 2.0
+    doc: |
+      Runs given console command on the member it's called on.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: namespace
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Optional namespace to be set before the command is executed.
+        - name: command
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            The console command to be executed.
+    response:
+      params:
+        - name: result
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Execution result: console command output.
