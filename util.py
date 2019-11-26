@@ -131,7 +131,7 @@ def load_services(protocol_def_dir):
     return services
 
 
-def validate_services(services, schema_path):
+def validate_services(services, schema_path, check_service_id):
     valid = True
     with open(schema_path, 'r') as schema_file:
         schema = json.load(schema_file)
@@ -139,7 +139,7 @@ def validate_services(services, schema_path):
             service = services[i]
             # Validate id ordering of services.
             service_id = service.get('id', None)
-            if i != service_id:
+            if check_service_id and i != service_id:
                 print('Check the service id of the %s. Expected: %s, found: %s.' % (
                     service.get('name', None), i, service_id))
                 valid = False

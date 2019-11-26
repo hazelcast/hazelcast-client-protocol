@@ -95,7 +95,8 @@ custom_codec_schema_path = os.path.join(curr_dir, 'schema', 'custom-codec-schema
 
 protocol_defs = load_services(protocol_defs_path)
 protocol_defs = sorted(protocol_defs, key=lambda proto_def: proto_def['id'])
-if not validate_services(protocol_defs, schema_path):
+check_service_id = proto_path_arg is None
+if not validate_services(protocol_defs, schema_path, check_service_id):
     exit(-1)
 
 env = create_environment(lang, namespace_arg)
