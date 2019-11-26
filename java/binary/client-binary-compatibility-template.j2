@@ -82,12 +82,16 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
         int fileClientMessageIndex = {{ counter.count }};
         ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
         {% set entry_list_data_data_params = type_filter(method.response.params, 'EntryList_Data_Data') %}
+        {% set list_data_params = type_filter(method.response.params, 'List_Data') %}
         {% for param in entry_list_data_data_params %}
         List<Map.Entry<Data, Data>> {{ param.name }}List = new ArrayList<>();
         {% endfor %}
-        {{ service.name|capital }}{{ method.name|capital }}Codec.ResponseParameters parameters = {{ service.name|capital }}{{ method.name|capital }}Codec.decodeResponse(fromFile{% for param in entry_list_data_data_params %}, (key, value) -> {{ param.name }}List.add(new AbstractMap.SimpleEntry<>(key, value)){% endfor %});
+        {% for param in list_data_params %}
+        List<Data> {{ param.name }}List = new ArrayList<>();
+        {% endfor %}
+        {{ service.name|capital }}{{ method.name|capital }}Codec.ResponseParameters parameters = {{ service.name|capital }}{{ method.name|capital }}Codec.decodeResponse(fromFile{% for param in entry_list_data_data_params %}, (key, value) -> {{ param.name }}List.add(new AbstractMap.SimpleEntry<>(key, value)){% endfor %}{% for param in list_data_params %}, {{ param.name }}List::add{% endfor %});
         {% for param in method.response.params %}
-        assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {% if param.type == 'EntryList_Data_Data' %}{{ param.name }}List{% else %}parameters.{{ param.name }}{% endif %}));
+        assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {% if param.type == 'EntryList_Data_Data' or param.type == 'List_Data' %}{{ param.name }}List{% else %}parameters.{{ param.name }}{% endif %}));
         {% endfor %}
     }
     {% set counter.count = counter.count + 1 %}

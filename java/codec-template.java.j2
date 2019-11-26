@@ -18,7 +18,7 @@
 {%- endmacro %}
 {% macro decode_var_sized(param, is_response=False) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode{% if param.type == 'List_Data' and is_response%}, {{ param.name }}Consumer{% endif %})
     {%- elif is_var_sized_entry_list(param.type) -%}
         EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode{% if param.type == 'EntryList_Data_Data' and is_response %}, {{ param.name }}BiConsumer{% endif %})
     {%- elif is_var_sized_map(param.type) -%}
@@ -171,7 +171,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
 {% for param in method.response.params %}
-    {% if param.type != 'EntryList_Data_Data' %}
+    {% if param.type != 'EntryList_Data_Data' and param.type != 'List_Data' %}
 
         /**
         {% for line in param.doc.splitlines() %}
@@ -200,7 +200,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE DECODE#}
-    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage{% for param in var_size_response_params %}{% if param.type == 'EntryList_Data_Data' %}, java.util.function.BiConsumer<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data> {{ param.name }}BiConsumer{% endif %}{% endfor %}) {
+    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage{% for param in var_size_response_params %}{% if param.type == 'EntryList_Data_Data' %}, java.util.function.BiConsumer<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data> {{ param.name }}BiConsumer{% elif param.type == 'List_Data' %}, java.util.function.Consumer<com.hazelcast.nio.serialization.Data> {{ param.name }}Consumer{% endif %}{% endfor %}) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
         {% if fixed_response_params|length != 0 %}
@@ -213,7 +213,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
     {% endfor %}
     {% for param in var_size_response_params %}
-        {%+ if param.type != 'EntryList_Data_Data' %}response.{{ param.name }} = {% endif %}{{ decode_var_sized(param, True) }};
+        {%+ if param.type != 'EntryList_Data_Data' and param.type != 'List_Data' %}response.{{ param.name }} = {% endif %}{{ decode_var_sized(param, True) }};
     {% endfor %}
         return response;
     }
