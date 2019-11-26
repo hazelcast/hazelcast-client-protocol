@@ -668,32 +668,18 @@ methods:
             UUID of the consistency check request or null if consistency
             check is ignored because of the configuration
   - id: 22
-    name: addMCEventListener
+    name: pollMCEvents
     since: 2.0
     doc: |
-      Registers listener for events pending on member. All registered members send their events.
+      Polls events available on member. Once read, events are removed from member's internal queue.
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
-    response: {}
-    events:
-      - name: EventBatch
-        params:
-          - name: cluster
-            type: String
-            nullable: false
-            since: 2.0
-            doc: |
-              Cluster name.
-          - name: address
-            type: String
-            nullable: false
-            since: 2.0
-            doc: |
-              Member's address.
-          - name: events
-            type: List_MCEvent
-            nullable: false
-            since: 2.0
-            doc: |
-              List of events.
+    response:
+      params:
+        - name: events
+          type: List_MCEvent
+          nullable: false
+          since: 2.0
+          doc: |
+            List of events.

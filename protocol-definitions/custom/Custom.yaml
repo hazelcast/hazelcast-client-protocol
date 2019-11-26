@@ -809,7 +809,7 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
-      - name: data
-        type: Map_String_String
+      - name: dataJson
+        type: String
         nullable: false
         since: 2.0
