@@ -69,6 +69,7 @@ _java_types_encode = {
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
+    "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_UUID": "java.util.Collection<java.util.UUID>",
@@ -86,7 +87,8 @@ _java_types_encode = {
     "List_ListenerConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder>",
     "List_CacheSimpleEntryListenerConfig": "java.util.Collection<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
     "List_StackTraceElement": "java.util.Collection<java.lang.StackTraceElement>",
-    "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
+    "List_ClientBwListEntry": "java.util.Collection<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
+    "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -108,6 +110,7 @@ _java_types_decode = {
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
+    "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_UUID": "java.util.List<java.util.UUID>",
@@ -126,6 +129,7 @@ _java_types_decode = {
     "List_CacheSimpleEntryListenerConfig": "java.util.List<com.hazelcast.config.CacheSimpleEntryListenerConfig>",
     "List_StackTraceElement": "java.util.List<java.lang.StackTraceElement>",
     "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
+    "List_MCEvent": "java.util.List<com.hazelcast.internal.management.dto.MCEventDTO>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",

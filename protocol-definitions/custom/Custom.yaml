@@ -798,3 +798,18 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+  - name: MCEvent
+    since: 2.0
+    params:
+      - name: timestamp
+        type: long
+        nullable: false
+        since: 2.0
+      - name: type
+        type: int
+        nullable: false
+        since: 2.0
+      - name: data
+        type: Map_String_String
+        nullable: false
+        since: 2.0

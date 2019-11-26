@@ -366,7 +366,7 @@ methods:
             2 - BLACKLIST
         - name: clientBwListEntries
           type: List_ClientBwListEntry
-          nullable: true
+          nullable: false
           since: 2.0
           doc: |
             Client filter list entries.
@@ -667,3 +667,33 @@ methods:
           doc: |
             UUID of the consistency check request or null if consistency
             check is ignored because of the configuration
+  - id: 22
+    name: addMCEventListener
+    since: 2.0
+    doc: |
+      Registers listener for events pending on member. All registered members send their events.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
+    events:
+      - name: EventBatch
+        params:
+          - name: cluster
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              Cluster name.
+          - name: address
+            type: String
+            nullable: false
+            since: 2.0
+            doc: |
+              Member's address.
+          - name: events
+            type: List_MCEvent
+            nullable: false
+            since: 2.0
+            doc: |
+              List of events.
