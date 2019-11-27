@@ -16,7 +16,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of the Transcational Queue
+            Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
@@ -203,3 +203,51 @@ methods:
           since: 2.0
           doc: |
             The number of elements in this collection
+  - id: 6
+    name: addAll
+    since: 2.0
+    doc: |
+      Inserts the specified collection of elements into this queue, waiting up to the specified wait time if necessary
+      for space to become available.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
+        - name: items
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The elements to add
+        - name: timeout
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            How long to wait before giving up, in milliseconds
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            <tt>true</tt> if successful, or <tt>false</tt> if the specified waiting time elapses before space is available
