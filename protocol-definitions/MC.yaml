@@ -554,10 +554,10 @@ methods:
             ID of the WAN publisher to clear WAN replication queues of.
     response: {}
   - id: 21
-    name: addWanReplicationConfig
+    name: addWanBatchReplicationPublisherConfig
     since: 2.0
     doc: |
-      Add a new WAN replication configuration
+      Add a new WAN batch replication publisher configuration
     request:
       retryable: false
       partitionIdentifier: -1
