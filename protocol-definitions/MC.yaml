@@ -504,7 +504,7 @@ methods:
     name: changeWanReplicationState
     since: 2.0
     doc: |
-      Stop, pause or resume WAN replication for the given WAN replication and publisher.
+      Stop, pause or resume WAN replication for the given WAN replication and publisher
     request:
       retryable: false
       partitionIdentifier: -1
@@ -554,10 +554,10 @@ methods:
             ID of the WAN publisher to clear WAN replication queues of.
     response: {}
   - id: 21
-    name: addWanBatchReplicationPublisherConfig
+    name: addWanBatchPublisherConfig
     since: 2.0
     doc: |
-      Add a new WAN batch replication publisher configuration
+      Add a new WAN batch publisher configuration
     request:
       retryable: false
       partitionIdentifier: -1
@@ -579,7 +579,7 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            - ID used for identifying the publisher in a WanReplicationConfig.
+            - ID used for identifying the publisher in a WanReplicationConfig
         - name: endpoints
           type: String
           nullable: false
@@ -613,7 +613,7 @@ methods:
           doc: |
             The duration in milliseconds for the wait time before retrying to
             send the events to target cluster again in case the acknowledgement
-            has not arrived.
+            has not arrived
         - name: ackType
           type: int
           nullable: false
@@ -639,7 +639,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Returns the IDs for the WAN publishers which were added to the configuration.
+            Returns the IDs for the WAN publishers which were added to the configuration
         - name: ignoredPublisherIds
           type: List_String
           nullable: false
