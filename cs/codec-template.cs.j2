@@ -15,16 +15,16 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(ref iterator, {{ item_type(lang_name, param.type) }}Codec.Decode)
+        ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec.Decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.Decode(ref iterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.Decode)
+        EntryListCodec.Decode(iterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.Decode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.Decode{% if param.nullable  %}Nullable{% endif %}(ref iterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.Decode)
+        MapCodec.Decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.Decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.DecodeNullable(ref iterator, {{ lang_name(param.type) }}Codec.Decode)
+            CodecUtil.DecodeNullable(iterator, {{ lang_name(param.type) }}Codec.Decode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.Decode(ref iterator)
+            {{ lang_name(param.type) }}Codec.Decode(iterator)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}

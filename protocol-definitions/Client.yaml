@@ -126,7 +126,7 @@ methods:
           doc: |
             Cluster name that client will connect to.
         - name: credentials
-          type: Data
+          type: byteArray
           nullable: false
           since: 2.0
           doc: |
