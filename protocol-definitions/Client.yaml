@@ -256,32 +256,6 @@ methods:
             since: 2.0
             doc: |
               Incremental state version of the partition table
-      - name: MemberAttributeChange
-        params:
-          - name: member
-            type: Member
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: key
-            type: String
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: operationType
-            type: int
-            nullable: false
-            since: 2.0
-            doc: |
-              TODO DOC
-          - name: value
-            type: String
-            nullable: true
-            since: 2.0
-            doc: |
-              TODO DOC
   - id: 4
     name: createProxy
     since: 2.0
