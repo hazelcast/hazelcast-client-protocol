@@ -729,7 +729,8 @@ methods:
     name: pollMCEvents
     since: 2.0
     doc: |
-      Polls events available on member. Once read, events are removed from member's internal queue.
+      Polls events available on member. Once read, events are removed from
+      member's internal queue.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -741,3 +742,55 @@ methods:
           since: 2.0
           doc: |
             List of events.
+  - id: 25
+    name: getCPMembers
+    since: 2.0
+    doc: |
+      Returns the current list of CP members.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: cpMembers
+          type: EntryList_String_String
+          nullable: false
+          since: 2.0
+          doc: |
+            List of CP members (as <UUID string, address string> pairs)
+  - id: 26
+    name: promoteToCPMember
+    since: 2.0
+    doc: |
+      Promotes the local member to the CP role.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 27
+    name: removeCPMember
+    since: 2.0
+    doc: |
+      Removes the given unreachable CP member from the active CP members
+      list and all CP groups it belongs to.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: cpMemberUuid
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            UUID of the unreachable CP member
+    response: {}
+  - id: 28
+    name: resetCPSubsystem
+    since: 2.0
+    doc: |
+      Wipes and resets the whole CP Subsystem state and initializes it
+      as if the Hazelcast cluster is starting up initially.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
