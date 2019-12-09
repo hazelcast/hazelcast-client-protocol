@@ -2045,7 +2045,7 @@ methods:
     response:
       params:
         - name: response
-          type: EntryList_Data_Data
+          type: List_Data
           nullable: false
           since: 2.0
           doc: |
