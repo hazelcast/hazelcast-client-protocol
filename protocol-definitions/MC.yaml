@@ -366,7 +366,7 @@ methods:
             2 - BLACKLIST
         - name: clientBwListEntries
           type: List_ClientBwListEntry
-          nullable: true
+          nullable: false
           since: 2.0
           doc: |
             Client filter list entries.
@@ -499,7 +499,6 @@ methods:
           since: 2.0
           doc: |
             Execution result: console command output.
-
   - id: 19
     name: changeWanReplicationState
     since: 2.0
@@ -726,3 +725,19 @@ methods:
           doc: |
             UUID of the consistency check request or null if consistency
             check is ignored because of the configuration
+  - id: 24
+    name: pollMCEvents
+    since: 2.0
+    doc: |
+      Polls events available on member. Once read, events are removed from member's internal queue.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: events
+          type: List_MCEvent
+          nullable: false
+          since: 2.0
+          doc: |
+            List of events.

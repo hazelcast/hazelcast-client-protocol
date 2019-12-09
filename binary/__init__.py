@@ -46,6 +46,7 @@ CustomTypes = [
     'ClientBwListEntry',
     'MemberInfo',
     'MemberVersion',
+    'MCEvent',
 ]
 
 CustomConfigTypes = [
@@ -101,6 +102,7 @@ VarLengthListTypes = [
     'List_Xid',
     'List_StackTraceElement',
     'List_ClientBwListEntry',
+    'List_MCEvent',
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

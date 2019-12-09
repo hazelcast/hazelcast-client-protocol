@@ -89,10 +89,12 @@
             "List_Xid",
             "List_StackTraceElement",
             "List_ClientBwListEntry",
+            "List_MCEvent",
             "Map_String_String",
             "MergePolicyConfig",
             "MemberVersion",
-            "MemberInfo"
+            "MemberInfo",
+            "MCEvent"
           ]
         },
         "nullable": {

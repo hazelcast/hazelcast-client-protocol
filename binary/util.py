@@ -390,6 +390,7 @@ reference_objects_dict = {
     'TimedExpiryPolicyFactoryConfig': 'aTimedExpiryPolicyFactoryConfig',
     'DurationConfig': 'aDurationConfig',
     'ClientBwListEntry': 'aClientBwListEntry',
+    'MCEvent': 'aMCEvent',
     'EntryList_String_String': 'aListOfStringToString',
     'EntryList_String_byteArray': 'aListOfStringToByteArray',
     'EntryList_Long_byteArray': 'aListOfLongToByteArray',
@@ -417,6 +418,7 @@ reference_objects_dict = {
     'List_Xid': 'aListOfXids',
     'List_StackTraceElement': 'aListOfStackTraceElements',
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
+    'List_MCEvent': 'aListOfMCEvents',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
 }
