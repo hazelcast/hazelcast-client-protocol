@@ -731,7 +731,7 @@ methods:
     doc: |
       Polls events available on member. Once read, events are removed from member's internal queue.
     request:
-      retryable: true
+      retryable: false
       partitionIdentifier: -1
     response:
       params:
