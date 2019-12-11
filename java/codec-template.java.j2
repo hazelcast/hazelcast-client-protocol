@@ -200,7 +200,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE DECODE#}
-    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage{% for param in var_size_response_params %}{% if param.type == 'EntryList_Data_Data' %}, java.util.function.BiConsumer<com.hazelcast.nio.serialization.Data, com.hazelcast.nio.serialization.Data> {{ param.name }}BiConsumer{% elif param.type == 'List_Data' %}, java.util.function.Consumer<com.hazelcast.nio.serialization.Data> {{ param.name }}Consumer{% endif %}{% endfor %}) {
+    public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage{% for param in var_size_response_params %}{% if param.type == 'EntryList_Data_Data' %}, java.util.function.BiConsumer<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data> {{ param.name }}BiConsumer{% elif param.type == 'List_Data' %}, java.util.function.Consumer<com.hazelcast.internal.serialization.Data> {{ param.name }}Consumer{% endif %}{% endfor %}) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
         {% if fixed_response_params|length != 0 %}
