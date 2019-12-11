@@ -69,6 +69,7 @@
             "EntryList_String_EntryList_Integer_Long",
             "EntryList_UUID_Long",
             "EntryList_Address_List_Integer",
+            "EntryList_UUID_Address",
             "EntryList_Data_Data",
             "EntryList_Member_List_ScheduledTaskHandler",
             "List_Address",

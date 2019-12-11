@@ -753,11 +753,11 @@ methods:
     response:
       params:
         - name: cpMembers
-          type: EntryList_String_String
+          type: EntryList_UUID_Address
           nullable: false
           since: 2.0
           doc: |
-            List of CP members (as <UUID string, address string> pairs)
+            List of CP members
   - id: 26
     name: promoteToCPMember
     since: 2.0
