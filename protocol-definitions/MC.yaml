@@ -741,3 +741,67 @@ methods:
           since: 2.0
           doc: |
             List of events.
+  - id: 25
+    name: triggerPartialRestart
+    since: 2.0
+    doc: |
+     Triggers a partial restart process
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True if the partial restart succeeded, false otherwise
+  - id: 26
+    name: forceStart
+    since: 2.0
+    doc: |
+        Forces the cluster to start
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True if the forced start succeeded, false otherwise    
+  - id: 27
+    name: triggerHotRestartBackup
+    since: 2.0
+    doc: |
+        Triggers the hot restart backup process
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True is the hot restart backup was initiated successfully, false otherwise
+  - id: 28
+    name: interruptHotRestartBackup
+    since: 2.0
+    doc: |
+        Interrupts the hot restart backup
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True is the hot restart backup was interrupted successfully, false otherwise
