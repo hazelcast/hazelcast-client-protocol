@@ -742,7 +742,7 @@ methods:
           doc: |
             List of events.
   - id: 25
-    name: triggerPartialRestart
+    name: triggerPartialStart
     since: 2.0
     doc: |
      Triggers a partial restart process
@@ -756,9 +756,9 @@ methods:
           since: 2.0
           nullable: false
           doc: |
-            True if the partial restart succeeded, false otherwise
+            True if the partial restart was successfully initiated, false otherwise
   - id: 26
-    name: forceStart
+    name: triggerForceStart
     since: 2.0
     doc: |
         Forces the cluster to start
@@ -772,7 +772,7 @@ methods:
           since: 2.0
           nullable: false
           doc: |
-            True if the forced start succeeded, false otherwise    
+            True if the forced start was successfully initiated, false otherwise    
   - id: 27
     name: triggerHotRestartBackup
     since: 2.0
