@@ -219,14 +219,6 @@ methods:
     request:
       retryable: false
       partitionIdentifier: -1
-      params:
-        - name: localOnly
-          type: boolean
-          nullable: false
-          since: 2.0
-          doc: |
-            if true only master node sends events, otherwise all registered nodes send all membership
-            changes.
     response: {}
     events:
       - name: MembersView
@@ -244,18 +236,20 @@ methods:
             doc: |
               List of member infos  at the cluster associated with the given version
               params:
+      - name: PartitionsView
+        params:
+          - name: version
+            type: int
+            nullable: false
+            since: 2.0
+            doc: |
+              Incremental state version of the partition table
           - name: partitions
             type: EntryList_Address_List_Integer
             nullable: false
             since: 2.0
             doc: |
               The partition table. In each entry, it has address and list of partitions belonging to that address
-          - name: partitionStateVersion
-            type: int
-            nullable: false
-            since: 2.0
-            doc: |
-              Incremental state version of the partition table
   - id: 4
     name: createProxy
     since: 2.0
