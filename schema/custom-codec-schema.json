@@ -94,7 +94,9 @@
             "MergePolicyConfig",
             "MemberVersion",
             "MemberInfo",
-            "MCEvent"
+            "MCEvent",
+            "AnchorDataListHolder",
+            "PagingPredicateHolder"
           ]
         },
         "nullable": {

@@ -813,3 +813,42 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
+  - name: AnchorDataListHolder
+    since: 2.0
+    params:
+        - name: anchorPageList
+          type: List_Integer
+          nullable: false
+          since: 2.0
+        - name: anchorDataList
+          type: EntryList_Data_Data
+          nullable: false
+          since: 2.0
+  - name: PagingPredicateHolder
+    since: 2.0
+    params:
+        - name: anchorDataListHolder
+          type: AnchorDataListHolder
+          nullable: false
+          since: 2.0
+        - name: predicateData
+          type: Data
+          nullable: true
+          since: 2.0
+        - name: comparatorData
+          type: Data
+          nullable: true
+          since: 2.0
+        - name: pageSize
+          type: int
+          nullable: false
+          since: 2.0
+        - name: page
+          type: int
+          nullable: false
+          since: 2.0
+        - name: iterationTypeId
+          type: byte
+          nullable: false
+          since: 2.0
+

@@ -47,6 +47,8 @@ CustomTypes = [
     'MemberInfo',
     'MemberVersion',
     'MCEvent',
+    'AnchorDataListHolder',
+    'PagingPredicateHolder',
 ]
 
 CustomConfigTypes = [

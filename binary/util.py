@@ -248,7 +248,10 @@ class VarSizedEncoder:
             VarSizedEncoder.encode_multi_frame_map(client_message, VarSizedEncoder.encoder_for(key_type),
                                                    VarSizedEncoder.encoder_for(value_type))
         else:
-            VarSizedEncoder.encoder_for(type)(client_message)
+            try:
+                VarSizedEncoder.encoder_for(type)(client_message)
+            except:
+                print(type)
 
     @staticmethod
     def encode_multi_frame_list(client_message, encoder):
@@ -344,6 +347,8 @@ binary_output_directories = {
     # SupportedLanguages.GO: '',
 }
 
+
+
 reference_objects_dict = {
     'boolean': 'aBoolean',
     'byte': 'aByte',
@@ -421,9 +426,9 @@ reference_objects_dict = {
     'List_MCEvent': 'aListOfMCEvents',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
+    'AnchorDataListHolder': 'anAnchorDataListHolder',
+    'PagingPredicateHolder': 'aPagingPredicateHolder',
 }
-
-
 def create_environment_for_binary_generator(lang, version):
     env = Environment(loader=PackageLoader(lang.value + '.binary', '.'))
     env.trim_blocks = True
