@@ -299,6 +299,13 @@ class VarSizedEncoder:
         FixSizedEncoder.encode_fix_sized_list_frame(client_message, 'long')
 
     @staticmethod
+    def encode_uuid_address_entry_list(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        CustomTypeEncoder.encode_custom_type(client_message, 'Address')
+        client_message.add_frame(END_FRAME)
+        FixSizedEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
+
+    @staticmethod
     def encoder_for(type):
         encoder = VarSizedEncoder.encoders.get(type, None)
         if encoder is not None:
@@ -319,6 +326,7 @@ VarSizedEncoder.encoders = {
     'EntryList_Integer_Long': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                                 key_type='int', value_type='long'),
     'EntryList_Long_byteArray': VarSizedEncoder.encode_long_byte_array_entry_list,
+    'EntryList_UUID_Address': VarSizedEncoder.encode_uuid_address_entry_list,
     'List_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='int'),
     'List_Long': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='long'),
     'List_UUID': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='UUID'),
@@ -396,6 +404,7 @@ reference_objects_dict = {
     'EntryList_Long_byteArray': 'aListOfLongToByteArray',
     'EntryList_String_EntryList_Integer_Long': 'aListOfStringToListOfIntegerToLong',
     'EntryList_Address_List_Integer': 'aListOfAddressToListOfIntegers',
+    'EntryList_UUID_Address': 'aListOfUUIDToAddress',
     'EntryList_Data_Data': 'aListOfDataToData',
     'EntryList_Member_List_ScheduledTaskHandler': 'aListOfMemberToListOfScheduledTaskHandlers',
     'Map_String_String': 'aMapOfStringToString',
