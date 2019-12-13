@@ -851,4 +851,9 @@ customTypes:
           type: byte
           nullable: false
           since: 2.0
+        - name: partitionKeyData
+          type: Data
+          nullable: true
+          since: 2.0
+
 
