@@ -794,3 +794,53 @@ methods:
       retryable: false
       partitionIdentifier: -1
     response: {}
+  - id: 29
+    name: triggerPartialStart
+    since: 2.0
+    doc: |
+      Triggers partial start
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True if the partial restart was successfully initiated, false otherwise
+  - id: 30
+    name: triggerForceStart
+    since: 2.0
+    doc: |
+      Triggers force start
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: result
+          type: boolean
+          since: 2.0
+          nullable: false
+          doc: |
+            True if the forced start was successfully initiated, false otherwise
+  - id: 31
+    name: triggerHotRestartBackup
+    since: 2.0
+    doc: |
+      Triggers hot restart backup
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
+  - id: 32
+    name: interruptHotRestartBackup
+    since: 2.0
+    doc: |
+      Interrupts hot restart backup
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
