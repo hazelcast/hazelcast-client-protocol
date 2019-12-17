@@ -1999,7 +1999,7 @@ methods:
           doc: |
             name of map
         - name: predicate
-          type: Data
+          type: PagingPredicateHolder
           nullable: false
           since: 2.0
           doc: |
@@ -2012,6 +2012,12 @@ methods:
           since: 2.0
           doc: |
             result keys for the query.
+        - name: anchorDataList
+          type: AnchorDataListHolder
+          nullable: false
+          since: 2.0
+          doc: |
+            The updated anchor list.
   - id: 53
     name: valuesWithPagingPredicate
     since: 2.0
@@ -2031,7 +2037,7 @@ methods:
           doc: |
             name of map
         - name: predicate
-          type: Data
+          type: PagingPredicateHolder
           nullable: false
           since: 2.0
           doc: |
@@ -2039,11 +2045,17 @@ methods:
     response:
       params:
         - name: response
-          type: EntryList_Data_Data
+          type: List_Data
           nullable: false
           since: 2.0
           doc: |
             values for the query.
+        - name: anchorDataList
+          type: AnchorDataListHolder
+          nullable: false
+          since: 2.0
+          doc: |
+            The updated anchor list.
   - id: 54
     name: entriesWithPagingPredicate
     since: 2.0
@@ -2060,7 +2072,7 @@ methods:
           doc: |
             name of map
         - name: predicate
-          type: Data
+          type: PagingPredicateHolder
           nullable: false
           since: 2.0
           doc: |
@@ -2073,6 +2085,12 @@ methods:
           since: 2.0
           doc: |
             key-value pairs for the query.
+        - name: anchorDataList
+          type: AnchorDataListHolder
+          nullable: false
+          since: 2.0
+          doc: |
+            The updated anchor list.
   - id: 55
     name: clearNearCache
     since: 2.0
