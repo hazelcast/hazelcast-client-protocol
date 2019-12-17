@@ -70,8 +70,11 @@ _java_types_encode = {
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
+    "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
+    "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
+    "List_Integer": "java.util.Collection<java.lang.Integer>",
     "List_UUID": "java.util.Collection<java.util.UUID>",
     "List_String": "java.util.Collection<java.lang.String>",
     "List_Xid": "java.util.Collection<javax.transaction.xa.Xid>",
@@ -112,8 +115,11 @@ _java_types_decode = {
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
+    "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
+    "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
 
     "List_Long": "java.util.List<java.lang.Long>",
+    "List_Integer": "java.util.List<java.lang.Integer>",
     "List_UUID": "java.util.List<java.util.UUID>",
     "List_Xid": "java.util.List<javax.transaction.xa.Xid>",
     "List_String": "java.util.List<java.lang.String>",
