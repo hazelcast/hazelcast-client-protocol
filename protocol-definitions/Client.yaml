@@ -761,3 +761,14 @@ methods:
             since: 2.0
             doc: |
               correlation id of the invocation that backup acks belong to
+  - id: 18
+    name: triggerPartitionAssignment
+    since: 2.0
+    doc: |
+      Triggers partition assignment manually on the cluster.
+      Note that Partition based operations triggers this automatically
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      {}
