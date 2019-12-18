@@ -31,6 +31,7 @@
             "Data",
             "EntryList_Integer_UUID",
             "EntryList_Integer_Long",
+            "EntryList_Integer_Integer",
             "List_Integer",
             "List_Long",
             "List_UUID",
