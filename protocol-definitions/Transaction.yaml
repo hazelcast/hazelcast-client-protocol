@@ -5,7 +5,7 @@ methods:
     name: commit
     since: 2.0
     doc: |
-      TODO DOC
+      Commits the transaction with the given id.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -27,7 +27,7 @@ methods:
     name: create
     since: 2.0
     doc: |
-      TODO DOC
+      Creates a transaction with the given parameters.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -74,7 +74,7 @@ methods:
     name: rollback
     since: 2.0
     doc: |
-      TODO DOC
+      Rollbacks the transaction with the given id.
     request:
       retryable: false
       partitionIdentifier: -1

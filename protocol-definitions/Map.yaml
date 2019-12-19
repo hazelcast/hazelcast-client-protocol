@@ -881,43 +881,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              Key for the map entry.
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 23
     name: addEntryListenerWithPredicate
     since: 2.0
@@ -975,43 +985,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 24
     name: addEntryListenerToKey
     since: 2.0
@@ -1068,43 +1088,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              Key for the map entry.
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 25
     name: addEntryListener
     since: 2.0
@@ -1155,43 +1185,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 26
     name: removeEntryListener
     since: 2.0
@@ -1263,13 +1303,13 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Id of the lost partition.
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that owns the lost partition.
   - id: 28
     name: removePartitionLostListener
     since: 2.0
@@ -1335,13 +1375,13 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            Entry view for the specified key.
         - name: maxIdle
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Last set max idle in millis.
   - id: 30
     name: evict
     since: 2.0
@@ -1801,7 +1841,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Id of the thread that the task is submitted from.
     response:
       params:
         - name: response
@@ -1844,7 +1884,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Id of the thread that the task is submitted from.
     response:
       params:
         - name: response
@@ -1987,7 +2027,10 @@ methods:
     name: keySetWithPagingPredicate
     since: 2.0
     doc: |
-      TODO DOC
+      Queries the map based on the specified predicate and returns the keys of matching entries. Specified predicate
+      runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
+      in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -2060,7 +2103,10 @@ methods:
     name: entriesWithPagingPredicate
     since: 2.0
     doc: |
-      TODO DOC
+      Queries the map based on the specified predicate and returns the matching entries. Specified predicate
+      runs on all members in parallel. The collection is NOT backed by the map, so changes to the map are NOT reflected
+      in the collection, and vice-versa. This method is always executed by a distributed query, so it may throw a
+      QueryResultSizeExceededException if query result size limit is configured.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -2092,28 +2138,6 @@ methods:
           doc: |
             The updated anchor list.
   - id: 55
-    name: clearNearCache
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-        - name: target
-          type: Address
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
-    response: {}
-  - id: 56
     name: fetchKeys
     since: 2.0
     doc: |
@@ -2153,8 +2177,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 57
+            List of keys.
+  - id: 56
     name: fetchEntries
     since: 2.0
     doc: |
@@ -2194,8 +2218,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 58
+            List of entries.
+  - id: 57
     name: aggregate
     since: 2.0
     doc: |
@@ -2224,7 +2248,7 @@ methods:
           since: 2.0
           doc: |
             the aggregation result
-  - id: 59
+  - id: 58
     name: aggregateWithPredicate
     since: 2.0
     doc: |
@@ -2259,7 +2283,7 @@ methods:
           since: 2.0
           doc: |
             the aggregation result
-  - id: 60
+  - id: 59
     name: project
     since: 2.0
     doc: |
@@ -2288,7 +2312,7 @@ methods:
           since: 2.0
           doc: |
             the resulted collection upon transformation to the type of the projection
-  - id: 61
+  - id: 60
     name: projectWithPredicate
     since: 2.0
     doc: |
@@ -2323,7 +2347,7 @@ methods:
           since: 2.0
           doc: |
             the resulted collection upon transformation to the type of the projection
-  - id: 62
+  - id: 61
     name: fetchNearCacheInvalidationMetadata
     since: 2.0
     doc: |
@@ -2343,7 +2367,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Address of the member.
     response:
       params:
         - name: namePartitionSequenceList
@@ -2351,30 +2375,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Map of partition ids and sequence number of invalidations mapped by the map name.
         - name: partitionUuidList
           type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 63
-    name: assignAndGetUuids
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: true
-      partitionIdentifier: -1
-    response:
-      params:
-        - name: partitionUuidList
-          type: EntryList_Integer_UUID
-          nullable: false
-          since: 2.0
-          doc: |
-            partitionId to assigned uuid entry list
-  - id: 64
+            Map of member UUIDs mapped by the partition ids of invalidations.
+  - id: 62
     name: removeAll
     since: 2.0
     doc: |
@@ -2396,7 +2404,7 @@ methods:
           doc: |
             used to select entries to be removed from map.
     response: {}
-  - id: 65
+  - id: 63
     name: addNearCacheInvalidationListener
     since: 2.0
     doc: |
@@ -2439,25 +2447,25 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              The key of the invalidated entry.
           - name: sourceUuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member who fired this event.
           - name: partitionUuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the source partition that invalidation event belongs to.
           - name: sequence
             type: long
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Sequence number of the invalidation event.
       - name: IMapBatchInvalidation
         params:
           - name: keys
@@ -2465,26 +2473,26 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of the keys of the invalidated entries.
           - name: sourceUuids
             type: List_UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of UUIDs of the members who fired these events.
           - name: partitionUuids
             type: List_UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of UUIDs of the source partitions that invalidation events belong to.
           - name: sequences
             type: List_Long
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
-  - id: 66
+              List of sequence numbers of the invalidation events.
+  - id: 64
     name: fetchWithQuery
     since: 2.0
     doc: |
@@ -2531,14 +2539,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            List of fetched entries.
         - name: iterationPointers
           type: EntryList_Integer_Integer
           nullable: false
           since: 2.0
           doc: |
             The index-size pairs that define the state of iteration
-  - id: 67
+  - id: 65
     name: eventJournalSubscribe
     since: 2.0
     doc: |
@@ -2562,14 +2570,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Sequence id of the oldest event on in the event journal.
         - name: newestSequence
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 68
+            Sequence id of the newest event on in the event journal.
+  - id: 66
     name: eventJournalRead
     since: 2.0
     doc: |
@@ -2628,26 +2636,26 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of items read.
         - name: items
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            List of read items.
         - name: itemSeqs
           type: longArray
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            Sequence numbers of items in the event journal.
         - name: nextSeq
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 69
+            Next id of the sequence to read from in the future operations.
+  - id: 67
     name: setTtl
     since: 2.0
     doc: |
@@ -2694,7 +2702,7 @@ methods:
           since: 2.0
           doc: |
             'true' if the entry is affected, 'false' otherwise
-  - id: 70
+  - id: 68
     name: putWithMaxIdle
     since: 2.0
     doc: |
@@ -2751,7 +2759,7 @@ methods:
           since: 2.0
           doc: |
             old value of the entry
-  - id: 71
+  - id: 69
     name: putTransientWithMaxIdle
     since: 2.0
     doc: |
@@ -2806,7 +2814,7 @@ methods:
           since: 2.0
           doc: |
             old value of the entry
-  - id: 72
+  - id: 70
     name: putIfAbsentWithMaxIdle
     since: 2.0
     doc: |
@@ -2861,7 +2869,7 @@ methods:
           since: 2.0
           doc: |
             old value of the entry
-  - id: 73
+  - id: 71
     name: setWithMaxIdle
     since: 2.0
     doc: |

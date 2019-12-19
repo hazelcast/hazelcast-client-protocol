@@ -5,7 +5,7 @@ methods:
     name: clearRemote
     since: 2.0
     doc: |
-      TODO DOC
+      Clears the XA transaction with the given xid from remote member.
     request:
       retryable: false
       partitionIdentifier: xid
@@ -21,7 +21,7 @@ methods:
     name: collectTransactions
     since: 2.0
     doc: |
-      TODO DOC
+      Obtains a list of prepared transaction branches from a resource manager.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -37,7 +37,7 @@ methods:
     name: finalize
     since: 2.0
     doc: |
-      TODO DOC
+      Finalizes the commit of XA transaction with the given xid.
     request:
       retryable: false
       partitionIdentifier: xid
@@ -59,7 +59,7 @@ methods:
     name: commit
     since: 2.0
     doc: |
-      TODO DOC
+      Commits the global transaction specified by xid.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -81,7 +81,7 @@ methods:
     name: create
     since: 2.0
     doc: |
-      TODO DOC
+      Creates an XA transaction with the given parameters.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -110,7 +110,7 @@ methods:
     name: prepare
     since: 2.0
     doc: |
-      TODO DOC
+      Ask the resource manager to prepare for a transaction commit of the transaction specified in xid.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -126,7 +126,7 @@ methods:
     name: rollback
     since: 2.0
     doc: |
-      TODO DOC
+      Informs the resource manager to roll back work done on behalf of a transaction branch.
     request:
       retryable: false
       partitionIdentifier: -1

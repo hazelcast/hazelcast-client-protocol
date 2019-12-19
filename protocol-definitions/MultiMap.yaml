@@ -414,43 +414,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              The key to listen to
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 14
     name: addEntryListener
     since: 2.0
@@ -494,43 +504,53 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Key of the entry event.
           - name: value
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the entry event. Possible values are
+              ADDED(1)
+              REMOVED(2)
+              UPDATED(4)
+              EVICTED(8)
+              EXPIRED(16)
+              EVICT_ALL(32)
+              CLEAR_ALL(64)
+              MERGED(128)
+              INVALIDATION(256)
+              LOADED(512)
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Number of entries affected by this event.
   - id: 15
     name: removeEntryListener
     since: 2.0

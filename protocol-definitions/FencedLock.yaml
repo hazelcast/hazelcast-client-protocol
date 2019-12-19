@@ -196,22 +196,22 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Fence token of the lock
         - name: lockCount
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Reenterant lock count
         - name: sessionId
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Id of the session that holds the lock
         - name: threadId
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Id of the thread that holds the lock

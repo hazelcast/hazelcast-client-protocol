@@ -61,19 +61,19 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Item that the event is fired for.
           - name: publishTime
             type: long
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Time that the item is published to the topic.
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches this event.
   - id: 3
     name: removeMessageListener
     since: 2.0

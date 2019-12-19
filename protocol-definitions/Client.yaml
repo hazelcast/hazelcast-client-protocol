@@ -5,7 +5,7 @@ methods:
     name: authentication
     since: 2.0
     doc: |
-      TODO DOC
+      Makes an authentication request to the cluster.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -73,13 +73,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
         - name: address
           type: Address
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            Address of the Hazelcast member which sends the authentication response.
         - name: uuid
           type: UUID
           nullable: true
@@ -97,7 +98,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Version of the Hazelcast member which sends the authentication response.
         - name: partitionCount
           type: int
           nullable: false
@@ -120,7 +121,7 @@ methods:
     name: authenticationCustom
     since: 2.0
     doc: |
-      TODO DOC
+      Makes an authentication request to the cluster using custom credentials.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -180,13 +181,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
         - name: address
           type: Address
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            Address of the Hazelcast member which sends the authentication response.
         - name: uuid
           type: UUID
           nullable: true
@@ -204,7 +206,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Version of the Hazelcast member which sends the authentication response.
         - name: partitionCount
           type: int
           nullable: false
@@ -227,7 +229,7 @@ methods:
     name: addClusterViewListener
     since: 2.0
     doc: |
-      TODO DOC
+      Adds a cluster view listener to one of the active connections.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -266,7 +268,7 @@ methods:
     name: createProxy
     since: 2.0
     doc: |
-      TODO DOC
+      Creates a cluster-wide proxy with the given name and service.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -303,7 +305,7 @@ methods:
     name: destroyProxy
     since: 2.0
     doc: |
-      TODO DOC
+      Destroys the proxy given by its name cluster-wide. Also, clears and releases all resources of this proxy.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -337,19 +339,10 @@ methods:
             "hz:impl:xaService"
     response: {}
   - id: 6
-    name: removeAllListeners
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: false
-      partitionIdentifier: -1
-    response: {}
-  - id: 7
     name: addPartitionLostListener
     since: 2.0
     doc: |
-      TODO DOC
+      Adds a partition lost listener to the cluster.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -377,24 +370,24 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Id of the lost partition.
           - name: lostBackupCount
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              The number of lost backups for the partition. 0: the owner, 1: first backup, 2: second backup...
           - name: source
             type: Address
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
-  - id: 8
+              Address of the node that dispatches the event
+  - id: 7
     name: removePartitionLostListener
     since: 2.0
     doc: |
-      TODO DOC
+      Removes the specified partition lost listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -413,11 +406,11 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 9
+  - id: 8
     name: getDistributedObjects
     since: 2.0
     doc: |
-      TODO DOC
+      Gets the list of distributed objects in the cluster.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -429,11 +422,12 @@ methods:
           since: 2.0
           doc: |
             An array of distributed object info in the cluster.
-  - id: 10
+  - id: 9
     name: addDistributedObjectListener
     since: 2.0
     doc: |
-      TODO DOC
+      Adds a distributed object listener to the cluster. This listener will be notified
+      when a distributed object is created or destroyed.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -467,30 +461,30 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Name of the distributed object.
           - name: serviceName
             type: String
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Service name of the distributed object.
           - name: eventType
             type: String
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the event. It is either CREATED or DESTROYED.
           - name: source
             type: UUID
             nullable: false
             since: 2.0
             doc: |
               The UUID (client or member) of the source of this proxy event.
-  - id: 11
+  - id: 10
     name: removeDistributedObjectListener
     since: 2.0
     doc: |
-      TODO DOC
+      Removes the specified distributed object listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -509,16 +503,16 @@ methods:
           since: 2.0
           doc: |
             true if the listener existed and removed, false otherwise.
-  - id: 12
+  - id: 11
     name: ping
     since: 2.0
     doc: |
-      TODO DOC
+      Sends a ping to the given connection.
     request:
       retryable: true
       partitionIdentifier: -1
     response: {}
-  - id: 13
+  - id: 12
     name: statistics
     since: 2.0
     doc: |
@@ -703,7 +697,7 @@ methods:
           doc: |
             Compressed byte array containing all metrics collected by the client.
     response: {}
-  - id: 14
+  - id: 13
     name: deployClasses
     since: 2.0
     doc: |
@@ -721,7 +715,7 @@ methods:
           doc: |
             list of class definitions
     response: {}
-  - id: 15
+  - id: 14
     name: createProxies
     since: 2.0
     doc: |
@@ -744,7 +738,7 @@ methods:
             Each entry's value is service name.
             For possible service names see createProxy message.
     response: {}
-  - id: 16
+  - id: 15
     name: localBackupListener
     since: 2.0
     doc: |
@@ -769,7 +763,7 @@ methods:
             since: 2.0
             doc: |
               correlation id of the invocation that backup acks belong to
-  - id: 17
+  - id: 16
     name: triggerPartitionAssignment
     since: 2.0
     doc: |

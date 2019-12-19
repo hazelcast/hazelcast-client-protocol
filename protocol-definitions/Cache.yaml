@@ -5,7 +5,8 @@ methods:
     name: addEntryListener
     since: 2.0
     doc: |
-      TODO DOC
+      Adds an entry listener for this cache. The listener will be notified
+      for all cache created/removed/updated/expired events.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -21,7 +22,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            if true fires events that originated from this node only, otherwise fires all events
+            If true fires events that originated from this node only, otherwise fires all events
     response:
       params:
         - name: response
@@ -38,19 +39,29 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              The type of the event. Possible values for the event are:
+              CREATED(1): An event type indicating that the cache entry was created.
+              UPDATED(2): An event type indicating that the cache entry was updated, i.e. a previous mapping existed.
+              REMOVED(3): An event type indicating that the cache entry was removed.
+              EXPIRED(4): An event type indicating that the cache entry has expired.
+              EVICTED(5): An event type indicating that the cache entry has evicted.
+              INVALIDATED(6): An event type indicating that the cache entry has invalidated for near cache invalidation.
+              COMPLETED(7): An event type indicating that the cache operation has completed.
+              EXPIRATION_TIME_UPDATED(8): An event type indicating that the expiration time of cache record has been updated
+              PARTITION_LOST(9): An event type indicating that partition loss is detected in given cache with name
           - name: keys
             type: List_CacheEventData
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              The keys for the entries in the cache.
           - name: completionId
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              User generated id which shall be received as a field of the cache event upon completion of the
+              request in the cluster.
   - id: 2
     name: clear
     since: 2.0
@@ -158,7 +169,7 @@ methods:
     name: createConfig
     since: 2.0
     doc: |
-      TODO DOC
+      Creates the given cache configuration on Hazelcast members.
     request:
       retryable: true
       partitionIdentifier: name
@@ -203,7 +214,8 @@ methods:
     name: entryProcessor
     since: 2.0
     doc: |
-      TODO DOC
+      Applies the user defined EntryProcessor to entry mapped by the key.
+      Returns the result of the processing, if any, defined by the implementation.
     request:
       retryable: false
       partitionIdentifier: key
@@ -380,7 +392,7 @@ methods:
     name: getConfig
     since: 2.0
     doc: |
-      TODO DOC
+      Gets the cache configuration with the given name from members.
     request:
       retryable: true
       partitionIdentifier: name
@@ -486,12 +498,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The keys fetched from the cache.
   - id: 15
     name: listenerRegistration
     since: 2.0
     doc: |
-      TODO DOC
+      Tries to register the listener configuration for the cache specified by its name
+      to the given member.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -526,7 +539,7 @@ methods:
     name: loadAll
     since: 2.0
     doc: |
-      TODO DOC
+      Loads all the keys into the CacheRecordStore in batch.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -555,7 +568,8 @@ methods:
     name: managementConfig
     since: 2.0
     doc: |
-      TODO DOC
+      Enables or disables the statistics or the management support for the
+      cache with the given name on a member with the given address.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -640,7 +654,7 @@ methods:
     name: put
     since: 2.0
     doc: |
-      TODO DOC
+      Puts the entry with the given key, value and the expiry policy to the cache.
     request:
       retryable: false
       partitionIdentifier: key
@@ -695,7 +709,7 @@ methods:
     name: removeEntryListener
     since: 2.0
     doc: |
-      TODO DOC
+      Removes the specified entry listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -724,7 +738,7 @@ methods:
     name: removeInvalidationListener
     since: 2.0
     doc: |
-      TODO DOC
+      Removes the specified invalidation listener. Returns silently if there is no such listener added before.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -913,13 +927,13 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Id of the lost partition.
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that owns the lost partition.
   - id: 26
     name: removePartitionLostListener
     since: 2.0
@@ -953,7 +967,7 @@ methods:
     name: putAll
     since: 2.0
     doc: |
-      TODO DOC
+      Copies all the mappings from the specified map to this cache with the given expiry policy.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -1025,7 +1039,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The entries fetched from the cache.
   - id: 29
     name: addNearCacheInvalidationListener
     since: 2.0
@@ -1069,25 +1083,25 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              The key of the invalidated entry.
           - name: sourceUuid
             type: UUID
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member who fired this event.
           - name: partitionUuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the source partition that invalidation event belongs to.
           - name: sequence
             type: long
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Sequence number of the invalidation event.
       - name: CacheBatchInvalidation
         params:
           - name: name
@@ -1101,25 +1115,25 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of the keys of the invalidated entries.
           - name: sourceUuids
             type: List_UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of UUIDs of the members who fired these events.
           - name: partitionUuids
             type: List_UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of UUIDs of the source partitions that invalidation events belong to.
           - name: sequences
             type: List_Long
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of sequence numbers of the invalidation events.
   - id: 30
     name: fetchNearCacheInvalidationMetadata
     since: 2.0
@@ -1140,7 +1154,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Address of the member.
     response:
       params:
         - name: namePartitionSequenceList
@@ -1148,30 +1162,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Map of partition ids and sequence number of invalidations mapped by the cache name.
         - name: partitionUuidList
           type: EntryList_Integer_UUID
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Map of member UUIDs mapped by the partition ids of invalidations.
   - id: 31
-    name: assignAndGetUuids
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: true
-      partitionIdentifier: -1
-    response:
-      params:
-        - name: partitionUuidList
-          type: EntryList_Integer_UUID
-          nullable: false
-          since: 2.0
-          doc: |
-            partitionId to assigned uuid entry list
-  - id: 32
     name: eventJournalSubscribe
     since: 2.0
     doc: |
@@ -1195,14 +1193,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Sequence id of the oldest event on in the event journal.
         - name: newestSequence
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 33
+            Sequence id of the newest event on in the event journal.
+  - id: 32
     name: eventJournalRead
     since: 2.0
     doc: |
@@ -1261,26 +1259,26 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of items read.
         - name: items
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            List of read items.
         - name: itemSeqs
           type: longArray
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            Sequence numbers of items in the event journal.
         - name: nextSeq
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
-  - id: 34
+            Next id of the sequence to read from in the future operations.
+  - id: 33
     name: setExpiryPolicy
     since: 2.0
     doc: |

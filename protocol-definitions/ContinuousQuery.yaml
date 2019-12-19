@@ -5,7 +5,7 @@ methods:
     name: publisherCreateWithValue
     since: 2.0
     doc: |
-      TODO DOC
+      Creates a publisher that includes value for the cache events it sends.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -71,7 +71,7 @@ methods:
     name: publisherCreate
     since: 2.0
     doc: |
-      TODO DOC
+      Creates a publisher that does not include value for the cache events it sends.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -137,7 +137,7 @@ methods:
     name: madePublishable
     since: 2.0
     doc: |
-      TODO DOC
+      Makes the query cache with the given name for a specific map publishable.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -166,7 +166,7 @@ methods:
     name: addListener
     since: 2.0
     doc: |
-      TODO DOC
+      Adds a listener to be notified for the events fired on the underlying map on all nodes.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -199,7 +199,7 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Data that holds the details of the event such as key, value, old value, new value and creation time.
       - name: QueryCacheBatch
         params:
           - name: events
@@ -207,19 +207,20 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              List of events in the form of data that holds the details of the event such as key, value, old value,
+              new value and creation time.
           - name: source
             type: String
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Source that dispathces this batch event.
           - name: partitionId
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Id of the partition that holds the keys of the batch event.
   - id: 5
     name: setReadCursor
     since: 2.0
@@ -264,7 +265,7 @@ methods:
     name: destroyCache
     since: 2.0
     doc: |
-      TODO DOC
+      Destroys the query cache with the given name for a specific map.
     request:
       retryable: false
       partitionIdentifier: -1

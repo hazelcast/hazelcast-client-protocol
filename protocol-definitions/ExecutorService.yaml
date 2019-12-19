@@ -45,7 +45,7 @@ methods:
     name: cancelOnPartition
     since: 2.0
     doc: |
-      TODO DOC
+      Cancels the task running on the member that owns the partition with the given id.
     request:
       retryable: false
       partitionIdentifier: partitionId
@@ -74,7 +74,7 @@ methods:
     name: cancelOnAddress
     since: 2.0
     doc: |
-      TODO DOC
+      Cancels the task running on the member with the given address.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -109,7 +109,7 @@ methods:
     name: submitToPartition
     since: 2.0
     doc: |
-      TODO DOC
+      Submits the task to the member that owns the partition with the given id.
     request:
       retryable: false
       partitionIdentifier: partitionId
@@ -144,7 +144,7 @@ methods:
     name: submitToAddress
     since: 2.0
     doc: |
-      TODO DOC
+      Submits the task to member specified by the address.
     request:
       retryable: false
       partitionIdentifier: -1

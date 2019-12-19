@@ -329,19 +329,19 @@ methods:
             nullable: true
             since: 2.0
             doc: |
-              TODO DOC
+              Item that the event is fired for.
           - name: uuid
             type: UUID
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              UUID of the member that dispatches this event.
           - name: eventType
             type: int
             nullable: false
             since: 2.0
             doc: |
-              TODO DOC
+              Type of the event. It is either ADDED(1) or REMOVED(2).
   - id: 12
     name: removeListener
     since: 2.0
