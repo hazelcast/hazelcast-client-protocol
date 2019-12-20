@@ -229,7 +229,7 @@ methods:
     name: addClusterViewListener
     since: 2.0
     doc: |
-      Adds a cluster view listener to one of the active connections.
+      Adds a cluster view listener to a connection.
     request:
       retryable: false
       partitionIdentifier: -1

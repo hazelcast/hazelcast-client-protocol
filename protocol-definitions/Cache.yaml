@@ -54,7 +54,7 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              The keys for the entries in the cache.
+              The keys of the entries in the cache.
           - name: completionId
             type: int
             nullable: false
@@ -1095,7 +1095,7 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              UUID of the source partition that invalidation event belongs to.
+              UUID of the source partition that invalidated entry belongs to.
           - name: sequence
             type: long
             nullable: false
@@ -1127,7 +1127,7 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              List of UUIDs of the source partitions that invalidation events belong to.
+              List of UUIDs of the source partitions that invalidated entries belong to.
           - name: sequences
             type: List_Long
             nullable: false
@@ -1193,13 +1193,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Sequence id of the oldest event on in the event journal.
+            Sequence id of the oldest event in the event journal.
         - name: newestSequence
           type: long
           nullable: false
           since: 2.0
           doc: |
-            Sequence id of the newest event on in the event journal.
+            Sequence id of the newest event in the event journal.
   - id: 32
     name: eventJournalRead
     since: 2.0
@@ -1259,13 +1259,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Number of items read.
+            Number of items that have been read.
         - name: items
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            List of read items.
+            List of items that have been read.
         - name: itemSeqs
           type: longArray
           nullable: true
@@ -1277,7 +1277,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Next id of the sequence to read from in the future operations.
+            Sequence number of the item following the last read item.
   - id: 33
     name: setExpiryPolicy
     since: 2.0

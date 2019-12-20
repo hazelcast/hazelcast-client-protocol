@@ -68,16 +68,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-
     response: {}
   - id: 2
     name: addRingbufferConfig
@@ -146,9 +144,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
@@ -198,9 +195,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
@@ -268,9 +264,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
@@ -338,9 +333,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
@@ -391,7 +385,7 @@ methods:
           since: 2.0
           doc: |
             class name of a class implementing
-            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
+            SplitBrainMergePolicy to merge entries
             while recovering from a split brain
         - name: listenerConfigs
           type: List_ListenerConfigHolder
@@ -594,9 +588,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
-            that handles merging of values for this cache while recovering from
-            network partitioning
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
@@ -751,15 +744,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Class name of a class implementing
-            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
-            while recovering from a split brain
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            number of entries to be sent in a merge operation
+            Number of entries to be sent in a merge operation
         - name: inMemoryFormat
           type: String
           nullable: false
@@ -1027,7 +1019,7 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
+            name of a class implementing SplitBrainMergePolicy
             that handles merging of values for this cache while recovering from
             network partitioning
         - name: mergeBatchSize
