@@ -462,6 +462,12 @@ methods:
             since: 2.0
             doc: |
               TODO DOC
+          - name: source
+            type: UUID
+            nullable: false
+            since: 2.0
+            doc: |
+              The UUID (client or member) of the source of this proxy event.
   - id: 11
     name: removeDistributedObjectListener
     since: 2.0
