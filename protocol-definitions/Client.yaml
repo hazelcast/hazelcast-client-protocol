@@ -433,6 +433,12 @@ methods:
           doc: |
             If set to true, the server adds the listener only to itself, otherwise the listener is is added for all
             members in the cluster.
+        - name: internal
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Set to true for the registration for ProxyManager initiation and set to false for user listeners.
     response:
       params:
         - name: response
