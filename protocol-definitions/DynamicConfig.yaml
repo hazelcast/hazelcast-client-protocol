@@ -1109,12 +1109,6 @@ methods:
           since: 2.0
           doc: |
             for how long the pre-fetched IDs can be used
-        - name: idOffset
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
         - name: statisticsEnabled
           type: boolean
           nullable: false
@@ -1133,12 +1127,6 @@ methods:
           since: 2.0
           doc: |
             offset of timestamp component in milliseconds 
-        - name: bitsTimestamp
-          type: int
-          nullable: false
-          since: 2.0
-          doc: |
-            bit length of timestamp component 
         - name: bitsSequence
           type: int
           nullable: false
