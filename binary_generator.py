@@ -29,7 +29,7 @@ def save_test_files(test_output_dir, lang, version, services, templates):
 
     for test_type in ['Client', 'Member']:
         for test_null_type in ['', 'Null']:
-            with open(os.path.join(test_output_dir, class_name.format(type=test_type, null=test_null_type)), 'w') as f:
+            with open(os.path.join(test_output_dir, class_name.format(type=test_type, null=test_null_type)), 'w', newline='\n') as f:
                 f.write(templates[test_type].render(services=services, test_nullable=test_null_type == 'Null'))
 
 

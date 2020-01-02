@@ -182,7 +182,7 @@ def save_file(file, content):
     m = hashlib.md5()
     m.update(content.encode("utf-8"))
     codec_hash = m.hexdigest()
-    with open(file, 'w') as file:
+    with open(file, 'w', newline='\n') as file:
         file.writelines(content.replace('!codec_hash!', codec_hash))
 
 
