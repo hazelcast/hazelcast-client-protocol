@@ -2364,12 +2364,12 @@ methods:
           since: 2.0
           doc: |
             names of the maps
-        - name: address
-          type: Address
+        - name: uuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            Address of the member.
+            The uuid of the member to fetch the near cahce invalidation meta data
     response:
       params:
         - name: namePartitionSequenceList

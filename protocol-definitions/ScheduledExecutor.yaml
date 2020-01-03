@@ -17,12 +17,12 @@ methods:
           since: 2.0
           doc: |
             Name of the scheduler.
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The cluster member where the shutdown for this scheduler will be sent.
+            The UUID of the member where the shutdown for this scheduler will be sent.
     response: {}
   - id: 2
     name: submitToPartition
@@ -71,10 +71,10 @@ methods:
             period between each run in milliseconds
     response: {}
   - id: 3
-    name: submitToAddress
+    name: submitToMember
     since: 2.0
     doc: |
-      Submits the task to a member for execution, member is provided in the form of an address.
+      Submits the task to a member for execution. Member is provided with its uuid.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -85,12 +85,12 @@ methods:
           since: 2.0
           doc: |
             The name of the scheduler.
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
         - name: type
           type: byte
           nullable: false
@@ -140,7 +140,7 @@ methods:
     response:
       params:
         - name: handlers
-          type: EntryList_Member_List_ScheduledTaskHandler
+          type: List_ScheduledTaskHandler
           nullable: false
           since: 2.0
           doc: |
@@ -199,7 +199,7 @@ methods:
           doc: |
             The duration of the task's last execution.
   - id: 6
-    name: getStatsFromAddress
+    name: getStatsFromMember
     since: 2.0
     doc: |
       Returns statistics of the task
@@ -219,12 +219,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
     response:
       params:
         - name: lastIdleTimeNanos
@@ -287,7 +287,7 @@ methods:
           doc: |
             The remaining delay of the task formatted in nanoseconds.
   - id: 8
-    name: getDelayFromAddress
+    name: getDelayFromMember
     since: 2.0
     doc: |
       Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
@@ -307,12 +307,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
     response:
       params:
         - name: response
@@ -357,7 +357,7 @@ methods:
           doc: |
             True if the task was cancelled
   - id: 10
-    name: cancelFromAddress
+    name: cancelFromMember
     since: 2.0
     doc: |
       Cancels further execution and scheduling of the task
@@ -377,12 +377,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
         - name: mayInterruptIfRunning
           type: boolean
           nullable: false
@@ -427,7 +427,7 @@ methods:
           doc: |
             True if the task is cancelled
   - id: 12
-    name: isCancelledFromAddress
+    name: isCancelledFromMember
     since: 2.0
     doc: |
       Checks whether a task as identified from the given handler is already cancelled.
@@ -447,12 +447,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
     response:
       params:
         - name: response
@@ -492,7 +492,7 @@ methods:
           doc: |
             True if the task is done
   - id: 14
-    name: isDoneFromAddress
+    name: isDoneFromMember
     since: 2.0
     doc: |
       Checks whether a task is done.
@@ -513,12 +513,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
     response:
       params:
         - name: response
@@ -558,7 +558,7 @@ methods:
           doc: |
             The result of the completed task, in serialized form ({
   - id: 16
-    name: getResultFromAddress
+    name: getResultFromMember
     since: 2.0
     doc: |
       Fetches the result of the task ({@link java.util.concurrent.Callable})
@@ -579,12 +579,12 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The uuid of the member where the task will get scheduled.
     response:
       params:
         - name: response
@@ -616,7 +616,7 @@ methods:
             The name of the task
     response: {}
   - id: 18
-    name: disposeFromAddress
+    name: disposeFromMember
     since: 2.0
     doc: |
       Dispose the task from the scheduler
@@ -636,10 +636,10 @@ methods:
           since: 2.0
           doc: |
             The name of the task
-        - name: address
-          type: Address
+        - name: memberUuid
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The address of the member where the task will get scheduled.
+            The UUID of the member where the task will get scheduled.
     response: {}

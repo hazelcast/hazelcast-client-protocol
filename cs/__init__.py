@@ -115,9 +115,8 @@ _cs_types_encode = {
     "EntryList_Integer_Integer": "IEnumerable<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "IEnumerable<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "IEnumerable<KeyValuePair<string, IEnumerable<KeyValuePair<int, long>>>>",
-    "EntryList_Address_List_Integer": "IEnumerable<KeyValuePair<IO.Address, IEnumerable<int>>>",
+    "EntryList_UUID_List_Integer": "IEnumerable<KeyValuePair<Guid, IEnumerable<int>>>",
     "EntryList_Data_Data": "IEnumerable<KeyValuePair<IData, IData>>",
-    "EntryList_Member_List_ScheduledTaskHandler": "NA"
 }
 
 _cs_types_decode = {
@@ -125,7 +124,6 @@ _cs_types_decode = {
     "QueryCacheEventData": "NA",
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
-    "Member": "Hazelcast.Core.Member",
 
     "List_Long": "IList<long>",
     "List_UUID": "IList<Guid>",
@@ -133,7 +131,6 @@ _cs_types_decode = {
     "List_String": "IList<string>",
     "List_Data": "IList<IData>",
     "ListCN_Data": "IList<IData>",
-    "List_Member": "IList<Hazelcast.Core.Member>",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "IList<Hazelcast.Client.DistributedObjectInfo>",
@@ -152,7 +149,6 @@ _cs_types_decode = {
     "EntryList_Integer_Integer": "IList<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "IList<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "IList<KeyValuePair<string, IList<KeyValuePair<int, long>>>>",
-    "EntryList_Address_List_Integer": "IList<KeyValuePair<IO.Address, IList<int>>>",
-    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
-    "EntryList_Member_List_ScheduledTaskHandler": "NA"
+    "EntryList_UUID_List_Integer": "IList<KeyValuePair<Guid, IList<int>>>",
+    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>"
 }

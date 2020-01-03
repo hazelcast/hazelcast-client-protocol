@@ -20,7 +20,7 @@ FixedEntryListTypes = [
     'EntryList_Integer_Long',
     'EntryList_Integer_Integer',
     'EntryList_Long_byteArray',
-    'EntryList_UUID_Address',
+    'EntryList_UUID_List_Integer',
 ]
 
 FixedMapTypes = [
@@ -36,7 +36,6 @@ CustomTypes = [
     'Address',
     'CacheEventData',
     'DistributedObjectInfo',
-    'Member',
     'QueryCacheEventData',
     'RaftGroupId',
     'ScheduledTaskHandler',
@@ -79,9 +78,8 @@ VarLengthEntryListTypes = [
     'EntryList_String_String',
     'EntryList_String_byteArray',
     'EntryList_String_EntryList_Integer_Long',
-    'EntryList_Address_List_Integer',
+    'EntryList_UUID_List_Integer',
     'EntryList_Data_Data',
-    'EntryList_Member_List_ScheduledTaskHandler',
 ]
 
 VarLengthMapTypes = [
@@ -89,7 +87,6 @@ VarLengthMapTypes = [
 ]
 
 VarLengthListTypes = [
-    'List_Address',
     'List_byteArray',
     'List_CacheEventData',
     'List_CacheSimpleEntryListenerConfig',

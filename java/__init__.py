@@ -65,7 +65,6 @@ _java_types_encode = {
     "QueryCacheEventData": "com.hazelcast.map.impl.querycache.event.QueryCacheEventData",
     "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.ScheduledTaskHandler",
     "Xid": "javax.transaction.xa.Xid",
-    "Member": "com.hazelcast.cluster.Member",
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
@@ -81,6 +80,7 @@ _java_types_encode = {
     "List_Data": "java.util.Collection<com.hazelcast.internal.serialization.Data>",
     "ListCN_Data": "java.util.Collection<com.hazelcast.internal.serialization.Data>",
     "List_MemberInfo": "java.util.Collection<com.hazelcast.internal.cluster.MemberInfo>",
+    "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
     "List_CacheEventData": "java.util.Collection<com.hazelcast.cache.impl.CacheEventData>",
     "List_QueryCacheConfigHolder": "java.util.Collection<com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder>",
     "List_DistributedObjectInfo": "java.util.Collection<com.hazelcast.client.impl.client.DistributedObjectInfo>",
@@ -101,10 +101,8 @@ _java_types_encode = {
     "EntryList_Integer_Integer": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.lang.Integer>>",
     "EntryList_UUID_Long": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_Address_List_Integer": "java.util.Collection<java.util.Map.Entry<com.hazelcast.cluster.Address, java.util.List<java.lang.Integer>>>",
-    "EntryList_UUID_Address": "java.util.Collection<java.util.Map.Entry<java.util.UUID, com.hazelcast.cluster.Address>>",
+    "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
-    "EntryList_Member_List_ScheduledTaskHandler": "java.util.Collection<java.util.Map.Entry<com.hazelcast.cluster.Member, java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>"
 }
 
 _java_types_decode = {
@@ -112,7 +110,6 @@ _java_types_decode = {
     "QueryCacheEventData": "com.hazelcast.map.impl.querycache.event.DefaultQueryCacheEventData",
     "ScheduledTaskHandler": "com.hazelcast.scheduledexecutor.impl.ScheduledTaskHandlerImpl",
     "Xid": "com.hazelcast.transaction.impl.xa.SerializableXID",
-    "Member": "com.hazelcast.client.impl.MemberImpl",
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
@@ -139,6 +136,7 @@ _java_types_decode = {
     "List_StackTraceElement": "java.util.List<java.lang.StackTraceElement>",
     "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
     "List_MCEvent": "java.util.List<com.hazelcast.internal.management.dto.MCEventDTO>",
+    "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -148,8 +146,6 @@ _java_types_decode = {
     "EntryList_Integer_Integer": "java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Integer>>",
     "EntryList_UUID_Long": "java.util.List<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.List<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_Address_List_Integer": "java.util.List<java.util.Map.Entry<com.hazelcast.cluster.Address, java.util.List<java.lang.Integer>>>",
-    "EntryList_UUID_Address": "java.util.List<java.util.Map.Entry<java.util.UUID, com.hazelcast.cluster.Address>>",
+    "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
-    "EntryList_Member_List_ScheduledTaskHandler": "java.util.List<java.util.Map.Entry<com.hazelcast.cluster.Member, java.util.List<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>>>"
 }

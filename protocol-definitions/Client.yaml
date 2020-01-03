@@ -259,11 +259,11 @@ methods:
             doc: |
               Incremental state version of the partition table
           - name: partitions
-            type: EntryList_Address_List_Integer
+            type: EntryList_UUID_List_Integer
             nullable: false
             since: 2.0
             doc: |
-              The partition table. In each entry, it has address and list of partitions belonging to that address
+              The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
   - id: 4
     name: createProxy
     since: 2.0
@@ -378,11 +378,11 @@ methods:
             doc: |
               The number of lost backups for the partition. 0: the owner, 1: first backup, 2: second backup...
           - name: source
-            type: Address
+            type: UUID
             nullable: true
             since: 2.0
             doc: |
-              Address of the node that dispatches the event
+              UUID of the node that dispatches the event
   - id: 7
     name: removePartitionLostListener
     since: 2.0
