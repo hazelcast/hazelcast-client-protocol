@@ -29,8 +29,8 @@ methods:
           since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
-        - name: targetReplica
-          type: Address
+        - name: targetReplicaUUID
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
@@ -98,8 +98,8 @@ methods:
           since: 2.0
           doc: |
             last observed replica timestamps (vector clock)
-        - name: targetReplica
-          type: Address
+        - name: targetReplicaUUID
+          type: UUID
           nullable: false
           since: 2.0
           doc: |

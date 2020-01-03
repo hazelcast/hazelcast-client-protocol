@@ -233,25 +233,6 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
-  - name: Member
-    since: 2.0
-    params:
-      - name: address
-        type: Address
-        nullable: false
-        since: 2.0
-      - name: uuid
-        type: UUID
-        nullable: false
-        since: 2.0
-      - name: attributes
-        type: Map_String_String
-        nullable: false
-        since: 2.0
-      - name: liteMember
-        type: boolean
-        nullable: false
-        since: 2.0
   - name: MerkleTreeConfig
     since: 2.0
     returnWithFactory: true
@@ -489,8 +470,8 @@ customTypes:
   - name: ScheduledTaskHandler
     since: 2.0
     params:
-      - name: address
-        type: Address
+      - name: uuid
+        type: UUID
         nullable: true
         since: 2.0
       - name: partitionId

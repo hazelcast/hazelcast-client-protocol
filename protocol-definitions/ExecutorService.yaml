@@ -71,7 +71,7 @@ methods:
           doc: |
             True if cancelled successfully, false otherwise.
   - id: 4
-    name: cancelOnAddress
+    name: cancelOnMember
     since: 2.0
     doc: |
       Cancels the task running on the member with the given address.
@@ -85,12 +85,12 @@ methods:
           since: 2.0
           doc: |
             Unique id for the execution.
-        - name: address
-          type: Address
+        - name: memberUUID
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            Address of the host to execute the request on.
+            The UUID of the member to execute the request on.
         - name: interrupt
           type: boolean
           nullable: false
@@ -141,7 +141,7 @@ methods:
           doc: |
             The result of the callable execution.
   - id: 6
-    name: submitToAddress
+    name: submitToMember
     since: 2.0
     doc: |
       Submits the task to member specified by the address.
@@ -167,12 +167,12 @@ methods:
           since: 2.0
           doc: |
             The callable object to be executed.
-        - name: address
-          type: Address
+        - name: memberUUID
+          type: UUID
           nullable: false
           since: 2.0
           doc: |
-            The member host on which the callable shall be executed on.
+            The UUID of the member host on which the callable shall be executed on.
     response:
       params:
         - name: response

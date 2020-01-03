@@ -1,11 +1,10 @@
 import functools
 import struct
 
-from . import reference_objects
-
 from binary import *
 from binary.constants import *
 from util import *
+from . import reference_objects
 
 formats = {
     'boolean': '<?',
@@ -306,6 +305,13 @@ class VarSizedEncoder:
         FixSizedEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
 
     @staticmethod
+    def encode_uuid_integer_list_entry_list(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        VarSizedEncoder.encode_var_sized_frame(client_message, 'List_Integer')
+        client_message.add_frame(END_FRAME)
+        FixSizedEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
+
+    @staticmethod
     def encoder_for(type):
         encoder = VarSizedEncoder.encoders.get(type, None)
         if encoder is not None:
@@ -328,7 +334,7 @@ VarSizedEncoder.encoders = {
     'EntryList_Integer_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                                 key_type='int', value_type='int'),
     'EntryList_Long_byteArray': VarSizedEncoder.encode_long_byte_array_entry_list,
-    'EntryList_UUID_Address': VarSizedEncoder.encode_uuid_address_entry_list,
+    'EntryList_UUID_List_Integer': VarSizedEncoder.encode_uuid_integer_list_entry_list,
     'List_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='int'),
     'List_Long': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='long'),
     'List_UUID': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='UUID'),
@@ -354,8 +360,6 @@ binary_output_directories = {
     # SupportedLanguages.GO: '',
 }
 
-
-
 reference_objects_dict = {
     'boolean': 'aBoolean',
     'byte': 'aByte',
@@ -376,7 +380,6 @@ reference_objects_dict = {
     'Address': 'anAddress',
     'CacheEventData': 'aCacheEventData',
     'DistributedObjectInfo': 'aDistributedObjectInfo',
-    'Member': 'aMember',
     'QueryCacheEventData': 'aQueryCacheEventData',
     'RaftGroupId': 'aRaftGroupId',
     'ScheduledTaskHandler': 'aScheduledTaskHandler',
@@ -408,12 +411,9 @@ reference_objects_dict = {
     'EntryList_String_byteArray': 'aListOfStringToByteArray',
     'EntryList_Long_byteArray': 'aListOfLongToByteArray',
     'EntryList_String_EntryList_Integer_Long': 'aListOfStringToListOfIntegerToLong',
-    'EntryList_Address_List_Integer': 'aListOfAddressToListOfIntegers',
-    'EntryList_UUID_Address': 'aListOfUUIDToAddress',
+    'EntryList_UUID_List_Integer': 'aListOfUUIDToListOfIntegers',
     'EntryList_Data_Data': 'aListOfDataToData',
-    'EntryList_Member_List_ScheduledTaskHandler': 'aListOfMemberToListOfScheduledTaskHandlers',
     'Map_String_String': 'aMapOfStringToString',
-    'List_Address': 'aListOfAddresses',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
@@ -423,7 +423,6 @@ reference_objects_dict = {
     'List_ListenerConfigHolder': 'aListOfListenerConfigHolders',
     'List_AttributeConfig': 'aListOfAttributeConfigs',
     'List_IndexConfig': 'aListOfIndexConfigs',
-    'List_Member': 'aListOfMembers',
     'List_MemberInfo': 'aListOfMemberInfos',
     'List_QueryCacheConfigHolder': 'aListOfQueryCacheConfigHolders',
     'List_QueryCacheEventData': 'aListOfQueryCacheEventData',
