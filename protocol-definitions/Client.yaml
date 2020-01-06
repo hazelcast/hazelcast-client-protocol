@@ -387,7 +387,8 @@ methods:
     name: removePartitionLostListener
     since: 2.0
     doc: |
-      Removes the specified partition lost listener. Returns silently if there is no such listener added before.
+      Removes the specified partition lost listener. If there is no such listener added before, this call does no change
+      in the cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -484,7 +485,8 @@ methods:
     name: removeDistributedObjectListener
     since: 2.0
     doc: |
-      Removes the specified distributed object listener. Returns silently if there is no such listener added before.
+      Removes the specified distributed object listener. If there is no such listener added before, this call does no
+      change in the cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: -1

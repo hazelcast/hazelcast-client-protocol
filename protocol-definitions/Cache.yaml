@@ -5,8 +5,8 @@ methods:
     name: addEntryListener
     since: 2.0
     doc: |
-      Adds an entry listener for this cache. The listener will be notified
-      for all cache created/removed/updated/expired events.
+      Adds an entry listener for this cache. For the types of events that the listener
+      will be notified for, see the documentation of the type field of the Cache event below.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -709,7 +709,8 @@ methods:
     name: removeEntryListener
     since: 2.0
     doc: |
-      Removes the specified entry listener. Returns silently if there is no such listener added before.
+      Removes the specified entry listener. If there is no such listener added before, this call does no change in the
+      cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -738,7 +739,8 @@ methods:
     name: removeInvalidationListener
     since: 2.0
     doc: |
-      Removes the specified invalidation listener. Returns silently if there is no such listener added before.
+      Removes the specified invalidation listener. If there is no such listener added before, this call does no change
+      in the cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -938,7 +940,8 @@ methods:
     name: removePartitionLostListener
     since: 2.0
     doc: |
-      Removes the specified cache partition lost listener. Returns silently if there is no such listener added before
+      Removes the specified cache partition lost listener. If there is no such listener added before, this call does no
+      change in the cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: -1

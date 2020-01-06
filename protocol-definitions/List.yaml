@@ -337,7 +337,8 @@ methods:
     name: removeListener
     since: 2.0
     doc: |
-      Removes the specified item listener. Returns silently if the specified listener was not added before.
+      Removes the specified item listener. If there is no such listener added before, this call does no change in the
+      cluster and returns false.
     request:
       retryable: true
       partitionIdentifier: name
