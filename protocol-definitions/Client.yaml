@@ -110,6 +110,12 @@ methods:
           since: 2.0
           doc: |
             UUID of the cluster that the client authenticated.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if server supports clients with failover feature.
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -211,6 +217,12 @@ methods:
           since: 2.0
           doc: |
             The cluster id of the cluster.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            Returns true if server supports clients with failover feature.
   - id: 3
     name: addClusterViewListener
     since: 2.0
@@ -733,22 +745,6 @@ methods:
             For possible service names see createProxy message.
     response: {}
   - id: 16
-    name: isFailoverSupported
-    since: 2.0
-    doc: |
-      TODO DOC
-    request:
-      retryable: true
-      partitionIdentifier: -1
-    response:
-      params:
-        - name: response
-          type: boolean
-          nullable: false
-          since: 2.0
-          doc: |
-            Returns true if server supports cluster failover
-  - id: 17
     name: localBackupListener
     since: 2.0
     doc: |
@@ -773,7 +769,7 @@ methods:
             since: 2.0
             doc: |
               correlation id of the invocation that backup acks belong to
-  - id: 18
+  - id: 17
     name: triggerPartitionAssignment
     since: 2.0
     doc: |
