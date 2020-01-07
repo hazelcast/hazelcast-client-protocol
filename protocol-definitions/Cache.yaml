@@ -461,12 +461,12 @@ methods:
           since: 2.0
           doc: |
             Name of the cache.
-        - name: tableIndex
-          type: int
+        - name: iterationPointers
+          type: EntryList_Integer_Integer
           nullable: false
           since: 2.0
           doc: |
-            The slot number (or index) to start the iterator
+            The index-size pairs that define the state of iteration
         - name: batch
           type: int
           nullable: false
@@ -475,12 +475,12 @@ methods:
             The number of items to be batched
     response:
       params:
-        - name: tableIndex
-          type: int
+        - name: iterationPointers
+          type: EntryList_Integer_Integer
           nullable: false
           since: 2.0
           doc: |
-            The slot number (or index) to start the iterator
+            The index-size pairs that define the state of iteration
         - name: keys
           type: List_Data
           nullable: false
@@ -1000,12 +1000,12 @@ methods:
           since: 2.0
           doc: |
             Name of the cache.
-        - name: tableIndex
-          type: int
+        - name: iterationPointers
+          type: EntryList_Integer_Integer
           nullable: false
           since: 2.0
           doc: |
-            The slot number (or index) to start the iterator
+            The index-size pairs that define the state of iteration
         - name: batch
           type: int
           nullable: false
@@ -1014,12 +1014,12 @@ methods:
             The number of items to be batched
     response:
       params:
-        - name: tableIndex
-          type: int
+        - name: iterationPointers
+          type: EntryList_Integer_Integer
           nullable: false
           since: 2.0
           doc: |
-            The slot number (or index) to start the iterator
+            The index-size pairs that define the state of iteration
         - name: entries
           type: EntryList_Data_Data
           nullable: false

@@ -248,10 +248,7 @@ class VarSizedEncoder:
             VarSizedEncoder.encode_multi_frame_map(client_message, VarSizedEncoder.encoder_for(key_type),
                                                    VarSizedEncoder.encoder_for(value_type))
         else:
-            try:
-                VarSizedEncoder.encoder_for(type)(client_message)
-            except:
-                print(type)
+            VarSizedEncoder.encoder_for(type)(client_message)
 
     @staticmethod
     def encode_multi_frame_list(client_message, encoder):
@@ -328,6 +325,8 @@ VarSizedEncoder.encoders = {
                                              key_type='UUID', value_type='long'),
     'EntryList_Integer_Long': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
                                                 key_type='int', value_type='long'),
+    'EntryList_Integer_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_entry_list_frame,
+                                                key_type='int', value_type='int'),
     'EntryList_Long_byteArray': VarSizedEncoder.encode_long_byte_array_entry_list,
     'EntryList_UUID_Address': VarSizedEncoder.encode_uuid_address_entry_list,
     'List_Integer': functools.partial(FixSizedEncoder.encode_fix_sized_list_frame, item_type='int'),
@@ -370,6 +369,7 @@ reference_objects_dict = {
     'EntryList_Integer_UUID': 'aListOfIntegerToUUID',
     'EntryList_UUID_Long': 'aListOfUuidToLong',
     'EntryList_Integer_Long': 'aListOfIntegerToLong',
+    'EntryList_Integer_Integer': 'aListOfIntegerToInteger',
     'List_Integer': 'aListOfIntegers',
     'List_Long': 'aListOfLongs',
     'List_UUID': 'aListOfUUIDs',
