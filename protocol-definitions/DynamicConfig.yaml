@@ -1109,12 +1109,6 @@ methods:
           since: 2.0
           doc: |
             for how long the pre-fetched IDs can be used
-        - name: idOffset
-          type: long
-          nullable: false
-          since: 2.0
-          doc: |
-            TODO DOC
         - name: statisticsEnabled
           type: boolean
           nullable: false
@@ -1127,6 +1121,30 @@ methods:
           since: 2.0
           doc: |
             TODO DOC
+        - name: epochStart
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            offset of timestamp component in milliseconds 
+        - name: bitsSequence
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            bit length of sequence component 
+        - name: bitsNodeId
+          type: int
+          nullable: false
+          since: 2.0
+          doc: |
+            bit length of node id component
+        - name: allowedFutureMillis
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            how far to the future is it allowed to go to generate IDs 
     response: {}
   - id: 16
     name: addPNCounterConfig
