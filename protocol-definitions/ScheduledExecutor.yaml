@@ -173,31 +173,31 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Last period of time the task was idle, waiting to get scheduled.
         - name: totalIdleTimeNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Total amount of time the task was idle, waiting to get scheduled in.
         - name: totalRuns
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            How many times the task was ran/called.
         - name: totalRunTimeNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The total amount of time the task spent while scheduled in.
         - name: lastRunDurationNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The duration of the task's last execution.
   - id: 6
     name: getStatsFromAddress
     since: 2.0
@@ -232,31 +232,31 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Last period of time the task was idle, waiting to get scheduled.
         - name: totalIdleTimeNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Total amount of time the task was idle, waiting to get scheduled in.
         - name: totalRuns
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            How many times the task was ran/called.
         - name: totalRunTimeNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The total amount of time the task spent while scheduled in.
         - name: lastRunDurationNanos
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The duration of the task's last execution.
   - id: 7
     name: getDelayFromPartition
     since: 2.0

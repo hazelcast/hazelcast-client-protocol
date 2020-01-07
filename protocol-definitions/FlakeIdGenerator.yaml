@@ -5,7 +5,7 @@ methods:
     name: newIdBatch
     since: 2.0
     doc: |
-      TODO DOC
+      Fetches a new batch of ids for the given flake id generator.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -15,13 +15,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of the flake id generator.
         - name: batchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of ids that will be fetched on one call.
     response:
       params:
         - name: base
@@ -29,16 +29,16 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            First id in the batch.
         - name: increment
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Increment for the next id in the batch.
         - name: batchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of ids in the batch.

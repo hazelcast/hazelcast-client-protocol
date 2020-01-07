@@ -292,22 +292,22 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of items that have been read before filtering.
         - name: items
           type: List_Data
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            List of items that have beee read.
         - name: itemSeqs
           type: longArray
           nullable: true
           since: 2.0
           doc: |
-            TODO DOC
+            List of sequence numbers for the items that have been read.
         - name: nextSeq
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Sequence number of the item following the last read item.

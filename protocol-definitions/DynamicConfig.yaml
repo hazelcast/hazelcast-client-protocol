@@ -68,13 +68,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 2
     name: addRingbufferConfig
@@ -143,13 +144,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 3
     name: addCardinalityEstimatorConfig
@@ -193,13 +195,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 4
     name: addListConfig
@@ -261,13 +264,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 5
     name: addSetConfig
@@ -329,13 +333,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 6
     name: addReplicatedMapConfig
@@ -380,7 +385,7 @@ methods:
           since: 2.0
           doc: |
             class name of a class implementing
-            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
+            SplitBrainMergePolicy to merge entries
             while recovering from a split brain
         - name: listenerConfigs
           type: List_ListenerConfigHolder
@@ -401,7 +406,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 7
     name: addTopicConfig
@@ -583,13 +588,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 11
     name: addQueueConfig
@@ -663,13 +669,13 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Classname of the merge policy.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Number of entries to be sent in a merge operation.
     response: {}
   - id: 12
     name: addMapConfig
@@ -738,15 +744,14 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            class name of a class implementing
-            {@link com.hazelcast.spi.merge.SplitBrainMergePolicy} to merge entries
-            while recovering from a split brain
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
+            while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
           since: 2.0
           doc: |
-            number of entries to be sent in a merge operation
+            Number of entries to be sent in a merge operation
         - name: inMemoryFormat
           type: String
           nullable: false
@@ -1014,7 +1019,7 @@ methods:
           nullable: true
           since: 2.0
           doc: |
-            name of a class implementing {@link com.hazelcast.spi.merge.SplitBrainMergePolicy}
+            name of a class implementing SplitBrainMergePolicy
             that handles merging of values for this cache while recovering from
             network partitioning
         - name: mergeBatchSize
@@ -1120,7 +1125,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Offset that will be added to the node id assigned to the cluster members for this generator.
         - name: epochStart
           type: long
           nullable: false
@@ -1144,7 +1149,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            how far to the future is it allowed to go to generate IDs 
+            how far to the future is it allowed to go to generate IDs
     response: {}
   - id: 16
     name: addPNCounterConfig

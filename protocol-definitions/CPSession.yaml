@@ -29,19 +29,19 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Id of the session.
         - name: ttlMillis
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Time to live value in milliseconds that must be respected by the caller.
         - name: heartbeatMillis
           type: long
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            Time between heartbeats in milliseconds that must be respected by the caller.
   - id: 2
     name: closeSession
     since: 2.0

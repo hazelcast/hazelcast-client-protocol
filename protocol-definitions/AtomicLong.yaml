@@ -77,7 +77,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            TODO DOC
+            The old or the new value depending on the returnValueType parameter.
   - id: 3
     name: addAndGet
     since: 2.0

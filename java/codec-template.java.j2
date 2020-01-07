@@ -259,6 +259,19 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             Logger.getLogger(super.getClass()).finest("Unknown message type received on event handler :" + messageType);
         }
     {% for event in method.events%}
+
+        /**
+        {% for param in event.params %}
+         * @param {{ param.name }}
+        {%- for line in param.doc.splitlines() %}
+        {% if loop.first -%}
+        {{ " %s"|format(line) }}
+        {% else %}
+         * {{ line|indent(8 + param.name|length, True) }}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        */
         public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
     {% endfor %}
     }
