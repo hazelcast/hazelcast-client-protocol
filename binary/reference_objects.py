@@ -45,6 +45,9 @@ map_objects = {
         },
         'long': {
             INT: LONG
+        },
+        'int': {
+            INT: INT
         }
     },
     'UUID': {

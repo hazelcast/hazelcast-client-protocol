@@ -248,10 +248,7 @@ class VarSizedEncoder:
             VarSizedEncoder.encode_multi_frame_map(client_message, VarSizedEncoder.encoder_for(key_type),
                                                    VarSizedEncoder.encoder_for(value_type))
         else:
-            try:
-                VarSizedEncoder.encoder_for(type)(client_message)
-            except:
-                print(type)
+            VarSizedEncoder.encoder_for(type)(client_message)
 
     @staticmethod
     def encode_multi_frame_list(client_message, encoder):
