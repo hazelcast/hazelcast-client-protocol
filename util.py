@@ -173,6 +173,14 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                     print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
 
+def generate_documentation(services, custom_definitions, template, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    content = template.render(services=services, custom_definitions=custom_definitions)
+    file_name = os.path.join(output_dir, 'documentation.md')
+    with open(file_name, 'w', newline='\n') as file:
+        file.writelines(content)
+
+
 def item_type(lang_name, param_type):
     if param_type.startswith("List_") or param_type.startswith("ListCN_"):
         return lang_name(param_type.split('_', 1)[1])
@@ -377,6 +385,7 @@ class SupportedLanguages(Enum):
     PY = 'py'
     TS = 'ts'
     # GO = 'go'
+    MD = 'md'
 
 
 codec_output_directories = {
@@ -386,6 +395,7 @@ codec_output_directories = {
     SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.MD: 'documentation'
 }
 
 custom_codec_output_directories = {
@@ -417,6 +427,7 @@ file_name_generators = {
     SupportedLanguages.PY: _snake_cased_name_generator('py'),
     SupportedLanguages.TS: _capitalized_name_generator('ts'),
     # SupportedLanguages.GO: 'go'
+    SupportedLanguages.MD: 'md'
 }
 
 language_specific_funcs = {
@@ -426,6 +437,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_encode,
         SupportedLanguages.TS: ts_types_encode,
         SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.MD: lambda x: x,
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
@@ -433,6 +445,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_decode,
         SupportedLanguages.TS: ts_types_decode,
         SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.MD: lambda x: x,
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
@@ -440,6 +453,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
         SupportedLanguages.PY: java_name,
+        SupportedLanguages.MD: lambda x: x,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
@@ -447,6 +461,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: param_name,
         SupportedLanguages.TS: param_name,
         SupportedLanguages.PY: py_param_name,
+        SupportedLanguages.MD: lambda x: x,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
@@ -454,6 +469,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_escape_keyword,
         SupportedLanguages.PY: py_escape_keyword,
+        SupportedLanguages.MD: lambda x: x,
     },
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,
@@ -461,6 +477,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
         SupportedLanguages.PY: py_get_import_path_holders,
+        SupportedLanguages.MD: lambda x: x,
     }
 }
 
@@ -492,10 +509,10 @@ def create_environment(lang, namespace):
     env.globals["item_type"] = item_type
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
+    env.globals["namespace"] = namespace
     env.globals["lang_types_encode"] = language_specific_funcs['lang_types_encode'][lang]
     env.globals["lang_types_decode"] = language_specific_funcs['lang_types_decode'][lang]
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]
-    env.globals["namespace"] = namespace
     env.globals["param_name"] = language_specific_funcs['param_name'][lang]
     env.globals["escape_keyword"] = language_specific_funcs['escape_keyword'][lang]
     env.globals["get_size"] = get_size

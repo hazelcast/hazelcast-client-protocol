@@ -6,7 +6,7 @@ methods:
     since: 2.0
     doc: |
       Returns number of items in the ringbuffer. If no ttl is set, the size will always be equal to capacity after the
-      head completed the first looparound the ring. This is because no items are getting retired.
+      head completed the first loop around the ring. This is because no items are getting retired.
     request:
       retryable: true
       partitionIdentifier: name
@@ -129,7 +129,7 @@ methods:
       will return the sequence of the written item. If there is no space, it depends on the overflow policy what happens:
       OverflowPolicy OVERWRITE we just overwrite the oldest item in the ringbuffer and we violate the ttl
       OverflowPolicy FAIL we return -1. The reason that FAIL exist is to give the opportunity to obey the ttl.
-      <p/>
+
       This sequence will always be unique for this Ringbuffer instance so it can be used as a unique id generator if you are
       publishing items on this Ringbuffer. However you need to take care of correctly determining an initial id when any node
       uses the ringbuffer for the first time. The most reliable way to do that is to write a dummy item into the ringbuffer and

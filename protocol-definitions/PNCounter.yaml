@@ -6,7 +6,7 @@ methods:
     since: 2.0
     doc: |
       Query operation to retrieve the current value of the PNCounter.
-      <p>
+
       The invocation will return the replica timestamps (vector clock) which
       can then be sent with the next invocation to keep session consistency
       guarantees.
@@ -61,7 +61,7 @@ methods:
     doc: |
       Adds a delta to the PNCounter value. The delta may be negative for a
       subtraction.
-      <p>
+
       The invocation will return the replica timestamps (vector clock) which
       can then be sent with the next invocation to keep session consistency
       guarantees.

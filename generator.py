@@ -111,20 +111,24 @@ if custom_protocol_defs is not None \
 print("Hazelcast Client Binary Protocol version %s" % (protocol_versions[-1]))
 env = create_environment(lang, namespace_arg)
 
-template_filename = env.get_template("codec-template.%s.j2" % lang_str_arg)
-
-codec_template = env.get_template(template_filename)
-generate_codecs(protocol_defs, codec_template, codec_output_dir, lang, env)
-print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
+if lang != SupportedLanguages.MD:
+    codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
+    generate_codecs(protocol_defs, codec_template, codec_output_dir, lang, env)
+    print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
 
 if custom_protocol_defs is not None:
-    custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)
-    relative_custom_codec_output_dir = out_dir_arg if out_dir_arg is not None else custom_codec_output_directories[lang]
-    custom_codec_output_dir = os.path.join(root_dir, relative_custom_codec_output_dir)
-    generate_custom_codecs(custom_protocol_defs, custom_codec_template, custom_codec_output_dir, lang, env)
-    print('Generated custom codecs are at \'%s\'' % custom_codec_output_dir)
+    if lang != SupportedLanguages.MD:
+        custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)
+        relative_custom_codec_output_dir = out_dir_arg if out_dir_arg is not None else custom_codec_output_directories[
+            lang]
+        custom_codec_output_dir = os.path.join(root_dir, relative_custom_codec_output_dir)
+        generate_custom_codecs(custom_protocol_defs, custom_codec_template, custom_codec_output_dir, lang, env)
+        print('Generated custom codecs are at \'%s\'' % custom_codec_output_dir)
+    else:
+        documentation_template = env.get_template('documentation-template.j2')
+        generate_documentation(protocol_defs, custom_protocol_defs, documentation_template, codec_output_dir)
 
-if not no_binary_arg:
+if not no_binary_arg and lang != SupportedLanguages.MD:
     relative_test_output_dir = test_out_dir_arg if test_out_dir_arg is not None else test_output_directories[lang]
     relative_binary_output_dir = bin_out_dir_arg if bin_out_dir_arg is not None else binary_output_directories[lang]
     test_output_dir = os.path.join(root_dir, relative_test_output_dir)

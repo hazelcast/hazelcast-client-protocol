@@ -112,6 +112,7 @@ where
     * `py` : Python
     * `ts` : TypeScript
     * `go` : Go
+    * `md` : Markdown (Documentation)
      
 `java` is the default value if no language is specified.
 

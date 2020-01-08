@@ -2677,7 +2677,7 @@ methods:
       Updates TTL (time to live) value of the entry specified by {@code key} with a new TTL value.
       New TTL value is valid from this operation is invoked, not from the original creation of the entry.
       If the entry does not exist or already expired, then this call has no effect.
-      <p>
+
       The entry will expire and get evicted after the TTL. If the TTL is 0,
       then the entry lives forever. If the TTL is negative, then the TTL
       from the map configuration will be used (default: forever).
@@ -2685,7 +2685,7 @@ methods:
       If there is no entry with key {@code key}, this call has no effect.
 
       <b>Warning:</b>
-      <p>
+
       Time resolution for TTL is seconds. The given TTL value is rounded to the next closest second value.
     request:
       retryable: false
