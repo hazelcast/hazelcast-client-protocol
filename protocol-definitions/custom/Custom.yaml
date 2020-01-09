@@ -588,7 +588,7 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
-      - name: mergePolicy
+      - name: mergePolicyClassName
         type: String
         nullable: false
         since: 2.0
