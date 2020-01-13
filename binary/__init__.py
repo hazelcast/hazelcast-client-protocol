@@ -4,7 +4,6 @@ FixedLengthTypes = [
     "int",
     "long",
     "UUID",
-    "enum"
 ]
 
 VarLengthTypes = [

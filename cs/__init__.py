@@ -44,7 +44,6 @@ _cs_types_common = {
     "Integer": "int",
     "Long": "long",
     "UUID": "Guid",
-    "enum": "int",
 
     "longArray": "long[]",
     "byteArray": "byte[]",

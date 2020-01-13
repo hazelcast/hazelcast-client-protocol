@@ -34,27 +34,27 @@ def save_test_files(test_output_dir, lang, version, services, templates):
 
 
 def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services):
-    Encoder.init_custom_type_params(protocol_defs_path)
+    encoder = Encoder(protocol_defs_path)
     for service in services:
-        methods = service["methods"]
+        methods = service['methods']
         for method in methods:
-            method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
-            method["response"]["id"] = int(id_fmt % (service["id"], method["id"], 1), 16)
-            events = method.get("events", None)
+            method['request']['id'] = int(id_fmt % (service['id'], method['id'], 0), 16)
+            method['response']['id'] = int(id_fmt % (service['id'], method['id'], 1), 16)
+            events = method.get('events', None)
             if events is not None:
                 for i in range(len(events)):
-                    method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
-            request = Encoder.encode_request(method["request"])
-            null_request = Encoder.encode_request(method["request"], True)
+                    method['events'][i]['id'] = int(id_fmt % (service['id'], method['id'], i + 2), 16)
+            request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET)
+            null_request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET, is_null_test=True)
             request.write(binary_file)
             null_request.write(null_binary_file)
-            response = Encoder.encode_response(method["response"])
-            null_response = Encoder.encode_response(method["response"], True)
+            response = encoder.encode(method['response'], RESPONSE_FIX_SIZED_PARAMS_OFFSET)
+            null_response = encoder.encode(method['response'], RESPONSE_FIX_SIZED_PARAMS_OFFSET, is_null_test=True)
             response.write(binary_file)
             null_response.write(null_binary_file)
             if events is not None:
                 for e in events:
-                    event = Encoder.encode_event(e)
-                    null_event = Encoder.encode_event(e, True)
+                    event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, True)
+                    null_event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, True, True)
                     event.write(binary_file)
                     null_event.write(null_binary_file)

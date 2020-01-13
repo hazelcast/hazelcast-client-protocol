@@ -211,11 +211,13 @@ Then, depending on the selected `LANGUAGE`, a custom factory method is called to
 For example, for `java`, `CustomTypeFactory.createCustomType1(paramName1, paramName2)` method is called.
 You need to add the `CustomType1 createCustomType1(boolean paramName1, String paramName2)` method to the `CustomTypeFactory` class on the Hazelcast side.
 
-For the parameters of the custom type definition, an extra step is required for the `enum` types. 
-`enum`s are represented as integers in the protocol level. So, you need to specify how to convert `enum` type
-to integer by adding an encoder method to the `FixedSizeTypesCodec` for the enum type. 
-Also, you need to set `returnWithFactory` to `true` and add a factory method as described above. In the factory method,
-you will receive an integer for the `enum` and be expected to convert it to your `enum` type and construct the object with it.
+For the parameters of the custom type definition, an extra step is required for the enum types. 
+Enums are represented as integers in the protocol level. So, you need to specify the type as `int` in the protocol
+definition and add an `encodeInt` method to the `FixedSizeTypesCodec` for the enum type that performs the conversion
+if the enums are not represented by integers in the language you try to generate codecs for. 
+Also, you need to set `returnWithFactory` to `true` and add a factory method as described above if the conversion from 
+enum type to int is required. In the factory method, you will receive an integer for the enum and be expected to 
+convert it to your enum type and construct the object with it.
 
 Custom type definitions are also validated against a [schema](/schema/custom-codec-schema.json). See the [Schema Validation](#schema-validation) 
 section for details of the validation.
