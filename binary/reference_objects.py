@@ -1,3 +1,8 @@
+class UuidHolder:
+    def __init__(self, most_sig_bits, least_sig_bits):
+        self.most_sig_bits = most_sig_bits
+        self.least_sig_bits = least_sig_bits
+
 BOOLEAN = True
 
 BYTE = 113
@@ -5,13 +10,6 @@ BYTE = 113
 INT = 25
 
 LONG = -50992225
-
-
-class UuidHolder:
-    def __init__(self, most_sig_bits, least_sig_bits):
-        self.most_sig_bits = most_sig_bits
-        self.least_sig_bits = least_sig_bits
-
 
 UUID = UuidHolder(123456789, 987654321)
 
@@ -23,8 +21,6 @@ STRING = "localhost"
 
 DATA = b'111313123131313131'
 
-ENUM = 1
-
 objects = {
     'boolean': BOOLEAN,
     'byte': BYTE,
@@ -35,7 +31,21 @@ objects = {
     'longArray': LONGARRAY,
     'String': STRING,
     'Data': DATA,
-    'enum': ENUM
+    'DurationConfig': {
+        'timeUnit': 1
+    },
+    'TimedExpiryPolicyFactoryConfig': {
+        'expiryPolicyType': 1
+    },
+    'ClientBwListEntry': {
+        'type': 1
+    },
+    'CacheEventData': {
+        'cacheEventType': 1
+    },
+    'IndexConfig': {
+        'type': 1
+    }
 }
 
 map_objects = {

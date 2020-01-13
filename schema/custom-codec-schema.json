@@ -24,7 +24,6 @@
             "int",
             "long",
             "UUID",
-            "enum",
             "byteArray",
             "longArray",
             "String",
