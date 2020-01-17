@@ -768,15 +768,15 @@ customTypes:
     since: 2.0
     params:
       - name: major
-        type: int
+        type: byte
         nullable: false
         since: 2.0
       - name: minor
-        type: int
+        type: byte
         nullable: false
         since: 2.0
       - name: patch
-        type: int
+        type: byte
         nullable: false
         since: 2.0
   - name: MCEvent
