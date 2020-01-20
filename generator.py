@@ -108,7 +108,7 @@ env = create_environment(lang, namespace_arg)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
-generate_codecs(protocol_defs, codec_template, codec_output_dir, file_extensions[lang])
+generate_codecs(protocol_defs, codec_template, codec_output_dir, lang)
 print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
 
 if os.path.exists(custom_protocol_defs_path):

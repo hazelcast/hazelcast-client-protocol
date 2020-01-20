@@ -110,31 +110,17 @@ namespace Hazelcast.Client.Protocol.Codec
         private const int Event{{event.name|capital}}MessageType = {{ event.id }};
     {% endfor %}
 
-    {#REQUEST PARAMETERS#}
-        public class RequestParameters
-        {
-        {% for param in method.request.params %}
-
-            /// <summary>
-            {% for line in param.doc.splitlines() %}
-            /// {{ line }}
-            {% endfor %}
-            ///</summary>
-            public {{ lang_types_decode(param.type) }} {{ param.name|capital }};
-        {% endfor %}
-        }
-
+    {#REQUEST PARAMETERS# is not required of client side}
     {#RequestENCODE#}
-        public static ClientMessage EncodeRequest({% for param in method.request.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %})
+        public static ClientMessage EncodeRequest({% for param in method.request.params %}{{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %})
         {
             var clientMessage = CreateForEncode();
             clientMessage.IsRetryable = {{ method.request.retryable|lower }};
-            clientMessage.AcquiresResource = {{ method.request.acquiresResource|lower }};
             clientMessage.OperationName = "{{ service_name|capital }}.{{ method.name|capital }}";
             var initialFrame = new Frame(new byte[RequestInitialFrameSize], UnfragmentedMessage);
             EncodeInt(initialFrame.Content, TypeFieldOffset, RequestMessageType);
         {% for param in fixed_params(method.request.params) %}
-            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Request{{param.name|capital}}FieldOffset, {{ param.name }});
+            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Request{{param.name|capital}}FieldOffset, {{escape_keyword(param.name)}});
         {% endfor %}
             clientMessage.Add(initialFrame);
         {% for param in var_size_params(method.request.params) %}
@@ -143,26 +129,7 @@ namespace Hazelcast.Client.Protocol.Codec
             return clientMessage;
         }
 
-    {#RequestDECODE#}
-        public static RequestParameters DecodeRequest(ClientMessage clientMessage)
-        {
-            var iterator = clientMessage.GetIterator();
-            var request = new RequestParameters();
-        {% if  fixed_params(method.request.params)|length != 0 %}
-            var initialFrame = iterator.Next();
-        {% else %}
-            //empty initial frame
-            iterator.Next();
-        {% endif %}
-        {% for param in fixed_params(method.request.params) %}
-            request.{{ param.name|capital }} =  Decode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Request{{param.name|capital}}FieldOffset);
-        {% endfor %}
-        {% for param in var_size_params(method.request.params) %}
-            request.{{ param.name|capital }} = {{ decode_var_sized(param) }};
-        {% endfor %}
-            return request;
-        }
-
+    {#RequestDECODE# is not required of client side}
     {#RESPONSE PARAMETERS#}
         public class ResponseParameters
         {
@@ -177,23 +144,7 @@ namespace Hazelcast.Client.Protocol.Codec
     {% endfor %}
         }
 
-    {#RESPONSE ENCODE#}
-        public static ClientMessage EncodeResponse({% for param in method.response.params %}{{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %})
-        {
-            var clientMessage = CreateForEncode();
-            var initialFrame = new Frame(new byte[ResponseInitialFrameSize], UnfragmentedMessage);
-            EncodeInt(initialFrame.Content, TypeFieldOffset, ResponseMessageType);
-            clientMessage.Add(initialFrame);
-
-        {% for param in fixed_params(method.response.params) %}
-            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Response{{param.name|capital}}FieldOffset, {{ escape_keyword(param.name) }});
-        {% endfor %}
-        {% for param in var_size_params(method.response.params) %}
-            {{ encode_var_sized(param) }};
-        {% endfor %}
-            return clientMessage;
-        }
-
+    {#RESPONSE ENCODE# is not required of client side}
     {#RESPONSE DECODE#}
         public static ResponseParameters DecodeResponse(ClientMessage clientMessage)
         {
@@ -213,27 +164,9 @@ namespace Hazelcast.Client.Protocol.Codec
         {% endfor %}
             return response;
         }
+
     {# EVENTS#}
     {% if method.events|length != 0 %}
-    {% for event in method.events%}
-
-        public static ClientMessage Encode{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %})
-        {
-            var clientMessage = CreateForEncode();
-            var initialFrame = new Frame(new byte[Event{{ event.name|capital}}InitialFrameSize], UnfragmentedMessage);
-            initialFrame.Flags |= IsEventFlag;
-            EncodeInt(initialFrame.Content, TypeFieldOffset, Event{{ (event.name|capital)}}MessageType);
-        {% for param in fixed_params(event.params) %}
-            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Event{{ (event.name|capital)}}{{(param.name|capital)}}FieldOffset, {{ param.name }});
-        {% endfor %}
-            clientMessage.Add(initialFrame);
-        {% for param in var_size_params(event.params) %}
-            {{ encode_var_sized(param) }};
-        {% endfor %}
-            return clientMessage;
-        }
-        {% endfor %}
-
         public static class EventHandler
         {
             public static void HandleEvent(ClientMessage clientMessage{% for event in method.events%}, Handle{{ event.name|capital }}Event handle{{ event.name|capital }}Event{% endfor %})
@@ -249,19 +182,19 @@ namespace Hazelcast.Client.Protocol.Codec
                     iterator.Next();
                 {% endif %}
                 {% for param in fixed_params(event.params) %}
-                    {{ lang_types_decode(param.type) }} {{param.name}} =  Decode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Event{{(event.name|capital)}}{{param.name|capital}}FieldOffset);
+                    {{ lang_types_decode(param.type) }} {{escape_keyword(param.name)}} =  Decode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Event{{(event.name|capital)}}{{param.name|capital}}FieldOffset);
                 {% endfor %}
                 {% for param in var_size_params(event.params) %}
-                    {{ lang_types_decode(param.type) }} {{param.name}} = {{ decode_var_sized(param) }};
+                    {{ lang_types_decode(param.type) }} {{escape_keyword(param.name)}} = {{ decode_var_sized(param) }};
                 {% endfor %}
-                    handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+                    handle{{ event.name|capital }}Event({% for param in event.params %}{{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %});
                     return;
                 }
             {% endfor %}
                 Logger.GetLogger(typeof(EventHandler)).Finest("Unknown message type received on event handler :" + messageType);
             }
         {% for event in method.events%}
-            public delegate void Handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+            public delegate void Handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %});
         {% endfor %}
         }
     {% endif %}
