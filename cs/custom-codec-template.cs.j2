@@ -82,7 +82,7 @@ namespace Hazelcast.Client.Protocol.Codec.Custom
 
             var initialFrame = new Frame(new byte[InitialFrameSize]);
             {% endif %}
-            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, {{ param.name|capital}}FieldOffset, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }});
+            Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, {{ param.name|capital}}FieldOffset, {% if param.type == 'enum' %}(int) {% endif %}{{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }});
             {% if loop.last %}
             clientMessage.Add(initialFrame);
             {% endif %}
@@ -106,21 +106,21 @@ namespace Hazelcast.Client.Protocol.Codec.Custom
 
             var initialFrame = iterator.Next();
             {% endif %}
-            var {{ param.name }} = Decode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, {{  param.name|capital }}FieldOffset);
+            var {{ escape_keyword(param.name) }} = Decode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, {{  param.name|capital }}FieldOffset);
             {% endfor %}
             {% for param in var_size_params(codec.params) %}
             {% if loop.first %}
 
             {% endif %}
-            var {{ param.name }} = {{ decode_var_sized(param) }};
+            var {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             {% endfor %}
 
             CodecUtil.FastForwardToEndFrame(iterator);
 
             {% if codec.returnWithFactory %}
-            return CustomTypeFactory.Create{{ codec.name }}({% for param in codec.params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+            return CustomTypeFactory.Create{{ codec.name }}({% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
             {% else %}
-            return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+            return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
             {% endif %}
         }
     }

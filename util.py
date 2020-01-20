@@ -11,7 +11,7 @@ from jinja2 import Environment, PackageLoader
 
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
-from cs import cs_types_encode, cs_types_decode, cs_escape_keyword
+from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
 
 
 def java_name(type_name):
@@ -48,10 +48,13 @@ def var_size_params(params):
     return [p for p in params if not is_fixed_type(p)]
 
 
-def generate_codecs(services, template, output_dir, extension):
+def generate_codecs(services, template, output_dir, lang):
     os.makedirs(output_dir, exist_ok=True)
     id_fmt = "0x%02x%02x%02x"
     for service in services:
+        if service["id"] in language_service_ignore_list[lang]:
+            print("[%s] is in ignore list so ignoring it." % service["name"])
+            continue
         if "methods" in service:
             methods = service["methods"]
             if methods is None:
@@ -64,7 +67,7 @@ def generate_codecs(services, template, output_dir, extension):
                     for i in range(len(events)):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
-                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension
+                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
                 try:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(os.path.join(output_dir, codec_file_name), content)
@@ -243,6 +246,15 @@ language_specific_funcs = {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
     },
+}
+
+language_service_ignore_list = {
+    SupportedLanguages.JAVA: [],
+    # SupportedLanguages.CPP: [],
+    SupportedLanguages.CS: cs_ignore_service_list,
+    # SupportedLanguages.PY: [],
+    # SupportedLanguages.TS: [],
+    # SupportedLanguages.GO: []
 }
 
 
