@@ -1,6 +1,11 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        bufutil.ListMultiFrameCodecEncode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, bufutil.{{ item_type(lang_name, param.type) }}CodecEncode)
+        elements :=  {{ param_name(codec.name)}}.{{escape_keyword(param.name) }}
+         clientMessage.Add(bufutil.BeginFrame)
+        for i := 0; i < len(elements) ; i++ {
+            {{item_type(lang_name, param.type)}}CodecEncode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(clientMessage, elements[i])
+        }
+
     {%- elif is_var_sized_entry_list(param.type) -%}
         bufutil.EntryListCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, bufutil.{{ key_type(lang_name, param.type) }}CodecEncode, bufutil.{{ value_type(lang_name, param.type) }}CodecEncode)
     {%- elif is_var_sized_map(param.type) -%}
@@ -15,14 +20,27 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        bufutil.ListMultiFrameCodecDecode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ item_type(lang_name, param.type) }}CodecDecode)
+         var {{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }}
+         //begin frame, list
+        iterator.Next()
+        for !bufutil.NextFrameIsDataStructureEndFrame(iterator) {
+            {{ escape_keyword(param.name) }} = append({{ escape_keyword(param.name) }}, {{item_type(lang_name, param.type)}}CodecDecode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(iterator))
+        }
+        //end frame, list
+        iterator.Next()
+
+
     {%- elif is_var_sized_entry_list(param.type) -%}
         bufutil.EntryListCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
     {%- elif is_var_sized_map(param.type) -%}
         bufutil.MapCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
     {%- else -%}
         {%- if param.nullable  -%}
-            bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode)
+            {%- if 'String' == lang_name(param.type) -%}
+                bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode).(string)
+            {%- else -%}
+                bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode)
+            {%- endif -%}
         {%- else -%}
             bufutil.{{ lang_name(param.type) }}CodecDecode(iterator)
         {%- endif -%}
@@ -70,7 +88,7 @@ const (
     {% endfor %}
 )
 
-func {{ codec.name|capital }}CodecEncode(clientMessage *bufutil.ClientMessagex, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}) {
+func {{ codec.name|capital }}CodecEncode(clientMessage *bufutil.ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}) {
         clientMessage.Add(bufutil.BeginFrame)
         {% for param in fixed_params(codec.params) %}
         {% if loop.first %}
@@ -102,11 +120,13 @@ func {{ codec.name|capital }}CodecDecode(iterator *bufutil.ForwardFrameIterator)
         {% for param in var_size_params(codec.params) %}
         {% if loop.first %}
         {% endif %}
+        {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type)  %}
+        {{ decode_var_sized(param) }}
+        {% else %}
         {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+        {% endif %}
         {% endfor %}
-
         bufutil.FastForwardToEndFrame(iterator)
-
         {% if codec.returnWithFactory %}
         return {{ codec.name }} { {% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %} }
         {% else %}

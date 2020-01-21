@@ -12,7 +12,8 @@ from jinja2 import Environment, PackageLoader
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
-from go import go_types_encode, go_types_decode, go_escape_keyword
+from go import go_types_encode, go_types_decode, go_escape_keyword, go_ignore_service_list
+
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
@@ -56,9 +57,9 @@ def generate_codecs(services, template, output_dir, lang):
     os.makedirs(output_dir, exist_ok=True)
     id_fmt = "0x%02x%02x%02x"
     for service in services:
-        if service["id"] in language_service_ignore_list[lang]:
-            print("[%s] is in ignore list so ignoring it." % service["name"])
-            continue
+        #if service["id"] in language_service_ignore_list[lang]:
+         #   print("[%s] is in ignore list so ignoring it." % service["name"])
+          #  continue
         if "methods" in service:
             methods = service["methods"]
             if methods is None:
@@ -84,26 +85,6 @@ def generate_codecs(services, template, output_dir, lang):
                     except NotImplementedError:
                         print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
-""" 
-                if SupportedLanguages.GO == 'go':
-                        if service["name"] == 'Map' or service["name"] == 'Set' or \
-                                service["name"] == 'Queue' or service["name"] == 'List' \
-                                or (service["name"] == 'Client' and method["name"] == 'ping'):
-                            codec_file_name = (service["name"] + "_" + method["name"] + "." + extension).lower()
-                            try:
-                                content = template.render(service_name=service["name"], method=method)
-                                save_file(os.path.join(output_dir, codec_file_name), content)
-                            except NotImplementedError:
-                                print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
-                    else:
-                        codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension
-                        try:
-                            content = template.render(service_name=service["name"], method=method)
-                            save_file(os.path.join(output_dir, codec_file_name), content)
-                        except NotImplementedError:
-                            print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
-                                      
-"""
 
 def generate_custom_codecs(services, template, output_dir, extension):
     os.makedirs(output_dir, exist_ok=True)
@@ -292,7 +273,7 @@ language_service_ignore_list = {
     SupportedLanguages.CS: cs_ignore_service_list,
     # SupportedLanguages.PY: [],
     # SupportedLanguages.TS: [],
-    # SupportedLanguages.GO: []
+    SupportedLanguages.GO: go_ignore_service_list,
 }
 
 

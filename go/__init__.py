@@ -4,6 +4,8 @@ go_reserved_words = ["type", "break", "default", "func", "interface",
                      "fallthrough", "range", "continue", "const", "for",
                      "import", "return", "var"]
 
+go_ignore_service_list = [7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 28, 30, 31, 32]
+
 
 def go_types_encode(key):
     try:
@@ -39,7 +41,6 @@ _go_types_common = {
     "Integer": "int32",
     "Long": "int64",
     "UUID": "string",
-    "enum": "int32",
 
     "longArray": "[]int64",
     "byteArray": "[]byte",
@@ -47,7 +48,7 @@ _go_types_common = {
     "Data": "serialization.Data",
 
     "Address": "Address",
-    "ErrorHolder": "Hazelcast.Client.Protocol.ErrorHolder",
+    "ErrorHolder": "ErrorHolder",
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView",
     "RaftGroupId": "NA",
@@ -64,6 +65,10 @@ _go_types_common = {
     "NearCachePreloaderConfig": "NA",
     "PredicateConfigHolder": "NA",
     "DurationConfig": "NA",
+    "List_MemberInfo": "NA",
+    "PagingPredicateHolder": "NA",
+    "MemberVersion": "NA",
+    "MCEvent": "NA",
 
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
@@ -75,8 +80,12 @@ _go_types_common = {
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
+    "AnchorDataListHolder": "NA",
 
-    "Map_String_String": "map[string]string"
+    "Map_String_String": "map[string]string",
+    "EntryList_Integer_Integer": "NA",
+    "List_Integer": "NA",
+
 }
 
 _go_types_encode = {
