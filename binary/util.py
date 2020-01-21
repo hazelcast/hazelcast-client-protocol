@@ -84,14 +84,15 @@ class Encoder:
         self.custom_type_encoder = CustomTypeEncoder(self, self.custom_type_params)
         self.var_sized_encoder = VarSizedParamEncoder(self)
 
-    def encode(self, message_def, fix_sized_params_offset, is_event=False, is_null_test=False):
+    def encode(self, message_def, fix_sized_params_offset, set_partition_id=False, is_event=False, is_null_test=False):
         params = message_def.get('params', [])
         fix_sized_params = fixed_params(params)
         var_sized_params = var_size_params(params)
 
         client_message = ClientMessage()
         initial_frame = FixSizedParamEncoder.create_initial_frame(fix_sized_params, message_def['id'],
-                                                                  fix_sized_params_offset, is_null_test)
+                                                                  fix_sized_params_offset, set_partition_id,
+                                                                  is_null_test)
         if is_event:
             initial_frame.flags |= IS_EVENT_FLAG
         client_message.add_frame(initial_frame)
@@ -102,10 +103,12 @@ class Encoder:
 
 class FixSizedParamEncoder:
     @staticmethod
-    def create_initial_frame(fix_sized_params, message_id, offset, is_null_test=False):
+    def create_initial_frame(fix_sized_params, message_id, offset, set_partition_id, is_null_test=False):
         content_size = sum([sizes[p['type']] for p in fix_sized_params])
         content = bytearray(offset + content_size)
         struct.pack_into(formats['int'], content, TYPE_FIELD_OFFSET, message_id)
+        if set_partition_id:
+            struct.pack_into(formats['int'], content, PARTITION_ID_FIELD_OFFSET, -1 & 0xffffffff)
         for param in fix_sized_params:
             value = reference_objects.objects.get(param['type'])
             FixSizedParamEncoder.pack_into(content, offset, param['type'], value, is_null_test and param['nullable'])

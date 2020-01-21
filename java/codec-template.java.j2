@@ -135,6 +135,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         clientMessage.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, REQUEST_MESSAGE_TYPE);
+        encodeInt(initialFrame.content, PARTITION_ID_FIELD_OFFSET, -1);
     {% for param in fixed_params(method.request.params) %}
         encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
@@ -221,6 +222,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         initialFrame.flags |= ClientMessage.IS_EVENT_FLAG;
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE);
+        encodeInt(initialFrame.content, PARTITION_ID_FIELD_OFFSET, -1);
     {% for param in fixed_params(event.params) %}
         encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
