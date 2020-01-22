@@ -44,8 +44,9 @@ def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, se
             if events is not None:
                 for i in range(len(events)):
                     method['events'][i]['id'] = int(id_fmt % (service['id'], method['id'], i + 2), 16)
-            request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET)
-            null_request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET, is_null_test=True)
+            request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET, set_partition_id=True)
+            null_request = encoder.encode(method['request'], REQUEST_FIX_SIZED_PARAMS_OFFSET,
+                                          set_partition_id=True, is_null_test=True)
             request.write(binary_file)
             null_request.write(null_binary_file)
             response = encoder.encode(method['response'], RESPONSE_FIX_SIZED_PARAMS_OFFSET)
@@ -54,7 +55,8 @@ def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, se
             null_response.write(null_binary_file)
             if events is not None:
                 for e in events:
-                    event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, True)
-                    null_event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, True, True)
+                    event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, is_event=True, set_partition_id=True)
+                    null_event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, is_event=True,
+                                                set_partition_id=True, is_null_test=True)
                     event.write(binary_file)
                     null_event.write(null_binary_file)
