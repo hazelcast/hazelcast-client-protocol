@@ -70,10 +70,10 @@ package proto
 import (
 {% for param in codec.params %}
 {% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
-    "github.com/hazelcast/hazelcast-go-client/serialization"
+   {# "github.com/hazelcast/hazelcast-go-client/serialization" #}
     {% if flag_serialization.update({'value': True}) %}
         {% endif %}
-{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' or 'Data' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
     "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
     {% if flag_bufutil.update({'value': True}) %}
         {% endif %}

@@ -40,12 +40,13 @@ _go_types_common = {
     "byte": "byte",
     "Integer": "int32",
     "Long": "int64",
-    "UUID": "string",
+    "UUID": "bufutil.Uuid",
 
     "longArray": "[]int64",
     "byteArray": "[]byte",
+    "ByteArray": "[]byte",
     "String": "string",
-    "Data": "serialization.Data",
+    "Data": "bufutil.Data",
 
     "Address": "Address",
     "ErrorHolder": "ErrorHolder",
@@ -65,7 +66,7 @@ _go_types_common = {
     "NearCachePreloaderConfig": "NA",
     "PredicateConfigHolder": "NA",
     "DurationConfig": "NA",
-    "List_MemberInfo": "NA",
+    "List_MemberInfo": "[]interface{}",
     "PagingPredicateHolder": "NA",
     "MemberVersion": "NA",
     "MCEvent": "NA",
@@ -83,6 +84,7 @@ _go_types_common = {
     "AnchorDataListHolder": "NA",
 
     "Map_String_String": "map[string]string",
+    "EntryList_UUID_List_Integer": "[]*bufutil.Pair",
     "EntryList_Integer_Integer": "NA",
     "List_Integer": "NA",
 
@@ -100,8 +102,8 @@ _go_types_encode = {
     "List_UUID": "[]string",
     "List_Xid": "NA",
     "List_String": "[]string",
-    "List_Data": "[]serialization.Data",
-    "ListCN_Data": "[]serialization.Data",
+    "List_Data": "[]bufutil.Data",
+    "ListCN_Data": "[]bufutil.Data",
     "List_Member": "[]Member",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -114,14 +116,13 @@ _go_types_encode = {
     "List_StackTraceElement": "NA",
     "List_ClientBwListEntry": "NA",
 
-    "EntryList_String_String": "[]map[string]string",
-    "EntryList_String_byteArray": "[]map[string][]byte",
-    "EntryList_Long_byteArray": "[]map[int64][]byte",
-    "EntryList_Integer_UUID": "[]map[int]uuid",
-    "EntryList_UUID_Long": "[]map[uuid]int64",
+    "EntryList_String_String": "[]*bufutil.Pair",
+    "EntryList_String_byteArray": "[]*bufutil.Pair",
+    "EntryList_Long_byteArray": "[]*bufutil.Pair",
+    "EntryList_Integer_UUID": "[]*bufutil.Pair",
+    "EntryList_UUID_Long": "[]*bufutil.Pair",
     "EntryList_String_EntryList_Integer_Long": "[[]map[string]string][]map[int]int64",
-    "EntryList_Address_List_Integer": "[]map[Address]int",
-    "EntryList_Data_Data": "[]map[serialization.Data]serialization.Data",
+    "EntryList_Data_Data": "[]*bufutil.Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
 }
 
@@ -136,8 +137,8 @@ _go_types_decode = {
     "List_UUID": "[]string",
     "List_Xid": "NA",
     "List_String": "[]string",
-    "List_Data": "[]serialization.Data",
-    "ListCN_Data": "[]serialization.Data",
+    "List_Data": "[]bufutil.Data",
+    "ListCN_Data": "[]bufutil.Data",
     "List_Member": "[]Member",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -150,13 +151,14 @@ _go_types_decode = {
     "List_StackTraceElement": "[]StackTraceElement",
     "List_ClientBwListEntry": "NA",
 
-    "EntryList_String_String": "[]map[string]string",
-    "EntryList_String_byteArray": "[]map[string][]byte",
-    "EntryList_Long_byteArray": "[]map[int64][]byte",
-    "EntryList_Integer_UUID": "[]map[int]uuid",
-    "EntryList_UUID_Long": "[]map[uuid]int64",
+    "EntryList_String_String": "[]*bufutil.Pair",
+    "EntryList_String_byteArray": "[]*bufutil.Pair",
+    "EntryList_Long_byteArray": "[]*bufutil.Pair",
+    "EntryList_Integer_UUID": "[]*bufutil.Pair",
+    "EntryList_UUID_Long": "[]*bufutil.Pair",
     "EntryList_String_EntryList_Integer_Long": "[[]map[string]string][]map[int]int64",
-    "EntryList_Address_List_Integer": "[]map[Address]int",
-    "EntryList_Data_Data": "[]map[serialization.Data]serialization.Data",
+    "EntryList_Data_Data": "[]*bufutil.Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
+    
+    '[]map[string][]map[int]int64'
 }

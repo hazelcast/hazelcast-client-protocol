@@ -57,9 +57,9 @@ def generate_codecs(services, template, output_dir, lang):
     os.makedirs(output_dir, exist_ok=True)
     id_fmt = "0x%02x%02x%02x"
     for service in services:
-        # if service["id"] in language_service_ignore_list[lang]:
-        #   print("[%s] is in ignore list so ignoring it." % service["name"])
-        #  continue
+        if service["id"] in language_service_ignore_list[lang]:
+            print("[%s] is in ignore list so ignoring it." % service["name"])
+            continue
         if "methods" in service:
             methods = service["methods"]
             if methods is None:
@@ -73,17 +73,17 @@ def generate_codecs(services, template, output_dir, lang):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
                 # codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension
-                if service["name"] == 'Map' or service["name"] == 'Set' or \
-                        service["name"] == 'Queue' or service["name"] == 'List' \
-                        or (service["name"] == 'Client'):  # and method["name"] == 'ping'
+                #if service["name"] == 'Map' or service["name"] == 'Set' or \
+                 #       service["name"] == 'Queue' or service["name"] == 'List' \
+                  #      or (service["name"] == 'Client'):  # and method["name"] == 'ping'
 
                     # codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
-                    codec_file_name = (service["name"] + "_" + method["name"] + "." + file_extensions[lang]).lower()
-                    try:
-                        content = template.render(service_name=service["name"], method=method)
-                        save_file(os.path.join(output_dir, codec_file_name), content)
-                    except NotImplementedError:
-                        print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                codec_file_name = (service["name"] + "_" + method["name"] + "." + file_extensions[lang]).lower()
+                try:
+                    content = template.render(service_name=service["name"], method=method)
+                    save_file(os.path.join(output_dir, codec_file_name), content)
+                except NotImplementedError:
+                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
 
 def generate_custom_codecs(services, template, output_dir, extension):
