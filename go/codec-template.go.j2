@@ -54,7 +54,7 @@
         bufutil.MapCodecDecode{% if param.nullable %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
     {%- else -%}
         {%- if param.nullable -%}
-        {%- if 'Address' == lang_types_decode(param.type)  -%} {# TODO: custom #}
+        {%- if is_custom(param.type) -%} {# custom check #}
         response.{{ escape_keyword(param.name) }} = bufutil.DecodeNullable(iterator, {{ lang_name(param.type) }}CodecDecode).({{ lang_types_decode(param.type) }}) {# todo: look #} {# TODO: check to fix "Codec::decode" #}
         {%- else -%}
         response.{{ escape_keyword(param.name) }} = bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode).({{ lang_types_decode(param.type) }}) {# todo: look #} {# TODO: check to fix "Codec::decode" #}
@@ -82,10 +82,43 @@
 
 package proto
 
-{#  <imports>  package proto#}
-{# TODO: Remove unused imports  #}
+{% set flag_serialization = {'value': False} %}
+{% set flag_bufutil = {'value': False} %}
+
 import (
-"github.com/hazelcast/hazelcast-go-client/serialization"
+{% for param in method.request.params %}
+{% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
+    "github.com/hazelcast/hazelcast-go-client/serialization"
+    {% if flag_serialization.update({'value': True}) %}
+        {% endif %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
+    "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
+    {% if flag_bufutil.update({'value': True}) %}
+        {% endif %}
+{% endif %}
+{% endfor %}
+{% for param in method.response.params %}
+{% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
+    "github.com/hazelcast/hazelcast-go-client/serialization"
+    {% if flag_serialization.update({'value': True}) %}
+        {% endif %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
+    "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
+    {% if flag_bufutil.update({'value': True}) %}
+        {% endif %}
+{% endif %}
+{% endfor %}
+{% for param in method.events %}
+{% if ('Data' in param.type) and flag_serialization['value']==False  %}
+    "github.com/hazelcast/hazelcast-go-client/serialization"
+    {% if flag_serialization.update({'value': True}) %}
+        {% endif %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' in param.type)  and flag_bufutil['value']==False %}
+    "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
+    {% if flag_bufutil.update({'value': True}) %}
+        {% endif %}
+{% endif %}
+{% endfor %}
 )
 
 /*
@@ -174,7 +207,6 @@ func {{ service_name|capital }}{{ method.name|capital }}EncodeRequest({% for par
 {% endfor %}
     return clientMessage
 }
-
 
 {#RESPONSE PARAMETERS#}
 /* tslint:disabled:URF-UNREAD-PUBLIC-OR-PROTECTED-FIELD */
