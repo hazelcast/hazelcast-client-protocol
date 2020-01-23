@@ -1,0 +1,92 @@
+{% macro encode_var_sized(param) -%}
+    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}{% endif %}, {{ item_type(lang_name, param.type) }}Codec.encode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.encode{% if param.nullable  %}_nullable{% endif %}(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name)) }}{% endif %}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode_nullable)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodec.encode{% if param.nullable  %}_nullable{% endif %}(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name)) }}(){% endif %}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            CodecUtil.encode_nullable(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}(){% endif %}, {{ lang_name(param.type) }}Codec.encode)
+        {%- else -%}
+            {{ lang_name(param.type) }}Codec.encode(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}{% endif %})
+        {%- endif %}
+    {% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec.decode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.decode{% if param.nullable  %}_nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodec.decode{% if param.nullable  %}_nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            CodecUtil.decode_nullable(iterator, {{ lang_name(param.type) }}Codec.decode)
+        {%- else -%}
+            {{ lang_name(param.type) }}Codec.decode(iterator)
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro %}
+from hazelcast.protocol.client_message import ClientMessage, NULL_FRAME, BEGIN_FRAME, END_FRAME, PARTITION_ID_FIELD_OFFSET, RESPONSE_BACKUP_ACKS_FIELD_OFFSET, UNFRAGMENTED_MESSAGE, TYPE_FIELD_OFFSET
+import hazelcast.protocol.bits as Bits
+from hazelcast.protocol.codec.builtin import *
+from hazelcast.protocol.codec.custom import *
+from {{ (lang_types_decode(codec.name).rsplit(".", 1))[0] }} import {{ lang_types_decode(codec.name).rsplit(".", 1)[1] }}
+
+# Generated("!codec_hash!")
+
+{% for param in fixed_params(codec.params) %}
+{{ to_upper_snake_case(escape_keyword(param.name)) }}_FIELD_OFFSET = {% if loop.first %}0
+{% else %}
+{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + Bits.{{ loop.previtem.type.upper() }}_SIZE_IN_BYTES
+{% endif %}
+{% if loop.last %}
+INITIAL_FRAME_SIZE = {{to_upper_snake_case(escape_keyword(param.name))}}_FIELD_OFFSET + Bits.{{ param.type.upper() }}_SIZE_IN_BYTES
+{% endif %}
+{% endfor %}
+
+class {{ codec.name|capital }}Codec:
+    @staticmethod
+    def encode(client_message, {{ snake_case(param_name(codec.name)) }}):
+        client_message.add(BEGIN_FRAME)
+        {% for param in fixed_params(codec.params) %}
+        {% if loop.first %}
+
+        initial_frame = ClientMessage.Frame(bytearray(INITIAL_FRAME_SIZE))
+        {% endif %}
+        FixedSizeTypesCodec.encode_{{ param.type|lower }}(initial_frame.content, {{to_upper_snake_case(escape_keyword(param.name))}}_FIELD_OFFSET, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))}}{% endif %})
+        {% if loop.last %}
+        client_message.add(initial_frame)
+        {% endif %}
+        {% endfor %}
+        {% for param in var_size_params(codec.params) %}
+        {% if loop.first %}
+
+        {% endif %}
+        {{ encode_var_sized(param) }}
+        {% endfor %}
+
+        client_message.add(END_FRAME)
+
+    @staticmethod
+    def decode(iterator):
+        # begin frame
+        iterator.next()
+        {% for param in fixed_params(codec.params) %}
+        {% if loop.first %}
+
+        initial_frame = iterator.next()
+        {% endif %}
+        {{ snake_case(escape_keyword(param.name)) }} = FixedSizeTypesCodec.decode_{{ param.type|lower }}(initial_frame.content, {{ to_upper_snake_case(escape_keyword(param.name)) }}_FIELD_OFFSET)
+        {% endfor %}
+        {% for param in var_size_params(codec.params) %}
+        {% if loop.first %}
+
+        {% endif %}
+        {{ snake_case(escape_keyword(param.name)) }} = {{ decode_var_sized(param) }}
+        {% endfor %}
+
+        CodecUtil.fast_forward_to_end_frame(iterator)
+
+        return {{ lang_types_decode(codec.name).rsplit(".", 1)[1] }}({% for param in codec.params %}{{ snake_case(escape_keyword(param.name)) }}{% if not loop.last %}, {% endif %}{% endfor %})
