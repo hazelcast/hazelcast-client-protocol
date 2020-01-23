@@ -81,12 +81,12 @@ methods:
           since: 2.0
           doc: |
             Address of the Hazelcast member which sends the authentication response.
-        - name: uuid
+        - name: memberUuid
           type: UUID
           nullable: true
           since: 2.0
           doc: |
-            Unique string identifying the connected client uniquely.
+            UUID of the Hazelcast member which sends the authentication response.
         - name: serializationVersion
           type: byte
           nullable: false
@@ -189,12 +189,12 @@ methods:
           since: 2.0
           doc: |
             Address of the Hazelcast member which sends the authentication response.
-        - name: uuid
+        - name: memberUuid
           type: UUID
           nullable: true
           since: 2.0
           doc: |
-            Unique string identifying the connected client uniquely.
+            UUID of the Hazelcast member which sends the authentication response.
         - name: serializationVersion
           type: byte
           nullable: false
