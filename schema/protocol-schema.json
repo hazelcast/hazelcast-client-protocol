@@ -67,7 +67,7 @@
             "EntryList_Long_byteArray",
             "EntryList_String_EntryList_Integer_Long",
             "EntryList_UUID_Long",
-            "EntryList_UUID_Address",
+            "EntryList_UUID_UUID",
             "EntryList_UUID_List_Integer",
             "EntryList_Data_Data",
             "List_byteArray",

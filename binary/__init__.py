@@ -19,7 +19,7 @@ FixedEntryListTypes = [
     'EntryList_Integer_Long',
     'EntryList_Integer_Integer',
     'EntryList_Long_byteArray',
-    'EntryList_UUID_Address',
+    'EntryList_UUID_UUID',
     'EntryList_UUID_List_Integer',
 ]
 

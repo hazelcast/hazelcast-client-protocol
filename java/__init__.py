@@ -100,7 +100,7 @@ _java_types_encode = {
     "EntryList_Integer_Integer": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.lang.Integer>>",
     "EntryList_UUID_Long": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_UUID_Address": "java.util.Collection<java.util.Map.Entry<java.util.UUID, com.hazelcast.cluster.Address>>",
+    "EntryList_UUID_UUID": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.UUID>>",
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
 }
@@ -146,7 +146,7 @@ _java_types_decode = {
     "EntryList_Integer_Integer": "java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Integer>>",
     "EntryList_UUID_Long": "java.util.List<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
     "EntryList_String_EntryList_Integer_Long": "java.util.List<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
-    "EntryList_UUID_Address": "java.util.List<java.util.Map.Entry<java.util.UUID, com.hazelcast.cluster.Address>>",
+    "EntryList_UUID_UUID": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.UUID>>",
     "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
 }
