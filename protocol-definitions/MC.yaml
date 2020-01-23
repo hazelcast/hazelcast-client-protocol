@@ -753,7 +753,7 @@ methods:
     response:
       params:
         - name: cpMembers
-          type: List_UUID
+          type: EntryList_UUID_Address
           nullable: false
           since: 2.0
           doc: |
