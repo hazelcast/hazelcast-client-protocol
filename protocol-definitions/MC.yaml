@@ -753,11 +753,12 @@ methods:
     response:
       params:
         - name: cpMembers
-          type: List_UUID
+          type: EntryList_UUID_UUID
           nullable: false
           since: 2.0
           doc: |
-            List of CP members
+            List of CP member UUIDs. The mapping is from the UUID of the CP member to UUID of that member on the
+            member list of the cluster service.
   - id: 26
     name: promoteToCPMember
     since: 2.0

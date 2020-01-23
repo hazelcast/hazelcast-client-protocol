@@ -63,6 +63,9 @@ map_objects = {
     'UUID': {
         'long': {
             UUID: LONG
+        },
+        'UUID': {
+            UUID: UUID
         }
     }
 }

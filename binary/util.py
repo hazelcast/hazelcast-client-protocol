@@ -212,6 +212,8 @@ class VarSizedParamEncoder:
                                               key_type='int', value_type='UUID'),
             'EntryList_UUID_Long': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
                                            key_type='UUID', value_type='long'),
+            'EntryList_UUID_UUID': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
+                                           key_type='UUID', value_type='UUID'),
             'EntryList_Integer_Long': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
                                               key_type='int', value_type='long'),
             'EntryList_Integer_Integer': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
@@ -292,12 +294,6 @@ class VarSizedParamEncoder:
         VarSizedParamEncoder.encode_byte_array_frame(client_message)
         client_message.add_frame(END_FRAME)
         FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'long')
-
-    def encode_uuid_address_entry_list(self, client_message):
-        client_message.add_frame(BEGIN_FRAME)
-        self.encoder.custom_type_encoder.encode_custom_type(client_message, 'Address')
-        client_message.add_frame(END_FRAME)
-        FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
 
     def encode_uuid_integer_list_entry_list(self, client_message):
         client_message.add_frame(BEGIN_FRAME)
@@ -382,6 +378,7 @@ reference_objects_dict = {
     'EntryList_String_byteArray': 'aListOfStringToByteArray',
     'EntryList_Long_byteArray': 'aListOfLongToByteArray',
     'EntryList_String_EntryList_Integer_Long': 'aListOfStringToListOfIntegerToLong',
+    'EntryList_UUID_UUID': 'aListOfUUIDToUUID',
     'EntryList_UUID_List_Integer': 'aListOfUUIDToListOfIntegers',
     'EntryList_Data_Data': 'aListOfDataToData',
     'Map_String_String': 'aMapOfStringToString',
