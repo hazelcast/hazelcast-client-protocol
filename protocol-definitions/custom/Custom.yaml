@@ -190,6 +190,22 @@ customTypes:
         type: List_String
         nullable: false
         since: 2.0
+      - name: bitmapIndexOptions
+        type: BitmapIndexOptions
+        nullable: false
+        since: 2.0
+  - name: BitmapIndexOptions
+    since: 2.0
+    returnWithFactory: true
+    params:
+      - name: uniqueKey
+        type: String
+        nullable: false
+        since: 2.0
+      - name: uniqueKeyTransformation
+        type: int
+        nullable: false
+        since: 2.0
   - name: MapStoreConfigHolder
     since: 2.0
     params:

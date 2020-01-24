@@ -362,6 +362,7 @@ reference_objects_dict = {
     'ListenerConfigHolder': 'aListenerConfigHolder',
     'AttributeConfig': 'aAttributeConfig',
     'IndexConfig': 'anIndexConfig',
+    'BitmapIndexOptions': 'aBitmapIndexOptions',
     'MapStoreConfigHolder': 'aMapStoreConfigHolder',
     'MerkleTreeConfig': 'aMerkleTreeConfig',
     'NearCacheConfigHolder': 'aNearCacheConfigHolder',
