@@ -3,7 +3,7 @@
 
         clientMessage.Add(bufutil.BeginFrame)
         for i := 0; i < len({{ escape_keyword(param.name) }}) ; i++ {
-            bufutil.{{item_type(lang_name, param.type)}}CodecEncode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}[i])
+            bufutil.{{item_type(lang_name, param.type)}}CodecEncode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}[i]) //check line
         }
         clientMessage.Add(bufutil.EndFrame)
 
@@ -22,13 +22,14 @@
 
         {# bufutil.EntryListCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, bufutil.{{ key_type(lang_name, param.type) }}CodecEncode, bufutil.{{ value_type(lang_name, param.type) }}CodecEncode) #}
     {%- elif is_var_sized_map(param.type) -%}
+
         bufutil.MapCodecEncode{% if param.nullable %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, bufutil.{{ key_type(lang_name, param.type) }}CodecEncode, bufutil.{{ value_type(lang_name, param.type) }}CodecEncode)
     {%- else -%}
         {%- if param.nullable -%}
             {%- if is_custom(param.type) -%} {# TODO: custom #} {# response.{{ escape_keyword(param.name) }} =  #}
             bufutil.EncodeNullable(clientMessage, {{ escape_keyword(param.name) }}, bufutil.{{ lang_name(param.type) }}CodecEncode){# TODO: check to fix "Codec::encode" #}{# todo: look #} {# TODO: check to fix "Codec::decode" #}
             {%- else -%}
-            bufutil.EncodeNullable(clientMessage, {{ escape_keyword(param.name) }}, bufutil.{{ lang_name(param.type) }}CodecEncode).({{ lang_types_decode(param.type) }}) {# todo: look #} {# TODO: check to fix "Codec::decode" #}
+            bufutil.EncodeNullable(clientMessage, {{ escape_keyword(param.name) }}, bufutil.{{ lang_name(param.type) }}CodecEncode) {# .({{ lang_types_decode(param.type) }}) todo: look #} {# TODO: check to fix "Codec::decode" #}
             {%- endif -%}
         {%- else -%}
             bufutil.{{ lang_name(param.type) }}CodecEncode(clientMessage, {{ escape_keyword(param.name) }})
@@ -45,7 +46,12 @@
         }
         //end frame, list
         iterator.Next()
-        response.{{ escape_keyword(param.name) }} = result
+        {% if method.events|length != 0 %}
+        {{ escape_keyword(param.name) }} := result //0.2
+        {% else %}
+        response.{{ escape_keyword(param.name) }} = result //0.1
+        {% endif %}
+
 
     {%- elif is_var_sized_entry_list(param.type) -%}
 {# todo: ya pair degilse new pair generic olmali mi #}
@@ -62,11 +68,11 @@
 
         //end frame, list
         iterator.Next()
-        response.{{ escape_keyword(param.name) }} = result
-
+        response.{{ escape_keyword(param.name) }} = result //2
 
         {# bufutil.EntryListCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode) #}
     {%- elif is_var_sized_map(param.type) -%}
+        //kkk
         bufutil.MapCodecDecode{% if param.nullable %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
     {%- else -%}
         {%- if param.nullable -%}
@@ -75,12 +81,13 @@
         {%- else -%}
          bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode).({{ lang_types_decode(param.type) }}) {# todo: look #} {# TODO: check to fix "Codec::decode" #}
         {%- endif -%}
+            {# //checkline #}
         {%- else -%}
-            //check line
-         bufutil.{{ lang_name(param.type) }}CodecDecode(iterator)
+        bufutil.{{ lang_name(param.type) }}CodecDecode(iterator)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
+
 /*
 * Copyright (c) 2008-2019, Hazelcast, Inc. All Rights Reserved.
 *
@@ -102,13 +109,14 @@ package proto
 {% set flag_serialization = {'value': False} %}
 {% set flag_bufutil = {'value': False} %}
 
+
 import (
 {% for param in method.request.params %}
 {% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
-    {# "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"  #}
+     "github.com/hazelcast/hazelcast-go-client/serialization"
     {% if flag_serialization.update({'value': True}) %}
         {% endif %}
-{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' or 'Data' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32'  in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
     "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
     {% if flag_bufutil.update({'value': True}) %}
         {% endif %}
@@ -116,10 +124,10 @@ import (
 {% endfor %}
 {% for param in method.response.params %}
 {% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
-    {# "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"  #}
+     "github.com/hazelcast/hazelcast-go-client/serialization"
     {% if flag_serialization.update({'value': True}) %}
         {% endif %}
-{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' or 'Data' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
+{% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32'  in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
     "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
     {% if flag_bufutil.update({'value': True}) %}
         {% endif %}
@@ -128,10 +136,10 @@ import (
 {% for event in method.events %}
     {% for param in event.params %}
     {% if ('Data' in param.type) and flag_serialization['value']==False  %}
-    {# "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"  #}
+    "github.com/hazelcast/hazelcast-go-client/serialization"
         {% if flag_serialization.update({'value': True}) %}
             {% endif %}
-    {% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' or 'Data' in param.type)  and flag_bufutil['value']==False %}
+    {% elif ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32'  in param.type)  and flag_bufutil['value']==False %}
     "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
         {% if flag_bufutil.update({'value': True}) %}
             {% endif %}
@@ -139,6 +147,7 @@ import (
     {% endfor %}
 {% endfor %}
 )
+
 
 /*
  * This file is auto-generated by the Hazelcast Client Protocol Code Generator.
@@ -211,7 +220,7 @@ type {{ service_name|capital }}{{ method.name|capital }}RequestParameters struct
 {#REQUEST ENCODE#}
 func {{ service_name|capital }}{{ method.name|capital }}EncodeRequest({% for param in method.request.params %}{% if param.nullable  %}/* @Nullable */ {% endif %}{{ escape_keyword(param.name) }} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}) *bufutil.ClientMessage {
     clientMessage := bufutil.CreateForEncode()
-    clientMessage.Is_Retryable = {{ method.request.retryable|lower }}
+    clientMessage.SetRetryable( {{ method.request.retryable|lower }} )
     clientMessage.SetOperationName("{{ service_name|capital }}.{{ method.name|capital }}")
 	initialFrame := &bufutil.Frame{Content: make([]byte, ListAddAllResponseInitialFrameSize), Flags: bufutil.UnfragmentedMessage}
 {# new byte[RequestInitialFrameSize] , new ClientMessage.Frame(..) , int32 #}
@@ -222,7 +231,9 @@ func {{ service_name|capital }}{{ method.name|capital }}EncodeRequest({% for par
 {% endfor %}
     clientMessage.Add(initialFrame)
 {% for param in var_size_params(method.request.params) %}
+
     {{ encode_var_sized(param) }}
+
 {% endfor %}
     return clientMessage
 }
@@ -241,7 +252,10 @@ type {{ service_name|capital }}{{ method.name|capital }}ResponseParameters struc
 }
 
 
-
+{# func {{ service_name|capital }}{{ method.name|capital }}DecodeResponse(clientMessage *bufutil.ClientMessage) func() (
+{#{%- for param in method.response.params -%}
+{#    {%- if param.nullable  -%}/* @Nullable */ {%- endif -%}{{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }},
+{#{%- endfor -%}  ) { todo: need to specific fixes  #}
 {#RESPONSE DECODE#}
 func {{ service_name|capital }}{{ method.name|capital }}DecodeResponse(clientMessage *bufutil.ClientMessage) *{{ service_name|capital }}{{ method.name|capital }}ResponseParameters {
     iterator := clientMessage.FrameIterator()
@@ -258,9 +272,17 @@ func {{ service_name|capital }}{{ method.name|capital }}DecodeResponse(clientMes
 {% endfor %}
 {% for param in var_size_params(method.response.params) %}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) %}
+    {{ decode_var_sized(param) }} {#- For ListMultiFrameCodec -#}
+    {% elif is_var_sized_entry_list(param.type) %} {#- For EntryListCodec -#}
+    {{ decode_var_sized(param) }}
+    {% elif is_var_sized_map(param.type) %} {#- For MapCodec -#}
     {{ decode_var_sized(param) }}
     {% else %}
+        {% if param.nullable  %}
     response.{{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }}
+        {% else %}
+//check line for no nullable decode
+        {% endif %}
     {% endif %}
 {% endfor %}
     return response
@@ -274,7 +296,7 @@ type {{ service_name|capital }}{{ method.name|capital }}Handle{{ event.name|capi
 {% endfor %}
 
 func {{ service_name|capital }}{{ method.name|capital }}Handle(clientMessage *bufutil.ClientMessage{% for event in method.events%}, handle{{ event.name }} {{ service_name|capital }}{{ method.name|capital }}Handle{{ event.name|capital }}Func{% endfor %}){
-    messageType := clientMessage.GetMessageType()
+    messageType := clientMessage.MessageType()
     iterator := clientMessage.FrameIterator()
 {% for event in method.events%}
     if messageType == {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital}}MessageType {
@@ -288,8 +310,16 @@ func {{ service_name|capital }}{{ method.name|capital }}Handle(clientMessage *bu
         {{ escape_keyword(param.name) }} := bufutil.Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital }}{{param.name|capital}}FieldOffset)
     {% endfor %}
     {% for param in var_size_params(event.params) %}
-        {# todo  #}
+         {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) %}
+        {{ decode_var_sized(param) }} {#- For ListMultiFrameCodec -#}
+        {% elif is_var_sized_entry_list(param.type) %} {#- For EntryListCodec -#}
+        {{ decode_var_sized(param) }}
+        {% elif is_var_sized_map(param.type) %} {#- For MapCodec -#}
+        {{ decode_var_sized(param) }}
+        {% else %}
         {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+        {% endif %}
+
     {% endfor %}
         handle{{ event.name }}({% for param in event.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
         return

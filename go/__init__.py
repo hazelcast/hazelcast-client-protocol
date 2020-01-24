@@ -4,7 +4,7 @@ go_reserved_words = ["type", "break", "default", "func", "interface",
                      "fallthrough", "range", "continue", "const", "for",
                      "import", "return", "var"]
 
-go_ignore_service_list = [7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 28, 30, 31, 32]
+go_ignore_service_list = [7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 30, 31, 32]
 
 
 def go_types_encode(key):
@@ -46,7 +46,7 @@ _go_types_common = {
     "byteArray": "[]byte",
     "ByteArray": "[]byte",
     "String": "string",
-    "Data": "bufutil.Data",
+    "Data": "serialization.Data",
 
     "Address": "Address",
     "ErrorHolder": "ErrorHolder",
@@ -102,8 +102,8 @@ _go_types_encode = {
     "List_UUID": "[]string",
     "List_Xid": "NA",
     "List_String": "[]string",
-    "List_Data": "[]bufutil.Data",
-    "ListCN_Data": "[]bufutil.Data",
+    "List_Data": "[]serialization.Data",
+    "ListCN_Data": "[]serialization.Data",
     "List_Member": "[]Member",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -121,7 +121,7 @@ _go_types_encode = {
     "EntryList_Long_byteArray": "[]*bufutil.Pair",
     "EntryList_Integer_UUID": "[]*bufutil.Pair",
     "EntryList_UUID_Long": "[]*bufutil.Pair",
-    "EntryList_String_EntryList_Integer_Long": "[[]map[string]string][]map[int]int64",
+    "EntryList_String_EntryList_Integer_Long": "NA",
     "EntryList_Data_Data": "[]*bufutil.Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
 }
@@ -137,8 +137,8 @@ _go_types_decode = {
     "List_UUID": "[]string",
     "List_Xid": "NA",
     "List_String": "[]string",
-    "List_Data": "[]bufutil.Data",
-    "ListCN_Data": "[]bufutil.Data",
+    "List_Data": "[]serialization.Data",
+    "ListCN_Data": "[]serialization.Data",
     "List_Member": "[]Member",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -156,7 +156,7 @@ _go_types_decode = {
     "EntryList_Long_byteArray": "[]*bufutil.Pair",
     "EntryList_Integer_UUID": "[]*bufutil.Pair",
     "EntryList_UUID_Long": "[]*bufutil.Pair",
-    "EntryList_String_EntryList_Integer_Long": "[[]map[string]string][]map[int]int64",
+    "EntryList_String_EntryList_Integer_Long": "NA",
     "EntryList_Data_Data": "[]*bufutil.Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
     
