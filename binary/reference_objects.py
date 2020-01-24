@@ -45,6 +45,9 @@ objects = {
     },
     'IndexConfig': {
         'type': 1
+    },
+    'BitmapIndexOptions': {
+        'uniqueKeyTransformation': 1
     }
 }
 
