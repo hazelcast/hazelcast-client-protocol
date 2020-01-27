@@ -192,7 +192,7 @@ customTypes:
         since: 2.0
       - name: bitmapIndexOptions
         type: BitmapIndexOptions
-        nullable: false
+        nullable: true
         since: 2.0
   - name: BitmapIndexOptions
     since: 2.0
