@@ -51,6 +51,7 @@ _java_types_common = {
     "QueryCacheConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder",
     "DistributedObjectInfo": "com.hazelcast.client.impl.client.DistributedObjectInfo",
     "IndexConfig": "com.hazelcast.config.IndexConfig",
+    "BitmapIndexOptions": "com.hazelcast.config.BitmapIndexOptions",
     "AttributeConfig": "com.hazelcast.config.AttributeConfig",
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",

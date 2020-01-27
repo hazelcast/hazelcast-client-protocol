@@ -60,6 +60,7 @@ CustomConfigTypes = [
     'ListenerConfigHolder',
     'AttributeConfig',
     'IndexConfig',
+    'BitmapIndexOptions',
     'MapStoreConfigHolder',
     'MerkleTreeConfig',
     'NearCacheConfigHolder',
