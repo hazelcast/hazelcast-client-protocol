@@ -112,7 +112,7 @@ package proto
 
 import (
 {% for param in method.request.params %}
-{% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
+{% if ('Data'  in lang_types_encode(param.type)  or 'EntryList_Data_Data' == param.type) and flag_serialization['value']==False  %}
      "github.com/hazelcast/hazelcast-go-client/serialization"
     {% if flag_serialization.update({'value': True}) %}
         {% endif %}
@@ -137,13 +137,12 @@ import (
 {% endfor %}
 {% for event in method.events %}
     {% for param in event.params %}
-    {% if ('Data' in param.type) and flag_serialization['value']==False  %}
+    {% if 'Data'  in param.type  and flag_serialization['value']==False  %}
     "github.com/hazelcast/hazelcast-go-client/serialization"
         {% if flag_serialization.update({'value': True}) %}
             {% endif %}
     {% endif %}
-
-    {% if ('Uuid' in lang_types_decode(param.type)) and flag_core['value']==False  %}
+    {% if ('Uuid' in param.type) and flag_core['value']==False  %}
         "github.com/hazelcast/hazelcast-go-client/core"
         {% if flag_core.update({'value': True}) %}
             {% endif %}

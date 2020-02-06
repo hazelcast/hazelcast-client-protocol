@@ -83,6 +83,25 @@ type {{ codec.name|capital }} struct {
 {% endfor %}
 }
 
+//CONSTRUCTOR
+func New{{ codec.name|capital }}({%- for param in codec.params -%}
+{{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }} {%- if not loop.last -%} , {%- endif -%}
+{%- endfor -%}) *{{ codec.name|capital }} {
+return &{{ codec.name|capital }}{ {%- for param in codec.params -%}
+{{ escape_keyword(param.name) }}{%- if not loop.last -%}, {%- endif -%}
+{%- endfor -%} }
+}
+
+
+//GETTERS
+{% for param in codec.params %}
+func (x *{{ codec.name|capital }}) {{ param.name|capital }}() {{ lang_types_decode(param.type) }} {
+    return x.{{ escape_keyword(param.name) }}
+    }
+{% if not loop.last %}{% endif %}
+{% endfor %}
+
+
 //@Generated("!codec_hash!")
 const (
  {% for param in fixed_params(codec.params) %}
