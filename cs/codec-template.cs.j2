@@ -90,12 +90,12 @@ namespace Hazelcast.Client.Protocol.Codec
         private const int RequestInitialFrameSize = PartitionIdFieldOffset + IntSizeInBytes;
     {% endfor %}
     {% for param in fixed_params(method.response.params) %}
-        private const int Response{{param.name|capital}}FieldOffset = {% if loop.first %}ResponseBackupAcksFieldOffset + IntSizeInBytes{% else %}Response{{ loop.previtem.name|capital}}FieldOffset + {{lang_types_decode(loop.previtem.type)|capital}}SizeInBytes{% endif %};
+        private const int Response{{param.name|capital}}FieldOffset = {% if loop.first %}ResponseBackupAcksFieldOffset + ByteSizeInBytes{% else %}Response{{ loop.previtem.name|capital}}FieldOffset + {{lang_types_decode(loop.previtem.type)|capital}}SizeInBytes{% endif %};
         {% if loop.last %}
         private const int ResponseInitialFrameSize = Response{{param.name|capital}}FieldOffset + {{lang_types_decode(param.type)|capital}}SizeInBytes;
         {% endif %}
     {% else %}
-        private const int ResponseInitialFrameSize = ResponseBackupAcksFieldOffset + IntSizeInBytes;
+        private const int ResponseInitialFrameSize = ResponseBackupAcksFieldOffset + ByteSizeInBytes;
     {% endfor %}
     {% for event in method.events%}
         {% for param in fixed_params(event.params) %}
@@ -119,6 +119,7 @@ namespace Hazelcast.Client.Protocol.Codec
             clientMessage.OperationName = "{{ service_name|capital }}.{{ method.name|capital }}";
             var initialFrame = new Frame(new byte[RequestInitialFrameSize], UnfragmentedMessage);
             EncodeInt(initialFrame.Content, TypeFieldOffset, RequestMessageType);
+            EncodeInt(initialFrame.Content, PartitionIdFieldOffset, -1);
         {% for param in fixed_params(method.request.params) %}
             Encode{{ lang_types_decode(param.type)|capital }}(initialFrame.Content, Request{{param.name|capital}}FieldOffset, {{escape_keyword(param.name)}});
         {% endfor %}
