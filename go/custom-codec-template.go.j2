@@ -1,20 +1,20 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         elements :=  {{ param_name(codec.name)}}.{{escape_keyword(param.name) }}
-         clientMessage.Add(bufutil.BeginFrame)
+         clientMessage.Add(BeginFrame)
         for i := 0; i < len(elements) ; i++ {
             {{item_type(lang_name, param.type)}}CodecEncode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(clientMessage, elements[i])
         }
 
     {%- elif is_var_sized_entry_list(param.type) -%}
-        bufutil.EntryListCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, bufutil.{{ key_type(lang_name, param.type) }}CodecEncode, bufutil.{{ value_type(lang_name, param.type) }}CodecEncode)
+        EntryListCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}CodecEncode, {{ value_type(lang_name, param.type) }}CodecEncode)
     {%- elif is_var_sized_map(param.type) -%}
-        bufutil.MapCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, bufutil.{{ key_type(lang_name, param.type) }}CodecEncode, bufutil.{{ value_type(lang_name, param.type) }}CodecEncode)
+        MapCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}CodecEncode, {{ value_type(lang_name, param.type) }}CodecEncode)
     {%- else -%}
         {%- if param.nullable  -%}
-            bufutil.EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, bufutil.{{ lang_name(param.type) }}CodecEncode)
+            EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ lang_name(param.type) }}CodecEncode)
         {%- else -%}
-            bufutil.{{ lang_name(param.type) }}CodecEncode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ param.name }})
+            {{ lang_name(param.type) }}CodecEncode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ param.name }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -23,7 +23,7 @@
          var {{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }}
          //begin frame, list
         iterator.Next()
-        for !bufutil.NextFrameIsDataStructureEndFrame(iterator) {
+        for !NextFrameIsDataStructureEndFrame(iterator) {
             {{ escape_keyword(param.name) }} = append({{ escape_keyword(param.name) }}, {{item_type(lang_name, param.type)}}CodecDecode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(iterator))
         }
         //end frame, list
@@ -31,18 +31,18 @@
 
 
     {%- elif is_var_sized_entry_list(param.type) -%}
-        bufutil.EntryListCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
+        EntryListCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}CodecDecode, {{ value_type(lang_name, param.type) }}CodecDecode)
     {%- elif is_var_sized_map(param.type) -%}
-        bufutil.MapCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, bufutil.{{ key_type(lang_name, param.type) }}CodecDecode, bufutil.{{ value_type(lang_name, param.type) }}CodecDecode)
+        MapCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}CodecDecode, {{ value_type(lang_name, param.type) }}CodecDecode)
     {%- else -%}
         {%- if param.nullable  -%}
             {%- if 'String' == lang_name(param.type) -%}
-                bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode).(string)
+                DecodeNullable(iterator, {{ lang_name(param.type) }}CodecDecode).(string)
             {%- else -%}
-                bufutil.DecodeNullable(iterator, bufutil.{{ lang_name(param.type) }}CodecDecode)
+                DecodeNullable(iterator, {{ lang_name(param.type) }}CodecDecode)
             {%- endif -%}
         {%- else -%}
-            bufutil.{{ lang_name(param.type) }}CodecDecode(iterator)
+            {{ lang_name(param.type) }}CodecDecode(iterator)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
@@ -65,18 +65,13 @@
 package proto
 
 {% set flag_serialization = {'value': False} %}
-{% set flag_bufutil = {'value': False} %}
+{% set flag_= {'value': False} %}
 
 import (
 {% for param in codec.params %}
 {% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
     "github.com/hazelcast/hazelcast-go-client/serialization"
     {% if flag_serialization.update({'value': True}) %}
-        {% endif %}
-{% endif %}
-{% if ('int32' or 'int64' or 'bool' or '[]byte' or '[]int32' or 'Data' in lang_types_decode(params.type))  and flag_bufutil['value']==False %}
-    "github.com/hazelcast/hazelcast-go-client/internal/proto/bufutil"
-    {% if flag_bufutil.update({'value': True}) %}
         {% endif %}
 {% endif %}
 {% endfor %}
@@ -91,21 +86,21 @@ type {{ codec.name|capital }} struct {
 //@Generated("!codec_hash!")
 const (
  {% for param in fixed_params(codec.params) %}
-    {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ codec.name|capital }}{{ (loop.previtem.name)|capital }}FieldOffset + bufutil.{{ loop.previtem.type|capital }}SizeInBytes{% endif %}
+    {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ codec.name|capital }}{{ (loop.previtem.name)|capital }}FieldOffset + {{ loop.previtem.type|capital }}SizeInBytes{% endif %}
 
     {% if loop.last %}
-    {{ codec.name|capital }}InitialFrameSize = {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset + bufutil.{{ param.type|capital }}SizeInBytes
+    {{ codec.name|capital }}InitialFrameSize = {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset + {{ param.type|capital }}SizeInBytes
     {% endif %}
     {% endfor %}
 )
 
-func {{ codec.name|capital }}CodecEncode(clientMessage *bufutil.ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}) {
-        clientMessage.Add(bufutil.BeginFrame)
+func {{ codec.name|capital }}CodecEncode(clientMessage *ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}) {
+        clientMessage.Add(BeginFrame)
         {% for param in fixed_params(codec.params) %}
         {% if loop.first %}
-        initialFrame := &bufutil.Frame{Content: make([]byte, {{ codec.name|capital }}InitialFrameSize), Flags: bufutil.UnfragmentedMessage}
+        initialFrame := &Frame{Content: make([]byte, {{ codec.name|capital }}InitialFrameSize), Flags: UnfragmentedMessage}
         {% endif %}
-        bufutil.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }})
+        Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }})
         {% if loop.last %}
         clientMessage.Add(initialFrame)
         {% endif %}
@@ -116,17 +111,17 @@ func {{ codec.name|capital }}CodecEncode(clientMessage *bufutil.ClientMessage, {
         {{ encode_var_sized(param) }}
         {% endfor %}
 
-        clientMessage.Add(bufutil.EndFrame)
+        clientMessage.Add(EndFrame)
     }
 
-func {{ codec.name|capital }}CodecDecode(iterator *bufutil.ForwardFrameIterator)  {{ lang_types_decode(codec.name) }}  {
+func {{ codec.name|capital }}CodecDecode(iterator *ForwardFrameIterator)  {{ lang_types_decode(codec.name) }}  {
         // begin frame
         iterator.Next()
         {% for param in fixed_params(codec.params) %}
         {% if loop.first %}
         initialFrame := iterator.Next()
         {% endif %}
-        {{ escape_keyword(param.name) }} := bufutil.Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset)
+        {{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset)
         {% endfor %}
         {% for param in var_size_params(codec.params) %}
         {% if loop.first %}
@@ -137,7 +132,7 @@ func {{ codec.name|capital }}CodecDecode(iterator *bufutil.ForwardFrameIterator)
         {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
         {% endif %}
         {% endfor %}
-        bufutil.FastForwardToEndFrame(iterator)
+        FastForwardToEndFrame(iterator)
         {% if codec.returnWithFactory %}
         return {{ codec.name }} { {% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %} }
         {% else %}

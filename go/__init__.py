@@ -40,7 +40,7 @@ _go_types_common = {
     "byte": "byte",
     "Integer": "int32",
     "Long": "int64",
-    "UUID": "bufutil.Uuid",
+    "UUID": "core.Uuid",
 
     "longArray": "[]int64",
     "byteArray": "[]byte",
@@ -84,7 +84,7 @@ _go_types_common = {
     "AnchorDataListHolder": "NA",
 
     "Map_String_String": "map[string]string",
-    "EntryList_UUID_List_Integer": "[]*bufutil.Pair",
+    "EntryList_UUID_List_Integer": "[]*Pair",
     "EntryList_Integer_Integer": "NA",
     "List_Integer": "NA",
 
@@ -116,13 +116,13 @@ _go_types_encode = {
     "List_StackTraceElement": "NA",
     "List_ClientBwListEntry": "NA",
 
-    "EntryList_String_String": "[]*bufutil.Pair",
-    "EntryList_String_byteArray": "[]*bufutil.Pair",
-    "EntryList_Long_byteArray": "[]*bufutil.Pair",
-    "EntryList_Integer_UUID": "[]*bufutil.Pair",
-    "EntryList_UUID_Long": "[]*bufutil.Pair",
+    "EntryList_String_String": "[]*Pair",
+    "EntryList_String_byteArray": "[]*Pair",
+    "EntryList_Long_byteArray": "[]*Pair",
+    "EntryList_Integer_UUID": "[]*Pair",
+    "EntryList_UUID_Long": "[]*Pair",
     "EntryList_String_EntryList_Integer_Long": "NA",
-    "EntryList_Data_Data": "[]*bufutil.Pair",
+    "EntryList_Data_Data": "[]*Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
 }
 
@@ -151,13 +151,13 @@ _go_types_decode = {
     "List_StackTraceElement": "[]StackTraceElement",
     "List_ClientBwListEntry": "NA",
 
-    "EntryList_String_String": "[]*bufutil.Pair",
-    "EntryList_String_byteArray": "[]*bufutil.Pair",
-    "EntryList_Long_byteArray": "[]*bufutil.Pair",
-    "EntryList_Integer_UUID": "[]*bufutil.Pair",
-    "EntryList_UUID_Long": "[]*bufutil.Pair",
+    "EntryList_String_String": "[]*Pair",
+    "EntryList_String_byteArray": "[]*Pair",
+    "EntryList_Long_byteArray": "[]*Pair",
+    "EntryList_Integer_UUID": "[]*Pair",
+    "EntryList_UUID_Long": "[]*Pair",
     "EntryList_String_EntryList_Integer_Long": "NA",
-    "EntryList_Data_Data": "[]*bufutil.Pair",
+    "EntryList_Data_Data": "[]*Pair",
     "EntryList_Member_List_ScheduledTaskHandler": "NA"
     
     '[]map[string][]map[int]int64'
