@@ -40,7 +40,7 @@ _go_types_common = {
     "byte": "byte",
     "Integer": "int32",
     "Long": "int64",
-    "UUID": "core.Uuid",
+    "UUID": "*core.Uuid",
 
     "longArray": "[]int64",
     "byteArray": "[]byte",
@@ -48,7 +48,7 @@ _go_types_common = {
     "String": "string",
     "Data": "serialization.Data",
 
-    "Address": "Address",
+    "Address": "*Address",
     "ErrorHolder": "ErrorHolder",
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView",

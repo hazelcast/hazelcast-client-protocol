@@ -212,7 +212,7 @@ func {{ service_name|capital }}{{ method.name|capital }}EncodeRequest({% for par
     clientMessage := CreateForEncode()
     clientMessage.SetRetryable( {{ method.request.retryable|lower }} )
     clientMessage.SetOperationName("{{ service_name|capital }}.{{ method.name|capital }}")
-	initialFrame := &Frame{Content: make([]byte, ListAddAllResponseInitialFrameSize), Flags: UnfragmentedMessage}
+	initialFrame := &Frame{Content: make([]byte, {{ service_name|capital }}{{ method.name|capital }}ResponseInitialFrameSize), Flags: UnfragmentedMessage}
 {# new byte[RequestInitialFrameSize] , new ClientMessage.Frame(..) , int32 #}
 {# TODO: probably true #}
     EncodeInt(initialFrame.Content, TypeFieldOffset, {{ service_name|capital }}{{ method.name|capital }}RequestMessageType)
