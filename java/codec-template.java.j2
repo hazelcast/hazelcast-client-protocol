@@ -53,7 +53,11 @@ package com.hazelcast.client.impl.protocol.codec;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.Generated;
 import com.hazelcast.client.impl.protocol.codec.builtin.*;
+{% if namespace %}
+import {{ namespace }}.custom.*;
+{% else %}
 import com.hazelcast.client.impl.protocol.codec.custom.*;
+{% endif %}
 {% if method.events|length != 0 %}
 import com.hazelcast.logging.Logger;
 {% endif %}
