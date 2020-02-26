@@ -7,7 +7,8 @@ from binary.util import test_output_directories, binary_output_directories
 from binary_generator import save_test_files, save_binary_files, get_binary_templates
 from util import *
 
-PROTOCOL_VERSION = '2.0'
+RELEASED_PROTOCOL_VERSIONS = ['2.0']
+PROTOCOL_VERSION = '2.1'
 
 start = time.time()
 
@@ -57,12 +58,6 @@ parser.add_argument('-t', '--test-output-dir',
                                    'root directory for the binary compatibility test files.(default value is '
                                    'set according to the selected language)')
 
-parser.add_argument('-v', '--version',
-                    dest='version', action='store',
-                    metavar='VERSION', default=PROTOCOL_VERSION,
-                    type=str, help='Version of the protocol to generate binary compatibility files for. '
-                                   '(default value is the version of the protocol)')
-
 parser.add_argument('--no-binary',
                     dest='no_binary', action='store_true', default=False,
                     help='Flag to signal that binary compatibility files and tests'
@@ -81,7 +76,6 @@ out_dir_arg = args.out_dir
 namespace_arg = args.namespace
 test_out_dir_arg = args.test_out_dir
 bin_out_dir_arg = args.bin_out_dir
-version_arg = args.version
 no_binary_arg = args.no_binary
 no_id_check = args.no_id_check
 
@@ -128,11 +122,13 @@ if not no_binary_arg:
     test_output_dir = os.path.join(root_dir, relative_test_output_dir)
     binary_output_dir = os.path.join(root_dir, relative_binary_output_dir)
 
-    error, binary_templates = get_binary_templates(lang, version_arg)
+    error, binary_templates = get_binary_templates(lang)
     if binary_templates is not None:
-        save_test_files(test_output_dir, lang, version_arg, protocol_defs, binary_templates)
+        for released_version in RELEASED_PROTOCOL_VERSIONS:
+            save_test_files(test_output_dir, lang, released_version, protocol_defs, binary_templates)
+        save_test_files(test_output_dir, lang, PROTOCOL_VERSION, protocol_defs, binary_templates)
         print('Generated binary compatibility tests are at \'%s\'' % test_output_dir)
-        save_binary_files(binary_output_dir, protocol_defs_path, version_arg, protocol_defs)
+        save_binary_files(binary_output_dir, protocol_defs_path, PROTOCOL_VERSION, protocol_defs)
         print('Generated binary compatibility files are at \'%s\'' % binary_output_dir)
     else:
         print('Binary compatibility test cannot be generated because the templates for the selected '

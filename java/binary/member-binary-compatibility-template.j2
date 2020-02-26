@@ -19,6 +19,7 @@ package com.hazelcast.client.protocol.compatibility;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.ClientMessageReader;
 import com.hazelcast.client.impl.protocol.codec.*;
+import com.hazelcast.client.impl.protocol.codec.builtin.CodecUtil;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelJVMTest;
 import com.hazelcast.test.annotation.QuickTest;
@@ -36,12 +37,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.hazelcast.client.impl.protocol.ClientMessage.END_DATA_STRUCTURE_FLAG;
 import static com.hazelcast.client.impl.protocol.ClientMessage.IS_FINAL_FLAG;
 import static com.hazelcast.client.protocol.compatibility.ReferenceObjects.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelJVMTest.class})
@@ -61,17 +64,29 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
             reader.reset();
         }
     }
+    {% set protocol_version_as_number = get_version_as_number(protocol_version) %}
     {% set counter = namespace(count=0) %}
     {% for service in services %}
     {% for method in service.methods %}
+        {% if get_version_as_number(method.since) > protocol_version_as_number %}
+            {% continue %}
+        {% endif %}
 
     @Test
     public void test_{{ service.name|capital}}{{ method.name|capital }}Codec_decodeRequest() {
         int fileClientMessageIndex = {{ counter.count }};
         ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
         {{ service.name|capital }}{{ method.name|capital }}Codec.RequestParameters parameters = {{ service.name|capital }}{{ method.name|capital }}Codec.decodeRequest(fromFile);
+        {% set new_request_params = new_params(method.since, method.request.params) %}
         {% for param in method.request.params %}
+            {% if get_version_as_number(param.since) > protocol_version_as_number %}
+        assertFalse(parameters.is{{ param.name|capital }}Exists);
+            {% else %}
+                {% if param in new_request_params %}
+        assertTrue(parameters.is{{ param.name|capital }}Exists);
+                {% endif %}
         assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, parameters.{{ param.name }}));
+            {% endif %}
         {% endfor %}
     }
     {% set counter.count = counter.count + 1 %}
@@ -86,6 +101,9 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
     {% set counter.count = counter.count + 1 %}
     {% if method.events|length != 0%}
     {% for event in method.events %}
+        {% if get_version_as_number(event.since) > protocol_version_as_number %}
+            {% continue %}
+        {% endif %}
 
     @Test
     public void test_{{ service.name|capital }}{{ method.name|capital }}Codec_encode{{ event.name|capital }}Event() {
@@ -100,7 +118,7 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
     {% endfor %}
     {% endfor %}
 
-     private void compareClientMessages(ClientMessage binaryMessage, ClientMessage encodedMessage) {
+    private void compareClientMessages(ClientMessage binaryMessage, ClientMessage encodedMessage) {
         ClientMessage.Frame binaryFrame, encodedFrame;
 
         ClientMessage.ForwardFrameIterator binaryFrameIterator = binaryMessage.frameIterator();
@@ -117,9 +135,12 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
                 compareInitialFrame(binaryFrame, encodedFrame, isFinal);
                 isInitialFramesCompared = true;
             } else {
-                assertArrayEquals("Frames have different contents", binaryFrame.content, encodedFrame.content);
+                assertArrayEquals("Frames have different contents", binaryFrame.content, Arrays.copyOf(encodedFrame.content, binaryFrame.content.length));
                 int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
                 assertEquals("Frames have different flags", binaryFrame.flags, flags);
+                if (ClientMessage.isFlagSet(binaryFrame.flags, END_DATA_STRUCTURE_FLAG) && !ClientMessage.isFlagSet(flags, END_DATA_STRUCTURE_FLAG)) {
+                    CodecUtil.fastForwardToEndFrame(encodedFrameIterator);
+                }
             }
         }
         assertTrue("Client message that is read from the binary file does not have any frames", isInitialFramesCompared);

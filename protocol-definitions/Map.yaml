@@ -875,6 +875,7 @@ methods:
             A unique string which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -979,6 +980,7 @@ methods:
             A unique string which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -1082,6 +1084,7 @@ methods:
             A unique string which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -1179,6 +1182,7 @@ methods:
             A unique string which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -1298,6 +1302,7 @@ methods:
             returns the registration id for the MapPartitionLostListener.
     events:
       - name: MapPartitionLost
+        since: 2.0
         params:
           - name: partitionId
             type: int
@@ -2443,6 +2448,7 @@ methods:
             A unique string which is used as a key to remove the listener.
     events:
       - name: IMapInvalidation
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -2469,6 +2475,7 @@ methods:
             doc: |
               Sequence number of the invalidation event.
       - name: IMapBatchInvalidation
+        since: 2.0
         params:
           - name: keys
             type: List_Data

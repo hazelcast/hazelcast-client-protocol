@@ -323,6 +323,7 @@ methods:
             The registration id.
     events:
       - name: Item
+        since: 2.0
         params:
           - name: item
             type: Data

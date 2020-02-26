@@ -408,15 +408,18 @@ reference_objects_dict = {
 }
 
 
-def create_environment_for_binary_generator(lang, version):
-    env = Environment(loader=PackageLoader(lang.value + '.binary', '.'))
+def create_environment_for_binary_generator(lang):
+    env = Environment(loader=PackageLoader(lang.value + '.binary', '.'), extensions=['jinja2.ext.loopcontrols'])
     env.trim_blocks = True
     env.lstrip_blocks = True
     env.keep_trailing_newline = False
     env.filters['capital'] = capital
     env.globals['lang_types_encode'] = language_specific_funcs['lang_types_encode'][lang]
-    env.globals['protocol_version'] = version
     env.globals['reference_objects_dict'] = reference_objects_dict
+    env.globals['get_version_as_number'] = get_version_as_number
+    env.globals['get_param_versions'] = get_param_versions
+    env.globals['new_params'] = new_params
+    env.globals['filter_new_params'] = filter_new_params
     return env
 
 

@@ -236,6 +236,7 @@ methods:
     response: {}
     events:
       - name: MembersView
+        since: 2.0
         params:
           - name: version
             type: int
@@ -251,6 +252,7 @@ methods:
               List of member infos  at the cluster associated with the given version
               params:
       - name: PartitionsView
+        since: 2.0
         params:
           - name: version
             type: int
@@ -364,6 +366,7 @@ methods:
             The listener registration id.
     events:
       - name: PartitionLost
+        since: 2.0
         params:
           - name: partitionId
             type: int
@@ -450,6 +453,7 @@ methods:
             The registration id for the distributed object listener.
     events:
       - name: DistributedObject
+        since: 2.0
         params:
           - name: name
             type: String
@@ -752,6 +756,7 @@ methods:
             Returns the registration id for the listener.
     events:
       - name: backup
+        since: 2.0
         params:
           - name: sourceInvocationCorrelationId
             type: long

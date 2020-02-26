@@ -40,12 +40,56 @@ def to_upper_snake_case(camel_case_str):
     # return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).upper()
 
 
+def version_to_number(major, minor, patch=0):
+    return 10000 * major * 100 * minor + patch
+
+
+def get_version_as_number(version):
+    if not isinstance(version, str):
+        version = str(version)
+    return version_to_number(*map(int, version.split('.')))
+
+
 def fixed_params(params):
     return [p for p in params if is_fixed_type(p)]
 
 
 def var_size_params(params):
     return [p for p in params if not is_fixed_type(p)]
+
+
+def new_params(since, params):
+    """
+    Returns the list of parameters that are added later than given version.
+    Because the method should precede all the parameters that are added
+    latter, a simple equality check between the versions that the method and
+    the parameter is added is enough.
+    """
+    return [p for p in params if p['since'] != since]
+
+
+def get_param_versions(since, params):
+    """
+    Returns the set of protocol versions that the method described
+    with the above parameters is changed. This set also includes
+    the version that the method is introduced since it may have
+    empty parameters initially. The returned set is in
+    increasing order of protocol versions.
+    """
+    versions = {since}
+    for p in params:
+        versions.add(p['since'])
+    return sorted(versions, key=lambda v: get_version_as_number(v))
+
+
+def filter_new_params(params, version):
+    """
+    Returns the filtered list of parameters such that,
+    the resulting list contains only the ones that are added
+    before or at the same time with the given version.
+    """
+    version_as_number = get_version_as_number(version)
+    return [p for p in params if version_as_number >= get_version_as_number(p['since'])]
 
 
 def generate_codecs(services, template, output_dir, lang):
@@ -267,6 +311,9 @@ def create_environment(lang, namespace):
     env.globals["to_upper_snake_case"] = to_upper_snake_case
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
+    env.globals['new_params'] = new_params
+    env.globals['get_param_versions'] = get_param_versions
+    env.globals['filter_new_params'] = filter_new_params
     env.globals["is_var_sized_list"] = is_var_sized_list
     env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable
     env.globals["is_var_sized_entry_list"] = is_var_sized_entry_list

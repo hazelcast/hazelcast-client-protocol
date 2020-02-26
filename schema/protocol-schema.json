@@ -6,7 +6,8 @@
   "definitions": {
     "since": {
       "enum": [
-        2.0
+        2.0,
+        2.1
       ],
       "default": 2.0
     },
@@ -124,6 +125,9 @@
         "name": {
           "type": "string",
           "description": "Event name"
+        },
+        "since": {
+          "$ref": "#/definitions/since"
         },
         "params": {
           "type": "array",
