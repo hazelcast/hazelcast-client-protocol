@@ -131,14 +131,16 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
             assertNotNull("Encoded client message has less frames.", encodedFrame);
 
             boolean isFinal = binaryFrameIterator.peekNext() == null;
+            boolean isEndFrame = binaryFrame.isEndFrame();
             if (!isInitialFramesCompared) {
                 compareInitialFrame(binaryFrame, encodedFrame, isFinal);
                 isInitialFramesCompared = true;
             } else {
                 assertArrayEquals("Frames have different contents", binaryFrame.content, Arrays.copyOf(encodedFrame.content, binaryFrame.content.length));
                 int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
+                flags = isEndFrame ? flags | END_DATA_STRUCTURE_FLAG : flags;
                 assertEquals("Frames have different flags", binaryFrame.flags, flags);
-                if (ClientMessage.isFlagSet(binaryFrame.flags, END_DATA_STRUCTURE_FLAG) && !ClientMessage.isFlagSet(flags, END_DATA_STRUCTURE_FLAG)) {
+                if (isEndFrame && !ClientMessage.isFlagSet(encodedFrame.flags, END_DATA_STRUCTURE_FLAG)) {
                     CodecUtil.fastForwardToEndFrame(encodedFrameIterator);
                 }
             }

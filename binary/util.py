@@ -31,16 +31,16 @@ def read_definition(definition, protocol_defs_path):
         return yaml.load(file, Loader=yaml.Loader)
 
 
-def get_custom_type_params(protocol_defs_path):
+def get_custom_type_definitions(protocol_defs_path):
     custom_codec_defs_path = os.path.join(protocol_defs_path, 'custom')
     if not os.path.exists(custom_codec_defs_path):
         return {}
     definitions = read_definition('Custom', custom_codec_defs_path)
-    params = {}
+    result = {}
     custom_types = definitions['customTypes']
     for definition in custom_types:
-        params[definition['name']] = definition['params']
-    return params
+        result[definition['name']] = definition
+    return result
 
 
 class Frame:
@@ -79,13 +79,14 @@ class ClientMessage:
 
 
 class Encoder:
-    def __init__(self, protocol_defs_path):
-        self.custom_type_params = get_custom_type_params(protocol_defs_path)
-        self.custom_type_encoder = CustomTypeEncoder(self, self.custom_type_params)
+    def __init__(self, protocol_defs_path, version):
+        self.custom_type_definitions = get_custom_type_definitions(protocol_defs_path)
+        self.custom_type_encoder = CustomTypeEncoder(self, self.custom_type_definitions)
         self.var_sized_encoder = VarSizedParamEncoder(self)
+        self.version = version
 
     def encode(self, message_def, fix_sized_params_offset, set_partition_id=False, is_event=False, is_null_test=False):
-        params = message_def.get('params', [])
+        params = filter_new_params(message_def.get('params', []), self.version)
         fix_sized_params = fixed_params(params)
         var_sized_params = var_size_params(params)
 
@@ -154,16 +155,17 @@ class FixSizedParamEncoder:
 
 
 class CustomTypeEncoder:
-    def __init__(self, encoder, custom_type_params):
+    def __init__(self, encoder, custom_type_definitions):
         self.encoder = encoder
-        self.custom_type_params = custom_type_params
+        self.custom_type_definitions = custom_type_definitions
 
     def encode_custom_type(self, client_message, custom_type_name, is_null_test=False):
         if is_null_test:
             client_message.add_frame(NULL_FRAME)
             return
 
-        params = self.custom_type_params.get(custom_type_name, [])
+        definition = self.custom_type_definitions.get(custom_type_name)
+        params = filter_new_params(definition.get('params', []), self.encoder.version)
 
         fix_sized_params = fixed_params(params)
         var_sized_params = var_size_params(params)
@@ -417,7 +419,6 @@ def create_environment_for_binary_generator(lang):
     env.globals['lang_types_encode'] = language_specific_funcs['lang_types_encode'][lang]
     env.globals['reference_objects_dict'] = reference_objects_dict
     env.globals['get_version_as_number'] = get_version_as_number
-    env.globals['get_param_versions'] = get_param_versions
     env.globals['new_params'] = new_params
     env.globals['filter_new_params'] = filter_new_params
     return env

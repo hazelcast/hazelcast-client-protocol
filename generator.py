@@ -7,8 +7,6 @@ from binary.util import test_output_directories, binary_output_directories
 from binary_generator import save_test_files, save_binary_files, get_binary_templates
 from util import *
 
-RELEASED_PROTOCOL_VERSIONS = ['2.0']
-PROTOCOL_VERSION = '2.1'
 
 start = time.time()
 
@@ -105,6 +103,7 @@ codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 generate_codecs(protocol_defs, codec_template, codec_output_dir, lang)
 print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
 
+custom_protocol_defs = None
 if os.path.exists(custom_protocol_defs_path):
     custom_protocol_defs = load_services(custom_protocol_defs_path)
     if not validate_custom_protocol_definitions(custom_protocol_defs, custom_codec_schema_path):
@@ -122,14 +121,15 @@ if not no_binary_arg:
     test_output_dir = os.path.join(root_dir, relative_test_output_dir)
     binary_output_dir = os.path.join(root_dir, relative_binary_output_dir)
 
+    protocol_versions = get_protocol_versions(protocol_defs, custom_protocol_defs)
+
     error, binary_templates = get_binary_templates(lang)
     if binary_templates is not None:
-        for released_version in RELEASED_PROTOCOL_VERSIONS:
-            save_test_files(test_output_dir, lang, released_version, protocol_defs, binary_templates)
-        save_test_files(test_output_dir, lang, PROTOCOL_VERSION, protocol_defs, binary_templates)
-        print('Generated binary compatibility tests are at \'%s\'' % test_output_dir)
-        save_binary_files(binary_output_dir, protocol_defs_path, PROTOCOL_VERSION, protocol_defs)
+        for version in protocol_versions:
+            save_test_files(test_output_dir, lang, version, protocol_defs, binary_templates)
+            save_binary_files(binary_output_dir, protocol_defs_path, version, protocol_defs)
         print('Generated binary compatibility files are at \'%s\'' % binary_output_dir)
+        print('Generated binary compatibility tests are at \'%s\'' % test_output_dir)
     else:
         print('Binary compatibility test cannot be generated because the templates for the selected '
               'language cannot be loaded. Verify that the \'%s\' exists.' % error)

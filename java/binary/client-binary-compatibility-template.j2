@@ -104,21 +104,27 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
 
     private static class {{ service.name|capital }}{{ method.name|capital }}CodecHandler extends {{ service.name|capital }}{{ method.name|capital }}Codec.AbstractEventHandler {
         {% for event in method.events %}
-            {% set event_versions = get_param_versions(event.since, event.params) %}
-            {% for version in event_versions %}
-                {% set filtered_params = filter_new_params(event.params, version) %}
-
+            {% set new_event_params = new_params(event.since, event.params) %}
+            {% set event_version = get_version_as_number(event.since) %}
         @Override
-        public void handle{{ event.name|capital }}Event{% if not loop.first %}V{{ version|string|replace('.', '_') }}{% endif %}({% for param in filtered_params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
-                {% if get_version_as_number(version) != protocol_version_as_number %}
-            fail("This method should not be called since this is an v{{ version }} event handler, but the compatibility test is for v{{ protocol_version }}.");
+        public void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}boolean is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+                {% if event_version > protocol_version_as_number %}
+            fail("This method should not be called since this is an v{{ event.since }} event handler but the test is for v{{ protocol_version }}");
                 {% else %}
-                {% for param in filtered_params %}
+                    {% for param in event.params %}
+                        {% if param in new_event_params %}
+                            {% if get_version_as_number(param.since) > protocol_version_as_number %}
+            assertFalse(is{{ param.name|capital }}Exists);
+                            {% else %}
+            assertTrue(is{{ param.name|capital }}Exists);
             assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {{ param.name }}));
-                {% endfor %}
+                            {% endif %}
+                        {% else %}
+            assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {{ param.name }}));
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
         }
-            {% endfor %}
         {% endfor %}
     }
     {% for event in method.events %}
@@ -152,14 +158,16 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
             assertNotNull("Encoded client message has less frames.", encodedFrame);
 
             boolean isFinal = binaryFrameIterator.peekNext() == null;
+            boolean isEndFrame = binaryFrame.isEndFrame();
             if (!isInitialFramesCompared) {
                 compareInitialFrame(binaryFrame, encodedFrame, isFinal);
                 isInitialFramesCompared = true;
             } else {
                 assertArrayEquals("Frames have different contents", binaryFrame.content, Arrays.copyOf(encodedFrame.content, binaryFrame.content.length));
                 int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
+                flags = isEndFrame ? flags | END_DATA_STRUCTURE_FLAG : flags;
                 assertEquals("Frames have different flags", binaryFrame.flags, flags);
-                if (ClientMessage.isFlagSet(binaryFrame.flags, END_DATA_STRUCTURE_FLAG) && !ClientMessage.isFlagSet(flags, END_DATA_STRUCTURE_FLAG)) {
+                if (isEndFrame && !ClientMessage.isFlagSet(encodedFrame.flags, END_DATA_STRUCTURE_FLAG)) {
                     CodecUtil.fastForwardToEndFrame(encodedFrameIterator);
                 }
             }

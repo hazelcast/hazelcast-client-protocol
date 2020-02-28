@@ -28,13 +28,6 @@
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
-{% macro get_return_statement(params) -%}
-    {%- if codec.returnWithFactory -%}
-    return CustomTypeFactory.create{{ codec.name }}({% for param in params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
-    {%- else -%}
-    return new {{ lang_types_decode(codec.name) }}({% for param in params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
-    {%- endif -%}
-{%- endmacro %}
 /*
  * Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
  *
@@ -68,7 +61,6 @@ import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCod
 {% set fix_sized_params = fixed_params(codec.params) %}
 {% set var_sized_params = var_size_params(codec.params) %}
 {% set new_codec_params = new_params(codec.since, codec.params) %}
-{% set codec_versions = get_param_versions(codec.since, codec.params) %}
 @Generated("!codec_hash!")
 public final class {{ codec.name|capital }}Codec {
     {% for param in fix_sized_params %}
@@ -104,13 +96,6 @@ public final class {{ codec.name|capital }}Codec {
     }
 
     public static {{ lang_types_decode(codec.name) }} decode(ClientMessage.ForwardFrameIterator iterator) {
-        {% if codec_versions|length > 1 %}
-            {% for version in codec_versions %}
-                {% if not loop.first %}
-        boolean is{{ version|string|replace('.', '_') }}Response = false;
-                {% endif %}
-            {% endfor %}
-        {% endif %}
         // begin frame
         iterator.next();
         {% for param in fix_sized_params %}
@@ -119,10 +104,11 @@ public final class {{ codec.name|capital }}Codec {
         ClientMessage.Frame initialFrame = iterator.next();
         {% endif %}
         {% if param in new_codec_params %}
+        boolean is{{ param.name|capital }}Exists = false;
         {{ lang_types_decode(param.type) }} {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
         if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
             {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
-            is{{ param.since|string|replace('.', '_') }}Response = true;
+            is{{ param.name|capital }}Exists = true;
         }
         {% else %}
         {{ lang_types_decode(param.type) }} {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
@@ -133,10 +119,11 @@ public final class {{ codec.name|capital }}Codec {
 
         {% endif %}
             {% if param in new_codec_params %}
+        boolean is{{ param.name|capital }}Exists = false;
         {{ lang_types_decode(param.type) }} {{ param.name }} = null;
-        if(iterator.hasNext()) {
+        if(iterator.hasNext() && !iterator.peekNext().isEndFrame()) {
             {{ param.name }} = {{ decode_var_sized(param) }};
-            is{{ param.since|string|replace('.', '_') }}Response = true;
+            is{{ param.name|capital }}Exists = true;
         }
             {% else %}
         {{ lang_types_decode(param.type) }} {{ param.name }} = {{ decode_var_sized(param) }};
@@ -145,23 +132,10 @@ public final class {{ codec.name|capital }}Codec {
 
         fastForwardToEndFrame(iterator);
 
-        {% if codec_versions|length > 1 %}
-            {% for version in codec_versions|reverse %}
-                {% set filtered_params = filter_new_params(codec.params, version) %}
-                {% if loop.first %}
-        if (is{{ version|string|replace('.', '_') }}Response) {
-            {{ get_return_statement(filtered_params) }}
-        }
-                {% elif not loop.last %}
-        else if (is{{ version|string|replace('.', '_') }}Response) {
-            {{ get_return_statement(filtered_params) }}
-        }
-                {% else %}
-        {{ get_return_statement(filtered_params) }}
-                {% endif %}
-            {% endfor %}
+        {% if codec.returnWithFactory %}
+        return CustomTypeFactory.create{{ codec.name }}({% for param in codec.params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
         {% else %}
-        {{ get_return_statement(codec.params) }}
+        return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
         {% endif %}
     }
 }

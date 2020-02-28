@@ -68,20 +68,6 @@ def new_params(since, params):
     return [p for p in params if p['since'] != since]
 
 
-def get_param_versions(since, params):
-    """
-    Returns the set of protocol versions that the method described
-    with the above parameters is changed. This set also includes
-    the version that the method is introduced since it may have
-    empty parameters initially. The returned set is in
-    increasing order of protocol versions.
-    """
-    versions = {since}
-    for p in params:
-        versions.add(p['since'])
-    return sorted(versions, key=lambda v: get_version_as_number(v))
-
-
 def filter_new_params(params, version):
     """
     Returns the filtered list of parameters such that,
@@ -233,6 +219,33 @@ def save_file(file, content):
         file.writelines(content.replace('!codec_hash!', codec_hash))
 
 
+def get_protocol_versions(protocol_defs, custom_codec_defs):
+    protocol_versions = set()
+    if not custom_codec_defs:
+        custom_codec_defs = []
+    else:
+        custom_codec_defs = custom_codec_defs[0]['customTypes']
+
+    for service in protocol_defs:
+        for method in service['methods']:
+            protocol_versions.add(method['since'])
+            for req_param in method['request'].get('params', []):
+                protocol_versions.add(req_param['since'])
+            for res_param in method['response'].get('params', []):
+                protocol_versions.add(res_param['since'])
+            for event in method.get('events', []):
+                protocol_versions.add(event['since'])
+                for event_param in event.get('params', []):
+                    protocol_versions.add(event_param['since'])
+
+    for custom_codec in custom_codec_defs:
+        protocol_versions.add(custom_codec['since'])
+        for param in custom_codec.get('params', []):
+            protocol_versions.add(param['since'])
+
+    return map(str, protocol_versions)
+
+
 class SupportedLanguages(Enum):
     JAVA = 'java'
     # CPP = 'cpp'
@@ -312,7 +325,6 @@ def create_environment(lang, namespace):
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
     env.globals['new_params'] = new_params
-    env.globals['get_param_versions'] = get_param_versions
     env.globals['filter_new_params'] = filter_new_params
     env.globals["is_var_sized_list"] = is_var_sized_list
     env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable

@@ -20,7 +20,7 @@ def save_binary_files(binary_output_dir, protocol_defs_path, version, services):
     with open(os.path.join(binary_output_dir, version + '.protocol.compatibility.binary'), 'wb') as binary_file:
         with open(os.path.join(binary_output_dir, version + '.protocol.compatibility.null.binary'),
                   'wb') as null_binary_file:
-            _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services)
+            _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services, version)
 
 
 def save_test_files(test_output_dir, lang, version, services, templates):
@@ -33,11 +33,15 @@ def save_test_files(test_output_dir, lang, version, services, templates):
                 f.write(templates[test_type].render(protocol_version=version, services=services, test_nullable=test_null_type == 'Null'))
 
 
-def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services):
-    encoder = Encoder(protocol_defs_path)
+def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, services, version):
+    encoder = Encoder(protocol_defs_path, version)
+    version_as_number = get_version_as_number(version)
     for service in services:
         methods = service['methods']
         for method in methods:
+            if get_version_as_number(method['since']) > version_as_number:
+                continue
+
             method['request']['id'] = int(id_fmt % (service['id'], method['id'], 0), 16)
             method['response']['id'] = int(id_fmt % (service['id'], method['id'], 1), 16)
             events = method.get('events', None)
@@ -55,6 +59,9 @@ def _generate_binary_files(binary_file, null_binary_file, protocol_defs_path, se
             null_response.write(null_binary_file)
             if events is not None:
                 for e in events:
+                    if get_version_as_number(e['since']) > version_as_number:
+                        continue
+
                     event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, is_event=True, set_partition_id=True)
                     null_event = encoder.encode(e, EVENT_FIX_SIZED_PARAMS_OFFSET, is_event=True,
                                                 set_partition_id=True, is_null_test=True)

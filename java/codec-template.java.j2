@@ -28,9 +28,6 @@
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
-{% macro get_event_handler_statement(name, params, version=none) -%}
-handle{{ name|capital }}Event{% if version is not none %}V{{ version|string|replace('.', '_') }}{% endif %}({% for param in params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
-{%- endmacro %}
 {% set request_fix_sized_params = fixed_params(method.request.params) %}
 {% set request_var_sized_params = var_size_params(method.request.params) %}
 {% set request_new_params = new_params(method.since, method.request.params) %}
@@ -138,7 +135,8 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% for param in request_new_params %}
 
         /**
-         * True if the {{ param.name }} exist, false otherwise.
+         * True if the {{ param.name }} is received from the client, false otherwise.
+         * If this is false, {{ param.name }} has the default value for its type.
         */
         public boolean is{{ param.name|capital }}Exists;
 {% endfor %}
@@ -214,7 +212,8 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% for param in response_new_params %}
 
         /**
-         * True if the {{ param.name }} exist, false otherwise.
+         * True if the {{ param.name }} is received from the member, false otherwise.
+         * If this is false, {{ param.name }} has the default value for its type.
         */
         public boolean is{{ param.name|capital }}Exists;
 {% endfor %}
@@ -301,15 +300,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
-            {% set event_versions = get_param_versions(event.since, event.params) %}
             {% set new_event_params = new_params(event.since, event.params) %}
-            {% if event_versions|length > 1 %}
-                {% for version in event_versions %}
-                    {% if not loop.first %}
-                boolean is{{ version|string|replace('.', '_') }}Event = false;
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
             {% if fixed_params(event.params)|length != 0 %}
                 ClientMessage.Frame initialFrame = iterator.next();
             {% else %}
@@ -318,10 +309,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             {% endif %}
             {% for param in fixed_params(event.params) %}
                 {% if param in new_event_params %}
+                boolean is{{ param.name|capital }}Exists = false;
                 {{ lang_types_encode(param.type) }} {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
                 if (initialFrame.content.length >= EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
                     {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
-                    is{{ param.since|string|replace('.', '_') }}Event = true;
+                    is{{ param.name|capital }}Exists = true;
                 }
                 {% else %}
                 {{ lang_types_encode(param.type) }} {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
@@ -329,48 +321,30 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             {% endfor %}
             {% for param in var_size_params(event.params) %}
                 {% if param in new_event_params %}
+                boolean is{{ param.name|capital }}Exists = false;
                 {{ lang_types_encode(param.type) }} {{ param.name }} = null;
                 if (iterator.hasNext()) {
                     {{ param.name }} = {{ decode_var_sized(param) }};
-                    is{{ param.since|string|replace('.', '_') }}Event = true;
+                    is{{ param.name|capital }}Exists = true;
                 }
                 {% else %}
                 {{ lang_types_encode(param.type) }} {{ param.name }} = {{ decode_var_sized(param) }};
                 {% endif %}
             {% endfor %}
-                {% if event_versions|length > 1 %}
-                    {% for version in event_versions|reverse %}
-                        {% set filtered_params = filter_new_params(event.params, version) %}
-                        {% if loop.first %}
-                if (is{{ version|string|replace('.', '_') }}Event) {
-                    {{ get_event_handler_statement(event.name, filtered_params, version) }}
-                    return;
-                }
-                        {% elif not loop.last %}
-                else if (is{{ version|string|replace('.', '_') }}Event) {
-                    {{ get_event_handler_statement(event.name, filtered_params, version) }}
-                    return;
-                }
-                        {% else %}
-                {{ get_event_handler_statement(event.name, filtered_params) }}
+                handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
                 return;
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                {{ get_event_handler_statement(event.name, event.params) }}
-                return;
-                {% endif %}
             }
         {% endfor %}
             Logger.getLogger(super.getClass()).finest("Unknown message type received on event handler :" + messageType);
         }
     {% for event in method.events%}
-        {% set event_versions = get_param_versions(event.since, event.params) %}
-        {% for version in event_versions %}
-            {% set filtered_params = filter_new_params(event.params, version) %}
+        {% set new_event_params = new_params(event.since, event.params) %}
 
         /**
-            {% for param in filtered_params %}
+            {% for param in event.params %}
+                {% if param in new_event_params %}
+         * @param is{{ param.name|capital }}Exists True if {{ param.name }} exists, false otherwise.
+                {% endif %}
          * @param {{ param.name }}
                 {%- for line in param.doc.splitlines() %}
                     {% if loop.first -%}
@@ -381,8 +355,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
                 {% endfor %}
             {% endfor %}
         */
-        public abstract void handle{{ event.name|capital }}Event{% if not loop.first %}V{{ version|string|replace('.', '_') }}{% endif %}({% for param in filtered_params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
-        {% endfor %}
+        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{% if param in new_event_params %}boolean is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
     {% endfor %}
     }
 {% endif %}
