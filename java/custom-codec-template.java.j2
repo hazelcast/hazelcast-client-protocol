@@ -121,7 +121,7 @@ public final class {{ codec.name|capital }}Codec {
             {% if param in new_codec_params %}
         boolean is{{ param.name|capital }}Exists = false;
         {{ lang_types_decode(param.type) }} {{ param.name }} = null;
-        if(iterator.hasNext() && !iterator.peekNext().isEndFrame()) {
+        if(!iterator.peekNext().isEndFrame()) {
             {{ param.name }} = {{ decode_var_sized(param) }};
             is{{ param.name|capital }}Exists = true;
         }
