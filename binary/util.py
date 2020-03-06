@@ -168,12 +168,18 @@ class CustomTypeEncoder:
         params = filter_new_params(definition.get('params', []), self.encoder.version)
 
         fix_sized_params = fixed_params(params)
+        fix_sized_new_params = new_params(definition['since'], fix_sized_params)
         var_sized_params = var_size_params(params)
 
-        client_message.add_frame(BEGIN_FRAME)
+        should_add_begin_frame = (len(fix_sized_params) > len(fix_sized_new_params)) or len(fix_sized_params) == 0
+
+        if should_add_begin_frame:
+            client_message.add_frame(BEGIN_FRAME)
 
         initial_frame = self.create_initial_frame(custom_type_name, fix_sized_params)
         if initial_frame is not None:
+            if not should_add_begin_frame:
+                initial_frame.flags |= BEGIN_DATA_STRUCTURE_FLAG
             client_message.add_frame(initial_frame)
 
         self.encoder.var_sized_encoder.encode_var_sized_frames(var_sized_params, client_message)
