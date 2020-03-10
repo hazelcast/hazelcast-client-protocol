@@ -7,7 +7,6 @@ from binary.util import test_output_directories, binary_output_directories
 from binary_generator import save_test_files, save_binary_files, get_binary_templates
 from util import *
 
-
 start = time.time()
 
 parser = argparse.ArgumentParser(description='Hazelcast Code Generator generates code of client protocol '
@@ -92,10 +91,24 @@ schema_path = os.path.join(curr_dir, 'schema', 'protocol-schema.json')
 custom_codec_schema_path = os.path.join(curr_dir, 'schema', 'custom-codec-schema.json')
 
 protocol_defs = load_services(protocol_defs_path)
+custom_protocol_defs = None
+if os.path.exists(custom_protocol_defs_path):
+    custom_protocol_defs = load_services(custom_protocol_defs_path)
+
+protocol_versions = sorted(get_protocol_versions(protocol_defs, custom_protocol_defs),
+                           key=lambda ver: get_version_as_number(ver))
+protocol_versions_as_numbers = list(map(get_version_as_number, protocol_versions))
+
 protocol_defs = sorted(protocol_defs, key=lambda proto_def: proto_def['id'])
-if not validate_services(protocol_defs, schema_path, no_id_check):
+if not validate_services(protocol_defs, schema_path, no_id_check, protocol_versions_as_numbers):
     exit(-1)
 
+if custom_protocol_defs is not None \
+        and not validate_custom_protocol_definitions(custom_protocol_defs, custom_codec_schema_path,
+                                                     protocol_versions_as_numbers):
+    exit(-1)
+
+print("Hazelcast Client Binary Protocol version %s" % (protocol_versions[-1]))
 env = create_environment(lang, namespace_arg)
 
 codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
@@ -103,12 +116,7 @@ codec_template = env.get_template("codec-template.%s.j2" % lang_str_arg)
 generate_codecs(protocol_defs, codec_template, codec_output_dir, lang)
 print('Generated codecs are at \'%s\'' % os.path.abspath(codec_output_dir))
 
-custom_protocol_defs = None
-if os.path.exists(custom_protocol_defs_path):
-    custom_protocol_defs = load_services(custom_protocol_defs_path)
-    if not validate_custom_protocol_definitions(custom_protocol_defs, custom_codec_schema_path):
-        exit(-1)
-
+if custom_protocol_defs is not None:
     custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang_str_arg)
     relative_custom_codec_output_dir = out_dir_arg if out_dir_arg is not None else custom_codec_output_directories[lang]
     custom_codec_output_dir = os.path.join(root_dir, relative_custom_codec_output_dir)
@@ -120,8 +128,6 @@ if not no_binary_arg:
     relative_binary_output_dir = bin_out_dir_arg if bin_out_dir_arg is not None else binary_output_directories[lang]
     test_output_dir = os.path.join(root_dir, relative_test_output_dir)
     binary_output_dir = os.path.join(root_dir, relative_binary_output_dir)
-
-    protocol_versions = get_protocol_versions(protocol_defs, custom_protocol_defs)
 
     error, binary_templates = get_binary_templates(lang)
     if binary_templates is not None:

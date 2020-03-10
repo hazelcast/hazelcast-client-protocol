@@ -1,15 +1,14 @@
 {
-  "$schema": "http://json-schema.org/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "id": "https://github.com/hazelcast/hazelcast-client-protocol/blob/master/schema/custom-codec-schema.json",
   "title": "Hazelcast Client Protocol Custom Codec Definitions",
   "type": "object",
   "definitions": {
     "since": {
-      "enum": [
-        2.0,
-        2.1
-      ],
-      "default": 2.0
+      "type": ["string", "number"],
+      "minimum": 2.0,
+      "exclusiveMaximum": 3.0,
+      "pattern": "^2\\.\\d*\\.?\\d*$"
     },
     "param": {
       "type": "object",
