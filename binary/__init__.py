@@ -81,6 +81,7 @@ VarLengthEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_UUID_List_Integer',
     'EntryList_Data_Data',
+    'EntryList_Data_List_Data',
 ]
 
 VarLengthMapTypes = [
