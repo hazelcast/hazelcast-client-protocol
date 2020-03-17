@@ -55,6 +55,7 @@ methods:
             returns the registration id
     events:
       - name: Topic
+        since: 2.0
         params:
           - name: item
             type: Data

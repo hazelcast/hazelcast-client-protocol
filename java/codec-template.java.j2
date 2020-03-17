@@ -28,6 +28,12 @@
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
+{% set request_fix_sized_params = fixed_params(method.request.params) %}
+{% set request_var_sized_params = var_size_params(method.request.params) %}
+{% set request_new_params = new_params(method.since, method.request.params) %}
+{% set response_fix_sized_params = fixed_params(method.response.params) %}
+{% set response_var_sized_params = var_size_params(method.response.params) %}
+{% set response_new_params = new_params(method.since, method.response.params) %}
 /*
  * Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
  *
@@ -82,27 +88,27 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     //hex: {{ '0x%06X'|format(method.response.id) }}
     public static final int RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
-{% for param in fixed_params(method.request.params) %}
-    private static final int REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+{% for param in request_fix_sized_params %}
+    private static final int REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}REQUEST_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
-    private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
+    private static final int REQUEST_INITIAL_FRAME_SIZE = REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES;
     {% endif %}
 {% else %}
     private static final int REQUEST_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
 {% endfor %}
-{% for param in fixed_params(method.response.params) %}
-    private static final int RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}RESPONSE_BACKUP_ACKS_FIELD_OFFSET + BYTE_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+{% for param in response_fix_sized_params %}
+    private static final int RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET = {% if loop.first %}RESPONSE_BACKUP_ACKS_FIELD_OFFSET + BYTE_SIZE_IN_BYTES{% else %}RESPONSE_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
-    private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
+    private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES;
     {% endif %}
 {% else %}
     private static final int RESPONSE_INITIAL_FRAME_SIZE = RESPONSE_BACKUP_ACKS_FIELD_OFFSET + BYTE_SIZE_IN_BYTES;
 {% endfor %}
 {% for event in method.events%}
     {% for param in fixed_params(event.params) %}
-    private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
+    private static final int EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET = {% if loop.first %}PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
-    private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET + {{param.type.upper()}}_SIZE_IN_BYTES;
+    private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES;
     {% endif %}
     {% else %}
     private static final int EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE = PARTITION_ID_FIELD_OFFSET + INT_SIZE_IN_BYTES;
@@ -117,30 +123,38 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST PARAMETERS#}
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class RequestParameters {
-    {% for param in method.request.params %}
+{% for param in method.request.params %}
 
         /**
-        {% for line in param.doc.splitlines() %}
+    {% for line in param.doc.splitlines() %}
          * {{ line }}
-        {% endfor %}
+    {% endfor %}
          */
         public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
-    {% endfor %}
+{% endfor %}
+{% for param in request_new_params %}
+
+        /**
+         * True if the {{ param.name }} is received from the client, false otherwise.
+         * If this is false, {{ param.name }} has the default value for its type.
+        */
+        public boolean is{{ param.name|capital }}Exists;
+{% endfor %}
     }
 
 {#REQUEST_ENCODE#}
-    public static ClientMessage encodeRequest({% for param in method.request.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encodeRequest({% for param in method.request.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
         clientMessage.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, REQUEST_MESSAGE_TYPE);
         encodeInt(initialFrame.content, PARTITION_ID_FIELD_OFFSET, -1);
-    {% for param in fixed_params(method.request.params) %}
-        encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% for param in request_fix_sized_params %}
+        encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
-    {% for param in var_size_params(method.request.params) %}
+    {% for param in request_var_sized_params %}
         {{ encode_var_sized(param) }};
     {% endfor %}
         return clientMessage;
@@ -150,17 +164,35 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         RequestParameters request = new RequestParameters();
-    {% if  fixed_params(method.request.params)|length != 0 %}
+    {% if request_fix_sized_params|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
     {% else %}
         //empty initial frame
         iterator.next();
     {% endif %}
-    {% for param in fixed_params(method.request.params) %}
-        request.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% for param in request_fix_sized_params %}
+        {% if param in request_new_params %}
+        if (initialFrame.content.length >= REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
+            request.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+            request.is{{ param.name|capital }}Exists = true;
+        } else {
+            request.is{{ param.name|capital }}Exists = false;
+        }
+        {% else %}
+        request.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        {% endif %}
     {% endfor %}
-    {% for param in var_size_params(method.request.params) %}
+    {% for param in request_var_sized_params %}
+        {% if param in request_new_params %}
+        if (iterator.hasNext()) {
+            request.{{ param.name }} = {{ decode_var_sized(param) }};
+            request.is{{ param.name|capital }}Exists = true;
+        } else {
+            request.is{{ param.name|capital }}Exists = false;
+        }
+        {% else %}
         request.{{ param.name }} = {{ decode_var_sized(param) }};
+        {% endif %}
     {% endfor %}
         return request;
     }
@@ -177,19 +209,27 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
          */
         public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
 {% endfor %}
+{% for param in response_new_params %}
+
+        /**
+         * True if the {{ param.name }} is received from the member, false otherwise.
+         * If this is false, {{ param.name }} has the default value for its type.
+        */
+        public boolean is{{ param.name|capital }}Exists;
+{% endfor %}
     }
 
 {#RESPONSE ENCODE#}
-    public static ClientMessage encodeResponse({% for param in method.response.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encodeResponse({% for param in method.response.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, RESPONSE_MESSAGE_TYPE);
-    {% for param in fixed_params(method.response.params) %}
-        encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+    {% for param in response_fix_sized_params %}
+        encode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
 
-    {% for param in var_size_params(method.response.params) %}
+    {% for param in response_var_sized_params %}
         {{ encode_var_sized(param) }};
     {% endfor %}
         return clientMessage;
@@ -199,17 +239,35 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
-        {% if  fixed_params(method.response.params)|length != 0 %}
+        {% if response_fix_sized_params|length != 0 %}
         ClientMessage.Frame initialFrame = iterator.next();
         {% else %}
         //empty initial frame
         iterator.next();
         {% endif %}
-    {% for param in fixed_params(method.response.params) %}
-        response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+    {% for param in response_fix_sized_params %}
+        {% if param in response_new_params %}
+        if (initialFrame.content.length >= RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
+            response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+            response.is{{ param.name|capital }}Exists = true;
+        } else {
+            response.is{{ param.name|capital }}Exists = false;
+        }
+        {% else %}
+        response.{{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        {% endif %}
     {% endfor %}
-    {% for param in var_size_params(method.response.params) %}
+    {% for param in response_var_sized_params %}
+        {% if param in response_new_params %}
+        if (iterator.hasNext()) {
+            response.{{ param.name }} = {{ decode_var_sized(param) }};
+            response.is{{ param.name|capital }}Exists = true;
+        } else {
+            response.is{{ param.name|capital }}Exists = false;
+        }
+        {% else %}
         response.{{ param.name }} = {{ decode_var_sized(param) }};
+        {% endif %}
     {% endfor %}
         return response;
     }
@@ -217,14 +275,14 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {# EVENTS#}
 {% if method.events|length != 0 %}
 {% for event in method.events%}
-    public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+    public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
         initialFrame.flags |= ClientMessage.IS_EVENT_FLAG;
         encodeInt(initialFrame.content, TYPE_FIELD_OFFSET, EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE);
         encodeInt(initialFrame.content, PARTITION_ID_FIELD_OFFSET, -1);
     {% for param in fixed_params(event.params) %}
-        encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param.name }});
+        encode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET, {{ param.name }});
     {% endfor %}
         clientMessage.add(initialFrame);
 
@@ -233,7 +291,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         return clientMessage;
     }
-    {% endfor %}
+{% endfor %}
 
     public abstract static class AbstractEventHandler {
 
@@ -242,39 +300,62 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
             ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% for event in method.events%}
             if (messageType == EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE) {
-            {% if  fixed_params(event.params)|length != 0 %}
+            {% set new_event_params = new_params(event.since, event.params) %}
+            {% if fixed_params(event.params)|length != 0 %}
                 ClientMessage.Frame initialFrame = iterator.next();
             {% else %}
                 //empty initial frame
                 iterator.next();
             {% endif %}
             {% for param in fixed_params(event.params) %}
-                {{ lang_types_encode(param.type) }} {{param.name}} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_FIELD_OFFSET);
+                {% if param in new_event_params %}
+                boolean is{{ param.name|capital }}Exists = false;
+                {{ lang_types_encode(param.type) }} {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
+                if (initialFrame.content.length >= EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
+                    {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+                    is{{ param.name|capital }}Exists = true;
+                }
+                {% else %}
+                {{ lang_types_encode(param.type) }} {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+                {% endif %}
             {% endfor %}
             {% for param in var_size_params(event.params) %}
-                {{ lang_types_encode(param.type) }} {{param.name}} = {{ decode_var_sized(param) }};
+                {% if param in new_event_params %}
+                boolean is{{ param.name|capital }}Exists = false;
+                {{ lang_types_encode(param.type) }} {{ param.name }} = null;
+                if (iterator.hasNext()) {
+                    {{ param.name }} = {{ decode_var_sized(param) }};
+                    is{{ param.name|capital }}Exists = true;
+                }
+                {% else %}
+                {{ lang_types_encode(param.type) }} {{ param.name }} = {{ decode_var_sized(param) }};
+                {% endif %}
             {% endfor %}
-                handle{{ event.name|capital }}Event({% for param in event.params %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+                handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
                 return;
             }
         {% endfor %}
             Logger.getLogger(super.getClass()).finest("Unknown message type received on event handler :" + messageType);
         }
     {% for event in method.events%}
+        {% set new_event_params = new_params(event.since, event.params) %}
 
         /**
-        {% for param in event.params %}
+            {% for param in event.params %}
+                {% if param in new_event_params %}
+         * @param is{{ param.name|capital }}Exists True if {{ param.name }} exists, false otherwise.
+                {% endif %}
          * @param {{ param.name }}
-        {%- for line in param.doc.splitlines() %}
-        {% if loop.first -%}
+                {%- for line in param.doc.splitlines() %}
+                    {% if loop.first -%}
         {{ " %s"|format(line) }}
-        {% else %}
+                    {% else %}
          * {{ line|indent(8 + param.name|length, True) }}
-        {% endif %}
-        {% endfor %}
-        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         */
-        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+        public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{% if param in new_event_params %}boolean is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
     {% endfor %}
     }
 {% endif %}

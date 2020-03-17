@@ -13,6 +13,10 @@ from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedM
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
 
+MAJOR_VERSION_MULTIPLIER = 10000
+MINOR_VERSION_MULTIPLIER = 100
+PATCH_VERSION_MULTIPLIER = 1
+
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
@@ -40,12 +44,42 @@ def to_upper_snake_case(camel_case_str):
     # return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).upper()
 
 
+def version_to_number(major, minor, patch=0):
+    return MAJOR_VERSION_MULTIPLIER * major + MINOR_VERSION_MULTIPLIER * minor + PATCH_VERSION_MULTIPLIER * patch
+
+
+def get_version_as_number(version):
+    if not isinstance(version, str):
+        version = str(version)
+    return version_to_number(*map(int, version.split('.')))
+
+
 def fixed_params(params):
     return [p for p in params if is_fixed_type(p)]
 
 
 def var_size_params(params):
     return [p for p in params if not is_fixed_type(p)]
+
+
+def new_params(since, params):
+    """
+    Returns the list of parameters that are added later than given version.
+    Because the method should precede all the parameters that are added
+    latter, a simple equality check between the versions that the method and
+    the parameter is added is enough.
+    """
+    return [p for p in params if p['since'] != since]
+
+
+def filter_new_params(params, version):
+    """
+    Returns the filtered list of parameters such that,
+    the resulting list contains only the ones that are added
+    before or at the same time with the given version.
+    """
+    version_as_number = get_version_as_number(version)
+    return [p for p in params if version_as_number >= get_version_as_number(p['since'])]
 
 
 def generate_codecs(services, template, output_dir, lang):
@@ -134,40 +168,110 @@ def load_services(protocol_def_dir):
     return services
 
 
-def validate_services(services, schema_path, no_id_check):
+def validate_services(services, schema_path, no_id_check, protocol_versions):
     valid = True
     with open(schema_path, 'r') as schema_file:
         schema = json.load(schema_file)
         for i in range(len(services)):
             service = services[i]
-            if not no_id_check:
-                # Validate id ordering of services.
-                service_id = service.get('id', None)
-                if i != service_id:
-                    print('Check the service id of the %s. Expected: %s, found: %s.' % (
-                        service.get('name', None), i, service_id))
-                    valid = False
-                # Validate id ordering of service methods.
-                methods = service.get('methods', [])
-                for j in range(len(methods)):
-                    method = methods[j]
-                    method_id = method.get('id', None)
-                    if (j + 1) != method_id:
-                        print('Check the method id of %s#%s. Expected: %s, found: %s' % (
-                            service.get('name', None), method.get('name', None), (j + 1), method_id))
-                        valid = False
             # Validate against the schema.
             if not validate_against_schema(service, schema):
-                valid = False
+                return False
+
+            if not no_id_check:
+                # Validate id ordering of services.
+                service_id = service['id']
+                if i != service_id:
+                    print('Check the service id of the %s. Expected: %s, found: %s.' % (
+                        service['name'], i, service_id))
+                    valid = False
+                # Validate id ordering of service methods.
+                methods = service['methods']
+                for j in range(len(methods)):
+                    method = methods[j]
+                    method_id = method['id']
+                    if (j + 1) != method_id:
+                        print('Check the method id of %s#%s. Expected: %s, found: %s' % (
+                            service['name'], method['name'], (j + 1), method_id))
+                        valid = False
+                    request_params = method['request'].get('params', [])
+                    method_name = service['name'] + "#" + method['name']
+                    if not is_parameters_ordered_and_semantically_correct(method['since'], method_name + '#request',
+                                                                          request_params, protocol_versions):
+                        valid = False
+                    response_params = method['response'].get('params', [])
+                    if not is_parameters_ordered_and_semantically_correct(method['since'], method_name + '#response',
+                                                                          response_params, protocol_versions):
+                        valid = False
+                    events = method.get('events', [])
+                    for event in events:
+                        event_params = event.get('params', [])
+                        if not is_parameters_ordered_and_semantically_correct(event['since'],
+                                                                              method_name + '#' + event['name']
+                                                                              + '#event',
+                                                                              event_params, protocol_versions):
+                            valid = False
     return valid
 
 
-def validate_custom_protocol_definitions(services, schema_path):
+def is_semantically_correct_param(version, protocol_versions):
+    is_semantically_correct = True
+    if version != protocol_versions[0]:
+        # Not 2.0
+        if version % MINOR_VERSION_MULTIPLIER == 0:
+            # Minor version
+            if (version - MINOR_VERSION_MULTIPLIER) not in protocol_versions:
+                # since is set to 2.x but 2.(x-1) is not in the protocol definitions
+                is_semantically_correct = False
+        elif version % PATCH_VERSION_MULTIPLIER == 0:
+            # Patch version
+            if (version - PATCH_VERSION_MULTIPLIER) not in protocol_versions:
+                # since is set to 2.x.y but 2.x.(y-1) is not in the protocol definitions
+                is_semantically_correct = False
+    return is_semantically_correct
+
+
+def is_parameters_ordered_and_semantically_correct(since, name, params, protocol_versions):
+    is_ordered = True
+    is_semantically_correct = True
+    version = get_version_as_number(since)
+
+    if not is_semantically_correct_param(version, protocol_versions):
+        method_or_event_name = name[:name.rindex('#')]
+        print('Check the since value of the "%s"\n'
+              'It is set to version "%s" but this protocol version does '
+              'not semantically follow other protocol versions!' % (method_or_event_name, since))
+        is_semantically_correct = False
+
+    for param in params:
+        param_version = get_version_as_number(param['since'])
+        if not is_semantically_correct_param(param_version, protocol_versions):
+            print('Check the since value of "%s" field of the "%s".\n'
+                  'It is set version "%s" but this protocol version does '
+                  'not semantically follow other protocol versions!' % (param['name'], name, param['since']))
+            is_semantically_correct = False
+
+        if version > param_version:
+            print('Check the since value of "%s" field of the "%s".\n'
+                  'Parameters should be in the increasing order of since values!' % (param['name'], name))
+            is_ordered = False
+
+        version = param_version
+    return is_ordered and is_semantically_correct
+
+
+def validate_custom_protocol_definitions(definition, schema_path, protocol_versions):
     valid = True
     with open(schema_path, 'r') as schema_file:
         schema = json.load(schema_file)
-    for service in services:
-        if not validate_against_schema(service, schema):
+    custom_types = definition[0]
+    if not validate_against_schema(custom_types, schema):
+        return False
+    for custom_type in custom_types['customTypes']:
+        params = custom_type.get('params', [])
+        if not is_parameters_ordered_and_semantically_correct(custom_type['since'],
+                                                              'CustomTypes#' + custom_type['name'],
+                                                              params, protocol_versions):
             valid = False
     return valid
 
@@ -187,6 +291,33 @@ def save_file(file, content):
     codec_hash = m.hexdigest()
     with open(file, 'w', newline='\n') as file:
         file.writelines(content.replace('!codec_hash!', codec_hash))
+
+
+def get_protocol_versions(protocol_defs, custom_codec_defs):
+    protocol_versions = set()
+    if not custom_codec_defs:
+        custom_codec_defs = []
+    else:
+        custom_codec_defs = custom_codec_defs[0]['customTypes']
+
+    for service in protocol_defs:
+        for method in service['methods']:
+            protocol_versions.add(method['since'])
+            for req_param in method['request'].get('params', []):
+                protocol_versions.add(req_param['since'])
+            for res_param in method['response'].get('params', []):
+                protocol_versions.add(res_param['since'])
+            for event in method.get('events', []):
+                protocol_versions.add(event['since'])
+                for event_param in event.get('params', []):
+                    protocol_versions.add(event_param['since'])
+
+    for custom_codec in custom_codec_defs:
+        protocol_versions.add(custom_codec['since'])
+        for param in custom_codec.get('params', []):
+            protocol_versions.add(param['since'])
+
+    return map(str, protocol_versions)
 
 
 class SupportedLanguages(Enum):
@@ -267,6 +398,8 @@ def create_environment(lang, namespace):
     env.globals["to_upper_snake_case"] = to_upper_snake_case
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
+    env.globals['new_params'] = new_params
+    env.globals['filter_new_params'] = filter_new_params
     env.globals["is_var_sized_list"] = is_var_sized_list
     env.globals["is_var_sized_list_contains_nullable"] = is_var_sized_list_contains_nullable
     env.globals["is_var_sized_entry_list"] = is_var_sized_entry_list

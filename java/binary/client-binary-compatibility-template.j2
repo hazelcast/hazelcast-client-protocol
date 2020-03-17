@@ -16,6 +16,7 @@
 
 package com.hazelcast.client.protocol.compatibility;
 
+import com.hazelcast.client.HazelcastClientUtil;
 import com.hazelcast.client.impl.protocol.ClientMessage;
 import com.hazelcast.client.impl.protocol.ClientMessageReader;
 import com.hazelcast.client.impl.protocol.codec.*;
@@ -42,6 +43,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelJVMTest.class})
@@ -61,9 +64,13 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
             reader.reset();
         }
     }
+    {% set protocol_version_as_number = get_version_as_number(protocol_version) %}
     {% set counter = namespace(count=0) %}
     {% for service in services %}
     {% for method in service.methods %}
+        {% if get_version_as_number(method.since) >  protocol_version_as_number %}
+            {% continue %}
+        {% endif %}
 
     @Test
     public void test_{{ service.name|capital}}{{ method.name|capital }}Codec_encodeRequest() {
@@ -79,24 +86,50 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
         int fileClientMessageIndex = {{ counter.count }};
         ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
         {{ service.name|capital }}{{ method.name|capital }}Codec.ResponseParameters parameters = {{ service.name|capital }}{{ method.name|capital }}Codec.decodeResponse(fromFile);
+        {% set new_response_params = new_params(method.since, method.response.params) %}
         {% for param in method.response.params %}
+            {% if get_version_as_number(param.since) > protocol_version_as_number %}
+        assertFalse(parameters.is{{ param.name|capital }}Exists);
+            {% else %}
+                {% if param in new_response_params %}
+        assertTrue(parameters.is{{ param.name|capital }}Exists);
+                {% endif %}
         assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, parameters.{{ param.name }}));
+            {% endif %}
         {% endfor %}
     }
     {% set counter.count = counter.count + 1 %}
     {% if method.events|length != 0%}
 
-    private class {{ service.name|capital }}{{ method.name|capital }}CodecHandler extends {{ service.name|capital }}{{ method.name|capital }}Codec.AbstractEventHandler {
+    private static class {{ service.name|capital }}{{ method.name|capital }}CodecHandler extends {{ service.name|capital }}{{ method.name|capital }}Codec.AbstractEventHandler {
         {% for event in method.events %}
+            {% set new_event_params = new_params(event.since, event.params) %}
+            {% set event_version = get_version_as_number(event.since) %}
         @Override
-        public void handle{{ event.name|capital }}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
-            {% for param in event.params %}
+        public void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}boolean is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_encode(param.type) }} {{param.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+                {% if event_version > protocol_version_as_number %}
+            fail("This method should not be called since this is an v{{ event.since }} event handler but the test is for v{{ protocol_version }}");
+                {% else %}
+                    {% for param in event.params %}
+                        {% if param in new_event_params %}
+                            {% if get_version_as_number(param.since) > protocol_version_as_number %}
+            assertFalse(is{{ param.name|capital }}Exists);
+                            {% else %}
+            assertTrue(is{{ param.name|capital }}Exists);
             assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {{ param.name }}));
-            {% endfor %}
+                            {% endif %}
+                        {% else %}
+            assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {{ param.name }}));
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
         }
         {% endfor %}
     }
     {% for event in method.events %}
+        {% if get_version_as_number(event.since) > protocol_version_as_number %}
+            {% continue %}
+        {% endif %}
 
     @Test
     public void test_{{ service.name|capital }}{{ method.name|capital }}Codec_handle{{ event.name|capital }}Event() {
@@ -116,32 +149,24 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
 
         ClientMessage.ForwardFrameIterator binaryFrameIterator = binaryMessage.frameIterator();
         ClientMessage.ForwardFrameIterator encodedFrameIterator = encodedMessage.frameIterator();
+        assertTrue("Client message that is read from the binary file does not have any frames", binaryFrameIterator.hasNext());
 
-        boolean isInitialFramesCompared = false;
         while (binaryFrameIterator.hasNext()) {
             binaryFrame = binaryFrameIterator.next();
             encodedFrame = encodedFrameIterator.next();
             assertNotNull("Encoded client message has less frames.", encodedFrame);
 
-            boolean isFinal = binaryFrameIterator.peekNext() == null;
-            if (!isInitialFramesCompared) {
-                compareInitialFrame(binaryFrame, encodedFrame, isFinal);
-                isInitialFramesCompared = true;
-            } else {
-                assertArrayEquals("Frames have different contents", binaryFrame.content, encodedFrame.content);
-                int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
-                assertEquals("Frames have different flags", binaryFrame.flags, flags);
+            if (binaryFrame.isEndFrame() && !encodedFrame.isEndFrame()) {
+                if (encodedFrame.isBeginFrame()) {
+                    HazelcastClientUtil.fastForwardToEndFrame(encodedFrameIterator);
+                }
+                encodedFrame = HazelcastClientUtil.fastForwardToEndFrame(encodedFrameIterator);
             }
-        }
-        assertTrue("Client message that is read from the binary file does not have any frames", isInitialFramesCompared);
-    }
 
-    private void compareInitialFrame(ClientMessage.Frame binaryFrame, ClientMessage.Frame encodedFrame, boolean isFinal) {
-        assertTrue("Encoded client message have shorter initial frame",
-                binaryFrame.content.length <= encodedFrame.content.length);
-        assertArrayEquals("Initial frames have different contents",
-                binaryFrame.content, Arrays.copyOf(encodedFrame.content, binaryFrame.content.length));
-        int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
-        assertEquals("Initial frames have different flags", binaryFrame.flags, flags);
+            boolean isFinal = binaryFrameIterator.peekNext() == null;
+            int flags = isFinal ? encodedFrame.flags | IS_FINAL_FLAG : encodedFrame.flags;
+            assertArrayEquals("Frames have different contents", binaryFrame.content, Arrays.copyOf(encodedFrame.content, binaryFrame.content.length));
+            assertEquals("Frames have different flags", binaryFrame.flags, flags);
+        }
     }
 }

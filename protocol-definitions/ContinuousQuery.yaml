@@ -193,6 +193,7 @@ methods:
             Registration id for the listener.
     events:
       - name: QueryCacheSingle
+        since: 2.0
         params:
           - name: data
             type: QueryCacheEventData
@@ -201,6 +202,7 @@ methods:
             doc: |
               Data that holds the details of the event such as key, value, old value, new value and creation time.
       - name: QueryCacheBatch
+        since: 2.0
         params:
           - name: events
             type: List_QueryCacheEventData

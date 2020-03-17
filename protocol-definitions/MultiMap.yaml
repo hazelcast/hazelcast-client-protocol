@@ -408,6 +408,7 @@ methods:
             Returns registration id for the entry listener
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -498,6 +499,7 @@ methods:
             Returns registration id for the entry listener
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
