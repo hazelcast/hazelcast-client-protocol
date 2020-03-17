@@ -97,7 +97,7 @@ You can generate codecs for a specific language by calling,
 
 ```bash
 
-./generator.py [-r ROOT_DIRECTORY] [-l LANGUAGE] [-p PROTOCOL_DEFS_PATH] [-o OUTPUT_DIRECTORY] [-n NAMESPACE] [-b BINARY_OUTPUT_DIR] [-t TEST_OUTPUT_DIR] [-v VERSION] [--no-binary] [--no-id-check]
+./generator.py [-r ROOT_DIRECTORY] [-l LANGUAGE] [-p PROTOCOL_DEFS_PATH] [-o OUTPUT_DIRECTORY] [-n NAMESPACE] [-b BINARY_OUTPUT_DIR] [-t TEST_OUTPUT_DIR] [--no-binary] [--no-id-check]
 
 ```
 
@@ -132,7 +132,6 @@ When left empty, default value is inferred from the selected `LANGUAGE`.
 * `TEST_OUTPUT_DIR` is the output directory relative to the `ROOT_DIRECTORY` that is used for the test files for the binary compatibility tests.
 Default value is inferred from the selected `LANGUAGE`.
 
-* `VERSION` is the protocol version to generate binary and test files for the binary compatibility tests. When left empty, default value is set to the latest protocol version.
 
 * `--no-binary` flag restrains the generator from creating binary and test files for the binary compatibility tests.
 
@@ -221,3 +220,28 @@ convert it to your enum type and construct the object with it.
 
 Custom type definitions are also validated against a [schema](/schema/custom-codec-schema.json). See the [Schema Validation](#schema-validation) 
 section for details of the validation.
+
+### Expanding the Client Protocol
+
+Client protocol can be expanded by adding new
+* services
+* methods
+* parameters to existing method requests, responses or events
+* events to existing methods
+* custom types
+* parameters to existing custom types
+
+While expanding the protocol, one needs to follow these simple guidelines:
+* `since` field of the protocol definitions of the the newly added parameters, methods, events and custom types should 
+be equal to the current protocol version. 
+* New services should have the id of the 1 + the highest id of the existing services.
+* New methods should come after the existing methods on the protocol definitions and have the id of the 1 + the id 
+of the method that comes before it.
+* New request, response or event parameters should come after the existing parameters on the protocol definitions 
+and they should be in the increasing order of the protocol versions that is 2.1 parameters should follow 
+2.0.1 parameters which should follow 2.0 parameters.
+* New parameters to custom types should come after the existing parameters on the protocol definitions and they should
+be in the increasing order of protocol versions as described above.
+* Although not necessary, new events or custom types should come after the existing custom types or events on the 
+protocol definitions.
+ 

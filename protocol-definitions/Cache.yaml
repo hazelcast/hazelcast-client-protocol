@@ -33,6 +33,7 @@ methods:
             Registration id for the registered listener.
     events:
       - name: Cache
+        since: 2.0
         params:
           - name: type
             type: int
@@ -923,6 +924,7 @@ methods:
             returns the registration id for the CachePartitionLostListener.
     events:
       - name: CachePartitionLost
+        since: 2.0
         params:
           - name: partitionId
             type: int
@@ -1074,6 +1076,7 @@ methods:
             Registration id for the registered listener.
     events:
       - name: CacheInvalidation
+        since: 2.0
         params:
           - name: name
             type: String
@@ -1106,6 +1109,7 @@ methods:
             doc: |
               Sequence number of the invalidation event.
       - name: CacheBatchInvalidation
+        since: 2.0
         params:
           - name: name
             type: String
