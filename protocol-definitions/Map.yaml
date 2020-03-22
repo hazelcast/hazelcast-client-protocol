@@ -1796,6 +1796,12 @@ methods:
           since: 2.0
           doc: |
             mappings to be stored in this map
+        - name: triggerMapLoader
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            should trigger MapLoader for elements not in this map
     response: {}
   - id: 45
     name: clear
