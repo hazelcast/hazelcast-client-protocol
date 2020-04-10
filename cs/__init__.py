@@ -18,7 +18,7 @@ def cs_types_encode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError(key)
     return cs_type
 
 
@@ -28,7 +28,7 @@ def cs_types_decode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError(key)
     return cs_type
 
 
@@ -52,10 +52,10 @@ _cs_types_common = {
     "String": "string",
     "Data": "IData",
 
-    "Address": "Hazelcast.IO.Address",
-    "ErrorHolder": "Hazelcast.Client.Protocol.ErrorHolder",
-    "StackTraceElement": "Hazelcast.Util.StackTraceElement",
-    "SimpleEntryView": "Hazelcast.Map.SimpleEntryView<IData, IData>",
+    "Address": "Hazelcast.Networking.NetworkAddress",
+    "ErrorHolder": "Hazelcast.Protocol.Data.ErrorHolder",
+    "StackTraceElement": "Hazelcast.Exceptions.StackTraceElement",
+    "SimpleEntryView": "Hazelcast.Data.Map.SimpleEntryView<IData, IData>",
     "RaftGroupId": "NA",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
@@ -76,7 +76,8 @@ _cs_types_common = {
     "CacheEventData": "NA",
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "Hazelcast.Client.DistributedObjectInfo",
-    "IndexConfig": "Hazelcast.Config.IndexConfig",
+    "IndexConfig": "Hazelcast.Configuration.IndexConfig",
+    "BitmapIndexOptions": "Hazelcast.Config.BitmapIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
@@ -91,11 +92,11 @@ _cs_types_encode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "Hazelcast.Core.MemberInfo",
-    "MemberVersion": "Hazelcast.Core.MemberVersion",
+    "MemberInfo": "Hazelcast.Clustering.MemberInfo",
+    "MemberVersion": "Hazelcast.Clustering.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "NA",
-    "PagingPredicateHolder": "NA",
+    "AnchorDataListHolder": "Hazelcast.Protocol.Data.AnchorDataListHolder",
+    "PagingPredicateHolder": "Hazelcast.Protocol.Data.PagingPredicateHolder",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -104,13 +105,13 @@ _cs_types_encode = {
     "List_Xid": "NA",
     "List_Data": "ICollection<IData>",
     "ListCN_Data": "ICollection<IData>",
-    "List_MemberInfo": "ICollection<Hazelcast.Core.MemberInfo>",
+    "List_MemberInfo": "ICollection<Hazelcast.Clustering.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "ICollection<Hazelcast.Client.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
-    "List_IndexConfig": "ICollection<Hazelcast.Config.IndexConfig>",
+    "List_IndexConfig": "ICollection<Hazelcast.Configuration.IndexConfig>",
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
@@ -128,6 +129,8 @@ _cs_types_encode = {
     "EntryList_String_EntryList_Integer_Long": "ICollection<KeyValuePair<string, ICollection<KeyValuePair<int, long>>>>",
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
+    
+    "BitmapIndexOptions": "Hazelcast.Configuration.BitmapIndexOptions",
 }
 
 _cs_types_decode = {
@@ -136,11 +139,11 @@ _cs_types_decode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "Hazelcast.Core.MemberInfo",
-    "MemberVersion": "Hazelcast.Core.MemberVersion",
+    "MemberInfo": "Hazelcast.Clustering.MemberInfo",
+    "MemberVersion": "Hazelcast.Clustering.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "NA",
-    "PagingPredicateHolder": "NA",
+    "AnchorDataListHolder": "Hazelcast.Protocol.Data.AnchorDataListHolder",
+    "PagingPredicateHolder": "Hazelcast.Protocol.Data.PagingPredicateHolder",
 
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
@@ -149,12 +152,12 @@ _cs_types_decode = {
     "List_String": "IList<string>",
     "List_Data": "IList<IData>",
     "ListCN_Data": "IList<IData>",
-    "List_MemberInfo": "IList<Hazelcast.Core.MemberInfo>",
+    "List_MemberInfo": "IList<Hazelcast.Clustering.MemberInfo>",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
-    "List_DistributedObjectInfo": "NA",
+    "List_DistributedObjectInfo": "ICollection<Hazelcast.Client.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
-    "List_IndexConfig": "IList<Hazelcast.Config.IndexConfig>",
+    "List_IndexConfig": "IList<Hazelcast.Configuration.IndexConfig>",
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
@@ -172,5 +175,7 @@ _cs_types_decode = {
     "EntryList_UUID_Long": "IList<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "IList<KeyValuePair<string, IList<KeyValuePair<int, long>>>>",
     "EntryList_UUID_List_Integer": "IList<KeyValuePair<Guid, IList<int>>>",
-    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>"
+    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
+    
+    "BitmapIndexOptions": "Hazelcast.Configuration.BitmapIndexOptions",
 }

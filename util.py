@@ -105,8 +105,8 @@ def generate_codecs(services, template, output_dir, lang):
                 try:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(os.path.join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                except NotImplementedError as nie:
+                    print("[%s] contains missing type '%s' mapping so ignoring it." % (codec_file_name, nie))
 
 
 def generate_custom_codecs(services, template, output_dir, extension):
@@ -119,8 +119,8 @@ def generate_custom_codecs(services, template, output_dir, extension):
                 try:
                     content = template.render(codec=codec)
                     save_file(os.path.join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                except NotImplementedError as nie:
+                    print("[%s] contains missing type '%s' mapping so ignoring it." % (codec_file_name, nie))
 
 
 def item_type(lang_name, param_type):
@@ -332,7 +332,7 @@ class SupportedLanguages(Enum):
 codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codec/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
@@ -341,7 +341,7 @@ codec_output_directories = {
 custom_codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
+    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codec/Custom/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
