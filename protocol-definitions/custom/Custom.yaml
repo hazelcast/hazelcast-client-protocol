@@ -780,6 +780,34 @@ customTypes:
         type: MemberVersion
         nullable: false
         since: 2.0
+      - name: addressMap
+        type: Map_EndpointQualifier_Address
+        nullable: false
+        since: 2.0
+  - name: EndpointQualifier
+    returnWithFactory: true
+    since: 2.0
+    params: 
+      - name: type
+        type: ProtocolType
+        nullable: false
+        since: 2.0
+      - name: identifier
+        type: String
+        since: 2.0
+        nullable: true
+  - name: ProtocolType
+    returnWithFactory: true
+    since: 2.0
+    params:
+      - name: serverSocketCardinality
+        type: int
+        since: 2.0
+        nullable: false
+      - name: descriptor
+        type: String
+        since: 2.0
+        nullable: false
   - name: MemberVersion
     since: 2.0
     params:

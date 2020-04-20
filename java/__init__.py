@@ -56,8 +56,11 @@ _java_types_common = {
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
+    "EndpointQualifier": "com.hazelcast.instance.EndpointQualifier",
+    "ProtocolType": "com.hazelcast.instance.ProtocolType",
 
-    "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>"
+    "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
+    "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>"
 }
 
 _java_types_encode = {

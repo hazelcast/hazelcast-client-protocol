@@ -393,6 +393,7 @@ reference_objects_dict = {
     'EntryList_Data_Data': 'aListOfDataToData',
     'EntryList_Data_List_Data': 'aListOfDataToListOfData',
     'Map_String_String': 'aMapOfStringToString',
+    'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
