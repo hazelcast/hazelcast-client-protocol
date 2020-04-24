@@ -104,6 +104,7 @@ _java_types_encode = {
     "EntryList_UUID_UUID": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.UUID>>",
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
 }
 
 _java_types_decode = {
@@ -150,4 +151,5 @@ _java_types_decode = {
     "EntryList_UUID_UUID": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.UUID>>",
     "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
 }

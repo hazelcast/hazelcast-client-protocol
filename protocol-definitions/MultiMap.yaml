@@ -846,3 +846,29 @@ methods:
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation
     response: {}
+  - id: 23
+    name: putAll
+    since: 2.0
+    doc: |
+      Copies all of the mappings from the specified map to this MultiMap. The effect of this call is
+      equivalent to that of calling put(k, v) on this MultiMap iteratively for each value in the mapping from key k to value
+      v in the specified MultiMap. The behavior of this operation is undefined if the specified map is modified while the
+      operation is in progress.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: entries
+          type: EntryList_Data_List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            mappings to be stored in this map
+    response: {}
+

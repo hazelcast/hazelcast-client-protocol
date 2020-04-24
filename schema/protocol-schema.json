@@ -71,6 +71,7 @@
             "EntryList_UUID_UUID",
             "EntryList_UUID_List_Integer",
             "EntryList_Data_Data",
+            "EntryList_Data_List_Data",
             "List_byteArray",
             "List_CacheEventData",
             "List_CacheSimpleEntryListenerConfig",
