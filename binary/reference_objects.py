@@ -50,7 +50,7 @@ objects = {
         'uniqueKeyTransformation': 1
     },
     'ProtocolType': {
-        'ordinal': 0
+        'ordinal': 2
     }
 }
 
