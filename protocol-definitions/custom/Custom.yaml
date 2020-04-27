@@ -800,12 +800,8 @@ customTypes:
     returnWithFactory: true
     since: 2.1
     params:
-      - name: serverSocketCardinality
+      - name: ordinal
         type: int
-        since: 2.1
-        nullable: false
-      - name: descriptor
-        type: String
         since: 2.1
         nullable: false
   - name: MemberVersion
