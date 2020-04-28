@@ -108,8 +108,8 @@ const RESPONSE_{{ to_upper_snake_case(param.name) }}_OFFSET = {% if loop.first %
 const EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_OFFSET = {% if loop.first %}PARTITION_ID_OFFSET + BitsUtil.INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_OFFSET + BitsUtil.{{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% endfor %}
 {% endfor %}
-
 {% if method.response.params|length > 0 %}
+
 export interface {{ service_name|capital }}{{ method.name|capital }}ResponseParams {
 {% for param in method.response.params %}
     {{ param.name }}: {{ lang_types_encode(param.type) }};

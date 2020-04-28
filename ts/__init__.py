@@ -245,6 +245,7 @@ _ts_types = {
     "EntryList_UUID_UUID": "Array<[UUID, UUID]>",
     "EntryList_UUID_List_Integer": "Array<[UUID, number[]]>",
     "EntryList_Data_Data": "Array<[Data, Data]>",
+    "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
 }
