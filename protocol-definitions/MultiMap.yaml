@@ -871,4 +871,33 @@ methods:
           doc: |
             mappings to be stored in this map
     response: {}
-
+  - id: 24
+    name: getAll
+    since: 2.0
+    doc: |
+      Returns the collection of values associated with the given keys. The collection is NOT backed by the map, so changes to
+      the map are NOT reflected in the collection, and vice-versa.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: keys
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            keys to get
+    response:
+      params:
+        - name: response
+          type: EntryList_Data_List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            values for the provided keys.
