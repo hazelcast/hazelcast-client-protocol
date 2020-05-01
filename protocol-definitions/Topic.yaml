@@ -55,6 +55,7 @@ methods:
             returns the registration id
     events:
       - name: Topic
+        since: 2.0
         params:
           - name: item
             type: Data
@@ -103,3 +104,83 @@ methods:
           since: 2.0
           doc: |
             True if registration is removed, false otherwise
+  - id: 4
+    name: publishAll
+    since: 2.0
+    doc: |
+      Publishes all messages to all subscribers of this topic
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Topic
+        - name: messages
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The messages to publish to all subscribers of this topic
+    response: {}
+  - id: 5
+    name: publishAsync
+    since: 2.0
+    doc: |
+      Publishes the message to all subscribers of this topic
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Topic
+        - name: message
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The message to publish to all subscribers of this topic
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the CompletionStage to synchronize on completion.
+  - id: 6
+    name: publishAllAsync
+    since: 2.0
+    doc: |
+      Publishes all messages to all subscribers of this topic
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Topic
+        - name: messages
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The messages to publish to all subscribers of this topic
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            the CompletionStage to synchronize on completion.
