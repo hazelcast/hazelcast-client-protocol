@@ -31,16 +31,16 @@ def read_definition(definition, protocol_defs_path):
         return yaml.load(file, Loader=yaml.Loader)
 
 
-def get_custom_type_params(protocol_defs_path):
+def get_custom_type_definitions(protocol_defs_path):
     custom_codec_defs_path = os.path.join(protocol_defs_path, 'custom')
     if not os.path.exists(custom_codec_defs_path):
         return {}
     definitions = read_definition('Custom', custom_codec_defs_path)
-    params = {}
+    result = {}
     custom_types = definitions['customTypes']
     for definition in custom_types:
-        params[definition['name']] = definition['params']
-    return params
+        result[definition['name']] = definition
+    return result
 
 
 class Frame:
@@ -79,13 +79,14 @@ class ClientMessage:
 
 
 class Encoder:
-    def __init__(self, protocol_defs_path):
-        self.custom_type_params = get_custom_type_params(protocol_defs_path)
-        self.custom_type_encoder = CustomTypeEncoder(self, self.custom_type_params)
+    def __init__(self, protocol_defs_path, version):
+        self.custom_type_definitions = get_custom_type_definitions(protocol_defs_path)
+        self.custom_type_encoder = CustomTypeEncoder(self, self.custom_type_definitions)
         self.var_sized_encoder = VarSizedParamEncoder(self)
+        self.version = version
 
     def encode(self, message_def, fix_sized_params_offset, set_partition_id=False, is_event=False, is_null_test=False):
-        params = message_def.get('params', [])
+        params = filter_new_params(message_def.get('params', []), self.version)
         fix_sized_params = fixed_params(params)
         var_sized_params = var_size_params(params)
 
@@ -154,24 +155,31 @@ class FixSizedParamEncoder:
 
 
 class CustomTypeEncoder:
-    def __init__(self, encoder, custom_type_params):
+    def __init__(self, encoder, custom_type_definitions):
         self.encoder = encoder
-        self.custom_type_params = custom_type_params
+        self.custom_type_definitions = custom_type_definitions
 
     def encode_custom_type(self, client_message, custom_type_name, is_null_test=False):
         if is_null_test:
             client_message.add_frame(NULL_FRAME)
             return
 
-        params = self.custom_type_params.get(custom_type_name, [])
+        definition = self.custom_type_definitions.get(custom_type_name)
+        params = filter_new_params(definition.get('params', []), self.encoder.version)
 
         fix_sized_params = fixed_params(params)
+        fix_sized_new_params = new_params(definition['since'], fix_sized_params)
         var_sized_params = var_size_params(params)
 
-        client_message.add_frame(BEGIN_FRAME)
+        should_add_begin_frame = (len(fix_sized_params) > len(fix_sized_new_params)) or len(fix_sized_params) == 0
+
+        if should_add_begin_frame:
+            client_message.add_frame(BEGIN_FRAME)
 
         initial_frame = self.create_initial_frame(custom_type_name, fix_sized_params)
         if initial_frame is not None:
+            if not should_add_begin_frame:
+                initial_frame.flags |= BEGIN_DATA_STRUCTURE_FLAG
             client_message.add_frame(initial_frame)
 
         self.encoder.var_sized_encoder.encode_var_sized_frames(var_sized_params, client_message)
@@ -223,6 +231,7 @@ class VarSizedParamEncoder:
             'List_Integer': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='int'),
             'List_Long': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='long'),
             'List_UUID': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='UUID'),
+            'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler'))
         }
@@ -382,7 +391,9 @@ reference_objects_dict = {
     'EntryList_UUID_UUID': 'aListOfUUIDToUUID',
     'EntryList_UUID_List_Integer': 'aListOfUUIDToListOfIntegers',
     'EntryList_Data_Data': 'aListOfDataToData',
+    'EntryList_Data_List_Data': 'aListOfDataToListOfData',
     'Map_String_String': 'aMapOfStringToString',
+    'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
@@ -408,15 +419,17 @@ reference_objects_dict = {
 }
 
 
-def create_environment_for_binary_generator(lang, version):
-    env = Environment(loader=PackageLoader(lang.value + '.binary', '.'))
+def create_environment_for_binary_generator(lang):
+    env = Environment(loader=PackageLoader(lang.value + '.binary', '.'), extensions=['jinja2.ext.loopcontrols'])
     env.trim_blocks = True
     env.lstrip_blocks = True
     env.keep_trailing_newline = False
     env.filters['capital'] = capital
     env.globals['lang_types_encode'] = language_specific_funcs['lang_types_encode'][lang]
-    env.globals['protocol_version'] = version
     env.globals['reference_objects_dict'] = reference_objects_dict
+    env.globals['get_version_as_number'] = get_version_as_number
+    env.globals['new_params'] = new_params
+    env.globals['filter_new_params'] = filter_new_params
     return env
 
 

@@ -302,6 +302,7 @@ methods:
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -393,6 +394,7 @@ methods:
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -484,6 +486,7 @@ methods:
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -568,6 +571,7 @@ methods:
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data
@@ -762,6 +766,7 @@ methods:
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
+        since: 2.0
         params:
           - name: key
             type: Data

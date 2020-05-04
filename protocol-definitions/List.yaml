@@ -314,6 +314,7 @@ methods:
             Registration id for the listener.
     events:
       - name: Item
+        since: 2.0
         params:
           - name: item
             type: Data

@@ -1,14 +1,14 @@
 {
-  "$schema": "http://json-schema.org/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "id": "https://github.com/hazelcast/hazelcast-client-protocol/blob/master/schema/protocol-schema.json",
   "title": "Hazelcast Client Protocol Definition",
   "type": "object",
   "definitions": {
     "since": {
-      "enum": [
-        2.0
-      ],
-      "default": 2.0
+      "type": ["string", "number"],
+      "minimum": 2.0,
+      "exclusiveMaximum": 3.0,
+      "pattern": "^2\\.\\d*\\.?\\d*$"
     },
     "param": {
       "type": "object",
@@ -71,6 +71,7 @@
             "EntryList_UUID_UUID",
             "EntryList_UUID_List_Integer",
             "EntryList_Data_Data",
+            "EntryList_Data_List_Data",
             "List_byteArray",
             "List_CacheEventData",
             "List_CacheSimpleEntryListenerConfig",
@@ -90,6 +91,7 @@
             "List_ClientBwListEntry",
             "List_MCEvent",
             "Map_String_String",
+            "Map_EndpointQualifier_Address",
             "MergePolicyConfig",
             "MemberVersion",
             "MemberInfo",
@@ -124,6 +126,9 @@
         "name": {
           "type": "string",
           "description": "Event name"
+        },
+        "since": {
+          "$ref": "#/definitions/since"
         },
         "params": {
           "type": "array",

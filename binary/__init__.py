@@ -50,6 +50,8 @@ CustomTypes = [
     'MCEvent',
     'AnchorDataListHolder',
     'PagingPredicateHolder',
+    'EndpointQualifier',
+    'ProtocolType'
 ]
 
 CustomConfigTypes = [
@@ -81,10 +83,12 @@ VarLengthEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_UUID_List_Integer',
     'EntryList_Data_Data',
+    'EntryList_Data_List_Data',
 ]
 
 VarLengthMapTypes = [
     'Map_String_String',
+    'Map_EndpointQualifier_Address',
 ]
 
 VarLengthListTypes = [
