@@ -848,7 +848,7 @@ methods:
     response: {}
   - id: 23
     name: putAll
-    since: 2.0
+    since: 2.1
     doc: |
       Copies all of the mappings from the specified map to this MultiMap. The effect of this call is
       equivalent to that of calling put(k, v) on this MultiMap iteratively for each value in the mapping from key k to value
@@ -861,13 +861,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 2.1
           doc: |
             name of map
         - name: entries
           type: EntryList_Data_List_Data
           nullable: false
-          since: 2.0
+          since: 2.1
           doc: |
             mappings to be stored in this map
     response: {}
