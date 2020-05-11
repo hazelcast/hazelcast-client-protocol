@@ -873,7 +873,7 @@ methods:
     response: {}
   - id: 24
     name: getAll
-    since: 2.0
+    since: 2.1
     doc: |
       Returns the collection of values associated with the given keys. The collection is NOT backed by the map, so changes to
       the map are NOT reflected in the collection, and vice-versa.
@@ -884,13 +884,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 2.1
           doc: |
             name of map
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 2.1
           doc: |
             keys to get
     response:
@@ -898,6 +898,6 @@ methods:
         - name: response
           type: EntryList_Data_List_Data
           nullable: false
-          since: 2.0
+          since: 2.1
           doc: |
             values for the provided keys.
