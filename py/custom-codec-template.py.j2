@@ -46,7 +46,8 @@ INITIAL_FRAME_SIZE = {{to_upper_snake_case(escape_keyword(param.name))}}_FIELD_O
 {% endif %}
 {% endfor %}
 
-class {{ codec.name|capital }}Codec:
+
+class {{ codec.name|capital }}Codec(object):
     @staticmethod
     def encode(client_message, {{ snake_case(param_name(codec.name)) }}):
         client_message.add(BEGIN_FRAME)
