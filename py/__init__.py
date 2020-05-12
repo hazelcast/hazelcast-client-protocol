@@ -62,7 +62,7 @@ _py_types_common = {
     "CacheEventData": "NA",
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "hazelcast.core.DistributedObjectInfo",
-    "IndexConfig": "NA",
+    "IndexConfig": "hazelcast.config.IndexConfig",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
@@ -81,7 +81,7 @@ _py_types_encode = {
     "MemberInfo": "",
     "MemberVersion": "NA",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "hazelcast.client.protocol.codec.holder.anchor_data_list_holder.AnchorDataListHolder",
+    "AnchorDataListHolder": "NA",
     "PagingPredicateHolder": "NA",
 
     "List_Long": "",
