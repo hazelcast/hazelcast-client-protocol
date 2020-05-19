@@ -41,7 +41,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            {% if not (is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) or is_var_sized_entry_list(param.type) or is_var_sized_map(param.type)) and param.nullable and not 'CodecUtil' in imported_paths %}
+            {% if not (is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) or is_var_sized_entry_list(param.type) or is_var_sized_map(param.type)) and param.nullable and param.type != 'UUID' and not 'CodecUtil' in imported_paths %}
                 {%- do imported_paths.append('CodecUtil') -%}
                 {{ get_import_path_holders('CodecUtil').get_import_statement(False) }}
             {% endif %} 
@@ -86,7 +86,7 @@ import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESP
 // hex: {{ '0x%06X'|format(method.request.id) }}
 const REQUEST_MESSAGE_TYPE = {{ method.request.id }};
 // hex: {{ '0x%06X'|format(method.response.id) }}
-const RESPONSE_MESSAGE_TYPE = {{ method.response.id }};
+// RESPONSE_MESSAGE_TYPE = {{ method.response.id }}
 {% for event in method.events%}
 // hex: {{ '0x%06X'|format(event.id) }}
 const EVENT_{{ to_upper_snake_case(event.name)}}_MESSAGE_TYPE = {{ event.id }};
