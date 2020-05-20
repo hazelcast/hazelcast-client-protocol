@@ -90,6 +90,7 @@
             "List_ClientBwListEntry",
             "List_MCEvent",
             "Map_String_String",
+            "Map_EndpointQualifier_Address",
             "MergePolicyConfig",
             "MemberVersion",
             "MemberInfo",

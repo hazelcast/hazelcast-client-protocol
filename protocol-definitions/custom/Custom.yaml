@@ -780,6 +780,30 @@ customTypes:
         type: MemberVersion
         nullable: false
         since: 2.0
+      - name: addressMap
+        type: Map_EndpointQualifier_Address
+        nullable: false
+        since: 2.0.1
+  - name: EndpointQualifier
+    returnWithFactory: true
+    since: 2.0.1
+    params: 
+      - name: type
+        type: ProtocolType
+        nullable: false
+        since: 2.0.1
+      - name: identifier
+        type: String
+        since: 2.0.1
+        nullable: true
+  - name: ProtocolType
+    returnWithFactory: true
+    since: 2.0.1
+    params:
+      - name: ordinal
+        type: int
+        since: 2.0.1
+        nullable: false
   - name: MemberVersion
     since: 2.0
     params:

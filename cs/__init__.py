@@ -82,7 +82,8 @@ _cs_types_common = {
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
 
-    "Map_String_String": "IDictionary<string, string>"
+    "Map_String_String": "IDictionary<string, string>",
+    "Map_EndpointQualifier_Address": "NA"
 }
 
 _cs_types_encode = {
