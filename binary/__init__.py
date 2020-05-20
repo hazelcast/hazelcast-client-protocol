@@ -51,7 +51,6 @@ CustomTypes = [
     'AnchorDataListHolder',
     'PagingPredicateHolder',
     'EndpointQualifier',
-    'ProtocolType'
 ]
 
 CustomConfigTypes = [

@@ -48,9 +48,6 @@ objects = {
     },
     'BitmapIndexOptions': {
         'uniqueKeyTransformation': 1
-    },
-    'ProtocolType': {
-        'ordinal': 2
     }
 }
 
