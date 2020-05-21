@@ -7,7 +7,7 @@
         MapCodec.encode{% if param.nullable  %}_nullable{% endif %}(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name)) }}(){% endif %}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encode_nullable(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}(){% endif %}, {{ lang_name(param.type) }}Codec.encode)
+            CodecUtil.encode_nullable(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}{% endif %}, {{ lang_name(param.type) }}Codec.encode)
         {%- else -%}
             {{ lang_name(param.type) }}Codec.encode(client_message, {{ snake_case(param_name(codec.name))}}.{% if param.type == 'boolean' %}is_{{ escape_keyword(snake_case(param.name)) }}(){% else %}{{ escape_keyword(snake_case(param.name))|lower }}{% endif %})
         {%- endif %}

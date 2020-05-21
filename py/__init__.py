@@ -63,10 +63,12 @@ _py_types_common = {
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "hazelcast.core.DistributedObjectInfo",
     "IndexConfig": "hazelcast.config.IndexConfig",
+    "BitmapIndexOptions": "hazelcast.config.BitmapIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
+    "EndpointQualifier": "NA",
 
     "Map_String_String": ""
 }
