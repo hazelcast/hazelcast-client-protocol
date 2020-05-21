@@ -48,6 +48,9 @@ objects = {
     },
     'BitmapIndexOptions': {
         'uniqueKeyTransformation': 1
+    },
+    'EndpointQualifier': {
+        'type': 2
     }
 }
 
