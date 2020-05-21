@@ -93,7 +93,6 @@
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
-            "ProtocolType",
             "MergePolicyConfig",
             "MemberVersion",
             "MemberInfo",

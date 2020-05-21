@@ -789,21 +789,13 @@ customTypes:
     since: 2.1
     params: 
       - name: type
-        type: ProtocolType
+        type: int
         nullable: false
         since: 2.1
       - name: identifier
         type: String
         since: 2.1
         nullable: true
-  - name: ProtocolType
-    returnWithFactory: true
-    since: 2.1
-    params:
-      - name: ordinal
-        type: int
-        since: 2.1
-        nullable: false
   - name: MemberVersion
     since: 2.0
     params:

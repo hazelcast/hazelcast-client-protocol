@@ -49,8 +49,8 @@ objects = {
     'BitmapIndexOptions': {
         'uniqueKeyTransformation': 1
     },
-    'ProtocolType': {
-        'ordinal': 2
+    'EndpointQualifier': {
+        'type': 2
     }
 }
 
