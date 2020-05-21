@@ -93,7 +93,6 @@
             "MergePolicyConfig",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
-            "ProtocolType",
             "MemberVersion",
             "MemberInfo",
             "MCEvent",

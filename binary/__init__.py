@@ -50,8 +50,7 @@ CustomTypes = [
     'MCEvent',
     'AnchorDataListHolder',
     'PagingPredicateHolder',
-    'EndpointQualifier',
-    'ProtocolType'
+    'EndpointQualifier'
 ]
 
 CustomConfigTypes = [
