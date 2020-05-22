@@ -142,10 +142,10 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
     static decodeResponse(clientMessage: ClientMessage): {% if method.response.params|length > 0 %}{{ service_name|capital }}{{ method.name|capital }}ResponseParams{% else %}void{% endif %} {
         const iterator = clientMessage.frameIterator();
 {% if  response_fix_sized_params|length != 0 %}
-        const initialFrame = iterator.next();
+        const initialFrame = iterator.getNextFrame();
 {% else %}
         // empty initial frame
-        iterator.next();
+        iterator.getNextFrame();
 {% endif %}
 
         return {
@@ -167,10 +167,10 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for event in method.events %}
         if (messageType === EVENT_{{ to_upper_snake_case(event.name) }}_MESSAGE_TYPE && handle{{ event.name|capital }}Event !== null) {
         {% if fixed_params(event.params)|length != 0 %}
-            const initialFrame = iterator.next();
+            const initialFrame = iterator.getNextFrame();
         {% else %}
             // empty initial frame
-            iterator.next();
+            iterator.getNextFrame();
         {% endif %}
         {% for param in fixed_params(event.params) %}
             const {{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_OFFSET);
