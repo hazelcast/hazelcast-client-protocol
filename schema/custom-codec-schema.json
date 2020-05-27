@@ -91,6 +91,8 @@
             "List_MCEvent",
             "Map_String_String",
             "MergePolicyConfig",
+            "Map_EndpointQualifier_Address",
+            "EndpointQualifier",
             "MemberVersion",
             "MemberInfo",
             "MCEvent",

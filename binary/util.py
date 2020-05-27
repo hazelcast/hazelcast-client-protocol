@@ -391,6 +391,7 @@ reference_objects_dict = {
     'EntryList_UUID_List_Integer': 'aListOfUUIDToListOfIntegers',
     'EntryList_Data_Data': 'aListOfDataToData',
     'Map_String_String': 'aMapOfStringToString',
+    'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
