@@ -421,6 +421,8 @@ reference_objects_dict = {
     'SqlQueryId': 'anSqlQueryId',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
+    'CPMember': 'aCpMember',
+    'List_CPMember': 'aListOfCpMembers'
 }
 
 

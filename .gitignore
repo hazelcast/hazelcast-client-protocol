@@ -66,5 +66,8 @@ target/
 .DS_Store
 .directory
 
+# VSCode
+.vscode/
+
 # Generated codecs
 output/
