@@ -59,7 +59,9 @@ _java_types_common = {
     "EndpointQualifier": "com.hazelcast.instance.EndpointQualifier",
 
     "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
-    "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>"
+    "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
+
+    "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>"
 }
 
 _java_types_encode = {
@@ -76,6 +78,7 @@ _java_types_encode = {
     "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "CPMember": "com.hazelcast.cp.CPMember",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -128,6 +131,7 @@ _java_types_decode = {
     "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",

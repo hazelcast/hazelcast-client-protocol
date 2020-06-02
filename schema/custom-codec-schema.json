@@ -103,7 +103,9 @@
             "PagingPredicateHolder",
             "SqlQueryId",
             "SqlError",
-            "SqlColumnMetadata"
+            "SqlColumnMetadata",
+            "CPMember",
+            "List_CPMember"
           ]
         },
         "nullable": {
