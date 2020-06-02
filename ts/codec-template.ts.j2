@@ -80,7 +80,7 @@
 import {Buffer} from 'safe-buffer';
 import {BitsUtil} from '../BitsUtil';
 import {FixSizedTypesCodec} from './builtin/FixSizedTypesCodec';
-import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESPONSE_BACKUP_ACKS_OFFSET, {% endif %}MESSAGE_TYPE_OFFSET, PARTITION_ID_OFFSET, UNFRAGMENTED_MESSAGE} from '../ClientMessage';
+import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESPONSE_BACKUP_ACKS_OFFSET, {% endif %}PARTITION_ID_OFFSET, UNFRAGMENTED_MESSAGE} from '../ClientMessage';
 {{ get_import_statements(request_fix_sized_params, request_var_sized_params, response_fix_sized_params, response_var_sized_params, event_fix_sized_params, event_var_sized_params) }}
 // hex: {{ '0x%06X'|format(method.request.id) }}
 const REQUEST_MESSAGE_TYPE = {{ method.request.id }};
@@ -124,12 +124,12 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
         clientMessage.setRetryable({{ method.request.retryable|lower }});
 
         const initialFrame = new Frame(Buffer.allocUnsafe(REQUEST_INITIAL_FRAME_SIZE), UNFRAGMENTED_MESSAGE);
-        FixSizedTypesCodec.encodeInt(initialFrame.content, MESSAGE_TYPE_OFFSET, REQUEST_MESSAGE_TYPE);
-        FixSizedTypesCodec.encodeInt(initialFrame.content, PARTITION_ID_OFFSET, -1);
 {% for param in request_fix_sized_params %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_OFFSET, {{ param.name }});
 {% endfor %}
-        clientMessage.add(initialFrame);
+        clientMessage.addFrame(initialFrame);
+        clientMessage.setMessageType(REQUEST_MESSAGE_TYPE);
+        clientMessage.setPartitionId(-1);
 
 {% for param in request_var_sized_params %}
         {{ encode_var_sized(param) }};

@@ -81,7 +81,7 @@ const INITIAL_FRAME_SIZE = {{to_upper_snake_case(param.name)}}_OFFSET + BitsUtil
 {% endfor %}
 export class {{ codec.name|capital }}Codec {
     static encode(clientMessage: ClientMessage, {{ param_name(codec.name) }}: {{ lang_types_encode(codec.name) }}): void {
-        clientMessage.add(BEGIN_FRAME.copy());
+        clientMessage.addFrame(BEGIN_FRAME.copy());
         {% for param in fix_sized_params %}
         {% if loop.first %}
 
@@ -89,7 +89,7 @@ export class {{ codec.name|capital }}Codec {
         {% endif %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ param.name }});
         {% if loop.last %}
-        clientMessage.add(initialFrame);
+        clientMessage.addFrame(initialFrame);
         {% endif %}
         {% endfor %}
         {% for param in var_sized_params %}
@@ -99,7 +99,7 @@ export class {{ codec.name|capital }}Codec {
         {{ encode_var_sized(param) }};
         {% endfor %}
 
-        clientMessage.add(END_FRAME.copy());
+        clientMessage.addFrame(END_FRAME.copy());
     }
 
     static decode(iterator: ForwardFrameIterator): {{ lang_types_decode(codec.name) }} {
