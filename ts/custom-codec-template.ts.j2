@@ -15,16 +15,16 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec.decode)
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ item_type(lang_name, param.type) }}Codec.decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec.decode)
+            CodecUtil.decodeNullable(clientMessage, {{ lang_name(param.type) }}Codec.decode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.decode(iterator)
+            {{ lang_name(param.type) }}Codec.decode(clientMessage)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
@@ -68,7 +68,7 @@ import {Buffer} from 'safe-buffer';
 import {FixSizedTypesCodec} from '../builtin/FixSizedTypesCodec';
 import {BitsUtil} from '../../BitsUtil';
 {% endif %}
-import {ClientMessage, BEGIN_FRAME, END_FRAME, ForwardFrameIterator{% if fix_sized_params|length != 0 %}, Frame{% endif %}} from '../../ClientMessage';
+import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame{% endif %}} from '../../ClientMessage';
 import {CodecUtil} from '../builtin/CodecUtil';
 {% set codec_params = {'type': codec.name, 'name': codec.name} %}
 {{ get_import_statements(fix_sized_params, var_sized_params, [codec_params]) }}
@@ -102,13 +102,13 @@ export class {{ codec.name|capital }}Codec {
         clientMessage.addFrame(END_FRAME.copy());
     }
 
-    static decode(iterator: ForwardFrameIterator): {{ lang_types_decode(codec.name) }} {
+    static decode(clientMessage: ClientMessage): {{ lang_types_decode(codec.name) }} {
         // begin frame
-        iterator.getNextFrame();
+        clientMessage.nextFrame();
         {% for param in fix_sized_params %}
         {% if loop.first %}
 
-        const initialFrame = iterator.getNextFrame();
+        const initialFrame = clientMessage.nextFrame();
         {% endif %}
         const {{ param.name }}: {{ lang_types_decode(param.type) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_OFFSET);
         {% endfor %}
@@ -116,7 +116,7 @@ export class {{ codec.name|capital }}Codec {
         const {{ param.name }}: {{ lang_types_decode(param.type) }} = {{ decode_var_sized(param) }};
         {% endfor %}
 
-        CodecUtil.fastForwardToEndFrame(iterator);
+        CodecUtil.fastForwardToEndFrame(clientMessage);
 
         return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
     }
