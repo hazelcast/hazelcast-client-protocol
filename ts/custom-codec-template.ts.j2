@@ -64,7 +64,6 @@
 
 /*tslint:disable:max-line-length*/
 {% if fix_sized_params|length != 0 %}
-import {Buffer} from 'safe-buffer';
 import {FixSizedTypesCodec} from '../builtin/FixSizedTypesCodec';
 import {BitsUtil} from '../../BitsUtil';
 {% endif %}
@@ -85,7 +84,7 @@ export class {{ codec.name|capital }}Codec {
         {% for param in fix_sized_params %}
         {% if loop.first %}
 
-        const initialFrame = new Frame(Buffer.allocUnsafe(INITIAL_FRAME_SIZE));
+        const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE);
         {% endif %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ param.name }});
         {% if loop.last %}

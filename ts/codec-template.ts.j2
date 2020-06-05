@@ -77,9 +77,10 @@
  */
 
 /*tslint:disable:max-line-length*/
-import {Buffer} from 'safe-buffer';
 import {BitsUtil} from '../BitsUtil';
+{% if request_fix_sized_params|length != 0 or response_fix_sized_params|length != 0 or event_fix_sized_params|length != 0 %}
 import {FixSizedTypesCodec} from './builtin/FixSizedTypesCodec';
+{% endif %}
 import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESPONSE_BACKUP_ACKS_OFFSET, {% endif %}PARTITION_ID_OFFSET, UNFRAGMENTED_MESSAGE} from '../ClientMessage';
 {{ get_import_statements(request_fix_sized_params, request_var_sized_params, response_fix_sized_params, response_var_sized_params, event_fix_sized_params, event_var_sized_params) }}
 // hex: {{ '0x%06X'|format(method.request.id) }}
@@ -115,7 +116,7 @@ export interface {{ service_name|capital }}{{ method.name|capital }}ResponsePara
     {{ param.name }}: {{ lang_types_encode(param.type) }};
 {% endfor %}
 }
-{%- endif %}
+{% endif %}
 
 export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST_ENCODE#}
@@ -123,7 +124,7 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
         const clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
 
-        const initialFrame = new Frame(Buffer.allocUnsafe(REQUEST_INITIAL_FRAME_SIZE), UNFRAGMENTED_MESSAGE);
+        const initialFrame = Frame.createInitialFrame(REQUEST_INITIAL_FRAME_SIZE, UNFRAGMENTED_MESSAGE);
 {% for param in request_fix_sized_params %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_OFFSET, {{ param.name }});
 {% endfor %}

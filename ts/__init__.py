@@ -28,12 +28,15 @@ def ts_get_import_path_holders(param_type):
 
 
 class ImportPathHolder:
-    def __init__(self, name, path, is_builtin_codec=False, is_custom_codec=False, is_internal_file=True):
+    def __init__(self, name, path, is_builtin_codec=False,
+                 is_custom_codec=False, is_internal_file=True,
+                 import_as_wildcard=False):
         self.name = name
         self.path = path
         self.is_builtin_codec = is_builtin_codec
         self.is_custom_codec = is_custom_codec
         self.is_internal_file = is_internal_file
+        self.import_as_wildcard = import_as_wildcard
 
     def get_import_statement(self, is_called_from_custom_codec):
         codec_path: str = self.path
@@ -53,12 +56,16 @@ class ImportPathHolder:
                     path = '../%s'
             statement = 'import {%s} from \'' + path + '\';'
         else:
-            statement = 'import * as %s from \'%s\';'
+            if self.import_as_wildcard:
+                statement = 'import * as %s from \'%s\';'
+            else:
+                statement = 'import {%s} from \'%s\';'
         return statement % (self.name, codec_path)
 
 
 class PathHolders:
-    Long = ImportPathHolder('Long', 'long', is_internal_file=False)
+    Buffer = ImportPathHolder('Buffer', 'safe-buffer', is_internal_file=False)
+    Long = ImportPathHolder('Long', 'long', is_internal_file=False, import_as_wildcard=True)
     UUID = ImportPathHolder('UUID', 'core/UUID')
     Data = ImportPathHolder('Data', 'serialization/Data')
     DataCodec = ImportPathHolder('DataCodec', 'builtin/DataCodec', is_builtin_codec=True)
@@ -121,7 +128,7 @@ import_paths = {
     'Long': [PathHolders.Long],
     'UUID': [PathHolders.UUID],
     'longArray': [PathHolders.Long, PathHolders.LongArrayCodec],
-    'byteArray': [PathHolders.ByteArrayCodec],
+    'byteArray': [PathHolders.Buffer, PathHolders.ByteArrayCodec],
     'String': [PathHolders.StringCodec],
     'Data': [PathHolders.Data, PathHolders.DataCodec],
     'Address': [PathHolders.Address, PathHolders.AddressCodec],
