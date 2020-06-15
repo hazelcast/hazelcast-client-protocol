@@ -67,7 +67,7 @@
 import {FixSizedTypesCodec} from '../builtin/FixSizedTypesCodec';
 import {BitsUtil} from '../../BitsUtil';
 {% endif %}
-import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame{% endif %}} from '../../ClientMessage';
+import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame, DEFAULT_FLAGS{% endif %}} from '../../ClientMessage';
 import {CodecUtil} from '../builtin/CodecUtil';
 {% set codec_params = {'type': codec.name, 'name': codec.name} %}
 {{ get_import_statements(fix_sized_params, var_sized_params, [codec_params]) }}
@@ -84,7 +84,7 @@ export class {{ codec.name|capital }}Codec {
         {% for param in fix_sized_params %}
         {% if loop.first %}
 
-        const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE, undefined);
+        const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE, DEFAULT_FLAGS);
         {% endif %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ param.name }});
         {% if loop.last %}
