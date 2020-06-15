@@ -84,7 +84,7 @@ export class {{ codec.name|capital }}Codec {
         {% for param in fix_sized_params %}
         {% if loop.first %}
 
-        const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE);
+        const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE, undefined);
         {% endif %}
         FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ param.name }});
         {% if loop.last %}
