@@ -90,6 +90,7 @@ class PathHolders:
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
     ListUUIDCodec = ImportPathHolder('ListUUIDCodec', 'builtin/ListUUIDCodec', is_builtin_codec=True)
+    ListDataCodec = ImportPathHolder('ListDataCodec', 'builtin/ListDataCodec', is_builtin_codec=True)
     ListMultiFrameCodec = ImportPathHolder('ListMultiFrameCodec', 'builtin/ListMultiFrameCodec', is_builtin_codec=True)
     EntryListCodec = ImportPathHolder('EntryListCodec', 'builtin/EntryListCodec', is_builtin_codec=True)
     EntryListLongByteArrayCodec = ImportPathHolder('EntryListLongByteArrayCodec',
@@ -160,6 +161,7 @@ import_paths = {
     'EntryList_UUID_UUID': [PathHolders.EntryListUUIDUUIDCodec, PathHolders.UUID],
     'EntryList_UUID_List_Integer': [PathHolders.EntryListUUIDListIntegerCodec, PathHolders.UUID],
     'EntryList_Data_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.Data],
+    'EntryList_Data_List_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec, PathHolders.Data],
     'Map_String_String': [PathHolders.MapCodec, PathHolders.StringCodec],
     'IndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec],
     'ListIndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
@@ -218,6 +220,7 @@ _ts_types = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
+    "EndpointQualifier": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -254,4 +257,5 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
+    "Map_EndpointQualifier_Address": "!skip"
 }
