@@ -64,7 +64,6 @@ class ImportPathHolder:
 
 
 class PathHolders:
-    Buffer = ImportPathHolder('Buffer', 'safe-buffer', is_internal_file=False)
     Long = ImportPathHolder('Long', 'long', is_internal_file=False, import_as_wildcard=True)
     UUID = ImportPathHolder('UUID', 'core/UUID')
     Data = ImportPathHolder('Data', 'serialization/Data')
@@ -128,7 +127,7 @@ import_paths = {
     'Long': [PathHolders.Long],
     'UUID': [PathHolders.UUID],
     'longArray': [PathHolders.Long, PathHolders.LongArrayCodec],
-    'byteArray': [PathHolders.Buffer, PathHolders.ByteArrayCodec],
+    'byteArray': [PathHolders.ByteArrayCodec],
     'String': [PathHolders.StringCodec],
     'Data': [PathHolders.Data, PathHolders.DataCodec],
     'Address': [PathHolders.Address, PathHolders.AddressCodec],
