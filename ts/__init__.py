@@ -6,7 +6,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                           'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                           'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 30, 31, 32}
+ts_ignore_service_list = {7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 30, 31, 32, 33}
 
 
 def ts_types_encode(key):
@@ -221,6 +221,9 @@ _ts_types = {
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
     "EndpointQualifier": "NA",
+    "SqlQueryId": "NA",
+    "SqlError": "NA",
+    "SqlColumnMetadata": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
