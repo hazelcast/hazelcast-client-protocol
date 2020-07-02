@@ -84,12 +84,15 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
     @Test
     public void test_{{ service.name|capital }}{{ method.name|capital }}Codec_decodeResponse() {
         int fileClientMessageIndex = {{ counter.count }};
-        ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
+        {% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
         {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
-        {% if singleResponseValue %}
+        {% if noResponseValue %}
+        {% elif singleResponseValue %}
+        ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
         {% set param = method.response.params|last %}
         assertTrue(isEqual({%if test_nullable and param.nullable %}null{% else %}{{ reference_objects_dict[param.type] }}{% endif %}, {{ service.name|capital }}{{ method.name|capital }}Codec.decodeResponse(fromFile)));
         {% else %}
+        ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);
         {{ service.name|capital }}{{ method.name|capital }}Codec.ResponseParameters parameters = {{ service.name|capital }}{{ method.name|capital }}Codec.decodeResponse(fromFile);
         {% set new_response_params = new_params(method.since, method.response.params) %}
         {% for param in method.response.params %}
@@ -176,5 +179,4 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
         }
     }
 }
-
 

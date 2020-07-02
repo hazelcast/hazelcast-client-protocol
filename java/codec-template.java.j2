@@ -121,8 +121,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#REQUEST PARAMETERS#}
+{% set noRequestValue = method.request.params|length == 0 and request_new_params|length == 0 %}
 {% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
-{% if singleRequestValue %}
+{% if noRequestValue %}
+{% elif singleRequestValue %}
     {% set param = method.request.params|last %}
     /**
     {% for line in param.doc.splitlines() %}
@@ -173,7 +175,8 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#REQUEST_DECODE#}
-{% if singleRequestValue %}
+{% if noRequestValue %}
+{% elif singleRequestValue %}
     {% set param = method.request.params|last %}
     public static {{ lang_types_decode(param.type) }} decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
@@ -229,8 +232,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% endif %}
 
 {#RESPONSE PARAMETERS#}
+{% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
-{% if singleResponseValue %}
+{% if noResponseValue %}
+{% elif singleResponseValue %}
     {% set param = method.response.params|last %}
     /**
     {% for line in param.doc.splitlines() %}
@@ -279,7 +284,8 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE DECODE#}
-{% if singleResponseValue %}
+{% if noResponseValue %}
+{% elif singleResponseValue %}
     {% set param = method.response.params|last %}
     public static {{ lang_types_decode(param.type) }} decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
@@ -422,5 +428,4 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 {% endif %}
 }
-
 
