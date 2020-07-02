@@ -198,26 +198,38 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE PARAMETERS#}
+{% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
+{% if singleResponseValue %}
+    {% set param = method.response.params|last %}
+    /**
+    {% for line in param.doc.splitlines() %}
+     * {{ line }}
+    {% endfor %}
+     */
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"})
+    public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+{% else %}
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
-{% for param in method.response.params %}
+    {% for param in method.response.params %}
+            /**
+            {% for line in param.doc.splitlines() %}
+             * {{ line }}
+            {% endfor %}
+             */
+            public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+    {% endfor %}
+    {% for param in response_new_params %}
 
-        /**
-        {% for line in param.doc.splitlines() %}
-         * {{ line }}
-        {% endfor %}
-         */
-        public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
-{% endfor %}
-{% for param in response_new_params %}
+            /**
+             * True if the {{ param.name }} is received from the member, false otherwise.
+             * If this is false, {{ param.name }} has the default value for its type.
+            */
+            public boolean is{{ param.name|capital }}Exists;
+    {% endfor %}
 
-        /**
-         * True if the {{ param.name }} is received from the member, false otherwise.
-         * If this is false, {{ param.name }} has the default value for its type.
-        */
-        public boolean is{{ param.name|capital }}Exists;
-{% endfor %}
     }
+{% endif %}
 
 {#RESPONSE ENCODE#}
     public static ClientMessage encodeResponse({% for param in method.response.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
@@ -236,6 +248,24 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#RESPONSE DECODE#}
+{% if singleResponseValue %}
+    {% set param = method.response.params|last %}
+    public static {{ lang_types_decode(param.type) }} decodeResponse(ClientMessage clientMessage) {
+        ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
+        {% if response_fix_sized_params|length != 0 %}
+        ClientMessage.Frame initialFrame = iterator.next();
+        {% else %}
+        //empty initial frame
+        iterator.next();
+        {% endif %}
+        {% for param in response_fix_sized_params %}
+        return decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        {% endfor %}
+        {% for param in response_var_sized_params %}
+        return {{ decode_var_sized(param) }};
+        {% endfor %}
+    }
+{% else %}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
@@ -271,6 +301,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         return response;
     }
+{% endif %}
 
 {# EVENTS#}
 {% if method.events|length != 0 %}
@@ -360,4 +391,5 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 {% endif %}
 }
+
 
