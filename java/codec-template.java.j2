@@ -121,6 +121,17 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#REQUEST PARAMETERS#}
+{% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
+{% if singleRequestValue %}
+    {% set param = method.request.params|last %}
+    /**
+    {% for line in param.doc.splitlines() %}
+     * {{ line }}
+    {% endfor %}
+     */
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"})
+    public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+{% else %}
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class RequestParameters {
 {% for param in method.request.params %}
@@ -141,6 +152,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         public boolean is{{ param.name|capital }}Exists;
 {% endfor %}
     }
+{% endif %}
 
 {#REQUEST_ENCODE#}
     public static ClientMessage encodeRequest({% for param in method.request.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
@@ -161,6 +173,24 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 
 {#REQUEST_DECODE#}
+{% if singleRequestValue %}
+    {% set param = method.request.params|last %}
+    public static {{ lang_types_decode(param.type) }} decodeRequest(ClientMessage clientMessage) {
+        ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
+        {% if request_fix_sized_params|length != 0 %}
+        ClientMessage.Frame initialFrame = iterator.next();
+        {% else %}
+        //empty initial frame
+        iterator.next();
+        {% endif %}
+        {% for param in request_fix_sized_params %}
+        return decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        {% endfor %}
+        {% for param in request_var_sized_params %}
+        return {{ decode_var_sized(param) }};
+        {% endfor %}
+    }
+{% else %}
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         RequestParameters request = new RequestParameters();
@@ -196,6 +226,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         return request;
     }
+{% endif %}
 
 {#RESPONSE PARAMETERS#}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
