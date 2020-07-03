@@ -248,20 +248,20 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
     {% for param in method.response.params %}
-            /**
-            {% for line in param.doc.splitlines() %}
-             * {{ line }}
-            {% endfor %}
-             */
-            public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
+        /**
+        {% for line in param.doc.splitlines() %}
+         * {{ line }}
+        {% endfor %}
+         */
+        public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
     {% endfor %}
     {% for param in response_new_params %}
 
-            /**
-             * True if the {{ param.name }} is received from the member, false otherwise.
-             * If this is false, {{ param.name }} has the default value for its type.
-            */
-            public boolean is{{ param.name|capital }}Exists;
+        /**
+         * True if the {{ param.name }} is received from the member, false otherwise.
+         * If this is false, {{ param.name }} has the default value for its type.
+        */
+        public boolean is{{ param.name|capital }}Exists;
     {% endfor %}
 
     }
