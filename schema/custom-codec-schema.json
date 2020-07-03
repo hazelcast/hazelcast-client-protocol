@@ -90,6 +90,7 @@
             "List_StackTraceElement",
             "List_ClientBwListEntry",
             "List_MCEvent",
+            "List_SqlColumnMetadata",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
@@ -98,7 +99,12 @@
             "MemberInfo",
             "MCEvent",
             "AnchorDataListHolder",
-            "PagingPredicateHolder"
+            "PagingPredicateHolder",
+            "SqlQueryId",
+            "SqlError",
+            "SqlColumnMetadata",
+            "SqlRowMetadata",
+            "SqlPage"
           ]
         },
         "nullable": {

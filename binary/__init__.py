@@ -51,6 +51,11 @@ CustomTypes = [
     'AnchorDataListHolder',
     'PagingPredicateHolder',
     'EndpointQualifier',
+    'SqlQueryId',
+    'SqlError',
+    'SqlColumnMetadata',
+    'SqlRowMetadata',
+    'SqlPage',
 ]
 
 CustomConfigTypes = [
@@ -108,6 +113,7 @@ VarLengthListTypes = [
     'List_StackTraceElement',
     'List_ClientBwListEntry',
     'List_MCEvent',
+    'List_SqlColumnMetadata'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

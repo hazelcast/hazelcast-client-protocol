@@ -412,10 +412,16 @@ reference_objects_dict = {
     'List_StackTraceElement': 'aListOfStackTraceElements',
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'List_MCEvent': 'aListOfMCEvents',
+    'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
     'PagingPredicateHolder': 'aPagingPredicateHolder',
+    'SqlQueryId': 'anSqlQueryId',
+    'SqlError': 'anSqlError',
+    'SqlColumnMetadata': 'anSqlColumnMetadata',
+    'SqlRowMetadata': 'anSqlRowMetadata',
+    'SqlPage': 'anSqlPage',
 }
 
 

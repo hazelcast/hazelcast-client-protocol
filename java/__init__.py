@@ -73,6 +73,11 @@ _java_types_encode = {
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
+    "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
+    "SqlError": "com.hazelcast.sql.impl.client.SqlError",
+    "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
+    "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -94,6 +99,7 @@ _java_types_encode = {
     "List_StackTraceElement": "java.util.Collection<java.lang.StackTraceElement>",
     "List_ClientBwListEntry": "java.util.Collection<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
     "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
+    "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -120,6 +126,11 @@ _java_types_decode = {
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
+    "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
+    "SqlError": "com.hazelcast.sql.impl.client.SqlError",
+    "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
+    "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -141,6 +152,7 @@ _java_types_decode = {
     "List_ClientBwListEntry": "java.util.List<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
     "List_MCEvent": "java.util.List<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
+    "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",
