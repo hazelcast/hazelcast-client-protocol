@@ -236,14 +236,6 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if noResponseValue %}
 {% elif singleResponseValue %}
-    {% set param = method.response.params|last %}
-    /**
-    {% for line in param.doc.splitlines() %}
-     * {{ line }}
-    {% endfor %}
-     */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"})
-    public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
 {% else %}
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
@@ -263,10 +255,8 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         */
         public boolean is{{ param.name|capital }}Exists;
     {% endfor %}
-
     }
 {% endif %}
-
 {#RESPONSE ENCODE#}
     public static ClientMessage encodeResponse({% for param in method.response.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
@@ -287,6 +277,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% if noResponseValue %}
 {% elif singleResponseValue %}
     {% set param = method.response.params|last %}
+    /**
+    {% for line in param.doc.splitlines() %}
+    * {{ line }}
+    {% endfor %}
+    */
     public static {{ lang_types_decode(param.type) }} decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% if response_fix_sized_params|length != 0 %}
