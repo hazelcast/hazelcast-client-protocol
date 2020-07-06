@@ -626,6 +626,24 @@ methods:
           since: 2.0
           doc: |
             queue name
+        - name: queueType
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            data type used to store entries. Valid values are {@code LINKED_LIST} and {@code PRIORITY_QUEUE}.
+        - name: comparatorClassName
+          type: String
+          nullable: true
+          since: 2.0
+          doc: |
+            Class name of the configured {@link java.util.Comparator} implementation.
+        - name: duplicateAllowed
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            {@code true} if duplicate items are allowed in this queue, otherwise {@code false}
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
