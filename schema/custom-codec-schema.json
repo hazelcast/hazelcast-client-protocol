@@ -91,6 +91,7 @@
             "List_ClientBwListEntry",
             "List_MCEvent",
             "List_SqlColumnMetadata",
+            "List_SqlPageRow",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
@@ -104,7 +105,8 @@
             "SqlError",
             "SqlColumnMetadata",
             "SqlRowMetadata",
-            "SqlPage"
+            "SqlPage",
+            "SqlPageRow"
           ]
         },
         "nullable": {

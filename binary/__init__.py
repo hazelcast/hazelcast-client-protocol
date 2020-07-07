@@ -56,6 +56,7 @@ CustomTypes = [
     'SqlColumnMetadata',
     'SqlRowMetadata',
     'SqlPage',
+    'SqlPageRow',
 ]
 
 CustomConfigTypes = [
@@ -113,7 +114,8 @@ VarLengthListTypes = [
     'List_StackTraceElement',
     'List_ClientBwListEntry',
     'List_MCEvent',
-    'List_SqlColumnMetadata'
+    'List_SqlColumnMetadata',
+    'List_SqlPageRow'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

@@ -921,11 +921,18 @@ customTypes:
         type: List_SqlColumnMetadata
         nullable: false
         since: 2.1
+  - name: SqlPageRow
+    since: 2.1
+    params:
+      - name: values
+        type: List_Data
+        nullable: false
+        since: 2.1
   - name: SqlPage
     since: 2.1
     params:
       - name: rows
-        type: List_Data
+        type: List_SqlPageRow
         nullable: false
         since: 2.1
       - name: last

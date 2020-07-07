@@ -78,6 +78,7 @@ _java_types_encode = {
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
     "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
     "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",
+    "SqlPageRow": "com.hazelcast.sql.impl.client.SqlPageRow",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -100,6 +101,7 @@ _java_types_encode = {
     "List_ClientBwListEntry": "java.util.Collection<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
     "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
+    "List_SqlPageRow": "java.util.List<com.hazelcast.sql.impl.client.SqlPageRow>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -131,6 +133,7 @@ _java_types_decode = {
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
     "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
     "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",
+    "SqlPageRow": "com.hazelcast.sql.impl.client.SqlPageRow",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -153,6 +156,7 @@ _java_types_decode = {
     "List_MCEvent": "java.util.List<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
+    "List_SqlPageRow": "java.util.List<com.hazelcast.sql.impl.client.SqlPageRow>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",
