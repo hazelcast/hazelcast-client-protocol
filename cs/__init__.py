@@ -100,8 +100,7 @@ _cs_types_encode = {
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "SqlRowMetadata": "NA",
-    "SqlPage": "NA",
-    "SqlPageRow": "NA",
+    "SqlRow": "NA",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -124,7 +123,7 @@ _cs_types_encode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "NA",
-    "List_SqlPageRow": "NA",
+    "List_SqlRow": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",

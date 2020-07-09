@@ -49,11 +49,17 @@ methods:
           doc: |
             Row metadata.
         - name: rowPage
-          type: SqlPage
+          type: List_SqlRow
           nullable: true
           since: 2.1
           doc: |
             Row page.
+        - name: rowPageLast
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            Whether the row page is the last.
         - name: error
           type: SqlError
           nullable: true
@@ -84,11 +90,17 @@ methods:
     response:
       params:
         - name: rowPage
-          type: SqlPage
+          type: List_SqlRow
           nullable: true
           since: 2.1
           doc: |
             Row page.
+        - name: rowPageLast
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            Whether the row page is the last.
         - name: error
           type: SqlError
           nullable: true

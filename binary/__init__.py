@@ -54,8 +54,7 @@ CustomTypes = [
     'SqlError',
     'SqlColumnMetadata',
     'SqlRowMetadata',
-    'SqlPage',
-    'SqlPageRow',
+    'SqlRow',
 ]
 
 CustomConfigTypes = [
@@ -114,7 +113,7 @@ VarLengthListTypes = [
     'List_ClientBwListEntry',
     'List_MCEvent',
     'List_SqlColumnMetadata',
-    'List_SqlPageRow'
+    'List_SqlRow'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

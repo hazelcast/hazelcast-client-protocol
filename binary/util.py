@@ -413,7 +413,7 @@ reference_objects_dict = {
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'List_MCEvent': 'aListOfMCEvents',
     'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
-    'List_SqlPageRow': 'aListOfSqlPageRow',
+    'List_SqlRow': 'aListOfSqlRow',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
@@ -421,8 +421,7 @@ reference_objects_dict = {
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'SqlRowMetadata': 'anSqlRowMetadata',
-    'SqlPage': 'anSqlPage',
-    'SqlPageRow': 'anSqlPageRow',
+    'SqlRow': 'anSqlRow',
 }
 
 
