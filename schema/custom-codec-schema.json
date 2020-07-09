@@ -101,7 +101,6 @@
             "MCEvent",
             "AnchorDataListHolder",
             "PagingPredicateHolder",
-            "SqlQueryId",
             "SqlError",
             "SqlColumnMetadata",
             "SqlRowMetadata",

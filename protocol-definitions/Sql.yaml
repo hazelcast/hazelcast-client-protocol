@@ -37,7 +37,7 @@ methods:
     response:
       params:
         - name: queryId
-          type: SqlQueryId
+          type: String
           nullable: true
           since: 2.1
           doc: |
@@ -70,7 +70,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: queryId
-          type: SqlQueryId
+          type: String
           nullable: false
           since: 2.1
           doc: |
@@ -105,7 +105,7 @@ methods:
       partitionIdentifier: -1
       params:
         - name: queryId
-          type: SqlQueryId
+          type: String
           nullable: false
           since: 2.1
           doc: |

@@ -418,7 +418,6 @@ reference_objects_dict = {
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
     'PagingPredicateHolder': 'aPagingPredicateHolder',
-    'SqlQueryId': 'anSqlQueryId',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'SqlRowMetadata': 'anSqlRowMetadata',
