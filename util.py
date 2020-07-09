@@ -12,6 +12,7 @@ from jinja2 import Environment, PackageLoader
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
+from py import py_types_encode, py_types_decode, py_escape_keyword, py_ignore_service_list
 
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
@@ -26,8 +27,16 @@ def cs_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
+def py_name(type_name):
+    return "".join([part for part in type_name.replace("(","").replace("(","").split("_")])
+
+
 def param_name(type_name):
     return type_name[0].lower() + type_name[1:]
+
+
+def py_param_name(type_name):
+    return re.sub("_", "", type_name)
 
 
 def is_fixed_type(param):
@@ -52,6 +61,10 @@ def get_version_as_number(version):
     if not isinstance(version, str):
         version = str(version)
     return version_to_number(*map(int, version.split('.')))
+
+
+def snake_case(camel_case_str):
+    return re.sub('((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))', r'_\1', camel_case_str).lower()
 
 
 def fixed_params(params):
@@ -100,8 +113,12 @@ def generate_codecs(services, template, output_dir, lang):
                 if events is not None:
                     for i in range(len(events)):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
-
-                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
+                if lang.name == 'PY':
+                    codec_file_name = snake_case(service["name"]) + "_" + snake_case(method["name"]) + '_codec.' + \
+                                      file_extensions[lang]
+                else:
+                    codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[
+                        lang]
                 try:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(os.path.join(output_dir, codec_file_name), content)
@@ -115,7 +132,10 @@ def generate_custom_codecs(services, template, output_dir, extension):
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
-                codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                if extension == "py":
+                    codec_file_name = snake_case(codec["name"]) + '_codec.' + extension
+                else:
+                    codec_file_name = capital(codec["name"]) + 'Codec.' + extension
                 try:
                     content = template.render(codec=codec)
                     save_file(os.path.join(output_dir, codec_file_name), content)
@@ -324,7 +344,7 @@ class SupportedLanguages(Enum):
     JAVA = 'java'
     # CPP = 'cpp'
     CS = 'cs'
-    # PY = 'py'
+    PY = 'py'
     # TS = 'ts'
     # GO = 'go'
 
@@ -333,7 +353,7 @@ codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
-    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
 }
@@ -342,7 +362,7 @@ custom_codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
-    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
     # SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
 }
@@ -351,7 +371,7 @@ file_extensions = {
     SupportedLanguages.JAVA: 'java',
     # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     SupportedLanguages.CS: 'cs',
-    # SupportedLanguages.PY: 'py',
+    SupportedLanguages.PY: 'py',
     # SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
 }
@@ -360,22 +380,27 @@ language_specific_funcs = {
     'lang_types_encode': {
         SupportedLanguages.JAVA: java_types_encode,
         SupportedLanguages.CS: cs_types_encode,
+        SupportedLanguages.PY: py_types_encode,
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
         SupportedLanguages.CS: cs_types_decode,
+        SupportedLanguages.PY: py_types_decode,
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
         SupportedLanguages.CS: cs_name,
+        SupportedLanguages.PY: py_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
+        SupportedLanguages.PY: py_param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
+        SupportedLanguages.PY: py_escape_keyword,
     },
 }
 
@@ -383,7 +408,7 @@ language_service_ignore_list = {
     SupportedLanguages.JAVA: [],
     # SupportedLanguages.CPP: [],
     SupportedLanguages.CS: cs_ignore_service_list,
-    # SupportedLanguages.PY: [],
+    SupportedLanguages.PY: py_ignore_service_list,
     # SupportedLanguages.TS: [],
     # SupportedLanguages.GO: []
 }
@@ -396,6 +421,7 @@ def create_environment(lang, namespace):
     env.keep_trailing_newline = False
     env.filters["capital"] = capital
     env.globals["to_upper_snake_case"] = to_upper_snake_case
+    env.globals["snake_case"] = snake_case
     env.globals["fixed_params"] = fixed_params
     env.globals["var_size_params"] = var_size_params
     env.globals['new_params'] = new_params
