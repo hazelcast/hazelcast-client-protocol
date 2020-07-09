@@ -1,0 +1,160 @@
+{% macro encode_var_sized(param) -%}
+    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        elements :=  {{ param_name(codec.name)}}.{{escape_keyword(param.name) }}
+         clientMessage.Add(BeginFrame)
+        for i := 0; i < len(elements) ; i++ {
+            {{item_type(lang_name, param.type)}}CodecEncode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(clientMessage, elements[i])
+        }
+
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}CodecEncode, {{ value_type(lang_name, param.type) }}CodecEncode)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodecEncode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}CodecEncode, {{ value_type(lang_name, param.type) }}CodecEncode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }}, {{ lang_name(param.type) }}CodecEncode)
+        {%- else -%}
+            {{ lang_name(param.type) }}CodecEncode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ param.name }})
+        {%- endif %}
+    {% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+         var {{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }}
+         //begin frame, list
+        iterator.Next()
+        for !NextFrameIsDataStructureEndFrame(iterator) {
+            {{ escape_keyword(param.name) }} = append({{ escape_keyword(param.name) }}, {{item_type(lang_name, param.type)}}CodecDecode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable %}Nullable{% endif %}(iterator))
+        }
+        //end frame, list
+        iterator.Next()
+
+
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}CodecDecode, {{ value_type(lang_name, param.type) }}CodecDecode)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodecDecode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}CodecDecode, {{ value_type(lang_name, param.type) }}CodecDecode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            {%- if 'String' == lang_name(param.type) -%}
+                DecodeNullable(iterator, {{ lang_name(param.type) }}CodecDecode).(string)
+            {%- else -%}
+                DecodeNullable(iterator, {{ lang_name(param.type) }}CodecDecode)
+            {%- endif -%}
+        {%- else -%}
+            {{ lang_name(param.type) }}CodecDecode(iterator)
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro %}
+/*
+ * Copyright (c) 2008-2019, Hazelcast, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package proto
+
+{% set flag_serialization = {'value': False} %}
+{% set flag_= {'value': False} %}
+
+import (
+{% for param in codec.params %}
+{% if ('Data' in lang_types_decode(param.type)) and flag_serialization['value']==False  %}
+    "github.com/hazelcast/hazelcast-go-client/serialization"
+    {% if flag_serialization.update({'value': True}) %}
+        {% endif %}
+{% endif %}
+{% endfor %}
+)
+
+type {{ codec.name|capital }} struct {
+{% for param in codec.params %}{{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }}{% if not loop.last %}{% endif %}
+
+{% endfor %}
+}
+
+//CONSTRUCTOR
+func New{{ codec.name|capital }}({%- for param in codec.params -%}
+{{ escape_keyword(param.name) }} {{ lang_types_decode(param.type) }} {%- if not loop.last -%} , {%- endif -%}
+{%- endfor -%}) *{{ codec.name|capital }} {
+return &{{ codec.name|capital }}{ {%- for param in codec.params -%}
+{{ escape_keyword(param.name) }}{%- if not loop.last -%}, {%- endif -%}
+{%- endfor -%} }
+}
+
+
+//GETTERS
+{% for param in codec.params %}
+func (x *{{ codec.name|capital }}) {{ param.name|capital }}() {{ lang_types_decode(param.type) }} {
+    return x.{{ escape_keyword(param.name) }}
+    }
+{% if not loop.last %}{% endif %}
+{% endfor %}
+
+
+//@Generated("!codec_hash!")
+const (
+ {% for param in fixed_params(codec.params) %}
+    {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ codec.name|capital }}{{ (loop.previtem.name)|capital }}FieldOffset + {{ loop.previtem.type|capital }}SizeInBytes{% endif %}
+
+    {% if loop.last %}
+    {{ codec.name|capital }}InitialFrameSize = {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset + {{ param.type|capital }}SizeInBytes
+    {% endif %}
+    {% endfor %}
+)
+
+func {{ codec.name|capital }}CodecEncode(clientMessage *ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}) {
+        clientMessage.Add(BeginFrame)
+        {% for param in fixed_params(codec.params) %}
+        {% if loop.first %}
+        initialFrame := &Frame{Content: make([]byte, {{ codec.name|capital }}InitialFrameSize), Flags: UnfragmentedMessage}
+        {% endif %}
+        Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}{% else %}{% endif %}{{ escape_keyword(param.name) }})
+        {% if loop.last %}
+        clientMessage.Add(initialFrame)
+        {% endif %}
+        {% endfor %}
+        {% for param in var_size_params(codec.params) %}
+        {% if loop.first %}
+        {% endif %}
+        {{ encode_var_sized(param) }}
+        {% endfor %}
+
+        clientMessage.Add(EndFrame)
+    }
+
+func {{ codec.name|capital }}CodecDecode(iterator *ForwardFrameIterator)  {{ lang_types_decode(codec.name) }}  {
+        // begin frame
+        iterator.Next()
+        {% for param in fixed_params(codec.params) %}
+        {% if loop.first %}
+        initialFrame := iterator.Next()
+        {% endif %}
+        {{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}{{ (param.name)|capital }}FieldOffset)
+        {% endfor %}
+        {% for param in var_size_params(codec.params) %}
+        {% if loop.first %}
+        {% endif %}
+        {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type)  %}
+        {{ decode_var_sized(param) }}
+        {% else %}
+        {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+        {% endif %}
+        {% endfor %}
+        FastForwardToEndFrame(iterator)
+        {% if codec.returnWithFactory %}
+        return {{ codec.name }} { {% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %} }
+        {% else %}
+        return {{ lang_types_decode(codec.name) }} { {% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %} }
+        {% endif %}
+    }

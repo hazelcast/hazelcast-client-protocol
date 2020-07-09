@@ -9,9 +9,10 @@ from yaml import MarkedYAMLError
 import yaml
 from jinja2 import Environment, PackageLoader
 
-from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
+from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes, CustomTypes, CustomConfigTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
+from go import go_types_encode, go_types_decode, go_escape_keyword, go_ignore_service_list
 
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
@@ -23,6 +24,10 @@ def java_name(type_name):
 
 
 def cs_name(type_name):
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
+
+
+def go_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
@@ -101,7 +106,13 @@ def generate_codecs(services, template, output_dir, lang):
                     for i in range(len(events)):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
-                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
+                # codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + extension
+                #if service["name"] == 'Map' or service["name"] == 'Set' or \
+                 #       service["name"] == 'Queue' or service["name"] == 'List' \
+                  #      or (service["name"] == 'Client'):  # and method["name"] == 'ping'
+
+                    # codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
+                codec_file_name = (service["name"] + "_" + method["name"] + "." + file_extensions[lang]).lower()
                 try:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(os.path.join(output_dir, codec_file_name), content)
@@ -115,7 +126,8 @@ def generate_custom_codecs(services, template, output_dir, extension):
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
-                codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                # codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                codec_file_name = ("custom_" + codec["name"] + "." + extension).lower()
                 try:
                     content = template.render(codec=codec)
                     save_file(os.path.join(output_dir, codec_file_name), content)
@@ -150,6 +162,10 @@ def is_var_sized_map(param_type):
 
 def is_var_sized_entry_list(param_type):
     return param_type.startswith("EntryList_") and param_type not in FixedEntryListTypes
+
+
+def is_custom(param_type):
+    return param_type in CustomTypes or param_type in CustomConfigTypes
 
 
 def load_services(protocol_def_dir):
@@ -326,7 +342,7 @@ class SupportedLanguages(Enum):
     CS = 'cs'
     # PY = 'py'
     # TS = 'ts'
-    # GO = 'go'
+    GO = 'go'
 
 
 codec_output_directories = {
@@ -335,7 +351,8 @@ codec_output_directories = {
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
-    # SupportedLanguages.GO: 'internal/proto/'
+    # SupportedLanguages.GO: 'internal/proto/',
+    SupportedLanguages.GO: 'internal/proto/',
 }
 
 custom_codec_output_directories = {
@@ -344,7 +361,8 @@ custom_codec_output_directories = {
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     # SupportedLanguages.TS: 'src/codec/',
-    # SupportedLanguages.GO: 'internal/proto/'
+    # SupportedLanguages.GO: 'internal/proto/custom',
+    SupportedLanguages.GO: 'internal/proto/',
 }
 
 file_extensions = {
@@ -353,29 +371,34 @@ file_extensions = {
     SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
     # SupportedLanguages.TS: 'ts',
-    # SupportedLanguages.GO: 'go'
+    SupportedLanguages.GO: 'go',
 }
 
 language_specific_funcs = {
     'lang_types_encode': {
         SupportedLanguages.JAVA: java_types_encode,
         SupportedLanguages.CS: cs_types_encode,
+        SupportedLanguages.GO: go_types_encode,
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
         SupportedLanguages.CS: cs_types_decode,
+        SupportedLanguages.GO: go_types_decode,
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
         SupportedLanguages.CS: cs_name,
+        SupportedLanguages.GO: go_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
+        SupportedLanguages.GO: param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
+        SupportedLanguages.GO: go_escape_keyword,
     },
 }
 
@@ -385,7 +408,7 @@ language_service_ignore_list = {
     SupportedLanguages.CS: cs_ignore_service_list,
     # SupportedLanguages.PY: [],
     # SupportedLanguages.TS: [],
-    # SupportedLanguages.GO: []
+    SupportedLanguages.GO: go_ignore_service_list,
 }
 
 
@@ -413,5 +436,6 @@ def create_environment(lang, namespace):
     env.globals["namespace"] = namespace
     env.globals["param_name"] = language_specific_funcs['param_name'][lang]
     env.globals["escape_keyword"] = language_specific_funcs['escape_keyword'][lang]
+    env.globals["is_custom"] = is_custom
 
     return env
