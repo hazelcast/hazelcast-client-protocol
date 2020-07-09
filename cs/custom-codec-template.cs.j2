@@ -2,7 +2,7 @@
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.Encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ item_type(lang_name, param.type) }}Codec.Encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode)
+        EntryListCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.EncodeNullable)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode)
     {%- else -%}
@@ -94,7 +94,7 @@ namespace Hazelcast.Client.Protocol.Codec.Custom
             {{ encode_var_sized(param) }};
             {% endfor %}
 
-            clientMessage.Add(EndFrame);
+            clientMessage.Add(EndFrame.Copy());
         }
 
         public static {{ lang_types_decode(codec.name) }} Decode(FrameIterator iterator)
