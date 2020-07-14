@@ -1,16 +1,7 @@
 id: 33
-name: SqlBeta
+name: Sql
 methods:
   - id: 1
-    name: missing
-    since: 2.1
-    doc: |
-      A message to test for missing server-side handler
-    request:
-      retryable: false
-      partitionIdentifier: -1
-    response: {}
-  - id: 2
     name: execute
     since: 2.1
     doc: |
@@ -75,7 +66,7 @@ methods:
           since: 2.1
           doc: |
             Error object.
-  - id: 3
+  - id: 2
     name: fetch
     since: 2.1
     doc: |
@@ -116,7 +107,7 @@ methods:
           since: 2.1
           doc: |
             Error object.
-  - id: 4
+  - id: 3
     name: close
     since: 2.1
     doc: |
