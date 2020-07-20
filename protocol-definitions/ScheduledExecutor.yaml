@@ -69,7 +69,7 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
-        - name: isAutoDisposable
+        - name: autoDisposable
           type: boolean
           nullable: false
           since: 2.1
@@ -127,7 +127,7 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
-        - name: isAutoDisposable
+        - name: autoDisposable
           type: boolean
           nullable: false
           since: 2.1
