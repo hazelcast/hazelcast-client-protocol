@@ -420,7 +420,6 @@ reference_objects_dict = {
     'PagingPredicateHolder': 'aPagingPredicateHolder',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
-    'SqlRowMetadata': 'anSqlRowMetadata',
     'SqlRow': 'anSqlRow',
 }
 

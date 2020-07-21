@@ -75,7 +75,6 @@ _java_types_encode = {
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
-    "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
     "SqlRow": "com.hazelcast.sql.impl.client.SqlClientRow",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
@@ -128,7 +127,6 @@ _java_types_decode = {
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
-    "SqlRowMetadata": "com.hazelcast.sql.SqlRowMetadata",
     "SqlRow": "com.hazelcast.sql.impl.client.SqlClientRow",
 
     "List_Long": "java.util.List<java.lang.Long>",

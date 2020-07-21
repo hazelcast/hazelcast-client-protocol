@@ -99,7 +99,6 @@ _cs_types_encode = {
     "PagingPredicateHolder": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
-    "SqlRowMetadata": "NA",
     "SqlRow": "NA",
 
     "List_Long": "ICollection<long>",

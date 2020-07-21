@@ -53,7 +53,6 @@ CustomTypes = [
     'EndpointQualifier',
     'SqlError',
     'SqlColumnMetadata',
-    'SqlRowMetadata',
     'SqlRow',
 ]
 

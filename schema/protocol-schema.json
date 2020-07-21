@@ -102,7 +102,6 @@
             "PagingPredicateHolder",
             "SqlError",
             "SqlColumnMetadata",
-            "SqlRowMetadata",
             "SqlRow"
           ]
         },

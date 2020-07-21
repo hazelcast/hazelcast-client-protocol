@@ -43,7 +43,7 @@ methods:
           doc: |
             Query ID.
         - name: rowMetadata
-          type: SqlRowMetadata
+          type: List_SqlColumnMetadata
           nullable: true
           since: 2.1
           doc: |
