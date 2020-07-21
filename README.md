@@ -110,7 +110,7 @@ where
     * `cpp` : C++
     * `cs` : C#
     * `py` : Python
-    * `ts` : Typescript
+    * `ts` : TypeScript
     * `go` : Go
      
 `java` is the default value if no language is specified.
