@@ -12,6 +12,7 @@ from jinja2 import Environment, PackageLoader
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
+from ts import ts_types_encode, ts_types_decode, ts_reserved_keywords, ts_ignore_service_list, ts_get_import_path_holders
 
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
@@ -19,11 +20,7 @@ PATCH_VERSION_MULTIPLIER = 1
 
 
 def java_name(type_name):
-    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
-
-
-def cs_name(type_name):
-    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
+    return "".join([capital(part) for part in type_name.split("_")])
 
 
 def param_name(type_name):
@@ -325,7 +322,7 @@ class SupportedLanguages(Enum):
     # CPP = 'cpp'
     CS = 'cs'
     # PY = 'py'
-    # TS = 'ts'
+    TS = 'ts'
     # GO = 'go'
 
 
@@ -334,7 +331,7 @@ codec_output_directories = {
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
-    # SupportedLanguages.TS: 'src/codec/',
+    SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
 }
 
@@ -343,7 +340,7 @@ custom_codec_output_directories = {
     # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
-    # SupportedLanguages.TS: 'src/codec/',
+    SupportedLanguages.TS: 'src/codec/custom',
     # SupportedLanguages.GO: 'internal/proto/'
 }
 
@@ -352,7 +349,7 @@ file_extensions = {
     # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
-    # SupportedLanguages.TS: 'ts',
+    SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
 }
 
@@ -360,37 +357,47 @@ language_specific_funcs = {
     'lang_types_encode': {
         SupportedLanguages.JAVA: java_types_encode,
         SupportedLanguages.CS: cs_types_encode,
+        SupportedLanguages.TS: ts_types_encode
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
         SupportedLanguages.CS: cs_types_decode,
+        SupportedLanguages.TS: ts_types_decode
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
-        SupportedLanguages.CS: cs_name,
+        SupportedLanguages.CS: java_name,
+        SupportedLanguages.TS: java_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
+        SupportedLanguages.TS: param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
+        SupportedLanguages.TS: ts_reserved_keywords
     },
+    'get_import_path_holders': {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.TS: ts_get_import_path_holders,
+    }
 }
 
 language_service_ignore_list = {
-    SupportedLanguages.JAVA: [],
-    # SupportedLanguages.CPP: [],
+    SupportedLanguages.JAVA: set(),
+    # SupportedLanguages.CPP: set(),
     SupportedLanguages.CS: cs_ignore_service_list,
-    # SupportedLanguages.PY: [],
-    # SupportedLanguages.TS: [],
-    # SupportedLanguages.GO: []
+    # SupportedLanguages.PY: set(),
+    SupportedLanguages.TS: ts_ignore_service_list,
+    # SupportedLanguages.GO: set()
 }
 
 
 def create_environment(lang, namespace):
-    env = Environment(loader=PackageLoader(lang.value, '.'))
+    env = Environment(loader=PackageLoader(lang.value, '.'), extensions=['jinja2.ext.do'])
     env.trim_blocks = True
     env.lstrip_blocks = True
     env.keep_trailing_newline = False
@@ -413,5 +420,6 @@ def create_environment(lang, namespace):
     env.globals["namespace"] = namespace
     env.globals["param_name"] = language_specific_funcs['param_name'][lang]
     env.globals["escape_keyword"] = language_specific_funcs['escape_keyword'][lang]
+    env.globals['get_import_path_holders'] = language_specific_funcs['get_import_path_holders'][lang]
 
     return env
