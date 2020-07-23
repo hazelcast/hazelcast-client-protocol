@@ -398,6 +398,7 @@ reference_objects_dict = {
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
     'List_Data': 'aListOfData',
+    'List_List_Data': 'aListOfListOfData',
     'ListCN_Data': 'aListOfData',
     'List_DistributedObjectInfo': 'aListOfDistributedObjectInfo',
     'List_ListenerConfigHolder': 'aListOfListenerConfigHolders',
@@ -413,14 +414,12 @@ reference_objects_dict = {
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'List_MCEvent': 'aListOfMCEvents',
     'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
-    'List_SqlRow': 'aListOfSqlRow',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
     'PagingPredicateHolder': 'aPagingPredicateHolder',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
-    'SqlRow': 'anSqlRow',
 }
 
 

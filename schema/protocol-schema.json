@@ -76,6 +76,7 @@
             "List_CacheEventData",
             "List_CacheSimpleEntryListenerConfig",
             "List_Data",
+            "List_List_Data",
             "ListCN_Data",
             "List_DistributedObjectInfo",
             "List_ListenerConfigHolder",
@@ -91,7 +92,6 @@
             "List_ClientBwListEntry",
             "List_MCEvent",
             "List_SqlColumnMetadata",
-            "List_SqlRow",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "MergePolicyConfig",
@@ -101,8 +101,7 @@
             "AnchorDataListHolder",
             "PagingPredicateHolder",
             "SqlError",
-            "SqlColumnMetadata",
-            "SqlRow"
+            "SqlColumnMetadata"
           ]
         },
         "nullable": {

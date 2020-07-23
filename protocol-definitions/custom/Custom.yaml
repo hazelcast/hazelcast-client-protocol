@@ -895,10 +895,3 @@ customTypes:
         type: int
         nullable: false
         since: 2.1
-  - name: SqlRow
-    since: 2.1
-    params:
-      - name: values
-        type: List_Data
-        nullable: false
-        since: 2.1

@@ -53,7 +53,6 @@ CustomTypes = [
     'EndpointQualifier',
     'SqlError',
     'SqlColumnMetadata',
-    'SqlRow',
 ]
 
 CustomConfigTypes = [
@@ -112,7 +111,6 @@ VarLengthListTypes = [
     'List_ClientBwListEntry',
     'List_MCEvent',
     'List_SqlColumnMetadata',
-    'List_SqlRow'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

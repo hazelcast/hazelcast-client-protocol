@@ -49,7 +49,7 @@ methods:
           doc: |
             Row metadata.
         - name: rowPage
-          type: List_SqlRow
+          type: List_List_Data
           nullable: true
           since: 2.1
           doc: |
@@ -90,7 +90,7 @@ methods:
     response:
       params:
         - name: rowPage
-          type: List_SqlRow
+          type: List_List_Data
           nullable: true
           since: 2.1
           doc: |
