@@ -82,7 +82,7 @@ _java_types_encode = {
     "List_String": "java.util.Collection<java.lang.String>",
     "List_Xid": "java.util.Collection<javax.transaction.xa.Xid>",
     "List_Data": "java.util.Collection<com.hazelcast.internal.serialization.Data>",
-    "List_List_Data": "java.util.Collection<java.util.List<com.hazelcast.internal.serialization.Data>>",
+    "List_List_Data": "java.util.Collection<java.util.Collection<com.hazelcast.internal.serialization.Data>>",
     "ListCN_Data": "java.util.Collection<com.hazelcast.internal.serialization.Data>",
     "List_MemberInfo": "java.util.Collection<com.hazelcast.internal.cluster.MemberInfo>",
     "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
