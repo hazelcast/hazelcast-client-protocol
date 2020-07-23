@@ -97,6 +97,7 @@ _cs_types_encode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "NA",
     "PagingPredicateHolder": "NA",
+    "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
 

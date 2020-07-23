@@ -868,6 +868,25 @@ customTypes:
           type: Data
           nullable: true
           since: 2.0
+  - name: SqlQueryId
+    since: 2.1
+    params:
+      - name: memberIdHigh
+        type: long
+        nullable: false
+        since: 2.1
+      - name: memberIdLow
+        type: long
+        nullable: true
+        since: 2.1
+      - name: localIdHigh
+        type: long
+        nullable: false
+        since: 2.1
+      - name: localIdLow
+        type: long
+        nullable: false
+        since: 2.1
   - name: SqlError
     since: 2.1
     params:

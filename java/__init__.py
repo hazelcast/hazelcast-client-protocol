@@ -73,6 +73,7 @@ _java_types_encode = {
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
+    "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
 
@@ -124,6 +125,7 @@ _java_types_decode = {
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
+    "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
 
