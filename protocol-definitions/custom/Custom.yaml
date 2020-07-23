@@ -877,7 +877,7 @@ customTypes:
         since: 2.1
       - name: memberIdLow
         type: long
-        nullable: true
+        nullable: false
         since: 2.1
       - name: localIdHigh
         type: long
