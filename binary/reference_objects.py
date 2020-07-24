@@ -51,6 +51,9 @@ objects = {
     },
     'EndpointQualifier': {
         'type': 2
+    },
+    'SqlColumnMetadata': {
+        'type': 1
     }
 }
 

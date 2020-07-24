@@ -97,6 +97,9 @@ _cs_types_encode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "NA",
     "PagingPredicateHolder": "NA",
+    "SqlQueryId": "NA",
+    "SqlError": "NA",
+    "SqlColumnMetadata": "NA",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -118,6 +121,7 @@ _cs_types_encode = {
     "List_StackTraceElement": "ICollection<Hazelcast.Util.StackTraceElement>",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
+    "List_SqlColumnMetadata": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",
