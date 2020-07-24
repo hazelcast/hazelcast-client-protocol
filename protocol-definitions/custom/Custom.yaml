@@ -787,7 +787,7 @@ customTypes:
   - name: EndpointQualifier
     returnWithFactory: true
     since: 2.0.1
-    params: 
+    params:
       - name: type
         type: int
         nullable: false
@@ -868,5 +868,49 @@ customTypes:
           type: Data
           nullable: true
           since: 2.0
-
-
+  - name: SqlQueryId
+    since: 2.1
+    params:
+      - name: memberIdHigh
+        type: long
+        nullable: false
+        since: 2.1
+      - name: memberIdLow
+        type: long
+        nullable: false
+        since: 2.1
+      - name: localIdHigh
+        type: long
+        nullable: false
+        since: 2.1
+      - name: localIdLow
+        type: long
+        nullable: false
+        since: 2.1
+  - name: SqlError
+    since: 2.1
+    params:
+      - name: code
+        type: int
+        nullable: false
+        since: 2.1
+      - name: message
+        type: String
+        nullable: true
+        since: 2.1
+      - name: originatingMemberId
+        type: UUID
+        nullable: false
+        since: 2.1
+  - name: SqlColumnMetadata
+    since: 2.1
+    returnWithFactory: true
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.1
+      - name: type
+        type: int
+        nullable: false
+        since: 2.1
