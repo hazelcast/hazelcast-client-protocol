@@ -69,6 +69,12 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
+        - name: autoDisposable
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            A boolean flag to indicate whether the task should be destroyed automatically after execution.
     response: {}
   - id: 3
     name: submitToMember
@@ -121,6 +127,12 @@ methods:
           since: 2.0
           doc: |
             period between each run in milliseconds
+        - name: autoDisposable
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            A boolean flag to indicate whether the task should be destroyed automatically after execution.
     response: {}
   - id: 4
     name: getAllScheduledFutures
