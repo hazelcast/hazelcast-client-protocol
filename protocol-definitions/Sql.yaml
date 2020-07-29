@@ -36,6 +36,12 @@ methods:
             Cursor buffer size.
     response:
       params:
+        - name: isUpdateCount
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            True, if this result is an update count, false, if it contains rows.
         - name: queryId
           type: SqlQueryId
           nullable: true
@@ -60,6 +66,12 @@ methods:
           since: 2.1
           doc: |
             Whether the row page is the last.
+        - name: updatedCount
+          type: long
+          nullable: false
+          since: 2.1
+          doc: |
+            The number of updated rows.
         - name: error
           type: SqlError
           nullable: true
