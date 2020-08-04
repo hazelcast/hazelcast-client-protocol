@@ -24,7 +24,7 @@ def ts_types_decode(key):
 
 
 def ts_get_import_path_holders(param_type):
-    return import_paths.get(param_type, None)
+    return import_paths.get(param_type, [])
 
 
 class ImportPathHolder:

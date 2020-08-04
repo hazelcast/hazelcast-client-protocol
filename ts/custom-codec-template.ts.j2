@@ -33,14 +33,19 @@
     {%- for params in varargs -%}
         {% for param in params %}
             {% set path_holders = get_import_path_holders(param.type) %}
-            {% if path_holders is not none %}
-                {%- for path_holder in path_holders -%}
-                    {% if not path_holder.name in imported_paths and path_holder.name != codec.name + 'Codec' %}
-                        {%- do imported_paths.append(path_holder.name) -%}
-                        {{ path_holder.get_import_statement(True) }}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+            {%- for path_holder in path_holders -%}
+                {% if not path_holder.name in imported_paths and path_holder.name.endswith('Codec') %}
+                    {%- do imported_paths.append(path_holder.name) -%}
+                    {{ path_holder.get_import_statement(True) }}
+                {% endif %}
+            {% endfor %}
+            {% set path_holders = get_import_path_holders(codec.name) %}
+            {%- for path_holder in path_holders -%}
+                {% if not path_holder.name in imported_paths and path_holder.name != codec.name + 'Codec' %}
+                    {%- do imported_paths.append(path_holder.name) -%}
+                    {{ path_holder.get_import_statement(True) }}
+                {% endif %}
+            {% endfor %}
         {%- endfor -%}
     {%- endfor -%}
 {%- endmacro %}
@@ -72,8 +77,7 @@ import {BitsUtil} from '../../BitsUtil';
 {% endif %}
 import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame, DEFAULT_FLAGS{% endif %}} from '../../ClientMessage';
 import {CodecUtil} from '../builtin/CodecUtil';
-{% set codec_params = {'type': codec.name, 'name': codec.name} %}
-{{ get_import_statements(fix_sized_params, var_sized_params, [codec_params]) }}
+{{ get_import_statements(fix_sized_params, var_sized_params) }}
 {% for param in fix_sized_params %}
 const {{ to_upper_snake_case(param.name) }}_OFFSET = {% if loop.first %}0{% else %}{{ to_upper_snake_case(loop.previtem.name)}}_OFFSET + BitsUtil.{{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %};
     {% if loop.last %}
