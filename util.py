@@ -397,7 +397,7 @@ language_service_ignore_list = {
 
 
 def create_environment(lang, namespace):
-    env = Environment(loader=PackageLoader(lang.value, '.'), extensions=['jinja2.ext.do'])
+    env = Environment(loader=PackageLoader(lang.value, '.'), extensions=['jinja2.ext.do', 'jinja2.ext.loopcontrols'])
     env.trim_blocks = True
     env.lstrip_blocks = True
     env.keep_trailing_newline = False

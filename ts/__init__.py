@@ -6,7 +6,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                           'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                           'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 30, 31, 32}
+ts_ignore_service_list = {7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 30, 31, 32, 33}
 
 
 def ts_types_encode(key):
@@ -24,7 +24,7 @@ def ts_types_decode(key):
 
 
 def ts_get_import_path_holders(param_type):
-    return import_paths.get(param_type, None)
+    return import_paths.get(param_type, [])
 
 
 class ImportPathHolder:
@@ -90,6 +90,7 @@ class PathHolders:
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
     ListUUIDCodec = ImportPathHolder('ListUUIDCodec', 'builtin/ListUUIDCodec', is_builtin_codec=True)
+    ListDataCodec = ImportPathHolder('ListDataCodec', 'builtin/ListDataCodec', is_builtin_codec=True)
     ListMultiFrameCodec = ImportPathHolder('ListMultiFrameCodec', 'builtin/ListMultiFrameCodec', is_builtin_codec=True)
     EntryListCodec = ImportPathHolder('EntryListCodec', 'builtin/EntryListCodec', is_builtin_codec=True)
     EntryListLongByteArrayCodec = ImportPathHolder('EntryListLongByteArrayCodec',
@@ -160,6 +161,7 @@ import_paths = {
     'EntryList_UUID_UUID': [PathHolders.EntryListUUIDUUIDCodec, PathHolders.UUID],
     'EntryList_UUID_List_Integer': [PathHolders.EntryListUUIDListIntegerCodec, PathHolders.UUID],
     'EntryList_Data_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.Data],
+    'EntryList_Data_List_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec, PathHolders.Data],
     'Map_String_String': [PathHolders.MapCodec, PathHolders.StringCodec],
     'IndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec],
     'ListIndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
@@ -218,6 +220,10 @@ _ts_types = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
+    "EndpointQualifier": "NA",
+    "SqlQueryId": "NA",
+    "SqlError": "NA",
+    "SqlColumnMetadata": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -254,4 +260,5 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
+    "Map_EndpointQualifier_Address": "!skip"
 }
