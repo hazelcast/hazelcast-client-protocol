@@ -109,9 +109,9 @@ class PathHolders:
                                                      'builtin/EntryListUUIDListIntegerCodec', is_builtin_codec=True)
     MapCodec = ImportPathHolder('MapCodec', 'builtin/MapCodec', is_builtin_codec=True)
     CodecUtil = ImportPathHolder('CodecUtil', 'builtin/CodecUtil', is_builtin_codec=True)
-    IndexConfig = ImportPathHolder('IndexConfig', 'config/IndexConfig')
+    IndexConfig = ImportPathHolder('InternalIndexConfig', 'config/IndexConfig')
     IndexConfigCodec = ImportPathHolder('IndexConfigCodec', 'custom/IndexConfigCodec', is_custom_codec=True)
-    BitmapIndexOptions = ImportPathHolder('BitmapIndexOptions', 'config/BitmapIndexOptions')
+    BitmapIndexOptions = ImportPathHolder('InternalBitmapIndexOptions', 'config/BitmapIndexOptions')
     BitmapIndexOptionsCodec = ImportPathHolder('BitmapIndexOptionsCodec', 'custom/BitmapIndexOptionsCodec',
                                                is_custom_codec=True)
     PagingPredicateHolder = ImportPathHolder('PagingPredicateHolder', 'protocol/PagingPredicateHolder')
@@ -206,8 +206,8 @@ _ts_types = {
     "CacheEventData": "NA",
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "DistributedObjectInfo",
-    "IndexConfig": "IndexConfig",
-    "BitmapIndexOptions": "BitmapIndexOptions",
+    "IndexConfig": "InternalIndexConfig",
+    "BitmapIndexOptions": "InternalBitmapIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
