@@ -77,7 +77,7 @@ class PathHolders:
     StackTraceElement = ImportPathHolder('StackTraceElement', 'protocol/StackTraceElement')
     StackTraceElementCodec = ImportPathHolder('StackTraceElementCodec',
                                               'custom/StackTraceElementCodec', is_custom_codec=True)
-    SimpleEntryView = ImportPathHolder('SimpleEntryView', 'core/SimpleEntryView')
+    SimpleEntryView = ImportPathHolder('SimpleEntryViewImpl', 'core/SimpleEntryView')
     SimpleEntryViewCodec = ImportPathHolder('SimpleEntryViewCodec', 'custom/SimpleEntryViewCodec', is_custom_codec=True)
     DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'DistributedObjectInfo')
     DistributedObjectInfoCodec = ImportPathHolder('DistributedObjectInfoCodec',
@@ -186,7 +186,7 @@ _ts_types = {
     "Address": "Address",
     "ErrorHolder": "ErrorHolder",
     "StackTraceElement": "StackTraceElement",
-    "SimpleEntryView": "SimpleEntryView<Data, Data>",
+    "SimpleEntryView": "SimpleEntryViewImpl<Data, Data>",
     "RaftGroupId": "NA",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
