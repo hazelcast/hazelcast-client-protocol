@@ -85,6 +85,7 @@ const INITIAL_FRAME_SIZE = {{to_upper_snake_case(param.name)}}_OFFSET + BitsUtil
 
     {% endif %}
 {% endfor %}
+/** @internal */
 export class {{ codec.name|capital }}Codec {
     static encode(clientMessage: ClientMessage, {{ param_name(codec.name) }}: {{ lang_types_encode(codec.name) }}): void {
         {% if should_add_begin_frame %}
