@@ -78,7 +78,7 @@
  */
 
 /* eslint-disable max-len */
-import {BitsUtil} from '../BitsUtil';
+import {BitsUtil} from '../util/BitsUtil';
 {% if request_fix_sized_params|length != 0 or response_fix_sized_params|length != 0 or event_fix_sized_params|length != 0 %}
 import {FixSizedTypesCodec} from './builtin/FixSizedTypesCodec';
 {% endif %}
