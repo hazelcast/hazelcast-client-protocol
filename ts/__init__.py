@@ -70,7 +70,7 @@ class PathHolders:
     DataCodec = ImportPathHolder('DataCodec', 'builtin/DataCodec', is_builtin_codec=True)
     ByteArrayCodec = ImportPathHolder('ByteArrayCodec', 'builtin/ByteArrayCodec', is_builtin_codec=True)
     LongArrayCodec = ImportPathHolder('LongArrayCodec', 'builtin/LongArrayCodec', is_builtin_codec=True)
-    Address = ImportPathHolder('AddressImpl', 'Address')
+    Address = ImportPathHolder('AddressImpl', 'core/Address')
     AddressCodec = ImportPathHolder('AddressCodec', 'custom/AddressCodec', is_custom_codec=True)
     ErrorHolder = ImportPathHolder('ErrorHolder', 'protocol/ErrorHolder')
     ErrorHolderCodec = ImportPathHolder('ErrorHolderCodec', 'custom/ErrorHolderCodec', is_custom_codec=True)
@@ -79,7 +79,7 @@ class PathHolders:
                                               'custom/StackTraceElementCodec', is_custom_codec=True)
     SimpleEntryView = ImportPathHolder('SimpleEntryView', 'core/SimpleEntryView')
     SimpleEntryViewCodec = ImportPathHolder('SimpleEntryViewCodec', 'custom/SimpleEntryViewCodec', is_custom_codec=True)
-    DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'DistributedObjectInfo')
+    DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'core/DistributedObjectInfo')
     DistributedObjectInfoCodec = ImportPathHolder('DistributedObjectInfoCodec',
                                                   'custom/DistributedObjectInfoCodec', is_custom_codec=True)
     MemberInfo = ImportPathHolder('MemberInfo', 'core/MemberInfo')
