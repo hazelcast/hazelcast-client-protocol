@@ -112,6 +112,7 @@ const EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.nam
 {% endfor %}
 {% if method.response.params|length > 0 %}
 
+/** @internal */
 export interface {{ service_name|capital }}{{ method.name|capital }}ResponseParams {
 {% for param in method.response.params %}
     {{ param.name }}: {{ lang_types_encode(param.type) }};
@@ -122,6 +123,7 @@ export interface {{ service_name|capital }}{{ method.name|capital }}ResponsePara
 }
 {% endif %}
 
+/** @internal */
 export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST_ENCODE#}
     static encodeRequest({% for param in method.request.params %}{{ param.name }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {

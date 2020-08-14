@@ -70,7 +70,7 @@ class PathHolders:
     DataCodec = ImportPathHolder('DataCodec', 'builtin/DataCodec', is_builtin_codec=True)
     ByteArrayCodec = ImportPathHolder('ByteArrayCodec', 'builtin/ByteArrayCodec', is_builtin_codec=True)
     LongArrayCodec = ImportPathHolder('LongArrayCodec', 'builtin/LongArrayCodec', is_builtin_codec=True)
-    Address = ImportPathHolder('Address', 'Address')
+    Address = ImportPathHolder('AddressImpl', 'Address')
     AddressCodec = ImportPathHolder('AddressCodec', 'custom/AddressCodec', is_custom_codec=True)
     ErrorHolder = ImportPathHolder('ErrorHolder', 'protocol/ErrorHolder')
     ErrorHolderCodec = ImportPathHolder('ErrorHolderCodec', 'custom/ErrorHolderCodec', is_custom_codec=True)
@@ -183,7 +183,7 @@ _ts_types = {
     "byteArray": "Buffer",
     "String": "string",
     "Data": "Data",
-    "Address": "Address",
+    "Address": "AddressImpl",
     "ErrorHolder": "ErrorHolder",
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView<Data, Data>",
