@@ -629,7 +629,7 @@ methods:
         - name: priorityComparatorClassName
           type: String
           nullable: true
-          since: 2.0
+          since: 2.1
           doc: |
             Class name of the configured {@link java.util.Comparator} implementation.
         - name: listenerConfigs
