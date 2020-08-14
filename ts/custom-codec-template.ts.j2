@@ -75,7 +75,7 @@
 import {FixSizedTypesCodec} from '../builtin/FixSizedTypesCodec';
 import {BitsUtil} from '../../util/BitsUtil';
 {% endif %}
-import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame, DEFAULT_FLAGS{% endif %}} from '../../ClientMessage';
+import {ClientMessage, BEGIN_FRAME, END_FRAME{% if fix_sized_params|length != 0 %}, Frame, DEFAULT_FLAGS{% endif %}} from '../../protocol/ClientMessage';
 import {CodecUtil} from '../builtin/CodecUtil';
 {{ get_import_statements(fix_sized_params, var_sized_params) }}
 {% for param in fix_sized_params %}

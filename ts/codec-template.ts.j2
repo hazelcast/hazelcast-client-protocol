@@ -82,7 +82,7 @@ import {BitsUtil} from '../util/BitsUtil';
 {% if request_fix_sized_params|length != 0 or response_fix_sized_params|length != 0 or event_fix_sized_params|length != 0 %}
 import {FixSizedTypesCodec} from './builtin/FixSizedTypesCodec';
 {% endif %}
-import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESPONSE_BACKUP_ACKS_OFFSET, {% endif %}PARTITION_ID_OFFSET} from '../ClientMessage';
+import {ClientMessage, Frame, {% if response_fix_sized_params|length != 0 %}RESPONSE_BACKUP_ACKS_OFFSET, {% endif %}PARTITION_ID_OFFSET} from '../protocol/ClientMessage';
 {{ get_import_statements(request_fix_sized_params, request_var_sized_params, response_fix_sized_params, response_var_sized_params, event_fix_sized_params, event_var_sized_params) }}
 // hex: {{ '0x%06X'|format(method.request.id) }}
 const REQUEST_MESSAGE_TYPE = {{ method.request.id }};
