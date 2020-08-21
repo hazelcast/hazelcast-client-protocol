@@ -539,6 +539,12 @@ methods:
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
+        - name: statisticsEnabled
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
     response: {}
   - id: 10
     name: addScheduledExecutorConfig
@@ -596,6 +602,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: statisticsEnabled
+          type: boolean
+          nullable: false
+          since: 2.1
+          doc: |
+            {@code true} to enable gathering of statistics, otherwise {@code false}
     response: {}
   - id: 11
     name: addQueueConfig
