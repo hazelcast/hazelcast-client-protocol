@@ -26,6 +26,11 @@ def ts_types_decode(key):
 def ts_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
 
+def ts_escape_keyword(value):
+    if value not in ts_reserved_keywords:
+        return value
+    return "_" + value
+
 
 class ImportPathHolder:
     def __init__(self, name, path, is_builtin_codec=False,

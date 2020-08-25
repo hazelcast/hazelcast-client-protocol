@@ -12,7 +12,7 @@ from jinja2 import Environment, PackageLoader
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
-from ts import ts_types_encode, ts_types_decode, ts_reserved_keywords, ts_ignore_service_list, ts_get_import_path_holders
+from ts import ts_types_encode, ts_types_decode, ts_reserved_keywords, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
 
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
@@ -377,7 +377,7 @@ language_specific_funcs = {
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
-        SupportedLanguages.TS: ts_reserved_keywords
+        SupportedLanguages.TS: ts_escape_keyword
     },
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,

@@ -1,15 +1,15 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec.encode)
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, {{ item_type(lang_name, param.type) }}Codec.encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
+        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec.encode)
+            CodecUtil.encodeNullable(clientMessage, {{ escape_keyword(param.name) }}, {{ lang_name(param.type) }}Codec.encode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
+            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ escape_keyword(param.name) }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -115,7 +115,7 @@ const EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.nam
 /** @internal */
 export interface {{ service_name|capital }}{{ method.name|capital }}ResponseParams {
 {% for param in method.response.params %}
-    {{ param.name }}: {{ lang_types_encode(param.type) }};
+    {{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }};
 {% endfor %}
 {% for new_param in response_new_params %}
     is{{ new_param.name|capital }}Exists: boolean;
@@ -126,13 +126,13 @@ export interface {{ service_name|capital }}{{ method.name|capital }}ResponsePara
 /** @internal */
 export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST_ENCODE#}
-    static encodeRequest({% for param in method.request.params %}{{ param.name }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
+    static encodeRequest({% for param in method.request.params %}{{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
         const clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
 
         const initialFrame = Frame.createInitialFrame(REQUEST_INITIAL_FRAME_SIZE);
 {% for param in request_fix_sized_params %}
-        FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_OFFSET, {{ param.name }});
+        FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, REQUEST_{{to_upper_snake_case(param.name)}}_OFFSET, {{ escape_keyword(param.name) }});
 {% endfor %}
         clientMessage.addFrame(initialFrame);
         clientMessage.setMessageType(REQUEST_MESSAGE_TYPE);
@@ -158,25 +158,25 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% for param in response_fix_sized_params %}
     {% if param in response_new_params %}
         if (initialFrame.content.length >= RESPONSE_{{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-            response.{{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
+            response.{{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
             response.is{{ param.name|capital }}Exists = true;
         } else {
             response.is{{ param.name|capital }}Exists = false;
         }
     {% else %}
-        response.{{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
+        response.{{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
     {% endif %}
 {% endfor %}
 {% for param in response_var_sized_params %}
     {% if param in response_new_params %}
         if (clientMessage.hasNextFrame()) {
-            response.{{ param.name }} = {{ decode_var_sized(param) }};
+            response.{{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             response.is{{ param.name|capital }}Exists = true;
         } else {
             response.is{{ param.name|capital }}Exists = false;
         }
     {% else %}
-        response.{{ param.name }} = {{ decode_var_sized(param) }};
+        response.{{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
     {% endif %}
 {% endfor %}
 
@@ -186,7 +186,7 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {# EVENTS#}
 {% if method.events|length != 0 %}
 
-    static handle(clientMessage: ClientMessage{% for event in method.events %}, handle{{ event.name|capital }}Event: ({% for param in event.params %}{{ param.name }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}) => void = null{% endfor %}): void {
+    static handle(clientMessage: ClientMessage{% for event in method.events %}, handle{{ event.name|capital }}Event: ({% for param in event.params %}{{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}) => void = null{% endfor %}): void {
         const messageType = clientMessage.getMessageType();
     {% for event in method.events %}
         if (messageType === EVENT_{{ to_upper_snake_case(event.name) }}_MESSAGE_TYPE && handle{{ event.name|capital }}Event !== null) {
@@ -200,25 +200,25 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% for param in fixed_params(event.params) %}
             {% if param in new_event_params %}
             let is{{ param.name|capital }}Exists = false;
-            let {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
+            let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
             if (initialFrame.content.length >= EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-                {{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET);
+                {{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET);
                 is{{ param.name|capital }}Exists = true;
             }
             {% else %}
-            const {{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET);
+            const {{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET);
             {% endif %}
         {% endfor %}
         {% for param in var_size_params(event.params) %}
             {% if param in new_event_params %}
             let is{{ param.name|capital }}Exists = false;
-            let {{ param.name }} = null;
+            let {{ escape_keyword(param.name) }} = null;
             if (iterator.hasNextFrame()) {
-                {{ param.name }} = {{ decode_var_sized(param) }};
+                {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
                 is{{ param.name|capital }}Exists = true;
             }
             {% else %}
-            const {{ param.name }} = {{ decode_var_sized(param) }};
+            const {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             {% endif %}
         {% endfor %}
             handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %});
