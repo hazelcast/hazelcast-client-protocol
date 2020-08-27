@@ -1,15 +1,15 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ param.name }}, {{ item_type(lang_name, param.type) }}Codec.encode)
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }}, {{ item_type(lang_name, param.type) }}Codec.encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ param.name }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ param.name }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
+        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.encode, {{ value_type(lang_name, param.type) }}Codec.encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{{ param.name }}, {{ lang_name(param.type) }}Codec.encode)
+            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }}, {{ lang_name(param.type) }}Codec.encode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param_name(codec.name)}}.{{ param.name }})
+            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -96,7 +96,7 @@ export class {{ codec.name|capital }}Codec {
 
         const initialFrame = Frame.createInitialFrame(INITIAL_FRAME_SIZE, DEFAULT_FLAGS);
         {% endif %}
-        FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ param.name }});
+        FixSizedTypesCodec.encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_OFFSET, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }});
         {% if loop.last %}
             {% if not should_add_begin_frame %}
         initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG;
@@ -129,13 +129,13 @@ export class {{ codec.name|capital }}Codec {
         {% endif %}
         {% if param in fix_sized_new_params %}
         let is{{ param.name|capital }}Exists = false;
-        let {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
+        let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
         if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-            {{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_OFFSET);
+            {{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_OFFSET);
             is{{ param.name|capital }}Exists = true;
         }
         {% else %}
-        const {{ param.name }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_OFFSET);
+        const {{ escape_keyword(param.name) }} = FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_OFFSET);
         {% endif %}
         {% endfor %}
         {% for param in var_sized_params %}
@@ -147,13 +147,13 @@ export class {{ codec.name|capital }}Codec {
             {% endif %}
             {% if param in new_codec_params %}
         let is{{ param.name|capital }}Exists = false;
-        let {{ param.name }} = null;
+        let {{ escape_keyword(param.name) }} = null;
         if (!clientMessage.peekNextFrame().isEndFrame()) {
-            {{ param.name }} = {{ decode_var_sized(param) }};
+            {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             is{{ param.name|capital }}Exists = true;
         }
             {% else %}
-        const {{ param.name }} = {{ decode_var_sized(param) }};
+        const {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             {% endif %}
         {% endfor %}
 
@@ -165,7 +165,7 @@ export class {{ codec.name|capital }}Codec {
                 {% do ctor_params.append(param) %}
             {% endif %}
         {% endfor %}
-        return new {{ lang_types_decode(codec.name) }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+        return new {{ lang_types_decode(codec.name) }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
     }
 }
 

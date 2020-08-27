@@ -6,7 +6,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                           'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                           'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 30, 31, 32, 33}
+ts_ignore_service_list = {8, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 32, 33}
 
 
 def ts_types_encode(key):
@@ -25,6 +25,11 @@ def ts_types_decode(key):
 
 def ts_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
+
+def ts_escape_keyword(value):
+    if value not in ts_reserved_keywords:
+        return value
+    return "_" + value
 
 
 class ImportPathHolder:
@@ -79,6 +84,8 @@ class PathHolders:
                                               'custom/StackTraceElementCodec', is_custom_codec=True)
     SimpleEntryView = ImportPathHolder('SimpleEntryView', 'core/SimpleEntryView')
     SimpleEntryViewCodec = ImportPathHolder('SimpleEntryViewCodec', 'custom/SimpleEntryViewCodec', is_custom_codec=True)
+    RaftGroupId = ImportPathHolder('RaftGroupId', 'proxy/cpsubsystem/RaftGroupId')
+    RaftGroupIdCodec = ImportPathHolder('RaftGroupIdCodec', 'custom/RaftGroupIdCodec', is_custom_codec=True)
     DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'core/DistributedObjectInfo')
     DistributedObjectInfoCodec = ImportPathHolder('DistributedObjectInfoCodec',
                                                   'custom/DistributedObjectInfoCodec', is_custom_codec=True)
@@ -135,6 +142,7 @@ import_paths = {
     'ErrorHolder': [PathHolders.ErrorHolder, PathHolders.ErrorHolderCodec],
     'StackTraceElement': [PathHolders.StackTraceElement, PathHolders.StackTraceElementCodec],
     'SimpleEntryView': [PathHolders.SimpleEntryView, PathHolders.Data, PathHolders.SimpleEntryViewCodec],
+    'RaftGroupId': [PathHolders.RaftGroupId, PathHolders.RaftGroupIdCodec],
     'DistributedObjectInfo': [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
     'MemberInfo': [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     'MemberVersion': [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
@@ -187,7 +195,7 @@ _ts_types = {
     "ErrorHolder": "ErrorHolder",
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView<Data, Data>",
-    "RaftGroupId": "NA",
+    "RaftGroupId": "RaftGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
