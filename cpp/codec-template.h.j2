@@ -37,7 +37,7 @@
                  * {{ line }}
                 {% endfor %}
                  */
-                ClientMessage {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }}{% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %} *{% else %} &{% endif %}{% endif %} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+                ClientMessage HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }}{% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %} *{% else %} &{% endif %}{% endif %} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
 
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
