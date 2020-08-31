@@ -688,6 +688,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: priorityComparatorClassName
+          type: String
+          nullable: true
+          since: 2.1
+          doc: |
+            Class name of the configured {@link java.util.Comparator} implementation.
     response: {}
   - id: 12
     name: addMapConfig
