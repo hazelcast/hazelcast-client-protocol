@@ -12,6 +12,7 @@ from jinja2 import Environment, PackageLoader
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
+from cpp import cpp_types_encode, cpp_types_decode, cpp_ignore_service_list, get_size, is_trivial
 from ts import ts_types_encode, ts_types_decode, ts_reserved_keywords, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
 
 MAJOR_VERSION_MULTIPLIER = 10000
@@ -22,6 +23,8 @@ PATCH_VERSION_MULTIPLIER = 1
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.split("_")])
 
+def cpp_name(type_name):
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 def param_name(type_name):
     return type_name[0].lower() + type_name[1:]
@@ -79,9 +82,17 @@ def filter_new_params(params, version):
     return [p for p in params if version_as_number >= get_version_as_number(p['since'])]
 
 
-def generate_codecs(services, template, output_dir, lang):
+def generate_codecs(services, template, output_dir, lang, env):
     os.makedirs(output_dir, exist_ok=True)
     id_fmt = "0x%02x%02x%02x"
+    if lang is SupportedLanguages.CPP:
+        curr_dir = os.path.dirname(os.path.realpath(__file__))
+        cpp_dir = "%s/cpp" % curr_dir
+        f = open(os.path.join(cpp_dir, "header_includes.txt"), "r")
+        save_file(os.path.join(output_dir, "codecs.h"), f.read(), "w")
+        f = open(os.path.join(cpp_dir, "source_header.txt"), "r")
+        save_file(os.path.join(output_dir, "codecs.cpp"), f.read(), "w")
+
     for service in services:
         if service["id"] in language_service_ignore_list[lang]:
             print("[%s] is in ignore list so ignoring it." % service["name"])
@@ -100,22 +111,50 @@ def generate_codecs(services, template, output_dir, lang):
 
                 codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
                 try:
-                    content = template.render(service_name=service["name"], method=method)
-                    save_file(os.path.join(output_dir, codec_file_name), content)
+                    if lang is SupportedLanguages.CPP:
+                        codec_template = env.get_template("codec-template.h.j2")
+                        content = codec_template.render(service_name=service["name"], method=method)
+                        save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
+
+                        codec_template = env.get_template("codec-template.cpp.j2")
+                        content = codec_template.render(service_name=service["name"], method=method)
+                        save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
+                    else:
+                        content = template.render(service_name=service["name"], method=method)
+                        save_file(os.path.join(output_dir, codec_file_name), content)
                 except NotImplementedError:
                     print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
+    if lang is SupportedLanguages.CPP:
+        f = open(os.path.join(cpp_dir, "footer.txt"), "r")
+        content = f.read()
+        save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
+        save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
 
-def generate_custom_codecs(services, template, output_dir, extension):
+def generate_custom_codecs(services, template, output_dir, extension, env):
     os.makedirs(output_dir, exist_ok=True)
+    if extension is "cpp":
+        cpp_header_template = env.get_template("custom-codec-template.h.j2")
+        cpp_source_template = env.get_template("custom-codec-template.cpp.j2")
     for service in services:
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
-                codec_file_name = capital(codec["name"]) + 'Codec.' + extension
                 try:
-                    content = template.render(codec=codec)
-                    save_file(os.path.join(output_dir, codec_file_name), content)
+                    if extension is "cpp":
+                        file_name_prefix = codec["name"].lower() + '_codec'
+                        header_file_name = file_name_prefix + ".h"
+                        source_file_name = file_name_prefix + ".cpp"
+                        codec_file_name = header_file_name
+                        content = cpp_header_template.render(codec=codec)
+                        save_file(os.path.join(output_dir, header_file_name), content)
+                        codec_file_name = source_file_name
+                        content = cpp_source_template.render(codec=codec)
+                        save_file(os.path.join(output_dir, source_file_name), content)
+                    else:
+                        codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                        content = template.render(codec=codec)
+                        save_file(os.path.join(output_dir, codec_file_name), content)
                 except NotImplementedError:
                     print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
@@ -282,11 +321,11 @@ def validate_against_schema(service, schema):
     return True
 
 
-def save_file(file, content):
+def save_file(file, content, mode="w"):
     m = hashlib.md5()
     m.update(content.encode("utf-8"))
     codec_hash = m.hexdigest()
-    with open(file, 'w', newline='\n') as file:
+    with open(file, mode, newline='\n') as file:
         file.writelines(content.replace('!codec_hash!', codec_hash))
 
 
@@ -319,7 +358,7 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
 
 class SupportedLanguages(Enum):
     JAVA = 'java'
-    # CPP = 'cpp'
+    CPP = 'cpp'
     CS = 'cs'
     # PY = 'py'
     TS = 'ts'
@@ -328,7 +367,7 @@ class SupportedLanguages(Enum):
 
 codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/',
@@ -337,7 +376,7 @@ codec_output_directories = {
 
 custom_codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
-    # SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
+    SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/custom',
@@ -346,7 +385,7 @@ custom_codec_output_directories = {
 
 file_extensions = {
     SupportedLanguages.JAVA: 'java',
-    # SupportedLanguages.CPP: 'cpp',  # TODO header files ?
+    SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     SupportedLanguages.CS: 'cs',
     # SupportedLanguages.PY: 'py',
     SupportedLanguages.TS: 'ts',
@@ -357,38 +396,43 @@ language_specific_funcs = {
     'lang_types_encode': {
         SupportedLanguages.JAVA: java_types_encode,
         SupportedLanguages.CS: cs_types_encode,
+        SupportedLanguages.CPP: cpp_types_encode,
         SupportedLanguages.TS: ts_types_encode
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
         SupportedLanguages.CS: cs_types_decode,
+        SupportedLanguages.CPP: cpp_types_decode,
         SupportedLanguages.TS: ts_types_decode
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
-        SupportedLanguages.CS: java_name,
+        SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
+        SupportedLanguages.CPP: param_name,
         SupportedLanguages.TS: param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
+        SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_escape_keyword
     },
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
     }
 }
 
 language_service_ignore_list = {
     SupportedLanguages.JAVA: set(),
-    # SupportedLanguages.CPP: set(),
+    SupportedLanguages.CPP: cpp_ignore_service_list,
     SupportedLanguages.CS: cs_ignore_service_list,
     # SupportedLanguages.PY: set(),
     SupportedLanguages.TS: ts_ignore_service_list,
@@ -420,6 +464,8 @@ def create_environment(lang, namespace):
     env.globals["namespace"] = namespace
     env.globals["param_name"] = language_specific_funcs['param_name'][lang]
     env.globals["escape_keyword"] = language_specific_funcs['escape_keyword'][lang]
+    env.globals["get_size"] = get_size
+    env.globals["is_trivial"] = is_trivial
     env.globals['get_import_path_holders'] = language_specific_funcs['get_import_path_holders'][lang]
 
     return env
