@@ -406,7 +406,6 @@ language_specific_funcs = {
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
-        SupportedLanguages.CS: cs_name,
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
     },
@@ -425,6 +424,7 @@ language_specific_funcs = {
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
     }
 }

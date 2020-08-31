@@ -103,6 +103,11 @@ _cpp_types_common = {
 
      "EntryList_Address_List_Integer": "std::vector<std::pair<Address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",
+
+    "SqlQueryId": "NA",
+    "SqlError": "NA",
+    "SqlColumnMetadata": "NA",
+    "CPMember": "NA",
 }
 
 _cpp_types_encode = {
