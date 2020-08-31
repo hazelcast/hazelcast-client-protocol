@@ -125,10 +125,11 @@ def generate_codecs(services, template, output_dir, lang, env):
                 except NotImplementedError:
                     print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
-    f = open(os.path.join(cpp_dir, "footer.txt"), "r")
-    content = f.read()
-    save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
-    save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
+    if lang is SupportedLanguages.CPP:
+        f = open(os.path.join(cpp_dir, "footer.txt"), "r")
+        content = f.read()
+        save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
+        save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
 
 def generate_custom_codecs(services, template, output_dir, extension, env):
     os.makedirs(output_dir, exist_ok=True)
