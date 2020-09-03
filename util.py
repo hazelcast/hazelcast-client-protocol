@@ -23,8 +23,14 @@ PATCH_VERSION_MULTIPLIER = 1
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.split("_")])
 
+
+def cs_name(type_name):
+    return "".join([capital(part) for part in type_name.split("_")])
+
+
 def cpp_name(type_name):
     return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
+
 
 def param_name(type_name):
     return type_name[0].lower() + type_name[1:]
@@ -407,6 +413,7 @@ language_specific_funcs = {
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
+        SupportedLanguages.CS: cs_name,
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
     },

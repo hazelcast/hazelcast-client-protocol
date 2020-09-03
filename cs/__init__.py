@@ -9,7 +9,7 @@ cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "ba
                      "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
                      "using", "value", "var", "virtual", "void", "volatile", "where", "while", "yield"}
 
-cs_ignore_service_list = {7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 28, 30, 31, 32}
+cs_ignore_service_list = {8, 19, 20, 22, 24, 25, 26, 27, 28, 32, 33}
 
 
 def cs_types_encode(key):
@@ -56,7 +56,7 @@ _cs_types_common = {
     "ErrorHolder": "Hazelcast.Client.Protocol.ErrorHolder",
     "StackTraceElement": "Hazelcast.Util.StackTraceElement",
     "SimpleEntryView": "Hazelcast.Map.SimpleEntryView<IData, IData>",
-    "RaftGroupId": "NA",
+    "RaftGroupId": "Hazelcast.CP.RaftGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -77,13 +77,17 @@ _cs_types_common = {
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "Hazelcast.Client.DistributedObjectInfo",
     "IndexConfig": "Hazelcast.Config.IndexConfig",
+    "BitmapIndexOptions": "NA",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
+    "EndpointQualifier": "NA",
 
     "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "NA"
+    "Map_EndpointQualifier_Address": "NA",
+
+    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>"
 }
 
 _cs_types_encode = {
@@ -100,6 +104,7 @@ _cs_types_encode = {
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
+    "CPMember": "Hazelcast.CP.ICPMember",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -107,6 +112,7 @@ _cs_types_encode = {
     "List_String": "ICollection<string>",
     "List_Xid": "NA",
     "List_Data": "ICollection<IData>",
+    "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "ICollection<IData>",
     "List_MemberInfo": "ICollection<Hazelcast.Core.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
@@ -131,8 +137,10 @@ _cs_types_encode = {
     "EntryList_Integer_Integer": "ICollection<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "ICollection<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "ICollection<KeyValuePair<string, ICollection<KeyValuePair<int, long>>>>",
+    "EntryList_UUID_UUID": "ICollection<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
+    "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>"
 }
 
 _cs_types_decode = {
@@ -146,6 +154,10 @@ _cs_types_decode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "NA",
     "PagingPredicateHolder": "NA",
+    "SqlQueryId": "NA",
+    "SqlError": "NA",
+    "SqlColumnMetadata": "NA",
+    "CPMember": "Hazelcast.CP.ICPMember",
 
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
@@ -153,6 +165,7 @@ _cs_types_decode = {
     "List_Xid": "NA",
     "List_String": "IList<string>",
     "List_Data": "IList<IData>",
+    "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "IList<IData>",
     "List_MemberInfo": "IList<Hazelcast.Core.MemberInfo>",
     "List_CacheEventData": "NA",
@@ -167,6 +180,7 @@ _cs_types_decode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_ScheduledTaskHandler": "NA",
+    "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",
@@ -176,6 +190,8 @@ _cs_types_decode = {
     "EntryList_Integer_Integer": "IList<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "IList<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "IList<KeyValuePair<string, IList<KeyValuePair<int, long>>>>",
+    "EntryList_UUID_UUID": "IList<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "IList<KeyValuePair<Guid, IList<int>>>",
-    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>"
+    "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
+    "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>"
 }
