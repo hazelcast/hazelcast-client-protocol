@@ -25,7 +25,7 @@ def java_name(type_name):
 
 
 def cs_name(type_name):
-    return "".join([capital(part) for part in type_name.split("_")])
+    return "".join([capital(part) for part in type_name.replace("(", "").replace(")", "").split("_")])
 
 
 def cpp_name(type_name):
@@ -366,6 +366,7 @@ class SupportedLanguages(Enum):
     JAVA = 'java'
     CPP = 'cpp'
     CS = 'cs'
+    SCS = 'scs' # server-side CS
     # PY = 'py'
     TS = 'ts'
     # GO = 'go'
@@ -374,7 +375,7 @@ class SupportedLanguages(Enum):
 codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec/',
+    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codecs/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
@@ -383,7 +384,7 @@ codec_output_directories = {
 custom_codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
     SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'Hazelcast.Net/Hazelcast.Client.Protocol.Codec.Custom/',
+    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
     # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/custom',
     # SupportedLanguages.GO: 'internal/proto/'
@@ -393,6 +394,7 @@ file_extensions = {
     SupportedLanguages.JAVA: 'java',
     SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     SupportedLanguages.CS: 'cs',
+    SupportedLanguages.SCS: 'cs',
     # SupportedLanguages.PY: 'py',
     SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'

@@ -52,6 +52,7 @@
 #pragma warning disable IDE0051 // Remove unused private members
 // ReSharper disable UnusedMember.Local
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
 
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace {{ namespace }}
 namespace Hazelcast.Protocol.CustomCodecs
 {% endif %}
 {
-    internal static class {{ codec.name|capital }}Codec
+    internal static class {{ codec.name|capital }}ServerCodec
     {
         {% for param in fixed_params(codec.params) %}
         private const int {{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ loop.previtem.name|capital}}FieldOffset + BytesExtensions.SizeOf{{ lang_types_decode(loop.previtem.type)|capital}}{% endif %};
