@@ -1,15 +1,15 @@
-cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "base", "bool", "break", "by", "byte",
-                     "case", "catch", "char", "checked", "class", "const", "continue", "decimal", "default", "delegate",
-                     "descending", "do", "double", "dynamic", "else", "enum", "equals", "explicit", "extern", "false",
-                     "finally", "fixed", "float", "for", "foreach", "from", "get", "global", "goto", "group", "if",
-                     "implicit", "in", "int", "interface", "internal", "into", "is", "join", "let", "lock", "long",
-                     "namespace", "new", "null", "object", "on", "operator", "orderby", "out", "override", "params",
-                     "partial", "private", "protected", "public", "readonly", "ref", "remove", "return", "sbyte",
-                     "sealed", "select", "set", "short", "sizeof", "stackalloc", "static", "string", "struct", "switch",
-                     "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
-                     "using", "value", "var", "virtual", "void", "volatile", "where", "while", "yield"}
+cs_reserved_words = ["abstract", "add", "as", "ascending", "async", "await", "base", "bool", "break", "by", "byte", "case",
+                     "catch", "char", "checked", "class", "const", "continue", "decimal", "default", "delegate", "descending",
+                     "do", "double", "dynamic", "else", "enum", "equals", "explicit", "extern", "false", "finally", "fixed",
+                     "float", "for", "foreach", "from", "get", "global", "goto", "group", "if", "implicit", "in", "int",
+                     "interface", "internal", "into", "is", "join", "let", "lock", "long", "namespace", "new", "null", "object",
+                     "on", "operator", "orderby", "out", "override", "params", "partial", "private", "protected", "public",
+                     "readonly", "ref", "remove", "return", "sbyte", "sealed", "select", "set", "short", "sizeof", "stackalloc",
+                     "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
+                     "unchecked", "unsafe", "ushort", "using", "value", "var", "virtual", "void", "volatile", "where", "while",
+                     "yield"]
 
-cs_ignore_service_list = {8, 19, 20, 22, 24, 25, 26, 27, 28, 32, 33}
+cs_ignore_service_list = [7, 8, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 28, 30, 31, 32]
 
 
 def cs_types_encode(key):
@@ -18,7 +18,7 @@ def cs_types_encode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError(key)
     return cs_type
 
 
@@ -28,7 +28,7 @@ def cs_types_decode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError(key)
     return cs_type
 
 
@@ -55,8 +55,8 @@ _cs_types_common = {
     "Address": "Hazelcast.Networking.NetworkAddress",
     "ErrorHolder": "Hazelcast.Protocol.Data.ErrorHolder",
     "StackTraceElement": "Hazelcast.Exceptions.StackTraceElement",
-    "SimpleEntryView": "Hazelcast.Data.HDictionaryEntry<IData, IData>",
-    "RaftGroupId": "Hazelcast.CP.RaftGroupId",
+    "SimpleEntryView": "Hazelcast.Data.Map.MapEntry<IData, IData>",
+    "RaftGroupId": "NA",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -76,18 +76,14 @@ _cs_types_common = {
     "CacheEventData": "NA",
     "QueryCacheConfigHolder": "NA",
     "DistributedObjectInfo": "Hazelcast.Data.DistributedObjectInfo",
-    "IndexConfig": "Hazelcast.Data.IndexConfig",
-    "BitmapIndexOptions": "Hazelcast.Data.BitmapIndexOptions",
+    "IndexConfig": "Hazelcast.Data.Map.IndexConfig",
+    "BitmapIndexOptions": "Hazelcast.Data.Map.BitmapIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
-    "EndpointQualifier": "NA",
 
-    "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "NA",
-
-    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>"
+    "Map_String_String": "IDictionary<string, string>"
 }
 
 _cs_types_encode = {
@@ -101,10 +97,6 @@ _cs_types_encode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "Hazelcast.Protocol.Data.AnchorDataListHolder",
     "PagingPredicateHolder": "Hazelcast.Protocol.Data.PagingPredicateHolder",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
-    "CPMember": "Hazelcast.CP.ICPMember",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -112,7 +104,6 @@ _cs_types_encode = {
     "List_String": "ICollection<string>",
     "List_Xid": "NA",
     "List_Data": "ICollection<IData>",
-    "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "ICollection<IData>",
     "List_MemberInfo": "ICollection<Hazelcast.Data.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
@@ -120,14 +111,13 @@ _cs_types_encode = {
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "ICollection<Hazelcast.Data.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
-    "List_IndexConfig": "ICollection<Hazelcast.Data.IndexConfig>",
+    "List_IndexConfig": "ICollection<Hazelcast.Data.Map.IndexConfig>",
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
     "List_StackTraceElement": "ICollection<Hazelcast.Util.StackTraceElement>",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
-    "List_SqlColumnMetadata": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",
@@ -137,10 +127,10 @@ _cs_types_encode = {
     "EntryList_Integer_Integer": "ICollection<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "ICollection<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "ICollection<KeyValuePair<string, ICollection<KeyValuePair<int, long>>>>",
-    "EntryList_UUID_UUID": "ICollection<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
-    "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>"
+    
+    "BitmapIndexOptions": "Hazelcast.Data.Map.BitmapIndexOptions",
 }
 
 _cs_types_decode = {
@@ -154,10 +144,6 @@ _cs_types_decode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "Hazelcast.Protocol.Data.AnchorDataListHolder",
     "PagingPredicateHolder": "Hazelcast.Protocol.Data.PagingPredicateHolder",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
-    "CPMember": "Hazelcast.CP.ICPMember",
 
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
@@ -165,14 +151,13 @@ _cs_types_decode = {
     "List_Xid": "NA",
     "List_String": "IList<string>",
     "List_Data": "IList<IData>",
-    "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "IList<IData>",
     "List_MemberInfo": "IList<Hazelcast.Data.MemberInfo>",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "ICollection<Hazelcast.Data.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
-    "List_IndexConfig": "IList<Hazelcast.Data.IndexConfig>",
+    "List_IndexConfig": "IList<Hazelcast.Data.Map.IndexConfig>",
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
@@ -180,7 +165,6 @@ _cs_types_decode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_ScheduledTaskHandler": "NA",
-    "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",
@@ -190,8 +174,8 @@ _cs_types_decode = {
     "EntryList_Integer_Integer": "IList<KeyValuePair<int, int>>",
     "EntryList_UUID_Long": "IList<KeyValuePair<Guid, long>>",
     "EntryList_String_EntryList_Integer_Long": "IList<KeyValuePair<string, IList<KeyValuePair<int, long>>>>",
-    "EntryList_UUID_UUID": "IList<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "IList<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
-    "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>"
+    
+    "BitmapIndexOptions": "Hazelcast.Data.Map.BitmapIndexOptions",
 }
