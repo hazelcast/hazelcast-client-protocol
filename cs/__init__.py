@@ -82,12 +82,10 @@ _cs_types_common = {
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
-    "EndpointQualifier": "NA",
+    "EndpointQualifier": "Hazelcast.Data.EndpointQualifier",
 
     "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "NA",
-
-    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>"
+    "Map_EndpointQualifier_Address": "IDictionary<Hazelcast.Data.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
 }
 
 _cs_types_encode = {
@@ -128,6 +126,7 @@ _cs_types_encode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "NA",
+    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",
@@ -157,7 +156,7 @@ _cs_types_decode = {
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
-    "CPMember": "Hazelcast.CP.ICPMember",
+    "CPMember": "Hazelcast.CP.CPMemberInfo",
 
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
@@ -180,7 +179,8 @@ _cs_types_decode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_ScheduledTaskHandler": "NA",
-    "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
+    "List_SqlColumnMetadata": "NA",
+    "List_CPMember": "IList<Hazelcast.CP.CPMemberInfo>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",

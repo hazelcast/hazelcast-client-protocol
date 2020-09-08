@@ -111,21 +111,42 @@ namespace Hazelcast.Protocol.CustomCodecs
 
             var initialFrame = iterator.Take();
             {% endif %}
+            {% if param in new_params(codec.since, fixed_params(codec.params)) %}
+            var is{{ param.name|capital }}Exists = false;
+            {{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}} = default;
+            if (initialFrame.Bytes.Length >= {{param.name|capital}}FieldOffset + BytesExtensions.SizeOf{{lang_types_decode(param.type)|capital}})
+            {
+                {{escape_keyword(param.name)}} = initialFrame.Bytes.Read{{ lang_types_decode(param.type)|capital }}L({{  param.name|capital }}FieldOffset);
+                is{{ param.name|capital }}Exists = true;
+            }
+            {% else %}
             var {{ escape_keyword(param.name) }} = initialFrame.Bytes.Read{{ lang_types_decode(param.type)|capital }}L({{  param.name|capital }}FieldOffset);
+            {% endif %}
+                {% if loop.first %}
+
+                {% endif %}
             {% endfor %}
             {% for param in var_size_params(codec.params) %}
-            {% if loop.first %}
-
-            {% endif %}
-            var {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
-            {% endfor %}
-
-            iterator.SkipToStructEnd();
-
-            {% if codec.returnWithFactory %}
-            return CustomTypeFactory.Create{{ codec.name }}({% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
+            {% if param in new_params(codec.since, var_size_params(codec.params)) %}
+            var is{{ param.name|capital }}Exists = false;
+            {{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}} = default;
+            if (iterator.Current?.Next != null)
+            {
+                {{escape_keyword(param.name)}} = {{ decode_var_sized(param) }};
+                is{{ param.name|capital }}Exists = true;
+            }
             {% else %}
-            return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
+            var {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
+            {% endif %}
+                {% if loop.last %}
+
+                {% endif %}
+            {% endfor %}
+            iterator.SkipToStructEnd();
+            {% if codec.returnWithFactory %}
+            return CustomTypeFactory.Create{{ codec.name }}({% for param in codec.params %}{% if param in new_params(codec.since, codec.params) %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
+            {% else %}
+            return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{% if param in new_params(codec.since, codec.params) %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
             {% endif %}
         }
     }
