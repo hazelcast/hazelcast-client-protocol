@@ -366,7 +366,6 @@ class SupportedLanguages(Enum):
     JAVA = 'java'
     CPP = 'cpp'
     CS = 'cs'
-    SCS = 'scs' # server-side CS
     # PY = 'py'
     TS = 'ts'
     # GO = 'go'
@@ -394,7 +393,6 @@ file_extensions = {
     SupportedLanguages.JAVA: 'java',
     SupportedLanguages.CPP: 'cpp',  # TODO header files ?
     SupportedLanguages.CS: 'cs',
-    SupportedLanguages.SCS: 'cs',
     # SupportedLanguages.PY: 'py',
     SupportedLanguages.TS: 'ts',
     # SupportedLanguages.GO: 'go'
