@@ -18,7 +18,7 @@ def cs_types_encode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError("Missing type mapping for '" + key + "'")
     return cs_type
 
 
@@ -28,7 +28,7 @@ def cs_types_decode(key):
     except KeyError:
         cs_type = _cs_types_common[key]
     if cs_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError("Missing type for '" + key + "'")
     return cs_type
 
 
