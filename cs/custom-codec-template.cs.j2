@@ -52,6 +52,7 @@
 #pragma warning disable IDE0051 // Remove unused private members
 // ReSharper disable UnusedMember.Local
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
 
 using System;
 using System.Collections.Generic;
@@ -130,7 +131,7 @@ namespace Hazelcast.Protocol.CustomCodecs
             {% if param in new_params(codec.since, var_size_params(codec.params)) %}
             var is{{ param.name|capital }}Exists = false;
             {{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}} = default;
-            if (iterator.Current?.Next != null)
+            if (iterator.NextIsNotTheEnd())
             {
                 {{escape_keyword(param.name)}} = {{ decode_var_sized(param) }};
                 is{{ param.name|capital }}Exists = true;

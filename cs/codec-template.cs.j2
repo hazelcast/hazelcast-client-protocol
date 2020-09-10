@@ -78,7 +78,11 @@ namespace Hazelcast.Protocol.Codecs
     /// {{ line }}
     {% endfor %}
     ///</summary>
+#if SERVER_CODEC
+    internal static class {{ service_name|capital }}{{ method.name|capital }}ServerCodec
+#else
     internal static class {{ service_name|capital }}{{ method.name|capital }}Codec
+#endif
     {
         public const int RequestMessageType = {{ method.request.id }}; // {{ '0x%06X'|format(method.request.id) }}
         public const int ResponseMessageType = {{ method.response.id }}; // {{ '0x%06X'|format(method.response.id) }}
@@ -111,7 +115,7 @@ namespace Hazelcast.Protocol.Codecs
         private const int Event{{event.name|capital}}MessageType = {{ event.id }}; // {{ '0x%06X'|format(event.id) }}
     {% endfor %}
 
-#if SERVER_CODE
+#if SERVER_CODEC
     {#REQUEST PARAMETERS#}
         public sealed class RequestParameters
         {
@@ -156,7 +160,7 @@ namespace Hazelcast.Protocol.Codecs
             return clientMessage;
         }
 
-#if SERVER_CODE
+#if SERVER_CODEC
     {#REQUEST DECODE#}
         public static RequestParameters DecodeRequest(ClientMessage clientMessage)
         {
@@ -194,6 +198,7 @@ namespace Hazelcast.Protocol.Codecs
             return request;
         }
 #endif
+
     {#RESPONSE PARAMETERS#}
         public sealed class ResponseParameters
         {
@@ -216,7 +221,7 @@ namespace Hazelcast.Protocol.Codecs
         {% endfor %}
         }
 
-#if SERVER_CODE
+#if SERVER_CODEC
     {#RESPONSE ENCODE#}
         public static ClientMessage EncodeResponse({% for param in method.response.params %}{{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %})
         {
@@ -273,7 +278,7 @@ namespace Hazelcast.Protocol.Codecs
 
     {# EVENTS#}
     {% if method.events|length != 0 %}
-#if SERVER_CODE
+#if SERVER_CODEC
     {% for event in method.events%}
         public static ClientMessage Encode{{(event.name|capital)}}Event({% for param in event.params %}{{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %})
         {
