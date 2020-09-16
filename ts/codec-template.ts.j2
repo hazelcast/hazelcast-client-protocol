@@ -110,7 +110,12 @@ const RESPONSE_{{ to_upper_snake_case(param.name) }}_OFFSET = {% if loop.first %
 const EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.name)}}_OFFSET = {% if loop.first %}PARTITION_ID_OFFSET + BitsUtil.INT_SIZE_IN_BYTES{% else %}EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_OFFSET + BitsUtil.{{loop.previtem.type.upper()}}_SIZE_IN_BYTES{% endif %};
     {% endfor %}
 {% endfor %}
-{% if method.response.params|length > 0 %}
+{#RESPONSE PARAMETERS#}
+{% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
+{% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
+{% if noResponseValue %}
+{% elif singleResponseValue %}
+{% else %}
 
 /** @internal */
 export interface {{ service_name|capital }}{{ method.name|capital }}ResponseParams {
@@ -144,9 +149,28 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
         return clientMessage;
     }
 {#RESPONSE DECODE#}
-{% if method.response.params|length > 0 %}
+{% if noResponseValue %}
+{% elif singleResponseValue %}
+    {% set param = method.response.params|last %}
 
-    static decodeResponse(clientMessage: ClientMessage): {% if method.response.params|length > 0 %}{{ service_name|capital }}{{ method.name|capital }}ResponseParams{% else %}void{% endif %} {
+    static decodeResponse(clientMessage: ClientMessage): {{ lang_types_decode(param.type) }} {
+{% if  response_fix_sized_params|length != 0 %}
+        const initialFrame = clientMessage.nextFrame();
+{% else %}
+        // empty initial frame
+        clientMessage.nextFrame();
+{% endif %}
+
+{% for param in response_fix_sized_params %}
+        return FixSizedTypesCodec.decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
+{% endfor %}
+{% for param in response_var_sized_params %}
+        return {{ decode_var_sized(param) }};
+{% endfor %}
+    }
+{% else %}
+
+    static decodeResponse(clientMessage: ClientMessage): {{ service_name|capital }}{{ method.name|capital }}ResponseParams {
 {% if  response_fix_sized_params|length != 0 %}
         const initialFrame = clientMessage.nextFrame();
 {% else %}
