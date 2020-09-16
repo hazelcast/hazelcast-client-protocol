@@ -6,7 +6,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                           'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                           'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {8, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 32, 33}
+ts_ignore_service_list = {8, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 32, 33}
 
 
 def ts_types_encode(key):
