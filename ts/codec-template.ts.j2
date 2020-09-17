@@ -111,7 +111,7 @@ const EVENT_{{ to_upper_snake_case(event.name)}}_{{to_upper_snake_case(param.nam
     {% endfor %}
 {% endfor %}
 {#RESPONSE PARAMETERS#}
-{% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
+{% set noResponseValue = method.response.params|length == 0 %}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if noResponseValue %}
 {% elif singleResponseValue %}

@@ -232,7 +232,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% endif %}
 
 {#RESPONSE PARAMETERS#}
-{% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
+{% set noResponseValue = method.response.params|length == 0 %}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if noResponseValue %}
 {% elif singleResponseValue %}
