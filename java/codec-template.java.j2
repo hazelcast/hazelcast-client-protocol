@@ -234,9 +234,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#RESPONSE PARAMETERS#}
 {% set noResponseValue = method.response.params|length == 0 %}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
-{% if noResponseValue %}
-{% elif singleResponseValue %}
-{% else %}
+{% if not (noResponseValue or singleResponseValue) %}
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
     {% for param in method.response.params %}
