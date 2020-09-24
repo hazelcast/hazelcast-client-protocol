@@ -7,7 +7,7 @@ methods:
     doc: |
       Acquires the given FencedLock on the given CP group. If the lock is
       acquired, a valid fencing token (positive number) is returned. If not
-      acquired because of max reentrant entry limit, the call returns -1.
+      acquired because of max reentrant entry limit, the call returns 0.
       If the lock is held by some other endpoint when this method is called,
       the caller thread is blocked until the lock is released. If the session
       is closed between reentrant acquires, the call fails with
@@ -54,7 +54,7 @@ methods:
           since: 2.0
           doc: |
             a valid fencing token (positive number) if the lock
-            is acquired, otherwise -1.
+            is acquired, otherwise 0.
   - id: 2
     name: tryLock
     since: 2.0
@@ -62,7 +62,7 @@ methods:
       Attempts to acquire the given FencedLock on the given CP group.
       If the lock is acquired, a valid fencing token (positive number) is
       returned. If not acquired either because of max reentrant entry limit or
-      the lock is not free during the timeout duration, the call returns -1.
+      the lock is not free during the timeout duration, the call returns 0.
       If the lock is held by some other endpoint when this method is called,
       the caller thread is blocked until the lock is released or the timeout
       duration passes. If the session is closed between reentrant acquires,
@@ -115,7 +115,7 @@ methods:
           since: 2.0
           doc: |
             a valid fencing token (positive number) if the lock
-            is acquired, otherwise -1.
+            is acquired, otherwise 0.
   - id: 3
     name: unlock
     since: 2.0
