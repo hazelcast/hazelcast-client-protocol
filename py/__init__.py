@@ -23,9 +23,8 @@ def py_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
 
 
-py_ignore_service_list = {"FencedLock", "AtomicLong", "AtomicRef", "CountDownLatch", "Semaphore", "Cache",
-                          "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPGroup", "CPSession", "MC", "Sql", "CPSubsystem"}
+py_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
+                          "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem"}
 
 
 class ImportPathHolder:
@@ -87,6 +86,8 @@ class PathHolders:
     EndpointQualifier = ImportPathHolder("EndpointQualifier", "protocol")
     EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec",
                                               "protocol.codec.custom.endpoint_qualifier_codec")
+    RaftGroupId = ImportPathHolder("RaftGroupId", "protocol")
+    RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "protocol.codec.custom.raft_group_id_codec")
 
 
 import_paths = {
@@ -102,6 +103,7 @@ import_paths = {
     "DistributedObjectInfo": [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
     "MemberInfo": [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     "MemberVersion": [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
+    "RaftGroupId": [PathHolders.RaftGroupId, PathHolders.RaftGroupIdCodec],
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
@@ -155,6 +157,7 @@ _py_types = {
     "MemberInfo",
     "MemberVersion",
     "EndpointQualifier",
+    "RaftGroupId",
 
     "IndexConfig",
     "BitmapIndexOptions",
