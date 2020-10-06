@@ -300,7 +300,7 @@ namespace Hazelcast.Protocol.Codecs
 #endif
     {% endif %}
     {% if method.events|length != 0 %}
-        public static ValueTask HandleEventAsync(ClientMessage clientMessage{% for event in method.events%}, Handle{{ event.name|capital }}EventAsync handle{{ event.name|capital }}EventAsync{% endfor %}, ILoggerFactory loggerFactory)
+        public static ValueTask HandleEventAsync(ClientMessage clientMessage{% for event in method.events%}, Func<{% for param in event.params %}{% if param in new_params(event.since, event.params) %}bool is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_decode(param.type) }}, {% endfor %}object, ValueTask> handle{{ event.name|capital }}EventAsync{% endfor %}, object state, ILoggerFactory loggerFactory)
         {
             using var iterator = clientMessage.GetEnumerator();
             var messageType = clientMessage.MessageType;
@@ -338,16 +338,12 @@ namespace Hazelcast.Protocol.Codecs
                 var {{escape_keyword(param.name)}} = {{ decode_var_sized(param) }};
                 {% endif %}
             {% endfor %}
-                return handle{{ event.name|capital }}EventAsync({% for param in event.params %}{% if param in new_params(event.since, event.params) %}is{{ param.name|capital }}Exists, {% endif %}{{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %});
+                return handle{{ event.name|capital }}EventAsync({% for param in event.params %}{% if param in new_params(event.since, event.params) %}is{{ param.name|capital }}Exists, {% endif %}{{escape_keyword(param.name)}}, {% endfor %}state);
             }
         {% endfor %}
             loggerFactory.CreateLogger(typeof(EventHandler)).LogDebug("Unknown message type received on event handler :" + messageType);
             return default;
         }
-    {% for event in method.events%}
-
-        public delegate ValueTask Handle{{ event.name|capital }}EventAsync({% for param in event.params %}{% if param in new_params(event.since, event.params) %}bool is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_decode(param.type) }} {{escape_keyword(param.name)}}{% if not loop.last %}, {% endif %}{% endfor %});
-    {% endfor %}
     {% endif %}
     }
 }
