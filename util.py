@@ -139,7 +139,7 @@ def generate_codecs(services, template, output_dir, lang, env):
 
 def generate_custom_codecs(services, template, output_dir, extension, env):
     os.makedirs(output_dir, exist_ok=True)
-    if extension is "cpp":
+    if extension == "cpp":
         cpp_header_template = env.get_template("custom-codec-template.h.j2")
         cpp_source_template = env.get_template("custom-codec-template.cpp.j2")
     for service in services:
@@ -147,7 +147,7 @@ def generate_custom_codecs(services, template, output_dir, extension, env):
             custom_types = service["customTypes"]
             for codec in custom_types:
                 try:
-                    if extension is "cpp":
+                    if extension == "cpp":
                         file_name_prefix = codec["name"].lower() + '_codec'
                         header_file_name = file_name_prefix + ".h"
                         source_file_name = file_name_prefix + ".cpp"

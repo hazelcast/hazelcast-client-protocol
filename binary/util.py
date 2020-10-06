@@ -231,6 +231,7 @@ class VarSizedParamEncoder:
             'List_Integer': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='int'),
             'List_Long': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='long'),
             'List_UUID': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='UUID'),
+            'ListCN_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler'))
@@ -400,6 +401,7 @@ reference_objects_dict = {
     'List_Data': 'aListOfData',
     'List_List_Data': 'aListOfListOfData',
     'ListCN_Data': 'aListOfData',
+    'List_ListCN_Data': 'aListOfListOfData',
     'List_DistributedObjectInfo': 'aListOfDistributedObjectInfo',
     'List_ListenerConfigHolder': 'aListOfListenerConfigHolders',
     'List_AttributeConfig': 'aListOfAttributeConfigs',
