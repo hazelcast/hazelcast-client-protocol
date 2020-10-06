@@ -1,5 +1,5 @@
 
-cpp_ignore_service_list = [7, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 30, 32, 33, 34, 38]
+cpp_ignore_service_list = [19, 20, 22, 24, 25, 26, 27, 32, 33, 34]
 
 def cpp_types_encode(key):
     try:
@@ -70,7 +70,7 @@ _cpp_types_common = {
     "ErrorHolder": "Hazelcast.Client.Protocol.ErrorHolder",
     "StackTraceElement": "protocol::codec::StackTraceElement",
     "SimpleEntryView": "map::DataEntryView",
-    "RaftGroupId": "NA",
+    "RaftGroupId": "raft_group_id",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
