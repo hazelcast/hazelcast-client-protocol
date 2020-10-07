@@ -78,6 +78,7 @@
             "List_Data",
             "List_List_Data",
             "ListCN_Data",
+            "List_ListCN_Data",
             "List_DistributedObjectInfo",
             "List_ListenerConfigHolder",
             "List_AttributeConfig",

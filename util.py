@@ -13,7 +13,9 @@ from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedM
 from java import java_types_encode, java_types_decode
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
 from cpp import cpp_types_encode, cpp_types_decode, cpp_ignore_service_list, get_size, is_trivial
-from ts import ts_types_encode, ts_types_decode, ts_reserved_keywords, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
+from ts import ts_types_encode, ts_types_decode, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
+from py import py_types_encode_decode, py_param_name, py_escape_keyword, py_ignore_service_list, \
+    py_get_import_path_holders
 
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
@@ -115,7 +117,7 @@ def generate_codecs(services, template, output_dir, lang, env):
                     for i in range(len(events)):
                         method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
 
-                codec_file_name = capital(service["name"]) + capital(method["name"]) + 'Codec.' + file_extensions[lang]
+                codec_file_name = file_name_generators[lang](service["name"], method["name"])
                 try:
                     if lang is SupportedLanguages.CPP:
                         codec_template = env.get_template("codec-template.h.j2")
@@ -137,9 +139,10 @@ def generate_codecs(services, template, output_dir, lang, env):
         save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
         save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
 
-def generate_custom_codecs(services, template, output_dir, extension, env):
+
+def generate_custom_codecs(services, template, output_dir, lang, env):
     os.makedirs(output_dir, exist_ok=True)
-    if extension is "cpp":
+    if lang == SupportedLanguages.CPP:
         cpp_header_template = env.get_template("custom-codec-template.h.j2")
         cpp_source_template = env.get_template("custom-codec-template.cpp.j2")
     for service in services:
@@ -147,7 +150,7 @@ def generate_custom_codecs(services, template, output_dir, extension, env):
             custom_types = service["customTypes"]
             for codec in custom_types:
                 try:
-                    if extension is "cpp":
+                    if lang == SupportedLanguages.CPP:
                         file_name_prefix = codec["name"].lower() + '_codec'
                         header_file_name = file_name_prefix + ".h"
                         source_file_name = file_name_prefix + ".cpp"
@@ -158,7 +161,7 @@ def generate_custom_codecs(services, template, output_dir, extension, env):
                         content = cpp_source_template.render(codec=codec)
                         save_file(os.path.join(output_dir, source_file_name), content)
                     else:
-                        codec_file_name = capital(codec["name"]) + 'Codec.' + extension
+                        codec_file_name = file_name_generators[lang](codec["name"])
                         content = template.render(codec=codec)
                         save_file(os.path.join(output_dir, codec_file_name), content)
                 except NotImplementedError:
@@ -366,7 +369,7 @@ class SupportedLanguages(Enum):
     JAVA = 'java'
     CPP = 'cpp'
     CS = 'cs'
-    # PY = 'py'
+    PY = 'py'
     TS = 'ts'
     # GO = 'go'
 
@@ -375,7 +378,7 @@ codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
     SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codecs/',
-    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/',
     # SupportedLanguages.GO: 'internal/proto/'
 }
@@ -384,17 +387,30 @@ custom_codec_output_directories = {
     SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
     SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
-    # SupportedLanguages.PY: 'hazelcast/protocol/codec/',
+    SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
     SupportedLanguages.TS: 'src/codec/custom',
     # SupportedLanguages.GO: 'internal/proto/'
 }
 
-file_extensions = {
-    SupportedLanguages.JAVA: 'java',
-    SupportedLanguages.CPP: 'cpp',  # TODO header files ?
-    SupportedLanguages.CS: 'cs',
-    # SupportedLanguages.PY: 'py',
-    SupportedLanguages.TS: 'ts',
+
+def _capitalized_name_generator(extension):
+    def inner(*names):
+        return "%sCodec.%s" % ("".join(map(capital, names)), extension)
+    return inner
+
+
+def _snake_cased_name_generator(extension):
+    def inner(*names):
+        return "%s_codec.%s" % ("_".join(map(py_param_name, names)), extension)
+    return inner
+
+
+file_name_generators = {
+    SupportedLanguages.JAVA: _capitalized_name_generator('java'),
+    SupportedLanguages.CPP: _snake_cased_name_generator('cpp'),
+    SupportedLanguages.CS: _capitalized_name_generator('cs'),
+    SupportedLanguages.PY: _snake_cased_name_generator('py'),
+    SupportedLanguages.TS: _capitalized_name_generator('ts'),
     # SupportedLanguages.GO: 'go'
 }
 
@@ -403,37 +419,43 @@ language_specific_funcs = {
         SupportedLanguages.JAVA: java_types_encode,
         SupportedLanguages.CS: cs_types_encode,
         SupportedLanguages.CPP: cpp_types_encode,
-        SupportedLanguages.TS: ts_types_encode
+        SupportedLanguages.TS: ts_types_encode,
+        SupportedLanguages.PY: py_types_encode_decode,
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
         SupportedLanguages.CS: cs_types_decode,
         SupportedLanguages.CPP: cpp_types_decode,
-        SupportedLanguages.TS: ts_types_decode
+        SupportedLanguages.TS: ts_types_decode,
+        SupportedLanguages.PY: py_types_encode_decode,
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
         SupportedLanguages.CS: cs_name,
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
+        SupportedLanguages.PY: java_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
         SupportedLanguages.CPP: param_name,
         SupportedLanguages.TS: param_name,
+        SupportedLanguages.PY: py_param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: cs_escape_keyword,
         SupportedLanguages.CPP: lambda x: x,
-        SupportedLanguages.TS: ts_escape_keyword
+        SupportedLanguages.TS: ts_escape_keyword,
+        SupportedLanguages.PY: py_escape_keyword,
     },
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: lambda x: x,
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
+        SupportedLanguages.PY: py_get_import_path_holders,
     }
 }
 
@@ -441,7 +463,7 @@ language_service_ignore_list = {
     SupportedLanguages.JAVA: set(),
     SupportedLanguages.CPP: cpp_ignore_service_list,
     SupportedLanguages.CS: cs_ignore_service_list,
-    # SupportedLanguages.PY: set(),
+    SupportedLanguages.PY: py_ignore_service_list,
     SupportedLanguages.TS: ts_ignore_service_list,
     # SupportedLanguages.GO: set()
 }
