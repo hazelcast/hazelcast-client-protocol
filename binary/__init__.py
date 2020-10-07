@@ -84,7 +84,6 @@ VarLengthEntryListTypes = [
     'EntryList_String_String',
     'EntryList_String_byteArray',
     'EntryList_String_EntryList_Integer_Long',
-    'EntryList_UUID_List_Integer',
     'EntryList_Data_Data',
     'EntryList_Data_List_Data',
 ]
@@ -114,6 +113,8 @@ VarLengthListTypes = [
     'List_MCEvent',
     'List_SqlColumnMetadata',
     'List_CPMember'
+    'ListCN_Data',
+    'List_List_Data',
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \
