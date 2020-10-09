@@ -11,8 +11,8 @@ rm -rf ../src/Hazelcast.Net/Protocol/CustomCodecs/*.cs
 cp output/cs/src/Hazelcast.Net/Protocol/Codecs/*.cs ../src/Hazelcast.Net/Protocol/Codecs/
 cp output/cs/src/Hazelcast.Net/Protocol/CustomCodecs/*.cs ../src/Hazelcast.Net/Protocol/CustomCodecs/
 
-rm -rf ../src/Hazelcast.Net.Testing/Protocol/Codecs/*.cs
-cp output/cs/src/Hazelcast.Net/Protocol/Codecs/*.cs ../src/Hazelcast.Net.Testing/Protocol/Codecs/
+#rm -rf ../src/Hazelcast.Net.Testing/Protocol/Codecs/*.cs
+#cp output/cs/src/Hazelcast.Net/Protocol/Codecs/*.cs ../src/Hazelcast.Net.Testing/Protocol/Codecs/
 #rm -rf ../src/Hazelcast.Net.Testing/Protocol/CustomCodecs/*.cs
 #cp output/cs/src/Hazelcast.Net/Protocol/CustomCodecs/*.cs ../src/Hazelcast.Net.Testing/Protocol/CustomCodecs/
 

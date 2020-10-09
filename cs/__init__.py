@@ -55,7 +55,7 @@ _cs_types_common = {
     "Address": "Hazelcast.Networking.NetworkAddress",
     "ErrorHolder": "Hazelcast.Protocol.Data.ErrorHolder",
     "StackTraceElement": "Hazelcast.Exceptions.StackTraceElement",
-    "SimpleEntryView": "Hazelcast.Data.HDictionaryEntry<IData, IData>",
+    "SimpleEntryView": "Hazelcast.Data.HDictionaryEntryStats<IData, IData>",
     "RaftGroupId": "Hazelcast.CP.RaftGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
