@@ -119,40 +119,30 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 
     private {{ service_name|capital }}{{ method.name|capital }}Codec() {
     }
-
 {#REQUEST PARAMETERS#}
-{% set noRequestValue = method.request.params|length == 0 and request_new_params|length == 0 %}
+{% set noRequestValue = method.request.params|length == 0 %}
 {% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
-{% if noRequestValue %}
-{% elif singleRequestValue %}
-    {% set param = method.request.params|last %}
-    /**
-    {% for line in param.doc.splitlines() %}
-     * {{ line }}
-    {% endfor %}
-     */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"})
-    public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
-{% else %}
+{% if not (noRequestValue or singleRequestValue) %}
+
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class RequestParameters {
-{% for param in method.request.params %}
+    {% for param in method.request.params %}
 
         /**
-    {% for line in param.doc.splitlines() %}
+        {% for line in param.doc.splitlines() %}
          * {{ line }}
-    {% endfor %}
+        {% endfor %}
          */
         public {% if param.nullable  %}@Nullable {% endif %}{{ lang_types_decode(param.type) }} {{ param.name }};
-{% endfor %}
-{% for param in request_new_params %}
+    {% endfor %}
+    {% for param in request_new_params %}
 
         /**
          * True if the {{ param.name }} is received from the client, false otherwise.
          * If this is false, {{ param.name }} has the default value for its type.
-        */
+         */
         public boolean is{{ param.name|capital }}Exists;
-{% endfor %}
+    {% endfor %}
     }
 {% endif %}
 
@@ -178,6 +168,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% if noRequestValue %}
 {% elif singleRequestValue %}
     {% set param = method.request.params|last %}
+    /**
+    {% for line in param.doc.splitlines() %}
+     * {{ line }}
+    {% endfor %}
+     */
     public static {{ lang_types_decode(param.type) }} decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% if request_fix_sized_params|length != 0 %}
@@ -238,6 +233,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
     {% for param in method.response.params %}
+
         /**
         {% for line in param.doc.splitlines() %}
          * {{ line }}
@@ -250,7 +246,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         /**
          * True if the {{ param.name }} is received from the member, false otherwise.
          * If this is false, {{ param.name }} has the default value for its type.
-        */
+         */
         public boolean is{{ param.name|capital }}Exists;
     {% endfor %}
     }
@@ -277,9 +273,9 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% set param = method.response.params|last %}
     /**
     {% for line in param.doc.splitlines() %}
-    * {{ line }}
+     * {{ line }}
     {% endfor %}
-    */
+     */
     public static {{ lang_types_decode(param.type) }} decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         {% if response_fix_sized_params|length != 0 %}
@@ -415,7 +411,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-        */
+         */
         public abstract void handle{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{% if param in new_event_params %}boolean is{{ param.name|capital }}Exists, {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
     {% endfor %}
     }
