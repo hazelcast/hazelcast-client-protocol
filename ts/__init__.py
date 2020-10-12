@@ -1,12 +1,15 @@
 ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class',
-                          'const', 'continue', 'debugger', 'default', 'delete', 'do', 'double', 'else', 'enum',
-                          'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto',
-                          'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long',
-                          'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return',
-                          'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
-                          'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
+                        'const', 'continue', 'debugger', 'default', 'delete', 'do', 'double', 'else', 'enum',
+                        'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto',
+                        'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long',
+                        'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return',
+                        'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
+                        'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {8, 14, 15, 16, 17, 18, 19, 20, 21,  22, 24, 25, 26, 27, 32, 33}
+ts_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
+                          "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
+                          "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem"}
 
 
 def ts_types_encode(key):
@@ -25,6 +28,7 @@ def ts_types_decode(key):
 
 def ts_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
+
 
 def ts_escape_keyword(value):
     if value not in ts_reserved_keywords:
@@ -169,7 +173,8 @@ import_paths = {
     'EntryList_UUID_UUID': [PathHolders.EntryListUUIDUUIDCodec, PathHolders.UUID],
     'EntryList_UUID_List_Integer': [PathHolders.EntryListUUIDListIntegerCodec, PathHolders.UUID],
     'EntryList_Data_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.Data],
-    'EntryList_Data_List_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec, PathHolders.Data],
+    'EntryList_Data_List_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec,
+                                 PathHolders.Data],
     'Map_String_String': [PathHolders.MapCodec, PathHolders.StringCodec],
     'IndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec],
     'ListIndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
@@ -232,6 +237,7 @@ _ts_types = {
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
+    "CPMember": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -240,6 +246,7 @@ _ts_types = {
     "List_Xid": "NA",
     "List_Data": "Data[]",
     "ListCN_Data": "Data[]",
+    "List_ListCN_Data": "NA",
     "List_MemberInfo": "MemberInfo[]",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",

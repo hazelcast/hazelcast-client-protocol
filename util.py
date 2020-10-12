@@ -102,36 +102,41 @@ def generate_codecs(services, template, output_dir, lang, env):
         save_file(os.path.join(output_dir, "codecs.cpp"), f.read(), "w")
 
     for service in services:
-        if service["id"] in language_service_ignore_list[lang]:
+        if service["name"] in language_service_ignore_list[lang]:
             print("[%s] is in ignore list so ignoring it." % service["name"])
             continue
         if "methods" in service:
             methods = service["methods"]
             if methods is None:
-                print(type(methods))
-            for method in service["methods"]:
-                method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
-                method["response"]["id"] = int(id_fmt % (service["id"], method["id"], 1), 16)
-                events = method.get("events", None)
-                if events is not None:
-                    for i in range(len(events)):
-                        method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
+                raise NotImplementedError("Methods not found for service " + service)
 
-                codec_file_name = file_name_generators[lang](service["name"], method["name"])
-                try:
-                    if lang is SupportedLanguages.CPP:
-                        codec_template = env.get_template("codec-template.h.j2")
-                        content = codec_template.render(service_name=service["name"], method=method)
-                        save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
+        for method in service["methods"]:
+            if (service["name"] + "." + method["name"]) in language_service_ignore_list[lang]:
+                print("[%s] is in ignore list so ignoring it." % (service["name"] + "." + method["name"]))
+                continue
 
-                        codec_template = env.get_template("codec-template.cpp.j2")
-                        content = codec_template.render(service_name=service["name"], method=method)
-                        save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
-                    else:
-                        content = template.render(service_name=service["name"], method=method)
-                        save_file(os.path.join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+            method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
+            method["response"]["id"] = int(id_fmt % (service["id"], method["id"], 1), 16)
+            events = method.get("events", None)
+            if events is not None:
+                for i in range(len(events)):
+                    method["events"][i]["id"] = int(id_fmt % (service["id"], method["id"], i + 2), 16)
+
+            codec_file_name = file_name_generators[lang](service["name"], method["name"])
+            try:
+                if lang is SupportedLanguages.CPP:
+                    codec_template = env.get_template("codec-template.h.j2")
+                    content = codec_template.render(service_name=service["name"], method=method)
+                    save_file(os.path.join(output_dir, "codecs.h"), content, "a+")
+
+                    codec_template = env.get_template("codec-template.cpp.j2")
+                    content = codec_template.render(service_name=service["name"], method=method)
+                    save_file(os.path.join(output_dir, "codecs.cpp"), content, "a+")
+                else:
+                    content = template.render(service_name=service["name"], method=method)
+                    save_file(os.path.join(output_dir, codec_file_name), content)
+            except NotImplementedError:
+                print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
 
     if lang is SupportedLanguages.CPP:
         f = open(os.path.join(cpp_dir, "footer.txt"), "r")
