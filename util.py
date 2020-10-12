@@ -173,12 +173,25 @@ def item_type(lang_name, param_type):
         return lang_name(param_type.split('_', 1)[1])
 
 
+def item_type_d(param_type):
+    if param_type.startswith("List_") or param_type.startswith("ListCN_"):
+        return param_type.split('_', 1)[1]
+
+
 def key_type(lang_name, param_type):
     return lang_name(param_type.split('_', 2)[1])
 
 
+def key_type_d(param_type):
+    return param_type.split('_', 2)[1]
+
+
 def value_type(lang_name, param_type):
     return lang_name(param_type.split('_', 2)[2])
+
+
+def value_type_d(param_type):
+    return param_type.split('_', 2)[2]
 
 
 def is_var_sized_list(param_type):
@@ -485,8 +498,11 @@ def create_environment(lang, namespace):
     env.globals["is_var_sized_entry_list"] = is_var_sized_entry_list
     env.globals["is_var_sized_map"] = is_var_sized_map
     env.globals["item_type"] = item_type
+    env.globals["item_type_d"] = item_type_d
     env.globals["key_type"] = key_type
+    env.globals["key_type_d"] = key_type_d
     env.globals["value_type"] = value_type
+    env.globals["value_type_d"] = value_type_d
     env.globals["lang_types_encode"] = language_specific_funcs['lang_types_encode'][lang]
     env.globals["lang_types_decode"] = language_specific_funcs['lang_types_decode'][lang]
     env.globals["lang_name"] = language_specific_funcs['lang_name'][lang]

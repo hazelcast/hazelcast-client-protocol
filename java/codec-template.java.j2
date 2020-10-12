@@ -1,30 +1,40 @@
-{% macro encode_var_sized(param) -%}
-    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
-    {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
-    {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+{% macro encode_var_sized(name, type, nullable, count = 0) -%}
+    {% if count == 0  %}
+        {% set nestlevel = "" %}
     {%- else -%}
-        {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+        {% set nestlevel = count %}
+    {% endif %}
+    {% if is_var_sized_list(type) or is_var_sized_list_contains_nullable(type) -%}
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(type)%}ContainsNullable{% endif %}{% if nullable  %}Nullable{% endif %}(clientMessage{{ nestlevel }}, {{ name }}{{ nestlevel }}, (clientMessage{{ count + 1 }}, item{{ count + 1 }}) -> {{ encode_var_sized("item", item_type_d(type), false, count + 1) }})
+    {%- elif is_var_sized_entry_list(type) -%}
+        EntryListCodec.encode{% if nullable  %}Nullable{% endif %}(clientMessage, {{ name }}{{ nestlevel }}, (clientMessage{{ count + 1 }}, key{{ count + 1 }}) -> {{ encode_var_sized("key", key_type_d(type), false, count + 1) }}, (clientMessage{{ count + 1 }}, value{{ count + 1 }}) -> {{ encode_var_sized("value", value_type_d(type), false, count + 1) }})
+    {%- elif is_var_sized_map(type) -%}
+        MapCodec.encode{% if nullable  %}Nullable{% endif %}(clientMessage, {{ name }}{{ nestlevel }}, (clientMessage{{ count + 1 }}, key{{ count + 1 }}) -> {{ encode_var_sized("key", key_type_d(type), false, count + 1) }}, (clientMessage{{ count + 1 }}, value{{ count + 1 }}) -> {{ encode_var_sized("value", value_type_d(type), false, count + 1) }})
+    {%- else -%}
+        {%- if nullable  -%}
+            CodecUtil.encodeNullable(clientMessage{{ nestlevel }}, {{ name }}{{ nestlevel }}, {{ lang_name(type) }}Codec::encode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
+            {{ lang_name(type) }}Codec.encode(clientMessage{{ nestlevel }}, {{ name }}{{ nestlevel }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
-{% macro decode_var_sized(param) -%}
-    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
-    {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
-    {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+{% macro decode_var_sized(name, type, nullable, count = 0) -%}
+    {% if count == 0  %}
+        {% set nestlevel = "" %}
     {%- else -%}
-        {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+        {% set nestlevel = count %}
+    {% endif %}
+    {%- if is_var_sized_list(type) or is_var_sized_list_contains_nullable(type) -%}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(type) %}ContainsNullable{% endif %}{% if nullable  %}Nullable{% endif %}(iterator{{ nestlevel }}, iterator{{ count + 1 }} -> {{ decode_var_sized("item", item_type_d(type), false, count + 1) }})
+    {%- elif is_var_sized_entry_list(type) -%}
+        EntryListCodec.decode{% if nullable  %}Nullable{% endif %}(iterator{{ nestlevel }}, iterator{{ count + 1 }} -> {{ decode_var_sized("key", key_type_d(type), false, count + 1) }}, iterator{{ count + 1 }} -> {{ decode_var_sized("value", value_type_d(type), false, count + 1) }})
+    {%- elif is_var_sized_map(type) -%}
+        MapCodec.decode{% if nullable  %}Nullable{% endif %}(iterator{{ nestlevel }}, iterator{{ count + 1 }} -> {{ decode_var_sized("key", key_type_d(type), false, count + 1) }}, iterator{{ count + 1 }} -> {{ decode_var_sized("value", value_type_d(type), false, count + 1) }})
+    {%- else -%}
+        {%- if nullable  -%}
+            CodecUtil.decodeNullable(iterator{{ nestlevel }}, {{ lang_name(type) }}Codec::decode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.decode(iterator)
+            {{ lang_name(type) }}Codec.decode(iterator{{ nestlevel }})
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
@@ -169,7 +179,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         clientMessage.add(initialFrame);
     {% for param in request_var_sized_params %}
-        {{ encode_var_sized(param) }};
+        {{ encode_var_sized(param.name, param.type, param.nullable) }};
     {% endfor %}
         return clientMessage;
     }
@@ -190,7 +200,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         return decode{{ param.type|capital }}(initialFrame.content, REQUEST_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
         {% endfor %}
         {% for param in request_var_sized_params %}
-        return {{ decode_var_sized(param) }};
+        return {{ decode_var_sized(param.name, param.type, param.nullable) }};
         {% endfor %}
     }
 {% else %}
@@ -218,13 +228,13 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for param in request_var_sized_params %}
         {% if param in request_new_params %}
         if (iterator.hasNext()) {
-            request.{{ param.name }} = {{ decode_var_sized(param) }};
+            request.{{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
             request.is{{ param.name|capital }}Exists = true;
         } else {
             request.is{{ param.name|capital }}Exists = false;
         }
         {% else %}
-        request.{{ param.name }} = {{ decode_var_sized(param) }};
+        request.{{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
         {% endif %}
     {% endfor %}
         return request;
@@ -266,7 +276,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         clientMessage.add(initialFrame);
 
     {% for param in response_var_sized_params %}
-        {{ encode_var_sized(param) }};
+        {{ encode_var_sized(param.name, param.type, param.nullable) }};
     {% endfor %}
         return clientMessage;
     }
@@ -292,7 +302,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         return decode{{ param.type|capital }}(initialFrame.content, RESPONSE_{{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
         {% endfor %}
         {% for param in response_var_sized_params %}
-        return {{ decode_var_sized(param) }};
+        return {{ decode_var_sized(param.name, param.type, param.nullable) }};
         {% endfor %}
     }
 {% else %}
@@ -320,13 +330,13 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% for param in response_var_sized_params %}
         {% if param in response_new_params %}
         if (iterator.hasNext()) {
-            response.{{ param.name }} = {{ decode_var_sized(param) }};
+            response.{{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
             response.is{{ param.name|capital }}Exists = true;
         } else {
             response.is{{ param.name|capital }}Exists = false;
         }
         {% else %}
-        response.{{ param.name }} = {{ decode_var_sized(param) }};
+        response.{{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
         {% endif %}
     {% endfor %}
         return response;
@@ -348,7 +358,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         clientMessage.add(initialFrame);
 
     {% for param in var_size_params(event.params) %}
-        {{ encode_var_sized(param) }};
+        {{ encode_var_sized(param.name, param.type, param.nullable) }};
     {% endfor %}
         return clientMessage;
     }
@@ -385,11 +395,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
                 boolean is{{ param.name|capital }}Exists = false;
                 {{ lang_types_encode(param.type) }} {{ param.name }} = null;
                 if (iterator.hasNext()) {
-                    {{ param.name }} = {{ decode_var_sized(param) }};
+                    {{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
                     is{{ param.name|capital }}Exists = true;
                 }
                 {% else %}
-                {{ lang_types_encode(param.type) }} {{ param.name }} = {{ decode_var_sized(param) }};
+                {{ lang_types_encode(param.type) }} {{ param.name }} = {{ decode_var_sized(param.name, param.type, param.nullable) }};
                 {% endif %}
             {% endfor %}
                 handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
