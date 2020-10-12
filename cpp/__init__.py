@@ -1,5 +1,6 @@
+cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
+                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem"}
 
-cpp_ignore_service_list = [19, 20, 22, 24, 25, 26, 27, 32, 33, 34]
 
 def cpp_types_encode(key):
     try:
@@ -20,6 +21,7 @@ def cpp_types_decode(key):
         raise NotImplementedError("Missing type Mapping")
     return cpp_type
 
+
 def get_size(type):
     try:
         size = _type_size[type]
@@ -27,12 +29,14 @@ def get_size(type):
         raise NotImplementedError("Missing type size mapping")
     return size
 
+
 def is_trivial(type):
     try:
         _trivial_types[type]
     except KeyError:
         return 0
     return 1
+
 
 """
 def cpp_escape_keyword(value):
@@ -101,7 +105,7 @@ _cpp_types_common = {
     "Map_String_String": "std::unordered_map<std::string, std::string>",
     "Map_EndpointQualifier_Address": "NA",
 
-     "EntryList_Address_List_Integer": "std::vector<std::pair<Address, std::vector<int32_t>>>",
+    "EntryList_Address_List_Integer": "std::vector<std::pair<Address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",
 
     "SqlQueryId": "NA",

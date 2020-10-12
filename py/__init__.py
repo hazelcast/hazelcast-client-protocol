@@ -23,7 +23,9 @@ def py_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
 
 
-py_ignore_service_list = [7, 9, 10, 11, 12, 19, 20, 22, 24, 25, 26, 27, 30, 31, 32, 33, 34]
+py_ignore_service_list = {"FencedLock", "AtomicLong", "AtomicRef", "CountDownLatch", "Semaphore", "Cache",
+                          "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
+                          "ScheduledExecutor", "DynamicConfig", "CPGroup", "CPSession", "MC", "Sql", "CPSubsystem"}
 
 
 class ImportPathHolder:
@@ -44,16 +46,18 @@ class PathHolders:
     ErrorHolder = ImportPathHolder("ErrorHolder", "protocol")
     ErrorHolderCodec = ImportPathHolder("ErrorHolderCodec", "protocol.codec.custom.error_holder_codec")
     StackTraceElement = ImportPathHolder("StackTraceElement", "protocol")
-    StackTraceElementCodec = ImportPathHolder("StackTraceElementCodec", "protocol.codec.custom.stack_trace_element_codec")
+    StackTraceElementCodec = ImportPathHolder("StackTraceElementCodec",
+                                              "protocol.codec.custom.stack_trace_element_codec")
     SimpleEntryView = ImportPathHolder("SimpleEntryView", "core")
     SimpleEntryViewCodec = ImportPathHolder("SimpleEntryViewCodec", "protocol.codec.custom.simple_entry_view_codec")
     DistributedObjectInfo = ImportPathHolder("DistributedObjectInfo", "core")
-    DistributedObjectInfoCodec = ImportPathHolder("DistributedObjectInfoCodec", "protocol.codec.custom.distributed_object_info_codec")
+    DistributedObjectInfoCodec = ImportPathHolder("DistributedObjectInfoCodec",
+                                                  "protocol.codec.custom.distributed_object_info_codec")
     MemberInfo = ImportPathHolder("MemberInfo", "core")
     MemberInfoCodec = ImportPathHolder("MemberInfoCodec", "protocol.codec.custom.member_info_codec")
     MemberVersion = ImportPathHolder("MemberVersion", "core")
     MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "protocol.codec.custom.member_version_codec")
-    StringCodec = ImportPathHolder("StringCodec", "protocol.builtin",)
+    StringCodec = ImportPathHolder("StringCodec", "protocol.builtin", )
     ListLongCodec = ImportPathHolder("ListLongCodec", "protocol.builtin")
     ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "protocol.builtin")
     ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "protocol.builtin")
@@ -72,13 +76,17 @@ class PathHolders:
     IndexConfig = ImportPathHolder("IndexConfig", "config")
     IndexConfigCodec = ImportPathHolder("IndexConfigCodec", "protocol.codec.custom.index_config_codec")
     BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "config")
-    BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec", "protocol.codec.custom.bitmap_index_options_codec")
+    BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec",
+                                               "protocol.codec.custom.bitmap_index_options_codec")
     PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "protocol")
-    PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "protocol.codec.custom.paging_predicate_holder_codec")
+    PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec",
+                                                  "protocol.codec.custom.paging_predicate_holder_codec")
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "protocol")
-    AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "protocol.codec.custom.anchor_data_list_holder_codec")
+    AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec",
+                                                 "protocol.codec.custom.anchor_data_list_holder_codec")
     EndpointQualifier = ImportPathHolder("EndpointQualifier", "protocol")
-    EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec", "protocol.codec.custom.endpoint_qualifier_codec")
+    EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec",
+                                              "protocol.codec.custom.endpoint_qualifier_codec")
 
 
 import_paths = {
@@ -126,7 +134,6 @@ import_paths = {
     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
                                       PathHolders.AddressCodec]
 }
-
 
 _py_types = {
     "boolean",
