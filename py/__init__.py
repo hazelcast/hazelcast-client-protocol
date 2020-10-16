@@ -158,6 +158,8 @@ _py_types = {
     "MemberVersion",
     "EndpointQualifier",
     "RaftGroupId",
+    "AnchorDataListHolder",
+    "PagingPredicateHolder",
 
     "IndexConfig",
     "BitmapIndexOptions",
