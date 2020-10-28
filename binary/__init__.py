@@ -54,7 +54,8 @@ CustomTypes = [
     'SqlQueryId',
     'SqlError',
     'SqlColumnMetadata',
-    'CPMember'
+    'CPMember',
+    'MigrationState'
 ]
 
 CustomConfigTypes = [
