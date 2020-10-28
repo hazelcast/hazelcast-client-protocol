@@ -424,7 +424,8 @@ reference_objects_dict = {
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'CPMember': 'aCpMember',
-    'List_CPMember': 'aListOfCpMembers'
+    'List_CPMember': 'aListOfCpMembers',
+    'MigrationState': 'aMigrationState'
 }
 
 

@@ -79,6 +79,7 @@ _java_types_encode = {
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
     "CPMember": "com.hazelcast.cp.CPMember",
+    "MigrationState": "com.hazelcast.partition.MigrationState",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -133,6 +134,7 @@ _java_types_decode = {
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
+    "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",

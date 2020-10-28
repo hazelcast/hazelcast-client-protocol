@@ -106,7 +106,8 @@
             "SqlError",
             "SqlColumnMetadata",
             "CPMember",
-            "List_CPMember"
+            "List_CPMember",
+            "MigrationState"
           ]
         },
         "nullable": {

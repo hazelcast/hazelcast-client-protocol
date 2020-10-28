@@ -925,3 +925,22 @@ customTypes:
         type: Address
         nullable: false
         since: 2.1
+  - name: MigrationState
+    since: 2.1
+    params:
+      - name: startTime
+        type: long
+        nullable: false
+        since: 2.1
+      - name: plannedMigrations
+        type: int
+        nullable: false
+        since: 2.1
+      - name: completedMigrations
+        type: int
+        nullable: false
+        since: 2.1
+      - name: totalElapsedTime
+        type: long
+        nullable: false
+        since: 2.1
