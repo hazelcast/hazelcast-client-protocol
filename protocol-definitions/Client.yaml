@@ -809,12 +809,12 @@ methods:
             since: 2.2
             doc: |
               Migration state.
-          - name: partitionId
+          - name: type
             type: int
             nullable: false
             since: 2.2
             doc: |
-              The id assigned during the listener registration.
+              Type of the event. It is either MIGRATION_STARTED(0) or MIGRATION_FINISHED(1).
       - name: ReplicaMigration
         since: 2.2
         params:
