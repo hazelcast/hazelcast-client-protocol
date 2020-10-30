@@ -926,21 +926,21 @@ customTypes:
         nullable: false
         since: 2.1
   - name: MigrationState
-    since: 2.1
+    since: 2.2
     params:
       - name: startTime
         type: long
         nullable: false
-        since: 2.1
+        since: 2.2
       - name: plannedMigrations
         type: int
         nullable: false
-        since: 2.1
+        since: 2.2
       - name: completedMigrations
         type: int
         nullable: false
-        since: 2.1
+        since: 2.2
       - name: totalElapsedTime
         type: long
         nullable: false
-        since: 2.1
+        since: 2.2

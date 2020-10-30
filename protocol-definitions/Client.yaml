@@ -777,7 +777,7 @@ methods:
       {}
   - id: 17
     name: addMigrationListener
-    since: 2.1
+    since: 2.2
     doc: |
       Adds a Migration listener to the cluster.
     request:
@@ -787,7 +787,7 @@ methods:
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.1
+          since: 2.2
           doc: |
             if true only node that has the migration sends the request, if false
             sends all partition lost events.
@@ -796,73 +796,73 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.1
+          since: 2.2
           doc: |
             The listener registration id.
     events:
       - name: Migration
-        since: 2.1
+        since: 2.2
         params:
           - name: migrationState
             type: MigrationState
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               Migration state.
           - name: partitionId
             type: int
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The id assigned during the listener registration.
       - name: ReplicaMigration
-        since: 2.1
+        since: 2.2
         params:
           - name: migrationState
             type: MigrationState
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The progress information of the overall migration.
           - name: partitionId
             type: int
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The partition ID that the event is dispatched for.
           - name: replicaIndex
             type: int
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The index of the partition replica.
           - name: sourceUuid
             type: UUID
             nullable: true
-            since: 2.1
+            since: 2.2
             doc: |
               The id of old owner of the migrating partition replica.
           - name: destUuid
             type: UUID
             nullable: true
-            since: 2.1
+            since: 2.2
             doc: |
               The id of new owner of the migrating partition replica.
           - name: success
             type: boolean
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The result of the migration: completed or failed.
           - name: elapsedTime
             type: long
             nullable: false
-            since: 2.1
+            since: 2.2
             doc: |
               The elapsed the time of this migration in milliseconds.
   - id: 18
     name: removeMigrationListener
-    since: 2.1
+    since: 2.2
     doc: |
       Removes a Migration listener to the cluster.
     request:
@@ -872,7 +872,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.1
+          since: 2.2
           doc: |
             The id assigned during the listener registration.
     response:
@@ -880,6 +880,6 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.1
+          since: 2.2
           doc: |
             true if the listener existed and removed, false otherwise.
