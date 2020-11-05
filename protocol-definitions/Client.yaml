@@ -779,7 +779,7 @@ methods:
     name: addMigrationListener
     since: 2.2
     doc: |
-      Adds a Migration listener to the cluster.
+      Adds a migration listener to the cluster.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -789,8 +789,8 @@ methods:
           nullable: false
           since: 2.2
           doc: |
-            if true only node that has the migration sends the request, if false
-            sends all partition lost events.
+            If set to true, the server adds the listener only to itself, otherwise
+            the listener is added for all members in the cluster.
     response:
       params:
         - name: response
@@ -864,7 +864,7 @@ methods:
     name: removeMigrationListener
     since: 2.2
     doc: |
-      Removes a Migration listener to the cluster.
+      Removes the specifiec migration listener.
     request:
       retryable: true
       partitionIdentifier: -1
@@ -882,4 +882,4 @@ methods:
           nullable: false
           since: 2.2
           doc: |
-            true if the listener existed and removed, false otherwise.
+            true if the listener existed and was removed, false otherwise.
