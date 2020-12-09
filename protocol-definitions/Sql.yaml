@@ -34,6 +34,12 @@ methods:
           since: 2.1
           doc: |
             Cursor buffer size.
+        - name: schema
+          type: String
+          nullable: true
+          since: 2.2
+          doc: |
+            Schema name.
     response:
       params:
         - name: queryId
