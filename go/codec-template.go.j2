@@ -1,0 +1,146 @@
+{% macro encode_var_sized(param, loop_last) -%}
+    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        codecBuiltin.ListMultiFrameCodec.EncodeFor{{ item_type(lang_name, param.type) }}{% if is_var_sized_list_contains_nullable(param.type)%}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        codecBuiltin.EntryListCodec.Encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
+    {%- elif is_var_sized_map(param.type) -%}
+        codecBuiltin.MapCodec.Encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
+    {%- else -%}
+        {%- if param.nullable  -%}
+            codecBuiltin.CodecUtil.EncodeNullable(clientMessage, {{ param_name(param.name) }}, {{ lang_name(param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
+        {%- else -%}
+            codecBuiltin.{{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
+        {%- endif %}
+    {% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        codecBuiltin.ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(msg, {{ item_type(lang_name, param.type) }}Codec.decode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        codecBuiltin.EntryListCodec.decode{% if param.nullable  %}_nullable{% endif %}(msg, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+    {%- elif is_var_sized_map(param.type) -%}
+        codecBuiltin.MapCodec.decode{% if param.nullable  %}_nullable{% endif %}(msg, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            codecBuiltin.CodecUtil.decode_nullable(msg, {{ lang_name(param.type) }}Codec.decode)
+        {%- else -%}
+            codecBuiltin.{{ lang_name(param.type) }}Codec.decode(msg)
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro %}
+{% macro get_import_statements() -%}
+    {% set imported_paths = [] %}
+    {%- for params in varargs -%}
+        {% for param in params %}
+            {% set path_holders = get_import_path_holders(param.type) %}
+            {%- for path_holder in path_holders -%}
+                {% if not path_holder.name in imported_paths and path_holder.name.endswith('Codec') %}
+                    {%- do imported_paths.append(path_holder.name) -%}
+                    {{ path_holder.get_import_statement() }}
+                {% endif %}
+            {% endfor %}
+            {% if not (is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) or is_var_sized_entry_list(param.type) or is_var_sized_map(param.type)) and param.nullable and param.type != 'UUID' and not 'CodecUtil' in imported_paths %}
+                {%- do imported_paths.append('CodecUtil') -%}
+                {{ get_import_path_holders('CodecUtil').get_import_statement() }}
+            {% endif %}
+        {%- endfor -%}
+    {%- endfor -%}
+{%- endmacro %}
+{% set request_fix_sized_params = fixed_params(method.request.params) %}
+{% set request_var_sized_params = var_size_params(method.request.params) %}
+
+// Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package proto
+
+import (
+    "github.com/hazelcast/hazelcast-go-client/hazelcast/core"
+    "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol"
+    codecBuiltin "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol/codec/builtin"
+)
+
+const(
+    // hex: {{ '0x%06X'|format(method.request.id) }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecRequestMessageType int32 = {{ method.request.id }}
+    // hex: {{ '0x%06X'|format(method.response.id) }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecResponseMessageType int32 = {{ method.response.id }}
+{% for event in method.events%}
+    // hex: {{ '0x%06X'|format(event.id) }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecEvent{{ event.name|capital }}MessageType int32 = {{ event.id }}
+{% endfor %}
+{#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
+{% for param in request_fix_sized_params %}
+    {{ service_name|capital }}{{ method.name|capital }}CodecRequest{{ param.name|capital }}Offset = {% if loop.first %}protocol.PartitionIDOffset + protocol.IntSizeInBytes{% else %}protocol.Request{{ loop.previtem.name|capital }}Offset + protocol.{{ loop.previtem.type|capitalize }}SizeInBytes{% endif %}
+
+    {% if loop.last %}
+    {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize = protocol.Request{{ param.name|capital }}Offset + protocol.{{ param.type|capitalize }}SizeInBytes
+
+    {% endif %}
+{% else %}
+    {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize = protocol.PartitionIDOffset + protocol.IntSizeInBytes
+
+{% endfor %}
+{% for event in method.events %}
+    {% for param in fixed_params(event.params) %}
+    {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital }}{{param.name|capital}}Offset = {% if loop.first %}protocol.PartitionIDOffset + protocol.IntSizeInBytes{% else %}1EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(loop.previtem.name)}}_Offset + protocol.{{loop.previtem.type|capitalize}}SizeInBytes{% endif %}
+    {% endfor %}
+{% endfor %}
+)
+{#RESPONSE PARAMETERS#}
+{% set noResponseValue = method.response.params|length == 0 %}
+{% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
+{% if not (noResponseValue or singleResponseValue) %}
+
+/** @internal */
+type {{ service_name|capital }}{{ method.name|capital }}ResponseParams struct {
+{% for param in method.response.params %}
+    {{ escape_keyword(param.name)|capital}} {{ lang_types_encode(param.type) }}
+{% endfor %}
+{% for new_param in response_new_params %}
+    is{{ new_param.name|capital }}Exists: boolean;
+{% endfor %}
+}
+{% endif %}
+
+
+{% for line in method.doc.splitlines() %}
+// {{ line }}
+{% endfor %}
+type {{ service_name|lower }}{{ method.name|capital }}Codec struct {}
+
+var {{ service_name|capital }}{{ method.name|capital }}Codec {{ service_name|lower }}{{ method.name|capital }}Codec
+
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) Encode({% for param in method.request.params %}{{ escape_keyword(param.name) }} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}) *protocol.ClientMessage {
+    clientMessage := protocol.NewClientMessageForEncode()
+    clientMessage.SetRetryable({{ method.request.retryable|lower }})
+
+    initialFrame := protocol.NewFrame(make([]byte, {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize))
+{% for param in request_fix_sized_params %}
+    codecBuiltin.FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}CodecRequest{{ param.name|capital }}Offset, {{ escape_keyword(param.name) }})
+{% endfor %}
+    clientMessage.AddFrame(initialFrame)
+    clientMessage.SetMessageType({{ service_name|capital }}{{ method.name|capital }}CodecRequestMessageType)
+    clientMessage.SetPartitionId(-1)
+
+{% for param in request_var_sized_params %}
+    {{ encode_var_sized(param) }}
+{% endfor %}
+
+    return clientMessage
+}
+
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) Decode() {
+
+}

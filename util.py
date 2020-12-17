@@ -11,6 +11,7 @@ from jinja2 import Environment, PackageLoader
 
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
+from go import go_types_encode, go_types_decode, go_ignore_service_list, go_get_import_path_holders
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
 from cpp import cpp_types_encode, cpp_types_decode, cpp_ignore_service_list, get_size, is_trivial
 from ts import ts_types_encode, ts_types_decode, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
@@ -376,7 +377,7 @@ class SupportedLanguages(Enum):
     CS = 'cs'
     PY = 'py'
     TS = 'ts'
-    # GO = 'go'
+    GO = 'go'
 
 
 codec_output_directories = {
@@ -385,7 +386,7 @@ codec_output_directories = {
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codecs/',
     SupportedLanguages.PY: 'hazelcast/protocol/codec/',
     SupportedLanguages.TS: 'src/codec/',
-    # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.GO: 'internal/proto/'
 }
 
 custom_codec_output_directories = {
@@ -394,7 +395,7 @@ custom_codec_output_directories = {
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
     SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
     SupportedLanguages.TS: 'src/codec/custom',
-    # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.GO: 'internal/proto/'
 }
 
 
@@ -416,7 +417,7 @@ file_name_generators = {
     SupportedLanguages.CS: _capitalized_name_generator('cs'),
     SupportedLanguages.PY: _snake_cased_name_generator('py'),
     SupportedLanguages.TS: _capitalized_name_generator('ts'),
-    # SupportedLanguages.GO: 'go'
+    SupportedLanguages.GO: _snake_cased_name_generator('go'),
 }
 
 language_specific_funcs = {
@@ -426,6 +427,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_encode,
         SupportedLanguages.TS: ts_types_encode,
         SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.GO: go_types_encode,
     },
     'lang_types_decode': {
         SupportedLanguages.JAVA: java_types_decode,
@@ -433,6 +435,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_decode,
         SupportedLanguages.TS: ts_types_decode,
         SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.GO: go_types_decode,
     },
     'lang_name': {
         SupportedLanguages.JAVA: java_name,
@@ -440,6 +443,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
         SupportedLanguages.PY: java_name,
+        SupportedLanguages.GO: java_name,
     },
     'param_name': {
         SupportedLanguages.JAVA: param_name,
@@ -447,6 +451,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: param_name,
         SupportedLanguages.TS: param_name,
         SupportedLanguages.PY: py_param_name,
+        SupportedLanguages.GO: param_name,
     },
     'escape_keyword': {
         SupportedLanguages.JAVA: lambda x: x,
@@ -454,6 +459,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_escape_keyword,
         SupportedLanguages.PY: py_escape_keyword,
+        SupportedLanguages.GO: lambda x: x,
     },
     'get_import_path_holders': {
         SupportedLanguages.JAVA: lambda x: x,
@@ -461,6 +467,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
         SupportedLanguages.PY: py_get_import_path_holders,
+        SupportedLanguages.GO: go_get_import_path_holders,
     }
 }
 
@@ -470,7 +477,7 @@ language_service_ignore_list = {
     SupportedLanguages.CS: cs_ignore_service_list,
     SupportedLanguages.PY: py_ignore_service_list,
     SupportedLanguages.TS: ts_ignore_service_list,
-    # SupportedLanguages.GO: set()
+    SupportedLanguages.GO: go_ignore_service_list,
 }
 
 
