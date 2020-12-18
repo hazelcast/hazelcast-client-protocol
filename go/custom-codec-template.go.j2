@@ -1,0 +1,186 @@
+{% macro encode_var_sized(param) -%}
+    {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ item_type(lang_name, param.type) }}Codec::encode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encodeNullable)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec::encode)
+        {%- else -%}
+            {{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
+        {%- endif %}
+    {% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+    {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+    {%- elif is_var_sized_entry_list(param.type) -%}
+        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decodeNullable)
+    {%- elif is_var_sized_map(param.type) -%}
+        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+    {%- else -%}
+        {%- if param.nullable  -%}
+            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+        {%- else -%}
+            {{ lang_name(param.type) }}Codec.decode(iterator)
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro %}
+/*
+* Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+package proto
+
+import (
+    "github.com/hazelcast/hazelcast-go-client/hazelcast/core"
+    "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol"
+    codecBuiltin "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol/codec/builtin"
+)
+
+{% set fix_sized_params = fixed_params(codec.params) %}
+{% set var_sized_params = var_size_params(codec.params) %}
+{% set new_codec_params = new_params(codec.since, codec.params) %}
+{% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
+{% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
+
+const(
+{% for param in fix_sized_params %}
+    {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %}
+
+    {% if loop.last %}
+    {{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize = {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + protocol.{{ param.type }}SizeInBytes;
+    {% endif %}
+{% endfor %}
+)
+
+type {{ codec.name|lower }}Codec struct {}
+
+var {{ codec.name|capital }}Codec {{ codec.name|lower }}Codec
+
+func ({{ codec.name|lower }}Codec) Encode(clientMessage protocol.ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}){
+
+{% if should_add_begin_frame %}
+    clientMessage.AddFrame(protocol.BeginFrame.Copy())
+{% endif %}
+{% for param in fix_sized_params %}
+    {% if loop.first %}
+    initialFrame := protocol.NewFrame(make([]byte,{{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize))
+    {% endif %}
+    codecBuiltin.FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }})
+    {% if loop.last %}
+        {% if not should_add_begin_frame %}
+    initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG
+        {% endif %}
+    clientMessage.AddFrame(initialFrame)
+    {% endif %}
+{% endfor %}
+{% for param in var_sized_params %}
+    {% if loop.first %}
+
+    {% endif %}
+    {% if lang_types_encode(param.type) == '!skip' %}
+        {% continue %}
+    {% endif %}
+    {{ encode_var_sized(param) }}
+{% endfor %}
+
+clientMessage.addFrame(END_FRAME.copy());
+}
+
+@Generated("!codec_hash!")
+public final class {{ codec.name|capital }}Codec {
+
+
+private {{ codec.name|capital }}Codec() {
+}
+
+public static void encode(ClientMessage clientMessage, {{ lang_types_encode(codec.name) }} {{ param_name(codec.name) }}) {
+{% if should_add_begin_frame %}
+    clientMessage.add(BEGIN_FRAME.copy());
+
+{% endif %}
+{% for param in fix_sized_params %}
+    {% if loop.first %}
+        ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[INITIAL_FRAME_SIZE]);
+    {% endif %}
+    encode{{ param.type|capital }}(initialFrame.content, {{to_upper_snake_case(param.name)}}_FIELD_OFFSET, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}());
+    {% if loop.last %}
+        {% if not should_add_begin_frame %}
+            initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG;
+        {% endif %}
+        clientMessage.add(initialFrame);
+
+    {% endif %}
+{% endfor %}
+{% for param in var_sized_params %}
+    {{ encode_var_sized(param) }};
+    {% if loop.last %}
+
+    {% endif %}
+{% endfor %}
+clientMessage.add(END_FRAME.copy());
+}
+
+public static {{ lang_types_decode(codec.name) }} decode(ClientMessage.ForwardFrameIterator iterator) {
+// begin frame
+{% if should_add_begin_frame %}
+    iterator.next();
+
+{% endif %}
+{% for param in fix_sized_params %}
+    {% if loop.first %}
+        ClientMessage.Frame initialFrame = iterator.next();
+    {% endif %}
+    {% if param in fix_sized_new_params %}
+        boolean is{{ param.name|capital }}Exists = false;
+        {{ lang_types_decode(param.type) }} {{ param.name }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %};
+        if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES) {
+        {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+        is{{ param.name|capital }}Exists = true;
+        }
+    {% else %}
+        {{ lang_types_decode(param.type) }} {{ param.name }} = decode{{ param.type|capital }}(initialFrame.content, {{ to_upper_snake_case(param.name) }}_FIELD_OFFSET);
+    {% endif %}
+    {% if loop.last %}
+
+    {% endif %}
+{% endfor %}
+{% for param in var_sized_params %}
+    {% if param in new_codec_params %}
+        boolean is{{ param.name|capital }}Exists = false;
+        {{ lang_types_decode(param.type) }} {{ param.name }} = null;
+        if (!iterator.peekNext().isEndFrame()) {
+        {{ param.name }} = {{ decode_var_sized(param) }};
+        is{{ param.name|capital }}Exists = true;
+        }
+    {% else %}
+        {{ lang_types_decode(param.type) }} {{ param.name }} = {{ decode_var_sized(param) }};
+    {% endif %}
+    {% if loop.last %}
+
+    {% endif %}
+{% endfor %}
+fastForwardToEndFrame(iterator);
+
+{% if codec.returnWithFactory %}
+    return CustomTypeFactory.create{{ codec.name }}({% for param in codec.params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+{% else %}
+    return new {{ lang_types_decode(codec.name) }}({% for param in codec.params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+{% endif %}
+}
+}
