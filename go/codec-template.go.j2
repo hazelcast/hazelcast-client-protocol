@@ -10,6 +10,7 @@
             codecBuiltin.CodecUtil.EncodeNullable(clientMessage, {{ param_name(param.name) }}, {{ lang_name(param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
         {%- else -%}
             codecBuiltin.{{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
+            {{ lang_types_decode(param.type) }}
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -28,20 +29,19 @@
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
+
 {% macro get_import_statements() -%}
     {% set imported_paths = [] %}
     {%- for params in varargs -%}
         {% for param in params %}
             {% set path_holders = get_import_path_holders(param.type) %}
-            {%- for path_holder in path_holders -%}
-                {% if not path_holder.name in imported_paths and path_holder.name.endswith('Codec') %}
-                    {%- do imported_paths.append(path_holder.name) -%}
-                    {{ path_holder.get_import_statement() }}
-                {% endif %}
-            {% endfor %}
-            {% if not (is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) or is_var_sized_entry_list(param.type) or is_var_sized_map(param.type)) and param.nullable and param.type != 'UUID' and not 'CodecUtil' in imported_paths %}
-                {%- do imported_paths.append('CodecUtil') -%}
-                {{ get_import_path_holders('CodecUtil').get_import_statement() }}
+            {% if path_holders is not none %}
+                {%- for path_holder in path_holders -%}
+                    {% if not path_holder.path in imported_paths%}
+                        {%- do imported_paths.append(path_holder.path) -%}
+                        {{ path_holder.get_import_statement() }}
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {%- endfor -%}
     {%- endfor -%}
@@ -76,10 +76,7 @@
 package codec
 
 import (
-    "github.com/hazelcast/hazelcast-go-client/hazelcast/core"
-    "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol"
-    codecBuiltin "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol/codec/builtin"
-)
+{{get_import_statements(request_fix_sized_params, request_var_sized_params, response_fix_sized_params, response_var_sized_params, event_fix_sized_params, event_var_sized_params)|indent(4, True)}})
 
 const(
     // hex: {{ '0x%06X'|format(method.request.id) }}
@@ -150,7 +147,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) EncodeRequest({% f
 {% elif singleResponseValue %}
     {% set param = method.response.params|last %}
 
-func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeRequest(clientMessage *protocol.ClientMessage) {{ lang_types_decode(param.type) }} {
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage) {{ lang_types_decode(param.type) }} {
     frameIterator := clientMessage.FrameIterator()
 {% if  response_fix_sized_params|length != 0 %}
     initialFrame := frameIterator.Next()
@@ -168,7 +165,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeRequest(clie
 }
 {% else %}
 
-func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeRequest(clientMessage *protocol.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
 {% if  response_fix_sized_params|length != 0 %}
     initialFrame := clientMessage.FrameIterator().Next()
 {% else %}
