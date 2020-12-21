@@ -27,9 +27,11 @@ def go_get_import_path_holders(param_type):
 
 
 class ImportPathHolder:
-    def __init__(self, name, path):
+    def __init__(self, name, path, is_builtin_codec=False, is_custom_codec=False):
         self.name = name
         self.path = path
+        self.is_builtin_codec = is_builtin_codec,
+        self.is_custom_codec = is_custom_codec
 
     def get_import_statement(self):
         return "from hazelcast.%s import %s" % (self.path, self.name)
@@ -235,7 +237,7 @@ _go_types_encode = {
     "EntryList_Integer_UUID": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.util.UUID>>",
     "EntryList_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>",
     "EntryList_Integer_Integer": "java.util.Collection<java.util.Map.Entry<java.lang.Integer, java.lang.Integer>>",
-    "EntryList_UUID_Long": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Long>>",
+    "EntryList_UUID_Long": "map[core.UUID]int64",
     "EntryList_String_EntryList_Integer_Long": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.util.List<java.util.Map.Entry<java.lang.Integer, java.lang.Long>>>>",
     "EntryList_UUID_UUID": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.UUID>>",
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
