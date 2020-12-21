@@ -395,7 +395,7 @@ custom_codec_output_directories = {
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
     SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
     SupportedLanguages.TS: 'src/codec/custom',
-    SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.GO: 'internal/custom/'
 }
 
 
