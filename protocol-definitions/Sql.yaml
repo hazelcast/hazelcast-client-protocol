@@ -34,12 +34,6 @@ methods:
           since: 2.1
           doc: |
             Cursor buffer size.
-        - name: schema
-          type: String
-          nullable: true
-          since: 2.2
-          doc: |
-            Schema name.
     response:
       params:
         - name: queryId
@@ -135,3 +129,80 @@ methods:
           doc: |
             Query ID.
     response: {}
+  - id: 4
+    name: execute2
+    since: 2.2
+    doc: |
+      Starts execution of an SQL query (as of 4.2).
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: sql
+          type: String
+          nullable: false
+          since: 2.2
+          doc: |
+            Query string.
+        - name: parameters
+          type: List_Data
+          nullable: false
+          since: 2.2
+          doc: |
+            Query parameters.
+        - name: timeoutMillis
+          type: long
+          nullable: false
+          since: 2.2
+          doc: |
+            Timeout in milliseconds.
+        - name: cursorBufferSize
+          type: int
+          nullable: false
+          since: 2.2
+          doc: |
+            Cursor buffer size.
+        - name: schema
+          type: String
+          nullable: true
+          since: 2.2
+          doc: |
+            Schema name.
+    response:
+      params:
+        - name: queryId
+          type: SqlQueryId
+          nullable: true
+          since: 2.2
+          doc: |
+            Query ID.
+        - name: rowMetadata
+          type: List_SqlColumnMetadata
+          nullable: true
+          since: 2.2
+          doc: |
+            Row metadata.
+        - name: rowPage
+          type: List_ListCN_Data
+          nullable: true
+          since: 2.2
+          doc: |
+            Row page.
+        - name: rowPageLast
+          type: boolean
+          nullable: false
+          since: 2.2
+          doc: |
+            Whether the row page is the last.
+        - name: updateCount
+          type: long
+          nullable: false
+          since: 2.2
+          doc: |
+            The number of updated rows.
+        - name: error
+          type: SqlError
+          nullable: true
+          since: 2.2
+          doc: |
+            Error object.
