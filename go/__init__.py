@@ -278,6 +278,7 @@ _go_types_decode = {
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "CPMember": "NA",
+    "MigrationState": "NA",
 
     "List_Long": "[]int64",
     "List_Integer": "[]int32",
