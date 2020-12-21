@@ -40,76 +40,74 @@ class ImportPathHolder:
         self.is_custom_codec = is_custom_codec
 
     def get_import_statement(self):
-        if self.is_custom_codec:
-            return "codecCustom \"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
-        if self.is_builtin_codec:
-            return "codecBuiltin \"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
+        if self.is_builtin_codec == True or self.is_custom_codec == True:
+            return "\"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
         return "\"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
 
 
 class PathHolders:
     UUID = ImportPathHolder('UUID', '/core')
-    Data = ImportPathHolder('Data', '/internal/protocol/serialization', is_builtin_codec=False, is_custom_codec=False)
-    DataCodec = ImportPathHolder("DataCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    LongArrayCodec = ImportPathHolder("LongArrayCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
+    Data = ImportPathHolder('Data', '/protocol/serialization', is_builtin_codec=False, is_custom_codec=False)
+    DataCodec = ImportPathHolder("DataCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    LongArrayCodec = ImportPathHolder("LongArrayCodec", "/protocol/codec/internal", is_builtin_codec=True)
     Address = ImportPathHolder("Address", "/core")
-    AddressCodec = ImportPathHolder("AddressCodec", "/internal/protocol/codec/custom", is_custom_codec=True)
+    AddressCodec = ImportPathHolder("AddressCodec", "/protocol/codec/internal", is_custom_codec=True)
     ErrorHolder = ImportPathHolder("ErrorHolder", "/internal/protocol")
-    ErrorHolderCodec = ImportPathHolder("ErrorHolderCodec", "/internal/protocol/codec/custom", is_custom_codec=True)
+    ErrorHolderCodec = ImportPathHolder("ErrorHolderCodec", "/protocol/codec/internal", is_custom_codec=True)
     StackTraceElement = ImportPathHolder("StackTraceElement", "/internal/protocol")
     StackTraceElementCodec = ImportPathHolder("StackTraceElementCodec",
-                                              "/internal/protocol/codec/custom", is_custom_codec=True)
+                                              "/protocol/codec/internal", is_custom_codec=True)
     SimpleEntryView = ImportPathHolder("SimpleEntryView", "/core")
-    SimpleEntryViewCodec = ImportPathHolder("SimpleEntryViewCodec", "/internal/protocol/codec/custom",
+    SimpleEntryViewCodec = ImportPathHolder("SimpleEntryViewCodec", "/protocol/codec/internal",
                                             is_custom_codec=True)
     DistributedObjectInfo = ImportPathHolder("DistributedObjectInfo", "/core")
-    DistributedObjectInfoCodec = ImportPathHolder("DistributedObjectInfoCodec", "/internal/protocol/codec/custom",
+    DistributedObjectInfoCodec = ImportPathHolder("DistributedObjectInfoCodec", "/protocol/codec/internal",
                                                   is_custom_codec=True)
     MemberInfo = ImportPathHolder("MemberInfo", "/core")
-    MemberInfoCodec = ImportPathHolder("MemberInfoCodec", "/internal/protocol/codec/custom", is_custom_codec=True)
+    MemberInfoCodec = ImportPathHolder("MemberInfoCodec", "/protocol/codec/internal", is_custom_codec=True)
     MemberVersion = ImportPathHolder("MemberVersion", "/core")
-    MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "/internal/protocol/codec/custom", is_custom_codec=True)
-    StringCodec = ImportPathHolder("StringCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ListLongCodec = ImportPathHolder("ListLongCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ListDataCodec = ImportPathHolder("ListDataCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "/internal/protocol/codec/builtin",
+    MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "/protocol/codec/internal", is_custom_codec=True)
+    StringCodec = ImportPathHolder("StringCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ListLongCodec = ImportPathHolder("ListLongCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ListDataCodec = ImportPathHolder("ListDataCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "/protocol/codec/internal",
                                            is_builtin_codec=True)
-    EntryListCodec = ImportPathHolder("EntryListCodec", "/internal/protocol/codec/builtin", is_builtin_codec=True)
-    EntryListLongByteArrayCodec = ImportPathHolder("EntryListLongByteArrayCodec", "/internal/protocol/codec/builtin",
+    EntryListCodec = ImportPathHolder("EntryListCodec", "/protocol/codec/internal", is_builtin_codec=True)
+    EntryListLongByteArrayCodec = ImportPathHolder("EntryListLongByteArrayCodec", "/protocol/codec/internal",
                                                    is_builtin_codec=True)
-    EntryListIntegerUUIDCodec = ImportPathHolder("EntryListIntegerUUIDCodec", "/internal/protocol/codec/builtin",
+    EntryListIntegerUUIDCodec = ImportPathHolder("EntryListIntegerUUIDCodec", "/protocol/codec/internal",
                                                  is_builtin_codec=True)
-    EntryListIntegerLongCodec = ImportPathHolder("EntryListIntegerLongCodec", "/internal/protocol/codec/builtin",
+    EntryListIntegerLongCodec = ImportPathHolder("EntryListIntegerLongCodec", "/protocol/codec/internal",
                                                  is_builtin_codec=True)
-    EntryListIntegerIntegerCodec = ImportPathHolder("EntryListIntegerIntegerCodec", "/internal/protocol/codec/builtin",
+    EntryListIntegerIntegerCodec = ImportPathHolder("EntryListIntegerIntegerCodec", "/protocol/codec/internal",
                                                     is_builtin_codec=True)
-    EntryListUUIDLongCodec = ImportPathHolder("EntryListUUIDLongCodec", "/internal/protocol/codec/builtin",
+    EntryListUUIDLongCodec = ImportPathHolder("EntryListUUIDLongCodec", "/protocol/codec/internal",
                                               is_builtin_codec=True)
-    EntryListUUIDUUIDCodec = ImportPathHolder("EntryListUUIDUUIDCodec", "/internal/protocol/codec/builtin",
+    EntryListUUIDUUIDCodec = ImportPathHolder("EntryListUUIDUUIDCodec", "/protocol/codec/internal",
                                               is_builtin_codec=True)
     EntryListUUIDListIntegerCodec = ImportPathHolder("EntryListUUIDListIntegerCodec",
-                                                     "/internal/protocol/codec/builtin",
+                                                     "/protocol/codec/internal",
                                                      is_builtin_codec=True)
-    MapCodec = ImportPathHolder("MapCodec", "/internal/protocol/codec/builtin",
+    MapCodec = ImportPathHolder("MapCodec", "/protocol/codec/internal",
                                 is_builtin_codec=True)
-    CodecUtilCodec = ImportPathHolder("CodecUtil", "/internal/protocol/codec/builtin",
+    CodecUtilCodec = ImportPathHolder("CodecUtil", "/protocol/codec/internal",
                                       is_builtin_codec=True)
     IndexConfig = ImportPathHolder("IndexConfig", "/core")
-    IndexConfigCodec = ImportPathHolder("IndexConfigCodec", "/internal/protocol/codec/custom", is_custom_codec=True)
+    IndexConfigCodec = ImportPathHolder("IndexConfigCodec", "/protocol/codec/internal", is_custom_codec=True)
     BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/core")
-    BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec", "/internal/protocol/codec/custom",
+    BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec", "/protocol/codec/internal",
                                                is_custom_codec=True)
     PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "/core")
-    PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "/internal/protocol/codec/custom",
+    PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "/protocol/codec/internal",
                                                   is_custom_codec=True)
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "/core")
-    AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "/internal/protocol/codec/custom",
+    AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "/protocol/codec/internal",
                                                  is_custom_codec=True)
     RaftGroupId = ImportPathHolder("RaftGroupId", "/core", is_builtin_codec=False, is_custom_codec=False)
-    RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "/internal/protocol/codec/custom",
+    RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "/protocol/codec/internal",
                                         is_custom_codec=True)
 
 
