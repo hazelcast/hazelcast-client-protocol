@@ -106,6 +106,11 @@ class PathHolders:
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "/core")
     AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "/protocol/codec/internal",
                                                  is_custom_codec=True)
+
+    EndpointQualifier = ImportPathHolder("EndpointQualifier", "/core", is_builtin_codec=False, is_custom_codec=False)
+    EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec", "/protocol/codec/internal",
+                                              is_custom_codec=True)
+
     RaftGroupId = ImportPathHolder("RaftGroupId", "/core", is_builtin_codec=False, is_custom_codec=False)
     RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "/protocol/codec/internal",
                                         is_custom_codec=True)
@@ -130,9 +135,9 @@ import_paths = {
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
-    "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
+    "List_Data": [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     "ListCN_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
-    "List_MemberInfo": [PathHolders.ListMultiFrameCodec, PathHolders.MemberInfoCodec],
+    'List_MemberInfo': [PathHolders.MemberInfo, PathHolders.ListMultiFrameCodec, PathHolders.MemberInfoCodec],
     "List_DistributedObjectInfo": [PathHolders.ListMultiFrameCodec, PathHolders.DistributedObjectInfoCodec],
     "List_StackTraceElement": [PathHolders.ListMultiFrameCodec, PathHolders.StackTraceElementCodec],
     "EntryList_String_String": [PathHolders.EntryListCodec, PathHolders.StringCodec],
@@ -154,6 +159,7 @@ import_paths = {
     "BitmapIndexOptions": [PathHolders.BitmapIndexOptions, PathHolders.BitmapIndexOptionsCodec],
     "AnchorDataListHolder": [PathHolders.AnchorDataListHolder, PathHolders.AnchorDataListHolderCodec],
     "PagingPredicateHolder": [PathHolders.PagingPredicateHolder, PathHolders.PagingPredicateHolderCodec],
+    "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec, PathHolders.AddressCodec]
 }
 
 _go_types_common = {
@@ -169,11 +175,13 @@ _go_types_common = {
     "byteArray": "[]byte",
     "String": "string",
     "Data": "serialization.Data",
+    "Pair": "serialization.Pair",
 
     "Address": "core.Address",
     "ErrorHolder": "core.ErrorHolder",
     "StackTraceElement": "core.StackTraceElement",
-    "SimpleEntryView": "Pair",
+    "MemberInfo": "core.MemberInfo",
+    "SimpleEntryView": "protocol.Pair",
     "RaftGroupId": "core.RaftGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
@@ -200,10 +208,10 @@ _go_types_common = {
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
-    "EndpointQualifier": "NA",
+    "EndpointQualifier": "core.EndpointQualifier",
 
     "Map_String_String": "map[string]string",
-    "Map_EndpointQualifier_Address": "NA",
+    "Map_EndpointQualifier_Address": "map[core.EndpointQualifier]core.Address",
 
     "List_CPMember": "NA"
 }
@@ -214,11 +222,11 @@ _go_types_encode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "NA",
-    "MemberVersion": "NA",
+    "MemberInfo": "core.MemberInfo",
+    "MemberVersion": "core.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "AnchorDataListHolder",
-    "PagingPredicateHolder": "PagingPredicateHolder",
+    "AnchorDataListHolder": "core.AnchorDataListHolder",
+    "PagingPredicateHolder": "core.PagingPredicateHolder",
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
@@ -234,7 +242,7 @@ _go_types_encode = {
     "List_List_Data": "[]serialization.Data",
     "ListCN_Data": "[]serialization.Data",
     "List_ListCN_Data": "NA",
-    "List_MemberInfo": "[]MemberInfo",
+    "List_MemberInfo": "[]core.MemberInfo",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -249,18 +257,18 @@ _go_types_encode = {
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "NA",
 
-    "EntryList_String_String": "[]Pair",
-    "EntryList_String_byteArray": "[]Pair",
-    "EntryList_Long_byteArray": "[]Pair",
-    "EntryList_Integer_UUID": "[]Pair",
-    "EntryList_Integer_Long": "[]Pair",
-    "EntryList_Integer_Integer": "[]Pair",
-    "EntryList_UUID_Long": "[]Pair",
-    "EntryList_String_EntryList_Integer_Long": "[]Pair",
-    "EntryList_UUID_UUID": "[]Pair",
-    "EntryList_UUID_List_Integer": "[]Pair",
-    "EntryList_Data_Data": "[]Pair",
-    "EntryList_Data_List_Data": "[]Pair",
+    "EntryList_String_String": "[]protocol.Pair",
+    "EntryList_String_byteArray": "[]protocol.Pair",
+    "EntryList_Long_byteArray": "[]protocol.Pair",
+    "EntryList_Integer_UUID": "[]protocol.Pair",
+    "EntryList_Integer_Long": "[]protocol.Pair",
+    "EntryList_Integer_Integer": "[]protocol.Pair",
+    "EntryList_UUID_Long": "[]protocol.Pair",
+    "EntryList_String_EntryList_Integer_Long": "[]protocol.Pair",
+    "EntryList_UUID_UUID": "[]protocol.Pair",
+    "EntryList_UUID_List_Integer": "[]protocol.Pair",
+    "EntryList_Data_Data": "[]protocol.Pair",
+    "EntryList_Data_List_Data": "[]protocol.Pair",
 }
 
 _go_types_decode = {
@@ -269,11 +277,11 @@ _go_types_decode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "MemberInfo",
-    "MemberVersion": "MemberVersion",
+    "MemberInfo": "core.MemberInfo",
+    "MemberVersion": "core.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "AnchorDataListHolder",
-    "PagingPredicateHolder": "PagingPredicateHolder",
+    "AnchorDataListHolder": "core.AnchorDataListHolder",
+    "PagingPredicateHolder": "core.PagingPredicateHolder",
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
@@ -289,7 +297,7 @@ _go_types_decode = {
     "List_List_Data": "[]serialization.Data",
     "ListCN_Data": "[]serialization.Data",
     "List_ListCN_Data": "NA",
-    "List_MemberInfo": "[]MemberInfo",
+    "List_MemberInfo": "[]core.MemberInfo",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "[]core.DistributedObjectInfo",
@@ -305,16 +313,16 @@ _go_types_decode = {
     "List_SqlColumnMetadata": "NA",
     "List_CPMember": "NA",
 
-    "EntryList_String_String": "[]Pair",
-    "EntryList_String_byteArray": "[]Pair",
-    "EntryList_Long_byteArray": "[]Pair",
-    "EntryList_Integer_UUID": "[]Pair",
-    "EntryList_Integer_Long": "[]Pair",
-    "EntryList_Integer_Integer": "[]Pair",
-    "EntryList_UUID_Long": "[]Pair",
-    "EntryList_String_EntryList_Integer_Long": "[]Pair",
-    "EntryList_UUID_UUID": "[]Pair",
-    "EntryList_UUID_List_Integer": "[]Pair",
-    "EntryList_Data_Data": "[]Pair",
-    "EntryList_Data_List_Data": "[]Pair",
+    "EntryList_String_String": "[]protocol.Pair",
+    "EntryList_String_byteArray": "[]protocol.Pair",
+    "EntryList_Long_byteArray": "[]protocol.Pair",
+    "EntryList_Integer_UUID": "[]protocol.Pair",
+    "EntryList_Integer_Long": "[]protocol.Pair",
+    "EntryList_Integer_Integer": "[]protocol.Pair",
+    "EntryList_UUID_Long": "[]protocol.Pair",
+    "EntryList_String_EntryList_Integer_Long": "[]protocol.Pair",
+    "EntryList_UUID_UUID": "[]protocol.Pair",
+    "EntryList_UUID_List_Integer": "[]protocol.Pair",
+    "EntryList_Data_Data": "[]protocol.Pair",
+    "EntryList_Data_List_Data": "[]protocol.Pair",
 }

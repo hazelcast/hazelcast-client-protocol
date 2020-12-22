@@ -15,7 +15,7 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        internal.ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(msg, {{ item_type(lang_name, param.type) }}Codec.decode)
+        internal.ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(frameIterator, internal.{{ item_type(lang_name, param.type) }}Codec.Decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
         internal.EntryListCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, internal.{{ key_type(lang_name, param.type) }}Codec.Decode, internal.{{ value_type(lang_name, param.type) }}Codec.Decode)
     {%- elif is_var_sized_map(param.type) -%}
@@ -167,7 +167,8 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
 
 func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
 {% if  response_fix_sized_params|length != 0 %}
-    initialFrame := clientMessage.FrameIterator().Next()
+    frameIterator := clientMessage.FrameIterator()
+    initialFrame := frameIterator.Next()
 {% else %}
     frameIterator := clientMessage.FrameIterator()
     frameIterator.Next()
@@ -194,7 +195,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
         response.is{{ param.name|capital }}Exists = false;
         }
     {% else %}
-    {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+    {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }}
     {% endif %}
 {% endfor %}
 
@@ -206,45 +207,46 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
 {# EVENTS#}
 {% if method.events|length != 0 %}
 
-
-    func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage){
-        message_type := clientMessage.GetMessageType()
-    }
-    message_type = msg.get_message_type()
-    {% for event in method.events %}
-        if message_type == _EVENT_{{ to_upper_snake_case(event.name) }}_MESSAGE_TYPE and handle_{{ param_name(event.name) }}_event is not None:
-        {% set new_event_params = new_params(event.since, event.params) %}
-        {% if fixed_params(event.params)|length != 0 %}
-            initial_frame = msg.next_frame()
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) Handle(clientMessage *protocol.ClientMessage, {% for event in method.events%}handle{{ event.name|capital }}Event func({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}, {% endif %}{% endfor %}){
+    messageType := clientMessage.GetMessageType()
+    frameIterator := clientMessage.FrameIterator()
+    {% for event in method.events%}
+    if messageType == {{ service_name|capital }}{{ method.name|capital }}CodecEvent{{ event.name|capital }}MessageType {
+    {% set new_event_params = new_params(event.since, event.params) %}
+    {% if fixed_params(event.params)|length != 0 %}
+        initialFrame := frameIterator.Next()
+    {% else %}
+        //empty initial frame
+        frameIterator.Next()
+    {% endif %}
+    {% for param in fixed_params(event.params) %}
+        {% if param in new_event_params %}
+            let is{{ param.name|capital }}Exists = false
+            let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %}
+            if (initialFrame.content.length >= EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
+            {{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET)
+            is{{ param.name|capital }}Exists = true;
+            }
         {% else %}
-            msg.next_frame()
+        {{ escape_keyword(param.name) }} := internal.FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital }}{{param.name|capital}}Offset)
         {% endif %}
-        {% for param in fixed_params(event.params) %}
-            {% do lang_types_decode(param.type) %}
-            {% if param in new_event_params %}
-                is_{{ param_name(param.name) }}_exists = False
-                {{ param_name(param.name) }} = {% if param.type == 'boolean' %}False{% elif param.type == 'UUID' %}None{% else %}0{% endif %}
-
-                if len(initial_frame.buf) >= _EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES:
-                {{ param_name(param.name) }} = FixSizedTypesCodec.decode_{{ param.type|lower }}(initial_frame.buf, _EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET)
-                is_{{ param_name(param.name) }}_exists = True
-            {% else %}
-                {{ param_name(param.name) }} = FixSizedTypesCodec.decode_{{ param.type|lower }}(initial_frame.buf, _EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET)
-            {% endif %}
-        {% endfor %}
-        {% for param in var_size_params(event.params) %}
-            {% do lang_types_decode(param.type) %}
-            {% if param in new_event_params %}
-                is_{{ param_name(param.name) }}_exists = False
-                {{ param_name(param.name) }} = None
-                if msg.has_next_frame():
-                {{ param_name(param.name) }} = {{ decode_var_sized(param) }}
-                is_{{ param_name(param.name) }}_exists = True
-            {% else %}
-                {{ param_name(param.name) }} = {{ decode_var_sized(param) }}
-            {% endif %}
-        {% endfor %}
-        handle_{{ param_name(event.name) }}_event({% for param in event.params %}{% if param in new_event_params %}is_{{ param_name(param.name) }}_exists, {% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
-        return
     {% endfor %}
+    {% for param in var_size_params(event.params) %}
+        {% if param in new_event_params %}
+            let is{{ param.name|capital }}Exists = false
+            let {{ escape_keyword(param.name) }} = null
+            if (iterator.hasNextFrame()) {
+            {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }}
+            is{{ param.name|capital }}Exists = true;
+            }
+        {% else %}
+        {{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+        {% endif %}
+    {% endfor %}
+        handle{{ event.name|capital }}Event({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}}{% if not loop.last %}, {% endif %}{% endfor %})
+        return
+    }
+    {% endfor %}
+}
+
 {% endif %}
