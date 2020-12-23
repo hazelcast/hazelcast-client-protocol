@@ -1,33 +1,54 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        codecBuiltin.ListMultiFrameCodec.Encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ item_type(lang_name, param.type) }}Codec::encode)
+        ListMultiFrameCodec.Encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}(), {{ item_type(lang_name, param.type) }}Codec.Encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        codecBuiltin.EntryListCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encodeNullable)
+        EntryListCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.EncodeNullable)
     {%- elif is_var_sized_map(param.type) -%}
-        codecBuiltin.MapCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        MapCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            codecBuiltin.CodecUtil.EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec::encode)
+            CodecUtil.EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec.Encode)
         {%- else -%}
-            codecBuiltin.{{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
+            {{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}Get{% endif %}{{ param.name|capital }}())
         {%- endif %}
     {% endif %}
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        codecBuiltin.ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+        ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(frameIterator, {{ item_type(lang_name, param.type) }}Codec.Decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        codecBuiltin.EntryListCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::DecodeNullable)
+        EntryListCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.DecodeNullable)
     {%- elif is_var_sized_map(param.type) -%}
-        codecBuiltin.MapCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+        MapCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, {{ key_type(lang_name, param.type) }}Codec.Decode, {{ value_type(lang_name, param.type) }}Codec.Decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            codecBuiltin.CodecUtil.DecodeNullable(frameIterator, {{ lang_name(param.type) }}Codec::decode)
+            CodecUtil.DecodeNullable(frameIterator, {{ lang_name(param.type) }}Codec.Decode)
         {%- else -%}
-            codecBuiltin.{{ lang_name(param.type) }}Codec.Decode(frameIterator)
+            {{ lang_name(param.type) }}Codec.Decode(frameIterator)
         {%- endif -%}
     {%- endif -%}
 {%- endmacro %}
+{% macro get_import_statements() -%}
+    {% set imported_paths = [] %}
+    {%- for params in varargs -%}
+        {% for param in params %}
+            {% set path_holders = get_import_path_holders(param.type) %}
+            {% if path_holders is not none %}
+                {%- for path_holder in path_holders -%}
+                    {% if not path_holder.path in imported_paths  %}
+                        {%- do imported_paths.append(path_holder.path) -%}
+                        {{ path_holder.get_import_statement() }}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {%- endfor -%}
+    {%- endfor -%}
+{%- endmacro %}
+{% set fix_sized_params = fixed_params(codec.params) %}
+{% set var_sized_params = var_size_params(codec.params) %}
+{% set new_codec_params = new_params(codec.since, codec.params) %}
+{% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
+{% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
 /*
 * Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
 *
@@ -47,26 +68,18 @@
 package internal
 
 import (
-    "github.com/hazelcast/hazelcast-go-client/hazelcast/core"
-    "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol"
-    codecBuiltin "github.com/hazelcast/hazelcast-go-client/hazelcast/internal/protocol/codec/builtin"
 )
-
-{% set fix_sized_params = fixed_params(codec.params) %}
-{% set var_sized_params = var_size_params(codec.params) %}
-{% set new_codec_params = new_params(codec.since, codec.params) %}
-{% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
-{% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
-
+{% if fix_sized_params|length > 0  %}
 const(
 {% for param in fix_sized_params %}
     {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ to_upper_snake_case(loop.previtem.name)}}_FIELD_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %}
 
     {% if loop.last %}
-    {{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize = {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + protocol.{{ param.type }}SizeInBytes
+    {{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize = {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + protocol.{{ param.type|capital }}SizeInBytes
     {% endif %}
 {% endfor %}
 )
+{% endif %}
 
 type {{ codec.name|lower }}Codec struct {}
 
@@ -81,7 +94,7 @@ func ({{ codec.name|lower }}Codec) Encode(clientMessage *protocol.ClientMessage,
     {% if loop.first %}
     initialFrame := protocol.NewFrame(make([]byte,{{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize))
     {% endif %}
-    codecBuiltin.FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {{ param_name(codec.name)}}.{{ escape_keyword(param.name) }})
+    FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {{ param_name(codec.name)}}.Get{{ escape_keyword(param.name)|capital }}())
     {% if loop.last %}
         {% if not should_add_begin_frame %}
     initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG
@@ -102,8 +115,8 @@ func ({{ codec.name|lower }}Codec) Encode(clientMessage *protocol.ClientMessage,
     clientMessage.AddFrame(protocol.EndFrame.Copy())
 }
 
-func ({{ codec.name|lower }}Codec) Decode(frameIterator *protocol.ForwardFrameIterator) {
-// begin frame
+func ({{ codec.name|lower }}Codec) Decode(frameIterator *protocol.ForwardFrameIterator) {{ lang_types_encode(codec.name) }} {
+    // begin frame
 {% if should_add_begin_frame %}
     frameIterator.Next()
 {% endif %}
@@ -115,11 +128,11 @@ func ({{ codec.name|lower }}Codec) Decode(frameIterator *protocol.ForwardFrameIt
     is{{ param.name|capital }}Exists := false
     let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %}
     if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-    {{ escape_keyword(param.name) }} = codecBuiltin.FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ to_upper_snake_case(param.name) }}_OFFSET)
+    {{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ to_upper_snake_case(param.name) }}_OFFSET)
     is{{ param.name|capital }}Exists = true
     }
     {% else %}
-    {{ escape_keyword(param.name) }} := codecBuiltin.FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
+    {{ escape_keyword(param.name) }} := FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
     {% endif %}
 {% endfor %}
 {% for param in var_sized_params %}
@@ -141,7 +154,7 @@ func ({{ codec.name|lower }}Codec) Decode(frameIterator *protocol.ForwardFrameIt
     {% endif %}
 {% endfor %}
 
-    codecBuiltin.CodecUtil.FastForwardToEndFrame(frameIterator)
+    CodecUtil.FastForwardToEndFrame(frameIterator)
 
 {% set ctor_params = [] %}
 {% for param in codec.params %}
@@ -149,5 +162,6 @@ func ({{ codec.name|lower }}Codec) Decode(frameIterator *protocol.ForwardFrameIt
         {% do ctor_params.append(param) %}
     {% endif %}
 {% endfor %}
-    return core.New{{ codec.name  }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
+
+    return {{ lang_types_encode(codec.name).split('.')[0] }}.New{{ lang_types_encode(codec.name).split('.')[1] }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
 }

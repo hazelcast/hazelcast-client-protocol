@@ -7,6 +7,11 @@ go_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "T
                           "Transaction", "ContinuousQuery", "DurableExecutor",
                           "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig", "CPSubsystem"}
 
+def go_escape_keyword(value):
+    if value not in go_reserved_keywords:
+        return value
+    return "_" + value
+
 
 def go_types_encode(key):
     try:
@@ -40,7 +45,7 @@ class ImportPathHolder:
         self.is_custom_codec = is_custom_codec
 
     def get_import_statement(self):
-        if self.is_builtin_codec == True or self.is_custom_codec == True:
+        if self.is_builtin_codec or self.is_custom_codec:
             return "\"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
         return "\"github.com/hazelcast/hazelcast-go-client/hazelcast%s\"" % self.path
 
@@ -97,21 +102,21 @@ class PathHolders:
                                       is_builtin_codec=True)
     IndexConfig = ImportPathHolder("IndexConfig", "/core")
     IndexConfigCodec = ImportPathHolder("IndexConfigCodec", "/protocol/codec/internal", is_custom_codec=True)
-    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/core")
+    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/config")
     BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec", "/protocol/codec/internal",
                                                is_custom_codec=True)
     PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "/core")
     PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "/protocol/codec/internal",
                                                   is_custom_codec=True)
-    AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "/core")
+    AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "/protocol")
     AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "/protocol/codec/internal",
                                                  is_custom_codec=True)
 
-    EndpointQualifier = ImportPathHolder("EndpointQualifier", "/core", is_builtin_codec=False, is_custom_codec=False)
+    EndpointQualifier = ImportPathHolder("EndpointQualifier", "/protocol")
     EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec", "/protocol/codec/internal",
                                               is_custom_codec=True)
 
-    RaftGroupId = ImportPathHolder("RaftGroupId", "/core", is_builtin_codec=False, is_custom_codec=False)
+    RaftGroupId = ImportPathHolder("RaftGroupId", "/protocol", is_builtin_codec=False, is_custom_codec=False)
     RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "/protocol/codec/internal",
                                         is_custom_codec=True)
 
@@ -181,8 +186,8 @@ _go_types_common = {
     "ErrorHolder": "core.ErrorHolder",
     "StackTraceElement": "core.StackTraceElement",
     "MemberInfo": "core.MemberInfo",
-    "SimpleEntryView": "protocol.Pair",
-    "RaftGroupId": "core.RaftGroupId",
+    "SimpleEntryView": "core.SimpleEntryView",
+    "RaftGroupId": "protocol.RaftGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -203,15 +208,15 @@ _go_types_common = {
     "MapStoreConfigHolder": "NA",
     "DistributedObjectInfo": "core.DistributedObjectInfo",
     "IndexConfig": "core.IndexConfig",
-    "BitmapIndexOptions": "core.BitmapIndexOptions",
+    "BitmapIndexOptions": "config.BitmapIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
     "ClientBwListEntry": "NA",
-    "EndpointQualifier": "core.EndpointQualifier",
+    "EndpointQualifier": "protocol.EndpointQualifier",
 
     "Map_String_String": "map[string]string",
-    "Map_EndpointQualifier_Address": "map[core.EndpointQualifier]core.Address",
+    "Map_EndpointQualifier_Address": "map[protocol.EndpointQualifier]core.Address",
 
     "List_CPMember": "NA"
 }
@@ -225,8 +230,8 @@ _go_types_encode = {
     "MemberInfo": "core.MemberInfo",
     "MemberVersion": "core.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "core.AnchorDataListHolder",
-    "PagingPredicateHolder": "core.PagingPredicateHolder",
+    "AnchorDataListHolder": "protocol.AnchorDataListHolder",
+    "PagingPredicateHolder": "protocol.PagingPredicateHolder",
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
@@ -252,7 +257,7 @@ _go_types_encode = {
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
-    "List_StackTraceElement": "[]StackTraceElement",
+    "List_StackTraceElement": "[]protocol.StackTraceElement",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "NA",
@@ -280,8 +285,8 @@ _go_types_decode = {
     "MemberInfo": "core.MemberInfo",
     "MemberVersion": "core.MemberVersion",
     "MCEvent": "NA",
-    "AnchorDataListHolder": "core.AnchorDataListHolder",
-    "PagingPredicateHolder": "core.PagingPredicateHolder",
+    "AnchorDataListHolder": "protocol.AnchorDataListHolder",
+    "PagingPredicateHolder": "protocol.PagingPredicateHolder",
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
@@ -306,7 +311,7 @@ _go_types_decode = {
     "List_AttributeConfig": "NA",
     "List_ListenerConfigHolder": "NA",
     "List_CacheSimpleEntryListenerConfig": "NA",
-    "List_StackTraceElement": "[]StackTraceElement",
+    "List_StackTraceElement": "[]protocol.StackTraceElement",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_ScheduledTaskHandler": "NA",
