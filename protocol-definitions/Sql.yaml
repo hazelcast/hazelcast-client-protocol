@@ -168,6 +168,15 @@ methods:
           since: 2.2
           doc: |
             Schema name.
+        - name: expectedResultType
+          type: byte
+          nullable: false
+          since: 2.2
+          doc: |
+            The expected result type. Possible values are:
+              ANY(0)
+              ROWS(1)
+              UPDATE_COUNT(2)
     response:
       params:
         - name: queryId
