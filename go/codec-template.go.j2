@@ -1,8 +1,8 @@
 {% macro encode_var_sized(param, loop_last) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        internal.ListMultiFrameCodec.Encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }}, internal.{{ item_type(lang_name, param.type) }}Codec.Encode)
+        internal.ListMultiFrameCodec.EncodeFor{{ item_type(lang_name, param.type) }}{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ escape_keyword(param.name) }})
     {%- elif is_var_sized_entry_list(param.type) -%}
-            internal.EntryListCodec.Encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, internal.{{ key_type(lang_name, param.type) }}Codec.Encode, internal.{{ value_type(lang_name, param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
+        internal.EntryListCodec.EncodeFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }})
     {%- elif is_var_sized_map(param.type) -%}
         internal.MapCodec.Encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, internal.{{ key_type(lang_name, param.type) }}Codec.Encode, internal.{{ value_type(lang_name, param.type) }}Codec.Encode{% if loop_last %}, True{% endif %})
     {%- else -%}
@@ -15,14 +15,14 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        internal.ListMultiFrameCodec.Decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(frameIterator, internal.{{ item_type(lang_name, param.type) }}Codec.Decode)
+        internal.ListMultiFrameCodec.DecodeFor{{ item_type(lang_name, param.type) }}{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(frameIterator)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        internal.EntryListCodec.Decode{% if param.nullable  %}Nullable{% endif %}(frameIterator, internal.{{ key_type(lang_name, param.type) }}Codec.Decode, internal.{{ value_type(lang_name, param.type) }}Codec.Decode)
+        internal.EntryListCodec.DecodeFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}{% if param.nullable  %}Nullable{% endif %}(frameIterator)
     {%- elif is_var_sized_map(param.type) -%}
         internal.MapCodec.Decode{% if param.nullable  %}Nullable{% endif %}(v, internal.{{ key_type(lang_name, param.type) }}Codec.Decode, internal.{{ value_type(lang_name, param.type) }}Codec.Decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            internal.CodecUtil.DecodeNullable(frameIterator, internal.{{ lang_name(param.type) }}Codec.Decode)
+            internal.CodecUtil.DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
         {%- else -%}
             internal.{{ lang_name(param.type) }}Codec.Decode(frameIterator)
         {%- endif -%}
@@ -71,21 +71,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package codec
 
 import (
-)
+{{get_import_statements(request_fix_sized_params, request_var_sized_params, response_fix_sized_params, response_var_sized_params, event_fix_sized_params, event_var_sized_params)|indent(4, True)}})
 
 const(
     // hex: {{ '0x%06X'|format(method.request.id) }}
-    {{ service_name|capital }}{{ method.name|capital }}CodecRequestMessageType int32 = {{ method.request.id }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecRequestMessageType  = int32({{ method.request.id }})
     // hex: {{ '0x%06X'|format(method.response.id) }}
-    {{ service_name|capital }}{{ method.name|capital }}CodecResponseMessageType int32 = {{ method.response.id }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecResponseMessageType = int32({{ method.response.id }})
 
 {% for event in method.events%}
     // hex: {{ '0x%06X'|format(event.id) }}
-    {{ service_name|capital }}{{ method.name|capital }}CodecEvent{{ event.name|capital }}MessageType int32 = {{ event.id }}
+    {{ service_name|capital }}{{ method.name|capital }}CodecEvent{{ event.name|capital }}MessageType = int32({{ event.id }})
 
 {% endfor %}
 {#FIXED SIZED PARAMETER OFFSET CONSTANTS#}
@@ -140,6 +139,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) EncodeRequest({% f
 
     return clientMessage
 }
+
 {#RESPONSE DECODE#}
 {% if noResponseValue %}
 {% elif singleResponseValue %}
@@ -161,8 +161,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
 {% endfor %}
 }
 {% else %}
-
-func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
+func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *protocol.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %}{% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
 {% if  response_fix_sized_params|length != 0 %}
     frameIterator := clientMessage.FrameIterator()
     initialFrame := frameIterator.Next()
@@ -197,10 +196,8 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
 {% endfor %}
 
     return {% for param in method.response.params %}{{ escape_keyword(param.name)}}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}
-
 }
 {% endif %}
-
 {# EVENTS#}
 {% if method.events|length != 0 %}
 
@@ -245,5 +242,4 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) Handle(clientMessa
     }
     {% endfor %}
 }
-
 {% endif %}
