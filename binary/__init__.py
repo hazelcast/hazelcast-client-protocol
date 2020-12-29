@@ -10,7 +10,8 @@ VarLengthTypes = [
     'byteArray',
     'longArray',
     'String',
-    'Data'
+    'Data',
+    'SqlPage',
 ]
 
 FixedEntryListTypes = [

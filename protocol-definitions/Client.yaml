@@ -864,7 +864,7 @@ methods:
     name: removeMigrationListener
     since: 2.2
     doc: |
-      Removes the specifiec migration listener.
+      Removes the specified migration listener.
     request:
       retryable: true
       partitionIdentifier: -1
