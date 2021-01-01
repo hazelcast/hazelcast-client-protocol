@@ -68,9 +68,11 @@
                         return;
                     }
                 {% endfor %}
-                    getLogger()->warning(
-                          "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (",
-                          messageType, ") received on event handler.");
+                    HZ_LOG(*getLogger(), warning,
+                        boost::str(boost::format("[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] "
+                                                 "Unknown message type (%1%) received on event handler.")
+                                                 % messageType)
+                    );
                 }
 
                 {% endif %}
