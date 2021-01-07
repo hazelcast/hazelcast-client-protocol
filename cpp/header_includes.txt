@@ -20,13 +20,7 @@
 
 #include "hazelcast/client/impl/BaseEventHandler.h"
 #include "hazelcast/client/protocol/ClientMessage.h"
-#include "hazelcast/client/serialization/pimpl/Data.h"
-
-using namespace hazelcast::client;
-using namespace hazelcast::util;
-using namespace hazelcast::client::protocol;
-using namespace hazelcast::client::serialization::pimpl;
-using namespace hazelcast::cp;
+#include "hazelcast/client/serialization/pimpl/data.h"
 
 namespace hazelcast {
     namespace client {

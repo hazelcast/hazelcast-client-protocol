@@ -15,7 +15,8 @@
  */
 
 #include <boost/uuid/uuid.hpp>
-#include "hazelcast/client/Member.h"
+#include "hazelcast/client/member.h"
+#include "hazelcast/logger.h"
 
 #include "codecs.h"
 

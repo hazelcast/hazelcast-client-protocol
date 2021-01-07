@@ -1,5 +1,19 @@
 cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem"}
+                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem", "Client.addPartitionLostListener",
+                           "Client.removePartitionLostListener", "Client.getDistributedObjects",
+                           "Client.addDistributedObjectListener", "Client.removeDistributedObjectListener",
+                           "Client.deployClasses", "Client.createProxies", "Client.triggerPartitionAssignment",
+                           "Map.addEntryListenerToKeyWithPredicate", "Map.addPartitionLostListener",
+                           "Map.removePartitionLostListener", "Map.loadAll", "Map.loadGivenKeys", "Map.fetchKeys",
+                           "Map.fetchEntries", "Map.aggregate", "Map.aggregateWithPredicate", "Map.project",
+                           "Map.projectWithPredicate", "Map.fetchNearCacheInvalidationMetadata", "Map.fetchWithQuery",
+                           "Map.eventJournalSubscribe", "Map.eventJournalRead", "Map.setTtl", "Map.putWithMaxIdle",
+                           "Map.putTransientWithMaxIdle", "Map.setWithMaxIdle", "Map.putIfAbsentWithMaxIdle",
+                           "MultiMap.delete", "MultiMap.putAll",
+                           "Topic.publishAll",
+                           "List.iterator", "List.listIterator",
+                           "TransactionalMap.getForUpdate", "TransactionalMap.containsValue",
+                           "TransactionalQueue.take",  "TransactionalQueue.peek", }
 
 
 def cpp_types_encode(key):
@@ -67,14 +81,14 @@ _cpp_types_common = {
     "longArray": "std::vector<int64_t>",
     "byteArray": "std::vector<byte>",
     "String": "std::string",
-    "Data": "Data",
+    "Data": "serialization::pimpl::data",
 
-    "Address": "Address",
-    "Member": "Member",
+    "Address": "address",
+    "Member": "member",
     "ErrorHolder": "Hazelcast.Client.Protocol.ErrorHolder",
     "StackTraceElement": "protocol::codec::StackTraceElement",
-    "SimpleEntryView": "map::DataEntryView",
-    "RaftGroupId": "raft_group_id",
+    "SimpleEntryView": "map::data_entry_view",
+    "RaftGroupId": "cp::raft_group_id",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -105,13 +119,14 @@ _cpp_types_common = {
     "Map_String_String": "std::unordered_map<std::string, std::string>",
     "Map_EndpointQualifier_Address": "NA",
 
-    "EntryList_Address_List_Integer": "std::vector<std::pair<Address, std::vector<int32_t>>>",
+    "EntryList_Address_List_Integer": "std::vector<std::pair<address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",
 
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "CPMember": "NA",
+    "MigrationState": "NA",
 }
 
 _cpp_types_encode = {
@@ -120,21 +135,21 @@ _cpp_types_encode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "Member",
+    "MemberInfo": "member",
     "MemberVersion": "Hazelcast.Core.MemberVersion",
     "MCEvent": "NA",
     "AnchorDataListHolder": "codec::holder::anchor_data_list",
     "PagingPredicateHolder": "codec::holder::paging_predicate_holder",
 
     "List_Long": "std::vector<int64_t>",
-    "List_Member": "std::vector<Member>",
+    "List_Member": "std::vector<member>",
     "List_Integer": "std::vector<int32_t>",
     "List_UUID": "std::vector<boost::uuids::uuid>",
     "List_String": "std::vector<std::string>",
     "List_Xid": "NA",
-    "List_Data": "std::vector<Data>",
-    "ListCN_Data": "std::vector<Data>",
-    "List_MemberInfo": "std::vector<Member>",
+    "List_Data": "std::vector<serialization::pimpl::data>",
+    "ListCN_Data": "std::vector<serialization::pimpl::data>",
+    "List_MemberInfo": "std::vector<member>",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -157,8 +172,8 @@ _cpp_types_encode = {
     "EntryList_UUID_Long": "std::vector<std::pair<boost::uuids::uuid, int64_t>>",
     "EntryList_String_EntryList_Integer_Long": "std::vector<std::pair<std::string, std::vector<std::pair<int32_t, int64_t>>>>",
     "EntryList_UUID_List_Integer": "std::vector<std::pair<boost::uuids::uuid, std::vector<int>>>",
-    "EntryList_Data_Data": "std::vector<std::pair<Data, Data>>",
-    "EntryList_Data_List_Data": "std::vector<std::pair<Data, std::vector<Data>>>",
+    "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>",
+    "EntryList_Data_List_Data": "std::vector<std::pair<serialization::pimpl::data, std::vector<serialization::pimpl::data>>>",
 }
 
 _cpp_types_decode = {
@@ -167,7 +182,7 @@ _cpp_types_decode = {
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
     "ClientBwListEntry": "NA",
-    "MemberInfo": "Member",
+    "MemberInfo": "member",
     "MemberVersion": "Hazelcast.Core.MemberVersion",
     "MCEvent": "NA",
     "AnchorDataListHolder": "codec::holder::anchor_data_list",
@@ -176,12 +191,12 @@ _cpp_types_decode = {
     "List_Long": "std::vector<int64_t>",
     "List_Integer": "std::vector<int>",
     "List_UUID": "std::vector<boost::uuids::uuid>",
-    "List_Member": "std::vector<Member>",
+    "List_Member": "std::vector<member>",
     "List_Xid": "NA",
     "List_String": "std::vector<std::string>",
-    "List_Data": "std::vector<Data>",
-    "ListCN_Data": "std::vector<Data>",
-    "List_MemberInfo": "std::vector<Member>",
+    "List_Data": "std::vector<serialization::pimpl::data>",
+    "ListCN_Data": "std::vector<serialization::pimpl::data>",
+    "List_MemberInfo": "std::vector<member>",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "NA",
@@ -204,7 +219,7 @@ _cpp_types_decode = {
     "EntryList_UUID_Long": "std::vector<std::pair<boost::uuids::uuid, int64_t>>",
     "EntryList_String_EntryList_Integer_Long": "std::vector<std::pair<std::string, std::vector<std::pair<int32_t, int64_t>>>>",
     "EntryList_UUID_List_Integer": "std::vector<std::pair<boost::uuids::uuid, std::vector<int>>>",
-    "EntryList_Data_Data": "std::vector<std::pair<Data, Data>>"
+    "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>"
 }
 
 _trivial_types = {
