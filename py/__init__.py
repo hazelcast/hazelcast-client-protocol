@@ -23,8 +23,42 @@ def py_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
 
 
-py_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem"}
+py_ignore_service_list = {
+    "Cache",
+    "CardinalityEstimator",
+    "Client.addPartitionLostListener",
+    "Client.authenticationCustom",
+    "Client.createProxies",
+    "Client.removeMigrationListener",
+    "Client.removePartitionLostListener",
+    "Client.triggerPartitionAssignment",
+    "ContinuousQuery",
+    "CPSubsystem",
+    "DurableExecutor",
+    "DynamicConfig",
+    "ExecutorService.cancelOnMember",
+    "ExecutorService.cancelOnPartition",
+    "Map.addPartitionLostListener",
+    "Map.aggregate",
+    "Map.aggregateWithPredicate",
+    "Map.eventJournalRead",
+    "Map.eventJournalSubscribe",
+    "Map.project",
+    "Map.projectWithPredicate",
+    "Map.removeAll",
+    "Map.removeInterceptor",
+    "Map.removePartitionLostListener",
+    "Map.submitToKey",
+    "MultiMap.delete",
+    "MC",
+    "Queue.drainTo",
+    "ReplicatedMap.addNearCacheEntryListener",
+    "ScheduledExecutor",
+    "Sql",
+    "Topic.publishAll",
+    "TransactionalMap.containsValue",
+    "XATransaction",
+}
 
 
 class ImportPathHolder:
