@@ -177,14 +177,14 @@ methods:
               ANY(0)
               ROWS(1)
               UPDATE_COUNT(2)
-    response:
-      params:
         - name: queryId
           type: SqlQueryId
           nullable: true
           since: 2.2
           doc: |
             Query ID.
+    response:
+      params:
         - name: rowMetadata
           type: List_SqlColumnMetadata
           nullable: true
