@@ -216,7 +216,7 @@ methods:
             nullable: false
             since: 2.0
             doc: |
-              Source that dispatches this batch event.
+              Source that dispathces this batch event.
           - name: partitionId
             type: int
             nullable: false

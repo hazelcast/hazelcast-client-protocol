@@ -245,4 +245,3 @@ and they should be in the increasing order of the protocol versions that is 2.1 
 be in the increasing order of protocol versions as described above.
 * Although not necessary, new events or custom types should come after the existing custom types or events on the 
 protocol definitions.
- 
