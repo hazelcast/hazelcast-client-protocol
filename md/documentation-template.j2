@@ -28,7 +28,8 @@ Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_t
 {# Changelog for each version added. #}
 | Date | Document Version | Change Description |
 | ---- | ---------------- | ------------------ |
-| 15 January 2020 | 2.0 | Initial release of the Hazelcast Open Binary Client Protocol version 2. |
+| 01/15/2020 | 2.0 | Release of the Hazelcast Open Binary Client Protocol version 2.0 |
+| 11/04/2020 | 2.1 | Release of the Hazelcast Open Binary Client Protocol version 2.1 |
 
 **Table of Contents**
 {# List of manually written sections #}
@@ -61,7 +62,7 @@ Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_t
         - [4.1. Opening a Connection](#41-opening-a-connection)
         - [4.2. Connection Initialization](#42-connection-initialization)
         - [4.3. Authentication](#43-authentication)
-        - [4.4. Communication via Messages](#44-communication-via-messages)
+        - [4.4. Communication](#44-communication)
         - [4.5. Closing Connections](#45-closing-connections)
     - [5. Requests and Responses](#5-requests-and-responses)
         - [5.1. Distributed Objects](#51-distributed-objects)
@@ -96,11 +97,13 @@ Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_t
 {% endfor %}
 {% for service in services %}
     {% set service_id = service.id + 2 %}
-    - [{{ protocol_message_offset }}.{{ service_id }}. {{ service.name }}](#{{ protocol_message_offset }}{{ service_id }}-{{ service.name|lower }})
+        - [{{ protocol_message_offset }}.{{ service_id }}. {{ service.name }}](#{{ protocol_message_offset }}{{ service_id }}-{{ service.name|lower }})
     {% for method in service.methods %}
-        - [{{ protocol_message_offset }}.{{ service_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}](#{{ protocol_message_offset }}{{ service_id }}{{ method.id }}-{{ service.name|lower }}{{ method.name|lower }})
+            - [{{ protocol_message_offset }}.{{ service_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}](#{{ protocol_message_offset }}{{ service_id }}{{ method.id }}-{{ service.name|lower }}{{ method.name|lower }})
     {% endfor %}
 {% endfor %}
+    - [{{ protocol_message_offset + 1 }}. Copyright](#{{ protocol_message_offset + 1 }}-copyright)
+
 
 {# START of manually written sections #}
 ## 1. Introduction
@@ -113,7 +116,7 @@ The protocol is designed to be strict enough to ensure standardization in the co
 that developers may expand upon the protocol to implement custom features.
 
 General guidelines:
-- This document uses the terms MUST, MUST NOT, MAY, SHOULD, and SHOULD NOT as described in the IETF RFC 2119.
+- This document uses the terms MUST, MUST NOT, MAY, SHOULD, and SHOULD NOT as described in the [IETF RFC 2119](https://tools.ietf.org/html/rfc2119).
 - Client refers to the entity which communicates with a Hazelcast member node.
 - Member or server refers to the Hazelcast node to which the client connects.
 
@@ -168,8 +171,8 @@ message in which the sizes of the parameter in bytes can be known in advance. Th
 | ---- | ------------- |
 | byte (int8 or uint8) | 1 |
 | boolean | 1 |
-| int(int32 or uint32) | 4 |
-| long(int64 or uint64) | 8 |
+| int (int32 or uint32) | 4 |
+| long (int64 or uint64) | 8 |
 | float | 4 |
 | double | 8 |
 | UUID* | 17 |
@@ -218,9 +221,9 @@ The last bit of the message type represents whether this client message is a req
 It is equal to `0` for requests, `1` for responses, and `2` plus event ID for event responses.
 
 For example:
-- `0x00010200` is the message type for the request(`00`) for the `Get` method(`02`) of the `Map` service(`01`).
-- `0x00050F01` is the message type for the response(`01`) for the `Get` method(`0F`) of the `List` service(`05`).
-- `0x00011C02` is the message type for the event response(`02`) for the `AddEntryListener` method(`1C`) of the `Map` service(`01`).
+- `0x00010200` is the message type for the request (`00`) for the `Get` method (`02`) of the `Map` service (`01`).
+- `0x00050F01` is the message type for the response (`01`) for the `Get` method (`0F`) of the `List` service (`05`).
+- `0x00011C02` is the message type for the event response (`02`) for the `AddEntryListener` method (`1C`) of the `Map` service (`01`).
 
 For the error messages that are sent by the member node to the client, the message type is set to `0x00000000`.
 
@@ -260,13 +263,13 @@ The member will continue to send the client event updates until the client unreg
 is broken.
 
 ##### 2.1.2.1.4. Error Message Type
-The member may return an error response to the client for the requests it made. For this message, the message type is set
+The member may return an error response to the client for the request it made. For this message, the message type is set
 to `0x00000000`. The payload of the member's response message contains the error message along with the error code.
 You may choose to provide the error codes directly to the user or you may use some other technique, such as exceptions,
 to delegate the error to the user. See the `ErrorHolder` custom type and the list of [Error Codes](#58-error-codes) for details.
 
 ##### 2.1.2.2. Correlation ID
-This ID correlates the request to responses. It should unique to identify one message in the communication. This ID
+This ID correlates the request to responses. It should be unique to identify one message in the communication. This ID
 is used to track the request-response cycle of a client operation. Members send response messages with the same ID as
 the request message. The uniqueness is per connection. If the client receives the response to a request and the request
 is not a multi-response request (i.e. not a request for event transmission), then the correlation ID for the request can
@@ -279,7 +282,7 @@ client which member handles which partition. The client can use this information
 member directly for processing. The client gets this information from the `PartitionsView` event of the
 `AddClusterViewListener` request. (see the [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages))
 
-To determine the partition ID of an operation, compute the Murmur Hash (version 3, 32-bit, see
+To determine the partition ID of an operation, the client needs to compute the Murmur Hash (version 3, 32-bit, see
 [https://en.wikipedia.org/wiki/MurmurHash](https://en.wikipedia.org/wiki/MurmurHash) and
 [https://github.com/aappleby/smhasher/wiki/MurmurHash3](https://github.com/aappleby/smhasher/wiki/MurmurHash3)) of a
 certain byte-array (which is identified for each message in the description section) and take the modulus of the result
@@ -320,7 +323,7 @@ frames based on its type. For the sections below, the following special frames w
 process of the variable sized parameters.
 
 - `NULL_FRAME`: A frame that has `1` in its `IS_NULL_FLAG` bit. It is used to represent parameters that have null values.
-It has empty payload bytes.
+It has empty payload.
 - `BEGIN_FRAME`: A frame that has `1` in its `BEGIN_DATA_STRUCTURE_FLAG` bit. It is used to mark the beginning of the
 parameter encodings that cannot fit into a single frame. It has empty payload bytes.
 - `END_FRAME`: A frame that has `1` in its `END_DATA_STRUCTURE_FLAG` bit. It is used to mark the ending of the parameter
@@ -331,7 +334,7 @@ For the encodings described below, if the parameter is of a variable sized type 
 
 ##### 2.1.3.1. Encoding of String Parameters
 Each string parameter of the client message can be encoded into its own single frame. String parameters are expected to
-be encoded according to UTF-8 standard described in the RFC 3629. Encoded string data must be placed in the payload
+be encoded according to UTF-8 standard described in the [RFC 3629](https://tools.ietf.org/html/rfc3629). Encoded string data must be placed in the payload
 bytes of the frame. Below is the sample structure of a string frame.
 
 | Frame length | Flags | UTF-8 encoded string data |
@@ -357,17 +360,17 @@ described in the [Encoding of Variable Sized Parameters](#213-encoding-of-variab
 each custom type encoding consists of at least three and possibly more frames depending on the types of the parameters
 of the custom object.
 
-For example, if the custom type has the parameters of the type integer, long, string, and another custom type that has
+For example, if the custom type has the parameters of integer, long, string, and another custom type that has
 boolean and string parameters, then the encoded structure of the custom object will be as below.
 
 | Frame | Description |
 | ----- | ----------- |
 | `BEGIN_FRAME` | `BEGIN_FRAME` of the custom type |
 | Payload frame for the fix sized parameters | Payload frame for the integer and long parameters |
-| Payload frame for the string parameter | Payload frame for the string parameter |
+| Payload frame for the var sized parameter | Payload frame for the string parameter |
 | `BEGIN_FRAME` | `BEGIN_FRAME` of the custom type parameter |
-| Payload frame for the fix sized parameters of the custom type parameter | Payload frame for the boolean parameter of the custom type parameter |
-| Payload frame for the string parameter of the custom type parameter | Payload frame for the string parameter of the custom type parameter |
+| Payload frame for the fix sized parameter | Payload frame for the boolean parameter of the custom type parameter |
+| Payload frame for the var sized parameter | Payload frame for the string parameter of the custom type parameter |
 | `END_FRAME` | `END_FRAME` for the custom type parameter |
 | `END_FRAME` | `END_FRAME` for the custom type |
 
@@ -397,12 +400,13 @@ For example, a list of integers can be encoded into a single frame as follows:
 | ------------ | ----- | ----- | ----- | --- | ----- |
 | int32 | uint16 | int32 | int32 | ... | int32 |
 
-Writing the elements of a list into a single frame puts an upper limit on the maximum number of elements that the list
-contains. The number of elements that can be fit into a single frame can be calculated as `(2^31 - 6) / ELEMENT_SIZE_IN_BYTES`.
-For example, for int64, a maximum of `268435455` (around `268` million) entries per list is supported by the protocol.
+Due to member-side technical restrictions, writing the elements of a list into a single frame puts an upper limit on
+the maximum number of elements that the list contains. The number of elements that can be fit into a single frame can
+be calculated as `(2^31 - 6) / ELEMENT_SIZE_IN_BYTES`. For example, for int64, a maximum of `268435455` (around `268` million)
+entries per list is supported by the protocol.
 
 ##### 2.1.3.3.2. Encoding of List of Variable Sized Parameters
-List of variable sized parameters, just like [custom type parameters](#2132-encoding-of-custom-type-parameters), are encoded in
+Lists of variable sized parameters, just like [custom type parameters](#2132-encoding-of-custom-type-parameters), are encoded in
 between `BEGIN_FRAME` and `END_FRAME`. Each element of the list is encoded in their respective frames consecutively
 following the `BEGIN_FRAME`. Depending on the type of list elements, each element may be encoded into one or more
 frames. In fact, the encoding of a list of variable sized parameters is very similar to the encoding of the custom types.
@@ -523,7 +527,7 @@ and uses old frames and simply skips the additional frames until it detects the 
 
 ### 2.1.7. Augmented Backus–Naur Format Representation of the Client Messages
 Below is the representation of the client messages used within the protocol as described with the rules defined in
-RFC 5234 that specifies the Augmented Backus–Naur format.
+[RFC 5234](https://tools.ietf.org/html/rfc5234) that specifies the Augmented Backus–Naur format.
 ```
 client-message                 = initial-frame *var-sized-param
 initial-frame                  = request-initial-frame / response-initial-frame
@@ -610,7 +614,9 @@ frame              = initial-frame / single-frame-param / custom-type-begin-fram
 | float | single precision IEEE 754 floating point number | 32 bit | -1 * (2 - 2^(-23)) * 2^127  | (2 - 2^(-23)) * 2^127 |
 | double | double precision IEEE 754 floating point number | 64 bit | -1 * (2 - 2^(-52)) * 2^1023 |  (2 - 2^(-52)) * 2^1023 |
 | boolean | same as uint8 with special meanings. 0 is "false", any other value is "true" | 8 bit | | |
-| string | String encoded as a byte-array with UTF-8 encoding as described in RFC 3629 | variable | |
+| String | String encoded as a byte-array with UTF-8 encoding as described in [RFC 3629](https://tools.ietf.org/html/rfc3629) | variable | | |
+| Data | Basic unit of Hazelcast serialization that stores the binary form of a serialized object | variable | | |
+| ByteArray | Array of bytes | variable | | |
 
 Data types are consistent with those defined in The Open Group Base Specification Issue 7 IEEE Std 1003.1, 2013 Edition.
 Data types are in **Little Endian** format.
@@ -618,14 +624,14 @@ Data types are in **Little Endian** format.
 ## 4. Connection Guide
 
 ### 4.1. Opening a Connection
-TCP socket communication is used for clint-to-member communication. Each member has a socket listening for incoming connections.
+TCP socket communication is used for client-to-member communication. Each member has a socket listening for incoming connections.
 
 As the first step of client-to-member communication, the client MUST open a TCP socket connection to the member.
 
 A client needs to establish a single connection to each member node if it is a smart client. If it is a unisocket client,
 a single connection is enough for a particular client. For details, see [Smart Client versus Unisocket Client](#61-smart-client-and-unisocket-client).
 
-#### 4.2. Connection Initialization
+### 4.2. Connection Initialization
 After successfully connecting to the member TCP socket, the client MUST send three bytes of initialization data to identify
 the connection type to the member.
 
@@ -643,7 +649,7 @@ authentication status.
 There are four possible statuses:
 
 - `0`: Authentication is successful.
-- `1`: Credentials failed. The provided credentials (e.g. cluster name, username, or password may be incorrect)
+- `1`: Credentials failed. The provided credentials (e.g. cluster name, username, or password) are incorrect.
 - `2`: Serialization version mismatch. The requested serialization version and the serialization version used at the member side
 are different. The client gets the member's serialization version from the `serverHazelcastVersion` parameter of the response.
 It is suggested that the client tries to reconnect using the matching serialization version assuming that the client
@@ -653,11 +659,11 @@ implements the version for serialization.
 There are two types of authentications:
 
 - Username/Password authentication: `Client.Authentication` message is used for this authentication type which contains
-username and password for the client if exist along with the cluster name.
+username and password for the client (if present) along with the cluster name.
 - Custom credentials authentication: `Client.CustomAuthentication` message is used for this authentication type. Custom
 authentication credentials are sent as a byte-array.
 
-### 4.4. Communication via Messages
+### 4.4. Communication
 
 After successful authentication, a client may send request messages to the member to access distributed objects
 or perform other operations on the cluster. This step is the actual communication step.
@@ -692,7 +698,7 @@ To execute a particular operation, set the message type ID to the corresponding 
 as described in the [Client Message](#21-client-message) section.
 
 ### 5.3. Proxies
-Before using a distributed object, you SHOULD first create a proxy for the object. Do this by using the `CreateProxy`
+Before using a distributed object, the client SHOULD first create a proxy for the object. Do this by using the `CreateProxy`
 request message.
 
 To destroy a proxy, use the `DestroyProxy` request message.
@@ -1005,7 +1011,7 @@ registered to.
 Cluster view consists of views of partition and member lists. The client gets the updates of these views as event responses
 after registering a cluster view listener to one of the members of the cluster.
 
-The partition list view tells the client which members handle which partition key. The client can use this information
+The partition list view tells the client which members handle which partition ID. The client can use this information
 to send the related requests to the responsible member (for the request key if it exists) directly for processing.
 
 The event response for the partition list view consists of the member-partition ownership information.
@@ -1271,3 +1277,9 @@ Header only response message, no message body exist.
         {% endif %}
     {% endfor %}
 {% endfor %}
+
+## 8. Copyright
+
+Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+
+Visit [www.hazelcast.com](https://hazelcast.com/) for more info.
