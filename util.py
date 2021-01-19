@@ -14,6 +14,7 @@ from binary import FixedEntryListTypes, FixedLengthTypes, FixedListTypes, FixedM
 from cpp import cpp_ignore_service_list, cpp_types_decode, cpp_types_encode, get_size, is_trivial
 from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
 from java import java_types_decode, java_types_encode
+from md import internal_services
 from py import (
     py_escape_keyword,
     py_get_import_path_holders,
@@ -200,7 +201,10 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
 
 def generate_documentation(services, custom_definitions, template, output_dir):
     makedirs(output_dir, exist_ok=True)
-    content = template.render(services=services, custom_definitions=custom_definitions)
+    content = template.render(
+        services=list(filter(lambda s: s["name"] not in internal_services, services)),
+        custom_definitions=custom_definitions,
+    )
     file_name = join(output_dir, "documentation.md")
     with open(file_name, "w", newline="\n") as file:
         file.writelines(content)

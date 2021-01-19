@@ -96,10 +96,10 @@ Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_t
 {% endif %}
 {% endfor %}
 {% for service in services %}
-    {% set service_id = service.id + 2 %}
-        - [{{ protocol_message_offset }}.{{ service_id }}. {{ service.name }}](#{{ protocol_message_offset }}{{ service_id }}-{{ service.name|lower }})
+    {% set section_id = loop.index + 1 %}
+        - [{{ protocol_message_offset }}.{{ section_id }}. {{ service.name }}](#{{ protocol_message_offset }}{{ section_id }}-{{ service.name|lower }})
     {% for method in service.methods %}
-            - [{{ protocol_message_offset }}.{{ service_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}](#{{ protocol_message_offset }}{{ service_id }}{{ method.id }}-{{ service.name|lower }}{{ method.name|lower }})
+            - [{{ protocol_message_offset }}.{{ section_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}](#{{ protocol_message_offset }}{{ section_id }}{{ method.id }}-{{ service.name|lower }}{{ method.name|lower }})
     {% endfor %}
 {% endfor %}
     - [{{ protocol_message_offset + 1 }}. Copyright](#{{ protocol_message_offset + 1 }}-copyright)
@@ -1219,12 +1219,13 @@ does not provide explicit support for encryption. For more information, see the 
 {% endif %}
 {% endfor %}
 {% for service in services %}
-    {% set service_id = service.id + 2 %}
+    {% set section_id = loop.index + 1 %}
 
-### {{ protocol_message_offset }}.{{ service_id }}. {{ service.name }}
+### {{ protocol_message_offset }}.{{ section_id }}. {{ service.name }}
+**Service id:** {{ service.id }}
     {% for method in service.methods %}
 
-#### {{ protocol_message_offset }}.{{ service_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}
+#### {{ protocol_message_offset }}.{{ section_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}
 ```
 {{ method.doc }}
 ```

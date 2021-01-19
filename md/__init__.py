@@ -21,3 +21,7 @@ to generate the PDF output.
 
 $ md-to-pdf documentation.md --pdf-options '{"margin": "10mm", "printBackground": true}'
 """
+
+internal_services = {
+    "MC",
+}
