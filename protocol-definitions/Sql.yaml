@@ -131,7 +131,7 @@ methods:
             Query ID.
     response: {}
   - id: 4
-    name: execute2
+    name: execute
     since: 2.2
     doc: |
       Starts execution of an SQL query (as of 4.2).
