@@ -2,9 +2,10 @@ id: 33
 name: Sql
 methods:
   - id: 1
-    name: execute
+    name: execute_reserved
     since: 2.1
     doc: |
+      THIS MESSAGE IS NO LONGER USED BUT KEPT FOR BACKWARD COMPATIBILITY TESTS
       Starts execution of an SQL query.
     request:
       retryable: false
@@ -179,7 +180,7 @@ methods:
               UPDATE_COUNT(2)
         - name: queryId
           type: SqlQueryId
-          nullable: true
+          nullable: false
           since: 2.2
           doc: |
             Query ID.
