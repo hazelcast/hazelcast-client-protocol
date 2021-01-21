@@ -94,6 +94,7 @@ class PathHolders:
     ListBooleanCodec = ImportPathHolder("ListBooleanCodec", "protocol.builtin")
     ListLongCodec = ImportPathHolder("ListLongCodec", "protocol.builtin")
     ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "protocol.builtin")
+    ListCNIntegerCodec = ImportPathHolder("ListCNIntegerCodec", "protocol.builtin")
     ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "protocol.builtin")
     ListDataCodec = ImportPathHolder("ListDataCodec", "protocol.builtin")
     ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "protocol.builtin")
@@ -142,6 +143,7 @@ import_paths = {
     "List_Boolean": [PathHolders.ListBooleanCodec],
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
+    "ListCN_Integer": [PathHolders.ListCNIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
