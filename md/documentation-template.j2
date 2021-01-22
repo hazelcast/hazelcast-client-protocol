@@ -1,0 +1,1286 @@
+{% macro resolve_partition_identifier(identifier) %}
+    {% if identifier == 'random' %}
+a random partition ID from `0` to `PARTITION_COUNT`(exclusive)
+    {% elif identifier == -1 %}
+`-1`
+    {% elif identifier == 'partitionId' %}
+the value passed in to the `partitionId` parameter
+    {% else %}
+Murmur hash of {{ identifier }} % `PARTITION_COUNT`
+    {%- endif %}
+{% endmacro -%}
+
+{%- macro convert_type(type) -%}
+    {%- if type.startswith(('List_', 'ListCN_')) -%}
+List of {{ convert_type(item_type(param_name, type)) }}
+    {%- elif type.startswith(('EntryList_', 'Map_')) -%}
+Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_type(param_name, type)) }}
+    {%- else -%}
+{{ type }}
+    {%- endif -%}
+{%- endmacro -%}
+
+
+# Hazelcast Open Binary Client Protocol
+
+**Revision History**
+
+{# Changelog for each version added. #}
+| Date | Document Version | Change Description |
+| ---- | ---------------- | ------------------ |
+| 01/15/2020 | 2.0 | Release of the Hazelcast Open Binary Client Protocol version 2.0 |
+| 11/04/2020 | 2.1 | Release of the Hazelcast Open Binary Client Protocol version 2.1 |
+
+**Table of Contents**
+{# List of manually written sections #}
+- [1. Introduction](#1-introduction)
+- [2. Data Format Details](#2-data-format-details)
+    - [2.1. Client Message](#21-client-message)
+        - [2.1.1. Frame](#211-frame)
+        - [2.1.2. Initial Frame](#212-initial-frame)
+            - [2.1.2.1. Message Type](#2121-message-type)
+                - [2.1.2.1.1. Request Message Type](#21211-request-message-type)
+                - [2.1.2.1.2. Response Message Type](#21212-response-message-type)
+                - [2.1.2.1.3. Event Response Message Type](#21213-event-response-message-type)
+                - [2.1.2.1.4. Error Message Type](#21214-error-message-type)
+            - [2.1.2.2. Correlation ID](#2122-correlation-id)
+            - [2.1.2.3. Partition ID](#2123-partition-id)
+            - [2.1.2.4. Backup Acks Count](#2124-backup-acks-count)
+        - [2.1.3. Encoding of Variable Sized Parameters](#213-encoding-of-variable-sized-parameters)
+            - [2.1.3.1. Encoding of String Parameters](#2131-encoding-of-string-parameters)
+            - [2.1.3.2. Encoding of Custom Type Parameters](#2132-encoding-of-custom-type-parameters)
+            - [2.1.3.3. Encoding of List Parameters](#2133-encoding-of-list-parameters)
+                - [2.1.3.3.1. Encoding of List of Fix Sized Parameters](#21331-encoding-of-list-of-fix-sized-parameters)
+                - [2.1.3.3.2. Encoding of List of Variable Sized Parameters](#21332-encoding-of-list-of-variable-sized-parameters)
+            - [2.1.3.4. Encoding of Map Parameters](#21333-encoding-of-map-parameters)
+        - [2.1.4. Client Message Fragmentation](#214-client-message-fragmentation)
+        - [2.1.5. Client Message Boundaries](#215-client-message-boundaries)
+        - [2.1.6. Backward Compatibility of the Client Messages](#216-backward-compatibility-of-the-client-messages)
+        - [2.1.7. Augmented Backus-Naur Format Representation of the Client Messages](#217-augmented-backusnaur-format-representation-of-the-client-messages)
+    - [3. Client Protocol Data Types](#3-client-protocol-data-types)
+    - [4. Connection Guide](#4-connection-guide)
+        - [4.1. Opening a Connection](#41-opening-a-connection)
+        - [4.2. Connection Initialization](#42-connection-initialization)
+        - [4.3. Authentication](#43-authentication)
+        - [4.4. Communication](#44-communication)
+        - [4.5. Closing Connections](#45-closing-connections)
+    - [5. Requests and Responses](#5-requests-and-responses)
+        - [5.1. Distributed Objects](#51-distributed-objects)
+        - [5.2. Operation Messages and Responses](#52-operation-messages-and-responses)
+        - [5.3. Proxies](#53-proxies)
+            - [5.3.1. Proxy Creation](#531-proxy-creation)
+            - [5.3.2. List Example](#532-list-example)
+            - [5.3.3. Fenced Lock Example](#533-fenced-lock-example)
+            - [5.3.4. Map Example](#534-map-example)
+            - [5.3.5. Queue Example](#535-queue-example)
+            - [5.3.6. Set Example](#536-set-example)
+        - [5.4. Multiple Responses to a Single Request](#54-multiple-responses-to-a-single-request)
+        - [5.5. Listeners](#55-listeners)
+        - [5.6. Cluster View Listener](#56-cluster-view-listener)
+        - [5.7. Timeouts and Retry](#57-timeouts-and-retry)
+        - [5.8. Error Codes](#58-error-codes)
+    - [6. Miscellaneous](#6-miscellaneous)
+        - [6.1. Smart Client and Unisocket Client](#61-smart-client-and-unisocket-client)
+        - [6.2. Serialization](#62-serialization)
+        - [6.3. Security](#63-security)
+{# Offset to start listing protocol messages. Should be set to number of manually listed sections + 1 #}
+{% set protocol_message_offset = 7 %}
+    - [{{ protocol_message_offset }}. Protocol Messages](#{{ protocol_message_offset }}-protocol-messages)
+        - [{{ protocol_message_offset }}.1. Custom Data Types Used In The Protocol](#{{ protocol_message_offset }}1-custom-data-types-used-in-the-protocol)
+{% for definition in custom_definitions %}
+{% set custom_types = definition.get('customTypes', None) %}
+{% if custom_types is not none %}
+{% for custom_type in custom_types %}
+            - [{{ protocol_message_offset }}.1.{{ loop.index }}. {{ custom_type.name }}](#{{ protocol_message_offset }}1{{ loop.index }}-{{ custom_type.name|lower }})
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% for service in services %}
+    {% set section_id = loop.index + 1 %}
+        - [{{ protocol_message_offset }}.{{ section_id }}. {{ service.name }}](#{{ protocol_message_offset }}{{ section_id }}-{{ service.name|lower }})
+    {% for method in service.methods %}
+            - [{{ protocol_message_offset }}.{{ section_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}](#{{ protocol_message_offset }}{{ section_id }}{{ method.id }}-{{ service.name|lower }}{{ method.name|lower }})
+    {% endfor %}
+{% endfor %}
+    - [{{ protocol_message_offset + 1 }}. Copyright](#{{ protocol_message_offset + 1 }}-copyright)
+
+
+{# START of manually written sections #}
+## 1. Introduction
+This document explains the new binary protocol that Hazelcast uses to communicate with the clients.
+This document is not a guide to implement a client that will interact with Hazelcast; rather, it specifies the wire
+data format for the messages exchanged between a client and a Hazelcast member node. Any client that wants to
+communicate with the Hazelcast cluster should obey the data format and communication details explained in this document.
+
+The protocol is designed to be strict enough to ensure standardization in the communication, but flexible enough
+that developers may expand upon the protocol to implement custom features.
+
+General guidelines:
+- This document uses the terms MUST, MUST NOT, MAY, SHOULD, and SHOULD NOT as described in the [IETF RFC 2119](https://tools.ietf.org/html/rfc2119).
+- Client refers to the entity which communicates with a Hazelcast member node.
+- Member or server refers to the Hazelcast node to which the client connects.
+
+## 2. Data Format Details
+Hazelcast provides a communication interface to access distributed objects through client protocol. This interface is
+a TCP socket listening for request messages. Currently, TCP socket communication is the only way a client can connect to
+a member. The client MUST connect to the port that Hazelcast member is listening to for new connections. Because of
+this, there is no fixed port to which the client must connect.
+
+Protocol communication is built on sending and receiving messages. Client protocol defines a simple entity called
+client message for communication. It is the only data format defined by this protocol.
+
+### 2.1. Client Message
+A client message is a transmission data unit composed of frames which are array of bytes. Its main purpose is to
+encapsulate a unit of data to be transferred from one entity the another. It may represent a request, a response, or an
+event response. A client message can be fragmented into multiple client messages and sent in order one-by-one. See the
+[Client Message Fragmentation](#214-client-message-fragmentation) section for details.
+
+#### 2.1.1. Frame
+As said above, frames are building blocks of a client message. A frame is an array of bytes consisted of frame length,
+flags and payload bytes as shown below.
+
+| Frame Length | Flags | Payload |
+| ------------ | ----  | ------- |
+| int32 | uint16 | Payload bytes |
+
+Frame length includes the length of itself, flags, and payload bytes. Hence, the minimum size of a frame is `6` bytes in
+case of an empty payload (`4` bytes for frame length and `2` bytes for flags). Payload bytes store the actual
+data carried over the frame. Frames must be in the little-endian order.
+
+Flag bits have the structure shown below.
+
+| Flag Bit | Name | Description |
+| -------- | ---- | ----------- |
+| 15 | BEGIN_FRAGMENT_FLAG | Used in message fragmentation |
+| 14 | END_FRAGMENT_FLAG | Used in message fragmentation |
+| 13 | IS_FINAL_FLAG | Set to 1 if the frame is the last frame of a client message |
+| 12 | BEGIN_DATA_STRUCTURE_FLAG | Set to 1 if the frame is the begin frame of a custom type or list or map of variable sized type(s) |
+| 11 | END_DATA_STRUCTURE_FLAG | Set to 1 if the frame is the end frame of a custom type or list or map of variable sized type(s) |
+| 10 | IS_NULL_FLAG | Set to 1 if the frame represents a null payload |
+| 9 | IS_EVENT_FLAG | Set to 1 if the frame is the initial frame of a client message that represents a event response from a member |
+| 8 | BACKUP_AWARE_FLAG | Set to 1 if the client enabled receiving backup acks directly from members that backups are applied to |
+| 7 | BACKUP_EVENT_FLAG | Set to 1 if the frame is the initial frame of a client message that represents a backup event response from a member |
+| 6 to 0 | Reserved | Reserved for future usage |
+
+#### 2.1.2. Initial Frame
+Each client message starts with a special frame called the initial frame. It is special in the sense that it includes all the
+fix sized parameters of a client message. Fix sized parameters are parameters of a request, a response, or an event response
+message in which the sizes of the parameter in bytes can be known in advance. These types of parameters are listed below.
+
+| Type | Size in bytes |
+| ---- | ------------- |
+| byte (int8 or uint8) | 1 |
+| boolean | 1 |
+| int (int32 or uint32) | 4 |
+| long (int64 or uint64) | 8 |
+| float | 4 |
+| double | 8 |
+| UUID* | 17 |
+
+> *: UUID is described by two longs. Since UUID can be null, a boolean flag is also used to distinguish null UUIDs from non-null ones. That makes the length 17 bytes (1 + 8 + 8) in total.
+
+The overall structure of the initial frame is shown below.
+
+For requests and event responses, the overall structure of the initial frame is shown below.
+
+| Frame length | Flags | Message type | Correlation ID | Partition ID | Fix sized parameter 1 | Fix sized parameter 2 | ... | Fix sized parameter n |
+| ------------ | ----- | ------------ | -------------- | ------------ | --------------------- | --------------------- | --- | --------------------- |
+| int32 | uint16 | int32 | int64 | int32 | Parameter 1 bytes | Parameter 2 bytes | ... | Parameter n bytes |
+
+For responses, the overall structure of the initial frame is shown below.
+
+| Frame length | Flags | Message type | Correlation ID | Backup Acks Count | Fix sized parameter 1 | Fix sized parameter 2 | ... | Fix sized parameter n |
+| ------------ | ----- | ------------ | -------------- | ----------------- | --------------------- | --------------------- | --- | --------------------- |
+| int32 | uint16 | int32 | int64 | uint8 | Parameter 1 bytes | Parameter 2 bytes | ... | Parameter n bytes |
+
+Unfragmented client messages must have their `BEGIN_FRAGMENT_FLAG` and `END_FRAGMENT_FLAG` bits set to `1` in
+their initial frames.
+
+For the details of frame length and flags, see the section [above](#211-frame).
+
+Payload bytes of the initial frame consists of message type, correlation ID, partition ID, or the backup acks count
+depending on the message type and fix sized parameters.
+
+##### 2.1.2.1. Message Type
+Message type corresponds to a unique operation of a distributed object such as `Map.Put` request, `List.Get` response or
+an event response for a registered listener.
+
+| Message type byte | Description |
+| ----------------- | ----------- |
+| 0 | Unused, set to 0 |
+| 1 | Service ID |
+| 2 | Method ID |
+| 3 | Request, response or event response ID |
+
+Service ID represents the unique ID assigned to managed services provided by Hazelcast such as `Map`, `List`,
+`Client` etc. It is in the range of `0` to `255`.
+
+Method ID represents the unique IDs of methods provided by the service. It is in the range of `1` to `255`.
+
+The last bit of the message type represents whether this client message is a request, a response, or an event response.
+It is equal to `0` for requests, `1` for responses, and `2` plus event ID for event responses.
+
+For example:
+- `0x00010200` is the message type for the request (`00`) for the `Get` method (`02`) of the `Map` service (`01`).
+- `0x00050F01` is the message type for the response (`01`) for the `Get` method (`0F`) of the `List` service (`05`).
+- `0x00011C02` is the message type for the event response (`02`) for the `AddEntryListener` method (`1C`) of the `Map` service (`01`).
+
+For the error messages that are sent by the member node to the client, the message type is set to `0x00000000`.
+
+A full list of message types can be found in the [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) section.
+
+If the Hazelcast member receives a message with an unsupported message type, it will return the `UNSUPPORTED_OPERATION`
+error to the client with the message type of `0x00000000`. The client is guaranteed to receive only the messages listed
+in the [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) and the error messages.
+
+The details of the different message types are described in the next sections.
+
+##### 2.1.2.1.1. Request Message Type
+Each distributed object defines various operations. Each operation corresponds to a well-defined request message to
+be sent to the cluster. For each request message, the client will get a response message from the cluster. Request messages
+MUST be sent from the client to the server.
+
+The request parameters are binary encoded entirely within the payload bytes of the frames that constitute the client message.
+
+##### 2.1.2.1.2. Response Message Type
+Once a request is received and processed on the member side, the member produces a response message and sends it to
+the client. Each request message type defines a response message that can be sent. The correlation ID relates all instances
+of the response messages to their requests.
+
+The response parameters are binary encoded entirely within the payload bytes of the frames that constitute the client messages.
+
+##### 2.1.2.1.3. Event Response Message Type
+An event response message is a special kind of response message. A client can register to a specific listener by
+sending a request message with the message type of adding a listener. When an event is triggered that the client is
+listening for, the member will send a message to the client using the same correlation ID as the original request message.
+The payload bytes of the frames of the event message carries the specific event object. The possible event message types
+for a registration request are documented in the `Event Message` section of each request in the
+[Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) section.
+
+For these messages, `IS_EVENT_FLAG` bit of the initial frame of the client message is set to `1`.
+
+The member will continue to send the client event updates until the client unregisters from that event or the connection
+is broken.
+
+##### 2.1.2.1.4. Error Message Type
+The member may return an error response to the client for the request it made. For this message, the message type is set
+to `0x00000000`. The payload of the member's response message contains the error message along with the error code.
+You may choose to provide the error codes directly to the user or you may use some other technique, such as exceptions,
+to delegate the error to the user. See the `ErrorHolder` custom type and the list of [Error Codes](#58-error-codes) for details.
+
+##### 2.1.2.2. Correlation ID
+This ID correlates the request to responses. It should be unique to identify one message in the communication. This ID
+is used to track the request-response cycle of a client operation. Members send response messages with the same ID as
+the request message. The uniqueness is per connection. If the client receives the response to a request and the request
+is not a multi-response request (i.e. not a request for event transmission), then the correlation ID for the request can
+be reused by the subsequent requests. Note that once a correlation ID is used to register for an event, it SHOULD NOT
+be used again unless the client unregisters (stops listening) for that event.
+
+##### 2.1.2.3. Partition ID
+The partition ID defines the partition against which the operation is executed. This information tells the
+client which member handles which partition. The client can use this information to send requests to the responsible
+member directly for processing. The client gets this information from the `PartitionsView` event of the
+`AddClusterViewListener` request. (see the [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages))
+
+To determine the partition ID of an operation, the client needs to compute the Murmur Hash (version 3, 32-bit, see
+[https://en.wikipedia.org/wiki/MurmurHash](https://en.wikipedia.org/wiki/MurmurHash) and
+[https://github.com/aappleby/smhasher/wiki/MurmurHash3](https://github.com/aappleby/smhasher/wiki/MurmurHash3)) of a
+certain byte-array (which is identified for each message in the description section) and take the modulus of the result
+over the total number of partitions. The seed for the Murmur Hash SHOULD be `0x0100193`. Most operations with a key
+parameter use the key parameter byte-array as the data for the hash calculation.
+
+Some operations are not required to be executed on a specific partition but can be run on a global execution pool. For
+these operations, the partition ID is set to a negative value. No hash calculation is required in this case.
+
+##### 2.1.2.4 Backup Acks Count
+When the client performs an operation on a distributed object that requires backups to be created when a change is made,
+the client only receives the response of the operation when acks from the member nodes that participated in the
+backup process are seen.
+
+Hazelcast offers two different ways to perform operations that involve backups.
+
+If the client is a [smart client](#61-smart-client-and-unisocket-client), it can mark the requests it sends as backup
+aware by setting the `BACKUP_AWARE_FLAG` to `1`. When a Hazelcast member receives such a request, it sends a response
+message that carries information about how many backup operations must be performed along with the actual response in
+this part of the initial frame. In this case, the client is notified about the successful backups with event responses
+coming from the member nodes that created the backups in their partitions. To do so, the client must register listeners to
+all member nodes that it is connected to using the `LocalBackupListener` message. The client SHOULD wait until it
+receives event responses marked with `BACKUP_EVENT_FLAG` from that many Hazelcast member nodes before resolving the
+response of the request.
+
+However, if the client is a [unisocket client](#61-smart-client-and-unisocket-client) or the requests going out from
+it are not marked with the `BACKUP_AWARE_FLAG`, the member node that receives the request from the client only sends
+the response back when it receives acks from other cluster members which are participated in the backup process.
+
+The former way is faster in the sense that it results in fewer serial network hops.
+
+#### 2.1.3. Encoding of Variable Sized Parameters
+
+The parameters of the client message that have variable size, that are not listed in the fix sized types described
+in the [Initial Frame](#212-initial-frame) section, such as string, list of primitive or custom types, etc. are
+encoded following the initial frame in their respective frames. A variable sized parameter can be encoded into one or more
+frames based on its type. For the sections below, the following special frames will be used while describing the encoding
+process of the variable sized parameters.
+
+- `NULL_FRAME`: A frame that has `1` in its `IS_NULL_FLAG` bit. It is used to represent parameters that have null values.
+It has empty payload.
+- `BEGIN_FRAME`: A frame that has `1` in its `BEGIN_DATA_STRUCTURE_FLAG` bit. It is used to mark the beginning of the
+parameter encodings that cannot fit into a single frame. It has empty payload bytes.
+- `END_FRAME`: A frame that has `1` in its `END_DATA_STRUCTURE_FLAG` bit. It is used to mark the ending of the parameter
+encodings that cannot fit into a single frame. It has empty payload bytes.
+
+For the encodings described below, if the parameter is of a variable sized type and its value is null, it is encoded as
+`NULL_FRAME`.
+
+##### 2.1.3.1. Encoding of String Parameters
+Each string parameter of the client message can be encoded into its own single frame. String parameters are expected to
+be encoded according to UTF-8 standard described in the [RFC 3629](https://tools.ietf.org/html/rfc3629). Encoded string data must be placed in the payload
+bytes of the frame. Below is the sample structure of a string frame.
+
+| Frame length | Flags | UTF-8 encoded string data |
+| ------------ | ----- | ------------------------- |
+| int32 | uint16 | UTF-8 encoded string bytes |
+
+##### 2.1.3.2. Encoding of Custom Type Parameters
+Custom types, which are the parameters of the client messages that consist of other fix or variable sized parameters
+are encoded in between `BEGIN_FRAME` and `END_FRAME`. Overall, the structure of custom type encodings is shown below.
+
+| `BEGIN_FRAME` | Payload Frame 1 | Payload Frame 2 | ... | Payload Frame n | `END_FRAME` |
+| ------------- | --------------- | --------------- | --- | --------------- | ----------- |
+
+`BEGIN_FRAME` and `END_FRAME` are used to identify the boundaries of different custom type encodings. While reading
+frames of a client message, when a `BEGIN_FRAME` is encountered, it means that the custom type encoding is started and
+it is safe to read frames until the `END_FRAME` is encountered. All of the frames in between those two will carry the
+actual data stored inside the custom type.
+
+Payload frames follow a similar schema to the initial frame and variable sized data frame structure described above. All
+of the fix sized parameters of the custom object are encoded in the initial payload frame that comes after the `BEGIN_FRAME`
+and all the other variable sized or custom parameters are encoded in the following payload frames in the same way
+described in the [Encoding of Variable Sized Parameters](#213-encoding-of-variable-sized-parameters) section. Therefore,
+each custom type encoding consists of at least three and possibly more frames depending on the types of the parameters
+of the custom object.
+
+For example, if the custom type has the parameters of integer, long, string, and another custom type that has
+boolean and string parameters, then the encoded structure of the custom object will be as below.
+
+| Frame | Description |
+| ----- | ----------- |
+| `BEGIN_FRAME` | `BEGIN_FRAME` of the custom type |
+| Payload frame for the fix sized parameters | Payload frame for the integer and long parameters |
+| Payload frame for the var sized parameter | Payload frame for the string parameter |
+| `BEGIN_FRAME` | `BEGIN_FRAME` of the custom type parameter |
+| Payload frame for the fix sized parameter | Payload frame for the boolean parameter of the custom type parameter |
+| Payload frame for the var sized parameter | Payload frame for the string parameter of the custom type parameter |
+| `END_FRAME` | `END_FRAME` for the custom type parameter |
+| `END_FRAME` | `END_FRAME` for the custom type |
+
+As depicted above, fix sized parameters of the custom type which are integer and long parameters, are encoded in the initial
+frame that follows the `BEGIN_FRAME` of the custom type. Then, the payload frame for the string parameter comes. It is encoded
+in the same way described in the [Encoding of String Parameters](#2131-encoding-of-string-parameters) section.
+Custom types can also contain other custom type parameters. They are encoded in the same way as described at the
+beginning of the section. Payload frames of the inner custom type, which are the frames for the boolean parameter and the
+string parameter, are encoded in between its respective `BEGIN_FRAME` and `END_FRAME`. Finally, the `END_FRAME` at the
+end signals the finish of the custom type encoding.
+
+##### 2.1.3.3. Encoding of List Parameters
+
+Client messages may also contain a list of fix sized or variable sized types. The encoding of the list frames changes
+according to the type of the list elements.
+
+##### 2.1.3.3.1. Encoding of List of Fix Sized Parameters
+
+Since the byte size of the fix sized parameters and the element count of the list can be known in advance, the content
+of the list can be fit into a single frame. For these types of lists, payload size is calculated as
+`ELEMENT_COUNT * ELEMENT_SIZE_IN_BYTES` and elements are encoded at the offsets depending on their indexes on lists.
+Assuming zero-based indexing, element offsets can be calculated as `ELEMENT_INDEX * ELEMENT_SIZE_IN_BYTES`.
+
+For example, a list of integers can be encoded into a single frame as follows:
+
+| Frame length | Flags | int-0 | int-1 | ... | int-n |
+| ------------ | ----- | ----- | ----- | --- | ----- |
+| int32 | uint16 | int32 | int32 | ... | int32 |
+
+Due to member-side technical restrictions, writing the elements of a list into a single frame puts an upper limit on
+the maximum number of elements that the list contains. The number of elements that can be fit into a single frame can
+be calculated as `(2^31 - 6) / ELEMENT_SIZE_IN_BYTES`. For example, for int64, a maximum of `268435455` (around `268` million)
+entries per list is supported by the protocol.
+
+##### 2.1.3.3.2. Encoding of List of Variable Sized Parameters
+Lists of variable sized parameters, just like [custom type parameters](#2132-encoding-of-custom-type-parameters), are encoded in
+between `BEGIN_FRAME` and `END_FRAME`. Each element of the list is encoded in their respective frames consecutively
+following the `BEGIN_FRAME`. Depending on the type of list elements, each element may be encoded into one or more
+frames. In fact, the encoding of a list of variable sized parameters is very similar to the encoding of the custom types.
+
+For example, a list of string objects can be encoded as follows:
+
+| `BEGIN_FRAME` | string-0 | string-1 | ... | string-n | `END_FRAME` |
+| ------------- | -------- | -------- | --- | -------- | ----------- |
+| Begin frame of the list | Frame containing UTF-8 encoded bytes of string-0 | Frame containing UTF-8 encoded bytes of string-1 | ... | Frame containing UTF-8 encoded bytes of string-n | End frame of the list |
+
+Note that, elements of the list must be of the same type.
+
+##### 2.1.3.4. Encoding of Map Parameters
+Map parameters can be encoded in different ways depending on the types of keys and values.
+
+If both are fix sized parameters as described above, map entries can be encoded into a single frame since the size of a
+map entry can be known in advance. For these map entries, the payload size of the frame can be calculated as
+`ENTRY_COUNT * (SIZE_OF_THE_KEY + SIZE_OF_THE_VALUE)`. Map entries are encoded in the offset positions depending on
+their iteration order. The offset of the keys and values can be calculated as `ENTRY_INDEX * (SIZE_OF_THE_KEY + SIZE_OF_THE_VALUE)`
+and `ENTRY_INDEX * (SIZE_OF_THE_KEY + SIZE_OF_THE_VALUE) + SIZE_OF_THE_KEY` respectively, assuming zero-based indexing.
+
+For example, map entries of int32 to int64 mappings can be encoded as below.
+
+| Frame length | Flags | int32-0 | int64-0 | int32-1 | int64-1 | ... | int32-n | int64-n |
+| ------------ | ----- | ------- | ------- | ------- | ------- | --- | ------- | ------- |
+| int32 | uint16 | int32 | int64 | int32 | int64 | ... | int32 | int64 |
+
+If one of them is fix sized and the other is variable sized, map entries are encoded in between
+`BEGIN_FRAME` and `END_FRAME`. Each key or value of the entry set that is variable sized is encoded in its respective
+frames consecutively following the `BEGIN_FRAME`. As described above, this encoding may result in one or more frames
+depending on the type of the variable sized key or value. Each key or value of the entry set that is fix sized is
+encoded into a single frame as described in the [Encoding of List of Fix Sized Parameters](#21331-encoding-of-list-of-fix-sized-parameters) section.
+
+For example, a map of string to int32 can be encoded as below.
+
+| `BEGIN_FRAME` | string-0 | string-1 | ... | string-n | list of int32s | `END_FRAME` |
+| ------------- | -------- | -------- | --- | -------- | -------------- | ----------- |
+| Begin frame of the map entries | Frame containing UTF-8 encoded bytes of string-0 (key-0) | Frame containing UTF-8 encoded bytes of string-1 (key-1) | ... | Frame containing UTF-8 encoded bytes of string-n (key-n) | Frame containing list of int32s (values) | End frame of the map entries |
+
+However, if both of them are variable sized, map entries are encoded in between `BEGIN_FRAME` and `END_FRAME`.
+Each key or value of the entry set is encoded in its respective frames consecutively following the `BEGIN_FRAME`.
+
+For example, a map of string to list of int32s can be encoded as below.
+
+| `BEGIN_FRAME` | string-0 | list of int32-0 | string-1 | list of int32-1 | ... | string-n | list of int32-n | `END_FRAME` |
+| ------------- | -------- | ---------------- | -------- | --------------- | --- | -------- | --------------- | ----------- |
+| Begin frame of the map entries | Frame containing UTF-8 encoded bytes of string-0 (key-0) | Frame containing list of int32-0 (value-0) | Frame containing UTF-8 encoded bytes of string-1 (key-1) | Frame containing list of int32-1 (value-1) | ... | Frame containing UTF-8 encoded bytes of string-n (key-n) | Frame containing list of int32-n (value-n) | End frame of the map entries |
+
+### 2.1.4. Client Message Fragmentation
+A fragment is a part of a client message where the client message is too large and it is split into multiple client messages.
+It is used to interleave large client messages so that small but urgent client messages can be sent without waiting for the transmission
+of the large client message.
+
+Fragmentation is handled through `BEGIN_FRAGMENT_FLAG` and `END_FRAGMENT_FLAG` bits of the frame flags.
+Unfragmented messages have `1` in both flag bits. For fragmented client messages, the first fragment has `1` in
+`BEGIN_FRAGMENT_FLAG` and `0` in `END_FRAGMENT_FLAG`, the last fragment has `0` in `BEGIN_FRAGMENT_FLAG` and `1` in
+`END_FRAGMENT_FLAG` and middle fragments have `0` in both of the flag bits.
+
+Fragments of different client messages are identified by the int64 fragment IDs. Fragment ID is encoded into the payload bytes.
+
+Initial frames of the fragmented client messages have the following structure.
+
+**First Fragment Initial Frame**
+
+| Frame length | Flags | Payload |
+| ------------ | ----- | ------- |
+| Frame length | BEGIN_FRAGMENT_FLAG = 1, END_FRAGMENT_FLAG = 0 | Fragment ID |
+| int32 | uint16 | int64 |
+
+**Middle Fragment Initial Frame**
+
+| Frame length | Flags | Payload |
+| ------------ | ----- | ------- |
+| Frame length | BEGIN_FRAGMENT_FLAG = 0, END_FRAGMENT_FLAG = 0 | Fragment ID |
+| int32 | uint16 | int64 |
+
+**Last Fragment Initial Frame**
+
+| Frame length | Flags | Payload |
+| ------------ | ----- | ------- |
+| Frame length | BEGIN_FRAGMENT_FLAG = 0, END_FRAGMENT_FLAG = 1 | Fragment ID |
+| int32 | uint16 | int64 |
+
+Then, visual representation of the possible fragments of a client message with N frames can be as below:
+
+**First Fragment**
+
+| First Fragment Initial Frame | client message - 1st frame | client message - 2nd frame | ... | client message - ith frame |
+| ---------------------------- | -------------------------- | -------------------------- | --- | -------------------------- |
+
+**Middle Fragments**
+
+| Middle Fragment Initial Frame | client message - (i+1)th frame | client message - (i+2)th frame | ... | client message - jth frame |
+| ----------------------------- | ------------------------------ | ------------------------------ | --- | -------------------------- |
+
+**Last Fragment**
+
+| Last Fragment Initial Frame | client message - (j+1)th frame | client message - (j+2)th frame | ... | client message - nth frame |
+| --------------------------- | ------------------------------ | ------------------------------ | --- | -------------------------- |
+
+### 2.1.5. Client Message Boundaries
+As described in the [Initial Frame](#212-initial-frame) and [Client Message Fragmentation](#214-client-message-fragmentation) sections,
+the initial frame of the client messages can be identified with the `BEGIN_FRAGMENT_FLAG` and `END_FRAGMENT_FLAG` bits.
+
+The last frame of a client message can be identified by checking the `IS_FINAL_FLAG` bit. If set to `1`, it signals that the client
+message is ended.
+
+### 2.1.6. Backward Compatibility of the Client Messages
+Hazelcast Open Binary Protocol guarantees backward compatibility for all major 2.x versions. Therefore, developments done in the
+protocol MUST NOT result in deletion of services, methods, or any parameters. However, new services, methods, or parameters MAY be added.
+
+For the addition of fix sized parameters to service methods, additional parameters can be detected by checking the
+frame length of the initial frame. An old reader reads and uses old parameters and simply skips the bytes that contain
+the additional parameters.
+
+On the other hand, the addition of variable sized parameters can be detected using the `END_FRAME`. An old reader reads
+and uses old frames and simply skips the additional frames until it detects the `END_FRAME`.
+
+### 2.1.7. Augmented Backus–Naur Format Representation of the Client Messages
+Below is the representation of the client messages used within the protocol as described with the rules defined in
+[RFC 5234](https://tools.ietf.org/html/rfc5234) that specifies the Augmented Backus–Naur format.
+```
+client-message                 = initial-frame *var-sized-param
+initial-frame                  = request-initial-frame / response-initial-frame
+request-initial-frame          = frame-header message-type correlation-id partition-id *fix-sized-param
+response-initial-frame         = normal-response-initial-frame / event-response-initial-frame
+normal-response-initial-frame  = frame-header message-type correlation-id backup-acks-count *fix-sized-param
+event-response-initial-frame   = frame-header message-type correlation-id partition-id *fix-sized-param
+
+frame-header                   = frame-length flags
+frame-length                   = int32
+message-type                   = int32
+correlation-id                 = int64
+partition-id                   = int32
+backup-acks-count              = int8
+
+var-sized-param                = single-frame-param / custom-type-param / list-param / map-param / null-frame
+list-param                     = var-sized-list / fix-sized-list
+map-param                      = fix-sized-to-fix-sized-map / var-sized-to-var-sized-map /
+                               / fix-sized-to-var-sized-map / var-sized-to-fix-sized-map
+
+var-sized-list                 = begin-frame *var-sized-param end-frame ; All elements should be of same type
+fix-sized-list                 = frame-header *fix-sized-param ; All elements should be of same type
+
+fix-sized-to-fix-sized-map     = frame-header *fix-sized-entry
+fix-sized-entry                = fix-sized-param fix-sized-param ; Key and value pairs
+var-sized-to-var-sized-map     = begin-frame *var-sized-entry end-frame
+var-sized-entry                = var-sized-param var-sized-param ; Key and value pairs
+fix-sized-to-var-sized-map     = begin-frame *var-sized-entry fix-sized-list end-frame ; Values as list of frames, keys as a single frame
+var-sized-to-fix-sized-map     = begin-frame *var-sized-entry fix-sized-list end-frame ; Keys as list of frames, values as a single frame
+
+single-frame-param             = frame-header *OCTET ; For String, Data, ByteArray types. Strings must be encoded as UTF-8
+custom-type-param              = custom-type-begin-frame *1custom-type-initial-frame *var-sized-param end-frame
+custom-type-begin-frame        = begin-frame / frame-header *fix-sized-param ; Fix sized params might be pigybacked to begin frame
+custom-type-initial-frame      = frame-header *fix-sized-param
+
+null-frame                     = frame-header ; IS_NULL_FLAG is set to one
+begin-frame                    = frame-header ; BEGIN_DATA_STRUCTURE_FLAG is set to one
+end-frame                      = frame-header ; END_DATA_STRUCTURE_FLAG is set to one
+
+flags                          = begin-fragment end-fragment is-final begin-data-structure end-data-structure is-null is-event backup-aware backup-event 7reserved
+begin-fragment                 = BIT ; Used in message fragmentation
+end-fragment                   = BIT ; Used in message fragmentation
+is-final                       = BIT ; Set to 1 if the frame is the last frame of a client message
+begin-data-structure           = BIT ; Set to 1 if the frame is the begin frame of a custom type or list of variable sized types
+end-data-structure             = BIT ; Set to 1 if the frame is the end frame of a custom type or list of variable sized types
+is-null                        = BIT ; Set to 1 if the frame represents a null parameter
+backup-aware                   = BIT ; Set to 1 if the client enabled receiving backup acks directly from members that backups are applied to
+backup-event                   = BIT ; Set to 1 if the frame is the initial frame of a client message that represents a backup event response from a member
+reserved                       = BIT ; Reserved for future usage
+
+fix-sized-param                = *OCTET / boolean / int8 / int16 / int32 / int64 / UUID
+boolean                        = %x00 / %x01
+int8                           = 8BIT
+int16                          = 16BIT
+int32                          = 32BIT
+int64                          = 64BIT
+UUID                           = boolean int64 int64 ; Is null flag + most significant bits + least significant bits
+```
+
+For the fragmented client messages, the ABNF definition is below.
+
+```
+fragmented-message = begin-fragment *middle-fragment end-fragment
+begin-fragment     = frame-header fragment-id 1*frame ; begin-fragment is set to 1, end-fragment is set to 0, is_final of last frame set to 1
+middle-fragment    = frame-header fragment-id 1*frame ; begin-fragment is set to 0, end-fragment is set to 0, is_final of last frame set to 1
+end-fragment       = frame-header fragment-id 1*frame ; begin-fragment is set to 0, end-fragment is set to 1, is_final of last frame set to 1
+
+frame              = initial-frame / single-frame-param / custom-type-begin-frame / custom-type-initial-frame
+                   / fix-sized-list / fix-sized-to-fix-sized-map / begin-frame / end-frame / null-frame
+```
+
+## 3. Client Protocol Data Types
+
+| Type | Description | Size | Min Value | Max Value |
+| ---- | ----------- | ---- | --------- | --------- |
+| uint8 | unsigned 8 bit integer | 8 bit | 0 | 2^8 - 1 |
+| uint16 | unsigned 16 bit integer | 16 bit | 0 | 2^16 - 1 |
+| uint32 | unsigned 32 bit integer | 32 bit | 0 | 2^32 - 1 |
+| uint64 | unsigned 64 bit integer | 64 bit | 0 | 2^64 - 1 |
+| int8 | signed 8 bit integer in 2's complement | 8 bit | -2^7 | 2^7 - 1 |
+| int16 | signed 16 bit integer in 2's complement | 16 bit | -2^15 | 2^15 - 1 |
+| int32 | signed 32 bit integer in 2's complement  | 32 bit | -2^31 | 2^31 - 1 |
+| int64 | signed 64 bit integer in 2's complement | 64 bit | -2^63 | 2^63 - 1 |
+| float | single precision IEEE 754 floating point number | 32 bit | -1 * (2 - 2^(-23)) * 2^127  | (2 - 2^(-23)) * 2^127 |
+| double | double precision IEEE 754 floating point number | 64 bit | -1 * (2 - 2^(-52)) * 2^1023 |  (2 - 2^(-52)) * 2^1023 |
+| boolean | same as uint8 with special meanings. 0 is "false", any other value is "true" | 8 bit | | |
+| String | String encoded as a byte-array with UTF-8 encoding as described in [RFC 3629](https://tools.ietf.org/html/rfc3629) | variable | | |
+| Data | Basic unit of Hazelcast serialization that stores the binary form of a serialized object | variable | | |
+| ByteArray | Array of bytes | variable | | |
+
+Data types are consistent with those defined in The Open Group Base Specification Issue 7 IEEE Std 1003.1, 2013 Edition.
+Data types are in **Little Endian** format.
+
+## 4. Connection Guide
+
+### 4.1. Opening a Connection
+TCP socket communication is used for client-to-member communication. Each member has a socket listening for incoming connections.
+
+As the first step of client-to-member communication, the client MUST open a TCP socket connection to the member.
+
+A client needs to establish a single connection to each member node if it is a smart client. If it is a unisocket client,
+a single connection is enough for a particular client. For details, see [Smart Client versus Unisocket Client](#61-smart-client-and-unisocket-client).
+
+### 4.2. Connection Initialization
+After successfully connecting to the member TCP socket, the client MUST send three bytes of initialization data to identify
+the connection type to the member.
+
+For any client, the three byte initializer data is [`0x43`, `0x50`, `0x32`], which is the string `CP2` in UTF-8 encoding.
+
+### 4.3. Authentication
+The first message sent through an initialized connection must be an authentication message. Any other type of message
+will fail with an authorization error unless the authentication is complete.
+
+Upon successful authentication, the client will receive a response from the member with the member's IP address, UUID
+that uniquely identifies the member, and cluster UUID along with the other response parameters described
+in `Client.Authentication` message. The status parameter in the authentication response should be checked for the
+authentication status.
+
+There are four possible statuses:
+
+- `0`: Authentication is successful.
+- `1`: Credentials failed. The provided credentials (e.g. cluster name, username, or password) are incorrect.
+- `2`: Serialization version mismatch. The requested serialization version and the serialization version used at the member side
+are different. The client gets the member's serialization version from the `serverHazelcastVersion` parameter of the response.
+It is suggested that the client tries to reconnect using the matching serialization version assuming that the client
+implements the version for serialization.
+- `3`: The client is not allowed in the cluster. It might be the case that client is blacklisted from the cluster.
+
+There are two types of authentications:
+
+- Username/Password authentication: `Client.Authentication` message is used for this authentication type which contains
+username and password for the client (if present) along with the cluster name.
+- Custom credentials authentication: `Client.CustomAuthentication` message is used for this authentication type. Custom
+authentication credentials are sent as a byte-array.
+
+### 4.4. Communication
+
+After successful authentication, a client may send request messages to the member to access distributed objects
+or perform other operations on the cluster. This step is the actual communication step.
+
+Once connected, a client can do the followings:
+1. Send periodic updates.
+2. Get updates on cluster state view which consists of partition table and member list.
+3. Send operation messages and receive responses.
+
+All request messages will be sent to the member and all responses and event responses will be sent to the client.
+
+See [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) for details.
+
+### 4.5. Closing Connections
+To end the communication, the network socket that was opened should be closed. This will
+result in releasing resources on the member side specific to this connection.
+
+## 5. Requests and Responses
+### 5.1. Distributed Objects
+To access distributed object information, use the `GetDistributedObject` message.
+
+To add a listener for adding distributed objects, use the `AddDistributedObjectListener` message.
+
+To remove a formerly added listener, use the `RemoveDistributedObjectListener` message.
+
+### 5.2. Operation Messages And Responses
+Operational messages are the messages where a client can expect exactly one response for a given request. The client
+knows which request the response correlates to via the correlation ID. An example of one of these operations is a
+`Map.Put` operation.
+
+To execute a particular operation, set the message type ID to the corresponding operation type and encode the parameters
+as described in the [Client Message](#21-client-message) section.
+
+### 5.3. Proxies
+Before using a distributed object, the client SHOULD first create a proxy for the object. Do this by using the `CreateProxy`
+request message.
+
+To destroy a proxy, use the `DestroyProxy` request message.
+
+#### 5.3.1. Proxy Creation
+
+**Java Example:**
+```java
+HazelcastInstance client = HazelcastClient.newHazelcastClient();
+IMap map = client.getMap("map-name");
+```
+
+**Python Example**
+```python
+client = HazelcastClient()
+map = client.get_map("map-name")
+```
+Raw bytes for the create proxy request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x16 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x04 0x00 0x00 // Message type
+0x30 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0xff 0xff 0xff 0xff // Partition ID
+// Frame for the "map-name" string
+0x0e 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x6d 0x61 0x70 0x2d 0x6e 0x61 0x6d 0x65 // UTF-8 encoded data of the "map-name" string
+// Frame for the name of the map service (which is "hz:impl:mapService")
+0x18 0x00 0x00 0x00 // Frame length
+0x00 0x20 // Flags
+0x68 0x7a 0x3a 0x69 0x6d 0x70 0x6c 0x3a 0x6d 0x61 0x70 0x53 0x65 0x72 0x76 0x69 0x63 0x65 // UTF-8 encoded data of the "hz:impl:mapService" string
+```
+
+**Member Response**
+```
+// Initial frame
+0x13 0x00 0x00 0x00 // Frame length
+0x00 0xe0 // Flags
+0x01 0x04 0x00 0x00 // Message type
+0x30 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+```
+
+For a request with a key, the client SHOULD send the request to the cluster member that houses the data for the key.
+A client can do this by using the partition ID. For the `CreateProxy` request above, since the proxy creation is meant
+to be sent to a random cluster member, partition ID is given as `-1`.
+
+The response to a request message is always one of the following:
+- Regular response message: The response is the message as listed in the protocol specification for the specific request message type.
+- An error message: See the [Error Codes](#58-error-codes) section.
+
+We give examples of operations on various data structures below.
+
+#### 5.3.2. List Example
+
+**Java Example**
+```java
+IList myList = client.getList("list"); // Create proxy
+System.out.println(myList.get(3));
+```
+
+**Python Example**
+```python
+my_list = client.get_list("list") # Create proxy
+print(my_list.get(3))
+```
+Raw bytes for get request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x1a 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x0f 0x05 0x00 // Message type
+0x05 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x7e 0x00 0x00 0x00 // Partition ID
+0x03 0x00 0x00 0x00 // Item index: 3
+// Frame for the list name
+0x0a 0x00 0x00 0x00 // Frame length
+0x00 0x20 // Flags
+0x6c 0x69 0x73 0x74 // UTF-8 encoded data of the "list" string
+```
+
+**Member Response**
+```
+// Initial frame
+0x13 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x01 0x0f 0x05 0x00 // Message type
+0x05 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+// Frame for the nullable Data frame
+0x18 0x00 0x00 0x00
+0x00 0x20
+0x00 0x0c 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0xff 0xff 0xff 0xf9 0x00 0x00 0x00 0x04 // Nullable Data for the returned value
+```
+
+#### 5.3.3. Fenced Lock Example
+**Java Example**
+```java
+FencedLock myLock = client.getCPSubsystem().getLock("lock"); // Create proxy
+myLock.lock();
+```
+
+Raw bytes for the lock request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x37 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x01 0x07 0x00 // Message type
+0x07 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x11 0x00 0x00 0x00 // Partition ID
+0x7b 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Session ID: 123
+0x60 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Thread ID: 96
+0x00 0x15 0xcd 0x5b 0x07 0x00 0x00 0x00 0x00 0xb1 0x68 0xde 0x3a 0x00 0x00 0x00 0x00 // Invocation UUID: UUID(123456789, 987654321)
+// Frame for the RaftGroupID
+// Begin frame for the RaftGroupId frame
+0x06 0x00 0x00 0x00 // Frame length
+0x00 0x10 // Flags
+// Initial frame for the RaftGroupId
+0x16 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x36 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Seed: 54
+0x40 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Id: 64
+// String name parameter for the RaftGroupId
+0x10 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x72 0x61 0x66 0x74 0x2d 0x67 0x72 0x6f 0x75 0x70 // UTF-8 encoded name of the RaftGroup: "raft-group"
+// End frame for the RaftGroupId
+0x06 0x00 0x00 0x00
+0x00 0x08
+// String frame for the lock instance
+0x0a 0x00 0x00 0x00 // Frame length
+0x00 0x20 // Flags
+0x6c 0x6f 0x63 0x6b // UTF-8 encoded name of the lock: "lock"
+```
+
+**Member Response**
+```
+// Initial frame
+0x1b 0x00 0x00 0x00 // Frame length
+0x00 0xe0 // Flags
+0x01 0x01 0x07 0x00 // Message type
+0x07 0x00 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+0x4e 0x61 0xbc 0x00 0x00 0x00 0x00 0x00 // Fence token: 12345678
+```
+
+#### 5.3.4. Map Example
+
+**Java Example**
+```java
+String key = "key1";
+int value = 54;
+IMap myMap = client.getMap("map"); // Create proxy
+myMap.put(key, value);
+```
+**Python Example**
+```python
+key = "key1"
+value = 54
+my_map = client.get_map("map") # Create proxy
+my_map.put(key, value)
+```
+
+Raw bytes for the map put request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x26 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x01 0x01 0x00 // Message type
+0x15 0x02 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x11 0x01 0x00 0x00 // Partition ID
+0xf1 0xfb 0x90 0x00 0x00 0x00 0x00 0x00 // Thread ID: 654321
+0x10 0x27 0x00 0x00 0x00 0x00 0x00 0x00 // TTL for the map: 10000
+// String frame for the map name
+0x09 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x6d 0x61 0x70 // UTF-8 encoded name of the map: "map"
+// Data frame for the key
+0x16 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x00 0x00 0x00 0x00 0xff 0xff 0xff 0xf5 0x00 0x00 0x00 0x04 0x6b 0x65 0x79 0x31 // Key data bytes
+// Data frame for the value
+0x12 0x00 0x00 0x00 // Frame length
+0x00 0x00 // Flags
+0x00 0x00 0x00 0x00 0xff 0xff 0xff 0xf9 0x00 0x00 0x00 0x36 // Value data bytes
+```
+
+**Member Response**
+```
+// Initial frame
+0x13 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x01 0x01 0x01 0x00 // Message type
+0x15 0x02 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+// Nullable response frame. Assuming there were no value associated with this key, response is set to null as below
+0x06 0x00 0x00 0x00 // Frame length
+0x00 0x40 // Flags
+```
+
+#### 5.3.5. Queue Example
+
+**Java Example**
+```java
+IQueue myQueue = client.getQueue("queue"); // Create proxy
+System.out.println(myQueue.size());
+```
+
+**Python Example**
+```python
+my_queue = client.get_queue("queue")
+print(my_queue.size())
+```
+
+Raw bytes for the queue size request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x16 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x03 0x03 0x00 // Message type
+0x12 0x33 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x01 0x01 0x00 0x00 // Partition ID
+// String frame for the queue name
+0x0b 0x00 0x00 0x00 // Frame length
+0x00 0x20 // Flags
+0x71 0x75 0x65 0x75 0x65 // UTF-8 encoded name of the queue: "queue"
+```
+
+**Member Response**
+```
+// Initial frame
+0x17 0x00 0x00 0x00 // Frame length
+0x00 0xe0 // Flags
+0x01 0x03 0x03 0x00 // Message type
+0x12 0x33 0x00 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+0x19 0x00 0x00 0x00 // Queue size: 25
+```
+
+#### 5.3.6. Set Example
+
+**Java Example**
+```java
+ISet set = client.getSet("set"); // Create proxy
+set.clear();
+```
+
+```python
+set = client.get_set("set") # Create proxy
+set.clear()
+```
+
+Raw bytes for the set clear request and response are shown below.
+
+**Client Request**
+```
+// Initial frame
+0x16 0x00 0x00 0x00 // Frame length
+0x00 0xc0 // Flags
+0x00 0x09 0x06 0x00 // Message type
+0x0a 0x01 0xb5 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x03 0x02 0x00 0x00 // Partition ID
+// String frame for the set name
+0x09 0x00 0x00 0x00 // Frame length
+0x00 0x20 // Flags
+0x73 0x65 0x74 // UTF-8 encoded name of the set: "set"
+```
+
+**Member Response**
+```
+// Initial frame
+0x13 0x00 0x00 0x00 // Frame length
+0x00 0xe0 // Flags
+0x01 0x09 0x06 0x00 // Message type
+0x0a 0x01 0xb5 0x00 0x00 0x00 0x00 0x00 // Correlation ID
+0x00 // Backup acks count
+```
+
+### 5.4. Multiple Responses to a Single Request
+The client can listen for updates on a member or when specific actions are taken on the cluster. This is managed by the event listener mechanism.
+The event messages have the `IS_EVENT_FLAG` bit is set in the initial frame and they use the same correlation ID as used in the original
+registration request for all the subsequent event update messages. The registration message and possible event messages sent are
+described in the `Event Message` section of the message descriptions.
+
+### 5.5. Listeners
+Listeners are mean to communicate multiple responses to a client. The client uses one of the listener registration messages to listen
+for updates at the cluster. Listeners are specific to a data structure. For example, there is specific listener for map entries and queue
+items. To see how these listeners are explicitly encoded, see the relevant message in the
+[Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) section.
+
+Because the same correlation ID is reused for every event response for a given request, the correlation ID MUST NOT be
+reused from the event requests unless the client unregisters the listener.
+
+One can send `RemoveListener` request message specific to the registration request to remove the listener that the client has
+registered to.
+
+### 5.6. Cluster View Listener
+Cluster view consists of views of partition and member lists. The client gets the updates of these views as event responses
+after registering a cluster view listener to one of the members of the cluster.
+
+The partition list view tells the client which members handle which partition ID. The client can use this information
+to send the related requests to the responsible member (for the request key if it exists) directly for processing.
+
+The event response for the partition list view consists of the member-partition ownership information.
+
+The other part of the cluster view is the member list view. This view is the list of members connected to the cluster. With this
+information and the previous member list that the client has, member updates on the cluster such as member addition or removal
+can be seen. This information is needed especially if the client operates as a smart client.
+
+### 5.7. Timeouts and Retry
+It is recommended that the client should be able to handle situations where the member may not be able to return the response
+in an expected time interval. Even if the response to a specific message is not received, the user may or may not retry the
+request. If the client retries the request, they SHOULD NOT use the same correlation ID.
+
+If no message has been sent in the member's heartbeat time, the member will automatically disconnect from the client. To prevent
+this from occurring, a client SHOULD submit a `Ping` request to the member periodically. A ping message is only sent from the
+client to the member; the member does not perform any ping request.
+
+### 5.8. Error Codes
+The list of errors along with the error code and description is provided below. Note that there may be error messages with
+an error code that is not listed in the table. The client can handle this situation differently based on the particular
+implementation. (e.g. throw an unknown error code exception)
+
+| Error Name | Error Code | Description |
+| ---------- | ---------- | ----------- |
+| ARRAY_INDEX_OUT_OF_BOUNDS | 1 | Thrown to indicate that an array has been accessed with an illegal index. The index is either negative or greater than or equal to the size of the array. |
+| ARRAY_STORE | 2 | Thrown to indicate that an attempt has been made to store the wrong type of object into an array of objects. |
+| AUTHENTICATION | 3 | The authentication failed. |
+| CACHE | 4 | Thrown to indicate an exception has occurred in the Cache |
+| CACHE_LOADER | 5 | An exception to indicate a problem has occurred executing a CacheLoader |
+| CACHE_NOT_EXISTS | 6 | This exception class is thrown while creating CacheRecordStore instances but the cache config does not exist on the node to create the instance on. This can happen in either of two cases: the cache's config is not yet distributed to the node, or the cache has been already destroyed. For the first option, the caller can decide to just retry the operation a couple of times since distribution is executed in a asynchronous way. |
+| CACHE_WRITER | 7 | An exception to indicate a problem has occurred executing a CacheWriter |
+| CALLER_NOT_MEMBER | 8 | A retryable Hazelcast Exception that indicates that an operation was sent by a machine which isn't member in the cluster when the operation is executed. |
+| CANCELLATION | 9 | Exception indicating that the result of a value-producing task, such as a FutureTask, cannot be retrieved because the task was cancelled. |
+| CLASS_CAST | 10 | The class conversion (cast) failed. |
+| CLASS_NOT_FOUND | 11 | The class does not exists in the loaded jars at the member. |
+| CONCURRENT_MODIFICATION | 12 | The code is trying to modify a resource concurrently which is not allowed. |
+| CONFIG_MISMATCH | 13 | Thrown when 2 nodes want to join, but their configuration doesn't match. |
+| DISTRIBUTED_OBJECT_DESTROYED | 14 | The distributed object that you are trying to access is destroyed and does not exist. |
+| EOF | 15 | End of file is reached (May be for a file or a socket) |
+| ENTRY_PROCESSOR | 16 | An exception to indicate a problem occurred attempting to execute an EntryProcessor against an entry |
+| EXECUTION | 17 | Thrown when attempting to retrieve the result of a task that aborted by throwing an exception. |
+| HAZELCAST | 18 | General internal error of Hazelcast. |
+| HAZELCAST_INSTANCE_NOT_ACTIVE | 19 | The Hazelcast member instance is not active, the server is possibly initialising. |
+| HAZELCAST_OVERLOAD | 20 | Thrown when the system won't handle more load due to an overload. This exception is thrown when backpressure is enabled. |
+| HAZELCAST_SERIALIZATION | 21 | Error during serialization/de-serialization of data. |
+| IO | 22 | An IO error occurred. |
+| ILLEGAL_ARGUMENT | 23 | Thrown to indicate that a method has been passed an illegal or inappropriate argument |
+| ILLEGAL_ACCESS_EXCEPTION | 24 | An IllegalAccessException is thrown when an application tries to reflectively create an instance (other than an array), set or get a field, or invoke a method, but the currently executing method does not have access to the definition of the specified class, field, method or constructor |
+| ILLEGAL_ACCESS_ERROR | 25 | Thrown if an application attempts to access or modify a field, or to call a method that it does not have access to |
+| ILLEGAL_MONITOR_STATE | 26 | When an operation on a distributed object is being attempted by a thread which did not initially own the lock on the object. |
+| ILLEGAL_STATE | 27 | Signals that a method has been invoked at an illegal or inappropriate time |
+| ILLEGAL_THREAD_STATE | 28 | Thrown to indicate that a thread is not in an appropriate state for the requested operation. |
+| INDEX_OUT_OF_BOUNDS | 29 | Thrown to indicate that an index of some sort (such as to a list) is out of range. |
+| INTERRUPTED | 30 | Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity |
+| INVALID_ADDRESS | 31 | Thrown when given address is not valid. |
+| INVALID_CONFIGURATION | 32 | An InvalidConfigurationException is thrown when there is an Invalid configuration. Invalid configuration can be a wrong Xml Config or logical config errors that are found at runtime. |
+| MEMBER_LEFT | 33 | Thrown when a member left during an invocation or execution. |
+| NEGATIVE_ARRAY_SIZE | 34 | The provided size of the array can not be negative but a negative number is provided. |
+| NO_SUCH_ELEMENT | 35 | The requested element does not exist in the distributed object. |
+| NOT_SERIALIZABLE | 36 | The object could not be serialized |
+| NULL_POINTER | 37 | The server faced a null pointer exception during the operation. |
+| OPERATION_TIMEOUT | 38 | Exception thrown when a blocking operation times out. |
+| PARTITION_MIGRATING | 39 | Thrown when an operation is executed on a partition, but that partition is currently being moved around. |
+| QUERY | 40 | Error during query. |
+| QUERY_RESULT_SIZE_EXCEEDED | 41 | Thrown when a query exceeds a configurable result size limit. |
+| SPLIT_BRAIN_PROTECTION | 42 | An exception thrown when the cluster size is below the defined threshold. |
+| REACHED_MAX_SIZE | 43 | Exception thrown when a write-behind MapStore rejects to accept a new element. |
+| REJECTED_EXECUTION | 44 | Exception thrown by an Executor when a task cannot be accepted for execution. |
+| RESPONSE_ALREADY_SENT | 45 | There is some kind of system error causing a response to be send multiple times for some operation. |
+| RETRYABLE_HAZELCAST | 46 | The operation request can be retried. |
+| RETRYABLE_IO | 47 | Indicates that an operation can be retried. E.g. if map.get is send to a partition that is currently migrating, a subclass of this exception is thrown, so the caller can deal with it (e.g. sending the request to the new partition owner). |
+| RUNTIME | 48 | Exceptions that can be thrown during the normal operation of the Java Virtual Machine |
+| SECURITY | 49 | There is a security violation |
+| SOCKET | 50 | There is an error in the underlying TCP protocol |
+| STALE_SEQUENCE | 51 | Thrown when accessing an item in the Ringbuffer using a sequence that is smaller than the current head sequence. This means that the and old item is read, but it isn't available anymore in the ringbuffer. |
+| TARGET_DISCONNECTED | 52 | Indicates that an operation is about to be sent to a non existing machine. |
+| TARGET_NOT_MEMBER | 53 | Indicates operation is sent to a machine that isn't member of the cluster. |
+| TIMEOUT | 54 | Exception thrown when a blocking operation times out |
+| TOPIC_OVERLOAD | 55 | Thrown when a publisher wants to write to a topic, but there is not sufficient storage to deal with the event. This exception is only thrown in combination with the reliable topic. |
+| TRANSACTION | 56 | Thrown when something goes wrong while dealing with transactions and transactional data-structures. |
+| TRANSACTION_NOT_ACTIVE | 57 | Thrown when an a transactional operation is executed without an active transaction. |
+| TRANSACTION_TIMED_OUT | 58 | Thrown when a transaction has timed out. |
+| URI_SYNTAX | 59 | Thrown to indicate that a string could not be parsed as a URI reference |
+| UTF_DATA_FORMAT | 60 | Signals that a malformed string in modified UTF-8 format has been read in a data input stream or by any class that implements the data input interface |
+| UNSUPPORTED_OPERATION | 61 | The message type id for the operation request is not a recognised id. |
+| WRONG_TARGET | 62 | An operation is executed on the wrong machine. |
+| XA | 63 | An error occurred during an XA operation. |
+| ACCESS_CONTROL | 64 | Indicates that a requested access to a system resource is denied. |
+| LOGIN | 65 | Basic login exception. |
+| UNSUPPORTED_CALLBACK | 66 | Signals that a CallbackHandler does not recognize a particular Callback. |
+| NO_DATA_MEMBER | 67 | Thrown when there is no data member in the cluster to assign partitions. |
+| REPLICATED_MAP_CANT_BE_CREATED | 68 | Thrown when replicated map create proxy request is invoked on a lite member. |
+| MAX_MESSAGE_SIZE_EXCEEDED | 69 | Thrown when client message size exceeds Integer.MAX_VALUE. |
+| WAN_REPLICATION_QUEUE_FULL | 70 | Thrown when the wan replication queues are full. |
+| ASSERTION_ERROR | 71 | Thrown to indicate that an assertion has failed. |
+| OUT_OF_MEMORY_ERROR | 72 | Thrown when the Java Virtual Machine cannot allocate an object because it is out of memory, and no more memory could be made available by the garbage collector. |
+| STACK_OVERFLOW_ERROR | 73 | Thrown when a stack overflow occurs because an application recurses too deeply. |
+| NATIVE_OUT_OF_MEMORY_ERROR | 74 | Thrown when Hazelcast cannot allocate required native memory. |
+| SERVICE_NOT_FOUND | 75 | An exception that indicates that a requested client service doesn't exist. |
+| STALE_TASK_ID | 76 | Thrown when retrieving the result of a task via DurableExecutorService if the result of the task is overwritten. This means the task is executed but the result isn't available anymore |
+| DUPLICATE_TASK | 77 | thrown when a task's name is already used before for another (or the same, if re-attempted) schedule. |
+| STALE_TASK | 78 | Exception thrown by the IScheduledFuture during any operation on a stale (=previously destroyed) task. |
+| LOCAL_MEMBER_RESET | 79 | An exception provided to MemberLeftException as a cause when the local member is resetting itself |
+| INDETERMINATE_OPERATION_STATE | 80 | Thrown when result of an invocation becomes indecisive. |
+| FLAKE_ID_NODE_ID_OUT_OF_RANGE_EXCEPTION | 81 | Thrown from member if that member is not able to generate IDs using Flake ID generator because its node ID is too big. |
+| TARGET_NOT_REPLICA_EXCEPTION | 82 | Exception that indicates that the receiver of a CRDT operation is not a CRDT replica. |
+| MUTATION_DISALLOWED_EXCEPTION | 83 | Exception that indicates that the state found on this replica disallows mutation. |
+| CONSISTENCY_LOST_EXCEPTION | 84 | Exception that indicates that the consistency guarantees provided by some service has been lost. The exact guarantees depend on the service. |
+| SESSION_EXPIRED_EXCEPTION | 85 | Thrown when an operation is attached to a Raft session is no longer active |
+| WAIT_KEY_CANCELLED_EXCEPTION | 86 | Thrown when a wait key is cancelled and means that the corresponding operation has not succeeded |
+| LOCK_ACQUIRE_LIMIT_REACHED_EXCEPTION | 87 | Thrown when the current lock holder could not acquired the lock reentrantly because the configured lock acquire limit is reached. |
+| LOCK_OWNERSHIP_LOST_EXCEPTION | 88 | Thrown when an endpoint (either a Hazelcast member or a client) interacts with a FencedLock instance after its CP session is closed in the underlying CP group and its lock ownership is cancelled. |
+| CP_GROUP_DESTROYED_EXCEPTION | 89 | Thrown when a request is sent to a destroyed CP group. |
+| CANNOT_REPLICATE_EXCEPTION | 90 | Thrown when an entry cannot be replicated |
+| LEADER_DEMOTED_EXCEPTION | 91 | Thrown when an appended but not-committed entry is truncated by the new leader. |
+| STALE_APPEND_REQUEST_EXCEPTION | 92 | Thrown when a Raft leader node appends an entry to its local Raft log, but demotes to the follower role before learning the commit status of the entry. |
+| NOT_LEADER_EXCEPTION | 93 | Thrown when a leader-only request is received by a non-leader member. |
+| VERSION_MISMATCH_EXCEPTION | 94 | Indicates that the version of a joining member is not compatible with the cluster version |
+| NO_SUCH_METHOD_ERROR | 95 | Thrown if an application tries to call a specified method of a class (either static or instance), and that class no longer has a definition of that method. |
+| NO_SUCH_METHOD_EXCEPTION | 96 | Thrown when a particular method cannot be found. |
+| NO_SUCH_FIELD_ERROR | 97 | Thrown if an application tries to access or modify a specified field of an object, and that object no longer has that field. |
+| NO_SUCH_FIELD_EXCEPTION | 98 | Signals that the class doesn't have a field of a specified name. |
+| NO_CLASS_DEF_FOUND_ERROR | 99 | Thrown if the JVM or a ClassLoader instance tries to load in the definition of a class (as part of a normal method call or as part of creating a new instance using the new expression) and no definition of the class could be found. |
+
+## 6. Miscellaneous
+
+### 6.1. Smart Client and Unisocket Client
+The client can work as a smart or as a unisocket client. In both cases, a client SHOULD calculate which partition ID
+is responsible for the requests and put this information in the partition ID offset of the initial frame.
+
+- **Smart Client:** A smart client sends the request directly to the cluster member that is responsible for the related key.
+In order to do so, the client determines the address of the cluster member that handles the calculated partition ID.
+The request message will be sent on this cluster member connection.
+
+- **Unisocket Client:** The client sends the request to any cluster member that it is connected to, regardless of the key 
+for the request. The cluster member will in turn redirect the request to the correct member in the cluster that handles
+the request for the provided key.
+
+The biggest difference between the two types of clients is that a smart client must be connected to all of the members and
+must constantly update its partition tables so it knows which connection to use to submit a request. Both clients are compliant
+with the protocol defined in this document.
+
+### 6.2. Serialization
+While mostly an implementation detail, serialization plays a crucial role in the protocol. In order for a client to execute
+an operation on the member that involves data structure, such as putting some entry in a map or queue, the client must
+be aware of how objects are serialized and deserialized so that the client can process the bytes it receives accordingly.
+The member and client should use the same serialization versions in order to communicate. The version is negotiated in the
+connection authentication phase. In general, one needs to use serialization to serialize byte-array type parameters in the messages as specified
+in the [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) section. The following are examples of such objects that must be serialized
+before being sent over the wire:
+
+- Key
+- Value
+- Old value
+- New value
+- Callable (Executor Service)
+- IFunction (Atomics)
+- EntryProcessor (JCache)
+- ExpiryPolicy (JCache)
+- CacheConfig (JCache)
+- ListenerConfig (JCache)
+- Interceptor (Map)
+
+A client may follow Hazelcast's native serialization or it may implement its own custom serialization solution. For more
+information on how Hazelcast serializes its objects, see the official [Reference Manual](https://docs.hazelcast.org/docs/latest/manual/html-single/#serialization) serialization section.
+
+For all byte-array parameters, the API users should implement the following, depending on the operation type:
+- If the operation is such that no member side deserialization is needed for the parameter, then the user can just use
+any serialization and there is no need for implementation on the member side.
+- If the operation processing at the member requires deserialization of the byte-array parameter, then the user should
+use a Java object implementing one of the Hazelcast serializations and may need to do some member side implementations
+depending on the chosen serialization type. Furthermore, the serializer must be registered in the serialization configuration
+of the member as described in the serialization section of the [Reference Manual](https://docs.hazelcast.org/docs/latest/manual/html-single/#serialization).
+
+The client authentication request message contains the serialization version parameter. The client and the member decide the serialization
+version to be used using this information. Hazelcast serialization versions will be matched to provide a compatible serialization.
+There are two cases that can occur:
+- The client may have a higher serialization version than the member. In that case, the client will auto configure
+itself during authentication to match the member serialization version.
+- The client may have a lower serialization version than the member. In that case, the member should be configured with
+the system property to downgrade the member serialization version.
+
+### 6.3. Security
+Most of the security is configured on the member side in a Hazelcast cluster. A client must authenticate itself, which in turn
+lets the member establish an endpoint for the client. The member can restrict what a client can and cannot access. The current protocol
+does not provide explicit support for encryption. For more information, see the [Security](https://docs.hazelcast.org/docs/latest/manual/html-single/#security) chapter of the Hazelcast Reference Manual.
+
+{# END of manually written sections #}
+## {{ protocol_message_offset }}. Protocol Messages
+### {{ protocol_message_offset }}.1. Custom Data Types Used In The Protocol
+{% for definition in custom_definitions %}
+{% set custom_types = definition.get('customTypes', None) %}
+{% if custom_types is not none %}
+{% for custom_type in custom_types %}
+#### {{ protocol_message_offset }}.1.{{ loop.index }}. {{ custom_type.name }}
+**Parameters**
+
+| Name | Type | Nullable | Available Since |
+| ---- | ---- | -------- | --------------- |
+            {% for param in custom_type.params %}
+| {{ param.name }} | {{ convert_type(param.type) }} | {{ param.nullable }} | {{ param.since }} |
+            {% endfor %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% for service in services %}
+    {% set section_id = loop.index + 1 %}
+
+### {{ protocol_message_offset }}.{{ section_id }}. {{ service.name }}
+**Service id:** {{ service.id }}
+    {% for method in service.methods %}
+
+#### {{ protocol_message_offset }}.{{ section_id }}.{{ method.id }}. {{ service.name }}.{{ method.name|capital }}
+```
+{{ method.doc }}
+```
+
+**Available since:** {{ method.since }}
+
+#### Request Message
+**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 0) }}
+        {% if method.request.params|length > 0 %}
+
+**Partition Identifier:** {{ resolve_partition_identifier(method.request.partitionIdentifier) }}
+
+| Name | Type | Nullable | Description | Available Since |
+| ---- | ---- | -------- | ----------- | --------------- |
+            {% for param in method.request.params %}
+| {{ param.name }} | {{ convert_type(param.type) }} | {{ param.nullable }} | {{ param.doc.splitlines()|join(" ") }} | {{ param.since }} |
+            {% endfor %}
+        {% else %}
+
+Header only request message, no message body exist.
+        {% endif %}
+
+#### Response Message
+**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 1) }}
+        {% if method.response.params|length > 0 %}
+
+| Name | Type | Nullable | Description | Available Since |
+| ---- | ---- | -------- | ----------- | --------------- |
+            {% for param in method.response.params %}
+| {{ param.name }} | {{ convert_type(param.type) }} | {{ param.nullable }} | {{ param.doc.splitlines()|join(" ") }} | {{ param.since }} |
+            {% endfor %}
+        {% else %}
+
+Header only response message, no message body exist.
+        {% endif %}
+        {% if method.events|length > 0 %}
+
+#### Event Message
+            {% for event in method.events %}
+
+##### {{ event.name }}
+**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 2 + loop.index) }}
+
+| Name | Type | Nullable | Description | Available Since |
+| ---- | ---- | -------- | ----------- | --------------- |
+            {% for param in event.params %}
+| {{ param.name }} | {{ convert_type(param.type) }} | {{ param.nullable }} | {{ param.doc.splitlines()|join(" ") }} | {{ param.since }} |
+            {% endfor %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+## 8. Copyright
+
+Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+
+Visit [www.hazelcast.com](https://hazelcast.com/) for more info.
