@@ -101,10 +101,12 @@ class PathHolders:
     EndpointQualifierCodec = ImportPathHolder('EndpointQualifierCodec',
                                               'custom/EndpointQualifierCodec', is_custom_codec=True)
     StringCodec = ImportPathHolder('StringCodec', 'builtin/StringCodec', is_builtin_codec=True)
-    ListBooleanCodec = ImportPathHolder('ListBooleanCodec', 'builtin/ListBooleanCodec', is_builtin_codec=True)
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
+    ListCNBooleanCodec = ImportPathHolder('ListCNBooleanCodec', 'builtin/ListCNBooleanCodec', is_builtin_codec=True)
+    ListCNByteCodec = ImportPathHolder('ListCNByteCodec', 'builtin/ListCNByteCodec', is_builtin_codec=True)
     ListCNIntegerCodec = ImportPathHolder('ListCNIntegerCodec', 'builtin/ListCNIntegerCodec', is_builtin_codec=True)
+    ListCNLongCodec = ImportPathHolder('ListCNLongCodec', 'builtin/ListCNLongCodec', is_builtin_codec=True)
     ListUUIDCodec = ImportPathHolder('ListUUIDCodec', 'builtin/ListUUIDCodec', is_builtin_codec=True)
     ListDataCodec = ImportPathHolder('ListDataCodec', 'builtin/ListDataCodec', is_builtin_codec=True)
     ListMultiFrameCodec = ImportPathHolder('ListMultiFrameCodec', 'builtin/ListMultiFrameCodec', is_builtin_codec=True)
@@ -156,10 +158,12 @@ import_paths = {
     'MemberInfo': [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     'MemberVersion': [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
     'EndpointQualifier': [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
-    'List_Boolean': [PathHolders.Long, PathHolders.ListBooleanCodec],
     'List_Long': [PathHolders.Long, PathHolders.ListLongCodec],
     'List_Integer': [PathHolders.ListIntegerCodec],
+    'ListCN_Boolean': [PathHolders.ListCNBooleanCodec],
+    'ListCN_Byte': [PathHolders.ListCNByteCodec],
     'ListCN_Integer': [PathHolders.ListCNIntegerCodec],
+    'ListCN_Long': [PathHolders.ListCNLongCodec],
     'List_UUID': [PathHolders.UUID, PathHolders.ListUUIDCodec],
     'List_String': [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     'List_Data': [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],

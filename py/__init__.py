@@ -91,10 +91,12 @@ class PathHolders:
     MemberVersion = ImportPathHolder("MemberVersion", "core")
     MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "protocol.codec.custom.member_version_codec")
     StringCodec = ImportPathHolder("StringCodec", "protocol.builtin", )
-    ListBooleanCodec = ImportPathHolder("ListBooleanCodec", "protocol.builtin")
     ListLongCodec = ImportPathHolder("ListLongCodec", "protocol.builtin")
     ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "protocol.builtin")
+    ListCNBooleanCodec = ImportPathHolder("ListCNBooleanCodec", "protocol.builtin")
+    ListCNByteCodec = ImportPathHolder("ListCNByteCodec", "protocol.builtin")
     ListCNIntegerCodec = ImportPathHolder("ListCNIntegerCodec", "protocol.builtin")
+    ListCNLongCodec = ImportPathHolder("ListCNLongCodec", "protocol.builtin")
     ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "protocol.builtin")
     ListDataCodec = ImportPathHolder("ListDataCodec", "protocol.builtin")
     ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "protocol.builtin")
@@ -140,10 +142,12 @@ import_paths = {
     "MemberInfo": [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     "MemberVersion": [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
     "RaftGroupId": [PathHolders.RaftGroupId, PathHolders.RaftGroupIdCodec],
-    "List_Boolean": [PathHolders.ListBooleanCodec],
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
+    "ListCN_Boolean": [PathHolders.ListCNBooleanCodec],
+    "ListCN_Byte": [PathHolders.ListCNByteCodec],
     "ListCN_Integer": [PathHolders.ListCNIntegerCodec],
+    "ListCN_Long": [PathHolders.ListCNLongCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
