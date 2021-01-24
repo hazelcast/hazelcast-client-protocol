@@ -1,4 +1,5 @@
 import struct
+from os.path import exists, join
 
 from binary import *
 from binary.constants import *
@@ -26,14 +27,14 @@ id_fmt = '0x%02x%02x%02x'
 
 
 def read_definition(definition, protocol_defs_path):
-    file_path = os.path.join(protocol_defs_path, definition + '.yaml')
+    file_path = join(protocol_defs_path, definition + '.yaml')
     with open(file_path, 'r') as file:
         return yaml.load(file, Loader=yaml.Loader)
 
 
 def get_custom_type_definitions(protocol_defs_path):
-    custom_codec_defs_path = os.path.join(protocol_defs_path, 'custom')
-    if not os.path.exists(custom_codec_defs_path):
+    custom_codec_defs_path = join(protocol_defs_path, 'custom')
+    if not exists(custom_codec_defs_path):
         return {}
     definitions = read_definition('Custom', custom_codec_defs_path)
     result = {}

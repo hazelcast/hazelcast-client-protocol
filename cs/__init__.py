@@ -105,6 +105,7 @@ _cs_types_encode = {
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "CPMember": "Hazelcast.CP.ICPMember",
+    "MigrationState": "NA",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
