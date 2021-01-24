@@ -312,9 +312,11 @@ class VarSizedParamEncoder:
             offset += INT_SIZE_IN_BYTES
         client_message.add_frame(Frame(content))
 
+        content = bytearray(5 + INT_SIZE_IN_BYTES * 4)
+        FixSizedParamEncoder.pack_into(content, 0, 'byte', 2)
+        FixSizedParamEncoder.pack_into(content, 1, 'int', 4)
         obj = [1, 2, 3, 4]
-        offset = 0
-        content = bytearray(INT_SIZE_IN_BYTES * 4)
+        offset = 5
         for item in obj:
             FixSizedParamEncoder.pack_into(content, offset, 'int', item)
             offset += INT_SIZE_IN_BYTES
