@@ -106,7 +106,8 @@
             "SqlColumnMetadata",
             "CPMember",
             "List_CPMember",
-            "MigrationState"
+            "MigrationState",
+            "SqlPage"
           ]
         },
         "nullable": {

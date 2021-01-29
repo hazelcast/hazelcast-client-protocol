@@ -235,7 +235,8 @@ class VarSizedParamEncoder:
             'ListCN_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
-                                                 .encoder_for('ScheduledTaskHandler'))
+                                                 .encoder_for('ScheduledTaskHandler')),
+            'SqlPage': partial(self.encode_sqlpage)
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -298,6 +299,32 @@ class VarSizedParamEncoder:
     @staticmethod
     def encode_data_frame(client_message):
         client_message.add_frame(Frame(reference_objects.DATA))
+
+    @staticmethod
+    def encode_sqlpage(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        client_message.add_frame(Frame(bytearray([True])))
+
+        obj = [4]
+        content = bytearray(INT_SIZE_IN_BYTES)
+        offset = 0
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, 'int', item)
+            offset += INT_SIZE_IN_BYTES
+        client_message.add_frame(Frame(content))
+
+        content = bytearray(5 + INT_SIZE_IN_BYTES * 4)
+        FixSizedParamEncoder.pack_into(content, 0, 'byte', 2)
+        FixSizedParamEncoder.pack_into(content, 1, 'int', 4)
+        obj = [1, 2, 3, 4]
+        offset = 5
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, 'int', item)
+            offset += INT_SIZE_IN_BYTES
+
+        client_message.add_frame(Frame(content))
+
+        client_message.add_frame(END_FRAME)
 
     @staticmethod
     def encode_long_byte_array_entry_list(client_message):
@@ -426,7 +453,8 @@ reference_objects_dict = {
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
-    'MigrationState': 'aMigrationState'
+    'MigrationState': 'aMigrationState',
+    'SqlPage': 'aSqlPage'
 }
 
 
