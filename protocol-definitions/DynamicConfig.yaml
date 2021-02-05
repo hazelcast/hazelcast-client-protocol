@@ -880,7 +880,7 @@ methods:
         - name: perEntryStatsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 2.2
           doc: |
             {@code true} to enable entry level statistics for the entries of this map.
              otherwise {@code false}. Default value is {@code false}
