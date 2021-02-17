@@ -58,7 +58,7 @@ _cs_types_common = {
     "ErrorHolder": "Hazelcast.Protocol.Models.ErrorHolder",
     "StackTraceElement": "Hazelcast.Exceptions.StackTraceElement",
     "SimpleEntryView": "Hazelcast.Models.MapEntryStats<IData, IData>",
-    "RaftGroupId": "Hazelcast.CP.RaftGroupId",
+    "RaftGroupId": "Hazelcast.CP.CPGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -72,6 +72,7 @@ _cs_types_common = {
     "NearCachePreloaderConfig": "NA",
     "PredicateConfigHolder": "NA",
     "DurationConfig": "NA",
+    "MigrationState": "NA",
 
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
