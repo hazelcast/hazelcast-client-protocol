@@ -11,7 +11,7 @@ from jinja2 import Environment, PackageLoader
 
 from binary import FixedLengthTypes, FixedListTypes, FixedEntryListTypes, FixedMapTypes
 from java import java_types_encode, java_types_decode
-from go import go_types_encode, go_types_decode, go_ignore_service_list, go_get_import_path_holders, go_escape_keyword
+from go import go_types_encode, go_types_decode, go_ignore_service_list, go_get_import_statements, go_escape_keyword
 from cs import cs_types_encode, cs_types_decode, cs_escape_keyword, cs_ignore_service_list
 from cpp import cpp_types_encode, cpp_types_decode, cpp_ignore_service_list, get_size, is_trivial
 from ts import ts_types_encode, ts_types_decode, ts_escape_keyword, ts_ignore_service_list, ts_get_import_path_holders
@@ -395,7 +395,7 @@ custom_codec_output_directories = {
     SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
     SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
     SupportedLanguages.TS: 'src/codec/custom',
-    SupportedLanguages.GO: 'hazelcast/protocol/codec/internal'
+    SupportedLanguages.GO: 'hazelcast/protocol/codec'
 }
 
 
@@ -467,7 +467,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
         SupportedLanguages.PY: py_get_import_path_holders,
-        SupportedLanguages.GO: go_get_import_path_holders,
+        SupportedLanguages.GO: go_get_import_statements,  # exposed as: get_import_path_holders
     }
 }
 
