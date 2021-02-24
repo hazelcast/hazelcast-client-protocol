@@ -2,9 +2,10 @@ id: 33
 name: Sql
 methods:
   - id: 1
-    name: execute
+    name: execute_reserved
     since: 2.1
     doc: |
+      THIS MESSAGE IS NO LONGER USED BUT KEPT FOR BACKWARD COMPATIBILITY TESTS
       Starts execution of an SQL query.
     request:
       retryable: false
@@ -73,7 +74,7 @@ methods:
           doc: |
             Error object.
   - id: 2
-    name: fetch
+    name: fetch_reserved
     since: 2.1
     doc: |
       Fetches the next row page.
@@ -129,3 +130,118 @@ methods:
           doc: |
             Query ID.
     response: {}
+  - id: 4
+    name: execute
+    since: 2.2
+    doc: |
+      Starts execution of an SQL query (as of 4.2).
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: sql
+          type: String
+          nullable: false
+          since: 2.2
+          doc: |
+            Query string.
+        - name: parameters
+          type: List_Data
+          nullable: false
+          since: 2.2
+          doc: |
+            Query parameters.
+        - name: timeoutMillis
+          type: long
+          nullable: false
+          since: 2.2
+          doc: |
+            Timeout in milliseconds.
+        - name: cursorBufferSize
+          type: int
+          nullable: false
+          since: 2.2
+          doc: |
+            Cursor buffer size.
+        - name: schema
+          type: String
+          nullable: true
+          since: 2.2
+          doc: |
+            Schema name.
+        - name: expectedResultType
+          type: byte
+          nullable: false
+          since: 2.2
+          doc: |
+            The expected result type. Possible values are:
+              ANY(0)
+              ROWS(1)
+              UPDATE_COUNT(2)
+        - name: queryId
+          type: SqlQueryId
+          nullable: false
+          since: 2.2
+          doc: |
+            Query ID.
+    response:
+      params:
+        - name: rowMetadata
+          type: List_SqlColumnMetadata
+          nullable: true
+          since: 2.2
+          doc: |
+            Row metadata.
+        - name: rowPage
+          type: SqlPage
+          nullable: true
+          since: 2.2
+          doc: |
+            Row page.
+        - name: updateCount
+          type: long
+          nullable: false
+          since: 2.2
+          doc: |
+            The number of updated rows.
+        - name: error
+          type: SqlError
+          nullable: true
+          since: 2.2
+          doc: |
+            Error object.
+  - id: 5
+    name: fetch
+    since: 2.2
+    doc: |
+      Fetches the next row page.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: queryId
+          type: SqlQueryId
+          nullable: false
+          since: 2.2
+          doc: |
+            Query ID.
+        - name: cursorBufferSize
+          type: int
+          nullable: false
+          since: 2.2
+          doc: |
+            Cursor buffer size.
+    response:
+      params:
+        - name: rowPage
+          type: SqlPage
+          nullable: true
+          since: 2.2
+          doc: |
+            Row page.
+        - name: error
+          type: SqlError
+          nullable: true
+          since: 2.2
+          doc: |
+            Error object.

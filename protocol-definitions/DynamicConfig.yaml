@@ -877,6 +877,13 @@ methods:
           doc: |
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
+        - name: perEntryStatsEnabled
+          type: boolean
+          nullable: false
+          since: 2.2
+          doc: |
+            {@code true} to enable entry level statistics for the entries of this map.
+             otherwise {@code false}. Default value is {@code false}
     response: {}
   - id: 13
     name: addReliableTopicConfig

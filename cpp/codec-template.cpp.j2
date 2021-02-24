@@ -1,27 +1,27 @@
 {% macro encode_var_sized(param, is_final) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        msg.set{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
+        msg.set{% if is_var_sized_list_contains_nullable(param.type)%}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
 {#
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        EntryListCodec.encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        MapCodec.encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
 #}
     {%- else -%}
-            msg.set{% if param.nullable  %}Nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
+            msg.set{% if param.nullable  %}_nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
     {% endif %}
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        auto {{ param.name }} = msg.get{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}<{{ lang_types_decode(param.type) }}>();
+        auto {{ param.name }} = msg.get{% if is_var_sized_list_contains_nullable(param.type)%}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}<{{ lang_types_decode(param.type) }}>();
 {#
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+        EntryListCodec.decode{% if param.nullable  %}_nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
+        MapCodec.decode{% if param.nullable  %}_nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
 #}
     {%- else -%}
-        auto {{ param.name }} = msg.get{% if param.nullable  %}Nullable{% endif %}<{{ lang_types_decode(param.type) }}>();
+        auto {{ param.name }} = msg.get{% if param.nullable  %}_nullable{% endif %}<{{ lang_types_decode(param.type) }}>();
     {%- endif -%}
 {%- endmacro %}
 {% set request_fix_sized_params = fixed_params(method.request.params) %}
@@ -31,11 +31,11 @@
                 ClientMessage {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }}{% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %} *{% else %} &{% endif %}{% endif %} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
                     size_t initial_frame_size = ClientMessage::REQUEST_HEADER_LEN {% for param in request_fix_sized_params %} + {{ get_size(param.type) }}{% endfor %};
                     ClientMessage msg(initial_frame_size{% if request_var_sized_params|length == 0 %}, true{% endif %});
-                    msg.setRetryable({{ method.request.retryable|lower }});
-                    msg.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
+                    msg.set_retryable({{ method.request.retryable|lower }});
+                    msg.set_operation_name("{{ service_name|lower }}.{{ method.name|lower }}");
 
-                    msg.setMessageType(static_cast<int32_t>({{ method.request.id }}));
-                    msg.setPartitionId(-1);
+                    msg.set_message_type(static_cast<int32_t>({{ method.request.id }}));
+                    msg.set_partition_id(-1);
 
                 {% for param in request_fix_sized_params %}
                     msg.set({{ param.name }});
@@ -49,7 +49,7 @@
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
                 void {{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle(ClientMessage &msg) {
-                    auto messageType = msg.getMessageType();
+                    auto messageType = msg.get_message_type();
                 {% for event in method.events%}
                     if (messageType == {{ event.id }}) {
                         {% if fixed_params(event.params)|length > 0 %}
@@ -68,9 +68,9 @@
                         return;
                     }
                 {% endfor %}
-                    getLogger()->warning(
-                          "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (",
-                          messageType, ") received on event handler.");
+                    HZ_LOG(*get_logger(), warning, (boost::format(
+                            "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (%1%) received on event handler.") %
+                                                    messageType).str());
                 }
 
                 {% endif %}

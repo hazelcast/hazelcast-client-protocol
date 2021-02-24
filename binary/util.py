@@ -1,4 +1,5 @@
 import struct
+from os.path import exists, join
 
 from binary import *
 from binary.constants import *
@@ -26,14 +27,14 @@ id_fmt = '0x%02x%02x%02x'
 
 
 def read_definition(definition, protocol_defs_path):
-    file_path = os.path.join(protocol_defs_path, definition + '.yaml')
+    file_path = join(protocol_defs_path, definition + '.yaml')
     with open(file_path, 'r') as file:
         return yaml.load(file, Loader=yaml.Loader)
 
 
 def get_custom_type_definitions(protocol_defs_path):
-    custom_codec_defs_path = os.path.join(protocol_defs_path, 'custom')
-    if not os.path.exists(custom_codec_defs_path):
+    custom_codec_defs_path = join(protocol_defs_path, 'custom')
+    if not exists(custom_codec_defs_path):
         return {}
     definitions = read_definition('Custom', custom_codec_defs_path)
     result = {}
@@ -234,7 +235,8 @@ class VarSizedParamEncoder:
             'ListCN_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
-                                                 .encoder_for('ScheduledTaskHandler'))
+                                                 .encoder_for('ScheduledTaskHandler')),
+            'SqlPage': partial(self.encode_sqlpage)
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -297,6 +299,32 @@ class VarSizedParamEncoder:
     @staticmethod
     def encode_data_frame(client_message):
         client_message.add_frame(Frame(reference_objects.DATA))
+
+    @staticmethod
+    def encode_sqlpage(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        client_message.add_frame(Frame(bytearray([True])))
+
+        obj = [4]
+        content = bytearray(INT_SIZE_IN_BYTES)
+        offset = 0
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, 'int', item)
+            offset += INT_SIZE_IN_BYTES
+        client_message.add_frame(Frame(content))
+
+        content = bytearray(5 + INT_SIZE_IN_BYTES * 4)
+        FixSizedParamEncoder.pack_into(content, 0, 'byte', 2)
+        FixSizedParamEncoder.pack_into(content, 1, 'int', 4)
+        obj = [1, 2, 3, 4]
+        offset = 5
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, 'int', item)
+            offset += INT_SIZE_IN_BYTES
+
+        client_message.add_frame(Frame(content))
+
+        client_message.add_frame(END_FRAME)
 
     @staticmethod
     def encode_long_byte_array_entry_list(client_message):
@@ -425,7 +453,8 @@ reference_objects_dict = {
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
-    'MigrationState': 'aMigrationState'
+    'MigrationState': 'aMigrationState',
+    'SqlPage': 'aSqlPage'
 }
 
 

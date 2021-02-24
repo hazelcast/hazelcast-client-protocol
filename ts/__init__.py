@@ -97,6 +97,9 @@ class PathHolders:
     MemberInfoCodec = ImportPathHolder('MemberInfoCodec', 'custom/MemberInfoCodec', is_custom_codec=True)
     MemberVersion = ImportPathHolder('MemberVersion', 'core/MemberVersion')
     MemberVersionCodec = ImportPathHolder('MemberVersionCodec', 'custom/MemberVersionCodec', is_custom_codec=True)
+    EndpointQualifier = ImportPathHolder('EndpointQualifier', 'core/EndpointQualifier')
+    EndpointQualifierCodec = ImportPathHolder('EndpointQualifierCodec',
+                                              'custom/EndpointQualifierCodec', is_custom_codec=True)
     StringCodec = ImportPathHolder('StringCodec', 'builtin/StringCodec', is_builtin_codec=True)
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
@@ -150,6 +153,7 @@ import_paths = {
     'DistributedObjectInfo': [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
     'MemberInfo': [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     'MemberVersion': [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
+    'EndpointQualifier': [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
     'List_Long': [PathHolders.Long, PathHolders.ListLongCodec],
     'List_Integer': [PathHolders.ListIntegerCodec],
     'List_UUID': [PathHolders.UUID, PathHolders.ListUUIDCodec],
@@ -176,6 +180,8 @@ import_paths = {
     'EntryList_Data_List_Data': [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec,
                                  PathHolders.Data],
     'Map_String_String': [PathHolders.MapCodec, PathHolders.StringCodec],
+    "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
+                                      PathHolders.AddressCodec],
     'IndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec],
     'ListIndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
     'BitmapIndexOptions': [PathHolders.BitmapIndexOptions, PathHolders.BitmapIndexOptionsCodec],
@@ -233,11 +239,12 @@ _ts_types = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
-    "EndpointQualifier": "NA",
+    "EndpointQualifier": "EndpointQualifier",
     "SqlQueryId": "NA",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "CPMember": "NA",
+    "MigrationState": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -275,5 +282,5 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
-    "Map_EndpointQualifier_Address": "!skip"
+    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>"
 }
