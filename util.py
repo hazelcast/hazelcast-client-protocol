@@ -1,5 +1,7 @@
 import hashlib
 import json
+import shutil
+
 import jsonschema
 import os
 import re
@@ -369,6 +371,23 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
             protocol_versions.add(param['since'])
 
     return map(str, protocol_versions)
+
+
+def copy_verbatim_files(output_dir, lang, env):
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    lang_dir = os.path.join(cur_dir, lang)
+    verbatim_dir = os.path.join(lang_dir, "verbatim")
+    if not os.path.exists(verbatim_dir):
+        return
+    # iterate the verbatim directory and copy files to output
+    # creating directories if necessary
+    print("Verbatim files found, copying from %s to %s" % (verbatim_dir, output_dir))
+    shutil.copytree(
+        verbatim_dir,
+        output_dir,
+        ignore=shutil.ignore_patterns(".*"),
+        dirs_exist_ok=True
+    )
 
 
 class SupportedLanguages(Enum):

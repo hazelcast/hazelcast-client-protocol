@@ -111,6 +111,8 @@ if custom_protocol_defs is not None \
 print("Hazelcast Client Binary Protocol version %s" % (protocol_versions[-1]))
 env = create_environment(lang, namespace_arg)
 
+copy_verbatim_files(codec_output_dir, lang_str_arg, env)
+
 template_filename = env.get_template("codec-template.%s.j2" % lang_str_arg)
 
 codec_template = env.get_template(template_filename)

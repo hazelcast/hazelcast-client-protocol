@@ -29,6 +29,7 @@
     {%- endif -%}
 {%- endmacro %}
 {% macro insert_import_statements(stmts) %}
+import (
     "github.com/hazelcast/hazelcast-go-client/v4/internal/proto"
     {% for stmt in stmts %}
     {{ stmt }}

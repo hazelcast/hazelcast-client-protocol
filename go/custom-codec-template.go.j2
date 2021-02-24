@@ -1,15 +1,15 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.EncodeFor{{ item_type(lang_name, param.type) }}{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}())
+        ListMultiFrameCodec.EncodeFor{{ item_type(lang_name, param.type) }}{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }}())
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.EncodeFor{{ value_type(lang_name, param.type) }}And{{ key_type(lang_name, param.type) }}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}())
+        EntryListCodec.EncodeFor{{ value_type(lang_name, param.type) }}And{{ key_type(lang_name, param.type) }}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }}())
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.EncodeFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}())
+        MapCodec.EncodeFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}{{ param.name|capital }}())
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.EncodeNullableFor{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}Get{% endif %}{{ param.name|capital }}())
+            CodecUtil.EncodeNullableFor{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }}())
         {%- else -%}
-            Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}Get{% endif %}{{ param.name|capital }}())
+            Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }}())
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -94,10 +94,18 @@ func Encode{{ codec.name|capital }}(clientMessage *proto.ClientMessage, {{ param
 {% endfor %}
 {% for param in fix_sized_params %}
     {% if escape_keyword(param.name).startswith('_') == true %}
-    FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {{ param_name(codec.name)}}.Get{{ escape_keyword(param.name)[1:]|capital }}())
+        {% set keyword = escape_keyword(param.name)[1:] %}
     {% else %}
-    FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {{ param_name(codec.name)}}.Get{{ escape_keyword(param.name)|capital }}())
+        {% set keyword = escape_keyword(param.name) %}
     {% endif %}
+    {% if param.type == "int" %}
+        {% set cast = "int32(" %}
+    {% elif param.type == "long" %}
+        {% set cast = "int64(" %}
+    {% else %}
+        {% set cast = "" %}
+    {% endif %}
+    FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {% if cast %}{{ cast }}{% endif %}{{ param_name(codec.name)}}.{{ keyword|capital }}(){% if cast %}){% endif %})
     {% if loop.last %}
         {% if not should_add_begin_frame %}
     initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG
@@ -163,6 +171,9 @@ func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {
         {% do ctor_params.append(param) %}
     {% endif %}
 {% endfor %}
-
-    return {{ lang_types_encode(codec.name).split('.')[0] }}.New{{ lang_types_encode(codec.name).split('.')[1] }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
+    {% set encoded_codec_name = lang_types_encode(codec.name) %}
+    {% if encoded_codec_name.startswith("*") %}
+        {% set encoded_codec_name = encoded_codec_name[1:] %}
+    {% endif %}
+    return {{ encoded_codec_name.split('.')[0] }}.New{{ encoded_codec_name.split('.')[1] }}({% for param in ctor_params %}{% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %}{{ escape_keyword(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
 }
