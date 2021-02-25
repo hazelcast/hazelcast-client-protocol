@@ -57,7 +57,7 @@ func (codecUtil) EncodeNullableForBitmapIndexOptions(message *proto.ClientMessag
 	if options == nil {
 		message.AddFrame(proto.NullFrame.Copy())
 	} else {
-		EncodeBitmapIndexOptions(message, options)
+		EncodeBitmapIndexOptions(message, *options)
 	}
 }
 
@@ -81,7 +81,7 @@ func (codecUtil) DecodeNullableForAddress(frameIterator *proto.ForwardFrameItera
 		return nil
 	}
 	addr := DecodeAddress(frameIterator)
-	return &addr
+	return addr
 }
 
 func (codecUtil) DecodeNullableForLongArray(frameIterator *proto.ForwardFrameIterator) []int64 {
@@ -663,7 +663,7 @@ func EncodeMapForStringAndString(message *proto.ClientMessage, values map[string
 	message.AddFrame(proto.EndFrame.Copy())
 }
 
-func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[proto.EndpointQualifier]proto.Address) {
+func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[proto.EndpointQualifier]*proto.Address) {
 	message.AddFrame(proto.BeginFrame.Copy())
 	for key, value := range values {
 		EncodeEndpointQualifier(message, key)
@@ -685,7 +685,7 @@ func DecodeMapForStringAndString(iterator *proto.ForwardFrameIterator) map[strin
 }
 
 func DecodeMapForEndpointQualifierAndAddress(iterator *proto.ForwardFrameIterator) interface{} {
-	result := map[proto.EndpointQualifier]proto.Address{}
+	result := map[proto.EndpointQualifier]*proto.Address{}
 	iterator.Next()
 	for !iterator.PeekNext().IsEndFrame() {
 		key := DecodeEndpointQualifier(iterator)

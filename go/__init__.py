@@ -162,7 +162,7 @@ import_paths = {
 }
 
 _go_types_common = {
-    "Address": "proto.Address",
+    "Address": "*proto.Address",
     "AttributeConfig": "NA",
     "BitmapIndexOptions": "config.BitmapIndexOptions",
     "CacheConfigHolder": "NA",
@@ -183,7 +183,7 @@ _go_types_common = {
     "ListenerConfigHolder": "NA",
     "Long": "int64",
     "MapStoreConfigHolder": "NA",
-    "Map_EndpointQualifier_Address": "map[proto.EndpointQualifier]proto.Address",
+    "Map_EndpointQualifier_Address": "map[proto.EndpointQualifier]*proto.Address",
     "Map_String_String": "map[string]string",
     "MemberInfo": "proto.MemberInfo",
     "MergePolicyConfig": "NA",
