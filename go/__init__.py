@@ -67,7 +67,7 @@ class ImportPathHolder:
 
 
 class PathHolders:
-    Address = ImportPathHolder("Address", "/core")
+    Address = ImportPathHolder("Address", "")
     AddressCodec = ImportPathHolder("AddressCodec", "", is_custom_codec=True)
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "")
     AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "", is_custom_codec=True)
@@ -104,7 +104,7 @@ class PathHolders:
     MemberInfoCodec = ImportPathHolder("MemberInfoCodec", "", is_custom_codec=True)
     MemberVersion = ImportPathHolder("MemberVersion", "/core")
     MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "", is_custom_codec=True)
-    PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "/core")
+    PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "")
     PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "", is_custom_codec=True)
     RaftGroupId = ImportPathHolder("RaftGroupId", "")
     RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "", is_custom_codec=True)

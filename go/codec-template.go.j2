@@ -157,7 +157,7 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
 {% endfor %}
 }
 {% else %}
-func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(clientMessage *proto.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %}{% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
+func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMessage *proto.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %}{% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
 {% if  response_fix_sized_params|length != 0 %}
     frameIterator := clientMessage.FrameIterator()
     initialFrame := frameIterator.Next()
@@ -197,7 +197,7 @@ func ({{ service_name|lower }}{{ method.name|capital }}Codec) DecodeResponse(cli
 {# EVENTS#}
 {% if method.events|length != 0 %}
 
-func ({{ service_name|lower }}{{ method.name|capital }}Codec) Handle(clientMessage *proto.ClientMessage, {% for event in method.events%}handle{{ event.name|capital }}Event func({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}, {% endif %}{% endfor %}){
+func Handle{{ service_name|capital }}{{ method.name|capital }}(clientMessage *proto.ClientMessage, {% for event in method.events%}handle{{ event.name|capital }}Event func({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}, {% endif %}{% endfor %}){
     messageType := clientMessage.GetMessageType()
     frameIterator := clientMessage.FrameIterator()
     {% for event in method.events%}
