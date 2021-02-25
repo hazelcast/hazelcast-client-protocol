@@ -149,11 +149,6 @@ protocol_versions_as_numbers = list(map(get_version_as_number, protocol_versions
 
 protocol_defs = sorted(protocol_defs, key=lambda proto_def: proto_def["id"])
 
-if not validate_services(
-    protocol_defs, schema_path, args.no_id_check, protocol_versions_as_numbers
-):
-    exit(-1)
-
 if custom_protocol_defs and not validate_custom_protocol_definitions(
     custom_protocol_defs, custom_codec_schema_path, protocol_versions_as_numbers
 ):
@@ -162,6 +157,8 @@ if custom_protocol_defs and not validate_custom_protocol_definitions(
 print("Hazelcast Client Binary Protocol version", protocol_versions[-1])
 
 env = create_environment(lang, args.namespace)
+
+copy_verbatim_files(codec_output_dir, lang.value, env)
 
 if lang != SupportedLanguages.MD:
     codec_template = env.get_template("codec-template.%s.j2" % lang.value)
