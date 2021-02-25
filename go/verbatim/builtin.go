@@ -4,13 +4,11 @@ import (
 	"encoding/binary"
 	"strings"
 
+	"github.com/hazelcast/hazelcast-go-client/v4/internal/config"
 	"github.com/hazelcast/hazelcast-go-client/v4/internal/core"
 	"github.com/hazelcast/hazelcast-go-client/v4/internal/proto"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/serialization/spi"
-
 	"github.com/hazelcast/hazelcast-go-client/v4/internal/serialization"
-
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/config"
+	"github.com/hazelcast/hazelcast-go-client/v4/internal/serialization/spi"
 )
 
 // Encoder for ClientMessage and value
@@ -76,7 +74,7 @@ func (codecUtil) DecodeNullableForData(frameIterator *proto.ForwardFrameIterator
 	return DecodeData(frameIterator)
 }
 
-func (codecUtil) DecodeNullableForAddress(frameIterator *proto.ForwardFrameIterator) *proto.Address {
+func (codecUtil) DecodeNullableForAddress(frameIterator *proto.ForwardFrameIterator) *core.Address {
 	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
 		return nil
 	}
@@ -663,7 +661,7 @@ func EncodeMapForStringAndString(message *proto.ClientMessage, values map[string
 	message.AddFrame(proto.EndFrame.Copy())
 }
 
-func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[proto.EndpointQualifier]*proto.Address) {
+func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[proto.EndpointQualifier]*core.Address) {
 	message.AddFrame(proto.BeginFrame.Copy())
 	for key, value := range values {
 		EncodeEndpointQualifier(message, key)
@@ -685,7 +683,7 @@ func DecodeMapForStringAndString(iterator *proto.ForwardFrameIterator) map[strin
 }
 
 func DecodeMapForEndpointQualifierAndAddress(iterator *proto.ForwardFrameIterator) interface{} {
-	result := map[proto.EndpointQualifier]*proto.Address{}
+	result := map[proto.EndpointQualifier]*core.Address{}
 	iterator.Next()
 	for !iterator.PeekNext().IsEndFrame() {
 		key := DecodeEndpointQualifier(iterator)
