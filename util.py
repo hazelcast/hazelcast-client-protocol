@@ -1,6 +1,7 @@
 import hashlib
 import json
 import re
+import fnmatch
 from enum import Enum
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
@@ -123,8 +124,7 @@ def generate_codecs(services, template, output_dir, lang, env):
         save_file(join(output_dir, "codecs.cpp"), f.read(), "w")
 
     for service in services:
-        if service["name"] in language_service_ignore_list[lang]:
-            print("[%s] is in ignore list so ignoring it." % service["name"])
+        if ignore_service(service, lang):
             continue
         if "methods" in service:
             methods = service["methods"]
@@ -132,11 +132,7 @@ def generate_codecs(services, template, output_dir, lang, env):
                 raise NotImplementedError("Methods not found for service " + service)
 
         for method in service["methods"]:
-            if (service["name"] + "." + method["name"]) in language_service_ignore_list[lang]:
-                print(
-                    "[%s] is in ignore list so ignoring it."
-                    % (service["name"] + "." + method["name"])
-                )
+            if ignore_method(service, method, lang):
                 continue
 
             method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
@@ -180,6 +176,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
+                if ignore_service(codec, lang):
+                    continue
                 try:
                     if lang == SupportedLanguages.CPP:
                         file_name_prefix = codec["name"].lower() + "_codec"
@@ -539,6 +537,21 @@ language_service_ignore_list = {
     # SupportedLanguages.GO: set()
 }
 
+def ignore_service(service, lang):
+    name = service["name"]
+    return ignore_serviceOrMethod(name, lang)
+
+def ignore_method(service, method, lang):
+    name = service["name"] + "." + method["name"]
+    return ignore_serviceOrMethod(name, lang)
+    
+def ignore_serviceOrMethod(name, lang):
+    patterns = language_service_ignore_list[lang]
+    for pattern in patterns:
+        if fnmatch.fnmatch(name, pattern):
+            print("[%s] is in ignore list so ignoring it." % name)
+            return True
+    return False
 
 def create_environment(lang, namespace):
     env = Environment(

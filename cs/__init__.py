@@ -9,9 +9,18 @@ cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "ba
                      "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
                      "using", "value", "var", "virtual", "void", "volatile", "where", "while", "yield"}
 
-cs_ignore_service_list = {"MC", "Sql", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
-                          "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
-                          "FlakeIdGenerator"}
+cs_ignore_service_list = {
+
+    # entire services
+    "MC", "Sql", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
+    "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
+    "FlakeIdGenerator",
+    
+    "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
+    
+    # methods
+    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener"
+}
 
 
 def cs_types_encode(key):
