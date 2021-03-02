@@ -3,6 +3,7 @@ import json
 import re
 import fnmatch
 from enum import Enum
+import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
 
@@ -389,10 +390,18 @@ def validate_against_schema(service, schema):
 
 
 def save_file(file, content, mode="w"):
+
+    if file.endswith(".cs"):
+        content = content.replace("\r\n", "\n") # crlf -> lf
+        content = content.replace("\r", "\n")   # cr -> lf
+        content = re.sub("[ \t]+$", "", content, 0, re.M)
+        content = content.rstrip("\n")          # trim all trailing lf
+        content = content  + "\n"             # append one single trailing lf
+
     m = hashlib.md5()
     m.update(content.encode("utf-8"))
     codec_hash = m.hexdigest()
-    with open(file, mode, newline="\n") as file:
+    with open(file, mode, newline=os.linesep) as file:
         file.writelines(content.replace("!codec_hash!", codec_hash))
 
 
