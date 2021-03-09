@@ -146,7 +146,7 @@ methods:
           doc: |
             Query string.
         - name: parameters
-          type: List_Data
+          type: ListCN_Data
           nullable: false
           since: 2.2
           doc: |
