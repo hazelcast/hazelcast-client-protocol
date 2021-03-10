@@ -203,3 +203,44 @@ methods:
           since: 2.0
           doc: |
             The number of elements in this collection
+  - id: 6
+    name: removeAll
+    since: 2.0
+    doc: |
+      Returns <tt>true</tt> if this queue changed after performing the operation
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            Name of the Transactional Queue
+        - name: txnId
+          type: UUID
+          nullable: false
+          since: 2.0
+          doc: |
+            ID of the transaction
+        - name: threadId
+          type: long
+          nullable: false
+          since: 2.0
+          doc: |
+            The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread can perform the requested operation.
+        - name: items
+          type: List_Data
+          nullable: false
+          since: 2.0
+          doc: |
+            The elements to remove from the queue
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.0
+          doc: |
+            <tt>true</tt> if the queue changed after finishing operation, or <tt>false</tt> otherwise
