@@ -7,9 +7,13 @@
         Encode{% if param.nullable  %}Nullable{% endif %}Map(clientMessage, {{ param_name(param.name) }}, Encode{{ key_type(lang_name, param.type) }}, Encode{{ value_type(lang_name, param.type) }}{% if loop_last %}, True{% endif %})
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.EncodeNullable(clientMessage, {{ param_name(param.name) }}, Encode{{ lang_name(param.type) }}{% if loop_last %}, True{% endif %})
+            {%- if param.type|lower == "string" -%}
+    CodecUtil.EncodeNullableForString(clientMessage, {{ param_name(param.name) }})
+            {%- else -%}
+    CodecUtil.EncodeNullable(clientMessage, {{ param_name(param.name) }}, Encode{{ lang_name(param.type) }}{% if loop_last %}, True{% endif %})
+            {%- endif -%}
         {%- else -%}
-            Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
+        Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -121,7 +125,7 @@ func Encode{{ service_name|capital }}{{ method.name|capital }}Request({% for par
     clientMessage := proto.NewClientMessageForEncode()
     clientMessage.SetRetryable({{ method.request.retryable|lower }})
 
-    initialFrame := proto.NewFrame(make([]byte, {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize))
+    initialFrame := proto.NewFrameWith(make([]byte, {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize), proto.UnfragmentedMessage)
 {% for param in request_fix_sized_params %}
     FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}CodecRequest{{ param.name|capital }}Offset, {{ escape_keyword(param.name) }})
 {% endfor %}

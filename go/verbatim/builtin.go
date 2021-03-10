@@ -422,8 +422,8 @@ func (fixSizedTypesCodec) EncodeUUID(buffer []byte, offset int32, uuid core.UUID
 		return
 	}
 	bufferOffset := offset + proto.BooleanSizeInBytes
-	FixSizedTypesCodec.EncodeLong(buffer, bufferOffset, int64(uuid.GetMostSignificantBits()))
-	FixSizedTypesCodec.EncodeLong(buffer, bufferOffset+proto.LongSizeInBytes, int64(uuid.GetLeastSignificantBits()))
+	FixSizedTypesCodec.EncodeLong(buffer, bufferOffset, int64(uuid.MostSignificantBits()))
+	FixSizedTypesCodec.EncodeLong(buffer, bufferOffset+proto.LongSizeInBytes, int64(uuid.LeastSignificantBits()))
 }
 
 func (fixSizedTypesCodec) DecodeUUID(buffer []byte, offset int32) core.UUID {

@@ -1,11 +1,11 @@
 import hashlib
 import json
 import os
-import shutil
 import re
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
 from enum import Enum
+from distutils.dir_util import copy_tree
 
 import jsonschema
 import yaml
@@ -437,12 +437,13 @@ def copy_verbatim_files(output_dir, lang, env):
     # iterate the verbatim directory and copy files to output
     # creating directories if necessary
     print("Verbatim files found, copying from %s to %s" % (verbatim_dir, output_dir))
-    shutil.copytree(
-        verbatim_dir,
-        output_dir,
-        ignore=shutil.ignore_patterns(".*"),
-        dirs_exist_ok=True
-    )
+    copy_tree(verbatim_dir, output_dir)
+    # shutil.copytree(
+    #     verbatim_dir,
+    #     output_dir,
+    #     ignore=shutil.ignore_patterns(".*"),
+    #     dirs_exist_ok=True
+    # )
 
 
 class SupportedLanguages(Enum):
