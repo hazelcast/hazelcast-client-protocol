@@ -20,7 +20,10 @@ def go_types_encode(key):
     try:
         go_type = _go_types_encode[key]
     except KeyError:
-        go_type = _go_types_common[key]
+        try:
+            go_type = _go_types_common[key]
+        except KeyError:
+            go_type = "NA"
     if go_type == "NA":
         raise NotImplementedError("Missing type mapping for '" + key + "'")
     return go_type
@@ -30,14 +33,13 @@ def go_types_decode(key):
     try:
         go_type = _go_types_decode[key]
     except KeyError:
-        go_type = _go_types_common[key]
+        try:
+            go_type = _go_types_common[key]
+        except KeyError:
+            go_type = "NA"
     if go_type == "NA":
         raise NotImplementedError("Missing type for '" + key + "'")
     return go_type
-
-
-def go_get_import_path_holders(param_type):
-    return import_paths.get(param_type, [])
 
 
 def go_get_import_statements(*args):
@@ -47,8 +49,11 @@ def go_get_import_statements(*args):
         for param in params:
             type = param["type"] if isinstance(param, dict) else param
             for path_holder in import_paths.get(type, []):
-                if path_holder.path:
-                    import_statements.add(path_holder.import_statement)
+                if path_holder.name.endswith("Codec"):
+                    continue
+                path = path_holder.import_statement
+                if path is not None:
+                    import_statements.add(path)
     return import_statements
 
 
@@ -56,64 +61,74 @@ class ImportPathHolder:
     def __init__(self, name, path, is_builtin_codec=False, is_custom_codec=False):
         self.name = name
         self.path = path
-        self.is_builtin_codec = is_builtin_codec
-        self.is_custom_codec = is_custom_codec
 
     @property
     def import_statement(self):
         if not self.path:
             return ""
+        return '''"github.com/hazelcast/hazelcast-go-client/v%s/hazelcast%s"''' % (CLIENT_VERSION, self.path)
+
+
+class InternalImportPathHolder:
+    def __init__(self, name, path, is_builtin_codec=False, is_custom_codec=False):
+        self.name = name
+        self.path = path
+
+    @property
+    def import_statement(self):
+        if self.path is None:
+            return ""
         return '''"github.com/hazelcast/hazelcast-go-client/v%s/internal%s"''' % (CLIENT_VERSION, self.path)
 
 
 class PathHolders:
-    Address = ImportPathHolder("Address", "")
-    AddressCodec = ImportPathHolder("AddressCodec", "", is_custom_codec=True)
-    AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "")
-    AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec", "", is_custom_codec=True)
-    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/config")
-    BitmapIndexOptionsCodec = ImportPathHolder("BitmapIndexOptionsCodec", "", is_custom_codec=True)
-    ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "", is_builtin_codec=True)
-    CodecUtilCodec = ImportPathHolder("CodecUtil", "", is_builtin_codec=True)
-    Data = ImportPathHolder('Data', '/serialization')
-    DataCodec = ImportPathHolder("DataCodec", "", is_builtin_codec=True)
-    DistributedObjectInfo = ImportPathHolder("DistributedObjectInfo", "/core")
-    DistributedObjectInfoCodec = ImportPathHolder("DistributedObjectInfoCodec", "", is_custom_codec=True)
-    # EndpointQualifier = ImportPathHolder("EndpointQualifier", "/protocol")
-    EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec", "", is_custom_codec=True)
-    EntryListCodec = ImportPathHolder("EntryListCodec", "", is_builtin_codec=True)
-    EntryListIntegerIntegerCodec = ImportPathHolder("EntryListIntegerIntegerCodec", "", is_builtin_codec=True)
-    EntryListIntegerLongCodec = ImportPathHolder("EntryListIntegerLongCodec", "", is_builtin_codec=True)
-    EntryListIntegerUUIDCodec = ImportPathHolder("EntryListIntegerUUIDCodec", "", is_builtin_codec=True)
-    EntryListLongByteArrayCodec = ImportPathHolder("EntryListLongByteArrayCodec", "", is_builtin_codec=True)
-    EntryListUUIDListIntegerCodec = ImportPathHolder("EntryListUUIDListIntegerCodec", "", is_builtin_codec=True)
-    EntryListUUIDLongCodec = ImportPathHolder("EntryListUUIDLongCodec", "", is_builtin_codec=True)
-    EntryListUUIDUUIDCodec = ImportPathHolder("EntryListUUIDUUIDCodec", "", is_builtin_codec=True)
-    ErrorHolder = ImportPathHolder("ErrorHolder", "")
-    ErrorHolderCodec = ImportPathHolder("ErrorHolderCodec", "", is_custom_codec=True)
-    IndexConfig = ImportPathHolder("IndexConfig", "/core")
-    IndexConfigCodec = ImportPathHolder("IndexConfigCodec", "", is_custom_codec=True)
-    ListDataCodec = ImportPathHolder("ListDataCodec", "", is_builtin_codec=True)
-    ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "", is_builtin_codec=True)
-    ListLongCodec = ImportPathHolder("ListLongCodec", "", is_builtin_codec=True)
-    ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "", is_builtin_codec=True)
-    ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "", is_builtin_codec=True)
-    LongArrayCodec = ImportPathHolder("LongArrayCodec", "", is_builtin_codec=True)
-    MapCodec = ImportPathHolder("MapCodec", "", is_builtin_codec=True)
-    MemberInfo = ImportPathHolder("MemberInfo", "/core")
-    MemberInfoCodec = ImportPathHolder("MemberInfoCodec", "", is_custom_codec=True)
-    MemberVersion = ImportPathHolder("MemberVersion", "/core")
-    MemberVersionCodec = ImportPathHolder("MemberVersionCodec", "", is_custom_codec=True)
-    PagingPredicateHolder = ImportPathHolder("PagingPredicateHolder", "")
-    PagingPredicateHolderCodec = ImportPathHolder("PagingPredicateHolderCodec", "", is_custom_codec=True)
-    RaftGroupId = ImportPathHolder("RaftGroupId", "")
-    RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "", is_custom_codec=True)
-    SimpleEntryView = ImportPathHolder("SimpleEntryView", "/core")
-    SimpleEntryViewCodec = ImportPathHolder("SimpleEntryViewCodec", "", is_custom_codec=True)
-    StackTraceElement = ImportPathHolder("StackTraceElement", "")
-    StackTraceElementCodec = ImportPathHolder("StackTraceElementCodec", "", is_custom_codec=True)
-    StringCodec = ImportPathHolder("StringCodec", "", is_builtin_codec=True)
-    UUID = ImportPathHolder('UUID', '/core')
+    Address = ImportPathHolder("Address", "/cluster")
+    AddressCodec = InternalImportPathHolder("AddressCodec", None, is_custom_codec=True)
+    AnchorDataListHolder = InternalImportPathHolder("AnchorDataListHolder", "")
+    AnchorDataListHolderCodec = InternalImportPathHolder("AnchorDataListHolderCodec", "", is_custom_codec=True)
+    BitmapIndexOptions = InternalImportPathHolder("BitmapIndexOptions", "")
+    BitmapIndexOptionsCodec = InternalImportPathHolder("BitmapIndexOptionsCodec", None, is_custom_codec=True)
+    ByteArrayCodec = InternalImportPathHolder("ByteArrayCodec", "", is_builtin_codec=True)
+    CodecUtilCodec = InternalImportPathHolder("CodecUtil", "", is_builtin_codec=True)
+    Data = InternalImportPathHolder('Data', '/serialization')
+    DataCodec = InternalImportPathHolder("DataCodec", "", is_builtin_codec=True)
+    DistributedObjectInfo = InternalImportPathHolder("DistributedObjectInfo", "")
+    DistributedObjectInfoCodec = InternalImportPathHolder("DistributedObjectInfoCodec", None, is_custom_codec=True)
+    EndpointQualifier = InternalImportPathHolder("EndpointQualifier", "")
+    EndpointQualifierCodec = InternalImportPathHolder("EndpointQualifierCodec", None, is_custom_codec=True)
+    EntryListCodec = InternalImportPathHolder("EntryListCodec", "", is_builtin_codec=True)
+    EntryListIntegerIntegerCodec = InternalImportPathHolder("EntryListIntegerIntegerCodec", "", is_builtin_codec=True)
+    EntryListIntegerLongCodec = InternalImportPathHolder("EntryListIntegerLongCodec", "", is_builtin_codec=True)
+    EntryListIntegerUUIDCodec = InternalImportPathHolder("EntryListIntegerUUIDCodec", "", is_builtin_codec=True)
+    EntryListLongByteArrayCodec = InternalImportPathHolder("EntryListLongByteArrayCodec", "", is_builtin_codec=True)
+    EntryListUUIDListIntegerCodec = InternalImportPathHolder("EntryListUUIDListIntegerCodec", "", is_builtin_codec=True)
+    EntryListUUIDLongCodec = InternalImportPathHolder("EntryListUUIDLongCodec", "", is_builtin_codec=True)
+    EntryListUUIDUUIDCodec = InternalImportPathHolder("EntryListUUIDUUIDCodec", "", is_builtin_codec=True)
+    ErrorHolder = InternalImportPathHolder("ErrorHolder", "")
+    ErrorHolderCodec = InternalImportPathHolder("ErrorHolderCodec", "", is_custom_codec=True)
+    IndexConfig = InternalImportPathHolder("IndexConfig", "/core")
+    IndexConfigCodec = InternalImportPathHolder("IndexConfigCodec", "", is_custom_codec=True)
+    ListDataCodec = InternalImportPathHolder("ListDataCodec", "", is_builtin_codec=True)
+    ListIntegerCodec = InternalImportPathHolder("ListIntegerCodec", "", is_builtin_codec=True)
+    ListLongCodec = InternalImportPathHolder("ListLongCodec", "", is_builtin_codec=True)
+    ListMultiFrameCodec = InternalImportPathHolder("ListMultiFrameCodec", None, is_builtin_codec=True)
+    ListUUIDCodec = InternalImportPathHolder("ListUUIDCodec", "", is_builtin_codec=True)
+    LongArrayCodec = InternalImportPathHolder("LongArrayCodec", "", is_builtin_codec=True)
+    MapCodec = InternalImportPathHolder("MapCodec", None, is_builtin_codec=True)
+    MemberInfo = ImportPathHolder("MemberInfo", "/cluster")
+    MemberInfoCodec = InternalImportPathHolder("MemberInfoCodec", "", is_custom_codec=True)
+    MemberVersion = ImportPathHolder("MemberVersion", "/cluster")
+    MemberVersionCodec = InternalImportPathHolder("MemberVersionCodec", None, is_custom_codec=True)
+    PagingPredicateHolder = InternalImportPathHolder("PagingPredicateHolder", "")
+    PagingPredicateHolderCodec = InternalImportPathHolder("PagingPredicateHolderCodec", "", is_custom_codec=True)
+    RaftGroupId = InternalImportPathHolder("RaftGroupId", "")
+    RaftGroupIdCodec = InternalImportPathHolder("RaftGroupIdCodec", "", is_custom_codec=True)
+    SimpleEntryView = InternalImportPathHolder("SimpleEntryView", "")
+    SimpleEntryViewCodec = InternalImportPathHolder("SimpleEntryViewCodec", None, is_custom_codec=True)
+    StackTraceElement = ImportPathHolder("StackTraceElement", "/hzerror")
+    StackTraceElementCodec = InternalImportPathHolder("StackTraceElementCodec", None, is_custom_codec=True)
+    StringCodec = InternalImportPathHolder("StringCodec", None, is_builtin_codec=True)
+    UUID = InternalImportPathHolder("UUID", "")
 
 
 import_paths = {
@@ -162,157 +177,157 @@ import_paths = {
 }
 
 _go_types_common = {
-    "Address": "*core.Address",
-    "AttributeConfig": "NA",
-    "BitmapIndexOptions": "config.BitmapIndexOptions",
-    "CacheConfigHolder": "NA",
-    "CacheEventData": "NA",
-    "CacheSimpleEntryListenerConfig": "NA",
-    "ClientBwListEntry": "NA",
+    "Address": "cluster.Address",
+    # "AttributeConfig": "NA",
+    "BitmapIndexOptions": "internal.BitmapIndexOptions",
+    # "CacheConfigHolder": "NA",
+    # "CacheEventData": "NA",
+    # "CacheSimpleEntryListenerConfig": "NA",
+    # "ClientBwListEntry": "NA",
     "Data": "serialization.Data",
-    "DistributedObjectInfo": "proto.DistributedObjectInfo",
-    "DurationConfig": "NA",
-    "EndpointQualifier": "proto.EndpointQualifier",
-    "ErrorHolder": "proto.ErrorHolder",
-    "EventJournalConfig": "NA",
-    "EvictionConfigHolder": "NA",
-    "HotRestartConfig": "NA",
-    "IndexConfig": "config.IndexConfig",
-    "Integer": "int32",
-    "List_CPMember": "NA",
-    "ListenerConfigHolder": "NA",
-    "Long": "int64",
-    "MapStoreConfigHolder": "NA",
-    "Map_EndpointQualifier_Address": "map[proto.EndpointQualifier]*core.Address",
+    "DistributedObjectInfo": "internal.DistributedObjectInfo",
+    # "DurationConfig": "NA",
+    "EndpointQualifier": "internal.EndpointQualifier",
+    # "ErrorHolder": "proto.ErrorHolder",
+    # "EventJournalConfig": "NA",
+    # "EvictionConfigHolder": "NA",
+    # "HotRestartConfig": "NA",
+    # "IndexConfig": "config.IndexConfig",
+    # "Integer": "int32",
+    # "List_CPMember": "NA",
+    # "ListenerConfigHolder": "NA",
+    # "Long": "int64",
+    # "MapStoreConfigHolder": "NA",
+    "Map_EndpointQualifier_Address": "map[internal.EndpointQualifier]cluster.Address",
     "Map_String_String": "map[string]string",
-    "MemberInfo": "proto.MemberInfo",
-    "MergePolicyConfig": "NA",
-    "MerkleTreeConfig": "NA",
-    "NearCacheConfigHolder": "NA",
-    "NearCachePreloaderConfig": "NA",
-    "Pair": "serialization.Pair",
-    "PredicateConfigHolder": "NA",
-    "QueryCacheConfigHolder": "NA",
-    "QueueStoreConfigHolder": "NA",
-    "RaftGroupId": "proto.RaftGroupId",
-    "RingbufferStoreConfigHolder": "NA",
-    "SimpleEntryView": "*core.SimpleEntryView",
-    "StackTraceElement": "proto.StackTraceElement",
+    # "MemberInfo": "proto.MemberInfo",
+    # "MergePolicyConfig": "NA",
+    # "MerkleTreeConfig": "NA",
+    # "NearCacheConfigHolder": "NA",
+    # "NearCachePreloaderConfig": "NA",
+    # "Pair": "serialization.Pair",
+    # "PredicateConfigHolder": "NA",
+    # "QueryCacheConfigHolder": "NA",
+    # "QueueStoreConfigHolder": "NA",
+    # "RaftGroupId": "proto.RaftGroupId",
+    # "RingbufferStoreConfigHolder": "NA",
+    "SimpleEntryView": "*internal.SimpleEntryView",
+    "StackTraceElement": "hzerror.StackTraceElement",
     "String": "string",
-    "TimedExpiryPolicyFactoryConfig": "NA",
-    "UUID": "core.UUID",
-    "WanReplicationRef": "NA",
+    # "TimedExpiryPolicyFactoryConfig": "NA",
+    "UUID": "internal.UUID",
+    # "WanReplicationRef": "NA",
     "boolean": "bool",
     "byte": "byte",
-    "byteArray": "[]byte",
+    # "byteArray": "[]byte",
     "int": "int32",
     "long": "int64",
-    "longArray": "[]int64",
+    # "longArray": "[]int64",
 }
 
 _go_types_encode = {
-    "AnchorDataListHolder": "proto.AnchorDataListHolder",
-    "CPMember": "NA",
-    "CacheEventData": "NA",
-    "ClientBwListEntry": "NA",
-    "EntryList_Data_Data": "[]proto.Pair",
-    "EntryList_Data_List_Data": "[]proto.Pair",
-    "EntryList_Integer_Integer": "[]proto.Pair",
-    "EntryList_Integer_Long": "[]proto.Pair",
-    "EntryList_Integer_UUID": "[]proto.Pair",
-    "EntryList_Long_byteArray": "[]proto.Pair",
-    "EntryList_String_EntryList_Integer_Long": "[]proto.Pair",
-    "EntryList_String_String": "[]proto.Pair",
-    "EntryList_String_byteArray": "[]proto.Pair",
-    "EntryList_UUID_List_Integer": "[]proto.Pair",
-    "EntryList_UUID_Long": "[]proto.Pair",
-    "EntryList_UUID_UUID": "[]proto.Pair",
-    "ListCN_Data": "[]serialization.Data",
-    "List_AttributeConfig": "NA",
-    "List_CacheEventData": "NA",
-    "List_CacheSimpleEntryListenerConfig": "NA",
-    "List_ClientBwListEntry": "NA",
-    "List_Data": "[]serialization.Data",
-    "List_DistributedObjectInfo": "[]DistributedObjectInfo",
-    "List_IndexConfig": "[]IndexConfig",
-    "List_Integer": "[]int32",
-    "List_ListCN_Data": "NA",
-    "List_List_Data": "[]serialization.Data",
-    "List_ListenerConfigHolder": "NA",
-    "List_Long": "[]int64",
-    "List_MCEvent": "NA",
-    "List_MemberInfo": "[]proto.MemberInfo",
-    "List_QueryCacheConfigHolder": "NA",
-    "List_QueryCacheEventData": "NA",
-    "List_ScheduledTaskHandler": "NA",
-    "List_SqlColumnMetadata": "NA",
-    "List_StackTraceElement": "[]proto.StackTraceElement",
+    # "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    # "CPMember": "NA",
+    # "CacheEventData": "NA",
+    # "ClientBwListEntry": "NA",
+    # "EntryList_Data_Data": "[]proto.Pair",
+    # "EntryList_Data_List_Data": "[]proto.Pair",
+    # "EntryList_Integer_Integer": "[]proto.Pair",
+    # "EntryList_Integer_Long": "[]proto.Pair",
+    # "EntryList_Integer_UUID": "[]proto.Pair",
+    # "EntryList_Long_byteArray": "[]proto.Pair",
+    # "EntryList_String_EntryList_Integer_Long": "[]proto.Pair",
+    # "EntryList_String_String": "[]proto.Pair",
+    # "EntryList_String_byteArray": "[]proto.Pair",
+    # "EntryList_UUID_List_Integer": "[]proto.Pair",
+    # "EntryList_UUID_Long": "[]proto.Pair",
+    # "EntryList_UUID_UUID": "[]proto.Pair",
+    # "ListCN_Data": "[]serialization.Data",
+    # "List_AttributeConfig": "NA",
+    # "List_CacheEventData": "NA",
+    # "List_CacheSimpleEntryListenerConfig": "NA",
+    # "List_ClientBwListEntry": "NA",
+    # "List_Data": "[]serialization.Data",
+    # "List_DistributedObjectInfo": "[]DistributedObjectInfo",
+    # "List_IndexConfig": "[]IndexConfig",
+    # "List_Integer": "[]int32",
+    # "List_ListCN_Data": "NA",
+    # "List_List_Data": "[]serialization.Data",
+    # "List_ListenerConfigHolder": "NA",
+    # "List_Long": "[]int64",
+    # "List_MCEvent": "NA",
+    # "List_MemberInfo": "[]proto.MemberInfo",
+    # "List_QueryCacheConfigHolder": "NA",
+    # "List_QueryCacheEventData": "NA",
+    # "List_ScheduledTaskHandler": "NA",
+    # "List_SqlColumnMetadata": "NA",
+    # "List_StackTraceElement": "[]proto.StackTraceElement",
     "List_String": "[]string",
-    "List_UUID": "[]core.UUID",
-    "List_Xid": "NA",
-    "MCEvent": "NA",
-    "MemberInfo": "proto.MemberInfo",
-    "MemberVersion": "proto.MemberVersion",
-    "MigrationState": "NA",
-    "PagingPredicateHolder": "proto.PagingPredicateHolder",
-    "QueryCacheEventData": "NA",
-    "ScheduledTaskHandler": "NA",
-    "SqlColumnMetadata": "NA",
-    "SqlError": "NA",
-    "SqlQueryId": "NA",
-    "Xid": "NA",
+    # "List_UUID": "[]core.UUID",
+    # "List_Xid": "NA",
+    # "MCEvent": "NA",
+    "MemberInfo": "cluster.MemberInfo",
+    "MemberVersion": "cluster.MemberVersion",
+    # "MigrationState": "NA",
+    # "PagingPredicateHolder": "proto.PagingPredicateHolder",
+    # "QueryCacheEventData": "NA",
+    # "ScheduledTaskHandler": "NA",
+    # "SqlColumnMetadata": "NA",
+    # "SqlError": "NA",
+    # "SqlQueryId": "NA",
+    # "Xid": "NA",
 }
 
 _go_types_decode = {
-    "AnchorDataListHolder": "proto.AnchorDataListHolder",
-    "CPMember": "NA",
-    "CacheEventData": "NA",
-    "ClientBwListEntry": "NA",
-    "EntryList_Data_Data": "[]proto.Pair",
-    "EntryList_Data_List_Data": "[]proto.Pair",
-    "EntryList_Integer_Integer": "[]proto.Pair",
-    "EntryList_Integer_Long": "[]proto.Pair",
-    "EntryList_Integer_UUID": "[]proto.Pair",
-    "EntryList_Long_byteArray": "[]proto.Pair",
-    "EntryList_String_EntryList_Integer_Long": "[]proto.Pair",
-    "EntryList_String_String": "[]proto.Pair",
-    "EntryList_String_byteArray": "[]proto.Pair",
-    "EntryList_UUID_List_Integer": "[]proto.Pair",
-    "EntryList_UUID_Long": "[]proto.Pair",
-    "EntryList_UUID_UUID": "[]proto.Pair",
-    "ListCN_Data": "[]serialization.Data",
-    "List_AttributeConfig": "NA",
-    "List_CPMember": "NA",
-    "List_CacheEventData": "NA",
-    "List_CacheSimpleEntryListenerConfig": "NA",
-    "List_ClientBwListEntry": "NA",
-    "List_Data": "[]serialization.Data",
-    "List_DistributedObjectInfo": "[]proto.DistributedObjectInfo",
-    "List_IndexConfig": "[]IndexConfig",
-    "List_Integer": "[]int32",
-    "List_ListCN_Data": "NA",
-    "List_List_Data": "[]serialization.Data",
-    "List_ListenerConfigHolder": "NA",
-    "List_Long": "[]int64",
-    "List_MCEvent": "NA",
-    "List_MemberInfo": "[]proto.MemberInfo",
-    "List_QueryCacheConfigHolder": "NA",
-    "List_QueryCacheEventData": "NA",
-    "List_ScheduledTaskHandler": "NA",
-    "List_SqlColumnMetadata": "NA",
-    "List_StackTraceElement": "[]proto.StackTraceElement",
+    # "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    # "CPMember": "NA",
+    # "CacheEventData": "NA",
+    # "ClientBwListEntry": "NA",
+    # "EntryList_Data_Data": "[]proto.Pair",
+    # "EntryList_Data_List_Data": "[]proto.Pair",
+    # "EntryList_Integer_Integer": "[]proto.Pair",
+    # "EntryList_Integer_Long": "[]proto.Pair",
+    # "EntryList_Integer_UUID": "[]proto.Pair",
+    # "EntryList_Long_byteArray": "[]proto.Pair",
+    # "EntryList_String_EntryList_Integer_Long": "[]proto.Pair",
+    # "EntryList_String_String": "[]proto.Pair",
+    # "EntryList_String_byteArray": "[]proto.Pair",
+    # "EntryList_UUID_List_Integer": "[]proto.Pair",
+    # "EntryList_UUID_Long": "[]proto.Pair",
+    # "EntryList_UUID_UUID": "[]proto.Pair",
+    # "ListCN_Data": "[]serialization.Data",
+    # "List_AttributeConfig": "NA",
+    # "List_CPMember": "NA",
+    # "List_CacheEventData": "NA",
+    # "List_CacheSimpleEntryListenerConfig": "NA",
+    # "List_ClientBwListEntry": "NA",
+    # "List_Data": "[]serialization.Data",
+    # "List_DistributedObjectInfo": "[]proto.DistributedObjectInfo",
+    # "List_IndexConfig": "[]IndexConfig",
+    # "List_Integer": "[]int32",
+    # "List_ListCN_Data": "NA",
+    # "List_List_Data": "[]serialization.Data",
+    # "List_ListenerConfigHolder": "NA",
+    # "List_Long": "[]int64",
+    # "List_MCEvent": "NA",
+    # "List_MemberInfo": "[]proto.MemberInfo",
+    # "List_QueryCacheConfigHolder": "NA",
+    # "List_QueryCacheEventData": "NA",
+    # "List_ScheduledTaskHandler": "NA",
+    # "List_SqlColumnMetadata": "NA",
+    # "List_StackTraceElement": "[]proto.StackTraceElement",
     "List_String": "[]string",
-    "List_UUID": "[]core.UUID",
-    "List_Xid": "NA",
-    "MCEvent": "NA",
-    "MemberInfo": "proto.MemberInfo",
-    "MemberVersion": "proto.MemberVersion",
-    "MigrationState": "NA",
-    "PagingPredicateHolder": "proto.PagingPredicateHolder",
-    "QueryCacheEventData": "NA",
-    "ScheduledTaskHandler": "NA",
-    "SqlColumnMetadata": "NA",
-    "SqlError": "NA",
-    "SqlQueryId": "NA",
-    "Xid": "NA",
+    # "List_UUID": "[]core.UUID",
+    # "List_Xid": "NA",
+    # "MCEvent": "NA",
+    "MemberInfo": "cluster.MemberInfo",
+    "MemberVersion": "cluster.MemberVersion",
+    # "MigrationState": "NA",
+    # "PagingPredicateHolder": "proto.PagingPredicateHolder",
+    # "QueryCacheEventData": "NA",
+    # "ScheduledTaskHandler": "NA",
+    # "SqlColumnMetadata": "NA",
+    # "SqlError": "NA",
+    # "SqlQueryId": "NA",
+    # "Xid": "NA",
 }
