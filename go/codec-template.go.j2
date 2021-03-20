@@ -202,7 +202,7 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
 {% if method.events|length != 0 %}
 
 func Handle{{ service_name|capital }}{{ method.name|capital }}(clientMessage *proto.ClientMessage, {% for event in method.events%}handle{{ event.name|capital }}Event func({% for param in event.params %}{% if param in new_event_params %}is{{ param.name|capital }}Exists, {% endif %}{{param.name}} {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}, {% endif %}{% endfor %}){
-    messageType := clientMessage.GetMessageType()
+    messageType := clientMessage.Type()
     frameIterator := clientMessage.FrameIterator()
     {% for event in method.events%}
     if messageType == {{ service_name|capital }}{{ method.name|capital }}CodecEvent{{ event.name|capital }}MessageType {
