@@ -6,7 +6,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                         'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                         'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
+ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
                           "ScheduledExecutor", "DynamicConfig", "CPSubsystem"}
@@ -134,7 +134,9 @@ class PathHolders:
     AnchorDataListHolder = ImportPathHolder('AnchorDataListHolder', 'protocol/AnchorDataListHolder')
     AnchorDataListHolderCodec = ImportPathHolder('AnchorDataListHolderCodec', 'custom/AnchorDataListHolderCodec',
                                                  is_custom_codec=True)
-
+    SqlError = ImportPathHolder('SqlError', 'sql/SqlError')
+    SqlQueryId = ImportPathHolder('SqlQueryId', 'sql/QueryId')
+    SqlColumnMetadata = ImportPathHolder('SqlColumnMetadata', 'sql/SqlColumnMetadata')
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -240,9 +242,9 @@ _ts_types = {
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
     "EndpointQualifier": "EndpointQualifier",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
+    "SqlQueryId": "QueryId",
+    "SqlError": "SqlError",
+    "SqlColumnMetadata": "SqlColumnMetadata",
     "CPMember": "NA",
     "MigrationState": "NA",
 
@@ -267,6 +269,7 @@ _ts_types = {
     "List_StackTraceElement": "StackTraceElement[]",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
+    "List_SqlColumnMetadata": "SqlColumnMetadata[]",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
