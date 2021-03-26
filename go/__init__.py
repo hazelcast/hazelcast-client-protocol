@@ -106,7 +106,7 @@ class PathHolders:
     EntryListUUIDUUIDCodec = InternalImportPathHolder("EntryListUUIDUUIDCodec", "", is_builtin_codec=True)
     ErrorHolder = InternalImportPathHolder("ErrorHolder", "")
     ErrorHolderCodec = InternalImportPathHolder("ErrorHolderCodec", "", is_custom_codec=True)
-    IndexConfig = InternalImportPathHolder("IndexConfig", "/core")
+    IndexConfig = ImportPathHolder("IndexConfig", "/hztypes")
     IndexConfigCodec = InternalImportPathHolder("IndexConfigCodec", "", is_custom_codec=True)
     ListDataCodec = InternalImportPathHolder("ListDataCodec", "", is_builtin_codec=True)
     ListIntegerCodec = InternalImportPathHolder("ListIntegerCodec", "", is_builtin_codec=True)
@@ -192,7 +192,7 @@ _go_types_common = {
     # "EventJournalConfig": "NA",
     # "EvictionConfigHolder": "NA",
     # "HotRestartConfig": "NA",
-    # "IndexConfig": "config.IndexConfig",
+    "IndexConfig": "hztypes.IndexConfig",
     "Integer": "int32",
     # "List_CPMember": "NA",
     # "ListenerConfigHolder": "NA",
@@ -243,13 +243,13 @@ _go_types_encode = {
     "EntryList_UUID_Long": "[]proto.Pair",
     "EntryList_UUID_UUID": "[]proto.Pair",
     # "ListCN_Data": "[]serialization.Data",
-    # "List_AttributeConfig": "NA",
+    "List_AttributeConfig": "NA",
     # "List_CacheEventData": "NA",
     # "List_CacheSimpleEntryListenerConfig": "NA",
     # "List_ClientBwListEntry": "NA",
     "List_Data": "[]serialization.Data",
     "List_DistributedObjectInfo": "[]internal.DistributedObjectInfo",
-    # "List_IndexConfig": "[]IndexConfig",
+    "List_IndexConfig": "[]hztypes.IndexConfig",
     "List_Integer": "[]int32",
     # "List_ListCN_Data": "NA",
     "List_List_Data": "[]serialization.Data",
@@ -296,14 +296,14 @@ _go_types_decode = {
     "EntryList_UUID_Long": "[]proto.Pair",
     "EntryList_UUID_UUID": "[]proto.Pair",
     # "ListCN_Data": "[]serialization.Data",
-    # "List_AttributeConfig": "NA",
+    "List_AttributeConfig": "NA",
     # "List_CPMember": "NA",
     # "List_CacheEventData": "NA",
     # "List_CacheSimpleEntryListenerConfig": "NA",
     # "List_ClientBwListEntry": "NA",
     "List_Data": "[]serialization.Data",
     "List_DistributedObjectInfo": "[]internal.DistributedObjectInfo",
-    # "List_IndexConfig": "[]IndexConfig",
+    "List_IndexConfig": "[]hztypes.IndexConfig",
     "List_Integer": "[]int32",
     # "List_ListCN_Data": "NA",
     "List_List_Data": "[]serialization.Data",
