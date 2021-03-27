@@ -134,9 +134,15 @@ class PathHolders:
     AnchorDataListHolder = ImportPathHolder('AnchorDataListHolder', 'protocol/AnchorDataListHolder')
     AnchorDataListHolderCodec = ImportPathHolder('AnchorDataListHolderCodec', 'custom/AnchorDataListHolderCodec',
                                                  is_custom_codec=True)
+
     SqlError = ImportPathHolder('SqlError', 'sql/SqlError')
-    SqlQueryId = ImportPathHolder('SqlQueryId', 'sql/QueryId')
+    SqlErrorCodec = ImportPathHolder('SqlErrorCodec', 'custom/SqlErrorCodec', is_custom_codec=True)
+    SqlQueryId = ImportPathHolder('SqlQueryId', 'sql/SqlQueryId')
+    SqlQueryIdCodec = ImportPathHolder('SqlQueryIdCodec', 'custom/SqlQueryIdCodec', is_custom_codec=True)
     SqlColumnMetadata = ImportPathHolder('SqlColumnMetadata', 'sql/SqlColumnMetadata')
+    SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
+    SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
+    SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -189,6 +195,12 @@ import_paths = {
     'BitmapIndexOptions': [PathHolders.BitmapIndexOptions, PathHolders.BitmapIndexOptionsCodec],
     'AnchorDataListHolder': [PathHolders.AnchorDataListHolder, PathHolders.AnchorDataListHolderCodec],
     'PagingPredicateHolder': [PathHolders.PagingPredicateHolder, PathHolders.PagingPredicateHolderCodec],
+    'SqlColumnMetadata': [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
+    'SqlError': [PathHolders.SqlErrorCodec, PathHolders.SqlError],
+    'SqlQueryId': [PathHolders.SqlQueryIdCodec, PathHolders.SqlQueryId],
+    'List_SqlColumnMetadata': [PathHolders.SqlColumnMetadataCodec, PathHolders.SqlColumnMetadata, PathHolders.ListMultiFrameCodec],
+    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec]
+
 }
 
 _ts_types = {
@@ -242,9 +254,10 @@ _ts_types = {
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
     "EndpointQualifier": "EndpointQualifier",
-    "SqlQueryId": "QueryId",
+    "SqlQueryId": "SqlQueryId",
     "SqlError": "SqlError",
     "SqlColumnMetadata": "SqlColumnMetadata",
+    'SqlPage': 'SqlPage',
     "CPMember": "NA",
     "MigrationState": "NA",
 
