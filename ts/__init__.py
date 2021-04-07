@@ -139,7 +139,7 @@ class PathHolders:
     SqlErrorCodec = ImportPathHolder('SqlErrorCodec', 'custom/SqlErrorCodec', is_custom_codec=True)
     SqlQueryId = ImportPathHolder('SqlQueryId', 'sql/SqlQueryId')
     SqlQueryIdCodec = ImportPathHolder('SqlQueryIdCodec', 'custom/SqlQueryIdCodec', is_custom_codec=True)
-    SqlColumnMetadata = ImportPathHolder('SqlColumnMetadata', 'sql/SqlColumnMetadata')
+    SqlColumnMetadata = ImportPathHolder('SqlColumnMetadataImpl', 'sql/SqlColumnMetadata')
     SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
     SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
     SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
@@ -256,7 +256,7 @@ _ts_types = {
     "EndpointQualifier": "EndpointQualifier",
     "SqlQueryId": "SqlQueryId",
     "SqlError": "SqlError",
-    "SqlColumnMetadata": "SqlColumnMetadata",
+    "SqlColumnMetadata": "SqlColumnMetadataImpl",
     'SqlPage': 'SqlPage',
     "CPMember": "NA",
     "MigrationState": "NA",
@@ -282,7 +282,7 @@ _ts_types = {
     "List_StackTraceElement": "StackTraceElement[]",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
-    "List_SqlColumnMetadata": "SqlColumnMetadata[]",
+    "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
