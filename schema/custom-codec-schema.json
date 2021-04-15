@@ -107,7 +107,10 @@
             "SqlColumnMetadata",
             "CPMember",
             "List_CPMember",
-            "MigrationState"
+            "MigrationState",
+            "FieldDescriptor",
+            "List_FieldDescriptor",
+            "Schema"
           ]
         },
         "nullable": {

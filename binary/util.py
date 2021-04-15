@@ -236,7 +236,8 @@ class VarSizedParamEncoder:
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler')),
-            'SqlPage': partial(self.encode_sqlpage)
+            'SqlPage': partial(self.encode_sqlpage),
+            'EntryList_Long_Schema': self.encode_long_schema_entry_list
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -330,6 +331,12 @@ class VarSizedParamEncoder:
     def encode_long_byte_array_entry_list(client_message):
         client_message.add_frame(BEGIN_FRAME)
         VarSizedParamEncoder.encode_byte_array_frame(client_message)
+        client_message.add_frame(END_FRAME)
+        FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'long')
+
+    def encode_long_schema_entry_list(self, client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        self.encode_var_sized_frame(client_message, 'Schema')
         client_message.add_frame(END_FRAME)
         FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'long')
 
@@ -454,6 +461,8 @@ reference_objects_dict = {
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
     'MigrationState': 'aMigrationState',
+    'Schema': 'aSchema',
+    'EntryList_Long_Schema': 'aMapOfLongToSchema',
     'SqlPage': 'aSqlPage'
 }
 
