@@ -23,6 +23,7 @@ from py import (
     py_ignore_service_list,
     py_param_name,
     py_types_encode_decode,
+    py_custom_type_name,
 )
 from ts import (
     ts_escape_keyword,
@@ -158,8 +159,8 @@ def generate_codecs(services, template, output_dir, lang, env):
                 else:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(join(output_dir, codec_file_name), content)
-            except NotImplementedError:
-                print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+            except NotImplementedError as e:
+                print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
     if lang is SupportedLanguages.CPP:
         f = open(join(cpp_dir, "footer.txt"), "r")
@@ -535,6 +536,14 @@ language_specific_funcs = {
         SupportedLanguages.PY: py_get_import_path_holders,
         SupportedLanguages.MD: lambda x: x,
     },
+    "custom_type_name": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: py_custom_type_name,
+        SupportedLanguages.MD: lambda x: x,
+    }
 }
 
 language_service_ignore_list = {
@@ -546,21 +555,25 @@ language_service_ignore_list = {
     # SupportedLanguages.GO: set()
 }
 
+
 def ignore_service(service, lang):
     name = service["name"]
-    return ignore_serviceOrMethod(name, lang)
+    return ignore_service_or_method(name, lang)
+
 
 def ignore_method(service, method, lang):
     name = service["name"] + "." + method["name"]
-    return ignore_serviceOrMethod(name, lang)
-    
-def ignore_serviceOrMethod(name, lang):
+    return ignore_service_or_method(name, lang)
+
+
+def ignore_service_or_method(name, lang):
     patterns = language_service_ignore_list[lang]
     for pattern in patterns:
         if fnmatch.fnmatch(name, pattern):
             print("[%s] is in ignore list so ignoring it." % name)
             return True
     return False
+
 
 def create_environment(lang, namespace):
     env = Environment(
@@ -589,6 +602,7 @@ def create_environment(lang, namespace):
     env.globals["lang_name"] = language_specific_funcs["lang_name"][lang]
     env.globals["param_name"] = language_specific_funcs["param_name"][lang]
     env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
+    env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
     env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][
