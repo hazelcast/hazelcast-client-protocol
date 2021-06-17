@@ -135,5 +135,5 @@ class {{ codec.name }}Codec(object):
         {% for param in codec.params %}
             {% do ctor_params.append(param) %}
         {% endfor %}
-        return {{ codec.name }}({% for param in ctor_params %}{% if param in new_codec_params %}is_{{ param_name(param.name) }}_exists, {% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
+        return {{ custom_type_name(codec.name) }}({% for param in ctor_params %}{% if param in new_codec_params %}is_{{ param_name(param.name) }}_exists, {% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %})
 
