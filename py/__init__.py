@@ -162,7 +162,6 @@ import_paths = {
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     "ListCN_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
-    "List_ListCN_Data": [PathHolders.ListMultiFrameCodec, PathHolders.ListCNDataCodec],
     "List_MemberInfo": [PathHolders.ListMultiFrameCodec, PathHolders.MemberInfoCodec],
     "List_DistributedObjectInfo": [PathHolders.ListMultiFrameCodec, PathHolders.DistributedObjectInfoCodec],
     "List_StackTraceElement": [PathHolders.ListMultiFrameCodec, PathHolders.StackTraceElementCodec],
@@ -237,7 +236,6 @@ _py_types = {
     "List_String",
     "List_StackTraceElement",
     "ListCN_Data",
-    "List_ListCN_Data",
     "List_SqlColumnMetadata",
 
     "EntryList_UUID_Long",
