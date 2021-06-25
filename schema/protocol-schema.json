@@ -107,6 +107,10 @@
             "CPMember",
             "List_CPMember",
             "MigrationState",
+            "Schema",
+            "List_Schema",
+            "FieldDescriptor",
+            "List_FieldDescriptor",
             "SqlPage"
           ]
         },

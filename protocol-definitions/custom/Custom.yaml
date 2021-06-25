@@ -952,3 +952,27 @@ customTypes:
         type: long
         nullable: false
         since: 2.2
+  - name: FieldDescriptor
+    since: 2.3
+    returnWithFactory: true
+    params:
+      - name: fieldName
+        type: String
+        nullable: false
+        since: 2.3
+      - name: type
+        type: int
+        nullable: false
+        since: 2.3
+  - name: Schema
+    since: 2.3
+    returnWithFactory: true
+    params:
+      - name: typeName
+        type: String
+        nullable: false
+        since: 2.3
+      - name: fields
+        type: List_FieldDescriptor
+        nullable: false
+        since: 2.3

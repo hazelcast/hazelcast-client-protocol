@@ -886,3 +886,58 @@ methods:
           since: 2.2
           doc: |
             true if the listener existed and was removed, false otherwise.
+  - id: 19
+    name: sendSchema
+    since: 2.3
+    doc: |
+      Sends a schema to cluster
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: schema
+          type: Schema
+          nullable: false
+          since: 2.3
+          doc: |
+            schema to be send to the cluster
+    response: {}
+  - id: 20
+    name: fetchSchema
+    since: 2.3
+    doc: |
+      Fetches a schema from the cluster with the given schemaId
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: schemaId
+          type: long
+          nullable: false
+          since: 2.3
+          doc: |
+            Id of the schema to be fetched
+    response:
+      params:
+        - name: schema
+          type: Schema
+          nullable: true
+          since: 2.3
+          doc: |
+            schema with the given schema id fetched from the cluster
+  - id: 21
+    name: sendAllSchemas
+    since: 2.3
+    doc: |
+      Sends all the schemas to the cluster
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: schemas
+          type: List_Schema
+          nullable: false
+          since: 2.3
+          doc: |
+            list of schemas
+    response: {}
