@@ -19,7 +19,7 @@ cs_ignore_service_list = {
     "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
 
     # methods
-    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener"
+    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
 }
 
 
