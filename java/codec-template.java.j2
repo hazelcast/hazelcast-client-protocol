@@ -163,10 +163,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         return clientMessage;
     }
-
 {#REQUEST_DECODE#}
 {% if noRequestValue %}
 {% elif singleRequestValue %}
+
     {% set param = method.request.params|last %}
     /**
     {% for line in param.doc.splitlines() %}
@@ -189,6 +189,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% endfor %}
     }
 {% else %}
+
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.RequestParameters decodeRequest(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         RequestParameters request = new RequestParameters();
@@ -225,11 +226,11 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         return request;
     }
 {% endif %}
-
 {#RESPONSE PARAMETERS#}
 {% set noResponseValue = method.response.params|length == 0 %}
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if not (noResponseValue or singleResponseValue) %}
+
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
     public static class ResponseParameters {
     {% for param in method.response.params %}
@@ -252,6 +253,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     }
 {% endif %}
 {#RESPONSE ENCODE#}
+
     public static ClientMessage encodeResponse({% for param in method.response.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[RESPONSE_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
@@ -266,10 +268,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
     {% endfor %}
         return clientMessage;
     }
-
 {#RESPONSE DECODE#}
 {% if noResponseValue %}
 {% elif singleResponseValue %}
+
     {% set param = method.response.params|last %}
     /**
     {% for line in param.doc.splitlines() %}
@@ -292,6 +294,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         {% endfor %}
     }
 {% else %}
+
     public static {{ service_name|capital }}{{ method.name|capital }}Codec.ResponseParameters decodeResponse(ClientMessage clientMessage) {
         ClientMessage.ForwardFrameIterator iterator = clientMessage.frameIterator();
         ResponseParameters response = new ResponseParameters();
@@ -328,10 +331,10 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
         return response;
     }
 {% endif %}
-
 {# EVENTS#}
 {% if method.events|length != 0 %}
 {% for event in method.events%}
+
     public static ClientMessage encode{{ event.name|capital }}Event({% for param in event.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[EVENT_{{ to_upper_snake_case(event.name)}}_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);
