@@ -892,7 +892,7 @@ methods:
     doc: |
       Sends a schema to cluster
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: schema
@@ -908,7 +908,7 @@ methods:
     doc: |
       Fetches a schema from the cluster with the given schemaId
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: schemaId
@@ -931,7 +931,7 @@ methods:
     doc: |
       Sends all the schemas to the cluster
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: schemas
