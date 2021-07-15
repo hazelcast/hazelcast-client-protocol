@@ -97,7 +97,7 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
 
     "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "IDictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
 }
 
 _cs_types_encode = {
