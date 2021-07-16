@@ -37,6 +37,8 @@ MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
 PATCH_VERSION_MULTIPLIER = 1
 
+ID_VALIDATOR_IGNORE_SET = {"Jet"}
+
 
 def java_name(type_name):
     return "".join([capital(part) for part in type_name.split("_")])
@@ -264,9 +266,9 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
             if not validate_against_schema(service, schema):
                 return False
 
-            if not no_id_check:
-                # Validate id ordering of services.
+            if not no_id_check and service["name"] not in ID_VALIDATOR_IGNORE_SET:
                 service_id = service["id"]
+                # Validate id ordering of services.
                 if i != service_id:
                     print(
                         "Check the service id of the %s. Expected: %s, found: %s."
