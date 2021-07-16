@@ -68,6 +68,7 @@ py_ignore_service_list = {
     "Topic.publishAll",
     "TransactionalMap.containsValue",
     "XATransaction",
+    "Jet",
 }
 
 
