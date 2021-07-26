@@ -1,5 +1,5 @@
 cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem", "Client.addPartitionLostListener",
+                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem", "Jet", "Client.addPartitionLostListener",
                            "Client.removePartitionLostListener", "Client.getDistributedObjects",
                            "Client.addDistributedObjectListener", "Client.removeDistributedObjectListener",
                            "Client.deployClasses", "Client.createProxies", "Client.triggerPartitionAssignment",
