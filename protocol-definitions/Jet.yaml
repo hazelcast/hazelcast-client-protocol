@@ -76,7 +76,7 @@ methods:
           doc: ''
   - id: 4
     name: getJobIds
-    since: 2.3
+    since: 2.0
     doc: ''
     request:
       retryable: true

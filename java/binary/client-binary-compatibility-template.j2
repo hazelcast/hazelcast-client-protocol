@@ -84,6 +84,7 @@ public class ClientCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
     @Test
     public void test_{{ service.name|capital }}{{ method.name|capital }}Codec_decodeResponse() {
         int fileClientMessageIndex = {{ counter.count }};
+        {% set response_new_params = new_params(method.since, method.response.params) %}
         {% set noResponseValue = method.response.params|length == 0 and response_new_params|length == 0 %}
         {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
         {% if noResponseValue %}
