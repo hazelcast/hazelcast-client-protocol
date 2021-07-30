@@ -9,9 +9,18 @@ cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "ba
                      "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
                      "using", "value", "var", "virtual", "void", "volatile", "where", "while", "yield"}
 
-cs_ignore_service_list = {"MC", "Sql", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
-                          "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
-                          "FlakeIdGenerator"}
+cs_ignore_service_list = {
+
+    # entire services
+    "MC", "Sql", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
+    "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
+    "FlakeIdGenerator", "Jet",
+    
+    "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
+    
+    # methods
+    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener"
+}
 
 
 def cs_types_encode(key):
@@ -58,7 +67,7 @@ _cs_types_common = {
     "ErrorHolder": "Hazelcast.Protocol.Models.ErrorHolder",
     "StackTraceElement": "Hazelcast.Exceptions.StackTraceElement",
     "SimpleEntryView": "Hazelcast.Models.MapEntryStats<IData, IData>",
-    "RaftGroupId": "Hazelcast.CP.RaftGroupId",
+    "RaftGroupId": "Hazelcast.CP.CPGroupId",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -72,6 +81,7 @@ _cs_types_common = {
     "NearCachePreloaderConfig": "NA",
     "PredicateConfigHolder": "NA",
     "DurationConfig": "NA",
+    "MigrationState": "NA",
 
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
@@ -87,7 +97,7 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
 
     "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "IDictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
 }
 
 _cs_types_encode = {

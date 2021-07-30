@@ -2,6 +2,9 @@ import hashlib
 import json
 import os
 import re
+import fnmatch
+from enum import Enum
+import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
 from enum import Enum
@@ -24,6 +27,7 @@ from py import (
     py_ignore_service_list,
     py_param_name,
     py_types_encode_decode,
+    py_custom_type_name,
 )
 from ts import (
     ts_escape_keyword,
@@ -36,6 +40,8 @@ from ts import (
 MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
 PATCH_VERSION_MULTIPLIER = 1
+
+ID_VALIDATOR_IGNORE_SET = {"Jet"}
 
 
 def java_name(type_name):
@@ -126,8 +132,7 @@ def generate_codecs(services, template, output_dir, lang, env):
         save_file(join(output_dir, "codecs.cpp"), f.read(), "w")
 
     for service in services:
-        if service["name"] in language_service_ignore_list[lang]:
-            print("[%s] is in ignore list so ignoring it." % service["name"])
+        if ignore_service(service, lang):
             continue
         if "methods" in service:
             methods = service["methods"]
@@ -135,11 +140,7 @@ def generate_codecs(services, template, output_dir, lang, env):
                 raise NotImplementedError("Methods not found for service " + service)
 
         for method in service["methods"]:
-            if (service["name"] + "." + method["name"]) in language_service_ignore_list[lang]:
-                print(
-                    "[%s] is in ignore list so ignoring it."
-                    % (service["name"] + "." + method["name"])
-                )
+            if ignore_method(service, method, lang):
                 continue
 
             method["request"]["id"] = int(id_fmt % (service["id"], method["id"], 0), 16)
@@ -164,8 +165,8 @@ def generate_codecs(services, template, output_dir, lang, env):
                 else:
                     content = template.render(service_name=service["name"], method=method)
                     save_file(join(output_dir, codec_file_name), content)
-            except NotImplementedError:
-                print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+            except NotImplementedError as e:
+                print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
     if lang is SupportedLanguages.CPP:
         f = open(join(cpp_dir, "footer.txt"), "r")
@@ -183,6 +184,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
         if "customTypes" in service:
             custom_types = service["customTypes"]
             for codec in custom_types:
+                if ignore_service(codec, lang):
+                    continue
                 try:
                     if lang == SupportedLanguages.CPP:
                         file_name_prefix = codec["name"].lower() + "_codec"
@@ -267,9 +270,9 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
             if not validate_against_schema(service, schema):
                 return False
 
-            if not no_id_check:
-                # Validate id ordering of services.
+            if not no_id_check and service["name"] not in ID_VALIDATOR_IGNORE_SET:
                 service_id = service["id"]
+                # Validate id ordering of services.
                 if i != service_id:
                     print(
                         "Check the service id of the %s. Expected: %s, found: %s."
@@ -394,10 +397,18 @@ def validate_against_schema(service, schema):
 
 
 def save_file(file, content, mode="w"):
+
+    if file.endswith(".cs"):
+        content = content.replace("\r\n", "\n") # crlf -> lf
+        content = content.replace("\r", "\n")   # cr -> lf
+        content = re.sub("[ \t]+$", "", content, 0, re.M)
+        content = content.rstrip("\n")          # trim all trailing lf
+        content = content  + "\n"             # append one single trailing lf
+
     m = hashlib.md5()
     m.update(content.encode("utf-8"))
     codec_hash = m.hexdigest()
-    with open(file, mode, newline="\n") as file:
+    with open(file, mode, newline=os.linesep) as file:
         file.writelines(content.replace("!codec_hash!", codec_hash))
 
 
@@ -555,6 +566,14 @@ language_specific_funcs = {
         SupportedLanguages.GO: go_get_import_statements,  # exposed as: get_import_path_holders
         SupportedLanguages.MD: lambda x: x,
     },
+    "custom_type_name": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: py_custom_type_name,
+        SupportedLanguages.MD: lambda x: x,
+    }
 }
 
 language_service_ignore_list = {
@@ -565,6 +584,25 @@ language_service_ignore_list = {
     SupportedLanguages.TS: ts_ignore_service_list,
     SupportedLanguages.GO: go_ignore_service_list,
 }
+
+
+def ignore_service(service, lang):
+    name = service["name"]
+    return ignore_service_or_method(name, lang)
+
+
+def ignore_method(service, method, lang):
+    name = service["name"] + "." + method["name"]
+    return ignore_service_or_method(name, lang)
+
+
+def ignore_service_or_method(name, lang):
+    patterns = language_service_ignore_list[lang]
+    for pattern in patterns:
+        if fnmatch.fnmatch(name, pattern):
+            print("[%s] is in ignore list so ignoring it." % name)
+            return True
+    return False
 
 
 def create_environment(lang, namespace):
@@ -594,6 +632,7 @@ def create_environment(lang, namespace):
     env.globals["lang_name"] = language_specific_funcs["lang_name"][lang]
     env.globals["param_name"] = language_specific_funcs["param_name"][lang]
     env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
+    env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
     env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][

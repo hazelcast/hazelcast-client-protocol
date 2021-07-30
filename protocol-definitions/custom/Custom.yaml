@@ -745,6 +745,10 @@ customTypes:
         type: List_ListenerConfigHolder
         nullable: true
         since: 2.0
+      - name: merkleTreeConfig
+        type: MerkleTreeConfig
+        nullable: true
+        since: 2.3
   - name: ClientBwListEntry
     since: 2.0
     returnWithFactory: true

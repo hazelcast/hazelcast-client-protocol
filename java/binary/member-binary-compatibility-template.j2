@@ -48,7 +48,7 @@ import static org.junit.Assert.assertFalse;
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelJVMTest.class})
 public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'.join(protocol_version.split('.')) }} {
-    private List<ClientMessage> clientMessages = new ArrayList<>();
+    private final List<ClientMessage> clientMessages = new ArrayList<>();
 
     @Before
     public void setUp() throws IOException {
@@ -74,8 +74,9 @@ public class MemberCompatibility{% if test_nullable %}Null{% endif %}Test_{{ '_'
     @Test
     public void test_{{ service.name|capital}}{{ method.name|capital }}Codec_decodeRequest() {
         int fileClientMessageIndex = {{ counter.count }};
+        {% set request_new_params = new_params(method.since, method.request.params) %}
         {% set noRequestValue = method.request.params|length == 0 and request_new_params|length == 0 %}
-        {% set singleRequestValue = method.request.params|length == 1 and response_new_params|length == 0 %}
+        {% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
         {% if noRequestValue %}
         {% elif singleRequestValue %}
         ClientMessage fromFile = clientMessages.get(fileClientMessageIndex);

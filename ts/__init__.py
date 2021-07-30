@@ -6,10 +6,10 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
                         'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'transient',
                         'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'}
 
-ts_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
+ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem"}
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet"}
 
 
 def ts_types_encode(key):
@@ -135,6 +135,14 @@ class PathHolders:
     AnchorDataListHolderCodec = ImportPathHolder('AnchorDataListHolderCodec', 'custom/AnchorDataListHolderCodec',
                                                  is_custom_codec=True)
 
+    SqlError = ImportPathHolder('SqlError', 'sql/SqlError')
+    SqlErrorCodec = ImportPathHolder('SqlErrorCodec', 'custom/SqlErrorCodec', is_custom_codec=True)
+    SqlQueryId = ImportPathHolder('SqlQueryId', 'sql/SqlQueryId')
+    SqlQueryIdCodec = ImportPathHolder('SqlQueryIdCodec', 'custom/SqlQueryIdCodec', is_custom_codec=True)
+    SqlColumnMetadata = ImportPathHolder('SqlColumnMetadataImpl', 'sql/SqlColumnMetadata')
+    SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
+    SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
+    SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -187,6 +195,12 @@ import_paths = {
     'BitmapIndexOptions': [PathHolders.BitmapIndexOptions, PathHolders.BitmapIndexOptionsCodec],
     'AnchorDataListHolder': [PathHolders.AnchorDataListHolder, PathHolders.AnchorDataListHolderCodec],
     'PagingPredicateHolder': [PathHolders.PagingPredicateHolder, PathHolders.PagingPredicateHolderCodec],
+    'SqlColumnMetadata': [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
+    'SqlError': [PathHolders.SqlErrorCodec, PathHolders.SqlError],
+    'SqlQueryId': [PathHolders.SqlQueryIdCodec, PathHolders.SqlQueryId],
+    'List_SqlColumnMetadata': [PathHolders.SqlColumnMetadataCodec, PathHolders.SqlColumnMetadata, PathHolders.ListMultiFrameCodec],
+    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec]
+
 }
 
 _ts_types = {
@@ -240,9 +254,10 @@ _ts_types = {
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",
     "EndpointQualifier": "EndpointQualifier",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
+    "SqlQueryId": "SqlQueryId",
+    "SqlError": "SqlError",
+    "SqlColumnMetadata": "SqlColumnMetadataImpl",
+    'SqlPage': 'SqlPage',
     "CPMember": "NA",
     "MigrationState": "NA",
 
@@ -267,6 +282,7 @@ _ts_types = {
     "List_StackTraceElement": "StackTraceElement[]",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
+    "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
