@@ -1,22 +1,40 @@
+/*
+ * Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package codec
 
 import (
 	"encoding/binary"
-	"github.com/hazelcast/hazelcast-go-client/v4/hazelcast/hzerror"
+	"fmt"
+	"net"
+	"strconv"
 	"strings"
 
-	pubcluster "github.com/hazelcast/hazelcast-go-client/v4/hazelcast/cluster"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/proto"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/serialization"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/serialization/spi"
+	pubcluster "github.com/hazelcast/hazelcast-go-client/cluster"
+	ihzerrors "github.com/hazelcast/hazelcast-go-client/internal/hzerrors"
+	"github.com/hazelcast/hazelcast-go-client/internal/proto"
+	iserialization "github.com/hazelcast/hazelcast-go-client/internal/serialization"
+	"github.com/hazelcast/hazelcast-go-client/types"
 )
 
 // Encoder for ClientMessage and value
 type Encoder func(message *proto.ClientMessage, value interface{})
 
-// Decoder create serialization.Data
-type Decoder func(frameIterator *proto.ForwardFrameIterator) serialization.Data
+// Decoder create *iserialization.Data
+type Decoder func(frameIterator *proto.ForwardFrameIterator) *iserialization.Data
 
 // CodecUtil
 type codecUtil struct{}
@@ -52,15 +70,15 @@ func (codecUtil) EncodeNullableForString(message *proto.ClientMessage, value str
 	}
 }
 
-func (codecUtil) EncodeNullableForBitmapIndexOptions(message *proto.ClientMessage, options internal.BitmapIndexOptions) {
+func (codecUtil) EncodeNullableForBitmapIndexOptions(message *proto.ClientMessage, options *types.BitmapIndexOptions) {
 	if options == nil {
 		message.AddFrame(proto.NullFrame.Copy())
 	} else {
-		EncodeBitmapIndexOptions(message, options)
+		EncodeBitmapIndexOptions(message, *options)
 	}
 }
 
-func (codecUtil) EncodeNullableForData(message *proto.ClientMessage, data serialization.Data) {
+func (codecUtil) EncodeNullableForData(message *proto.ClientMessage, data *iserialization.Data) {
 	if data == nil {
 		message.AddFrame(proto.NullFrame.Copy())
 	} else {
@@ -68,29 +86,30 @@ func (codecUtil) EncodeNullableForData(message *proto.ClientMessage, data serial
 	}
 }
 
-func (codecUtil) DecodeNullableForData(frameIterator *proto.ForwardFrameIterator) serialization.Data {
-	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
+func (c codecUtil) DecodeNullableForData(frameIterator *proto.ForwardFrameIterator) *iserialization.Data {
+	if c.NextFrameIsNullFrame(frameIterator) {
 		return nil
 	}
 	return DecodeData(frameIterator)
 }
 
-func (codecUtil) DecodeNullableForAddress(frameIterator *proto.ForwardFrameIterator) pubcluster.Address {
-	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
+func (c codecUtil) DecodeNullableForAddress(frameIterator *proto.ForwardFrameIterator) *pubcluster.Address {
+	if c.NextFrameIsNullFrame(frameIterator) {
 		return nil
 	}
-	return DecodeAddress(frameIterator)
+	addr := DecodeAddress(frameIterator)
+	return &addr
 }
 
-func (codecUtil) DecodeNullableForLongArray(frameIterator *proto.ForwardFrameIterator) []int64 {
-	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
+func (c codecUtil) DecodeNullableForLongArray(frameIterator *proto.ForwardFrameIterator) []int64 {
+	if c.NextFrameIsNullFrame(frameIterator) {
 		return nil
 	}
 	return DecodeLongArray(frameIterator)
 }
 
-func (codecUtil) DecodeNullableForString(frameIterator *proto.ForwardFrameIterator) string {
-	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
+func (c codecUtil) DecodeNullableForString(frameIterator *proto.ForwardFrameIterator) string {
+	if c.NextFrameIsNullFrame(frameIterator) {
 		return ""
 	}
 	return DecodeString(frameIterator)
@@ -108,18 +127,16 @@ func (codecUtil) NextFrameIsNullFrame(frameIterator *proto.ForwardFrameIterator)
 	return isNullFrame
 }
 
-func (codecUtil) DecodeNullableForBitmapIndexOptions(frameIterator *proto.ForwardFrameIterator) internal.BitmapIndexOptions {
-	isNullFrame := frameIterator.PeekNext().IsNullFrame()
-	if isNullFrame {
-		frameIterator.Next()
+func (c codecUtil) DecodeNullableForBitmapIndexOptions(frameIterator *proto.ForwardFrameIterator) types.BitmapIndexOptions {
+	if c.NextFrameIsNullFrame(frameIterator) {
+		return types.BitmapIndexOptions{}
 	}
 	return DecodeBitmapIndexOptions(frameIterator)
 }
 
-func (codecUtil) DecodeNullableForSimpleEntryView(frameIterator *proto.ForwardFrameIterator) *internal.SimpleEntryView {
-	isNullFrame := frameIterator.PeekNext().IsNullFrame()
-	if isNullFrame {
-		frameIterator.Next()
+func (c codecUtil) DecodeNullableForSimpleEntryView(frameIterator *proto.ForwardFrameIterator) *types.SimpleEntryView {
+	if c.NextFrameIsNullFrame(frameIterator) {
+		return nil
 	}
 	return DecodeSimpleEntryView(frameIterator)
 }
@@ -133,10 +150,10 @@ func DecodeByteArray(frameIterator *proto.ForwardFrameIterator) []byte {
 }
 
 func EncodeData(message *proto.ClientMessage, value interface{}) {
-	message.AddFrame(proto.NewFrame(value.(serialization.Data).ToByteArray()))
+	message.AddFrame(proto.NewFrame(value.(*iserialization.Data).ToByteArray()))
 }
 
-func EncodeNullableData(message *proto.ClientMessage, data serialization.Data) {
+func EncodeNullableData(message *proto.ClientMessage, data *iserialization.Data) {
 	if data == nil {
 		message.AddFrame(proto.NullFrame.Copy())
 	} else {
@@ -144,11 +161,11 @@ func EncodeNullableData(message *proto.ClientMessage, data serialization.Data) {
 	}
 }
 
-func DecodeData(frameIterator *proto.ForwardFrameIterator) serialization.Data {
-	return spi.NewData(frameIterator.Next().Content)
+func DecodeData(frameIterator *proto.ForwardFrameIterator) *iserialization.Data {
+	return iserialization.NewData(frameIterator.Next().Content)
 }
 
-func DecodeNullableData(frameIterator *proto.ForwardFrameIterator) serialization.Data {
+func DecodeNullableData(frameIterator *proto.ForwardFrameIterator) *iserialization.Data {
 	if CodecUtil.NextFrameIsNullFrame(frameIterator) {
 		return nil
 	}
@@ -196,7 +213,7 @@ func EncodeEntryListForDataAndListData(message *proto.ClientMessage, entries []p
 	message.AddFrame(proto.BeginFrame.Copy())
 	for _, value := range entries {
 		EncodeData(message, value.Key())
-		EncodeListData(message, value.Value().([]serialization.Data))
+		EncodeListData(message, value.Value().([]*iserialization.Data))
 	}
 	message.AddFrame(proto.EndFrame.Copy())
 }
@@ -279,7 +296,7 @@ func EncodeEntryListUUIDLong(message *proto.ClientMessage, entries []proto.Pair)
 	content := make([]byte, size*proto.EntrySizeInBytes)
 	newFrame := proto.NewFrame(content)
 	for i, entry := range entries {
-		key := entry.Key().(internal.UUID)
+		key := entry.Key().(types.UUID)
 		value := entry.Value().(int64)
 		FixSizedTypesCodec.EncodeUUID(content, int32(i*proto.EntrySizeInBytes), key)
 		FixSizedTypesCodec.EncodeLong(content, int32(i*proto.EntrySizeInBytes+proto.UUIDSizeInBytes), value)
@@ -326,16 +343,16 @@ func DecodeEntryListIntegerInteger(frameIterator *proto.ForwardFrameIterator) []
 
 func EncodeEntryListUUIDListInteger(message *proto.ClientMessage, entries []proto.Pair) {
 	entryCount := len(entries)
-	uuids := make([]internal.UUID, entryCount)
-	message.AddFrame(proto.BeginFrame)
+	uuids := make([]types.UUID, entryCount)
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < entryCount; i++ {
 		entry := entries[i]
-		key := entry.Key().(internal.UUID)
+		key := entry.Key().(types.UUID)
 		value := entry.Value().([]int32)
 		uuids[i] = key
 		EncodeListInteger(message, value)
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 	EncodeListUUID(message, uuids)
 }
 
@@ -415,8 +432,8 @@ func (fixSizedTypesCodec) DecodeByte(buffer []byte, offset int32) byte {
 	return buffer[offset]
 }
 
-func (fixSizedTypesCodec) EncodeUUID(buffer []byte, offset int32, uuid internal.UUID) {
-	isNullEncode := uuid == nil
+func (fixSizedTypesCodec) EncodeUUID(buffer []byte, offset int32, uuid types.UUID) {
+	isNullEncode := uuid.Default()
 	FixSizedTypesCodec.EncodeBoolean(buffer, offset, isNullEncode)
 	if isNullEncode {
 		return
@@ -426,10 +443,10 @@ func (fixSizedTypesCodec) EncodeUUID(buffer []byte, offset int32, uuid internal.
 	FixSizedTypesCodec.EncodeLong(buffer, bufferOffset+proto.LongSizeInBytes, int64(uuid.LeastSignificantBits()))
 }
 
-func (fixSizedTypesCodec) DecodeUUID(buffer []byte, offset int32) internal.UUID {
+func (fixSizedTypesCodec) DecodeUUID(buffer []byte, offset int32) types.UUID {
 	isNull := FixSizedTypesCodec.DecodeBoolean(buffer, offset)
 	if isNull {
-		return nil
+		return types.UUID{}
 	}
 
 	mostSignificantOffset := offset + proto.BooleanSizeInBytes
@@ -437,7 +454,7 @@ func (fixSizedTypesCodec) DecodeUUID(buffer []byte, offset int32) internal.UUID 
 	mostSignificant := uint64(FixSizedTypesCodec.DecodeLong(buffer, mostSignificantOffset))
 	leastSignificant := uint64(FixSizedTypesCodec.DecodeLong(buffer, leastSignificantOffset))
 
-	return internal.NewUUIDWith(mostSignificant, leastSignificant)
+	return types.NewUUIDWith(mostSignificant, leastSignificant)
 }
 
 func EncodeListInteger(message *proto.ClientMessage, entries []int32) {
@@ -479,40 +496,40 @@ func DecodeListLong(frameIterator *proto.ForwardFrameIterator) []int64 {
 	return result
 }
 
-func EncodeListMultiFrame(message *proto.ClientMessage, values []serialization.Data, encoder Encoder) {
-	message.AddFrame(proto.BeginFrame)
+func EncodeListMultiFrame(message *proto.ClientMessage, values []*iserialization.Data, encoder Encoder) {
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < len(values); i++ {
 		encoder(message, values[i])
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 }
 
-func EncodeListMultiFrameForData(message *proto.ClientMessage, values []serialization.Data) {
-	message.AddFrame(proto.BeginFrame)
+func EncodeListMultiFrameForData(message *proto.ClientMessage, values []*iserialization.Data) {
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < len(values); i++ {
 		EncodeData(message, values[i])
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 }
 
 func EncodeListMultiFrameForString(message *proto.ClientMessage, values []string) {
-	message.AddFrame(proto.BeginFrame)
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < len(values); i++ {
 		EncodeString(message, values[i])
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 }
 
-func EncodeListMultiFrameForStackTraceElement(message *proto.ClientMessage, values []proto.StackTraceElement) {
-	message.AddFrame(proto.BeginFrame)
+func EncodeListMultiFrameForStackTraceElement(message *proto.ClientMessage, values []ihzerrors.StackTraceElement) {
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < len(values); i++ {
 		EncodeStackTraceElement(message, values[i])
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 }
 
-func EncodeListMultiFrameContainsNullable(message *proto.ClientMessage, values []serialization.Data, encoder Encoder) {
-	message.AddFrame(proto.BeginFrame)
+func EncodeListMultiFrameContainsNullable(message *proto.ClientMessage, values []*iserialization.Data, encoder Encoder) {
+	message.AddFrame(proto.NewBeginFrame())
 	for i := 0; i < len(values); i++ {
 		if values[i] == nil {
 			message.AddFrame(proto.NullFrame)
@@ -520,10 +537,10 @@ func EncodeListMultiFrameContainsNullable(message *proto.ClientMessage, values [
 			encoder(message, values[i])
 		}
 	}
-	message.AddFrame(proto.EndFrame)
+	message.AddFrame(proto.NewEndFrame())
 }
 
-func EncodeListMultiFrameNullable(message *proto.ClientMessage, values []serialization.Data, encoder Encoder) {
+func EncodeListMultiFrameNullable(message *proto.ClientMessage, values []*iserialization.Data, encoder Encoder) {
 	if len(values) == 0 {
 		message.AddFrame(proto.NullFrame)
 	} else {
@@ -531,8 +548,16 @@ func EncodeListMultiFrameNullable(message *proto.ClientMessage, values []seriali
 	}
 }
 
-func DecodeListMultiFrameForData(frameIterator *proto.ForwardFrameIterator) []serialization.Data {
-	result := make([]serialization.Data, 0)
+func DecodeListMultiFrame(frameIterator *proto.ForwardFrameIterator, decoder func(frameIterator *proto.ForwardFrameIterator)) {
+	frameIterator.Next()
+	for !CodecUtil.NextFrameIsDataStructureEndFrame(frameIterator) {
+		decoder(frameIterator)
+	}
+	frameIterator.Next()
+}
+
+func DecodeListMultiFrameForData(frameIterator *proto.ForwardFrameIterator) []*iserialization.Data {
+	result := make([]*iserialization.Data, 0)
 	frameIterator.Next()
 	for !CodecUtil.NextFrameIsDataStructureEndFrame(frameIterator) {
 		result = append(result, DecodeData(frameIterator))
@@ -551,16 +576,6 @@ func DecodeListMultiFrameWithListInteger(frameIterator *proto.ForwardFrameIterat
 	return result
 }
 
-func DecodeListMultiFrameForDistributedObjectInfo(frameIterator *proto.ForwardFrameIterator) []internal.DistributedObjectInfo {
-	result := make([]internal.DistributedObjectInfo, 0)
-	frameIterator.Next()
-	for !CodecUtil.NextFrameIsDataStructureEndFrame(frameIterator) {
-		result = append(result, DecodeDistributedObjectInfo(frameIterator))
-	}
-	frameIterator.Next()
-	return result
-}
-
 func DecodeListMultiFrameForMemberInfo(frameIterator *proto.ForwardFrameIterator) []pubcluster.MemberInfo {
 	result := make([]pubcluster.MemberInfo, 0)
 	frameIterator.Next()
@@ -571,8 +586,8 @@ func DecodeListMultiFrameForMemberInfo(frameIterator *proto.ForwardFrameIterator
 	return result
 }
 
-func DecodeListMultiFrameForStackTraceElement(frameIterator *proto.ForwardFrameIterator) []hzerror.StackTraceElement {
-	result := make([]hzerror.StackTraceElement, 0)
+func DecodeListMultiFrameForStackTraceElement(frameIterator *proto.ForwardFrameIterator) []ihzerrors.StackTraceElement {
+	var result []ihzerrors.StackTraceElement
 	frameIterator.Next()
 	for !CodecUtil.NextFrameIsDataStructureEndFrame(frameIterator) {
 		result = append(result, DecodeStackTraceElement(frameIterator))
@@ -591,8 +606,8 @@ func DecodeListMultiFrameForString(frameIterator *proto.ForwardFrameIterator) []
 	return result
 }
 
-func DecodeListMultiFrameForDataContainsNullable(frameIterator *proto.ForwardFrameIterator) []serialization.Data {
-	result := make([]serialization.Data, 0)
+func DecodeListMultiFrameForDataContainsNullable(frameIterator *proto.ForwardFrameIterator) []*iserialization.Data {
+	result := make([]*iserialization.Data, 0)
 	frameIterator.Next()
 	for !CodecUtil.NextFrameIsDataStructureEndFrame(frameIterator) {
 		if CodecUtil.NextFrameIsNullFrame(frameIterator) {
@@ -605,15 +620,15 @@ func DecodeListMultiFrameForDataContainsNullable(frameIterator *proto.ForwardFra
 	return result
 }
 
-func EncodeListData(message *proto.ClientMessage, entries []serialization.Data) {
+func EncodeListData(message *proto.ClientMessage, entries []*iserialization.Data) {
 	EncodeListMultiFrameForData(message, entries)
 }
 
-func DecodeListData(frameIterator *proto.ForwardFrameIterator) []serialization.Data {
+func DecodeListData(frameIterator *proto.ForwardFrameIterator) []*iserialization.Data {
 	return DecodeListMultiFrameForData(frameIterator)
 }
 
-func EncodeListUUID(message *proto.ClientMessage, entries []internal.UUID) {
+func EncodeListUUID(message *proto.ClientMessage, entries []types.UUID) {
 	itemCount := len(entries)
 	content := make([]byte, itemCount*proto.UUIDSizeInBytes)
 	newFrame := proto.NewFrame(content)
@@ -623,10 +638,10 @@ func EncodeListUUID(message *proto.ClientMessage, entries []internal.UUID) {
 	message.AddFrame(newFrame)
 }
 
-func DecodeListUUID(frameIterator *proto.ForwardFrameIterator) []internal.UUID {
+func DecodeListUUID(frameIterator *proto.ForwardFrameIterator) []types.UUID {
 	frame := frameIterator.Next()
 	itemCount := len(frame.Content) / proto.UUIDSizeInBytes
-	result := make([]internal.UUID, itemCount)
+	result := make([]types.UUID, itemCount)
 	for i := 0; i < itemCount; i++ {
 		result[i] = FixSizedTypesCodec.DecodeUUID(frame.Content, int32(i*proto.UUIDSizeInBytes))
 	}
@@ -661,7 +676,7 @@ func EncodeMapForStringAndString(message *proto.ClientMessage, values map[string
 	message.AddFrame(proto.EndFrame.Copy())
 }
 
-func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[internal.EndpointQualifier]pubcluster.Address) {
+func EncodeMapForEndpointQualifierAndAddress(message *proto.ClientMessage, values map[pubcluster.EndpointQualifier]pubcluster.Address) {
 	message.AddFrame(proto.BeginFrame.Copy())
 	for key, value := range values {
 		EncodeEndpointQualifier(message, key)
@@ -683,7 +698,7 @@ func DecodeMapForStringAndString(iterator *proto.ForwardFrameIterator) map[strin
 }
 
 func DecodeMapForEndpointQualifierAndAddress(iterator *proto.ForwardFrameIterator) interface{} {
-	result := map[internal.EndpointQualifier]pubcluster.Address{}
+	result := map[pubcluster.EndpointQualifier]pubcluster.Address{}
 	iterator.Next()
 	for !iterator.PeekNext().IsEndFrame() {
 		key := DecodeEndpointQualifier(iterator)
@@ -700,4 +715,113 @@ func EncodeString(message *proto.ClientMessage, value interface{}) {
 
 func DecodeString(frameIterator *proto.ForwardFrameIterator) string {
 	return string(frameIterator.Next().Content)
+}
+
+func DecodeError(msg *proto.ClientMessage) *ihzerrors.ServerError {
+	frameIterator := msg.FrameIterator()
+	frameIterator.Next()
+	errorHolders := []proto.ErrorHolder{}
+	DecodeListMultiFrame(frameIterator, func(it *proto.ForwardFrameIterator) {
+		errorHolders = append(errorHolders, DecodeErrorHolder(frameIterator))
+	})
+	if len(errorHolders) == 0 {
+		return nil
+	}
+	holder := errorHolders[0]
+	return ihzerrors.NewServerError(holder.ErrorCode, holder.ClassName, holder.Message, holder.StackTraceElements)
+}
+
+func NewEndpointQualifier(qualifierType int32, identifier string) pubcluster.EndpointQualifier {
+	return pubcluster.EndpointQualifier{
+		Type:       pubcluster.EndpointQualifierType(qualifierType),
+		Identifier: identifier,
+	}
+}
+
+// DistributedObject is the base interface for all distributed objects.
+type DistributedObject interface {
+	// Destroy destroys this object cluster-wide.
+	// Destroy clears and releases all resources for this object.
+	Destroy() (bool, error)
+
+	// Name returns the unique name for this DistributedObject.
+	Name() string
+
+	// PartitionKey returns the key of partition this DistributedObject is assigned to. The returned value only has meaning
+	// for a non partitioned data structure like an IAtomicLong. For a partitioned data structure like an Map
+	// the returned value will not be nil, but otherwise undefined.
+	PartitionKey() string
+
+	// ServiceName returns the service name for this object.
+	ServiceName() string
+}
+
+type DistributedObjectInfo struct {
+	name        string
+	serviceName string
+}
+
+func (i *DistributedObjectInfo) Name() string {
+	return i.name
+}
+
+func (i *DistributedObjectInfo) ServiceName() string {
+	return i.serviceName
+}
+
+func (i *DistributedObjectInfo) GetName() string {
+	return i.name
+}
+
+func (i *DistributedObjectInfo) GetServiceName() string {
+	return i.serviceName
+}
+
+func NewDistributedObjectInfo(name string, serviceName string) DistributedObjectInfo {
+	return DistributedObjectInfo{name: name, serviceName: serviceName}
+}
+
+func NewMemberVersion(major, minor, patch byte) pubcluster.MemberVersion {
+	return pubcluster.MemberVersion{Major: major, Minor: minor, Patch: patch}
+}
+
+func NewMemberInfo(
+	address pubcluster.Address,
+	uuid types.UUID,
+	attributes map[string]string,
+	liteMember bool,
+	version pubcluster.MemberVersion,
+	addressMapExists bool,
+	addressMap interface{}) pubcluster.MemberInfo {
+	var addrMap map[pubcluster.EndpointQualifier]pubcluster.Address
+	if addressMapExists {
+		addrMap = addressMap.(map[pubcluster.EndpointQualifier]pubcluster.Address)
+	} else {
+		addrMap = map[pubcluster.EndpointQualifier]pubcluster.Address{}
+	}
+	return pubcluster.MemberInfo{
+		Address:    address,
+		UUID:       uuid,
+		Attributes: attributes,
+		LiteMember: liteMember,
+		Version:    version,
+		AddressMap: addrMap,
+	}
+}
+
+func EncodeAddress(clientMessage *proto.ClientMessage, address pubcluster.Address) {
+	host, portStr, err := net.SplitHostPort(address.String())
+	if err != nil {
+		panic(fmt.Errorf("parsing address: %w", err))
+	}
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		panic(fmt.Errorf("parsing address: %w", err))
+	}
+	clientMessage.AddFrame(proto.BeginFrame.Copy())
+	initialFrame := proto.NewFrame(make([]byte, AddressCodecPortInitialFrameSize))
+	FixSizedTypesCodec.EncodeInt(initialFrame.Content, AddressCodecPortFieldOffset, int32(port))
+	clientMessage.AddFrame(initialFrame)
+	EncodeString(clientMessage, host)
+	clientMessage.AddFrame(proto.EndFrame.Copy())
 }

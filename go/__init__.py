@@ -86,11 +86,11 @@ class PathHolders:
     AddressCodec = InternalImportPathHolder("AddressCodec", None, is_custom_codec=True)
     AnchorDataListHolder = InternalImportPathHolder("AnchorDataListHolder", "")
     AnchorDataListHolderCodec = InternalImportPathHolder("AnchorDataListHolderCodec", "", is_custom_codec=True)
-    BitmapIndexOptions = InternalImportPathHolder("BitmapIndexOptions", "")
+    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/hztypes")
     BitmapIndexOptionsCodec = InternalImportPathHolder("BitmapIndexOptionsCodec", None, is_custom_codec=True)
     ByteArrayCodec = InternalImportPathHolder("ByteArrayCodec", "", is_builtin_codec=True)
     CodecUtilCodec = InternalImportPathHolder("CodecUtil", "", is_builtin_codec=True)
-    Data = InternalImportPathHolder('Data', '/serialization')
+    Data = ImportPathHolder('Data', '/serialization')
     DataCodec = InternalImportPathHolder("DataCodec", "", is_builtin_codec=True)
     DistributedObjectInfo = InternalImportPathHolder("DistributedObjectInfo", "")
     DistributedObjectInfoCodec = InternalImportPathHolder("DistributedObjectInfoCodec", None, is_custom_codec=True)
@@ -123,7 +123,7 @@ class PathHolders:
     PagingPredicateHolderCodec = InternalImportPathHolder("PagingPredicateHolderCodec", "", is_custom_codec=True)
     RaftGroupId = InternalImportPathHolder("RaftGroupId", "")
     RaftGroupIdCodec = InternalImportPathHolder("RaftGroupIdCodec", "", is_custom_codec=True)
-    SimpleEntryView = InternalImportPathHolder("SimpleEntryView", "")
+    SimpleEntryView = ImportPathHolder("SimpleEntryView", "/hztypes")
     SimpleEntryViewCodec = InternalImportPathHolder("SimpleEntryViewCodec", None, is_custom_codec=True)
     StackTraceElement = ImportPathHolder("StackTraceElement", "/hzerror")
     StackTraceElementCodec = InternalImportPathHolder("StackTraceElementCodec", None, is_custom_codec=True)
@@ -179,7 +179,7 @@ import_paths = {
 _go_types_common = {
     "Address": "cluster.Address",
     # "AttributeConfig": "NA",
-    "BitmapIndexOptions": "internal.BitmapIndexOptions",
+    "BitmapIndexOptions": "hztypes.BitmapIndexOptions",
     # "CacheConfigHolder": "NA",
     # "CacheEventData": "NA",
     # "CacheSimpleEntryListenerConfig": "NA",
@@ -188,7 +188,7 @@ _go_types_common = {
     "DistributedObjectInfo": "internal.DistributedObjectInfo",
     # "DurationConfig": "NA",
     "EndpointQualifier": "internal.EndpointQualifier",
-    # "ErrorHolder": "proto.ErrorHolder",
+    "ErrorHolder": "proto.ErrorHolder",
     # "EventJournalConfig": "NA",
     # "EvictionConfigHolder": "NA",
     # "HotRestartConfig": "NA",
@@ -211,7 +211,7 @@ _go_types_common = {
     # "QueueStoreConfigHolder": "NA",
     # "RaftGroupId": "proto.RaftGroupId",
     # "RingbufferStoreConfigHolder": "NA",
-    "SimpleEntryView": "*internal.SimpleEntryView",
+    "SimpleEntryView": "*hztypes.SimpleEntryView",
     "StackTraceElement": "hzerror.StackTraceElement",
     "String": "string",
     # "TimedExpiryPolicyFactoryConfig": "NA",
@@ -226,7 +226,7 @@ _go_types_common = {
 }
 
 _go_types_encode = {
-    # "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    "AnchorDataListHolder": "proto.AnchorDataListHolder",
     # "CPMember": "NA",
     # "CacheEventData": "NA",
     # "ClientBwListEntry": "NA",
@@ -269,7 +269,7 @@ _go_types_encode = {
     "MemberInfo": "cluster.MemberInfo",
     "MemberVersion": "cluster.MemberVersion",
     # "MigrationState": "NA",
-    # "PagingPredicateHolder": "proto.PagingPredicateHolder",
+    "PagingPredicateHolder": "proto.PagingPredicateHolder",
     # "QueryCacheEventData": "NA",
     # "ScheduledTaskHandler": "NA",
     # "SqlColumnMetadata": "NA",
@@ -279,7 +279,7 @@ _go_types_encode = {
 }
 
 _go_types_decode = {
-    # "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    "AnchorDataListHolder": "proto.AnchorDataListHolder",
     # "CPMember": "NA",
     # "CacheEventData": "NA",
     # "ClientBwListEntry": "NA",
@@ -315,7 +315,7 @@ _go_types_decode = {
     # "List_QueryCacheEventData": "NA",
     # "List_ScheduledTaskHandler": "NA",
     # "List_SqlColumnMetadata": "NA",
-    # "List_StackTraceElement": "[]proto.StackTraceElement",
+    "List_StackTraceElement": "[]hzerror.StackTraceElement",
     "List_String": "[]string",
     "List_UUID": "[]internal.UUID",
     # "List_Xid": "NA",
