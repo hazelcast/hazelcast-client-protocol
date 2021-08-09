@@ -36,7 +36,6 @@ py_ignore_service_list = {
     "Cache",
     "CardinalityEstimator",
     "Client.addPartitionLostListener",
-    "Client.authenticationCustom",
     "Client.createProxies",
     "Client.removeMigrationListener",
     "Client.removePartitionLostListener",
