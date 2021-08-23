@@ -169,7 +169,7 @@ if lang != SupportedLanguages.MD:
     print("Generated codecs are at '%s'" % abspath(codec_output_dir))
 
 if custom_protocol_defs:
-    if lang != SupportedLanguages.MD:
+    if lang != SupportedLanguages.MD and lang != SupportedLanguages.CPP:
         custom_codec_template = env.get_template("custom-codec-template.%s.j2" % lang.value)
         relative_custom_codec_output_dir = args.out_dir or custom_codec_output_directories[lang]
         custom_codec_output_dir = join(root_dir, relative_custom_codec_output_dir)
@@ -182,7 +182,7 @@ if custom_protocol_defs:
             env,
         )
         print("Generated custom codecs are at '%s'" % custom_codec_output_dir)
-    else:
+    elif lang == SupportedLanguages.MD:
         documentation_template = env.get_template("documentation-template.j2")
         generate_documentation(
             protocol_defs,

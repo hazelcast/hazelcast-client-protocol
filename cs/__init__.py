@@ -14,8 +14,7 @@ cs_ignore_service_list = {
     # entire services
     "MC", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
-    "FlakeIdGenerator",
-
+    "FlakeIdGenerator", "Jet",
     "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
 
     # methods
@@ -97,8 +96,7 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
 
     "Map_String_String": "IDictionary<string, string>",
-    "Map_EndpointQualifier_Address": "IDictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
-
+    "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
     "SqlPage": "Hazelcast.Sql.SqlPage"
 }
 

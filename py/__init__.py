@@ -36,7 +36,6 @@ py_ignore_service_list = {
     "Cache",
     "CardinalityEstimator",
     "Client.addPartitionLostListener",
-    "Client.authenticationCustom",
     "Client.createProxies",
     "Client.removeMigrationListener",
     "Client.removePartitionLostListener",
@@ -68,6 +67,7 @@ py_ignore_service_list = {
     "Topic.publishAll",
     "TransactionalMap.containsValue",
     "XATransaction",
+    "Jet",
 }
 
 
