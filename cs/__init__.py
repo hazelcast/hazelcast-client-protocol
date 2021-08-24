@@ -12,14 +12,13 @@ cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "ba
 cs_ignore_service_list = {
 
     # entire services
-    "MC", "Sql", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
+    "MC", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
     "FlakeIdGenerator", "Jet",
-    
     "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
-    
+
     # methods
-    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener"
+    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
 }
 
 
@@ -98,6 +97,7 @@ _cs_types_common = {
 
     "Map_String_String": "IDictionary<string, string>",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "SqlPage": "Hazelcast.Sql.SqlPage"
 }
 
 _cs_types_encode = {
@@ -111,11 +111,12 @@ _cs_types_encode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "Hazelcast.Protocol.Models.AnchorDataListHolder",
     "PagingPredicateHolder": "Hazelcast.Protocol.Models.PagingPredicateHolder",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
     "CPMember": "Hazelcast.CP.ICPMember",
     "MigrationState": "NA",
+
+    "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
+    "SqlError": "Hazelcast.Sql.SqlError",
+    "SqlColumnMetadata": "Hazelcast.Sql.SqlColumnMetadata",
 
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
@@ -125,6 +126,7 @@ _cs_types_encode = {
     "List_Data": "ICollection<IData>",
     "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "ICollection<IData>",
+    "List_ListCN_Data": "ICollection<ICollection<IData>>",
     "List_MemberInfo": "ICollection<Hazelcast.Models.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
@@ -138,7 +140,7 @@ _cs_types_encode = {
     "List_StackTraceElement": "ICollection<Hazelcast.Util.StackTraceElement>",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
-    "List_SqlColumnMetadata": "NA",
+    "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
     "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
@@ -166,9 +168,9 @@ _cs_types_decode = {
     "MCEvent": "NA",
     "AnchorDataListHolder": "Hazelcast.Protocol.Models.AnchorDataListHolder",
     "PagingPredicateHolder": "Hazelcast.Protocol.Models.PagingPredicateHolder",
-    "SqlQueryId": "NA",
-    "SqlError": "NA",
-    "SqlColumnMetadata": "NA",
+    "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
+    "SqlError": "Hazelcast.Sql.SqlError",
+    "SqlColumnMetadata": "Hazelcast.Sql.SqlColumnMetadata",
     "CPMember": "Hazelcast.CP.CPMemberInfo",
 
     "List_Long": "IList<long>",
@@ -179,6 +181,7 @@ _cs_types_decode = {
     "List_Data": "IList<IData>",
     "List_List_Data": "ICollection<ICollection<IData>>",
     "ListCN_Data": "IList<IData>",
+    "List_ListCN_Data": "IList<IList<IData>>",
     "List_MemberInfo": "IList<Hazelcast.Models.MemberInfo>",
     "List_CacheEventData": "NA",
     "List_QueryCacheConfigHolder": "NA",
@@ -192,7 +195,7 @@ _cs_types_decode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_ScheduledTaskHandler": "NA",
-    "List_SqlColumnMetadata": "NA",
+    "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
     "List_CPMember": "IList<Hazelcast.CP.CPMemberInfo>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
