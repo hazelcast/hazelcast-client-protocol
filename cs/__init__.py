@@ -14,7 +14,7 @@ cs_ignore_service_list = {
     # entire services
     "MC", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
-    "FlakeIdGenerator", "Jet",
+    "Jet",
     "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
 
     # methods
