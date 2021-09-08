@@ -906,6 +906,10 @@ customTypes:
         type: UUID
         nullable: false
         since: 2.1
+      - name: suggestion
+        type: String
+        nullable: true
+        since: 2.3
   - name: SqlColumnMetadata
     since: 2.1
     returnWithFactory: true
