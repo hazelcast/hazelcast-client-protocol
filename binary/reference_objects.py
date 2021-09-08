@@ -54,7 +54,10 @@ objects = {
     },
     'SqlColumnMetadata': {
         'type': 1
-    }
+    },
+    'ListenerConfigHolder': {
+        'listenerType': 1
+    },
 }
 
 map_objects = {
