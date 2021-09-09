@@ -2942,3 +2942,27 @@ methods:
           since: 2.0
           doc: |
             old value of the entry
+  - id: 72
+    name: replaceAll
+    since: 2.0
+    doc: |
+      Replaces each entry's value with the result of invoking the given
+      function on that entry until all entries have been processed or the
+      function throws an exception.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.0
+          doc: |
+            name of map
+        - name: function
+          type: Data
+          nullable: false
+          since: 2.0
+          doc: |
+            the function to apply to each entry.
+    response: {}
