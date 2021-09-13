@@ -261,6 +261,10 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+      - name: enabledSet
+        type: boolean
+        nullable: false
+        since: 2.3
   - name: NearCacheConfigHolder
     since: 2.0
     params:
