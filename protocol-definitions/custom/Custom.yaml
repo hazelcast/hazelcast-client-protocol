@@ -964,7 +964,7 @@ customTypes:
         type: String
         nullable: false
         since: 2.3
-      - name: type
+      - name: kind
         type: int
         nullable: false
         since: 2.3
