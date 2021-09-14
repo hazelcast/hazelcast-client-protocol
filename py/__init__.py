@@ -64,6 +64,7 @@ py_ignore_service_list = {
     "ScheduledExecutor",
     "Sql.execute_reserved",
     "Sql.fetch_reserved",
+    "Sql.mappingDdl",
     "Topic.publishAll",
     "TransactionalMap.containsValue",
     "XATransaction",
