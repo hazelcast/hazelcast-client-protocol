@@ -47,12 +47,8 @@ py_ignore_service_list = {
     "ExecutorService.cancelOnMember",
     "ExecutorService.cancelOnPartition",
     "Map.addPartitionLostListener",
-    "Map.aggregate",
-    "Map.aggregateWithPredicate",
     "Map.eventJournalRead",
     "Map.eventJournalSubscribe",
-    "Map.project",
-    "Map.projectWithPredicate",
     "Map.removeAll",
     "Map.removeInterceptor",
     "Map.removePartitionLostListener",
@@ -128,7 +124,7 @@ class PathHolders:
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "protocol")
     AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec",
                                                  "protocol.codec.custom.anchor_data_list_holder_codec")
-    EndpointQualifier = ImportPathHolder("EndpointQualifier", "protocol")
+    EndpointQualifier = ImportPathHolder("EndpointQualifier", "core")
     EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec",
                                               "protocol.codec.custom.endpoint_qualifier_codec")
     RaftGroupId = ImportPathHolder("RaftGroupId", "protocol")
