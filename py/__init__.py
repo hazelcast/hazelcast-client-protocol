@@ -50,7 +50,6 @@ py_ignore_service_list = {
     "Map.eventJournalRead",
     "Map.eventJournalSubscribe",
     "Map.removeAll",
-    "Map.removeInterceptor",
     "Map.removePartitionLostListener",
     "Map.submitToKey",
     "MultiMap.delete",
