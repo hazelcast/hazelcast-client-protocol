@@ -19,7 +19,8 @@ from binary import FixedEntryListTypes, FixedLengthTypes, FixedListTypes, FixedM
 from cpp import cpp_ignore_service_list, cpp_types_decode, cpp_types_encode, get_size, is_trivial
 from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
 from java import java_types_decode, java_types_encode
-from go import go_types_encode, go_types_decode, go_ignore_service_list, go_get_import_statements, go_escape_keyword
+from go import go_types_encode, go_types_decode, go_ignore_service_list, \
+    go_get_import_statements, go_escape_keyword, go_augment_enum, go_rename_field
 from md import internal_services
 from py import (
     py_escape_keyword,
@@ -566,6 +567,12 @@ language_specific_funcs = {
         SupportedLanguages.GO: go_get_import_statements,  # exposed as: get_import_path_holders
         SupportedLanguages.MD: lambda x: x,
     },
+    "augment_enum": {
+        SupportedLanguages.GO: go_augment_enum,
+    },
+    "rename_field": {
+        SupportedLanguages.GO: go_rename_field,
+    }
     "custom_type_name": {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: lambda x: x,
@@ -638,5 +645,7 @@ def create_environment(lang, namespace):
     env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][
         lang
     ]
+    env.globals["augment_enum"] = language_specific_funcs["augment_enum"].get(lang)
+    env.globals["rename_field"] = language_specific_funcs["rename_field"].get(lang)
 
     return env

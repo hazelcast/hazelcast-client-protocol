@@ -1,5 +1,3 @@
-CLIENT_VERSION = 4
-
 go_reserved_keywords = {"break", "default", "func", "interface", "select", "case", "defer", "go", "map", "struct",
                         "chan", "else", "goto", "package", "switch", "const", "fallthrough", "if", "range", "type",
                         "continue", "for", "import", "return", "var"}
@@ -13,7 +11,7 @@ go_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "T
 def go_escape_keyword(value):
     if value not in go_reserved_keywords:
         return value
-    return "_" + value
+    return "_%s" % value
 
 
 def go_types_encode(key):
@@ -54,7 +52,10 @@ def go_get_import_statements(*args):
                 path = path_holder.import_statement
                 if path is not None:
                     import_statements.add(path)
-    return import_statements
+    import_statements.add('"github.com/hazelcast/hazelcast-go-client/internal/proto"')
+    if args[0] == "SimpleEntryView":
+        import_statements.remove('iserialization"github.com/hazelcast/hazelcast-go-client/internal/serialization"')
+    return sorted(import_statements)
 
 
 class ImportPathHolder:
@@ -66,19 +67,21 @@ class ImportPathHolder:
     def import_statement(self):
         if not self.path:
             return ""
-        return '''"github.com/hazelcast/hazelcast-go-client/v%s/hazelcast%s"''' % (CLIENT_VERSION, self.path)
+        return '''"github.com/hazelcast/hazelcast-go-client%s"''' % self.path
 
 
 class InternalImportPathHolder:
-    def __init__(self, name, path, is_builtin_codec=False, is_custom_codec=False):
+    def __init__(self, name, path, alias="", is_builtin_codec=False, is_custom_codec=False):
         self.name = name
         self.path = path
+        self.alias = alias
 
     @property
     def import_statement(self):
         if self.path is None:
             return ""
-        return '''"github.com/hazelcast/hazelcast-go-client/v%s/internal%s"''' % (CLIENT_VERSION, self.path)
+        alias = "%s " % self.alias if self.alias else ""
+        return '''%s"github.com/hazelcast/hazelcast-go-client/internal%s"''' % (self.alias, self.path)
 
 
 class PathHolders:
@@ -86,15 +89,15 @@ class PathHolders:
     AddressCodec = InternalImportPathHolder("AddressCodec", None, is_custom_codec=True)
     AnchorDataListHolder = InternalImportPathHolder("AnchorDataListHolder", "")
     AnchorDataListHolderCodec = InternalImportPathHolder("AnchorDataListHolderCodec", "", is_custom_codec=True)
-    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/hztypes")
+    BitmapIndexOptions = ImportPathHolder("BitmapIndexOptions", "/types")
     BitmapIndexOptionsCodec = InternalImportPathHolder("BitmapIndexOptionsCodec", None, is_custom_codec=True)
     ByteArrayCodec = InternalImportPathHolder("ByteArrayCodec", "", is_builtin_codec=True)
     CodecUtilCodec = InternalImportPathHolder("CodecUtil", "", is_builtin_codec=True)
-    Data = ImportPathHolder('Data', '/serialization')
+    Data = InternalImportPathHolder('Data', '/serialization', 'iserialization')
     DataCodec = InternalImportPathHolder("DataCodec", "", is_builtin_codec=True)
-    DistributedObjectInfo = InternalImportPathHolder("DistributedObjectInfo", "")
+    DistributedObjectInfo = ImportPathHolder("DistributedObjectInfo", "/types")
     DistributedObjectInfoCodec = InternalImportPathHolder("DistributedObjectInfoCodec", None, is_custom_codec=True)
-    EndpointQualifier = InternalImportPathHolder("EndpointQualifier", "")
+    EndpointQualifier = ImportPathHolder("EndpointQualifier", "/cluster")
     EndpointQualifierCodec = InternalImportPathHolder("EndpointQualifierCodec", None, is_custom_codec=True)
     EntryListCodec = InternalImportPathHolder("EntryListCodec", "", is_builtin_codec=True)
     EntryListIntegerIntegerCodec = InternalImportPathHolder("EntryListIntegerIntegerCodec", "", is_builtin_codec=True)
@@ -104,9 +107,9 @@ class PathHolders:
     EntryListUUIDListIntegerCodec = InternalImportPathHolder("EntryListUUIDListIntegerCodec", "", is_builtin_codec=True)
     EntryListUUIDLongCodec = InternalImportPathHolder("EntryListUUIDLongCodec", "", is_builtin_codec=True)
     EntryListUUIDUUIDCodec = InternalImportPathHolder("EntryListUUIDUUIDCodec", "", is_builtin_codec=True)
-    ErrorHolder = InternalImportPathHolder("ErrorHolder", "")
+    ErrorHolder = InternalImportPathHolder("ErrorHolder", "/proto")
     ErrorHolderCodec = InternalImportPathHolder("ErrorHolderCodec", "", is_custom_codec=True)
-    IndexConfig = ImportPathHolder("IndexConfig", "/hztypes")
+    IndexConfig = ImportPathHolder("IndexConfig", "/types")
     IndexConfigCodec = InternalImportPathHolder("IndexConfigCodec", "", is_custom_codec=True)
     ListDataCodec = InternalImportPathHolder("ListDataCodec", "", is_builtin_codec=True)
     ListIntegerCodec = InternalImportPathHolder("ListIntegerCodec", "", is_builtin_codec=True)
@@ -123,12 +126,12 @@ class PathHolders:
     PagingPredicateHolderCodec = InternalImportPathHolder("PagingPredicateHolderCodec", "", is_custom_codec=True)
     RaftGroupId = InternalImportPathHolder("RaftGroupId", "")
     RaftGroupIdCodec = InternalImportPathHolder("RaftGroupIdCodec", "", is_custom_codec=True)
-    SimpleEntryView = ImportPathHolder("SimpleEntryView", "/hztypes")
+    SimpleEntryView = ImportPathHolder("SimpleEntryView", "/types")
     SimpleEntryViewCodec = InternalImportPathHolder("SimpleEntryViewCodec", None, is_custom_codec=True)
-    StackTraceElement = ImportPathHolder("StackTraceElement", "/hzerror")
+    StackTraceElement = InternalImportPathHolder("StackTraceElement", "/hzerrors", alias="ihzerrors")
     StackTraceElementCodec = InternalImportPathHolder("StackTraceElementCodec", None, is_custom_codec=True)
     StringCodec = InternalImportPathHolder("StringCodec", None, is_builtin_codec=True)
-    UUID = InternalImportPathHolder("UUID", "")
+    UUID = ImportPathHolder("UUID", "/types")
 
 
 import_paths = {
@@ -138,6 +141,7 @@ import_paths = {
     "CodecUtil": PathHolders.CodecUtilCodec,
     "Data": [PathHolders.Data, PathHolders.DataCodec],
     "DistributedObjectInfo": [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
+    "EndpointQualifier": [PathHolders.EndpointQualifier],
     "EntryList_Data_Data": [PathHolders.EntryListCodec, PathHolders.DataCodec],
     "EntryList_Data_List_Data": [PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.ListDataCodec],
     "EntryList_Integer_Integer": [PathHolders.EntryListIntegerIntegerCodec],
@@ -155,7 +159,7 @@ import_paths = {
     "ListCN_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     "ListIndexConfig": [PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
     "List_Data": [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
-    "List_DistributedObjectInfo": [PathHolders.ListMultiFrameCodec, PathHolders.DistributedObjectInfoCodec],
+    "List_DistributedObjectInfo": [PathHolders.ListMultiFrameCodec, PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_Long": [PathHolders.ListLongCodec],
     "List_StackTraceElement": [PathHolders.ListMultiFrameCodec, PathHolders.StackTraceElementCodec],
@@ -178,27 +182,28 @@ import_paths = {
 
 _go_types_common = {
     "Address": "cluster.Address",
+    "AnchorDataListHolder": "NA",
     # "AttributeConfig": "NA",
-    "BitmapIndexOptions": "hztypes.BitmapIndexOptions",
+    "BitmapIndexOptions": "types.BitmapIndexOptions",
     # "CacheConfigHolder": "NA",
     # "CacheEventData": "NA",
     # "CacheSimpleEntryListenerConfig": "NA",
     # "ClientBwListEntry": "NA",
-    "Data": "serialization.Data",
-    "DistributedObjectInfo": "internal.DistributedObjectInfo",
+    "Data": "*iserialization.Data",
+    "DistributedObjectInfo": "types.DistributedObjectInfo",
     # "DurationConfig": "NA",
-    "EndpointQualifier": "internal.EndpointQualifier",
+    "EndpointQualifier": "cluster.EndpointQualifier",
     "ErrorHolder": "proto.ErrorHolder",
     # "EventJournalConfig": "NA",
     # "EvictionConfigHolder": "NA",
     # "HotRestartConfig": "NA",
-    "IndexConfig": "hztypes.IndexConfig",
+    "IndexConfig": "types.IndexConfig",
     "Integer": "int32",
     # "List_CPMember": "NA",
     # "ListenerConfigHolder": "NA",
     "Long": "int64",
     # "MapStoreConfigHolder": "NA",
-    "Map_EndpointQualifier_Address": "map[internal.EndpointQualifier]cluster.Address",
+    "Map_EndpointQualifier_Address": "map[cluster.EndpointQualifier]cluster.Address",
     "Map_String_String": "map[string]string",
     "MemberInfo": "cluster.MemberInfo",
     # "MergePolicyConfig": "NA",
@@ -211,11 +216,11 @@ _go_types_common = {
     # "QueueStoreConfigHolder": "NA",
     # "RaftGroupId": "proto.RaftGroupId",
     # "RingbufferStoreConfigHolder": "NA",
-    "SimpleEntryView": "*hztypes.SimpleEntryView",
-    "StackTraceElement": "hzerror.StackTraceElement",
+    "SimpleEntryView": "*types.SimpleEntryView",
+    "StackTraceElement": "ihzerrors.StackTraceElement",
     "String": "string",
     # "TimedExpiryPolicyFactoryConfig": "NA",
-    "UUID": "internal.UUID",
+    "UUID": "types.UUID",
     # "WanReplicationRef": "NA",
     "boolean": "bool",
     "byte": "byte",
@@ -226,7 +231,8 @@ _go_types_common = {
 }
 
 _go_types_encode = {
-    "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    # "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    "AnchorDataListHolder": "NA",
     # "CPMember": "NA",
     # "CacheEventData": "NA",
     # "ClientBwListEntry": "NA",
@@ -242,17 +248,17 @@ _go_types_encode = {
     "EntryList_UUID_List_Integer": "[]proto.Pair",
     "EntryList_UUID_Long": "[]proto.Pair",
     "EntryList_UUID_UUID": "[]proto.Pair",
-    # "ListCN_Data": "[]serialization.Data",
+    # "ListCN_Data": "[]*iserialization.Data",
     "List_AttributeConfig": "NA",
     # "List_CacheEventData": "NA",
     # "List_CacheSimpleEntryListenerConfig": "NA",
     # "List_ClientBwListEntry": "NA",
-    "List_Data": "[]serialization.Data",
-    "List_DistributedObjectInfo": "[]internal.DistributedObjectInfo",
-    "List_IndexConfig": "[]hztypes.IndexConfig",
+    "List_Data": "[]*iserialization.Data",
+    "List_DistributedObjectInfo": "[]types.DistributedObjectInfo",
+    "List_IndexConfig": "[]types.IndexConfig",
     "List_Integer": "[]int32",
     # "List_ListCN_Data": "NA",
-    "List_List_Data": "[]serialization.Data",
+    "List_List_Data": "[]*iserialization.Data",
     # "List_ListenerConfigHolder": "NA",
     "List_Long": "[]int64",
     # "List_MCEvent": "NA",
@@ -261,15 +267,16 @@ _go_types_encode = {
     # "List_QueryCacheEventData": "NA",
     # "List_ScheduledTaskHandler": "NA",
     # "List_SqlColumnMetadata": "NA",
-    "List_StackTraceElement": "[]hzerror.StackTraceElement",
+    "List_StackTraceElement": "[]ihzerrors.StackTraceElement",
     "List_String": "[]string",
-    "List_UUID": "[]internal.UUID",
+    "List_UUID": "[]types.UUID",
     # "List_Xid": "NA",
     # "MCEvent": "NA",
     "MemberInfo": "cluster.MemberInfo",
     "MemberVersion": "cluster.MemberVersion",
     # "MigrationState": "NA",
-    "PagingPredicateHolder": "proto.PagingPredicateHolder",
+    # "PagingPredicateHolder": "proto.PagingPredicateHolder",
+    "PagingPredicateHolder": "NA",
     # "QueryCacheEventData": "NA",
     # "ScheduledTaskHandler": "NA",
     # "SqlColumnMetadata": "NA",
@@ -279,7 +286,7 @@ _go_types_encode = {
 }
 
 _go_types_decode = {
-    "AnchorDataListHolder": "proto.AnchorDataListHolder",
+    # "Address": "cluster.Address",
     # "CPMember": "NA",
     # "CacheEventData": "NA",
     # "ClientBwListEntry": "NA",
@@ -295,18 +302,18 @@ _go_types_decode = {
     "EntryList_UUID_List_Integer": "[]proto.Pair",
     "EntryList_UUID_Long": "[]proto.Pair",
     "EntryList_UUID_UUID": "[]proto.Pair",
-    # "ListCN_Data": "[]serialization.Data",
+    # "ListCN_Data": "[]*iserialization.Data",
     "List_AttributeConfig": "NA",
     # "List_CPMember": "NA",
     # "List_CacheEventData": "NA",
     # "List_CacheSimpleEntryListenerConfig": "NA",
     # "List_ClientBwListEntry": "NA",
-    "List_Data": "[]serialization.Data",
-    "List_DistributedObjectInfo": "[]internal.DistributedObjectInfo",
-    "List_IndexConfig": "[]hztypes.IndexConfig",
+    "List_Data": "[]*iserialization.Data",
+    "List_DistributedObjectInfo": "[]types.DistributedObjectInfo",
+    "List_IndexConfig": "[]types.IndexConfig",
     "List_Integer": "[]int32",
     # "List_ListCN_Data": "NA",
-    "List_List_Data": "[]serialization.Data",
+    "List_List_Data": "[]*iserialization.Data",
     # "List_ListenerConfigHolder": "NA",
     "List_Long": "[]int64",
     # "List_MCEvent": "NA",
@@ -315,9 +322,9 @@ _go_types_decode = {
     # "List_QueryCacheEventData": "NA",
     # "List_ScheduledTaskHandler": "NA",
     # "List_SqlColumnMetadata": "NA",
-    "List_StackTraceElement": "[]hzerror.StackTraceElement",
+    "List_StackTraceElement": "[]ihzerrors.StackTraceElement",
     "List_String": "[]string",
-    "List_UUID": "[]internal.UUID",
+    "List_UUID": "[]types.UUID",
     # "List_Xid": "NA",
     # "MCEvent": "NA",
     "MemberInfo": "cluster.MemberInfo",
@@ -330,4 +337,30 @@ _go_types_decode = {
     # "SqlError": "NA",
     # "SqlQueryId": "NA",
     # "Xid": "NA",
+}
+
+    
+def go_augment_enum(codec, param):
+    cast_type = _go_enum.get((codec, param["name"]))
+    if cast_type:
+        return "%s(%s)" % (cast_type, go_escape_keyword(param["name"]))
+    return go_escape_keyword(param["name"])
+
+
+_go_enum = {
+    ("BitmapIndexOptions", "uniqueKeyTransformation"): "types.UniqueKeyTransformation",
+    ("EndpointQualifier", "type"): "cluster.EndpointQualifierType",
+    ("IndexConfig", "type"): "types.IndexType",
+}
+
+def go_rename_field(codec, param):
+    name = param["name"]
+    field_name = _go_field.get((codec, name))
+    if field_name:
+        return field_name
+    return "%s%s" % (name[0].upper(), name[1:])
+
+_go_field = {
+    ("SimpleEntryView", "ttl"): "TTL",
+    ("MemberInfo", "uuid"): "UUID",
 }

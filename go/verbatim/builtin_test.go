@@ -1,12 +1,30 @@
+/*
+ * Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package codec
 
 import (
 	"encoding/binary"
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/proto"
 	"testing"
 
-	"github.com/hazelcast/hazelcast-go-client/v4/internal/core"
+	"github.com/hazelcast/hazelcast-go-client/types"
+
 	"github.com/stretchr/testify/assert"
+
+	"github.com/hazelcast/hazelcast-go-client/internal/proto"
 )
 
 func TestCodecUtil_FastForwardToEndFrame(t *testing.T) {
@@ -25,7 +43,6 @@ func TestCodecUtil_FastForwardToEndFrame(t *testing.T) {
 
 	//then
 	assert.False(t, iterator.HasNext())
-	println(message.GetCorrelationID())
 }
 
 func TestCodecUtil_EncodeNullable(t *testing.T) {
@@ -34,19 +51,19 @@ func TestCodecUtil_EncodeNullable(t *testing.T) {
 	message := proto.NewClientMessage(frame1)
 
 	//when
-	CodecUtil.EncodeNullable(message, "encode-value-1", StringCodec.Encode)
+	CodecUtil.EncodeNullable(message, "encode-value-1", EncodeString)
 
 	//then
 	iterator := message.FrameIterator()
 	assert.Equal(t, string(iterator.Next().Content), "value-0")
 	assert.Equal(t, string(iterator.Next().Content), "encode-value-1")
-	assert.Equal(t, string(message.EndFrame.Content), "encode-value-1")
+	assert.Equal(t, string(message.Frames[len(message.Frames)-1].Content), "encode-value-1")
 }
 
 func TestCodecUtil_NextFrameIsDataStructureEndFrame(t *testing.T) {
 	//given
 	byteValue := []byte("value-0")
-	flags := int32(proto.EndDataStructureFlag)
+	flags := uint16(proto.EndDataStructureFlag)
 	frame := proto.NewFrameWith(byteValue, flags)
 	message := proto.NewClientMessage(frame)
 	//when
@@ -93,7 +110,7 @@ func TestByteArrayCodec_Encode(t *testing.T) {
 	message := proto.NewClientMessageForEncode()
 
 	//when
-	ByteArrayCodec.Encode(message, value)
+	EncodeByteArray(message, value)
 
 	//then
 	iterator := message.FrameIterator()
@@ -106,7 +123,7 @@ func TestByteArrayCodec_Decode(t *testing.T) {
 	message := proto.NewClientMessage(proto.NewFrame(value))
 
 	//when
-	decode := ByteArrayCodec.Decode(message.FrameIterator())
+	decode := DecodeByteArray(message.FrameIterator())
 
 	//then
 	assert.Equal(t, string(decode), "value-1")
@@ -118,7 +135,7 @@ func TestCodecUtil_EncodeNullable_If_Value_Is_Null_Add_Null_Frame_To_Message(t *
 	message := proto.NewClientMessage(frame1)
 
 	//when
-	CodecUtil.EncodeNullable(message, nil, StringCodec.Encode)
+	CodecUtil.EncodeNullable(message, nil, EncodeString)
 
 	//then
 	iterator := message.FrameIterator()
@@ -131,7 +148,7 @@ func TestDataCodec_EncodeNullable_When_Data_Is_Nil(t *testing.T) {
 	message := proto.NewClientMessageForEncode()
 
 	//when
-	DataCodec.EncodeNullable(message, nil)
+	EncodeNullableData(message, nil)
 
 	//then
 	iterator := message.FrameIterator()
@@ -146,7 +163,7 @@ func TestDataCodec_Decode(t *testing.T) {
 	frameIterator := message.FrameIterator()
 
 	//when
-	decode := DataCodec.Decode(frameIterator)
+	decode := DecodeNullableData(frameIterator)
 
 	//then
 	assert.Equal(t, decode.ToByteArray(), bytes)
@@ -159,7 +176,7 @@ func TestDataCodec_Decode_When_Data_Is_Nil(t *testing.T) {
 	frameIterator := message.FrameIterator()
 
 	//when
-	decode := DataCodec.DecodeNullable(frameIterator)
+	decode := DecodeNullableData(frameIterator)
 
 	//then
 	assert.Nil(t, decode)
@@ -174,7 +191,7 @@ func TestEntryListCodec_Encode(t *testing.T) {
 	pairs = append(pairs, proto.NewPair("key", "value"))
 
 	//when
-	EntryListCodec.Encode(message, pairs, StringCodec.Encode, StringCodec.Encode)
+	EncodeEntryList(message, pairs, EncodeString, EncodeString)
 
 	//then
 	frameIterator := message.FrameIterator()
@@ -200,7 +217,7 @@ func TestEntryListCodec_Encode_When_Entries_Is_Empty(t *testing.T) {
 	pairs := make([]proto.Pair, 0)
 
 	//when
-	EntryListCodec.Encode(message, pairs, StringCodec.Encode, StringCodec.Encode)
+	EncodeEntryList(message, pairs, EncodeString, EncodeString)
 
 	//then
 	frameIterator := message.FrameIterator()
@@ -224,7 +241,7 @@ func TestEntryListCodec_EncodeNullable(t *testing.T) {
 	pairs = append(pairs, proto.NewPair("key", "value"))
 
 	//when
-	EntryListCodec.EncodeNullable(message, pairs, StringCodec.Encode, StringCodec.Encode)
+	EncodeNullableEntryList(message, pairs, EncodeString, EncodeString)
 
 	//then
 	frameIterator := message.FrameIterator()
@@ -248,7 +265,7 @@ func TestEntryListCodec_EncodeNullable_When_Entries_Is_Empty(t *testing.T) {
 	pairs := make([]proto.Pair, 0)
 
 	//when
-	EntryListCodec.EncodeNullable(message, pairs, StringCodec.Encode, StringCodec.Encode)
+	EncodeNullableEntryList(message, pairs, EncodeString, EncodeString)
 
 	//then
 	frameIterator := message.FrameIterator()
@@ -262,7 +279,7 @@ func TestEntryListCodec_DecodeNullable(t *testing.T) {
 	iterator := message.FrameIterator()
 
 	//when
-	results := EntryListCodec.DecodeNullable(iterator, DataCodec.Decode, DataCodec.Decode)
+	results := DecodeNullableEntryList(iterator, DecodeData, DecodeData)
 
 	//then
 	assert.Nil(t, results)
@@ -274,7 +291,7 @@ func TestEntryListCodec_DecodeNullable_When_Next_Frame_Is_Null_Frame(t *testing.
 	iterator := message.FrameIterator()
 
 	//when
-	results := EntryListCodec.DecodeNullable(iterator, DataCodec.Decode, DataCodec.Decode)
+	results := DecodeNullableEntryList(iterator, DecodeData, DecodeData)
 
 	//then
 	assert.Empty(t, results)
@@ -387,15 +404,15 @@ func TestFixSizedTypesCodec_EncodeUUID(t *testing.T) {
 	//given
 	buffer := make([]byte, proto.UUIDSizeInBytes)
 	offset := int32(0)
-	uuid := core.NewUUID()
+	uuid := types.NewUUID()
 
 	//when
 	FixSizedTypesCodec.EncodeUUID(buffer, offset, uuid)
 
 	//then
 	assert.Equal(t, FixSizedTypesCodec.DecodeBoolean(buffer, offset), false)
-	assert.Equal(t, FixSizedTypesCodec.DecodeLong(buffer, offset+proto.BooleanSizeInBytes), int64(uuid.GetMostSignificantBits()))
-	assert.Equal(t, FixSizedTypesCodec.DecodeLong(buffer, offset+proto.BooleanSizeInBytes+proto.LongSizeInBytes), int64(uuid.GetLeastSignificantBits()))
+	assert.Equal(t, FixSizedTypesCodec.DecodeLong(buffer, offset+proto.BooleanSizeInBytes), int64(uuid.MostSignificantBits()))
+	assert.Equal(t, FixSizedTypesCodec.DecodeLong(buffer, offset+proto.BooleanSizeInBytes+proto.LongSizeInBytes), int64(uuid.LeastSignificantBits()))
 }
 
 func TestFixSizedTypesCodec_EncodeUUID_When_UUID_Is_Nil(t *testing.T) {
@@ -404,7 +421,7 @@ func TestFixSizedTypesCodec_EncodeUUID_When_UUID_Is_Nil(t *testing.T) {
 	offset := int32(0)
 
 	//when
-	FixSizedTypesCodec.EncodeUUID(buffer, offset, nil)
+	FixSizedTypesCodec.EncodeUUID(buffer, offset, types.UUID{})
 
 	//then
 	assert.Equal(t, FixSizedTypesCodec.DecodeBoolean(buffer, offset), true)
@@ -414,7 +431,7 @@ func TestFixSizedTypesCodec_DecodeUUID(t *testing.T) {
 	//given
 	buffer := make([]byte, proto.UUIDSizeInBytes)
 	offset := int32(0)
-	uuid := core.NewUUID()
+	uuid := types.NewUUID()
 	FixSizedTypesCodec.EncodeUUID(buffer, offset, uuid)
 
 	//when
@@ -422,46 +439,47 @@ func TestFixSizedTypesCodec_DecodeUUID(t *testing.T) {
 
 	//then
 	assert.Equal(t, FixSizedTypesCodec.DecodeBoolean(buffer, offset), false)
-	assert.Equal(t, uuid.ToString(), decodeUUID.ToString())
-	assert.Equal(t, uuid.GetMostSignificantBits(), decodeUUID.GetMostSignificantBits())
-	assert.Equal(t, uuid.GetLeastSignificantBits(), decodeUUID.GetLeastSignificantBits())
+	assert.Equal(t, uuid, decodeUUID)
+	assert.Equal(t, uuid.String(), decodeUUID.String())
+	assert.Equal(t, uuid.MostSignificantBits(), decodeUUID.MostSignificantBits())
+	assert.Equal(t, uuid.LeastSignificantBits(), decodeUUID.LeastSignificantBits())
 }
 
 func TestEntryListUUIDLongCodec_Encode(t *testing.T) {
 	// given
 	message := proto.NewClientMessageForEncode()
-	key := core.NewUUID()
+	key := types.NewUUID()
 	value := int64(100)
 	pairs := make([]proto.Pair, 0)
 	pairs = append(pairs, proto.NewPair(key, value))
-	EntryListUUIDLongCodec.Encode(message, pairs)
+	EncodeEntryListUUIDLong(message, pairs)
 
 	// when
-	pairs = EntryListUUIDLongCodec.Decode(message.FrameIterator())
+	pairs = DecodeEntryListUUIDLong(message.FrameIterator())
 
 	// then
 	frame := pairs[0]
-	assert.Equal(t, frame.Key().(core.UUID).ToString(), key.ToString())
+	assert.Equal(t, frame.Key().(types.UUID).String(), key.String())
 	assert.Equal(t, frame.Value().(int64), value)
 }
 
 func TestListUUIDCodec_Encode(t *testing.T) {
 	// given
 	message := proto.NewClientMessageForEncode()
-	entries := make([]core.UUID, 0)
-	value1 := core.NewUUID()
-	value2 := core.NewUUID()
+	entries := make([]types.UUID, 0)
+	value1 := types.NewUUID()
+	value2 := types.NewUUID()
 	entries = append(entries, value1, value2)
 
 	// when
-	ListUUIDCodec.Encode(message, entries)
+	EncodeListUUID(message, entries)
 
 	// then
 	frame := message.FrameIterator().Next()
 	decodeUUID1 := FixSizedTypesCodec.DecodeUUID(frame.Content, 0)
-	assert.Equal(t, value1.ToString(), decodeUUID1.ToString())
+	assert.Equal(t, value1.String(), decodeUUID1.String())
 	decodeUUID2 := FixSizedTypesCodec.DecodeUUID(frame.Content, 17)
-	assert.Equal(t, value2.ToString(), decodeUUID2.ToString())
+	assert.Equal(t, value2.String(), decodeUUID2.String())
 }
 
 func TestListIntegerCodec_Encode(t *testing.T) {
@@ -471,7 +489,7 @@ func TestListIntegerCodec_Encode(t *testing.T) {
 	entries = append(entries, 1, 2, 3)
 
 	// when
-	ListIntegerCodec.Encode(clientMessage, entries)
+	EncodeListInteger(clientMessage, entries)
 
 	// then
 	frame := clientMessage.FrameIterator().Next()
@@ -485,10 +503,10 @@ func TestListIntegerCodec_Decode(t *testing.T) {
 	clientMessage := proto.NewClientMessageForEncode()
 	entries := make([]int32, 0)
 	entries = append(entries, 1, 2, 3)
-	ListIntegerCodec.Encode(clientMessage, entries)
+	EncodeListInteger(clientMessage, entries)
 
 	// when
-	decodeEntries := ListIntegerCodec.Decode(clientMessage.FrameIterator())
+	decodeEntries := DecodeListInteger(clientMessage.FrameIterator())
 
 	// then
 	assert.Equal(t, decodeEntries[0], int32(1))
@@ -503,7 +521,7 @@ func TestListLongCodec_Encode(t *testing.T) {
 	entries = append(entries, 1, 2, 3)
 
 	// when
-	ListLongCodec.Encode(message, entries)
+	EncodeListLong(message, entries)
 
 	// then
 	frame := message.FrameIterator().Next()
@@ -517,10 +535,10 @@ func TestListLongCodec_Decode(t *testing.T) {
 	message := proto.NewClientMessageForEncode()
 	entries := make([]int64, 0)
 	entries = append(entries, 1, 2, 3)
-	ListLongCodec.Encode(message, entries)
+	EncodeListLong(message, entries)
 
 	// when
-	result := ListLongCodec.Decode(message.FrameIterator())
+	result := DecodeListLong(message.FrameIterator())
 
 	// then
 	assert.Equal(t, result, entries)
@@ -529,7 +547,7 @@ func TestListLongCodec_Decode(t *testing.T) {
 func TestEntryListUUIDListIntegerCodec_Encode(t *testing.T) {
 	// given
 	clientMessage := proto.NewClientMessageForEncode()
-	key := core.NewUUID()
+	key := types.NewUUID()
 	value := make([]int32, 0)
 	value = append(value, 1, 2, 3)
 	pair := proto.NewPair(key, value)
@@ -537,7 +555,7 @@ func TestEntryListUUIDListIntegerCodec_Encode(t *testing.T) {
 	entries = append(entries, pair)
 
 	// when
-	EntryListUUIDListIntegerCodec.Encode(clientMessage, entries)
+	EncodeEntryListUUIDListInteger(clientMessage, entries)
 
 	// then
 	iterator := clientMessage.FrameIterator()
@@ -548,26 +566,26 @@ func TestEntryListUUIDListIntegerCodec_Encode(t *testing.T) {
 	assert.Equal(t, FixSizedTypesCodec.DecodeInt(integerValues.Content, 8), int32(3))
 	assert.Equal(t, iterator.Next().IsEndFrame(), true)
 	uuid := FixSizedTypesCodec.DecodeUUID(iterator.Next().Content, 0)
-	assert.Equal(t, uuid.ToString(), key.ToString())
+	assert.Equal(t, uuid.String(), key.String())
 }
 
 func TestEntryListUUIDListIntegerCodec_Decode(t *testing.T) {
 	// given
 	clientMessage := proto.NewClientMessageForEncode()
-	key := core.NewUUID()
+	key := types.NewUUID()
 	value := make([]int32, 0)
 	value = append(value, 1, 2, 3)
 	pair := proto.NewPair(key, value)
 	entries := make([]proto.Pair, 0)
 	entries = append(entries, pair)
-	EntryListUUIDListIntegerCodec.Encode(clientMessage, entries)
+	EncodeEntryListUUIDListInteger(clientMessage, entries)
 
 	// when
-	result := EntryListUUIDListIntegerCodec.Decode(clientMessage.FrameIterator())
+	result := DecodeEntryListUUIDListInteger(clientMessage.FrameIterator())
 
 	// then
 	assert.Equal(t, len(result), 1)
-	assert.Equal(t, result[0].Key().([]core.UUID)[0].ToString(), key.ToString())
+	assert.Equal(t, result[0].Key().([]types.UUID)[0].String(), key.String())
 	assert.EqualValues(t, result[0].Value().([]int32), value)
 }
 
@@ -578,7 +596,7 @@ func TestLongArrayCodec_Encode(t *testing.T) {
 	entries = append(entries, 1, 2, 3)
 
 	// when
-	LongArrayCodec.Encode(clientMessage, entries)
+	EncodeLongArray(clientMessage, entries)
 
 	// then
 	frame := clientMessage.FrameIterator().Next()
@@ -592,10 +610,10 @@ func TestLongArrayCodec_Decode(t *testing.T) {
 	clientMessage := proto.NewClientMessageForEncode()
 	entries := make([]int64, 0)
 	entries = append(entries, 1, 2, 3)
-	LongArrayCodec.Encode(clientMessage, entries)
+	EncodeLongArray(clientMessage, entries)
 
 	// when
-	result := LongArrayCodec.Decode(clientMessage.FrameIterator())
+	result := DecodeLongArray(clientMessage.FrameIterator())
 
 	// then
 	assert.Equal(t, result[0], int64(1))
@@ -611,9 +629,9 @@ func TestStringCodec_Encode(t *testing.T) {
 	clientMessage := proto.NewClientMessage(frame)
 
 	//when
-	StringCodec.Encode(clientMessage, value)
+	EncodeString(clientMessage, value)
 
 	//then
-	content := clientMessage.EndFrame.Content
+	content := clientMessage.Frames[len(clientMessage.Frames)-1].Content
 	assert.Equal(t, value, string(content))
 }
