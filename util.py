@@ -1,9 +1,7 @@
 import hashlib
 import json
-import os
 import re
 import fnmatch
-from enum import Enum
 import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
@@ -572,7 +570,7 @@ language_specific_funcs = {
     },
     "rename_field": {
         SupportedLanguages.GO: go_rename_field,
-    }
+    },
     "custom_type_name": {
         SupportedLanguages.JAVA: lambda x: x,
         SupportedLanguages.CS: lambda x: x,
