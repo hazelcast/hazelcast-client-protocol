@@ -9,7 +9,8 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
 ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet"}
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Client.sendSchema",
+                          "Client.fetchSchema", "Client.sendAllSchemas", "FieldDescriptor", "Schema", "Sql.mappingDdl"}
 
 
 def ts_types_encode(key):
