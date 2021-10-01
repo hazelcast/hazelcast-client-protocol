@@ -846,7 +846,7 @@ methods:
       partitionIdentifier: -1
     response: {}
   - id: 33
-    name: resetAgeStatistics
+    name: resetQueueAgeStatistics
     since: 2.4
     doc: Resets the max-age, min-age and average-age metrics of the queue
     request:
