@@ -577,17 +577,3 @@ methods:
           since: 2.0
           doc: |
             <tt>True</tt> if this collection contains no elements
-  - id: 21
-    name: resetAgeStatistics
-    since: 2.4
-    doc: Resets the max-age, min-age and average-age metrics of the queue
-    request:
-      retryable: false
-      partitionIdentifier: name
-      params:
-       - name: name
-         type: String
-         nullable: false
-         since: 2.4
-         doc: Name of the Queue for which the age-related statistics should be reset to 0
-    response: {}
