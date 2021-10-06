@@ -2947,8 +2947,8 @@ methods:
     since: 2.4
     doc: |
       Replaces each entry's value with the result of invoking the given
-      function on that entry until all entries have been processed or the
-      function throws an exception in the targetted partition.
+      function on that entry until all entries have been processed in the targetted partition
+      or the function throws an exception.
     request:
       retryable: true
       partitionIdentifier: partitionId
