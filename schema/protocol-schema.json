@@ -111,7 +111,8 @@
             "List_Schema",
             "FieldDescriptor",
             "List_FieldDescriptor",
-            "SqlPage"
+            "SqlPage",
+            "HazelcastJsonValue"
           ]
         },
         "nullable": {

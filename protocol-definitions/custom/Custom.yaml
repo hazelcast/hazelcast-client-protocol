@@ -984,3 +984,11 @@ customTypes:
         type: List_FieldDescriptor
         nullable: false
         since: 2.3
+  - name: HazelcastJsonValue
+    since: 2.4
+    returnWithFactory: true
+    params:
+      - name: value
+        type: String
+        nullable: false
+        since: 2.4
