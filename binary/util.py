@@ -456,7 +456,8 @@ reference_objects_dict = {
     'MigrationState': 'aMigrationState',
     'Schema': 'aSchema',
     'List_Schema': 'aListOfSchemas',
-    'SqlPage': 'aSqlPage'
+    'SqlPage': 'aSqlPage',
+    'HazelcastJsonValue': 'aHazelcastJsonValue'
 }
 
 

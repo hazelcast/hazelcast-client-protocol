@@ -58,6 +58,9 @@ objects = {
     'ListenerConfigHolder': {
         'listenerType': 1
     },
+    'HazelcastJsonValue': {
+        'value': ''
+    }
 }
 
 map_objects = {

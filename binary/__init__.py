@@ -58,7 +58,8 @@ CustomTypes = [
     'CPMember',
     'MigrationState',
     'FieldDescriptor',
-    'Schema'
+    'Schema',
+    'HazelcastJsonValue'
 ]
 
 CustomConfigTypes = [
