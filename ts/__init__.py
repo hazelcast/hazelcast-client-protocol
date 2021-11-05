@@ -9,8 +9,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
 ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Client.sendSchema",
-                          "Client.fetchSchema", "Client.sendAllSchemas", "FieldDescriptor", "Schema", "Sql.mappingDdl",
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Sql.mappingDdl",
                           "AtomicLong.alter", "AtomicLong.apply", "AtomicRef.apply", "Client.addPartitionLostListener",
                           "Client.deployClasses", "Client.removeMigrationListener", "Client.removePartitionLostListener",
                           "Client.triggerPartitionAssignment", "Map.addInterceptor", "Map.addPartitionLostListener",
@@ -151,6 +150,13 @@ class PathHolders:
     SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
     SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
     SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
+    Schema = ImportPathHolder('Schema', 'serialization/compact/Schema')
+    SchemaCodec = ImportPathHolder('SchemaCodec', 'custom/SchemaCodec', is_custom_codec=True)
+    FieldDescriptor = ImportPathHolder('FieldDescriptor', 'serialization/generic_record/FieldDescriptor')
+    FieldDescriptorCodec = ImportPathHolder('FieldDescriptorCodec', 'custom/FieldDescriptorCodec', is_custom_codec=True)
+    HazelcastJsonValue = ImportPathHolder('HazelcastJsonValue', 'core/HazelcastJsonValue')
+    HazelcastJsonValueCodec = ImportPathHolder('HazelcastJsonValueCodec', 'custom/HazelcastJsonValueCodec', is_custom_codec=True)
+
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -207,8 +213,12 @@ import_paths = {
     'SqlError': [PathHolders.SqlErrorCodec, PathHolders.SqlError],
     'SqlQueryId': [PathHolders.SqlQueryIdCodec, PathHolders.SqlQueryId],
     'List_SqlColumnMetadata': [PathHolders.SqlColumnMetadataCodec, PathHolders.SqlColumnMetadata, PathHolders.ListMultiFrameCodec],
-    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec]
-
+    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec],
+    'Schema': [PathHolders.Schema, PathHolders.SchemaCodec],
+    'FieldDescriptor': [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
+    'List_Schema': [PathHolders.Schema, PathHolders.SchemaCodec, PathHolders.ListMultiFrameCodec],
+    'List_FieldDescriptor': [PathHolders.ListMultiFrameCodec, PathHolders.FieldDescriptorCodec, PathHolders.FieldDescriptor],
+    'HazelcastJsonValue': [PathHolders.HazelcastJsonValue, PathHolders.HazelcastJsonValueCodec]
 }
 
 _ts_types = {
@@ -266,6 +276,9 @@ _ts_types = {
     "SqlError": "SqlError",
     "SqlColumnMetadata": "SqlColumnMetadataImpl",
     'SqlPage': 'SqlPage',
+    'Schema': 'Schema',
+    'FieldDescriptor': 'FieldDescriptor',
+    'HazelcastJsonValue': 'HazelcastJsonValue',
     "CPMember": "NA",
     "MigrationState": "NA",
 
@@ -291,6 +304,8 @@ _ts_types = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
+    'List_Schema': 'Schema[]',
+    'List_FieldDescriptor': 'FieldDescriptor[]',
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
