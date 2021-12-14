@@ -74,7 +74,7 @@ _INITIAL_FRAME_SIZE = _{{ to_upper_snake_case(param.name) }}_ENCODE_OFFSET + {{ 
     {% endif %}
 {% endfor %}
 
-class {{ codec.name }}Codec(object):
+class {{ codec.name }}Codec:
     @staticmethod
     def encode(buf, {{ param_name(codec.name) }}, is_final=False):
         {% if fix_sized_params|length == 0 %}

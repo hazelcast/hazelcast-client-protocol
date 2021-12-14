@@ -52,6 +52,7 @@ py_ignore_service_list = {
     "Map.removeAll",
     "Map.removePartitionLostListener",
     "Map.submitToKey",
+    "Map.replaceAll",
     "MultiMap.delete",
     "MC",
     "Queue.drainTo",
