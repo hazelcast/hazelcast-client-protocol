@@ -2,7 +2,7 @@ go_reserved_keywords = {"break", "default", "func", "interface", "select", "case
                         "chan", "else", "goto", "package", "switch", "const", "fallthrough", "if", "range", "type",
                         "continue", "for", "import", "return", "var"}
 
-go_ignore_service_list = {"MC", "Sql", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
+go_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor",
                           "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig", "CPSubsystem"}
@@ -132,6 +132,16 @@ class PathHolders:
     StackTraceElementCodec = InternalImportPathHolder("StackTraceElementCodec", None, is_custom_codec=True)
     StringCodec = InternalImportPathHolder("StringCodec", None, is_builtin_codec=True)
     UUID = ImportPathHolder("UUID", "/types")
+    ListSqlColumnMetadata = ImportPathHolder("ListSqlColumnMetadata", "/sql")
+    ListSqlColumnMetadataCodec = ImportPathHolder("ListSqlColumnMetadataCodec", "/sql")
+    SqlError = InternalImportPathHolder("SqlError", "sql")
+    SqlErrorCodec = InternalImportPathHolder("SqlErrorCodec", "sql")
+    SqlQueryId = InternalImportPathHolder("SqlQueryID", "sql")
+    SqlQueryIdCodec = InternalImportPathHolder("SqlQueryIDCodec", "sql")
+    SqlPage = InternalImportPathHolder("SqlPage", "sql")
+    SqlPageCodec = InternalImportPathHolder("SqlPageCodec", "sql")
+    SqlColumnMetadata = ImportPathHolder("SqlColumnMetadata", "/sql")
+    SqlColumnMetadataCodec = ImportPathHolder("SqlColumnMetadataCodec", "/sql")
 
 
 import_paths = {
@@ -178,6 +188,12 @@ import_paths = {
     "byteArray": [PathHolders.ByteArrayCodec],
     "longArray": [PathHolders.LongArrayCodec],
     'List_MemberInfo': [PathHolders.MemberInfo, PathHolders.ListMultiFrameCodec, PathHolders.MemberInfoCodec],
+    "List_SqlColumnMetadata": [PathHolders.ListSqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
+    "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],
+    "SqlQueryId": [PathHolders.SqlQueryId, PathHolders.SqlQueryIdCodec],
+    "SqlPage": [PathHolders.SqlPage, PathHolders.SqlPageCodec],
+    "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
+
 }
 
 _go_types_common = {
@@ -228,6 +244,13 @@ _go_types_common = {
     "int": "int32",
     "long": "int64",
     "longArray": "[]int64",
+    "ListCN_Data": "[]*iserialization.Data",
+    "List_ListCN_Data": "[]*iserialization.Data",
+    "List_SqlColumnMetadata": "[]sql.ColumnMetadata",
+    "SqlError": "isql.Error",
+    "SqlQueryId": "isql.QueryID",
+    "SqlPage": "isql.Page",
+    "SqlColumnMetadata": "sql.ColumnMetadata",
 }
 
 _go_types_encode = {
@@ -248,7 +271,6 @@ _go_types_encode = {
     "EntryList_UUID_List_Integer": "[]proto.Pair",
     "EntryList_UUID_Long": "[]proto.Pair",
     "EntryList_UUID_UUID": "[]proto.Pair",
-    # "ListCN_Data": "[]*iserialization.Data",
     "List_AttributeConfig": "NA",
     # "List_CacheEventData": "NA",
     # "List_CacheSimpleEntryListenerConfig": "NA",
@@ -257,7 +279,6 @@ _go_types_encode = {
     "List_DistributedObjectInfo": "[]types.DistributedObjectInfo",
     "List_IndexConfig": "[]types.IndexConfig",
     "List_Integer": "[]int32",
-    # "List_ListCN_Data": "NA",
     "List_List_Data": "[]*iserialization.Data",
     # "List_ListenerConfigHolder": "NA",
     "List_Long": "[]int64",
@@ -266,7 +287,6 @@ _go_types_encode = {
     # "List_QueryCacheConfigHolder": "NA",
     # "List_QueryCacheEventData": "NA",
     # "List_ScheduledTaskHandler": "NA",
-    # "List_SqlColumnMetadata": "NA",
     "List_StackTraceElement": "[]ihzerrors.StackTraceElement",
     "List_String": "[]string",
     "List_UUID": "[]types.UUID",
@@ -279,9 +299,6 @@ _go_types_encode = {
     "PagingPredicateHolder": "NA",
     # "QueryCacheEventData": "NA",
     # "ScheduledTaskHandler": "NA",
-    # "SqlColumnMetadata": "NA",
-    # "SqlError": "NA",
-    # "SqlQueryId": "NA",
     # "Xid": "NA",
 }
 

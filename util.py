@@ -577,6 +577,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: lambda x: x,
         SupportedLanguages.PY: py_custom_type_name,
+        SupportedLanguages.GO: lambda x: x,
         SupportedLanguages.MD: lambda x: x,
     }
 }
