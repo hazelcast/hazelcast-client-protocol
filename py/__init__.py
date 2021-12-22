@@ -36,7 +36,6 @@ py_ignore_service_list = {
     "Cache",
     "CardinalityEstimator",
     "Client.addPartitionLostListener",
-    "Client.authenticationCustom",
     "Client.createProxies",
     "Client.removeMigrationListener",
     "Client.removePartitionLostListener",
@@ -48,16 +47,12 @@ py_ignore_service_list = {
     "ExecutorService.cancelOnMember",
     "ExecutorService.cancelOnPartition",
     "Map.addPartitionLostListener",
-    "Map.aggregate",
-    "Map.aggregateWithPredicate",
     "Map.eventJournalRead",
     "Map.eventJournalSubscribe",
-    "Map.project",
-    "Map.projectWithPredicate",
     "Map.removeAll",
-    "Map.removeInterceptor",
     "Map.removePartitionLostListener",
     "Map.submitToKey",
+    "Map.replaceAll",
     "MultiMap.delete",
     "MC",
     "Queue.drainTo",
@@ -65,6 +60,7 @@ py_ignore_service_list = {
     "ScheduledExecutor",
     "Sql.execute_reserved",
     "Sql.fetch_reserved",
+    "Sql.mappingDdl",
     "Topic.publishAll",
     "TransactionalMap.containsValue",
     "XATransaction",
@@ -129,7 +125,7 @@ class PathHolders:
     AnchorDataListHolder = ImportPathHolder("AnchorDataListHolder", "protocol")
     AnchorDataListHolderCodec = ImportPathHolder("AnchorDataListHolderCodec",
                                                  "protocol.codec.custom.anchor_data_list_holder_codec")
-    EndpointQualifier = ImportPathHolder("EndpointQualifier", "protocol")
+    EndpointQualifier = ImportPathHolder("EndpointQualifier", "core")
     EndpointQualifierCodec = ImportPathHolder("EndpointQualifierCodec",
                                               "protocol.codec.custom.endpoint_qualifier_codec")
     RaftGroupId = ImportPathHolder("RaftGroupId", "protocol")

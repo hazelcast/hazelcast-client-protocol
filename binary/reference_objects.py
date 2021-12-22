@@ -54,6 +54,12 @@ objects = {
     },
     'SqlColumnMetadata': {
         'type': 1
+    },
+    'ListenerConfigHolder': {
+        'listenerType': 1
+    },
+    'HazelcastJsonValue': {
+        'value': ''
     }
 }
 

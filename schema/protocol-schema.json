@@ -107,7 +107,12 @@
             "CPMember",
             "List_CPMember",
             "MigrationState",
-            "SqlPage"
+            "Schema",
+            "List_Schema",
+            "FieldDescriptor",
+            "List_FieldDescriptor",
+            "SqlPage",
+            "HazelcastJsonValue"
           ]
         },
         "nullable": {

@@ -454,7 +454,10 @@ reference_objects_dict = {
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
     'MigrationState': 'aMigrationState',
-    'SqlPage': 'aSqlPage'
+    'Schema': 'aSchema',
+    'List_Schema': 'aListOfSchemas',
+    'SqlPage': 'aSqlPage',
+    'HazelcastJsonValue': 'aHazelcastJsonValue'
 }
 
 

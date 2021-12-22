@@ -9,7 +9,15 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
 ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet"}
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Client.sendSchema",
+                          "Client.fetchSchema", "Client.sendAllSchemas", "FieldDescriptor", "Schema", "Sql.mappingDdl",
+                          "AtomicLong.alter", "AtomicLong.apply", "AtomicRef.apply", "Client.addPartitionLostListener",
+                          "Client.deployClasses", "Client.removeMigrationListener", "Client.removePartitionLostListener",
+                          "Client.triggerPartitionAssignment", "Map.addInterceptor", "Map.addPartitionLostListener",
+                          "Map.eventJournalRead", "Map.eventJournalSubscribe", "Map.fetchKeys", "Map.fetchWithQuery",
+                          "Map.project", "Map.projectWithPredicate", "Map.removeInterceptor", "Map.removePartitionLostListener",
+                          "Map.submitToKey", "ReplicatedMap.addNearCacheEntryListener", "Topic.addMessageListener",
+                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener"}
 
 
 def ts_types_encode(key):

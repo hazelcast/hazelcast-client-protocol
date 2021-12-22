@@ -184,6 +184,12 @@ methods:
           since: 2.2
           doc: |
             Query ID.
+        - name: skipUpdateStatistics
+          type: boolean
+          nullable: false
+          since: 2.3
+          doc: |
+            Flag to skip updating phone home statistics.
     response:
       params:
         - name: rowMetadata
@@ -245,3 +251,26 @@ methods:
           since: 2.2
           doc: |
             Error object.
+  - id: 6
+    name: mappingDdl
+    since: 2.3
+    doc: |
+      Derives CREATE MAPPING SQL.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.3
+          doc: |
+            Object name to derive CREATE MAPPING SQL for.
+    response:
+      params:
+        - name: sql
+          type: String
+          nullable: true
+          since: 2.3
+          doc: |
+            CREATE MAPPING SQL.

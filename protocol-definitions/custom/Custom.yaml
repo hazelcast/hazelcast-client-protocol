@@ -261,6 +261,10 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+      - name: enabledSet
+        type: boolean
+        nullable: false
+        since: 2.3
   - name: NearCacheConfigHolder
     since: 2.0
     params:
@@ -906,6 +910,10 @@ customTypes:
         type: UUID
         nullable: false
         since: 2.1
+      - name: suggestion
+        type: String
+        nullable: true
+        since: 2.3
   - name: SqlColumnMetadata
     since: 2.1
     returnWithFactory: true
@@ -952,3 +960,35 @@ customTypes:
         type: long
         nullable: false
         since: 2.2
+  - name: FieldDescriptor
+    since: 2.3
+    returnWithFactory: true
+    params:
+      - name: fieldName
+        type: String
+        nullable: false
+        since: 2.3
+      - name: kind
+        type: int
+        nullable: false
+        since: 2.3
+  - name: Schema
+    since: 2.3
+    returnWithFactory: true
+    params:
+      - name: typeName
+        type: String
+        nullable: false
+        since: 2.3
+      - name: fields
+        type: List_FieldDescriptor
+        nullable: false
+        since: 2.3
+  - name: HazelcastJsonValue
+    since: 2.4
+    returnWithFactory: true
+    params:
+      - name: value
+        type: String
+        nullable: false
+        since: 2.4

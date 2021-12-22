@@ -56,7 +56,10 @@ CustomTypes = [
     'SqlError',
     'SqlColumnMetadata',
     'CPMember',
-    'MigrationState'
+    'MigrationState',
+    'FieldDescriptor',
+    'Schema',
+    'HazelcastJsonValue'
 ]
 
 CustomConfigTypes = [
@@ -117,6 +120,7 @@ VarLengthListTypes = [
     'List_CPMember'
     'ListCN_Data',
     'List_List_Data',
+    'List_FieldDescriptor'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

@@ -68,12 +68,13 @@ _{{ to_upper_snake_case(param.name) }}_ENCODE_OFFSET = {% if loop.first %}{% if 
 _{{ to_upper_snake_case(param.name) }}_DECODE_OFFSET = {% if loop.first %}0{% else %}_{{ to_upper_snake_case(loop.previtem.name)}}_DECODE_OFFSET + {{ loop.previtem.type.upper() }}_SIZE_IN_BYTES{% endif %}
 
     {% if loop.last %}
-_INITIAL_FRAME_SIZE = _{{ to_upper_snake_case(param.name) }}_ENCODE_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES - {% if should_add_begin_frame %}2 * {% endif %}SIZE_OF_FRAME_LENGTH_AND_FLAGS
+_INITIAL_FRAME_SIZE = _{{ to_upper_snake_case(param.name) }}_ENCODE_OFFSET + {{ param.type.upper() }}_SIZE_IN_BYTES{% if should_add_begin_frame %} - SIZE_OF_FRAME_LENGTH_AND_FLAGS{% endif %}
+
 
     {% endif %}
 {% endfor %}
 
-class {{ codec.name }}Codec(object):
+class {{ codec.name }}Codec:
     @staticmethod
     def encode(buf, {{ param_name(codec.name) }}, is_final=False):
         {% if fix_sized_params|length == 0 %}

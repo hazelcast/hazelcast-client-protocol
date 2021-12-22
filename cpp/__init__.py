@@ -3,6 +3,8 @@ cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "Durable
                            "Client.removePartitionLostListener", "Client.getDistributedObjects",
                            "Client.addDistributedObjectListener", "Client.removeDistributedObjectListener",
                            "Client.deployClasses", "Client.createProxies", "Client.triggerPartitionAssignment",
+                           "Client.addMigrationListener", "Client.removeMigrationListener", "Client.sendSchema",
+                           "Client.fetchSchema", "Client.sendAllSchemas",
                            "Map.addEntryListenerToKeyWithPredicate", "Map.addPartitionLostListener",
                            "Map.removePartitionLostListener", "Map.loadAll", "Map.loadGivenKeys", "Map.fetchKeys",
                            "Map.fetchEntries", "Map.aggregate", "Map.aggregateWithPredicate", "Map.project",
