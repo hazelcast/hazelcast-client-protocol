@@ -82,6 +82,10 @@ _cs_types_common = {
     "DurationConfig": "NA",
     "MigrationState": "NA",
 
+    "Schema":"NA",
+    "List_Schema":"NA",
+    "FieldDescriptor":"NA",
+
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
     "CacheEventData": "NA",
@@ -97,7 +101,8 @@ _cs_types_common = {
 
     "Map_String_String": "IDictionary<string, string>",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
-    "SqlPage": "Hazelcast.Sql.SqlPage"
+    "SqlPage": "Hazelcast.Sql.SqlPage",
+    "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
 }
 
 _cs_types_encode = {
