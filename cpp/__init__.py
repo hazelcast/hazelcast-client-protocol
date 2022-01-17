@@ -62,7 +62,7 @@ def cpp_param_name(name):
 
     for i, ch in enumerate(name):
         if ch.isupper():
-            if i > 0:
+            if i > 0 and name[i-1].islower():
                 result.append('_')
             result.append(ch.lower())
         else:

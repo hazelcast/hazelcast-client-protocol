@@ -29,7 +29,7 @@
 {% set response_fix_sized_params = fixed_params(method.response.params) %}
 {% set response_var_sized_params = var_size_params(method.response.params) %}
                 ClientMessage {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }} {% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %}*{% else %}&{% endif %}{% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %}) {
-                    size_t initial_frame_size = ClientMessage::REQUEST_HEADER_LEN {% for param in request_fix_sized_params %} + {{ get_size(param.type) }}{% endfor %};
+                    size_t initial_frame_size = ClientMessage::REQUEST_HEADER_LEN{% for param in request_fix_sized_params %} + {{ get_size(param.type) }}{% endfor %};
                     ClientMessage msg(initial_frame_size{% if request_var_sized_params|length == 0 %}, true{% endif %});
                     msg.set_retryable({{ method.request.retryable|lower }});
                     msg.set_operation_name("{{ service_name|lower }}.{{ method.name|lower }}");

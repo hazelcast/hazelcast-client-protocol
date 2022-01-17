@@ -56,7 +56,7 @@
                             {% endfor %}
                         {% endfor %}
                     */
-                    virtual void handle_{{ event.name.lower() }}({% for param in event.params %}{% if not param.nullable %}{{ lang_types_encode(param.type) }}{% if not is_trivial(param.type) %} const &{% endif %}{% else %}{% if param.type != "UUID" %} const boost::optional<{{ lang_types_decode(param.type) }}> &{% else %} {{ lang_types_decode(param.type) }}{%endif%}{% endif %} {{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %}) = 0;
+                    virtual void handle_{{ event.name.lower() }}({% for param in event.params %}{% if not param.nullable %}{{ lang_types_encode(param.type) }} {% if not is_trivial(param.type) %}const &{% endif %}{% else %}{% if param.type != "UUID" %}const boost::optional<{{ lang_types_decode(param.type) }}> &{% else %}{{ lang_types_decode(param.type) }} {%endif%}{% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %}) = 0;
 
             {% endfor %}
                 };
