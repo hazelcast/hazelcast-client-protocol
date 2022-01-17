@@ -1,15 +1,15 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ item_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+            CodecUtil.encodeNullable(clientMessage, {{ param_name(param.name) }}, {{ lang_name(param.type) }}Codec::encode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
+            {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param_name(param.name) }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}
@@ -37,7 +37,7 @@
                  * {{ line }}
                 {% endfor %}
                  */
-                ClientMessage HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }}{% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %} *{% else %} &{% endif %}{% endif %} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %});
+                ClientMessage HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_encode({% for param in method.request.params %}{% if is_trivial(param.type) %}{{ lang_types_encode(param.type) }} {% else %}const {{ lang_types_encode(param.type) }} {% if param.nullable %}*{% else %}&{% endif %}{% endif %}{{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %});
 
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
@@ -46,17 +46,17 @@
             {% for event in method.events%}
                     /**
                         {% for param in event.params %}
-                     * @param {{ param.name }}
+                     * @param {{ param_name(param.name) }}
                             {%- for line in param.doc.splitlines() %}
                                 {% if loop.first -%}
                     {{ " %s"|format(line) }}
                                 {% else %}
-                     * {{ line|indent(8 + param.name|length, True) }}
+                     * {{ line|indent(8 + param_name(param.name)|length, True) }}
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}
                     */
-                    virtual void handle_{{ event.name.lower() }}({% for param in event.params %}{% if not param.nullable %}{{ lang_types_encode(param.type) }}{% if not is_trivial(param.type) %} const &{% endif %}{% else %}{% if param.type != "UUID" %} const boost::optional<{{ lang_types_decode(param.type) }}> &{% else %} {{ lang_types_decode(param.type) }}{%endif%}{% endif %} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) = 0;
+                    virtual void handle_{{ event.name.lower() }}({% for param in event.params %}{% if not param.nullable %}{{ lang_types_encode(param.type) }}{% if not is_trivial(param.type) %} const &{% endif %}{% else %}{% if param.type != "UUID" %} const boost::optional<{{ lang_types_decode(param.type) }}> &{% else %} {{ lang_types_decode(param.type) }}{%endif%}{% endif %} {{ param_name(param.name) }}{% if not loop.last %}, {% endif %}{% endfor %}) = 0;
 
             {% endfor %}
                 };
