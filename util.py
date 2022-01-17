@@ -13,7 +13,14 @@ from jinja2 import Environment, PackageLoader
 from yaml import MarkedYAMLError
 
 from binary import FixedEntryListTypes, FixedLengthTypes, FixedListTypes, FixedMapTypes
-from cpp import cpp_ignore_service_list, cpp_types_decode, cpp_types_encode, get_size, is_trivial
+from cpp import (
+    cpp_ignore_service_list, 
+    cpp_types_decode, 
+    cpp_types_encode, 
+    get_size, 
+    is_trivial, 
+    cpp_param_name
+)
 from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -517,7 +524,7 @@ language_specific_funcs = {
     "param_name": {
         SupportedLanguages.JAVA: param_name,
         SupportedLanguages.CS: param_name,
-        SupportedLanguages.CPP: param_name,
+        SupportedLanguages.CPP: cpp_param_name,
         SupportedLanguages.TS: param_name,
         SupportedLanguages.PY: py_param_name,
         SupportedLanguages.MD: lambda x: x,
