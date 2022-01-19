@@ -82,9 +82,9 @@ _cs_types_common = {
     "DurationConfig": "NA",
     "MigrationState": "NA",
 
-    "Schema":"NA",
-    "List_Schema":"NA",
-    "FieldDescriptor":"NA",
+    "Schema":"Hazelcast.Serialization.Compact.Schema",
+    "List_Schema":"IEnumerable<Hazelcast.Serialization.Compact.Schema>",
+    "FieldDescriptor":"Hazelcast.Serialization.Compact.SchemaField",
 
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
