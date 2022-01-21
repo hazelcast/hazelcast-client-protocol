@@ -1,6 +1,6 @@
 {% macro encode_var_sized(param, is_final) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        msg.set{% if is_var_sized_list_contains_nullable(param.type)%}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}({{ param_name(param.name) }}{% if is_final %}, true{% endif %});
+        msg.set{% if param.nullable  %}_nullable{% endif %}({{ param_name(param.name) }}{% if is_final %}, true{% endif %});
 {#
     {%- elif is_var_sized_entry_list(param.type) -%}
         EntryListCodec.encode{% if param.nullable  %}_nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
