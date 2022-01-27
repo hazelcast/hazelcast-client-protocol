@@ -457,7 +457,8 @@ reference_objects_dict = {
     'Schema': 'aSchema',
     'List_Schema': 'aListOfSchemas',
     'SqlPage': 'aSqlPage',
-    'HazelcastJsonValue': 'aHazelcastJsonValue'
+    'HazelcastJsonValue': 'aHazelcastJsonValue',
+    'ConfigUpdateResult': 'aConfigUpdateResult'
 }
 
 

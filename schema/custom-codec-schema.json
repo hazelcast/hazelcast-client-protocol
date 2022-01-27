@@ -111,7 +111,9 @@
             "FieldDescriptor",
             "List_FieldDescriptor",
             "Schema",
-            "HazelcastJsonValue"
+            "HazelcastJsonValue",
+            "ConfigUpdateResult",
+            "List_ConfigNamespace"
           ]
         },
         "nullable": {

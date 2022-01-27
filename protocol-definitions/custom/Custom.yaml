@@ -996,3 +996,27 @@ customTypes:
         type: String
         nullable: false
         since: 2.4
+  - name: ConfigUpdateResult
+    since: 2.4
+    returnWithFactory: true
+    params:
+      - name: addedConfigs
+        type: List_ConfigNamespace
+        since: 2.4
+        nullable: false
+      - name: ignoredConfigs
+        type: List_ConfigNamespace
+        nullable: false
+        since: 2.4
+  - name: ConfigNamespace
+    since: 2.4
+    returnWithFactory: true
+    params:
+      - name: configSectionName
+        type: String
+        since: 2.4
+        nullable: false
+      - name: configName
+        type: String
+        since: 2.4
+        nullable: false

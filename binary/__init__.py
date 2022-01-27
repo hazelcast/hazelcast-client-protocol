@@ -59,7 +59,9 @@ CustomTypes = [
     'MigrationState',
     'FieldDescriptor',
     'Schema',
-    'HazelcastJsonValue'
+    'HazelcastJsonValue',
+    'ConfigUpdateResult',
+    'ConfigNamespace'
 ]
 
 CustomConfigTypes = [
@@ -121,6 +123,7 @@ VarLengthListTypes = [
     'ListCN_Data',
     'List_List_Data',
     'List_FieldDescriptor'
+    'List_ConfigNamespace'
 ]
 
 AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \

@@ -859,3 +859,37 @@ methods:
          since: 2.4
          doc: Name of the Queue for which the age-related statistics should be reset to 0
     response: {}
+  - id: 34
+    name: reloadConfig
+    since: 2.4
+    doc: Reloads the configuration on the member from its config file, applies (merges) the new config to the current config
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: configUpdateResult
+          type: ConfigUpdateResult
+          since: 2.4
+          nullable: false
+          doc: the result of the configuration update
+  - id: 35
+    name: updateConfig
+    since: 2.4
+    doc: Reloads the configuration on the member from its config file, applies (merges) the new config to the current config
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+       - name: configXml
+         type: String
+         nullable: false
+         since: 2.4
+         doc: the new configuration XML to be applied to the current configuration
+    response:
+      params:
+        - name: configUpdateResult
+          type: ConfigUpdateResult
+          since: 2.4
+          nullable: false
+          doc: the result of the configuration update
