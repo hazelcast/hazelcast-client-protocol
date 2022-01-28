@@ -1019,4 +1019,4 @@ customTypes:
       - name: configName
         type: String
         since: 2.4
-        nullable: false
+        nullable: true
