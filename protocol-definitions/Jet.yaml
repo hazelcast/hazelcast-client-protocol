@@ -156,6 +156,11 @@ methods:
           nullable: false
           since: 2.0
           doc: ''
+        - name: lightJobCoordinator
+          type: UUID
+          nullable: true
+          since: 5.1
+          doc: ''
     response:
       params:
         - name: response
