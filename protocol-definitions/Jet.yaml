@@ -159,7 +159,7 @@ methods:
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 5.1
+          since: 2.4
           doc: ''
     response:
       params:
