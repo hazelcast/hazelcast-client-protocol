@@ -867,12 +867,7 @@ methods:
       retryable: false
       partitionIdentifier: -1
     response:
-      params:
-        - name: configUpdateResult
-          type: ConfigUpdateResult
-          since: 2.4
-          nullable: false
-          doc: the result of the configuration update
+      params: []
   - id: 35
     name: updateConfig
     since: 2.4
@@ -885,11 +880,6 @@ methods:
          type: String
          nullable: false
          since: 2.4
-         doc: the new configuration (XML or YAML string) to be applied to the current configuration
+         doc: the config patch (XML or YAML string) to be applied to the current configuration
     response:
-      params:
-        - name: configUpdateResult
-          type: ConfigUpdateResult
-          since: 2.4
-          nullable: false
-          doc: the result of the configuration update
+      params: []

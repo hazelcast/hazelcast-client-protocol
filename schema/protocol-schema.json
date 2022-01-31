@@ -112,9 +112,7 @@
             "FieldDescriptor",
             "List_FieldDescriptor",
             "SqlPage",
-            "HazelcastJsonValue",
-            "ConfigUpdateResult",
-            "List_ConfigNamespace"
+            "HazelcastJsonValue"
           ]
         },
         "nullable": {
