@@ -153,6 +153,12 @@ methods:
           since: 2.0
           doc: |
             Classname of the SplitBrainMergePolicy for the map.
+        - name: globalIndexes
+          type: List_IndexConfig
+          nullable: false
+          since: 2.4
+          doc: |
+            Global indexs of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
