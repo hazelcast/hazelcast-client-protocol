@@ -874,7 +874,7 @@ methods:
       partitionIdentifier: -1
     response:
       params:
-        - name: configUpdateProcessId
+        - name: configReloadProcessId
           type: UUID
           nullable: false
           doc: The unique identifier of the configuration reload process which will be included in all MCEvent instances emitted for MC during the update
