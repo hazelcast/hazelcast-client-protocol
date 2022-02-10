@@ -873,7 +873,12 @@ methods:
       retryable: false
       partitionIdentifier: -1
     response:
-      params: []
+      params:
+        - name: configReloadProcessId
+          type: UUID
+          nullable: false
+          doc: The unique identifier of the configuration reload process which will be included in all MCEvent instances emitted for MC during the update
+          since: 2.4
   - id: 35
     name: updateConfig
     since: 2.4
@@ -888,4 +893,9 @@ methods:
          since: 2.4
          doc: the config patch (XML or YAML string) to be applied to the current configuration
     response:
-      params: []
+      params:
+        - name: configUpdateProcessId
+          type: UUID
+          nullable: false
+          doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
+          since: 2.4
