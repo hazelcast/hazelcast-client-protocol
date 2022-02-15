@@ -8,9 +8,9 @@
     {%- else -%}
         {%- if param.nullable  -%}
             {%- if param.type|lower == "string" -%}
-    CodecUtil.EncodeNullableForString(clientMessage, {{ param_name(param.name) }})
+    EncodeNullableForString(clientMessage, {{ param_name(param.name) }})
             {%- else -%}
-    CodecUtil.EncodeNullable(clientMessage, {{ param_name(param.name) }}, Encode{{ lang_name(param.type) }}{% if loop_last %}, True{% endif %})
+    EncodeNullable(clientMessage, {{ param_name(param.name) }}, Encode{{ lang_name(param.type) }}{% if loop_last %}, True{% endif %})
             {%- endif -%}
         {%- else -%}
         Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(param.name) }}{% if loop_last %}, True{% endif %})
@@ -26,7 +26,7 @@
         Decode{% if param.nullable  %}Nullable{% endif %}Map(v, Decode{{ key_type(lang_name, param.type) }}, Decode{{ value_type(lang_name, param.type) }})
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
+            DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
         {%- else -%}
             Decode{{ lang_name(param.type) }}(frameIterator)
         {%- endif -%}
@@ -53,7 +53,7 @@ import (
     {% endfor %}
 {% endif %}
 /*
-* Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
+* Copyright (c) 2008-{{ copyright_year }}, Hazelcast, Inc. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
@@ -126,7 +126,7 @@ func Encode{{ service_name|capital }}{{ method.name|capital }}Request({% for par
 
     initialFrame := proto.NewFrameWith(make([]byte, {{ service_name|capital }}{{ method.name|capital }}CodecRequestInitialFrameSize), proto.UnfragmentedMessage)
 {% for param in request_fix_sized_params %}
-    FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}CodecRequest{{ param.name|capital }}Offset, {{ escape_keyword(param.name) }})
+    Encode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}CodecRequest{{ param.name|capital }}Offset, {{ escape_keyword(param.name) }})
 {% endfor %}
     clientMessage.AddFrame(initialFrame)
     clientMessage.SetMessageType({{ service_name|capital }}{{ method.name|capital }}CodecRequestMessageType)
@@ -153,7 +153,7 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
 {% endif %}
 
 {% for param in response_fix_sized_params %}
-    return FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Response{{param.name|capital}}Offset)
+    return Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Response{{param.name|capital}}Offset)
 {% endfor %}
 {% for param in response_var_sized_params %}
     return {{ decode_var_sized(param) }}
@@ -172,13 +172,13 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
 {% for param in response_fix_sized_params %}
     {% if param in response_new_params %}
         if (initialFrame.content.length >= RESPONSE_{{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-        response.{{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
+        response.{{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, RESPONSE_{{to_upper_snake_case(param.name)}}_OFFSET);
         response.is{{ param.name|capital }}Exists = true;
         } else {
         response.is{{ param.name|capital }}Exists = false;
         }
     {% else %}
-    {{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Response{{ param.name|capital }}Offset)
+    {{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Response{{ param.name|capital }}Offset)
     {% endif %}
 {% endfor %}
 {% for param in response_var_sized_params %}
@@ -217,11 +217,11 @@ func Handle{{ service_name|capital }}{{ method.name|capital }}(clientMessage *pr
             let is{{ param.name|capital }}Exists = false
             let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %}
             if (initialFrame.content.length >= EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-            {{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET)
+            {{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.content, EVENT_{{ to_upper_snake_case(event.name)}}_{{ to_upper_snake_case(param.name) }}_OFFSET)
             is{{ param.name|capital }}Exists = true;
             }
         {% else %}
-        {{ escape_keyword(param.name) }} := FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital }}{{param.name|capital}}Offset)
+        {{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ service_name|capital }}{{ method.name|capital }}Event{{ event.name|capital }}{{param.name|capital}}Offset)
         {% endif %}
     {% endfor %}
     {% for param in var_size_params(event.params) %}

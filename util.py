@@ -17,8 +17,6 @@ from binary import FixedEntryListTypes, FixedLengthTypes, FixedListTypes, FixedM
 from cpp import cpp_ignore_service_list, cpp_types_decode, cpp_types_encode, get_size, is_trivial
 from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
 from java import java_types_decode, java_types_encode
-from go import go_types_encode, go_types_decode, go_ignore_service_list, \
-    go_get_import_statements, go_escape_keyword, go_augment_enum, go_rename_field
 from md import internal_services
 from py import (
     py_escape_keyword,
@@ -438,7 +436,7 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
     return map(str, protocol_versions)
 
 
-def copy_verbatim_files(output_dir, lang, env):
+def copy_verbatim_files(output_dir, lang):
     cur_dir = os.path.dirname(os.path.realpath(__file__))
     lang_dir = os.path.join(cur_dir, lang)
     verbatim_dir = os.path.join(lang_dir, "verbatim")
@@ -448,12 +446,6 @@ def copy_verbatim_files(output_dir, lang, env):
     # creating directories if necessary
     print("Verbatim files found, copying from %s to %s" % (verbatim_dir, output_dir))
     copy_tree(verbatim_dir, output_dir)
-    # shutil.copytree(
-    #     verbatim_dir,
-    #     output_dir,
-    #     ignore=shutil.ignore_patterns(".*"),
-    #     dirs_exist_ok=True
-    # )
 
 
 class SupportedLanguages(Enum):
@@ -506,7 +498,6 @@ file_name_generators = {
     SupportedLanguages.CS: _capitalized_name_generator('cs'),
     SupportedLanguages.PY: _snake_cased_name_generator('py'),
     SupportedLanguages.TS: _capitalized_name_generator('ts'),
-    SupportedLanguages.GO: _snake_cased_name_generator('go'),
     SupportedLanguages.MD: "md",
 }
 
@@ -517,7 +508,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_encode,
         SupportedLanguages.TS: ts_types_encode,
         SupportedLanguages.PY: py_types_encode_decode,
-        SupportedLanguages.GO: go_types_encode,
         SupportedLanguages.MD: lambda x: x,
     },
     "lang_types_decode": {
@@ -526,7 +516,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_types_decode,
         SupportedLanguages.TS: ts_types_decode,
         SupportedLanguages.PY: py_types_encode_decode,
-        SupportedLanguages.GO: go_types_decode,
         SupportedLanguages.MD: lambda x: x,
     },
     "lang_name": {
@@ -535,7 +524,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: cpp_name,
         SupportedLanguages.TS: java_name,
         SupportedLanguages.PY: java_name,
-        SupportedLanguages.GO: java_name,
         SupportedLanguages.MD: lambda x: x,
     },
     "param_name": {
@@ -544,7 +532,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: param_name,
         SupportedLanguages.TS: param_name,
         SupportedLanguages.PY: py_param_name,
-        SupportedLanguages.GO: param_name,
         SupportedLanguages.MD: lambda x: x,
     },
     "escape_keyword": {
@@ -553,7 +540,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_escape_keyword,
         SupportedLanguages.PY: py_escape_keyword,
-        SupportedLanguages.GO: go_escape_keyword,
         SupportedLanguages.MD: lambda x: x,
     },
     "get_import_path_holders": {
@@ -562,14 +548,7 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: ts_get_import_path_holders,
         SupportedLanguages.PY: py_get_import_path_holders,
-        SupportedLanguages.GO: go_get_import_statements,  # exposed as: get_import_path_holders
         SupportedLanguages.MD: lambda x: x,
-    },
-    "augment_enum": {
-        SupportedLanguages.GO: go_augment_enum,
-    },
-    "rename_field": {
-        SupportedLanguages.GO: go_rename_field,
     },
     "custom_type_name": {
         SupportedLanguages.JAVA: lambda x: x,
@@ -577,7 +556,6 @@ language_specific_funcs = {
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: lambda x: x,
         SupportedLanguages.PY: py_custom_type_name,
-        SupportedLanguages.GO: lambda x: x,
         SupportedLanguages.MD: lambda x: x,
     }
 }
@@ -588,7 +566,6 @@ language_service_ignore_list = {
     SupportedLanguages.CS: cs_ignore_service_list,
     SupportedLanguages.PY: py_ignore_service_list,
     SupportedLanguages.TS: ts_ignore_service_list,
-    SupportedLanguages.GO: go_ignore_service_list,
 }
 
 
