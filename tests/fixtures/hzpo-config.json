@@ -1,0 +1,4 @@
+{
+  "base_import_path": "github.com/hazelcast/hazelcast-platform-operator",
+  "include_methods": ["Map.getAll"]
+}
