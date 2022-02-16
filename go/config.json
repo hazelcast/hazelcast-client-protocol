@@ -1,3 +1,4 @@
 {
-  "include_methods": ["SQL.*"]
+  "include_methods": ["SQL.*"],
+  "include_types": ["Address"]
 }

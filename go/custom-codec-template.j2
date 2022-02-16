@@ -7,7 +7,7 @@
 		Encode{% if param.nullable  %}Nullable{% endif %}MapFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
 	{%- else -%}
 		{%- if param.nullable  -%}
-			CodecUtil.EncodeNullableFor{{ lang_name(param.type) }}(clientMessage, {% if param.type != "String" %}&{% endif %}{{ param_name(codec.name)}}.{{ param.name|capital }})
+			EncodeNullableFor{{ lang_name(param.type) }}(clientMessage, {% if param.type != "String" %}&{% endif %}{{ param_name(codec.name)}}.{{ param.name|capital }})
 		{%- else -%}
 			Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
 		{%- endif %}
@@ -22,7 +22,7 @@
 		Decode{% if param.nullable  %}Nullable{% endif %}MapFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}(frameIterator)
 	{%- else -%}
 		{%- if param.nullable  -%}
-			CodecUtil.DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
+			DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
 		{%- else -%}
 			Decode{{ lang_name(param.type) }}(frameIterator)
 		{%- endif -%}
@@ -41,7 +41,7 @@ import (
 {% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
 {% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
 /*
-* Copyright (c) 2008-2020, Hazelcast, Inc. All Rights Reserved.
+* Copyright (c) 2008-{{ copyright_year }}, Hazelcast, Inc. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ func Encode{{ codec.name|capital }}(clientMessage *proto.ClientMessage, {{ param
 	{% else %}
 		{% set cast = "" %}
 	{% endif %}
-	FixSizedTypesCodec.Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {% if cast %}{{ cast }}{% endif %}{{ param_name(codec.name)}}.{{ rename_field(codec.name, param) }}{% if cast %}){% endif %})
+	Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {% if cast %}{{ cast }}{% endif %}{{ param_name(codec.name)}}.{{ rename_field(codec.name, param) }}{% if cast %}){% endif %})
 	{% if loop.last %}
 		{% if not should_add_begin_frame %}
 	initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG
@@ -136,10 +136,10 @@ func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {
 	{% if param in fix_sized_new_params %}
 	let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %}
 	if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-	{{ escape_keyword(param.name) }} = FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ to_upper_snake_case(param.name) }}_OFFSET)
+	{{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, {{ to_upper_snake_case(param.name) }}_OFFSET)
 	}
 	{% else %}
-	{{ escape_keyword(param.name) }} := FixSizedTypesCodec.Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
+	{{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
 	{% endif %}
 {% endfor %}
 {% for param in var_sized_params %}
@@ -158,7 +158,7 @@ func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {
 	{{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
 	{% endif %}
 {% endfor %}
-	CodecUtil.FastForwardToEndFrame(frameIterator)
+	FastForwardToEndFrame(frameIterator)
 {% set ctor_params = [] %}
 {% for param in codec.params %}
 	{% if lang_types_decode(param.type) != '!skip' %}
@@ -170,7 +170,7 @@ func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {
 		{% set encoded_codec_name = encoded_codec_name[1:] %}
 	{% endif %}
 	{% if codec.name == "Address"%}
-	return cluster.NewAddress(host, port)
+	return pubcluster.NewAddress(host, port)
 	{% else %}	
 	return {% if "*" in lang_types_encode(codec.name) %}&{% endif %}{{ encoded_codec_name.split('.')[0] }}.{{ encoded_codec_name.split('.')[1] }}{% raw %}{{%endraw %}
 	

@@ -174,7 +174,7 @@ print("Hazelcast Client Binary Protocol version", protocol_versions[-1])
 copy_verbatim_files(codec_output_dir, lang.value)
 
 if lang == SupportedLanguages.GO:
-    gen = GoGenerator(protocol_defs, codec_output_dir, args)
+    gen = GoGenerator(protocol_defs, custom_protocol_defs, codec_output_dir, args)
     gen.generate()
     exit(0)
 
@@ -183,7 +183,7 @@ env = create_environment(lang, args.namespace)
 
 if lang != SupportedLanguages.MD:
     codec_template = env.get_template("codec-template.%s.j2" % lang.value)
-    generate_codecs(protocol_defs, codec_template, codec_output_dir, lang, env, args)
+    generate_codecs(protocol_defs, codec_template, codec_output_dir, lang, env)
     print("Generated codecs are at '%s'" % abspath(codec_output_dir))
 
 if custom_protocol_defs:

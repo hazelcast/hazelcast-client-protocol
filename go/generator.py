@@ -17,8 +17,9 @@ class GoGenerator:
 
     filename_gen = _snake_cased_name_generator("go")
 
-    def __init__(self, services, output_dir, args):
+    def __init__(self, services, custom_protocol, output_dir, args):
         self.services = services
+        self.custom_types = custom_protocol[0]["customTypes"]
         self.output_dir = output_dir
         self.args = args
         config_path = args.go_config
@@ -27,16 +28,22 @@ class GoGenerator:
             config_path = os.path.join(current_path(), "config.json")
             self.extensibility = False
         self.config = self.load_config(config_path)
-        self.types_encode = self.make_types_encode(types)
-        self.types_decode = self.make_types_decode(types)
+        self.mapping = DEFAULT_MAPPING.copy()
+        if self.config.mapping:
+            self.mapping.update(self.config.mapping)
+        types = DEFAULT_TYPES.copy()
+        merge_dict(types, self.config.types)
+        self.types_encode = self.make_types_encode(DEFAULT_TYPES)
+        self.types_decode = self.make_types_decode(DEFAULT_TYPES)
+        self.env = self.make_environment()
 
     def generate(self):
         for service in self.services:
             self.generate_service(service)
+        self.generate_types(self.custom_types)
 
     def generate_service(self, service):
-        env = self.make_environment()
-        template = env.get_template("codec-template.j2")
+        template = self.env.get_template("codec-template.j2")
         methods = service.get("methods")
         if methods is None:
             raise NotImplementedError(f"Methods not found for service {service}")
@@ -47,9 +54,7 @@ class GoGenerator:
         name = f"{service['name']}.{method['name']}"
         if not self.can_generate_method(name):
             return
-        opts = {
-            "base_import_path": self.config.base_import_path
-        }
+        opts = {"base_import_path": self.config.base_import_path}
         method["request"]["id"] = self.make_id(service["id"], method["id"], 0)
         method["response"]["id"] = self.make_id(service["id"], method["id"], 1)
         for i, event in enumerate(method.get("events", [])):
@@ -62,9 +67,30 @@ class GoGenerator:
         except NotImplementedError as e:
             print(f"{codec_file_name} contains missing type mapping so ignoring it. Error: {e}")
 
+    def generate_types(self, codecs):
+        template = self.env.get_template("custom-codec-template.j2")
+        for codec in codecs:
+            self.generate_type(codec, template)
+
+    def generate_type(self, codec, template):
+        if not self.can_generate_type(codec["name"]):
+            return
+        opts = {"base_import_path": self.config.base_import_path}
+        codec_file_name = GoGenerator.filename_gen(codec["name"])
+        print("Custom:", codec_file_name)
+        content = template.render(codec=codec, **opts)
+        path = os.path.join(self.output_dir, codec_file_name)
+        self.save(path, content)
+
     def can_generate_method(self, method_name: str) -> bool:
         for filter in self.config.include_methods:
             if fnmatch.fnmatch(method_name.lower(), filter.lower()):
+                return True
+        return False
+
+    def can_generate_type(self, type_name: str) -> bool:
+        for filter in self.config.include_types:
+            if fnmatch.fnmatch(type_name.lower(), filter.lower()):
                 return True
         return False
 
@@ -152,9 +178,7 @@ class GoGenerator:
         for package, ts in types.get("internal", {}).items():
             for t in ts:
                 res[t] = f"i{package}.{t}"
-        for from_type, to_type in DEFAULT_MAPPING.items():
-            res[from_type] = to_type
-        for from_type, to_type in self.config.mapping.items():
+        for from_type, to_type in self.mapping.items():
             res[from_type] = to_type
         # if self.extensibility:
         #     res["Data"] = "hazelcast.Data"
@@ -177,7 +201,7 @@ class GoGenerator:
     #     return res
 
     def go_get_import_statements(self, *args):
-        import_map = self.make_import_stmts_mapping(types)
+        import_map = self.make_import_stmts_mapping(DEFAULT_TYPES)
         import_statements = set()
         for arg in args:
             params = [arg] if isinstance(arg, str) else arg
@@ -186,7 +210,7 @@ class GoGenerator:
                 import_stmt = import_map.get(type)
                 if import_stmt is None:
                     # this may be a mapped type
-                    mt = DEFAULT_MAPPING.get(type)
+                    mt = self.mapping.get(type)
                     if mt:
                         p = mt.split(".", 1)
                         if len(p) == 2:
@@ -225,7 +249,7 @@ go_reserved_keywords = {"break", "default", "func", "interface", "select", "case
                         "chan", "else", "goto", "package", "switch", "const", "fallthrough", "if", "range", "type",
                         "continue", "for", "import", "return", "var"}
 
-types = {
+DEFAULT_TYPES = {
     "builtin": [
         "ByteArrayCodec", "CodecUtil", "DataCodec",
     ],
@@ -278,13 +302,31 @@ def go_rename_field(codec, param):
     return "%s%s" % (name[0].upper(), name[1:])
 
 
+def merge_dict(d1, d2: dict):
+    root = d1
+    for k, v in d2.items():
+        if k in d1:
+            if isinstance(d1[k], dict) and isinstance(v, dict):
+                merge_dict(d1[k], v)
+                continue
+        root[k] = v
+
+
 DEFAULT_MAPPING = {
     "boolean": "bool",
+    "byte": "byte",
     "EntryList_Data_Data": "[]proto.Pair",
     "EntryList_Integer_Integer": "[]proto.Pair",
     "int": "int32",
+    "ListCN_Data": "[]iserialization.Data",
     "List_Data": "[]iserialization.Data",
+    "List_IndexConfig": "[]pubtypes.IndexConfig",
+    "List_ListCN_Data": "[]iserialization.Data",
+    "List_QueryCacheConfigHolder": "[]QueryCacheConfigHolder",
+    "List_SqlColumnMetadata": "[]isql.ColumnMetadata",
     "long": "int64",
+    "SqlError": "isql.Error",
+    "SqlPage": "isql.Page",
     "SqlQueryId": "isql.QueryID",
     "String": "string",
 }

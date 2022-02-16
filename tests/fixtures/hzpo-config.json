@@ -1,4 +1,21 @@
 {
-  "base_import_path": "github.com/hazelcast/hazelcast-platform-operator",
-  "include_methods": ["Map.getAll"]
+  "base_import_path": "github.com/yuce/hazelcast-go-client-extensibility-sample",
+  "include_methods": ["Map.getAll", "DynamicConfig.addMapConfig"],
+  "include_types": ["EventJournalConfig"],
+  "types": {
+    "public": {
+      "control": ["EventJournalConfig"]
+    }
+  },
+  "mapping": {
+    "EventJournalConfig": "pubcontrol.EventJournalConfig",
+    "HotRestartConfig": "pubcontrol.HotRestartConfig",
+    "EvictionConfigHolder": "pubcontrol.EvictionConfigHolder",
+    "List_AttributeConfig": "[]pubcontrol.AttributeConfig",
+    "List_ListenerConfigHolder": "[]pubcontrol.ListenerConfigHolder",
+    "MapStoreConfigHolder": "pubcontrol.MapStoreConfigHolder",
+    "MerkleTreeConfig": "pubcontrol.MerkleTreeConfig",
+    "NearCacheConfigHolder": "pubcontrol.NearCacheConfigHolder",
+    "WanReplicationRef": "pubcontrol.WanReplicationRef"
+  }
 }

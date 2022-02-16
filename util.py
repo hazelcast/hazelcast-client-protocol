@@ -618,10 +618,5 @@ def create_environment(lang, namespace):
     env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
-    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][
-        lang
-    ]
-    env.globals["augment_enum"] = language_specific_funcs["augment_enum"].get(lang)
-    env.globals["rename_field"] = language_specific_funcs["rename_field"].get(lang)
 
     return env
