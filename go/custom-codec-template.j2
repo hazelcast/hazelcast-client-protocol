@@ -134,9 +134,9 @@ func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {
 	initialFrame := frameIterator.Next()
 	{% endif %}
 	{% if param in fix_sized_new_params %}
-	let {{ escape_keyword(param.name) }} = {% if param.type == 'boolean' %}false{% elif param.type == 'UUID' %}null{% else %}0{% endif %}
-	if (initialFrame.content.length >= {{ to_upper_snake_case(param.name) }}_OFFSET + BitsUtil.{{ param.type.upper() }}_SIZE_IN_BYTES) {
-	{{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, {{ to_upper_snake_case(param.name) }}_OFFSET)
+	var {{ escape_keyword(param.name) }} {{ lang_types_encode(param.type) }}
+	if len(initialFrame.Content) >= {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + proto.{{ param.type|capitalize }}SizeInBytes {
+		{{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
 	}
 	{% else %}
 	{{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)

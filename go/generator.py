@@ -2,20 +2,25 @@ import hashlib
 import json
 import os
 import fnmatch
+import re
 from datetime import datetime
 
 from jinja2 import Environment, PackageLoader
 
 from cpp import get_size, is_trivial
-from util import _snake_cased_name_generator, capital, to_upper_snake_case, is_var_sized_list_contains_nullable, \
+from py import py_param_name
+from util import capital, to_upper_snake_case, is_var_sized_list_contains_nullable, \
     fixed_params, var_size_params, new_params, filter_new_params, is_var_sized_list, is_var_sized_entry_list, \
     is_var_sized_map, item_type, key_type, value_type, param_name, java_name
 from .config import Config
 
 
+RE_PKG_TYPE = re.compile(r"([a-z]+)\.(\w+)")
+
+
 class GoGenerator:
 
-    filename_gen = _snake_cased_name_generator("go")
+    codec_filename_gen = lambda *names: f'{"_".join(map(py_param_name, names))}_codec.go'
 
     def __init__(self, services, custom_protocol, output_dir, args):
         self.services = services
@@ -40,6 +45,7 @@ class GoGenerator:
     def generate(self):
         for service in self.services:
             self.generate_service(service)
+        self.generate_type_codecs(self.custom_types)
         self.generate_types(self.custom_types)
 
     def generate_service(self, service):
@@ -59,7 +65,7 @@ class GoGenerator:
         method["response"]["id"] = self.make_id(service["id"], method["id"], 1)
         for i, event in enumerate(method.get("events", [])):
             event["id"] = self.make_id(service["id"], method["id"], i + 2)
-        codec_file_name = GoGenerator.filename_gen(service["name"], method["name"])
+        codec_file_name = GoGenerator.codec_filename_gen(service["name"], method["name"])
         try:
             content = template.render(service_name=service["name"], method=method, **opts)
             path = os.path.join(self.output_dir, codec_file_name)
@@ -67,19 +73,50 @@ class GoGenerator:
         except NotImplementedError as e:
             print(f"{codec_file_name} contains missing type mapping so ignoring it. Error: {e}")
 
-    def generate_types(self, codecs):
+    def generate_type_codecs(self, codecs):
         template = self.env.get_template("custom-codec-template.j2")
+        for codec in codecs:
+            self.generate_type_codec(codec, template)
+
+    def generate_type_codec(self, codec, template):
+        if not self.can_generate_type(codec["name"]):
+            return
+        opts = {"base_import_path": self.config.base_import_path}
+        fname = GoGenerator.codec_filename_gen(codec["name"])
+        content = template.render(codec=codec, **opts)
+        path = os.path.join(self.output_dir, fname)
+        self.save(path, content)
+
+    def generate_types(self, codecs):
+        template = self.env.get_template("type-template.j2")
         for codec in codecs:
             self.generate_type(codec, template)
 
     def generate_type(self, codec, template):
-        if not self.can_generate_type(codec["name"]):
+        codec_name = codec["name"]
+        if not self.can_generate_type(codec_name):
             return
-        opts = {"base_import_path": self.config.base_import_path}
-        codec_file_name = GoGenerator.filename_gen(codec["name"])
-        print("Custom:", codec_file_name)
-        content = template.render(codec=codec, **opts)
-        path = os.path.join(self.output_dir, codec_file_name)
+        to_t = self.mapping.get(codec_name)
+        if not to_t:
+            print(f"Mapping for type {codec_name} not found")
+            return
+        pkg_t = RE_PKG_TYPE.search(to_t)
+        if not pkg_t:
+            print(f"Not a custom type: {to_t}")
+            return
+        pkg, t = pkg_t.group(1), pkg_t.group(2)
+        path = ""
+        if pkg.startswith("pub"):
+            pkg = pkg[3:]
+            path = pkg
+        elif pkg.startswith("i"):
+            pkg = pkg[1:]
+            path = f"internal/{pkg}"
+        path = os.path.join(self.output_dir, path)
+        os.makedirs(path, exist_ok=True)
+        fname = f'{py_param_name(codec_name)}.go'
+        content = template.render(codec=codec, package_name=pkg)
+        path = os.path.join(path, fname)
         self.save(path, content)
 
     def can_generate_method(self, method_name: str) -> bool:
@@ -313,6 +350,7 @@ def merge_dict(d1, d2: dict):
 
 
 DEFAULT_MAPPING = {
+    "Address": "",
     "boolean": "bool",
     "byte": "byte",
     "EntryList_Data_Data": "[]proto.Pair",
