@@ -1,13 +1,14 @@
 {
-  "base_import_path": "github.com/yuce/hazelcast-go-client-extensibility-sample",
-  "include_methods": ["Map.getAll", "DynamicConfig.addMapConfig"],
-  "include_types": ["EventJournalConfig"],
+  "base_import_path": "github.com/yuce/hazelcast-operator",
+  "include_methods": ["MC.getTimedMemberState", "Map.*"],
+  "include_types": ["Address", "EventJournalConfig"],
   "types": {
     "public": {
-      "control": ["EventJournalConfig"]
+      "control": ["EventJournalConfig", "Address"]
     }
   },
   "mapping": {
+    "Address": "pubcontrol.Adddress",
     "EventJournalConfig": "pubcontrol.EventJournalConfig",
     "HotRestartConfig": "pubcontrol.HotRestartConfig",
     "EvictionConfigHolder": "pubcontrol.EvictionConfigHolder",
