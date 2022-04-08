@@ -16,7 +16,8 @@ cs_ignore_service_list = {
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
     "Jet",
     "CPSubsystem", "CPMember",  "CountDownLatch", "Semaphore",
-
+    "Map.replaceAll","Sql.mappingDdl",
+    "AtomicLong.apply", "AtomicRef.apply",
     # methods
     "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
 }
