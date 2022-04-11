@@ -15,8 +15,9 @@ cs_ignore_service_list = {
     "MC", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
     "Jet",
-    "CPSession", "CPSubsystem", "CPMember", "Fenced*", "CountDownLatch", "Semaphore",
-
+    "CPSubsystem", "CPMember",  "CountDownLatch", "Semaphore",
+    "Map.replaceAll","Sql.mappingDdl",
+    "AtomicLong.apply", "AtomicRef.apply",
     # methods
     "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
 }
@@ -82,6 +83,10 @@ _cs_types_common = {
     "DurationConfig": "NA",
     "MigrationState": "NA",
 
+    "Schema":"NA",
+    "List_Schema":"NA",
+    "FieldDescriptor":"NA",
+
     "MergePolicyConfig": "NA",
     "CacheConfigHolder": "NA",
     "CacheEventData": "NA",
@@ -97,7 +102,8 @@ _cs_types_common = {
 
     "Map_String_String": "IDictionary<string, string>",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
-    "SqlPage": "Hazelcast.Sql.SqlPage"
+    "SqlPage": "Hazelcast.Sql.SqlPage",
+    "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
 }
 
 _cs_types_encode = {

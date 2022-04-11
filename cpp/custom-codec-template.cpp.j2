@@ -1,18 +1,18 @@
 {% macro encode_var_sized(param, is_final) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        msg.set{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
+        msg.set{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}({{ param_name(param.name) }}{% if is_final %}, true{% endif %});
 {#
     {%- elif is_var_sized_entry_list(param.type) -%}
-        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
-        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
+        MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(param.name) }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
 #}
     {%- else -%}
-            msg.set{% if param.nullable  %}Nullable{% endif %}({{ param.name }}{% if is_final %}, true{% endif %});
+            msg.set{% if param.nullable  %}Nullable{% endif %}({{ param_name(param.name) }}{% if is_final %}, true{% endif %});
     {% endif %}
 {%- endmacro %}
 /*
- * Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+ * Copyright (c) 2008-2022, Hazelcast, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ void hazelcast::client::protocol::codec::{{ codec.name.lower() }}_encode(ClientM
         initial_frame->frame_len = initial_frame_size;
         initial_frame->flags = ClientMessage::DEFAULT_FLAGS;
         {% for param in request_fix_sized_params %}
-        msg.set({{ param.name }});
+        msg.set({{ param_name(param.name) }});
         {% endfor %}
         {% for i in range(0, request_var_sized_params|length ) %}
         {{ encode_var_sized(request_var_sized_params[i], i == (request_var_sized_params|length - 1) ) }}
