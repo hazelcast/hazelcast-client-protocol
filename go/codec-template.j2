@@ -160,7 +160,7 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
 {% endfor %}
 }
 {% else %}
-func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMessage *proto.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %}{% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}) {
+func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMessage *proto.ClientMessage) ({% for param in method.response.params %}{{ escape_keyword(param.name)}} {{ lang_types_encode(param.type) }}{{ ", " if not loop.last }}{% endfor %}{% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists boolean{% endfor %}) {
 {% if  response_fix_sized_params|length != 0 %}
     frameIterator := clientMessage.FrameIterator()
     initialFrame := frameIterator.Next()
@@ -194,7 +194,7 @@ func Decode{{ service_name|capital }}{{ method.name|capital }}Response(clientMes
     {% endif %}
 {% endfor %}
 
-    return {% for param in method.response.params %}{{ escape_keyword(param.name)}}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists: boolean;{% endfor %}
+    return {% for param in method.response.params %}{{ escape_keyword(param.name)}}{{ ", " if not loop.last }}{% endfor %} {% for new_param in response_new_params %} is{{ new_param.name|capital }}Exists boolean{% endfor %}
 }
 {% endif %}
 {# EVENTS#}
