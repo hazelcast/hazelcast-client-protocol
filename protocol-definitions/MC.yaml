@@ -153,6 +153,12 @@ methods:
           since: 2.0
           doc: |
             Classname of the SplitBrainMergePolicy for the map.
+        - name: globalIndexes
+          type: List_IndexConfig
+          nullable: false
+          since: 2.4
+          doc: |
+            Global indexs of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
@@ -859,3 +865,37 @@ methods:
          since: 2.4
          doc: Name of the Queue for which the age-related statistics should be reset to 0
     response: {}
+  - id: 34
+    name: reloadConfig
+    since: 2.4
+    doc: Reloads the configuration on the member from its config file, applies (merges) the new config to the current config
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: configReloadProcessId
+          type: UUID
+          nullable: false
+          doc: The unique identifier of the configuration reload process which will be included in all MCEvent instances emitted for MC during the update
+          since: 2.4
+  - id: 35
+    name: updateConfig
+    since: 2.4
+    doc: Updates the configuration on the member with the passed configuration, applies (merges) the passed config to the current config
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+       - name: configuration
+         type: String
+         nullable: false
+         since: 2.4
+         doc: the config patch (XML or YAML string) to be applied to the current configuration
+    response:
+      params:
+        - name: configUpdateProcessId
+          type: UUID
+          nullable: false
+          doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
+          since: 2.4

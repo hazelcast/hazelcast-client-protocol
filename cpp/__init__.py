@@ -54,6 +54,23 @@ def is_trivial(type):
     return 1
 
 
+def cpp_param_name(name):
+    """
+    Converts camelCase protocol parameter name to snake_case
+    """
+    result = []
+
+    for i, ch in enumerate(name):
+        if ch.isupper():
+            if i > 0 and name[i-1].islower():
+                result.append('_')
+            result.append(ch.lower())
+        else:
+            result.append(ch)
+
+    return ''.join(result)
+
+
 """
 def cpp_escape_keyword(value):
     if value not in cpp_reserved_words:
