@@ -201,6 +201,10 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         content = cpp_source_template.render(codec=codec)
                         save_file(join(output_dir, source_file_name), content)
                     else:
+                        if lang == SupportedLanguages.TS:
+                            # Add a getter method to HazelcastJsonValue because it is public and only has toString() API.
+                            if codec["name"] == "HazelcastJsonValue":
+                                codec["params"][0]["getterMethod"] = "toString()"
                         codec_file_name = file_name_generators[lang](codec["name"])
                         content = template.render(codec=codec)
                         save_file(join(output_dir, codec_file_name), content)
