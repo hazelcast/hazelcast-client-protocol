@@ -83,6 +83,10 @@ CustomConfigTypes = [
     'DurationConfig',
     'MergePolicyConfig',
     'CacheConfigHolder',
+    'DataPersistenceConfig',
+    'MemoryTierConfig',
+    'DiskTierConfig',
+    'TieredStoreConfig',
 ]
 
 VarLengthEntryListTypes = [

@@ -996,3 +996,55 @@ customTypes:
         type: String
         nullable: false
         since: 2.4
+  - name: DataPersistenceConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: fsync
+        type: boolean
+        nullable: false
+        since: 2.5
+  - name: MemoryTierConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: capacityValue
+        type: long
+        nullable: false
+        since: 2.5
+      - name: capacityMemoryUnitName
+        type: String
+        nullable: false
+        since: 2.5
+  - name: DiskTierConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: deviceName
+        type: String
+        nullable: false
+        since: 2.5
+  - name: TieredStoreConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: memoryTierConfig
+        type: MemoryTierConfig
+        nullable: false
+        since: 2.5
+      - name: diskTierConfig
+        type: DiskTierConfig
+        nullable: false
+        since: 2.5

@@ -66,7 +66,11 @@ _java_types_common = {
     "Schema": "com.hazelcast.internal.serialization.impl.compact.Schema",
     "FieldDescriptor": "com.hazelcast.internal.serialization.impl.compact.FieldDescriptor",
     "List_FieldDescriptor": "java.util.List<com.hazelcast.internal.serialization.impl.compact.FieldDescriptor>",
-    "HazelcastJsonValue": "com.hazelcast.core.HazelcastJsonValue"
+    "HazelcastJsonValue": "com.hazelcast.core.HazelcastJsonValue",
+    "DataPersistenceConfig": "com.hazelcast.config.DataPersistenceConfig",
+    "MemoryTierConfig" : "com.hazelcast.config.MemoryTierConfig",
+    "DiskTierConfig" : "com.hazelcast.config.DiskTierConfig",
+    "TieredStoreConfig" : "com.hazelcast.config.TieredStoreConfig"
 }
 
 _java_types_encode = {

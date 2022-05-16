@@ -112,7 +112,11 @@
             "FieldDescriptor",
             "List_FieldDescriptor",
             "SqlPage",
-            "HazelcastJsonValue"
+            "HazelcastJsonValue",
+            "DataPersistenceConfig",
+            "MemoryTierConfig",
+            "DiskTierConfig",
+            "TieredStoreConfig"
           ]
         },
         "nullable": {
