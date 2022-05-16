@@ -1016,8 +1016,8 @@ customTypes:
         type: long
         nullable: false
         since: 2.5
-      - name: capacityMemoryUnitName
-        type: String
+      - name: capacityMemoryUnitType
+        type: int
         nullable: false
         since: 2.5
   - name: DiskTierConfig

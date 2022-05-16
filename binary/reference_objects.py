@@ -11,6 +11,8 @@ INT = 25
 
 LONG = -50992225
 
+POSITIVE_LONG = 50992225
+
 UUID = UuidHolder(123456789, 987654321)
 
 BYTEARRAY = bytearray([BYTE])
@@ -60,6 +62,10 @@ objects = {
     },
     'HazelcastJsonValue': {
         'value': ''
+    },
+    'MemoryTierConfig': {
+        'capacityValue': POSITIVE_LONG,
+        'capacityMemoryUnitType': 3
     }
 }
 
