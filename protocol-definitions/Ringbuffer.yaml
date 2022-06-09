@@ -5,8 +5,8 @@ methods:
     name: size
     since: 2.0
     doc: |
-      Returns number of items in the ringbuffer. If no ttl is set, the size will always be equal to capacity after the
-      head completed the first looparound the ring. This is because no items are getting retired.
+      Returns number of items in the Ringbuffer. If no ttl is set, the size will always be equal to capacity after the
+      head completed the first loop around the ring. This is because no items are getting retired.
     request:
       retryable: true
       partitionIdentifier: name
@@ -29,7 +29,7 @@ methods:
     name: tailSequence
     since: 2.0
     doc: |
-      Returns the sequence of the tail. The tail is the side of the ringbuffer where the items are added to.
+      Returns the sequence of the tail. The tail is the side of the Ringbuffer where the items are added to.
       The initial value of the tail is -1.
     request:
       retryable: true
@@ -53,7 +53,7 @@ methods:
     name: headSequence
     since: 2.0
     doc: |
-      Returns the sequence of the head. The head is the side of the ringbuffer where the oldest items in the ringbuffer
+      Returns the sequence of the head. The head is the side of the Ringbuffer where the oldest items in the Ringbuffer
       are found. If the RingBuffer is empty, the head will be one more than the tail.
       The initial value of the head is 0 (1 more than tail).
     request:
@@ -101,7 +101,7 @@ methods:
     name: remainingCapacity
     since: 2.0
     doc: |
-      Returns the remaining capacity of the ringbuffer. The returned value could be stale as soon as it is returned.
+      Returns the remaining capacity of the Ringbuffer. The returned value could be stale as soon as it is returned.
       If ttl is not set, the remaining capacity will always be the capacity.
     request:
       retryable: true
@@ -125,15 +125,15 @@ methods:
     name: add
     since: 2.0
     doc: |
-      Adds an item to the tail of the Ringbuffer. If there is space in the ringbuffer, the call
+      Adds an item to the tail of the Ringbuffer. If there is space in the Ringbuffer, the call
       will return the sequence of the written item. If there is no space, it depends on the overflow policy what happens:
-      OverflowPolicy OVERWRITE we just overwrite the oldest item in the ringbuffer and we violate the ttl
+      OverflowPolicy OVERWRITE we just overwrite the oldest item in the Ringbuffer, and we violate the ttl
       OverflowPolicy FAIL we return -1. The reason that FAIL exist is to give the opportunity to obey the ttl.
       <p/>
       This sequence will always be unique for this Ringbuffer instance so it can be used as a unique id generator if you are
-      publishing items on this Ringbuffer. However you need to take care of correctly determining an initial id when any node
-      uses the ringbuffer for the first time. The most reliable way to do that is to write a dummy item into the ringbuffer and
-      use the returned sequence as initial  id. On the reading side, this dummy item should be discard. Please keep in mind that
+      publishing items on this Ringbuffer. However, you need to take care of correctly determining an initial id when any node
+      uses the Ringbuffer for the first time. The most reliable way to do that is to write a dummy item into the Ringbuffer and
+      use the returned sequence as initial  id. On the reading side, this dummy item should be discarded. Please keep in mind that
       this id is not the sequence of the item you are about to publish but from a previously published item. So it can't be used
       to find that item.
     request:
@@ -172,7 +172,7 @@ methods:
     doc: |
       Reads one item from the Ringbuffer. If the sequence is one beyond the current tail, this call blocks until an
       item is added. This method is not destructive unlike e.g. a queue.take. So the same item can be read by multiple
-      readers or it can be read multiple times by the same reader. Currently it isn't possible to control how long this
+      readers, or it can be read multiple times by the same reader. Currently, it isn't possible to control how long this
       call is going to block. In the future we could add e.g. tryReadOne(long sequence, long timeout, TimeUnit unit).
     request:
       retryable: true
@@ -206,7 +206,7 @@ methods:
       to add(Object) due to better io utilization and a reduced number of executed operations. If the batch is empty,
       the call is ignored. When the collection is not empty, the content is copied into a different data-structure.
       This means that: after this call completes, the collection can be re-used. the collection doesn't need to be serializable.
-      If the collection is larger than the capacity of the ringbuffer, then the items that were written first will be
+      If the collection is larger than the capacity of the Ringbuffer, then the items that were written first will be
       overwritten. Therefor this call will not block. The items are inserted in the order of the Iterator of the collection.
       If an addAll is executed concurrently with an add or addAll, no guarantee is given that items are contiguous.
       The result of the future contains the sequenceId of the last written item
@@ -246,7 +246,7 @@ methods:
     doc: |
       Reads a batch of items from the Ringbuffer. If the number of available items after the first read item is smaller
       than the maxCount, these items are returned. So it could be the number of items read is smaller than the maxCount.
-      If there are less items available than minCount, then this call blacks. Reading a batch of items is likely to
+      If there are fewer items available than minCount, then this call blacks. Reading a batch of items is likely to
       perform better because less overhead is involved. A filter can be provided to only select items that need to be read.
       If the filter is null, all items are read. If the filter is not null, only items where the filter function returns
       true are returned. Using filters is a good way to prevent getting items that are of no value to the receiver.
@@ -298,7 +298,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            List of items that have beee read.
+            List of items that have bee read.
         - name: itemSeqs
           type: longArray
           nullable: true
