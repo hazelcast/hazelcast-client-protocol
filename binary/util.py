@@ -459,6 +459,7 @@ reference_objects_dict = {
     'SqlPage': 'aSqlPage',
     'HazelcastJsonValue': 'aHazelcastJsonValue',
     'DataPersistenceConfig': 'aDataPersistenceConfig',
+    'Capacity': 'aCapacity',
     'MemoryTierConfig': 'aMemoryTierConfig',
     'DiskTierConfig': 'aDiskTierConfig',
     'TieredStoreConfig': 'aTieredStoreConfig',

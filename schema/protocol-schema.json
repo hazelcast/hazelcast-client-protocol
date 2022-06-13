@@ -114,6 +114,7 @@
             "SqlPage",
             "HazelcastJsonValue",
             "DataPersistenceConfig",
+            "Capacity",
             "MemoryTierConfig",
             "DiskTierConfig",
             "TieredStoreConfig"

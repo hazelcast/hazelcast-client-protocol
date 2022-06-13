@@ -84,6 +84,7 @@ CustomConfigTypes = [
     'MergePolicyConfig',
     'CacheConfigHolder',
     'DataPersistenceConfig',
+    'Capacity',
     'MemoryTierConfig',
     'DiskTierConfig',
     'TieredStoreConfig',

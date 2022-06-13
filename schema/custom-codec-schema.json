@@ -113,6 +113,7 @@
             "Schema",
             "HazelcastJsonValue",
             "DataPersistenceConfig",
+            "Capacity",
             "MemoryTierConfig",
             "DiskTierConfig",
             "TieredStoreConfig"
