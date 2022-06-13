@@ -63,9 +63,9 @@ objects = {
     'HazelcastJsonValue': {
         'value': ''
     },
-    'MemoryTierConfig': {
-        'capacityValue': POSITIVE_LONG,
-        'capacityMemoryUnitType': 3
+    'Capacity': {
+        'value': POSITIVE_LONG,
+        'unit': 3
     }
 }
 
