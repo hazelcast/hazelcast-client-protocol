@@ -884,6 +884,18 @@ methods:
           doc: |
             {@code true} to enable entry level statistics for the entries of this map.
              otherwise {@code false}. Default value is {@code false}
+        - name: dataPersistenceConfig
+          type: DataPersistenceConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Data persistence configuration
+        - name: tieredStoreConfig
+          type: TieredStoreConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Tiered-Store configuration
     response: {}
   - id: 13
     name: addReliableTopicConfig

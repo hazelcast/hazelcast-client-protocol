@@ -457,7 +457,12 @@ reference_objects_dict = {
     'Schema': 'aSchema',
     'List_Schema': 'aListOfSchemas',
     'SqlPage': 'aSqlPage',
-    'HazelcastJsonValue': 'aHazelcastJsonValue'
+    'HazelcastJsonValue': 'aHazelcastJsonValue',
+    'DataPersistenceConfig': 'aDataPersistenceConfig',
+    'Capacity': 'aCapacity',
+    'MemoryTierConfig': 'aMemoryTierConfig',
+    'DiskTierConfig': 'aDiskTierConfig',
+    'TieredStoreConfig': 'aTieredStoreConfig',
 }
 
 
