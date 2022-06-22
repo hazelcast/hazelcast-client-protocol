@@ -249,6 +249,10 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
+      - name: offload
+        type: boolean
+        nullable: false
+        since: 2.5
   - name: MerkleTreeConfig
     since: 2.0
     returnWithFactory: true
