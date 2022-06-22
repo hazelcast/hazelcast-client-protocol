@@ -757,6 +757,10 @@ customTypes:
         type: MerkleTreeConfig
         nullable: true
         since: 2.3
+      - name: dataPersistenceConfig
+        type: DataPersistenceConfig
+        nullable: false
+        since: 2.5
   - name: ClientBwListEntry
     since: 2.0
     returnWithFactory: true
