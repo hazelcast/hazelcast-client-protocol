@@ -880,6 +880,10 @@ customTypes:
           type: Data
           nullable: true
           since: 2.0
+        - name: partitionKeysData
+          type: List_Data
+          nullable: true
+          since: 2.5
   - name: SqlQueryId
     since: 2.1
     params:
