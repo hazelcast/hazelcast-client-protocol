@@ -221,7 +221,7 @@ methods:
           nullable: false
           since: 2.5
           doc: |
-            Is the result unbounded.
+            Is the result set unbounded.
   - id: 5
     name: fetch
     since: 2.2
