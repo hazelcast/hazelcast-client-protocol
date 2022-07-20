@@ -1,4 +1,13 @@
 {
-  "include_methods": ["SQL.*"],
-  "include_types": ["Address"]
+  "include_methods": ["Map.*"],
+  "include_types": ["Address"],
+  "mapping": {
+    "Address": "pubcluster.Address",
+    "longArray": "[]int64",
+    "List_String": "[]string",
+    "List_UUID": "[]types.UUID",
+    "List_Long": "[]int64",
+    "EntryList_String_EntryList_Integer_Long": "map[string]map[int32]int64",
+    "EntryList_Integer_UUID": "map[int32]types.UUID"
+  }
 }

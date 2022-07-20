@@ -1,10 +1,10 @@
 {
-  "base_import_path": "github.com/yuce/hazelcast-operator",
-  "include_methods": ["MC.getTimedMemberState", "Map.*"],
-  "include_types": ["Address", "EventJournalConfig"],
+  "base_import_path": "github.com/yuce/listindexes",
+  "include_methods": ["MC.getMapConfig"],
+  "include_types": ["Address", "EventJournalConfig", "IndexConfig"],
   "types": {
     "public": {
-      "control": ["EventJournalConfig", "Address"]
+      "control": ["EventJournalConfig", "Address", "IndexConfig"]
     }
   },
   "mapping": {
@@ -17,6 +17,8 @@
     "MapStoreConfigHolder": "pubcontrol.MapStoreConfigHolder",
     "MerkleTreeConfig": "pubcontrol.MerkleTreeConfig",
     "NearCacheConfigHolder": "pubcontrol.NearCacheConfigHolder",
-    "WanReplicationRef": "pubcontrol.WanReplicationRef"
+    "WanReplicationRef": "pubcontrol.WanReplicationRef",
+    "List_String": "[]string",
+    "IndexConfig": "pubtypes.IndexConfig"
   }
 }
