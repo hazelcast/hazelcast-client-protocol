@@ -194,7 +194,7 @@ customTypes:
         type: BitmapIndexOptions
         nullable: true
         since: 2.0
-      - name: btreeIndexConfig
+      - name: bTreeIndexConfig
         type: BTreeIndexConfig
         nullable: true
         since: 2.0
@@ -218,7 +218,7 @@ customTypes:
         type: Capacity
         nullable: true
         since: 2.5
-      - name: memoryTier
+      - name: memoryTierConfig
         type: MemoryTierConfig
         nullable: true
         since: 2.5

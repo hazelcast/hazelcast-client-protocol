@@ -401,6 +401,7 @@ reference_objects_dict = {
     'AttributeConfig': 'aAttributeConfig',
     'IndexConfig': 'anIndexConfig',
     'BitmapIndexOptions': 'aBitmapIndexOptions',
+    'BTreeIndexConfig': 'aBTreeIndexConfig',
     'MapStoreConfigHolder': 'aMapStoreConfigHolder',
     'MerkleTreeConfig': 'aMerkleTreeConfig',
     'NearCacheConfigHolder': 'aNearCacheConfigHolder',
