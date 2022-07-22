@@ -53,6 +53,7 @@ _java_types_common = {
     "DistributedObjectInfo": "com.hazelcast.client.impl.client.DistributedObjectInfo",
     "IndexConfig": "com.hazelcast.config.IndexConfig",
     "BitmapIndexOptions": "com.hazelcast.config.BitmapIndexOptions",
+    "BTreeIndexConfig": "com.hazelcast.config.BTreeIndexConfig",
     "AttributeConfig": "com.hazelcast.config.AttributeConfig",
     "ListenerConfigHolder": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ListenerConfigHolder",
     "CacheSimpleEntryListenerConfig": "com.hazelcast.config.CacheSimpleEntryListenerConfig",

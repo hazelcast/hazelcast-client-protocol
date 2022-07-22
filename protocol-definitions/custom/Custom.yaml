@@ -211,17 +211,17 @@ customTypes:
         nullable: false
         since: 2.0
   - name: BTreeIndexConfig
-    since: 2.0
+    since: 2.5
     returnWithFactory: true
     params:
       - name: pageSize
         type: Capacity
         nullable: true
-        since: 2.0
+        since: 2.5
       - name: memoryTier
         type: MemoryTierConfig
         nullable: true
-        since: 2.0
+        since: 2.5
   - name: MapStoreConfigHolder
     since: 2.0
     params:
