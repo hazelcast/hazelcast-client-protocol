@@ -197,7 +197,7 @@ customTypes:
       - name: btreeIndexConfig
         type: BTreeIndexConfig
         nullable: true
-        since: 2.0
+        since: 2.5
   - name: BitmapIndexOptions
     since: 2.0
     returnWithFactory: true
