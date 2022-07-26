@@ -71,7 +71,9 @@ _java_types_common = {
     "Capacity": "com.hazelcast.memory.Capacity",
     "MemoryTierConfig": "com.hazelcast.config.MemoryTierConfig",
     "DiskTierConfig": "com.hazelcast.config.DiskTierConfig",
-    "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig"
+    "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig",
+    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary",
+    "JobStatus": "com.hazelcast.jet.core.JobStatus"
 }
 
 _java_types_encode = {
@@ -88,6 +90,7 @@ _java_types_encode = {
     "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.CPMember",
     "MigrationState": "com.hazelcast.partition.MigrationState",
 
@@ -114,6 +117,7 @@ _java_types_encode = {
     "List_ClientBwListEntry": "java.util.Collection<com.hazelcast.internal.management.dto.ClientBwListEntryDTO>",
     "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
+    "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -144,6 +148,7 @@ _java_types_decode = {
     "SqlQueryId": "com.hazelcast.sql.impl.QueryId",
     "SqlError": "com.hazelcast.sql.impl.client.SqlError",
     "SqlColumnMetadata": "com.hazelcast.sql.SqlColumnMetadata",
+    "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
 
@@ -170,6 +175,7 @@ _java_types_decode = {
     "List_MCEvent": "java.util.List<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
+    "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",

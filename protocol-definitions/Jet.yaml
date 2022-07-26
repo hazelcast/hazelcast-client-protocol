@@ -297,7 +297,7 @@ methods:
     response:
       params:
         - name: response
-          type: HazelcastJsonValue
+          type: List_JobAndSqlSummary
           nullable: false
           since: 2.5
           doc: ''

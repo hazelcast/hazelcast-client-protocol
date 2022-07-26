@@ -57,6 +57,9 @@ objects = {
     'SqlColumnMetadata': {
         'type': 1
     },
+    'JobStatus': {
+        'id': 2
+    },
     'ListenerConfigHolder': {
         'listenerType': 1
     },
