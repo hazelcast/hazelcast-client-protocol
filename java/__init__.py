@@ -72,8 +72,7 @@ _java_types_common = {
     "MemoryTierConfig": "com.hazelcast.config.MemoryTierConfig",
     "DiskTierConfig": "com.hazelcast.config.DiskTierConfig",
     "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig",
-    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary",
-    "JobStatus": "com.hazelcast.jet.core.JobStatus"
+    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary"
 }
 
 _java_types_encode = {

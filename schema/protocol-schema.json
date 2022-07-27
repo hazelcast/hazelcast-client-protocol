@@ -106,7 +106,6 @@
             "SqlError",
             "SqlColumnMetadata",
             "JobAndSqlSummary",
-            "JobStatus",
             "SqlSummary",
             "CPMember",
             "List_CPMember",

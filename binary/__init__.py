@@ -56,7 +56,6 @@ CustomTypes = [
     'SqlError',
     'SqlColumnMetadata',
     'JobAndSqlSummary',
-    'JobStatus',
     'SqlSummary',
     'CPMember',
     'MigrationState',

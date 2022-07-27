@@ -461,7 +461,6 @@ reference_objects_dict = {
     'SqlColumnMetadata': 'anSqlColumnMetadata',
     'JobAndSqlSummary': 'anJobAndSqlSummary',
     'SqlSummary': 'anSqlSummary',
-    'JobStatus': 'anJobStatus',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
     'MigrationState': 'aMigrationState',

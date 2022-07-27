@@ -1056,14 +1056,6 @@ customTypes:
         type: DiskTierConfig
         nullable: false
         since: 2.5
-  - name: JobStatus
-    since: 2.5
-    returnWithFactory: true
-    params:
-      - name: id
-        type: int
-        nullable: false
-        since: 2.5
   - name: SqlSummary
     since: 2.5
     returnWithFactory: true
@@ -1097,7 +1089,7 @@ customTypes:
         nullable: false
         since: 2.5
       - name: status
-        type: JobStatus
+        type: int
         nullable: false
         since: 2.5
       - name: submissionTime
