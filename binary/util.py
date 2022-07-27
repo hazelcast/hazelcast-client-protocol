@@ -236,7 +236,8 @@ class VarSizedParamEncoder:
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler')),
-            'SqlPage': partial(self.encode_sqlpage)
+            'SqlPage': partial(self.encode_sqlpage),
+            'HazelcastJsonValue': partial(self.encode_json)
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -299,6 +300,12 @@ class VarSizedParamEncoder:
     @staticmethod
     def encode_data_frame(client_message):
         client_message.add_frame(Frame(reference_objects.DATA))
+
+    @staticmethod
+    def encode_json(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        client_message.add_frame(Frame("{'value': ''}".encode('utf-8')))
+        client_message.add_frame(END_FRAME)
 
     @staticmethod
     def encode_sqlpage(client_message):
@@ -445,6 +452,7 @@ reference_objects_dict = {
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'List_MCEvent': 'aListOfMCEvents',
     'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
+    'List_JobAndSqlSummary': 'aListJobAndSqlSummary',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
@@ -452,6 +460,8 @@ reference_objects_dict = {
     'SqlQueryId': 'anSqlQueryId',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
+    'JobAndSqlSummary': 'aJobAndSqlSummary',
+    'SqlSummary': 'aSqlSummary',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
     'MigrationState': 'aMigrationState',
