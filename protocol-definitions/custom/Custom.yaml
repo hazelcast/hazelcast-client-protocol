@@ -1056,3 +1056,55 @@ customTypes:
         type: DiskTierConfig
         nullable: false
         since: 2.5
+  - name: SqlSummary
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: query
+        type: String
+        nullable: false
+        since: 2.5
+      - name: unbounded
+        type: boolean
+        nullable: false
+        since: 2.5
+  - name: JobAndSqlSummary
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: lightJob
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: jobId
+        type: long
+        nullable: false
+        since: 2.5
+      - name: executionId
+        type: long
+        nullable: false
+        since: 2.5
+      - name: nameOrId
+        type: String
+        nullable: false
+        since: 2.5
+      - name: status
+        type: int
+        nullable: false
+        since: 2.5
+      - name: submissionTime
+        type: long
+        nullable: false
+        since: 2.5
+      - name: completionTime
+        type: long
+        nullable: false
+        since: 2.5
+      - name: failureText
+        type: String
+        nullable: true
+        since: 2.5
+      - name: sqlSummary
+        type: SqlSummary
+        nullable: true
+        since: 2.5

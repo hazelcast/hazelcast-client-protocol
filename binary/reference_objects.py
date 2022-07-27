@@ -66,6 +66,9 @@ objects = {
     'Capacity': {
         'value': POSITIVE_LONG,
         'unit': 3
+    },
+    'JobAndSqlSummary': {
+        'status': 2
     }
 }
 

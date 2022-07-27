@@ -55,6 +55,8 @@ CustomTypes = [
     'SqlQueryId',
     'SqlError',
     'SqlColumnMetadata',
+    'JobAndSqlSummary',
+    'SqlSummary',
     'CPMember',
     'MigrationState',
     'FieldDescriptor',
@@ -122,6 +124,7 @@ VarLengthListTypes = [
     'List_ClientBwListEntry',
     'List_MCEvent',
     'List_SqlColumnMetadata',
+    'List_JobAndSqlSummary',
     'List_CPMember'
     'ListCN_Data',
     'List_List_Data',
