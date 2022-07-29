@@ -1127,6 +1127,12 @@ methods:
           since: 2.3
           doc: |
             merkle tree configuration
+        - name: dataPersistenceConfig
+          type: DataPersistenceConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Data persistence configuration
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
