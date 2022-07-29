@@ -216,6 +216,12 @@ methods:
           since: 2.2
           doc: |
             Error object.
+        - name: isInfiniteRows
+          type: boolean
+          nullable: false
+          since: 2.5
+          doc: |
+            Is the result set unbounded.
   - id: 5
     name: fetch
     since: 2.2

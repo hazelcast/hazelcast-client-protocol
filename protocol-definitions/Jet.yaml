@@ -286,3 +286,18 @@ methods:
           nullable: false
           since: 2.0
           doc: ''
+  - id: 15
+    name: getJobAndSqlSummaryList
+    since: 2.5
+    doc: ''
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params: []
+    response:
+      params:
+        - name: response
+          type: List_JobAndSqlSummary
+          nullable: false
+          since: 2.5
+          doc: ''
