@@ -580,7 +580,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            maximum number of tasks that a scheduler can have at any given point in time per partition
+            maximum number of tasks that a scheduler can have at any given point in time per partition or per node
+            according to the capacity policy
         - name: splitBrainProtectionName
           type: String
           nullable: true
@@ -608,6 +609,12 @@ methods:
           since: 2.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
+        - name: capacityPolicy
+          type: byte
+          nullable: false
+          since: 2.5
+          doc: |
+            Capacity policy for the configured capacity value
     response: {}
   - id: 11
     name: addQueueConfig
@@ -1127,6 +1134,12 @@ methods:
           since: 2.3
           doc: |
             merkle tree configuration
+        - name: dataPersistenceConfig
+          type: DataPersistenceConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Data persistence configuration
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
