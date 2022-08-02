@@ -216,11 +216,11 @@ customTypes:
     params:
       - name: pageSize
         type: Capacity
-        nullable: true
+        nullable: false
         since: 2.5
       - name: memoryTierConfig
         type: MemoryTierConfig
-        nullable: true
+        nullable: false
         since: 2.5
   - name: MapStoreConfigHolder
     since: 2.0
