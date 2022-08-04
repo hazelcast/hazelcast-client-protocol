@@ -73,6 +73,7 @@ CustomConfigTypes = [
     'AttributeConfig',
     'IndexConfig',
     'BitmapIndexOptions',
+    'BTreeIndexConfig',
     'MapStoreConfigHolder',
     'MerkleTreeConfig',
     'NearCacheConfigHolder',

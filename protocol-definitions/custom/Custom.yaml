@@ -194,6 +194,10 @@ customTypes:
         type: BitmapIndexOptions
         nullable: true
         since: 2.0
+      - name: bTreeIndexConfig
+        type: BTreeIndexConfig
+        nullable: true
+        since: 2.5
   - name: BitmapIndexOptions
     since: 2.0
     returnWithFactory: true
@@ -206,6 +210,18 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+  - name: BTreeIndexConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: pageSize
+        type: Capacity
+        nullable: false
+        since: 2.5
+      - name: memoryTierConfig
+        type: MemoryTierConfig
+        nullable: false
+        since: 2.5
   - name: MapStoreConfigHolder
     since: 2.0
     params:
