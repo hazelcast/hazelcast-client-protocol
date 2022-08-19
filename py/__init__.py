@@ -49,7 +49,6 @@ py_ignore_service_list = {
     "Map.addPartitionLostListener",
     "Map.eventJournalRead",
     "Map.eventJournalSubscribe",
-    "Map.removeAll",
     "Map.removePartitionLostListener",
     "Map.submitToKey",
     "Map.replaceAll",
