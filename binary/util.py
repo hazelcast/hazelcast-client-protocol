@@ -142,6 +142,16 @@ class FixSizedParamEncoder:
         client_message.add_frame(Frame(content))
 
     @staticmethod
+    def encode_fix_sized_set_frame(client_message, item_type):
+        obj = reference_objects.set_objects[item_type]
+        content = bytearray(sizes[item_type] * len(obj))
+        offset = 0
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, item_type, item)
+            offset += sizes[item_type]
+        client_message.add_frame(Frame(content))
+
+    @staticmethod
     def pack_into(buffer, offset, type, value, should_be_null=False):
         if type == 'UUID':
             struct.pack_into(formats['boolean'], buffer, offset, should_be_null)
@@ -236,6 +246,7 @@ class VarSizedParamEncoder:
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler')),
+            'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
             'SqlPage': partial(self.encode_sqlpage),
             'HazelcastJsonValue': partial(self.encode_json)
         }
@@ -453,6 +464,7 @@ reference_objects_dict = {
     'List_MCEvent': 'aListOfMCEvents',
     'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
     'List_JobAndSqlSummary': 'aListJobAndSqlSummary',
+    'Set_UUID': 'aSetOfUUIDs',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',

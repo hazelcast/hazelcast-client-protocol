@@ -99,3 +99,7 @@ list_objects = {
     'long': [LONG],
     'UUID': [UUID]
 }
+
+set_objects = {
+    'UUID': [UUID],
+}

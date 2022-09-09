@@ -118,6 +118,9 @@ _java_types_encode = {
     "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
+    "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
+
+    "Set_UUID": "java.util.Collection<java.util.UUID>",
 
     "EntryList_String_String": "java.util.Collection<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.Collection<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -131,7 +134,6 @@ _java_types_encode = {
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
-    "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>"
 }
 
 _java_types_decode = {
@@ -176,6 +178,9 @@ _java_types_decode = {
     "List_ScheduledTaskHandler": "java.util.Collection<com.hazelcast.scheduledexecutor.ScheduledTaskHandler>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
+    "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
+
+    "Set_UUID": "java.util.Set<java.util.UUID>",
 
     "EntryList_String_String": "java.util.List<java.util.Map.Entry<java.lang.String, java.lang.String>>",
     "EntryList_String_byteArray": "java.util.List<java.util.Map.Entry<java.lang.String, byte[]>>",
@@ -189,5 +194,4 @@ _java_types_decode = {
     "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
-    "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>"
 }

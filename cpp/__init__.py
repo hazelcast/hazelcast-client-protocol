@@ -193,6 +193,8 @@ _cpp_types_encode = {
     "EntryList_UUID_List_Integer": "std::vector<std::pair<boost::uuids::uuid, std::vector<int>>>",
     "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>",
     "EntryList_Data_List_Data": "std::vector<std::pair<serialization::pimpl::data, std::vector<serialization::pimpl::data>>>",
+
+    "Set_UUID": "NA",
 }
 
 _cpp_types_decode = {
@@ -238,7 +240,9 @@ _cpp_types_decode = {
     "EntryList_UUID_Long": "std::vector<std::pair<boost::uuids::uuid, int64_t>>",
     "EntryList_String_EntryList_Integer_Long": "std::vector<std::pair<std::string, std::vector<std::pair<int32_t, int64_t>>>>",
     "EntryList_UUID_List_Integer": "std::vector<std::pair<boost::uuids::uuid, std::vector<int>>>",
-    "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>"
+    "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>",
+
+    "Set_UUID": "NA",
 }
 
 _trivial_types = {

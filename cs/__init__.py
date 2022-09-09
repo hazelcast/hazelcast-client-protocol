@@ -160,7 +160,9 @@ _cs_types_encode = {
     "EntryList_UUID_UUID": "ICollection<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
-    "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>"
+    "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
+
+    "Set_UUID": "NA",
 }
 
 _cs_types_decode = {
@@ -215,5 +217,7 @@ _cs_types_decode = {
     "EntryList_UUID_UUID": "IList<KeyValuePair<Guid, Guid>>",
     "EntryList_UUID_List_Integer": "IList<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
-    "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>"
+    "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>",
+
+    "Set_UUID": "NA",
 }
