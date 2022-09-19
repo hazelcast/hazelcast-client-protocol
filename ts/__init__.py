@@ -309,5 +309,7 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
-    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>"
+    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
+
+    "Set_UUID": "NA",
 }

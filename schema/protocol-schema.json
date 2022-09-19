@@ -95,6 +95,7 @@
             "List_MCEvent",
             "List_SqlColumnMetadata",
             "List_JobAndSqlSummary",
+            "Set_UUID",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "MergePolicyConfig",

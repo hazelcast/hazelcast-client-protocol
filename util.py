@@ -12,7 +12,7 @@ import yaml
 from jinja2 import Environment, PackageLoader
 from yaml import MarkedYAMLError
 
-from binary import FixedEntryListTypes, FixedLengthTypes, FixedListTypes, FixedMapTypes
+from binary import FixSizedEntryListTypes, FixSizedTypes, FixSizedListTypes, FixSizedMapTypes
 from cpp import (
     cpp_ignore_service_list, 
     cpp_types_decode, 
@@ -68,7 +68,7 @@ def param_name(type_name):
 
 
 def is_fixed_type(param):
-    return param["type"] in FixedLengthTypes
+    return param["type"] in FixSizedTypes
 
 
 def capital(txt):
@@ -237,19 +237,19 @@ def value_type(lang_name, param_type):
 
 
 def is_var_sized_list(param_type):
-    return param_type.startswith("List_") and param_type not in FixedListTypes
+    return param_type.startswith("List_") and param_type not in FixSizedListTypes
 
 
 def is_var_sized_list_contains_nullable(param_type):
-    return param_type.startswith("ListCN_") and param_type not in FixedListTypes
+    return param_type.startswith("ListCN_") and param_type not in FixSizedListTypes
 
 
 def is_var_sized_map(param_type):
-    return param_type.startswith("Map_") and param_type not in FixedMapTypes
+    return param_type.startswith("Map_") and param_type not in FixSizedMapTypes
 
 
 def is_var_sized_entry_list(param_type):
-    return param_type.startswith("EntryList_") and param_type not in FixedEntryListTypes
+    return param_type.startswith("EntryList_") and param_type not in FixSizedEntryListTypes
 
 
 def load_services(protocol_def_dir):
