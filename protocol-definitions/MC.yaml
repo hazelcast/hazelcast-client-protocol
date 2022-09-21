@@ -417,7 +417,7 @@ methods:
           doc: |
             Cluster-wide time in milliseconds.
         - name: clusterId
-          type: String
+          type: UUID
           nullable: false
           since: 2.5
           doc: |
