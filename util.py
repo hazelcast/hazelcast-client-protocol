@@ -170,9 +170,6 @@ def generate_data_containing_requests_lookup_table(services, custom_services):
             if custom_type_contains_serialized_data(type_name):
                 types_containing_serialized_data.add(type_name)
                 return True
-            else:
-                types_not_containing_serialized_data.add(type_name)
-                return False
 
         types_not_containing_serialized_data.add(type_name)
         return False
