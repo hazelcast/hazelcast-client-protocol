@@ -144,29 +144,19 @@ def generate_data_containing_requests_lookup_table(services, custom_services):
     def type_contains_serialized_data(type_name):
         if type_name in types_containing_serialized_data:
             return True
-
-        if type_name in types_not_containing_serialized_data:
+        elif type_name in types_not_containing_serialized_data:
             return False
-
-        if type_name.startswith("List_") or type_name.startswith("ListCN_") or type_name.startswith("Set_"):
+        elif type_name.startswith("List_") or type_name.startswith("ListCN_") or type_name.startswith("Set_"):
             item_type_name = type_name.split("_", 1)[1]
             if type_contains_serialized_data(item_type_name):
                 types_containing_serialized_data.add(type_name)
                 return True
-            else:
-                types_not_containing_serialized_data.add(type_name)
-                return False
-
-        if type_name.startswith("Map_") or type_name.startswith("EntryList_"):
+        elif type_name.startswith("Map_") or type_name.startswith("EntryList_"):
             key_type_name, value_type_name = type_name.split("_", 2)[1:3]
             if type_contains_serialized_data(key_type_name) or type_contains_serialized_data(value_type_name):
                 types_containing_serialized_data.add(type_name)
                 return True
-            else:
-                types_not_containing_serialized_data.add(type_name)
-                return False
-
-        if type_name in custom_types:
+        elif type_name in custom_types:
             if custom_type_contains_serialized_data(type_name):
                 types_containing_serialized_data.add(type_name)
                 return True
