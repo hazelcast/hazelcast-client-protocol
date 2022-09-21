@@ -1,3 +1,4 @@
+import collections
 import hashlib
 import json
 import re
@@ -123,8 +124,88 @@ def filter_new_params(params, version):
     return [p for p in params if version_as_number >= get_version_as_number(p["since"])]
 
 
-def generate_codecs(services, template, output_dir, lang, env):
+def generate_data_containing_requests_lookup_table(services, custom_services):
+    table = collections.defaultdict(dict)
+
+    types_containing_serialized_data = {
+        "Data",
+    }
+
+    types_not_containing_serialized_data = set()
+
+    if not custom_services:
+        custom_types = {}
+    else:
+        custom_types = {
+            custom["name"]: custom
+            for custom in custom_services[0]["customTypes"]
+        }
+
+    def type_contains_serialized_data(type_name):
+        if type_name in types_containing_serialized_data:
+            return True
+
+        if type_name in types_not_containing_serialized_data:
+            return False
+
+        if type_name.startswith("List_") or type_name.startswith("ListCN_") or type_name.startswith("Set_"):
+            item_type_name = type_name.split("_", 1)[1]
+            if type_contains_serialized_data(item_type_name):
+                types_containing_serialized_data.add(type_name)
+                return True
+            else:
+                types_not_containing_serialized_data.add(type_name)
+                return False
+
+        if type_name.startswith("Map_") or type_name.startswith("EntryList_"):
+            key_type_name, value_type_name = type_name.split("_", 2)[1:3]
+            if type_contains_serialized_data(key_type_name) or type_contains_serialized_data(value_type_name):
+                types_containing_serialized_data.add(type_name)
+                return True
+            else:
+                types_not_containing_serialized_data.add(type_name)
+                return False
+
+        if type_name in custom_types:
+            if custom_type_contains_serialized_data(type_name):
+                types_containing_serialized_data.add(type_name)
+                return True
+            else:
+                types_not_containing_serialized_data.add(type_name)
+                return False
+
+        types_not_containing_serialized_data.add(type_name)
+        return False
+
+    def custom_type_contains_serialized_data(custom_type_name):
+        custom_type = custom_types[custom_type_name]
+        for param in custom_type["params"]:
+            param_type_name = param["type"]
+            if type_contains_serialized_data(param_type_name):
+                return True
+
+        return False
+
+    for service in services:
+        service_name = service["name"]
+        service_table = table[service_name]
+        for method in service["methods"]:
+            method_name = method["name"]
+            for param in method["request"].get("params", []):
+                if type_contains_serialized_data(param["type"]):
+                    service_table[method_name] = True
+                    break
+            else:
+                service_table[method_name] = False
+
+    return table
+
+
+def generate_codecs(services, custom_services, template, output_dir, lang, env):
     makedirs(output_dir, exist_ok=True)
+
+    data_containing_requests = generate_data_containing_requests_lookup_table(services, custom_services)
+
     id_fmt = "0x%02x%02x%02x"
     if lang is SupportedLanguages.CPP:
         curr_dir = dirname(realpath(__file__))
@@ -142,6 +223,7 @@ def generate_codecs(services, template, output_dir, lang, env):
             if methods is None:
                 raise NotImplementedError("Methods not found for service " + service)
 
+        service_name = service["name"]
         for method in service["methods"]:
             if ignore_method(service, method, lang):
                 continue
@@ -155,18 +237,32 @@ def generate_codecs(services, template, output_dir, lang, env):
                         id_fmt % (service["id"], method["id"], i + 2), 16
                     )
 
-            codec_file_name = file_name_generators[lang](service["name"], method["name"])
+            method_name = method["name"]
+            codec_file_name = file_name_generators[lang](service_name, method_name)
+            contains_serialized_data_in_request = data_containing_requests[service_name][method_name]
             try:
                 if lang is SupportedLanguages.CPP:
                     codec_template = env.get_template("codec-template.h.j2")
-                    content = codec_template.render(service_name=service["name"], method=method)
+                    content = codec_template.render(
+                        service_name=service_name,
+                        method=method,
+                        contains_serialized_data_in_request=contains_serialized_data_in_request
+                    )
                     save_file(join(output_dir, "codecs.h"), content, "a+")
 
                     codec_template = env.get_template("codec-template.cpp.j2")
-                    content = codec_template.render(service_name=service["name"], method=method)
+                    content = codec_template.render(
+                        service_name=service_name,
+                        method=method,
+                        contains_serialized_data_in_request=contains_serialized_data_in_request
+                    )
                     save_file(join(output_dir, "codecs.cpp"), content, "a+")
                 else:
-                    content = template.render(service_name=service["name"], method=method)
+                    content = template.render(
+                        service_name=service_name,
+                        method=method,
+                        contains_serialized_data_in_request=contains_serialized_data_in_request
+                    )
                     save_file(join(output_dir, codec_file_name), content)
             except NotImplementedError as e:
                 print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
