@@ -416,6 +416,12 @@ methods:
           since: 2.0
           doc: |
             Cluster-wide time in milliseconds.
+        - name: clusterId
+          type: UUID
+          nullable: false
+          since: 2.5
+          doc: |
+            Cluster ID.
   - id: 15
     name: shutdownCluster
     since: 2.0

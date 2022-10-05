@@ -17,7 +17,7 @@ ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "Transact
                           "Map.eventJournalRead", "Map.eventJournalSubscribe", "Map.fetchKeys", "Map.fetchWithQuery",
                           "Map.project", "Map.projectWithPredicate", "Map.removeInterceptor", "Map.removePartitionLostListener",
                           "Map.submitToKey", "ReplicatedMap.addNearCacheEntryListener", "Topic.addMessageListener",
-                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener"}
+                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener", "Map.replaceAll"}
 
 
 def ts_types_encode(key):
@@ -151,6 +151,8 @@ class PathHolders:
     SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
     SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
     SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
+    HazelcastJsonValue = ImportPathHolder('HazelcastJsonValue', 'core/HazelcastJsonValue')
+    HazelcastJsonValueCodec = ImportPathHolder('HazelcastJsonValueCodec', 'custom/HazelcastJsonValueCodec', is_custom_codec=True)
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -207,8 +209,8 @@ import_paths = {
     'SqlError': [PathHolders.SqlErrorCodec, PathHolders.SqlError],
     'SqlQueryId': [PathHolders.SqlQueryIdCodec, PathHolders.SqlQueryId],
     'List_SqlColumnMetadata': [PathHolders.SqlColumnMetadataCodec, PathHolders.SqlColumnMetadata, PathHolders.ListMultiFrameCodec],
-    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec]
-
+    'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec],
+    'HazelcastJsonValue': [PathHolders.HazelcastJsonValue, PathHolders.HazelcastJsonValueCodec]
 }
 
 _ts_types = {
@@ -266,6 +268,7 @@ _ts_types = {
     "SqlError": "SqlError",
     "SqlColumnMetadata": "SqlColumnMetadataImpl",
     'SqlPage': 'SqlPage',
+    'HazelcastJsonValue': 'HazelcastJsonValue',
     "CPMember": "NA",
     "MigrationState": "NA",
 
@@ -306,5 +309,7 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
-    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>"
+    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
+
+    "Set_UUID": "NA",
 }

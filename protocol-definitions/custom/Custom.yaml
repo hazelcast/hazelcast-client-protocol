@@ -194,6 +194,10 @@ customTypes:
         type: BitmapIndexOptions
         nullable: true
         since: 2.0
+      - name: bTreeIndexConfig
+        type: BTreeIndexConfig
+        nullable: true
+        since: 2.5
   - name: BitmapIndexOptions
     since: 2.0
     returnWithFactory: true
@@ -206,6 +210,18 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+  - name: BTreeIndexConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: pageSize
+        type: Capacity
+        nullable: false
+        since: 2.5
+      - name: memoryTierConfig
+        type: MemoryTierConfig
+        nullable: false
+        since: 2.5
   - name: MapStoreConfigHolder
     since: 2.0
     params:
@@ -249,6 +265,10 @@ customTypes:
         type: String
         nullable: false
         since: 2.0
+      - name: offload
+        type: boolean
+        nullable: false
+        since: 2.5
   - name: MerkleTreeConfig
     since: 2.0
     returnWithFactory: true
@@ -757,6 +777,10 @@ customTypes:
         type: MerkleTreeConfig
         nullable: true
         since: 2.3
+      - name: dataPersistenceConfig
+        type: DataPersistenceConfig
+        nullable: false
+        since: 2.5
   - name: ClientBwListEntry
     since: 2.0
     returnWithFactory: true
@@ -880,6 +904,10 @@ customTypes:
           type: Data
           nullable: true
           since: 2.0
+        - name: partitionKeysData
+          type: List_Data
+          nullable: true
+          since: 2.5
   - name: SqlQueryId
     since: 2.1
     params:
@@ -996,3 +1024,115 @@ customTypes:
         type: String
         nullable: false
         since: 2.4
+  - name: DataPersistenceConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: fsync
+        type: boolean
+        nullable: false
+        since: 2.5
+  - name: Capacity
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: value
+        type: long
+        nullable: false
+        since: 2.5
+      - name: unit
+        type: int
+        nullable: false
+        since: 2.5
+  - name: MemoryTierConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: capacity
+        type: Capacity
+        nullable: false
+        since: 2.5
+  - name: DiskTierConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: deviceName
+        type: String
+        nullable: false
+        since: 2.5
+  - name: TieredStoreConfig
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: memoryTierConfig
+        type: MemoryTierConfig
+        nullable: false
+        since: 2.5
+      - name: diskTierConfig
+        type: DiskTierConfig
+        nullable: false
+        since: 2.5
+  - name: SqlSummary
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: query
+        type: String
+        nullable: false
+        since: 2.5
+      - name: unbounded
+        type: boolean
+        nullable: false
+        since: 2.5
+  - name: JobAndSqlSummary
+    since: 2.5
+    returnWithFactory: true
+    params:
+      - name: lightJob
+        type: boolean
+        nullable: false
+        since: 2.5
+      - name: jobId
+        type: long
+        nullable: false
+        since: 2.5
+      - name: executionId
+        type: long
+        nullable: false
+        since: 2.5
+      - name: nameOrId
+        type: String
+        nullable: false
+        since: 2.5
+      - name: status
+        type: int
+        nullable: false
+        since: 2.5
+      - name: submissionTime
+        type: long
+        nullable: false
+        since: 2.5
+      - name: completionTime
+        type: long
+        nullable: false
+        since: 2.5
+      - name: failureText
+        type: String
+        nullable: true
+        since: 2.5
+      - name: sqlSummary
+        type: SqlSummary
+        nullable: true
+        since: 2.5

@@ -183,7 +183,7 @@ env = create_environment(lang, args.namespace)
 
 if lang != SupportedLanguages.MD:
     codec_template = env.get_template("codec-template.%s.j2" % lang.value)
-    generate_codecs(protocol_defs, codec_template, codec_output_dir, lang, env)
+    generate_codecs(protocol_defs, custom_protocol_defs, codec_template, codec_output_dir, lang, env)
     print("Generated codecs are at '%s'" % abspath(codec_output_dir))
 
 if custom_protocol_defs:

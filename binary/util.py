@@ -142,6 +142,16 @@ class FixSizedParamEncoder:
         client_message.add_frame(Frame(content))
 
     @staticmethod
+    def encode_fix_sized_set_frame(client_message, item_type):
+        obj = reference_objects.set_objects[item_type]
+        content = bytearray(sizes[item_type] * len(obj))
+        offset = 0
+        for item in obj:
+            FixSizedParamEncoder.pack_into(content, offset, item_type, item)
+            offset += sizes[item_type]
+        client_message.add_frame(Frame(content))
+
+    @staticmethod
     def pack_into(buffer, offset, type, value, should_be_null=False):
         if type == 'UUID':
             struct.pack_into(formats['boolean'], buffer, offset, should_be_null)
@@ -236,7 +246,9 @@ class VarSizedParamEncoder:
             'List_Data': partial(self.encode_multi_frame_list, encoder=self.encode_data_frame),
             'List_ScheduledTaskHandler': partial(self.encode_multi_frame_list, encoder=self.encoder.custom_type_encoder
                                                  .encoder_for('ScheduledTaskHandler')),
-            'SqlPage': partial(self.encode_sqlpage)
+            'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
+            'SqlPage': partial(self.encode_sqlpage),
+            'HazelcastJsonValue': partial(self.encode_json)
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -299,6 +311,12 @@ class VarSizedParamEncoder:
     @staticmethod
     def encode_data_frame(client_message):
         client_message.add_frame(Frame(reference_objects.DATA))
+
+    @staticmethod
+    def encode_json(client_message):
+        client_message.add_frame(BEGIN_FRAME)
+        client_message.add_frame(Frame("{'value': ''}".encode('utf-8')))
+        client_message.add_frame(END_FRAME)
 
     @staticmethod
     def encode_sqlpage(client_message):
@@ -401,6 +419,7 @@ reference_objects_dict = {
     'AttributeConfig': 'aAttributeConfig',
     'IndexConfig': 'anIndexConfig',
     'BitmapIndexOptions': 'aBitmapIndexOptions',
+    'BTreeIndexConfig': 'aBTreeIndexConfig',
     'MapStoreConfigHolder': 'aMapStoreConfigHolder',
     'MerkleTreeConfig': 'aMerkleTreeConfig',
     'NearCacheConfigHolder': 'aNearCacheConfigHolder',
@@ -444,6 +463,8 @@ reference_objects_dict = {
     'List_ClientBwListEntry': 'aListOfClientBwListEntries',
     'List_MCEvent': 'aListOfMCEvents',
     'List_SqlColumnMetadata': 'aListOfSqlColumnMetadata',
+    'List_JobAndSqlSummary': 'aListJobAndSqlSummary',
+    'Set_UUID': 'aSetOfUUIDs',
     'MergePolicyConfig': 'aMergePolicyConfig',
     'CacheConfigHolder': 'aCacheConfigHolder',
     'AnchorDataListHolder': 'anAnchorDataListHolder',
@@ -451,13 +472,20 @@ reference_objects_dict = {
     'SqlQueryId': 'anSqlQueryId',
     'SqlError': 'anSqlError',
     'SqlColumnMetadata': 'anSqlColumnMetadata',
+    'JobAndSqlSummary': 'aJobAndSqlSummary',
+    'SqlSummary': 'aSqlSummary',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
     'MigrationState': 'aMigrationState',
     'Schema': 'aSchema',
     'List_Schema': 'aListOfSchemas',
     'SqlPage': 'aSqlPage',
-    'HazelcastJsonValue': 'aHazelcastJsonValue'
+    'HazelcastJsonValue': 'aHazelcastJsonValue',
+    'DataPersistenceConfig': 'aDataPersistenceConfig',
+    'Capacity': 'aCapacity',
+    'MemoryTierConfig': 'aMemoryTierConfig',
+    'DiskTierConfig': 'aDiskTierConfig',
+    'TieredStoreConfig': 'aTieredStoreConfig',
 }
 
 
