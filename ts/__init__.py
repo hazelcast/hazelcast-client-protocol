@@ -311,5 +311,13 @@ _ts_types = {
     "Map_String_String": "Map<string, string>",
     "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
 
-    "Set_UUID": "NA",
+    "Set_UUID": "UUID[]",
+    "BTreeIndexConfig": "NA",
+    "DataPersistenceConfig": "NA",
+    "Capacity": "NA",
+    "MemoryTierConfig": "NA",
+    "DiskTierConfig": "NA",
+    "TieredStoreConfig": "NA",
+    "SqlSummary": "NA",
+    "JobAndSqlSummary": "NA"
 }
