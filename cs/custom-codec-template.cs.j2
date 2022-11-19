@@ -7,9 +7,9 @@
         MapCodec.Encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ key_type(lang_name, param.type) }}Codec.Encode, {{ value_type(lang_name, param.type) }}Codec.Encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }}, {{ lang_name(param.type) }}Codec.Encode)
+            CodecUtil.EncodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ custom_codec_param_name(codec.name, param.name)|capital }}, {{ lang_name(param.type) }}Codec.Encode)
         {%- else -%}
-            {{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ param.name|capital }})
+            {{ lang_name(param.type) }}Codec.Encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}Is{% else %}{% endif %}{{ custom_codec_param_name(codec.name, param.name)|capital }})
         {%- endif %}
     {% endif %}
 {%- endmacro %}

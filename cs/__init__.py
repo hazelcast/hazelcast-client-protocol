@@ -11,15 +11,17 @@ cs_reserved_words = {"abstract", "add", "as", "ascending", "async", "await", "ba
 
 cs_ignore_service_list = {
 
-    # entire services
+    # entire services - correspond to an entire yaml file in protocol-definitions
     "MC", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor", "DynamicConfig",
     "Jet",
     "CPSubsystem", "CPMember",  "CountDownLatch", "Semaphore",
     "Map.replaceAll","Sql.mappingDdl",
     "AtomicLong.apply", "AtomicRef.apply",
-    # methods
-    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
+    # methods - correspond to entries in yaml files in protocol-definitions
+    "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*",
+    # custom
+    "DataPersistenceConfig", "DiskTierConfig", "TieredStoreConfig", "SqlSummary", "JobAndSqlSummary"
 }
 
 def cs_init_env(env):
@@ -45,12 +47,17 @@ def cs_types_decode(key):
         raise NotImplementedError("Missing type for '" + key + "'")
     return cs_type
 
+def cs_custom_codec_param_name(codec, param):
+    try:
+        return _cs_codec_params[codec + "." + param]
+    except KeyError:
+        return param
+
 def cs_sizeof(key):
     cs_type = cs_types_decode(key)
     if cs_type == "Guid":
         cs_type = "CodecGuid"
-    else:
-        cs_type = cs_type.capitalize()
+    cs_type = cs_type[0].capitalize() + cs_type[1:]
     return "BytesExtensions.SizeOf" + cs_type
 
 def cs_escape_keyword(value):
@@ -58,6 +65,10 @@ def cs_escape_keyword(value):
         return value
     return "@" + value
 
+_cs_codec_params = {
+    "IndexConfig.bTreeIndexConfig": "BTreeIndexOptions",
+    "BTreeIndexConfig.memoryTierConfig": "MemoryTierOptions",
+}
 
 _cs_types_common = {
     "boolean": "bool",
@@ -104,6 +115,7 @@ _cs_types_common = {
     "DistributedObjectInfo": "Hazelcast.Models.DistributedObjectInfo",
     "IndexConfig": "Hazelcast.Models.IndexOptions",
     "BitmapIndexOptions": "Hazelcast.Models.BitmapIndexOptions",
+    "BTreeIndexConfig": "Hazelcast.Models.BTreeIndexOptions",
     "AttributeConfig": "NA",
     "ListenerConfigHolder": "NA",
     "CacheSimpleEntryListenerConfig": "NA",
@@ -129,6 +141,9 @@ _cs_types_encode = {
     "PagingPredicateHolder": "Hazelcast.Protocol.Models.PagingPredicateHolder",
     "CPMember": "Hazelcast.CP.ICPMember",
     "MigrationState": "NA",
+    "Capacity": "Hazelcast.Models.Capacity",
+    "MemoryTierConfig": "Hazelcast.Models.MemoryTierOptions",
+    "BTreeIndexConfig": "Hazelcast.Models.BTreeIndexOptions",
 
     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
     "SqlError": "Hazelcast.Sql.SqlError",
@@ -172,7 +187,7 @@ _cs_types_encode = {
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
 
-    "Set_UUID": "NA",
+    "Set_UUID": "ISet<Guid>",
 }
 
 _cs_types_decode = {
@@ -190,6 +205,9 @@ _cs_types_decode = {
     "SqlError": "Hazelcast.Sql.SqlError",
     "SqlColumnMetadata": "Hazelcast.Sql.SqlColumnMetadata",
     "CPMember": "Hazelcast.CP.CPMemberInfo",
+    "Capacity": "Hazelcast.Models.Capacity",
+    "MemoryTierConfig": "Hazelcast.Models.MemoryTierOptions",
+    "BTreeIndexConfig": "Hazelcast.Models.BTreeIndexOptions",
 
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
@@ -229,5 +247,5 @@ _cs_types_decode = {
     "EntryList_Data_Data": "IList<KeyValuePair<IData, IData>>",
     "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>",
 
-    "Set_UUID": "NA",
+    "Set_UUID": "ISet<Guid>",
 }
