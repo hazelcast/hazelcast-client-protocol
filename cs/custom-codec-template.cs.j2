@@ -73,9 +73,9 @@ namespace Hazelcast.Protocol.CustomCodecs
     internal static class {{ codec.name|capital }}Codec
     {
         {% for param in fixed_params(codec.params) %}
-        private const int {{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ loop.previtem.name|capital}}FieldOffset + BytesExtensions.SizeOf{{ lang_types_decode(loop.previtem.type)|capital}}{% endif %};
+        private const int {{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ loop.previtem.name|capital}}FieldOffset + {{cs_sizeof(loop.previtem.type)}}{% endif %};
         {% if loop.last %}
-        private const int InitialFrameSize = {{ param.name|capital}}FieldOffset + BytesExtensions.SizeOf{{lang_types_decode(param.type)|capital}};
+        private const int InitialFrameSize = {{ param.name|capital}}FieldOffset + {{cs_sizeof(param.type)}};
         {% endif %}
         {% endfor %}
 
@@ -114,7 +114,7 @@ namespace Hazelcast.Protocol.CustomCodecs
             {% if param in new_params(codec.since, fixed_params(codec.params)) %}
             var is{{ param.name|capital }}Exists = false;
             {{ lang_types_encode(param.type) }} {{escape_keyword(param.name)}} = default;
-            if (initialFrame.Bytes.Length >= {{param.name|capital}}FieldOffset + BytesExtensions.SizeOf{{lang_types_decode(param.type)|capital}})
+            if (initialFrame.Bytes.Length >= {{param.name|capital}}FieldOffset + {{cs_sizeof(param.type)}})
             {
                 {{escape_keyword(param.name)}} = initialFrame.Bytes.Read{{ lang_types_decode(param.type)|capital }}L({{  param.name|capital }}FieldOffset);
                 is{{ param.name|capital }}Exists = true;
