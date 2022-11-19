@@ -22,7 +22,14 @@ from cpp import (
     is_trivial, 
     cpp_param_name
 )
-from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
+from cs import (
+    cs_escape_keyword, 
+    cs_ignore_service_list, 
+    cs_types_decode, 
+    cs_types_encode, 
+    cs_custom_codec_param_name,
+    cs_init_env
+)
 from java import java_types_decode, java_types_encode
 from md import internal_services
 from py import (
@@ -639,6 +646,22 @@ language_specific_funcs = {
         SupportedLanguages.TS: lambda x: x,
         SupportedLanguages.PY: py_custom_type_name,
         SupportedLanguages.MD: lambda x: x,
+    },
+    "custom_codec_param_name": {
+        SupportedLanguages.JAVA: lambda x,y: y,
+        SupportedLanguages.CS: cs_custom_codec_param_name,
+        SupportedLanguages.CPP: lambda x,y: y,
+        SupportedLanguages.TS: lambda x,y: y,
+        SupportedLanguages.PY: lambda x,y: y,
+        SupportedLanguages.MD: lambda x,y: y,
+    },
+    "init_env": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: cs_init_env,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: lambda x: x,
+        SupportedLanguages.MD: lambda x: x,
     }
 }
 
@@ -699,10 +722,13 @@ def create_environment(lang, namespace):
     env.globals["param_name"] = language_specific_funcs["param_name"][lang]
     env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
     env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
+    env.globals["custom_codec_param_name"] = language_specific_funcs["custom_codec_param_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
     env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][
         lang
     ]
+    
+    env = language_specific_funcs["init_env"][lang](env)
 
     return env

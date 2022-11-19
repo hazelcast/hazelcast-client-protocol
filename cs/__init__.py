@@ -22,6 +22,9 @@ cs_ignore_service_list = {
     "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*"
 }
 
+def cs_init_env(env):
+    env.globals["cs_sizeof"] = cs_sizeof
+    return env
 
 def cs_types_encode(key):
     try:
@@ -42,6 +45,13 @@ def cs_types_decode(key):
         raise NotImplementedError("Missing type for '" + key + "'")
     return cs_type
 
+def cs_sizeof(key):
+    cs_type = cs_types_decode(key)
+    if cs_type == "Guid":
+        cs_type = "CodecGuid"
+    else:
+        cs_type = cs_type.capitalize()
+    return "BytesExtensions.SizeOf" + cs_type
 
 def cs_escape_keyword(value):
     if value not in cs_reserved_words:
