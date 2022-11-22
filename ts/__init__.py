@@ -16,7 +16,7 @@ ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "Transact
                           "Map.eventJournalRead", "Map.eventJournalSubscribe", "Map.fetchKeys", "Map.fetchWithQuery",
                           "Map.project", "Map.projectWithPredicate", "Map.removeInterceptor", "Map.removePartitionLostListener",
                           "Map.submitToKey", "ReplicatedMap.addNearCacheEntryListener", "Topic.addMessageListener",
-                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener"}
+                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener", "Map.replaceAll"}
 
 
 def ts_types_encode(key):
@@ -156,7 +156,6 @@ class PathHolders:
     FieldDescriptorCodec = ImportPathHolder('FieldDescriptorCodec', 'custom/FieldDescriptorCodec', is_custom_codec=True)
     HazelcastJsonValue = ImportPathHolder('HazelcastJsonValue', 'core/HazelcastJsonValue')
     HazelcastJsonValueCodec = ImportPathHolder('HazelcastJsonValueCodec', 'custom/HazelcastJsonValueCodec', is_custom_codec=True)
-
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -321,5 +320,7 @@ _ts_types = {
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
 
     "Map_String_String": "Map<string, string>",
-    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>"
+    "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
+
+    "Set_UUID": "NA",
 }

@@ -580,7 +580,8 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            maximum number of tasks that a scheduler can have at any given point in time per partition
+            maximum number of tasks that a scheduler can have at any given point in time per partition or per node
+            according to the capacity policy
         - name: splitBrainProtectionName
           type: String
           nullable: true
@@ -608,6 +609,12 @@ methods:
           since: 2.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
+        - name: capacityPolicy
+          type: byte
+          nullable: false
+          since: 2.5
+          doc: |
+            Capacity policy for the configured capacity value
     response: {}
   - id: 11
     name: addQueueConfig
@@ -884,6 +891,18 @@ methods:
           doc: |
             {@code true} to enable entry level statistics for the entries of this map.
              otherwise {@code false}. Default value is {@code false}
+        - name: dataPersistenceConfig
+          type: DataPersistenceConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Data persistence configuration
+        - name: tieredStoreConfig
+          type: TieredStoreConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Tiered-Store configuration
     response: {}
   - id: 13
     name: addReliableTopicConfig
@@ -1115,6 +1134,12 @@ methods:
           since: 2.3
           doc: |
             merkle tree configuration
+        - name: dataPersistenceConfig
+          type: DataPersistenceConfig
+          nullable: false
+          since: 2.5
+          doc: |
+            Data persistence configuration
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
@@ -1219,4 +1244,41 @@ methods:
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
+    response: {}
+  - id: 17
+    name: addExternalDataStoreConfig
+    since: 2.5
+    doc: |
+      Adds an external data store configuration.
+      If an external data store configuration with the given {@code name} already exists, then
+      the new configuration is ignored and the existing one is preserved.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.5
+          doc: |
+            Name of this external data store, must be unique.
+        - name: className
+          type: String
+          nullable: false
+          since: 2.5
+          doc: |
+            Name for the ExternalDataStoreFactory implementation class.
+        - name: shared
+          type: boolean
+          nullable: false
+          since: 2.5
+          doc: |
+            {@code true} if an instance of the external data store will be reused. {@code false} when on each usage
+            the data store instance should be created. The default it {@code true}.
+        - name: properties
+          type: Map_String_String
+          nullable: false
+          since: 2.5
+          doc: |
+            Properties of the data store configuration.
     response: {}

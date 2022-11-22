@@ -1,4 +1,4 @@
-FixedLengthTypes = [
+FixSizedTypes = [
     "boolean",
     "byte",
     "int",
@@ -6,7 +6,7 @@ FixedLengthTypes = [
     "UUID",
 ]
 
-VarLengthTypes = [
+VarSizedTypes = [
     'byteArray',
     'longArray',
     'String',
@@ -14,7 +14,7 @@ VarLengthTypes = [
     'SqlPage'
 ]
 
-FixedEntryListTypes = [
+FixSizedEntryListTypes = [
     'EntryList_Integer_UUID',
     'EntryList_UUID_Long',
     'EntryList_Integer_Long',
@@ -24,13 +24,17 @@ FixedEntryListTypes = [
     'EntryList_UUID_List_Integer',
 ]
 
-FixedMapTypes = [
+FixSizedMapTypes = [
 ]
 
-FixedListTypes = [
+FixSizedListTypes = [
     'List_Integer',
     'List_Long',
     'List_UUID'
+]
+
+FixSizedSetTypes = [
+    'Set_UUID',
 ]
 
 CustomTypes = [
@@ -55,6 +59,8 @@ CustomTypes = [
     'SqlQueryId',
     'SqlError',
     'SqlColumnMetadata',
+    'JobAndSqlSummary',
+    'SqlSummary',
     'CPMember',
     'MigrationState',
     'FieldDescriptor',
@@ -71,6 +77,7 @@ CustomConfigTypes = [
     'AttributeConfig',
     'IndexConfig',
     'BitmapIndexOptions',
+    'BTreeIndexConfig',
     'MapStoreConfigHolder',
     'MerkleTreeConfig',
     'NearCacheConfigHolder',
@@ -83,9 +90,14 @@ CustomConfigTypes = [
     'DurationConfig',
     'MergePolicyConfig',
     'CacheConfigHolder',
+    'DataPersistenceConfig',
+    'Capacity',
+    'MemoryTierConfig',
+    'DiskTierConfig',
+    'TieredStoreConfig',
 ]
 
-VarLengthEntryListTypes = [
+VarSizedEntryListTypes = [
     'EntryList_String_String',
     'EntryList_String_byteArray',
     'EntryList_String_EntryList_Integer_Long',
@@ -93,12 +105,12 @@ VarLengthEntryListTypes = [
     'EntryList_Data_List_Data',
 ]
 
-VarLengthMapTypes = [
+VarSizedMapTypes = [
     'Map_String_String',
     'Map_EndpointQualifier_Address',
 ]
 
-VarLengthListTypes = [
+VarSizedListTypes = [
     'List_byteArray',
     'List_CacheEventData',
     'List_CacheSimpleEntryListenerConfig',
@@ -117,11 +129,14 @@ VarLengthListTypes = [
     'List_ClientBwListEntry',
     'List_MCEvent',
     'List_SqlColumnMetadata',
+    'List_JobAndSqlSummary',
     'List_CPMember'
     'ListCN_Data',
     'List_List_Data',
     'List_FieldDescriptor'
 ]
 
-AllTypes = FixedLengthTypes + VarLengthTypes + FixedEntryListTypes + FixedMapTypes + FixedListTypes \
-           + CustomTypes + CustomConfigTypes + VarLengthEntryListTypes + VarLengthMapTypes + VarLengthListTypes
+AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
+           + FixSizedMapTypes + FixSizedListTypes + FixSizedSetTypes \
+           + CustomTypes + CustomConfigTypes + VarSizedEntryListTypes \
+           + VarSizedMapTypes + VarSizedListTypes

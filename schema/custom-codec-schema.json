@@ -52,6 +52,7 @@
             "AttributeConfig",
             "IndexConfig",
             "BitmapIndexOptions",
+            "BTreeIndexConfig",
             "MapStoreConfigHolder",
             "MerkleTreeConfig",
             "NearCacheConfigHolder",
@@ -93,6 +94,8 @@
             "List_ClientBwListEntry",
             "List_MCEvent",
             "List_SqlColumnMetadata",
+            "List_JobAndSqlSummary",
+            "Set_UUID",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
@@ -105,13 +108,20 @@
             "SqlQueryId",
             "SqlError",
             "SqlColumnMetadata",
+            "JobAndSqlSummary",
+            "SqlSummary",
             "CPMember",
             "List_CPMember",
             "MigrationState",
             "FieldDescriptor",
             "List_FieldDescriptor",
             "Schema",
-            "HazelcastJsonValue"
+            "HazelcastJsonValue",
+            "DataPersistenceConfig",
+            "Capacity",
+            "MemoryTierConfig",
+            "DiskTierConfig",
+            "TieredStoreConfig"
           ]
         },
         "nullable": {

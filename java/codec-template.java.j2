@@ -35,7 +35,7 @@
 {% set response_var_sized_params = var_size_params(method.response.params) %}
 {% set response_new_params = new_params(method.since, method.response.params) %}
 /*
- * Copyright (c) 2008-2021, Hazelcast, Inc. All Rights Reserved.
+ * Copyright (c) 2008-2022, Hazelcast, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,6 +149,9 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST_ENCODE#}
     public static ClientMessage encodeRequest({% for param in method.request.params %}{% if param.nullable  %}@Nullable {% endif %}{{ lang_types_encode(param.type) }} {{ param.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         ClientMessage clientMessage = ClientMessage.createForEncode();
+        {% if contains_serialized_data_in_request %}
+        clientMessage.setContainsSerializedDataInRequest(true);
+        {% endif %}
         clientMessage.setRetryable({{ method.request.retryable|lower }});
         clientMessage.setOperationName("{{ service_name|capital }}.{{ method.name|capital }}");
         ClientMessage.Frame initialFrame = new ClientMessage.Frame(new byte[REQUEST_INITIAL_FRAME_SIZE], UNFRAGMENTED_MESSAGE);

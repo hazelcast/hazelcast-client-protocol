@@ -11,6 +11,8 @@ INT = 25
 
 LONG = -50992225
 
+POSITIVE_LONG = 50992225
+
 UUID = UuidHolder(123456789, 987654321)
 
 BYTEARRAY = bytearray([BYTE])
@@ -60,6 +62,13 @@ objects = {
     },
     'HazelcastJsonValue': {
         'value': ''
+    },
+    'Capacity': {
+        'value': POSITIVE_LONG,
+        'unit': 3
+    },
+    'JobAndSqlSummary': {
+        'status': 2
     }
 }
 
@@ -89,4 +98,8 @@ list_objects = {
     'int': [INT],
     'long': [LONG],
     'UUID': [UUID]
+}
+
+set_objects = {
+    'UUID': [UUID],
 }
