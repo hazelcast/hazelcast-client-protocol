@@ -9,8 +9,7 @@ ts_reserved_keywords = {'abstract', 'await', 'boolean', 'break', 'byte', 'case',
 ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "TransactionalMultiMap",
                           "TransactionalSet", "TransactionalList", "TransactionalQueue", "Cache", "XATransaction",
                           "Transaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Client.sendSchema",
-                          "Client.fetchSchema", "Client.sendAllSchemas", "FieldDescriptor", "Schema", "Sql.mappingDdl",
+                          "ScheduledExecutor", "DynamicConfig", "CPSubsystem", "Jet", "Sql.mappingDdl",
                           "AtomicLong.alter", "AtomicLong.apply", "AtomicRef.apply", "Client.addPartitionLostListener",
                           "Client.deployClasses", "Client.removeMigrationListener", "Client.removePartitionLostListener",
                           "Client.triggerPartitionAssignment", "Map.addInterceptor", "Map.addPartitionLostListener",
@@ -23,14 +22,14 @@ ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "Transact
 def ts_types_encode(key):
     ts_type = _ts_types[key]
     if ts_type == 'NA':
-        raise NotImplementedError('MissingTypeMapping')
+        raise NotImplementedError('MissingTypeMapping ' + key + ' is missing')
     return ts_type
 
 
 def ts_types_decode(key):
     ts_type = _ts_types[key]
     if ts_type == 'NA':
-        raise NotImplementedError('MissingTypeMapping')
+        raise NotImplementedError('MissingTypeMapping ' + key + ' is missing')
     return ts_type
 
 
@@ -112,6 +111,7 @@ class PathHolders:
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
     ListUUIDCodec = ImportPathHolder('ListUUIDCodec', 'builtin/ListUUIDCodec', is_builtin_codec=True)
+    SetUUIDCodec = ImportPathHolder('SetUUIDCodec', 'builtin/SetUUIDCodec', is_builtin_codec=True)
     ListDataCodec = ImportPathHolder('ListDataCodec', 'builtin/ListDataCodec', is_builtin_codec=True)
     ListMultiFrameCodec = ImportPathHolder('ListMultiFrameCodec', 'builtin/ListMultiFrameCodec', is_builtin_codec=True)
     EntryListCodec = ImportPathHolder('EntryListCodec', 'builtin/EntryListCodec', is_builtin_codec=True)
@@ -151,8 +151,13 @@ class PathHolders:
     SqlColumnMetadataCodec = ImportPathHolder('SqlColumnMetadataCodec', 'custom/SqlColumnMetadataCodec', is_custom_codec=True)
     SqlPage = ImportPathHolder('SqlPage', 'sql/SqlPage')
     SqlPageCodec = ImportPathHolder('SqlPageCodec', 'builtin/SqlPageCodec', is_builtin_codec=True)
+    Schema = ImportPathHolder('Schema', 'serialization/compact/Schema')
+    SchemaCodec = ImportPathHolder('SchemaCodec', 'custom/SchemaCodec', is_custom_codec=True)
+    FieldDescriptor = ImportPathHolder('FieldDescriptor', 'serialization/generic_record/FieldDescriptor')
+    FieldDescriptorCodec = ImportPathHolder('FieldDescriptorCodec', 'custom/FieldDescriptorCodec', is_custom_codec=True)
     HazelcastJsonValue = ImportPathHolder('HazelcastJsonValue', 'core/HazelcastJsonValue')
     HazelcastJsonValueCodec = ImportPathHolder('HazelcastJsonValueCodec', 'custom/HazelcastJsonValueCodec', is_custom_codec=True)
+
 
 import_paths = {
     'CodecUtil': PathHolders.CodecUtil,
@@ -208,8 +213,13 @@ import_paths = {
     'SqlColumnMetadata': [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
     'SqlError': [PathHolders.SqlErrorCodec, PathHolders.SqlError],
     'SqlQueryId': [PathHolders.SqlQueryIdCodec, PathHolders.SqlQueryId],
+    'Set_UUID': [PathHolders.SetUUIDCodec, PathHolders.UUID],
     'List_SqlColumnMetadata': [PathHolders.SqlColumnMetadataCodec, PathHolders.SqlColumnMetadata, PathHolders.ListMultiFrameCodec],
     'SqlPage': [PathHolders.SqlPage, PathHolders.SqlPageCodec],
+    'Schema': [PathHolders.Schema, PathHolders.SchemaCodec],
+    'FieldDescriptor': [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
+    'List_Schema': [PathHolders.Schema, PathHolders.SchemaCodec, PathHolders.ListMultiFrameCodec],
+    'List_FieldDescriptor': [PathHolders.ListMultiFrameCodec, PathHolders.FieldDescriptorCodec, PathHolders.FieldDescriptor],
     'HazelcastJsonValue': [PathHolders.HazelcastJsonValue, PathHolders.HazelcastJsonValueCodec]
 }
 
@@ -268,9 +278,19 @@ _ts_types = {
     "SqlError": "SqlError",
     "SqlColumnMetadata": "SqlColumnMetadataImpl",
     'SqlPage': 'SqlPage',
+    'Schema': 'Schema',
+    'FieldDescriptor': 'FieldDescriptor',
     'HazelcastJsonValue': 'HazelcastJsonValue',
     "CPMember": "NA",
     "MigrationState": "NA",
+    "BTreeIndexConfig": "NA",
+    "DataPersistenceConfig": "NA",
+    "Capacity": "NA",
+    "MemoryTierConfig": "NA",
+    "DiskTierConfig": "NA",
+    "TieredStoreConfig": "NA",
+    "SqlSummary": "NA",
+    "JobAndSqlSummary": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -294,6 +314,8 @@ _ts_types = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
+    'List_Schema': 'Schema[]',
+    'List_FieldDescriptor': 'FieldDescriptor[]',
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
@@ -311,13 +333,5 @@ _ts_types = {
     "Map_String_String": "Map<string, string>",
     "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
 
-    "Set_UUID": "UUID[]",
-    "BTreeIndexConfig": "NA",
-    "DataPersistenceConfig": "NA",
-    "Capacity": "NA",
-    "MemoryTierConfig": "NA",
-    "DiskTierConfig": "NA",
-    "TieredStoreConfig": "NA",
-    "SqlSummary": "NA",
-    "JobAndSqlSummary": "NA"
+    "Set_UUID": "Set<UUID>",
 }
