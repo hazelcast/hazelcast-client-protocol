@@ -3,6 +3,7 @@ class UuidHolder:
         self.most_sig_bits = most_sig_bits
         self.least_sig_bits = least_sig_bits
 
+
 BOOLEAN = True
 
 BYTE = 113
@@ -68,7 +69,8 @@ objects = {
         'unit': 3
     },
     'JobAndSqlSummary': {
-        'status': 2
+        'status': 2,
+        'userCancelled': False
     }
 }
 
