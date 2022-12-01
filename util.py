@@ -351,7 +351,7 @@ def load_services(protocol_def_dir):
     return services
 
 
-def validate_services(services, schema_path, no_id_check, protocol_versions):
+def validate_services(services, schema_path, no_id_check):
     valid = True
     with open(schema_path, "r") as schema_file:
         schema = json.load(schema_file)
@@ -382,72 +382,34 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                         valid = False
                     request_params = method["request"].get("params", [])
                     method_name = service["name"] + "#" + method["name"]
-                    if not is_parameters_ordered_and_semantically_correct(
-                        method["since"], method_name + "#request", request_params, protocol_versions
+                    if not are_parameters_ordered(
+                        method["since"], method_name + "#request", request_params,
                     ):
                         valid = False
                     response_params = method["response"].get("params", [])
-                    if not is_parameters_ordered_and_semantically_correct(
+                    if not are_parameters_ordered(
                         method["since"],
                         method_name + "#response",
                         response_params,
-                        protocol_versions,
                     ):
                         valid = False
                     events = method.get("events", [])
                     for event in events:
                         event_params = event.get("params", [])
-                        if not is_parameters_ordered_and_semantically_correct(
+                        if not are_parameters_ordered(
                             event["since"],
                             method_name + "#" + event["name"] + "#event",
                             event_params,
-                            protocol_versions,
                         ):
                             valid = False
     return valid
 
 
-def is_semantically_correct_param(version, protocol_versions):
-    is_semantically_correct = True
-    if version != protocol_versions[0]:
-        # Not 2.0
-        if version % MINOR_VERSION_MULTIPLIER == 0:
-            # Minor version
-            if (version - MINOR_VERSION_MULTIPLIER) not in protocol_versions:
-                # since is set to 2.x but 2.(x-1) is not in the protocol definitions
-                is_semantically_correct = False
-        elif version % PATCH_VERSION_MULTIPLIER == 0:
-            # Patch version
-            if (version - PATCH_VERSION_MULTIPLIER) not in protocol_versions:
-                # since is set to 2.x.y but 2.x.(y-1) is not in the protocol definitions
-                is_semantically_correct = False
-    return is_semantically_correct
-
-
-def is_parameters_ordered_and_semantically_correct(since, name, params, protocol_versions):
-    is_ordered = True
-    is_semantically_correct = True
+def are_parameters_ordered(since, name, params):
     version = get_version_as_number(since)
-
-    if not is_semantically_correct_param(version, protocol_versions):
-        method_or_event_name = name[: name.rindex("#")]
-        print(
-            'Check the since value of the "%s"\n'
-            'It is set to version "%s" but this protocol version does '
-            "not semantically follow other protocol versions!" % (method_or_event_name, since)
-        )
-        is_semantically_correct = False
 
     for param in params:
         param_version = get_version_as_number(param["since"])
-        if not is_semantically_correct_param(param_version, protocol_versions):
-            print(
-                'Check the since value of "%s" field of the "%s".\n'
-                'It is set version "%s" but this protocol version does '
-                "not semantically follow other protocol versions!"
-                % (param["name"], name, param["since"])
-            )
-            is_semantically_correct = False
 
         if version > param_version:
             print(
@@ -455,13 +417,14 @@ def is_parameters_ordered_and_semantically_correct(since, name, params, protocol
                 "Parameters should be in the increasing order of since values!"
                 % (param["name"], name)
             )
-            is_ordered = False
+            return False
 
         version = param_version
-    return is_ordered and is_semantically_correct
+
+    return True
 
 
-def validate_custom_protocol_definitions(definition, schema_path, protocol_versions):
+def validate_custom_protocol_definitions(definition, schema_path):
     valid = True
     with open(schema_path, "r") as schema_file:
         schema = json.load(schema_file)
@@ -470,8 +433,8 @@ def validate_custom_protocol_definitions(definition, schema_path, protocol_versi
         return False
     for custom_type in custom_types["customTypes"]:
         params = custom_type.get("params", [])
-        if not is_parameters_ordered_and_semantically_correct(
-            custom_type["since"], "CustomTypes#" + custom_type["name"], params, protocol_versions
+        if not are_parameters_ordered(
+            custom_type["since"], "CustomTypes#" + custom_type["name"], params,
         ):
             valid = False
     return valid

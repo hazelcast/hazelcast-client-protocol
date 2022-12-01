@@ -6,9 +6,9 @@
   "definitions": {
     "since": {
       "type": ["string", "number"],
-      "minimum": 2.0,
-      "exclusiveMaximum": 3.0,
-      "pattern": "^2\\.\\d*\\.?\\d*$"
+      "minimum": 4.0,
+      "exclusiveMaximum": 6.0,
+      "pattern": "^[4-5]\\.\\d*\\.?\\d*$"
     },
     "param": {
       "type": "object",

@@ -30,7 +30,7 @@ A basic method structure example:
 ```yaml
   - id: METHOD-ID-1 (1-255)
     name: METHOD-NAME-1
-    since: 2.0
+    since: 4.0
     doc: |
        Documentation of the method call
     request:
@@ -40,13 +40,13 @@ A basic method structure example:
         - name: parameter1
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
              Documentation of the parameter 1
         - name: parameter1
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
              Documentation of the parameter 2
     response:
@@ -54,7 +54,7 @@ A basic method structure example:
         - name: response parameter 1
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
              the response parameter 1
 
@@ -65,13 +65,13 @@ A basic method structure example:
           - name: event-param-1
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Documentation of the event parameter 1
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Documentation of the event parameter 2
 
@@ -173,17 +173,17 @@ A custom type definition has the following structure:
 ```yaml
 customTypes:
     - name: CustomType1
-      since: 2.0
+      since: 4.0
       returnWithFactory: true # optional
       params:
         - name: paramName1
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
         - name: paramName2
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
 ```
 
 With this definition, the code generator generates a custom codec for your type and 
@@ -233,15 +233,17 @@ Client protocol can be expanded by adding new
 * parameters to existing custom types
 
 While expanding the protocol, one needs to follow these simple guidelines:
-* `since` field of the protocol definitions of the the newly added parameters, methods, events and custom types should 
-be equal to the current protocol version. 
+* `since` field of the protocol definitions of the newly added parameters, methods, events and custom types should 
+be equal to the Hazelcast version that the codec is being updated/introduced for. 
 * New services should have the id of the 1 + the highest id of the existing services.
 * New methods should come after the existing methods on the protocol definitions and have the id of the 1 + the id 
 of the method that comes before it.
 * New request, response or event parameters should come after the existing parameters on the protocol definitions 
-and they should be in the increasing order of the protocol versions that is 2.1 parameters should follow 
-2.0.1 parameters which should follow 2.0 parameters.
+and they should be in the increasing order of the Hazelcast versions. That is 4.1 parameters should follow 
+4.0.1 parameters which should follow 4.0 parameters.
 * New parameters to custom types should come after the existing parameters on the protocol definitions and they should
-be in the increasing order of protocol versions as described above.
+be in the increasing order of Hazelcast versions as described above.
 * Although not necessary, new events or custom types should come after the existing custom types or events on the 
 protocol definitions.
+* Unless it is absolutely necessary, protocol should only be updated for new major or minor Hazelcast releases,
+not for patch releases. 
