@@ -3,7 +3,7 @@ name: ReplicatedMap
 methods:
   - id: 1
     name: put
-    since: 2.0
+    since: 4.0
     doc: |
       Associates a given value to the specified key and replicates it to the cluster. If there is an old value, it will
       be replaced by the specified one and returned from the call. In addition, you have to specify a ttl and its TimeUnit
@@ -15,25 +15,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Key with which the specified value is to be associated.
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Value to be associated with the specified key
         - name: ttl
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ttl in milliseconds to be associated with the specified key-value pair
     response:
@@ -41,12 +41,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The old value if existed for the key.
   - id: 2
     name: size
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the number of key-value mappings in this map. If the map contains more than Integer.MAX_VALUE elements,
       returns Integer.MAX_VALUE.
@@ -57,7 +57,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -65,12 +65,12 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             the number of key-value mappings in this map.
   - id: 3
     name: isEmpty
-    since: 2.0
+    since: 4.0
     doc: |
       Return true if this map contains no key-value mappings
     request:
@@ -80,7 +80,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -88,12 +88,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             <tt>True</tt> if this map contains no key-value mappings
   - id: 4
     name: containsKey
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this map contains a mapping for the specified key.
     request:
@@ -103,13 +103,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose associated value is to be returned.
     response:
@@ -117,12 +117,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             <tt>True</tt> if this map contains a mapping for the specified key
   - id: 5
     name: containsValue
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this map maps one or more keys to the specified value.
       This operation will probably require time linear in the map size for most implementations of the Map interface.
@@ -133,13 +133,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             value whose presence in this map is to be tested
     response:
@@ -147,12 +147,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             <tt>true</tt> if this map maps one or more keys to the specified value
   - id: 6
     name: get
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
       If this map permits null values, then a return value of null does not
@@ -165,13 +165,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose associated value is to be returned
     response:
@@ -179,12 +179,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The value to which the specified key is mapped, or null if this map contains no mapping for the key
   - id: 7
     name: remove
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the mapping for a key from this map if it is present (optional operation). Returns the value to which this map previously associated the key,
       or null if the map contained no mapping for the key. If this map permits null values, then a return value of
@@ -197,13 +197,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Key with which the specified value is to be associated.
     response:
@@ -211,12 +211,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             the previous value associated with <tt>key</tt>, or <tt>null</tt> if there was no mapping for <tt>key</tt>.
   - id: 8
     name: putAll
-    since: 2.0
+    since: 4.0
     doc: |
       Copies all of the mappings from the specified map to this map (optional operation). The effect of this call is
       equivalent to that of calling put(Object,Object) put(k, v) on this map once for each mapping from key k to value
@@ -229,19 +229,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: entries
           type: EntryList_Data_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             entries to be stored in this map
     response: {}
   - id: 9
     name: clear
-    since: 2.0
+    since: 4.0
     doc: |
       The clear operation wipes data out of the replicated maps.It is the only synchronous remote operation in this
       implementation, so be aware that this might be a slow operation. If some node fails on executing the operation,
@@ -254,13 +254,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Replicated Map
     response: {}
   - id: 10
     name: addEntryListenerToKeyWithPredicate
-    since: 2.0
+    since: 4.0
     doc: |
       Adds an continuous entry listener for this map. The listener will be notified for map add/remove/update/evict
       events filtered by the given predicate.
@@ -271,25 +271,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Replicated Map
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Key with which the specified value is to be associated.
         - name: predicate
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The predicate for filtering entries
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -297,41 +297,41 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
-        since: 2.0
+        since: 4.0
         params:
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Key of the entry event.
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the entry event. Possible values are
               ADDED(1)
@@ -347,18 +347,18 @@ methods:
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Number of entries affected by this event.
   - id: 11
     name: addEntryListenerWithPredicate
-    since: 2.0
+    since: 4.0
     doc: |
       Adds an continuous entry listener for this map. The listener will be notified for map add/remove/update/evict
       events filtered by the given predicate.
@@ -369,19 +369,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Replicated Map
         - name: predicate
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The predicate for filtering entries
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -389,41 +389,41 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
-        since: 2.0
+        since: 4.0
         params:
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Key of the entry event.
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the entry event. Possible values are
               ADDED(1)
@@ -439,18 +439,18 @@ methods:
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Number of entries affected by this event.
   - id: 12
     name: addEntryListenerToKey
-    since: 2.0
+    since: 4.0
     doc: |
       Adds the specified entry listener for the specified key. The listener will be notified for all
       add/remove/update/evict events of the specified key only.
@@ -461,19 +461,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Replicated Map
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Key with which the specified value is to be associated.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -481,41 +481,41 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
-        since: 2.0
+        since: 4.0
         params:
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Key of the entry event.
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the entry event. Possible values are
               ADDED(1)
@@ -531,18 +531,18 @@ methods:
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Number of entries affected by this event.
   - id: 13
     name: addEntryListener
-    since: 2.0
+    since: 4.0
     doc: |
       Adds an entry listener for this map. The listener will be notified for all map add/remove/update/evict events.
     request:
@@ -552,13 +552,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -566,41 +566,41 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
-        since: 2.0
+        since: 4.0
         params:
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Key of the entry event.
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the entry event. Possible values are
               ADDED(1)
@@ -616,18 +616,18 @@ methods:
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Number of entries affected by this event.
   - id: 14
     name: removeEntryListener
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the specified entry listener. If there is no such listener added before, this call does no change in the
       cluster and returns false.
@@ -638,13 +638,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the registered entry listener.
     response:
@@ -652,12 +652,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if registration is removed, false otherwise.
   - id: 15
     name: keySet
-    since: 2.0
+    since: 4.0
     doc: |
       Returns a lazy Set view of the key contained in this map. A LazySet is optimized for querying speed
       (preventing eager deserialization and hashing on HashSet insertion) and does NOT provide all operations.
@@ -672,7 +672,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -680,12 +680,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A lazy set view of the keys contained in this map.
   - id: 16
     name: values
-    since: 2.0
+    since: 4.0
     doc: |
       Returns a lazy collection view of the values contained in this map.
     request:
@@ -695,7 +695,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -703,12 +703,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A collection view of the values contained in this map.
   - id: 17
     name: entrySet
-    since: 2.0
+    since: 4.0
     doc: |
       Gets a lazy set view of the mappings contained in this map.
     request:
@@ -718,7 +718,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
     response:
@@ -726,12 +726,12 @@ methods:
         - name: response
           type: EntryList_Data_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A lazy set view of the mappings contained in this map.
   - id: 18
     name: addNearCacheEntryListener
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a near cache entry listener for this map. This listener will be notified when an entry is added/removed/updated/evicted/expired etc. so that the near cache entries can be invalidated.
     request:
@@ -741,19 +741,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the ReplicatedMap
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if EntryEvent should contain the value,false otherwise
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -761,41 +761,41 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique string  which is used as a key to remove the listener.
     events:
       - name: Entry
-        since: 2.0
+        since: 4.0
         params:
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Key of the entry event.
           - name: value
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Value of the entry event.
           - name: oldValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Old value of the entry event.
           - name: mergingValue
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Incoming merging value of the entry event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the entry event. Possible values are
               ADDED(1)
@@ -811,12 +811,12 @@ methods:
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches the event.
           - name: numberOfAffectedEntries
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Number of entries affected by this event.

@@ -3,7 +3,7 @@ name: CPSubsystem
 methods:
   - id: 1
     name: addMembershipListener
-    since: 2.1
+    since: 4.1
     doc: |
       Registers a new CP membership listener.
     request:
@@ -13,7 +13,7 @@ methods:
         - name: local
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             Denotes whether register a local listener or not.
     response:
@@ -21,28 +21,28 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             Registration id for the listener.
     events:
       - name: MembershipEvent
-        since: 2.1
+        since: 4.1
         params:
           - name: member
             type: CPMember
             nullable: false
-            since: 2.1
+            since: 4.1
             doc: |
               Member which is added or removed.
           - name: type
             type: byte
             nullable: false
-            since: 2.1
+            since: 4.1
             doc: |
               Type of the event. It is either ADDED(1) or REMOVED(2).
   - id: 2
     name: removeMembershipListener
-    since: 2.1
+    since: 4.1
     doc: |
       Deregisters CP membership listener.
     request:
@@ -52,7 +52,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -60,12 +60,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             True if unregistered, false otherwise.
   - id: 3
     name: addGroupAvailabilityListener
-    since: 2.1
+    since: 4.1
     doc: |
       Registers a new CP group availability listener.
     request:
@@ -75,7 +75,7 @@ methods:
         - name: local
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             Denotes whether register a local listener or not.
     response:
@@ -83,34 +83,34 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             Registration id for the listener.
     events:
       - name: GroupAvailabilityEvent
-        since: 2.1
+        since: 4.1
         params:
           - name: groupId
             type: RaftGroupId
             nullable: false
-            since: 2.1
+            since: 4.1
             doc: |
               Group id whose availability is reported.
           - name: members
             type: List_CPMember
             nullable: false
-            since: 2.1
+            since: 4.1
             doc: |
               All members.
           - name: unavailableMembers
             type: List_CPMember
             nullable: false
-            since: 2.1
+            since: 4.1
             doc: |
               Missing members.
   - id: 4
     name: removeGroupAvailabilityListener
-    since: 2.1
+    since: 4.1
     doc: |
       Deregisters CP availability listener.
     request:
@@ -120,7 +120,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -128,6 +128,6 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             True if unregistered, false otherwise.

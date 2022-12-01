@@ -3,7 +3,7 @@ name: DurableExecutor
 methods:
   - id: 1
     name: shutdown
-    since: 2.0
+    since: 4.0
     doc: |
       Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
       Invocation has no additional effect if already shut down.
@@ -14,13 +14,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
     response: {}
   - id: 2
     name: isShutdown
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this executor has been shut down.
     request:
@@ -30,7 +30,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
     response:
@@ -38,12 +38,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             true if this executor has been shut down
   - id: 3
     name: submitToPartition
-    since: 2.0
+    since: 4.0
     doc: |
       Submits the task to partition for execution
     request:
@@ -53,13 +53,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
         - name: callable
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The callable object to be executed.
     response:
@@ -67,12 +67,12 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             the sequence for the submitted execution.
   - id: 4
     name: retrieveResult
-    since: 2.0
+    since: 4.0
     doc: |
       Retrieves the result of the execution with the given sequence
     request:
@@ -82,13 +82,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
         - name: sequence
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Sequence of the execution.
     response:
@@ -96,12 +96,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The result of the callable execution with the given sequence.
   - id: 5
     name: disposeResult
-    since: 2.0
+    since: 4.0
     doc: |
       Disposes the result of the execution with the given sequence
     request:
@@ -111,19 +111,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
         - name: sequence
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Sequence of the execution.
     response: {}
   - id: 6
     name: retrieveAndDisposeResult
-    since: 2.0
+    since: 4.0
     doc: |
       Retrieves and disposes the result of the execution with the given sequence
     request:
@@ -133,13 +133,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the executor.
         - name: sequence
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Sequence of the execution.
     response:
@@ -147,6 +147,6 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The result of the callable execution with the given sequence.

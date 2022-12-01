@@ -3,7 +3,7 @@ name: TransactionalMultiMap
 methods:
   - id: 1
     name: put
-    since: 2.0
+    since: 4.0
     doc: |
       Stores a key-value pair in the multimap.
     request:
@@ -13,31 +13,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key to be stored
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The value to be stored
     response:
@@ -45,12 +45,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if the size of the multimap is increased, false if the multimap already contains the key-value pair.
   - id: 2
     name: get
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the collection of values associated with the key.
     request:
@@ -60,25 +60,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose associated values are returned
     response:
@@ -86,12 +86,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The collection of the values associated with the key
   - id: 3
     name: remove
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the given key value pair from the multimap.
     request:
@@ -101,25 +101,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose associated values are returned
     response:
@@ -127,12 +127,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
   - id: 4
     name: removeEntry
-    since: 2.0
+    since: 4.0
     doc: |
       Removes all the entries associated with the given key.
     request:
@@ -142,31 +142,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose associated values are returned
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The value to be stored
     response:
@@ -174,12 +174,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if the size of the multimap changed after the remove operation, false otherwise.
   - id: 5
     name: valueCount
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the number of values matching the given key in the multimap.
     request:
@@ -189,25 +189,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The key whose number of values are returned
     response:
@@ -215,12 +215,12 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The number of values matching the given key in the multimap
   - id: 6
     name: size
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the number of key-value pairs in the multimap.
     request:
@@ -230,19 +230,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Transactional Multi Map
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the this transaction operation
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
@@ -250,6 +250,6 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The number of key-value pairs in the multimap

@@ -3,7 +3,7 @@ name: List
 methods:
   - id: 1
     name: size
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the number of elements in this list.  If this list contains more than Integer.MAX_VALUE elements, returns
       Integer.MAX_VALUE.
@@ -14,7 +14,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of List
     response:
@@ -22,12 +22,12 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The number of elements in this list
   - id: 2
     name: contains
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this list contains the specified element.
     request:
@@ -37,13 +37,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element whose presence in this list is to be tested
     response:
@@ -51,12 +51,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list contains the specified element, false otherwise
   - id: 3
     name: containsAll
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this list contains all of the elements of the specified collection.
     request:
@@ -66,13 +66,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Collection to be checked for containment in this list
     response:
@@ -80,13 +80,13 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list contains all of the elements of the
             specified collection
   - id: 4
     name: add
-    since: 2.0
+    since: 4.0
     doc: |
       Appends the specified element to the end of this list (optional operation). Lists that support this operation may
       place limitations on what elements may be added to this list.  In particular, some lists will refuse to add null
@@ -99,13 +99,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element to be appended to this list
     response:
@@ -113,12 +113,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             true if this list changed as a result of the call, false otherwise
   - id: 5
     name: remove
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the first occurrence of the specified element from this list, if it is present (optional operation).
       If this list does not contain the element, it is unchanged.
@@ -130,13 +130,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element to be removed from this list, if present
     response:
@@ -144,12 +144,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list contained the specified element, false otherwise
   - id: 6
     name: addAll
-    since: 2.0
+    since: 4.0
     doc: |
       Appends all of the elements in the specified collection to the end of this list, in the order that they are
       returned by the specified collection's iterator (optional operation).
@@ -162,13 +162,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Collection containing elements to be added to this list
     response:
@@ -176,12 +176,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list changed as a result of the call, false otherwise
   - id: 7
     name: compareAndRemoveAll
-    since: 2.0
+    since: 4.0
     doc: |
       Removes from this list all of its elements that are contained in the specified collection (optional operation).
     request:
@@ -191,13 +191,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The list of values to compare for removal.
     response:
@@ -205,12 +205,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if removed at least one of the items, false otherwise.
   - id: 8
     name: compareAndRetainAll
-    since: 2.0
+    since: 4.0
     doc: |
       Retains only the elements in this list that are contained in the specified collection (optional operation).
       In other words, removes from this list all of its elements that are not contained in the specified collection.
@@ -221,13 +221,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: values
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The list of values to compare for retaining.
     response:
@@ -235,12 +235,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list changed as a result of the call, false otherwise.
   - id: 9
     name: clear
-    since: 2.0
+    since: 4.0
     doc: |
       Removes all of the elements from this list (optional operation). The list will be empty after this call returns.
     request:
@@ -250,13 +250,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
     response: {}
   - id: 10
     name: getAll
-    since: 2.0
+    since: 4.0
     doc: |
       Return the all elements of this collection
     request:
@@ -266,7 +266,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
     response:
@@ -274,12 +274,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             An array of all item values in the list.
   - id: 11
     name: addListener
-    since: 2.0
+    since: 4.0
     doc: |
       Adds an item listener for this collection. Listener will be notified for all collection add/remove events.
     request:
@@ -289,19 +289,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: includeValue
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Set to true if you want the event to contain the value.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -309,34 +309,34 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Registration id for the listener.
     events:
       - name: Item
-        since: 2.0
+        since: 4.0
         params:
           - name: item
             type: Data
             nullable: true
-            since: 2.0
+            since: 4.0
             doc: |
               Item that the event is fired for.
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches this event.
           - name: eventType
             type: int
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Type of the event. It is either ADDED(1) or REMOVED(2).
   - id: 12
     name: removeListener
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the specified item listener. If there is no such listener added before, this call does no change in the
       cluster and returns false.
@@ -347,13 +347,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -361,12 +361,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if unregistered, false otherwise.
   - id: 13
     name: isEmpty
-    since: 2.0
+    since: 4.0
     doc: |
       Returns true if this list contains no elements
     request:
@@ -376,7 +376,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
     response:
@@ -384,12 +384,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list contains no elements
   - id: 14
     name: addAllWithIndex
-    since: 2.0
+    since: 4.0
     doc: |
       Inserts all of the elements in the specified collection into this list at the specified position (optional operation).
       Shifts the element currently at that position (if any) and any subsequent elements to the right (increases their indices).
@@ -403,19 +403,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             index at which to insert the first element from the specified collection.
         - name: valueList
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The list of value to insert into the list.
     response:
@@ -423,12 +423,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if this list changed as a result of the call, false otherwise.
   - id: 15
     name: get
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the element at the specified position in this list
     request:
@@ -438,13 +438,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Index of the element to return
     response:
@@ -452,12 +452,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The element at the specified position in this list
   - id: 16
     name: set
-    since: 2.0
+    since: 4.0
     doc: |
       The element previously at the specified position
     request:
@@ -467,19 +467,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Index of the element to replace
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element to be stored at the specified position
     response:
@@ -487,12 +487,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The element previously at the specified position
   - id: 17
     name: addWithIndex
-    since: 2.0
+    since: 4.0
     doc: |
       Inserts the specified element at the specified position in this list (optional operation). Shifts the element
       currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
@@ -503,25 +503,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             index at which the specified element is to be inserted
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Value to be inserted.
     response: {}
   - id: 18
     name: removeWithIndex
-    since: 2.0
+    since: 4.0
     doc: |
       Removes the element at the specified position in this list (optional operation). Shifts any subsequent elements
       to the left (subtracts one from their indices). Returns the element that was removed from the list.
@@ -532,13 +532,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The index of the element to be removed
     response:
@@ -546,12 +546,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             The element previously at the specified position
   - id: 19
     name: lastIndexOf
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
@@ -562,13 +562,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element to search for
     response:
@@ -576,13 +576,13 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             the index of the last occurrence of the specified element in
             this list, or -1 if this list does not contain the element
   - id: 20
     name: indexOf
-    since: 2.0
+    since: 4.0
     doc: |
       Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
       contain the element.
@@ -593,13 +593,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Element to search for
     response:
@@ -607,13 +607,13 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The index of the first occurrence of the specified element in
             this list, or -1 if this list does not contain the element
   - id: 21
     name: sub
-    since: 2.0
+    since: 4.0
     doc: |
       Returns a view of the portion of this list between the specified from, inclusive, and to, exclusive.(If from and
       to are equal, the returned list is empty.) The returned list is backed by this list, so non-structural changes in
@@ -633,19 +633,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: from
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Low endpoint (inclusive) of the subList
         - name: to
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             High endpoint (exclusive) of the subList
     response:
@@ -653,12 +653,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A view of the specified range within this list
   - id: 22
     name: iterator
-    since: 2.0
+    since: 4.0
     doc: |
       Returns an iterator over the elements in this list in proper sequence.
     request:
@@ -668,7 +668,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
     response:
@@ -676,12 +676,12 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             An iterator over the elements in this list in proper sequence
   - id: 23
     name: listIterator
-    since: 2.0
+    since: 4.0
     doc: |
       Returns a list iterator over the elements in this list (in proper sequence), starting at the specified position
       in the list. The specified index indicates the first element that would be returned by an initial call to
@@ -694,13 +694,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the List
         - name: index
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             index of the first element to be returned from the list iterator next
     response:
@@ -708,7 +708,7 @@ methods:
         - name: response
           type: List_Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             a list iterator over the elements in this list (in proper
             sequence), starting at the specified position in the list

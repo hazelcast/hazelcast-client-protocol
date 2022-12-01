@@ -3,7 +3,7 @@ name: Topic
 methods:
   - id: 1
     name: publish
-    since: 2.0
+    since: 4.0
     doc: |
       Publishes the message to all subscribers of this topic
     request:
@@ -13,19 +13,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Topic
         - name: message
           type: Data
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             The message to publish to all subscribers of this topic
     response: {}
   - id: 2
     name: addMessageListener
-    since: 2.0
+    since: 4.0
     doc: |
       Subscribes to this topic. When someone publishes a message on this topic. onMessage() function of the given
       MessageListener is called. More than one message listener can be added on one instance.
@@ -36,13 +36,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Topic
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             if true listens only local events on registered member
     response:
@@ -50,34 +50,34 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             returns the registration id
     events:
       - name: Topic
-        since: 2.0
+        since: 4.0
         params:
           - name: item
             type: Data
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Item that the event is fired for.
           - name: publishTime
             type: long
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               Time that the item is published to the topic.
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: 4.0
             doc: |
               UUID of the member that dispatches this event.
   - id: 3
     name: removeMessageListener
-    since: 2.0
+    since: 4.0
     doc: |
       Stops receiving messages for the given message listener.If the given listener already removed, this method does nothing.
     request:
@@ -87,13 +87,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the Topic
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Id of listener registration.
     response:
@@ -101,12 +101,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             True if registration is removed, false otherwise
   - id: 4
     name: publishAll
-    since: 2.1
+    since: 4.1
     doc: |
       Publishes all messages to all subscribers of this topic
     request:
@@ -116,13 +116,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             Name of the Topic
         - name: messages
           type: List_Data
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             The messages to publish to all subscribers of this topic
     response: {}

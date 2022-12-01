@@ -3,7 +3,7 @@ name: FlakeIdGenerator
 methods:
   - id: 1
     name: newIdBatch
-    since: 2.0
+    since: 4.0
     doc: |
       Fetches a new batch of ids for the given flake id generator.
     request:
@@ -13,13 +13,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the flake id generator.
         - name: batchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of ids that will be fetched on one call.
     response:
@@ -27,18 +27,18 @@ methods:
         - name: base
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             First id in the batch.
         - name: increment
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Increment for the next id in the batch.
         - name: batchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of ids in the batch.

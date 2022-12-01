@@ -3,7 +3,7 @@ name: CPSession
 methods:
   - id: 1
     name: createSession
-    since: 2.0
+    since: 4.0
     doc: |
       Creates a session for the caller on the given CP group.
     request:
@@ -13,13 +13,13 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the CP group
         - name: endpointName
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of the caller HazelcastInstance
     response:
@@ -27,24 +27,24 @@ methods:
         - name: sessionId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Id of the session.
         - name: ttlMillis
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Time to live value in milliseconds that must be respected by the caller.
         - name: heartbeatMillis
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Time between heartbeats in milliseconds that must be respected by the caller.
   - id: 2
     name: closeSession
-    since: 2.0
+    since: 4.0
     doc: |
       Closes the given session on the given CP group
     request:
@@ -54,13 +54,13 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the CP group
         - name: sessionId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the session
     response:
@@ -68,13 +68,13 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             true if the session is found & closed,
             false otherwise.
   - id: 3
     name: heartbeatSession
-    since: 2.0
+    since: 4.0
     doc: |
       Commits a heartbeat for the given session on the given cP group and
       extends its session expiration time.
@@ -85,19 +85,19 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the CP group
         - name: sessionId
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the session
     response: {}
   - id: 4
     name: generateThreadId
-    since: 2.0
+    since: 4.0
     doc: |
       Generates a new ID for the caller thread. The ID is unique in the given
       CP group.
@@ -108,7 +108,7 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ID of the CP group
     response:
@@ -116,6 +116,6 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             A unique ID for the caller thread

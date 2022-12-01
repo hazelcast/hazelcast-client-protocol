@@ -3,7 +3,7 @@ name: DynamicConfig
 methods:
   - id: 1
     name: addMultiMapConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new multimap config to a running cluster.
       If a multimap configuration with the given {@code name} already exists, then
@@ -15,50 +15,50 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             multimap configuration name
         - name: collectionType
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             value collection type. Valid values are SET and LIST.
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             entry listener configurations
         - name: binary
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to store values in {@code BINARY} format or {@code false} to store
             values in {@code OBJECT} format.
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             set to {@code true} to enable statistics on this multimap configuration
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -66,20 +66,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 2
     name: addRingbufferConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new ringbuffer configuration to a running cluster.
       If a ringbuffer configuration with the given {@code name} already exists, then
@@ -91,50 +91,50 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             ringbuffer configuration name
         - name: capacity
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             capacity of the ringbuffer
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of seconds for each entry to stay in the ringbuffer
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             in memory format of items in the ringbuffer. Valid options are {@code BINARY}
             and {@code OBJECT}
         - name: ringbufferStoreConfig
           type: RingbufferStoreConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             backing ringbuffer store configuration
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -142,20 +142,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 3
     name: addCardinalityEstimatorConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new cardinality estimator configuration to a running cluster.
       If a cardinality estimator configuration with the given {@code name} already exists, then
@@ -167,25 +167,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of the cardinality estimator configuration
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -193,20 +193,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 4
     name: addListConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new list configuration to a running cluster.
       If a list configuration with the given {@code name} already exists, then
@@ -218,43 +218,43 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             list's name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             item listener configurations
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum size of the list
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics on the list, otherwise {@code false}
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -262,20 +262,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 5
     name: addSetConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new set configuration to a running cluster.
       If a set configuration with the given {@code name} already exists, then
@@ -287,43 +287,43 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             set's name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             item listener configurations
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum size of the set
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics on the list, otherwise {@code false}
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -331,20 +331,20 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 6
     name: addReplicatedMapConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new replicated map configuration to a running cluster.
       If a replicated map configuration with the given {@code name} already exists, then
@@ -356,33 +356,33 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of the replicated map configuration
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             data type used to store entries. Valid values are {@code "BINARY"}, {@code "OBJECT"}
             and {@code "NATIVE"}.
         - name: asyncFillup
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to make the replicated map available for reads before initial replication
             is completed, {@code false} otherwise.
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             class name of a class implementing
             SplitBrainMergePolicy to merge entries
@@ -390,13 +390,13 @@ methods:
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             entry listener configurations
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -404,13 +404,13 @@ methods:
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
     response: {}
   - id: 7
     name: addTopicConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new topic configuration to a running cluster.
       If a topic configuration with the given {@code name} already exists, then
@@ -422,39 +422,39 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             topic's name
         - name: globalOrderingEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             when {@code true} all nodes listening to the same topic get their messages in
             the same order
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: multiThreadingEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable multi-threaded processing of incoming messages, otherwise
             a single thread will handle all topic messages
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             message listener configurations
     response: {}
   - id: 8
     name: addExecutorConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new executor configuration to a running cluster.
       If an executor configuration with the given {@code name} already exists, then
@@ -466,31 +466,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             executor's name
         - name: poolSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             executor thread pool size
         - name: queueCapacity
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             capacity of executor queue. A value of {@code 0} implies {@link Integer#MAX_VALUE}
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -498,7 +498,7 @@ methods:
     response: {}
   - id: 9
     name: addDurableExecutorConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new durable executor configuration to a running cluster.
       If a durable executor configuration with the given {@code name} already exists, then
@@ -510,31 +510,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             durable executor name
         - name: poolSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             executor thread pool size
         - name: durability
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             executor's durability
         - name: capacity
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             capacity of executor tasks per partition
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -542,13 +542,13 @@ methods:
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
     response: {}
   - id: 10
     name: addScheduledExecutorConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new scheduled executor configuration to a running cluster.
       If a scheduled executor configuration with the given {@code name} already exists, then
@@ -560,32 +560,32 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of scheduled executor
         - name: poolSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of executor threads per member for the executor
         - name: durability
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             durability of the scheduled executor
         - name: capacity
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of tasks that a scheduler can have at any given point in time per partition or per node
             according to the capacity policy
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -593,32 +593,32 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.1
+          since: 4.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: capacityPolicy
           type: byte
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Capacity policy for the configured capacity value
     response: {}
   - id: 11
     name: addQueueConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new queue configuration to a running cluster.
       If a queue configuration with the given {@code name} already exists, then
@@ -630,49 +630,49 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             queue name
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             item listeners configuration
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of items in the queue
         - name: emptyQueueTtl
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             queue time-to-live in seconds: queue will be destroyed if it stays empty or unused for that time
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the queue to remain functional. When {@code null}, split brain protection does not
@@ -680,31 +680,31 @@ methods:
         - name: queueStoreConfig
           type: QueueStoreConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             backing queue store configuration
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Classname of the merge policy.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation.
         - name: priorityComparatorClassName
           type: String
           nullable: true
-          since: 2.1
+          since: 4.1
           doc: |
             Class name of the configured {@link java.util.Comparator} implementation.
     response: {}
   - id: 12
     name: addMapConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new map configuration to a running cluster.
       If a map configuration with the given {@code name} already exists, then
@@ -716,49 +716,49 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of the map
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of seconds for each entry to stay in the map.
         - name: maxIdleSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of seconds for each entry to stay idle in the map
         - name: evictionConfig
           type: EvictionConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             map eviction configuration
         - name: readBackupData
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable reading local backup entries, {@code false} otherwise
         - name: cacheDeserializedValues
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             control caching of de-serialized values. Valid values are {@code NEVER}
             (Never cache de-serialized object), {@code INDEX_ONLY} (Cache values only
@@ -767,45 +767,45 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Name of a class implementing SplitBrainMergePolicy that handles merging of values for this cache
             while recovering from network partitioning.
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Number of entries to be sent in a merge operation
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             data type used to store entries. Valid values are {@code BINARY},
             {@code OBJECT} and {@code NATIVE}.
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             entry listener configurations
         - name: partitionLostListenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             partition lost listener configurations
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum
             number of members required in the cluster for the map to remain functional.
@@ -813,100 +813,100 @@ methods:
         - name: mapStoreConfig
           type: MapStoreConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             configuration of backing map store or {@code null} for none
         - name: nearCacheConfig
           type: NearCacheConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             configuration of near cache or {@code null} for none
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             reference to an existing WAN replication configuration
         - name: indexConfigs
           type: List_IndexConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             index configurations
         - name: attributeConfigs
           type: List_AttributeConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             map attributes
         - name: queryCacheConfigs
           type: List_QueryCacheConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             configurations for query caches on this map
         - name: partitioningStrategyClassName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of class implementing {@code com.hazelcast.core.PartitioningStrategy}
             or {@code null}
         - name: partitioningStrategyImplementation
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             a serialized instance of a partitioning strategy
         - name: hotRestartConfig
           type: HotRestartConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             hot restart configuration
         - name: eventJournalConfig
           type: EventJournalConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             event journal configuration
         - name: merkleTreeConfig
           type: MerkleTreeConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             merkle tree configuration
         - name: metadataPolicy
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             metadata policy configuration for the supported data types. Valid values
             are {@code CREATE_ON_UPDATE} and {@code OFF}
         - name: perEntryStatsEnabled
           type: boolean
           nullable: false
-          since: 2.2
+          since: 4.2
           doc: |
             {@code true} to enable entry level statistics for the entries of this map.
              otherwise {@code false}. Default value is {@code false}
         - name: dataPersistenceConfig
           type: DataPersistenceConfig
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Data persistence configuration
         - name: tieredStoreConfig
           type: TieredStoreConfig
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Tiered-Store configuration
     response: {}
   - id: 13
     name: addReliableTopicConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new reliable topic configuration to a running cluster.
       If a reliable topic configuration with the given {@code name} already exists, then
@@ -918,45 +918,45 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of reliable topic
         - name: listenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             message listener configurations
         - name: readBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             maximum number of items to read in a batch.
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: topicOverloadPolicy
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             policy to handle an overloaded topic. Available values are {@code DISCARD_OLDEST},
             {@code DISCARD_NEWEST}, {@code BLOCK} and {@code ERROR}.
         - name: executor
           type: Data
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
     response: {}
   - id: 14
     name: addCacheConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new cache configuration to a running cluster.
       If a cache configuration with the given {@code name} already exists, then
@@ -968,92 +968,92 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             cache name
         - name: keyType
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             class name of key type
         - name: valueType
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             class name of value type
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: managementEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable management interface on this cache or {@code false}
         - name: readThrough
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable read through from a {@code CacheLoader}
         - name: writeThrough
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable write through to a {@code CacheWriter}
         - name: cacheLoaderFactory
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of cache loader factory class, if one is configured
         - name: cacheWriterFactory
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of cache writer factory class, if one is configured
         - name: cacheLoader
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             Factory name of cache loader factory class, if one is configured
         - name: cacheWriter
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             Factory name of cache writer factory class, if one is configured
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of synchronous backups
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of asynchronous backups
         - name: inMemoryFormat
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             data type used to store entries. Valid values are {@code BINARY},
             {@code OBJECT} and {@code NATIVE}.
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum
             number of members required in the cluster for the cache to remain functional.
@@ -1061,7 +1061,7 @@ methods:
         - name: mergePolicy
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of a class implementing SplitBrainMergePolicy
             that handles merging of values for this cache while recovering from
@@ -1069,81 +1069,81 @@ methods:
         - name: mergeBatchSize
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of entries to be sent in a merge operation
         - name: disablePerEntryInvalidationEvents
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             when {@code true} disables invalidation events for per entry but
             full-flush invalidation events are still enabled.
         - name: partitionLostListenerConfigs
           type: List_ListenerConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             partition lost listener configurations
         - name: expiryPolicyFactoryClassName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             expiry policy factory class name. When configuring an expiry policy,
             either this or {@ode timedExpiryPolicyFactoryConfig} should be configured.
         - name: timedExpiryPolicyFactoryConfig
           type: TimedExpiryPolicyFactoryConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             expiry policy factory with duration configuration
         - name: cacheEntryListeners
           type: List_CacheSimpleEntryListenerConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             cache entry listeners configuration
         - name: evictionConfig
           type: EvictionConfigHolder
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             cache eviction configuration
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             reference to an existing WAN replication configuration
         - name: eventJournalConfig
           type: EventJournalConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             Event Journal configuration
         - name: hotRestartConfig
           type: HotRestartConfig
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             hot restart configuration
         - name: merkleTreeConfig
           type: MerkleTreeConfig
           nullable: true
-          since: 2.3
+          since: 5.0
           doc: |
             merkle tree configuration
         - name: dataPersistenceConfig
           type: DataPersistenceConfig
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Data persistence configuration
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new flake ID generator configuration to a running cluster.
       If a flake ID generator configuration for the same name already exists, then
@@ -1155,61 +1155,61 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of {@code FlakeIdGenerator}
         - name: prefetchCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             how many IDs are pre-fetched on the background when one call to {@code newId()} is made
         - name: prefetchValidity
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             for how long the pre-fetched IDs can be used
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
         - name: nodeIdOffset
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             Offset that will be added to the node id assigned to the cluster members for this generator.
         - name: epochStart
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             offset of timestamp component in milliseconds 
         - name: bitsSequence
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             bit length of sequence component 
         - name: bitsNodeId
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             bit length of node id component
         - name: allowedFutureMillis
           type: long
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             how far to the future is it allowed to go to generate IDs
     response: {}
   - id: 16
     name: addPNCounterConfig
-    since: 2.0
+    since: 4.0
     doc: |
       Adds a new CRDT PN counter configuration to a running cluster.
       If a PN counter configuration with the given {@code name} already exists, then
@@ -1221,25 +1221,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             name of the CRDT PN counter configuration
         - name: replicaCount
           type: int
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             number of replicas on which the CRDT state is kept
         - name: statisticsEnabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: 4.0
           doc: |
             set to {@code true} to enable statistics on this multimap configuration
         - name: splitBrainProtectionName
           type: String
           nullable: true
-          since: 2.0
+          since: 4.0
           doc: |
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
@@ -1247,7 +1247,7 @@ methods:
     response: {}
   - id: 17
     name: addExternalDataStoreConfig
-    since: 2.5
+    since: 5.2
     doc: |
       Adds an external data store configuration.
       If an external data store configuration with the given {@code name} already exists, then
@@ -1259,26 +1259,26 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Name of this external data store, must be unique.
         - name: className
           type: String
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Name for the ExternalDataStoreFactory implementation class.
         - name: shared
           type: boolean
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             {@code true} if an instance of the external data store will be reused. {@code false} when on each usage
             the data store instance should be created. The default it {@code true}.
         - name: properties
           type: Map_String_String
           nullable: false
-          since: 2.5
+          since: 5.2
           doc: |
             Properties of the data store configuration.
     response: {}
