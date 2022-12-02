@@ -239,7 +239,7 @@ be equal to the Hazelcast version that the codec is being updated/introduced for
 * New methods should come after the existing methods on the protocol definitions and have the id of the 1 + the id 
 of the method that comes before it.
 * New request, response or event parameters should come after the existing parameters on the protocol definitions 
-and they should be in the increasing order of the Hazelcast versions. That is 4.1 parameters should follow 
+and they should be in the increasing order of the Hazelcast versions. For example, 4.1 parameters should follow 
 4.0.1 parameters which should follow 4.0 parameters.
 * New parameters to custom types should come after the existing parameters on the protocol definitions and they should
 be in the increasing order of Hazelcast versions as described above.
