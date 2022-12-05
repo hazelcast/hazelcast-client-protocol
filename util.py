@@ -7,6 +7,7 @@ from enum import Enum
 import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
+from datetime import date
 
 import jsonschema
 import yaml
@@ -725,9 +726,9 @@ def create_environment(lang, namespace):
     env.globals["custom_codec_param_name"] = language_specific_funcs["custom_codec_param_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
-    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][
-        lang
-    ]
+    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][lang]
+    env.globals["copyright_year"] = date.today().year
+    env.globals["protocol_commit"] = os.popen("git rev-parse --short HEAD").readlines()[0].strip()
     
     env = language_specific_funcs["init_env"][lang](env)
 
