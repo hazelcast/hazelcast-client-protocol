@@ -728,7 +728,11 @@ def create_environment(lang, namespace):
     env.globals["is_trivial"] = is_trivial
     env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][lang]
     env.globals["copyright_year"] = date.today().year
-    env.globals["protocol_commit"] = os.popen("git rev-parse --short HEAD").readlines()[0].strip()
+    
+    try:
+        env.globals["protocol_commit"] = os.popen("git rev-parse --short HEAD").readlines()[0].strip()
+    except:
+        env.globals["protocol_commit"] = "unknown"
     
     env = language_specific_funcs["init_env"][lang](env)
 
