@@ -730,7 +730,8 @@ def create_environment(lang, namespace):
     env.globals["copyright_year"] = date.today().year
     
     try:
-        env.globals["protocol_commit"] = os.popen("git rev-parse --short HEAD").readlines()[0].strip()
+        with os.popen("git rev-parse --short HEAD") as f:
+            env.globals["protocol_commit"] = f.readlines()[0].strip()
     except:
         env.globals["protocol_commit"] = "unknown"
     
