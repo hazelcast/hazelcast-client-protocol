@@ -347,7 +347,7 @@ methods:
           since: 2.6
           doc: 'True if processed successfully, false otherwise'
   - id: 17
-    name: uploadJobData
+    name: uploadJobMultipart
     since: 2.6
     doc: ''
     request:
