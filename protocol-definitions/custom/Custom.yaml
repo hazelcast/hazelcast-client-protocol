@@ -1136,3 +1136,7 @@ customTypes:
         type: SqlSummary
         nullable: true
         since: 5.2
+      - name: suspensionCause
+        type: String
+        nullable: true
+        since: 5.3
