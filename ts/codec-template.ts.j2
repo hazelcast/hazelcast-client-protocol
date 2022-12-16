@@ -132,6 +132,9 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
     static encodeRequest({% for param in method.request.params %}{{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
         const clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
+        {% if  contains_serialized_data_in_request %}
+        clientMessage.setContainsSerializedDataInRequest(true);
+        {% endif %}
 
         const initialFrame = Frame.createInitialFrame(REQUEST_INITIAL_FRAME_SIZE);
 {% for param in request_fix_sized_params %}

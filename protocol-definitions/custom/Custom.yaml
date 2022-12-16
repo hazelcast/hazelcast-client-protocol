@@ -1136,6 +1136,10 @@ customTypes:
         type: SqlSummary
         nullable: true
         since: 2.5
+      - name: suspensionCause
+        type: String
+        nullable: true
+        since: 2.6
       - name: userCancelled
         type: boolean
         nullable: false
