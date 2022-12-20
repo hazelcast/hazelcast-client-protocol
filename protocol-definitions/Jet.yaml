@@ -314,6 +314,11 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Unique session ID of the job upload request'
+        - name: md5Hex
+          type: String
+          nullable: false
+          since: 2.6
+          doc: 'Hexadecimal MD5 of the jar file'
         - name: jarSize
           type: long
           nullable: false
