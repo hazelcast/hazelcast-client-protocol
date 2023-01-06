@@ -6,6 +6,7 @@ import fnmatch
 import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
+from datetime import date
 from enum import Enum
 from distutils.dir_util import copy_tree
 
@@ -23,7 +24,14 @@ from cpp import (
     is_trivial, 
     cpp_param_name
 )
-from cs import cs_escape_keyword, cs_ignore_service_list, cs_types_decode, cs_types_encode
+from cs import (
+    cs_escape_keyword,
+    cs_ignore_service_list,
+    cs_types_decode,
+    cs_types_encode,
+    cs_custom_codec_param_name,
+    cs_init_env
+)
 from java import java_types_decode, java_types_encode
 from md import internal_services
 from py import (
@@ -543,32 +551,32 @@ def copy_verbatim_files(output_dir, lang):
 
 
 class SupportedLanguages(Enum):
-    JAVA = 'java'
-    CPP = 'cpp'
-    CS = 'cs'
-    PY = 'py'
-    TS = 'ts'
+    JAVA = "java"
+    CPP = "cpp"
+    CS = "cs"
+    PY = "py"
+    TS = "ts"
     GO = 'go'
-    MD = 'md'
+    MD = "md"
 
 
 codec_output_directories = {
-    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/',
-    SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/Codecs/',
-    SupportedLanguages.PY: 'hazelcast/protocol/codec/',
-    SupportedLanguages.TS: 'src/codec/',
-    SupportedLanguages.GO: 'hazelcast/protocol/codec/',
+    SupportedLanguages.JAVA: "hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/",
+    SupportedLanguages.CPP: "hazelcast/generated-sources/src/hazelcast/client/protocol/codec/",
+    SupportedLanguages.CS: "src/Hazelcast.Net/Protocol/Codecs/",
+    SupportedLanguages.PY: "hazelcast/protocol/codec/",
+    SupportedLanguages.TS: "src/codec/",
+    SupportedLanguages.GO: "hazelcast/protocol/codec/",
     SupportedLanguages.MD: "documentation",
 }
 
 custom_codec_output_directories = {
-    SupportedLanguages.JAVA: 'hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/',
-    SupportedLanguages.CPP: 'hazelcast/generated-sources/src/hazelcast/client/protocol/codec/',
-    SupportedLanguages.CS: 'src/Hazelcast.Net/Protocol/CustomCodecs/',
-    SupportedLanguages.PY: 'hazelcast/protocol/codec/custom/',
-    SupportedLanguages.TS: 'src/codec/custom',
-    SupportedLanguages.GO: 'hazelcast/protocol/codec',
+    SupportedLanguages.JAVA: "hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/custom/",
+    SupportedLanguages.CPP: "hazelcast/generated-sources/src/hazelcast/client/protocol/codec/",
+    SupportedLanguages.CS: "src/Hazelcast.Net/Protocol/CustomCodecs/",
+    SupportedLanguages.PY: "hazelcast/protocol/codec/custom/",
+    SupportedLanguages.TS: "src/codec/custom",
+    SupportedLanguages.GO: "hazelcast/protocol/codec",
 }
 
 
@@ -651,6 +659,22 @@ language_specific_funcs = {
         SupportedLanguages.TS: lambda x: x,
         SupportedLanguages.PY: py_custom_type_name,
         SupportedLanguages.MD: lambda x: x,
+    },
+    "custom_codec_param_name": {
+        SupportedLanguages.JAVA: lambda x,y: y,
+        SupportedLanguages.CS: cs_custom_codec_param_name,
+        SupportedLanguages.CPP: lambda x,y: y,
+        SupportedLanguages.TS: lambda x,y: y,
+        SupportedLanguages.PY: lambda x,y: y,
+        SupportedLanguages.MD: lambda x,y: y,
+    },
+    "init_env": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: cs_init_env,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: lambda x: x,
+        SupportedLanguages.MD: lambda x: x,
     }
 }
 
@@ -710,7 +734,18 @@ def create_environment(lang, namespace):
     env.globals["param_name"] = language_specific_funcs["param_name"][lang]
     env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
     env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
+    env.globals["custom_codec_param_name"] = language_specific_funcs["custom_codec_param_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
+    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][lang]
+    env.globals["copyright_year"] = date.today().year
+
+    try:
+        with os.popen("git rev-parse --short HEAD") as f:
+            env.globals["protocol_commit"] = f.readlines()[0].strip()
+    except:
+        env.globals["protocol_commit"] = "unknown"
+
+    env = language_specific_funcs["init_env"][lang](env)
 
     return env
