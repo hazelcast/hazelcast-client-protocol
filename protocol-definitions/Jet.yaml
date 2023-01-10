@@ -314,6 +314,11 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Unique session ID of the job upload request'
+        - name: fileName
+          type: String
+          nullable: false
+          since: 2.6
+          doc: 'Name of the jar file without extension'
         - name: sha256Hex
           type: String
           nullable: false
