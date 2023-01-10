@@ -324,11 +324,6 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Hexadecimal SHA256 of the jar file'
-        - name: jarSize
-          type: long
-          nullable: false
-          since: 2.6
-          doc: 'jar size in bytes'
         - name: snapshotName
           type: String
           nullable: true
