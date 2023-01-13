@@ -384,6 +384,11 @@ methods:
           nullable: false
           since: 2.6
           doc: 'The size of binary data'
+        - name: sha256Hex
+          type: String
+          nullable: false
+          since: 2.6
+          doc: 'Hexadecimal SHA256 of the message part'
     response:
       params:
         - name: response
