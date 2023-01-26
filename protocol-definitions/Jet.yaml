@@ -321,7 +321,7 @@ methods:
           nullable: false
           since: 2.6
           doc: ''
-  - id: 16
+  - id: 17
     name: uploadJobMetaData
     since: 2.6
     doc: ''
@@ -371,7 +371,7 @@ methods:
           nullable: false
           since: 2.6
           doc: 'True if processed successfully, false otherwise'
-  - id: 17
+  - id: 18
     name: uploadJobMultipart
     since: 2.6
     doc: ''
