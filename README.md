@@ -245,3 +245,6 @@ and they should be in the increasing order of the protocol versions that is 2.1 
 be in the increasing order of protocol versions as described above.
 * Although not necessary, new events or custom types should come after the existing custom types or events on the 
 protocol definitions.
+* Note that for parameters of fixed size types (see `FixSizedTypes` in [currently supported types](binary/__init__.py))
+`nullable` property is ignored. `UUID` is always nullable while other fixed size types (`boolean`, `byte`, `int`, `long`)
+cannot be made nullable. 
