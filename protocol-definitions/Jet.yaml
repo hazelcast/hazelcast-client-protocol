@@ -302,6 +302,26 @@ methods:
           since: 2.5
           doc: ''
   - id: 16
+    name: isJobUserCancelled
+    since: 2.6
+    doc: ''
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: jobId
+          type: long
+          nullable: false
+          since: 2.6
+          doc: ''
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.6
+          doc: ''
+  - id: 16
     name: uploadJobMetaData
     since: 2.6
     doc: ''
