@@ -1250,7 +1250,7 @@ methods:
     since: 2.6
     doc: |
       Adds a data link configuration.
-      If an data link configuration with the given {@code name} already exists, then
+      If a data link configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
       retryable: false
