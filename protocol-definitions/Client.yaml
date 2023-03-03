@@ -117,6 +117,12 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports clients with failover feature.
+        - name: tpcPorts
+          type: List_Integer
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns a list of TPC ports. Null if TPC not enabled
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -225,6 +231,12 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports clients with failover feature.
+        - name: tpcPorts
+          type: List_Integer
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns a list of TPC ports. Null if TPC not enabled
   - id: 3
     name: addClusterViewListener
     since: 2.0
