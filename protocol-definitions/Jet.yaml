@@ -339,11 +339,6 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Flag that indicates that jar should be executed, not uploaded'
-        - name: deleteJarAfterJobExecution
-          type: boolean
-          nullable: false
-          since: 2.6
-          doc: 'Flag that indicates that jar should be deleted after execution'
         - name: fileName
           type: String
           nullable: false
@@ -374,13 +369,7 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Arguments to pass to the supplied jar file'
-    response:
-      params:
-        - name: response
-          type: boolean
-          nullable: false
-          since: 2.6
-          doc: 'True if processed successfully, false otherwise'
+    response: {}
   - id: 18
     name: uploadJobMultipart
     since: 2.6
@@ -419,10 +408,4 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Hexadecimal SHA256 of the message part'
-    response:
-      params:
-        - name: response
-          type: boolean
-          nullable: false
-          since: 2.6
-          doc: 'True if processed successfully, false otherwise'
+    response: {}
