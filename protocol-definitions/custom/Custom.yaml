@@ -1144,3 +1144,10 @@ customTypes:
         type: boolean
         nullable: false
         since: 2.6
+  - name: PartitioningAttributeConfig
+    since: 2.6
+    params:
+      - name: attributeName
+        type: String
+        nullable: false
+        since: 2.6

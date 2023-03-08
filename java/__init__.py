@@ -73,7 +73,8 @@ _java_types_common = {
     "MemoryTierConfig": "com.hazelcast.config.MemoryTierConfig",
     "DiskTierConfig": "com.hazelcast.config.DiskTierConfig",
     "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig",
-    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary"
+    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary",
+    "PartitioningAttributeConfig": "com.hazelcast.config.PartitioningAttributeConfig",
 }
 
 _java_types_encode = {
@@ -134,6 +135,7 @@ _java_types_encode = {
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
+    "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
 }
 
 _java_types_decode = {
@@ -194,4 +196,5 @@ _java_types_decode = {
     "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
+    "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
 }
