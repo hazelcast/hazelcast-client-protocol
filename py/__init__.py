@@ -239,6 +239,7 @@ _py_types = {
     "EntryList_String_String",
     "EntryList_UUID_List_Integer",
     "EntryList_Data_Data",
+    "EntryList_Data_List_Data",
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
