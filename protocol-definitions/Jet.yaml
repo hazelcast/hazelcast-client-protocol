@@ -334,7 +334,7 @@ methods:
           nullable: false
           since: 2.6
           doc: 'Unique session ID of the job upload request'
-        - name: directJobExecution
+        - name: jarOnMember
           type: boolean
           nullable: false
           since: 2.6
@@ -409,13 +409,6 @@ methods:
           since: 2.6
           doc: 'Hexadecimal SHA256 of the message part'
     response: {}
-    response:
-      params:
-        - name: response
-          type: boolean
-          nullable: false
-          since: 2.6
-          doc: 'True if processed successfully, false otherwise'
   - id: 19
     name: addJobStatusListener
     since: 2.6
