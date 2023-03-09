@@ -338,7 +338,7 @@ methods:
           type: boolean
           nullable: false
           since: 2.6
-          doc: 'Flag that indicates that jar should be executed, not uploaded'
+          doc: 'Flag that indicates that the jar to be executed is already present on the member, and no jar will be uploaded from the client'
         - name: fileName
           type: String
           nullable: false
