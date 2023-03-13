@@ -576,7 +576,7 @@ def _capitalized_name_generator(extension):
 
 def _snake_cased_name_generator(extension):
     def inner(*names):
-        return "%s_codec.%s" % ("_".join(map(py_param_name, names)), extension)
+        return "%s_codec.%s" % ("_".join([py_param_name(name, False) for name in names]), extension)
 
     return inner
 
