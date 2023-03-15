@@ -1140,3 +1140,7 @@ customTypes:
         type: String
         nullable: true
         since: 2.6
+      - name: userCancelled
+        type: boolean
+        nullable: false
+        since: 2.6
