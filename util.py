@@ -24,12 +24,12 @@ from cpp import (
     cpp_param_name
 )
 from cs import (
-    cs_escape_keyword, 
-    cs_ignore_service_list, 
-    cs_types_decode, 
-    cs_types_encode, 
+    cs_escape_keyword,
+    cs_ignore_service_list,
+    cs_types_decode,
+    cs_types_encode,
     cs_custom_codec_param_name,
-    cs_init_env
+    cs_sizeof
 )
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -40,6 +40,8 @@ from py import (
     py_param_name,
     py_types_encode_decode,
     py_custom_type_name,
+    py_decoder_requires_to_object_fn,
+    py_to_object_fn_in_decode,
 )
 from ts import (
     ts_escape_keyword,
@@ -592,77 +594,45 @@ file_name_generators = {
 }
 
 language_specific_funcs = {
-    "lang_types_encode": {
-        SupportedLanguages.JAVA: java_types_encode,
-        SupportedLanguages.CS: cs_types_encode,
-        SupportedLanguages.CPP: cpp_types_encode,
-        SupportedLanguages.TS: ts_types_encode,
-        SupportedLanguages.PY: py_types_encode_decode,
-        SupportedLanguages.MD: lambda x: x,
+    SupportedLanguages.JAVA: {
+        "lang_types_encode": java_types_encode,
+        "lang_types_decode": java_types_decode,
+        "lang_name": java_name,
+        "param_name": param_name,
     },
-    "lang_types_decode": {
-        SupportedLanguages.JAVA: java_types_decode,
-        SupportedLanguages.CS: cs_types_decode,
-        SupportedLanguages.CPP: cpp_types_decode,
-        SupportedLanguages.TS: ts_types_decode,
-        SupportedLanguages.PY: py_types_encode_decode,
-        SupportedLanguages.MD: lambda x: x,
+    SupportedLanguages.CS: {
+        "lang_types_encode": cs_types_encode,
+        "lang_types_decode": cs_types_decode,
+        "lang_name": cs_name,
+        "param_name": param_name,
+        "escape_keyword": cs_escape_keyword,
+        "custom_codec_param_name": cs_custom_codec_param_name,
+        "cs_sizeof": cs_sizeof,
     },
-    "lang_name": {
-        SupportedLanguages.JAVA: java_name,
-        SupportedLanguages.CS: cs_name,
-        SupportedLanguages.CPP: cpp_name,
-        SupportedLanguages.TS: java_name,
-        SupportedLanguages.PY: java_name,
-        SupportedLanguages.MD: lambda x: x,
+    SupportedLanguages.CPP: {
+        "lang_types_encode": cpp_types_encode,
+        "lang_types_decode": cpp_types_decode,
+        "lang_name": cpp_name,
+        "param_name": cpp_param_name,
     },
-    "param_name": {
-        SupportedLanguages.JAVA: param_name,
-        SupportedLanguages.CS: param_name,
-        SupportedLanguages.CPP: cpp_param_name,
-        SupportedLanguages.TS: param_name,
-        SupportedLanguages.PY: py_param_name,
-        SupportedLanguages.MD: lambda x: x,
+    SupportedLanguages.TS: {
+        "lang_types_encode": ts_types_encode,
+        "lang_types_decode": ts_types_decode,
+        "lang_name": java_name,
+        "param_name": param_name,
+        "escape_keyword": ts_escape_keyword,
+        "get_import_path_holders": ts_get_import_path_holders,
     },
-    "escape_keyword": {
-        SupportedLanguages.JAVA: lambda x: x,
-        SupportedLanguages.CS: cs_escape_keyword,
-        SupportedLanguages.CPP: lambda x: x,
-        SupportedLanguages.TS: ts_escape_keyword,
-        SupportedLanguages.PY: py_escape_keyword,
-        SupportedLanguages.MD: lambda x: x,
-    },
-    "get_import_path_holders": {
-        SupportedLanguages.JAVA: lambda x: x,
-        SupportedLanguages.CS: lambda x: x,
-        SupportedLanguages.CPP: lambda x: x,
-        SupportedLanguages.TS: ts_get_import_path_holders,
-        SupportedLanguages.PY: py_get_import_path_holders,
-        SupportedLanguages.MD: lambda x: x,
-    },
-    "custom_type_name": {
-        SupportedLanguages.JAVA: lambda x: x,
-        SupportedLanguages.CS: lambda x: x,
-        SupportedLanguages.CPP: lambda x: x,
-        SupportedLanguages.TS: lambda x: x,
-        SupportedLanguages.PY: py_custom_type_name,
-        SupportedLanguages.MD: lambda x: x,
-    },
-    "custom_codec_param_name": {
-        SupportedLanguages.JAVA: lambda x,y: y,
-        SupportedLanguages.CS: cs_custom_codec_param_name,
-        SupportedLanguages.CPP: lambda x,y: y,
-        SupportedLanguages.TS: lambda x,y: y,
-        SupportedLanguages.PY: lambda x,y: y,
-        SupportedLanguages.MD: lambda x,y: y,
-    },
-    "init_env": {
-        SupportedLanguages.JAVA: lambda x: x,
-        SupportedLanguages.CS: cs_init_env,
-        SupportedLanguages.CPP: lambda x: x,
-        SupportedLanguages.TS: lambda x: x,
-        SupportedLanguages.PY: lambda x: x,
-        SupportedLanguages.MD: lambda x: x,
+    SupportedLanguages.PY: {
+        "lang_types_encode": py_types_encode_decode,
+        "lang_types_decode": py_types_encode_decode,
+        "lang_name": java_name,
+        "param_name": py_param_name,
+        "escape_keyword": py_escape_keyword,
+        "get_import_path_holders": py_get_import_path_holders,
+        "custom_type_name": py_custom_type_name,
+        "decoder_requires_to_object_fn": py_decoder_requires_to_object_fn,
+        "to_object_fn_in_decode": py_to_object_fn_in_decode,
     }
 }
 
@@ -717,16 +687,8 @@ def create_environment(lang, namespace):
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
     env.globals["namespace"] = namespace
-    env.globals["lang_types_encode"] = language_specific_funcs["lang_types_encode"][lang]
-    env.globals["lang_types_decode"] = language_specific_funcs["lang_types_decode"][lang]
-    env.globals["lang_name"] = language_specific_funcs["lang_name"][lang]
-    env.globals["param_name"] = language_specific_funcs["param_name"][lang]
-    env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
-    env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
-    env.globals["custom_codec_param_name"] = language_specific_funcs["custom_codec_param_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
-    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][lang]
     env.globals["copyright_year"] = date.today().year
     
     try:
@@ -734,7 +696,8 @@ def create_environment(lang, namespace):
             env.globals["protocol_commit"] = f.readlines()[0].strip()
     except:
         env.globals["protocol_commit"] = "unknown"
-    
-    env = language_specific_funcs["init_env"][lang](env)
+
+    for fn_name, fn in language_specific_funcs[lang].items():
+        env.globals[fn_name] = fn
 
     return env

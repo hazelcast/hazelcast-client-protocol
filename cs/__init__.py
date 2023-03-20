@@ -24,9 +24,6 @@ cs_ignore_service_list = {
     "DataPersistenceConfig", "DiskTierConfig", "TieredStoreConfig", "SqlSummary", "JobAndSqlSummary"
 }
 
-def cs_init_env(env):
-    env.globals["cs_sizeof"] = cs_sizeof
-    return env
 
 def cs_types_encode(key):
     try:
