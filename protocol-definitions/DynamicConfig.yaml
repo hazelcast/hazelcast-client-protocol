@@ -908,7 +908,7 @@ methods:
           nullable: true
           since: 2.6
           doc: |
-            List of Attributes used for creating AttributePartitioningStrategy.
+            List of attributes used for creating AttributePartitioningStrategy.
     response: {}
   - id: 13
     name: addReliableTopicConfig
