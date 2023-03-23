@@ -334,4 +334,6 @@ _ts_types = {
     "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
 
     "Set_UUID": "Set<UUID>",
+    "PartitioningAttributeConfig": "NA",
+    "List_PartitioningAttributeConfig": "NA",
 }

@@ -122,7 +122,9 @@
             "Capacity",
             "MemoryTierConfig",
             "DiskTierConfig",
-            "TieredStoreConfig"
+            "TieredStoreConfig",
+            "PartitioningAttributeConfig",
+            "List_PartitioningAttributeConfig"
           ]
         },
         "nullable": {

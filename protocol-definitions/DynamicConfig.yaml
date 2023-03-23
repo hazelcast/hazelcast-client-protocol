@@ -903,6 +903,12 @@ methods:
           since: 2.5
           doc: |
             Tiered-Store configuration
+        - name: partitioningAttributeConfigs
+          type: List_PartitioningAttributeConfig
+          nullable: true
+          since: 2.6
+          doc: |
+            List of attributes used for creating AttributePartitioningStrategy.
     response: {}
   - id: 13
     name: addReliableTopicConfig

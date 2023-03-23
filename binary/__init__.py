@@ -95,6 +95,7 @@ CustomConfigTypes = [
     'MemoryTierConfig',
     'DiskTierConfig',
     'TieredStoreConfig',
+    "PartitioningAttributeConfig",
 ]
 
 VarSizedEntryListTypes = [
@@ -133,7 +134,8 @@ VarSizedListTypes = [
     'List_CPMember'
     'ListCN_Data',
     'List_List_Data',
-    'List_FieldDescriptor'
+    'List_FieldDescriptor',
+    'List_PartitioningAttributeConfig',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
