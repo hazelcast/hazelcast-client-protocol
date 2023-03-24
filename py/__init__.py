@@ -11,10 +11,10 @@ _pattern1 = re.compile("(.)([A-Z][a-z]+)")
 _pattern2 = re.compile("([a-z0-9])([A-Z])")
 
 
-def py_param_name(type_name):
+def py_param_name(type_name, check_for_keywords=True):
     type_name = _pattern1.sub(r"\1_\2", type_name)
     type_name = _pattern2.sub(r"\1_\2", type_name).lower()
-    if keyword.iskeyword(type_name):
+    if check_for_keywords and keyword.iskeyword(type_name):
         return "_%s" % type_name
     return type_name
 
@@ -100,6 +100,7 @@ class PathHolders:
     ListLongCodec = ImportPathHolder("ListLongCodec", "protocol.builtin")
     ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "protocol.builtin")
     ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "protocol.builtin")
+    SetUUIDCodec = ImportPathHolder("SetUUIDCodec", "protocol.builtin")
     ListDataCodec = ImportPathHolder("ListDataCodec", "protocol.builtin")
     ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "protocol.builtin")
     ListCNDataCodec = ImportPathHolder("ListCNDataCodec", "protocol.builtin")
@@ -136,6 +137,10 @@ class PathHolders:
     SqlError = ImportPathHolder("_SqlError", "sql")
     SqlErrorCodec = ImportPathHolder("SqlErrorCodec", "protocol.codec.custom.sql_error_codec")
     SqlPageCodec = ImportPathHolder("SqlPageCodec", "protocol.builtin")
+    Schema = ImportPathHolder("Schema", "serialization.compact")
+    SchemaCodec = ImportPathHolder("SchemaCodec", "protocol.codec.custom.schema_codec")
+    FieldDescriptor = ImportPathHolder("FieldDescriptor", "serialization.compact")
+    FieldDescriptorCodec = ImportPathHolder("FieldDescriptorCodec", "protocol.codec.custom.field_descriptor_codec")
 
 
 import_paths = {
@@ -155,6 +160,7 @@ import_paths = {
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
+    "Set_UUID": [PathHolders.SetUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     "ListCN_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
@@ -162,6 +168,7 @@ import_paths = {
     "List_DistributedObjectInfo": [PathHolders.ListMultiFrameCodec, PathHolders.DistributedObjectInfoCodec],
     "List_StackTraceElement": [PathHolders.ListMultiFrameCodec, PathHolders.StackTraceElementCodec],
     "List_SqlColumnMetadata": [PathHolders.ListMultiFrameCodec, PathHolders.SqlColumnMetadataCodec],
+    "List_FieldDescriptor": [PathHolders.ListMultiFrameCodec, PathHolders.FieldDescriptorCodec],
     "EntryList_String_String": [PathHolders.EntryListCodec, PathHolders.StringCodec],
     "EntryList_String_byteArray": [PathHolders.EntryListCodec, PathHolders.StringCodec, PathHolders.ByteArrayCodec],
     "EntryList_Long_byteArray": [PathHolders.EntryListLongByteArrayCodec],
@@ -188,6 +195,8 @@ import_paths = {
     "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
     "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],
     "SqlPage": [PathHolders.SqlPageCodec],
+    "Schema": [PathHolders.Schema, PathHolders.SchemaCodec],
+    "FieldDescriptor": [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
 }
 
 _py_types = {
@@ -217,6 +226,8 @@ _py_types = {
     "SqlColumnMetadata",
     "SqlError",
     "SqlPage",
+    "Schema",
+    "FieldDescriptor",
 
     "IndexConfig",
     "BitmapIndexOptions",
@@ -224,6 +235,7 @@ _py_types = {
     "List_Integer",
     "List_Long",
     "List_UUID",
+    "Set_UUID",
 
     "List_byteArray",
     "List_Data",
@@ -233,6 +245,7 @@ _py_types = {
     "List_StackTraceElement",
     "ListCN_Data",
     "List_SqlColumnMetadata",
+    "List_FieldDescriptor",
 
     "EntryList_UUID_Long",
 
