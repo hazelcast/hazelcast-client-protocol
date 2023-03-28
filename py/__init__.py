@@ -23,13 +23,28 @@ def py_get_import_path_holders(param_type):
     return import_paths.get(param_type, [])
 
 
-_private_custom_types = ("SqlError", "SqlQueryId")
+_private_custom_types = {"SqlError", "SqlQueryId"}
 
 
 def py_custom_type_name(name):
     if name in _private_custom_types:
         return "_" + name
     return name
+
+
+_decoder_requires_to_object_fn = {"SqlPage"}
+
+
+def py_decoder_requires_to_object_fn(param_type):
+    return param_type in _decoder_requires_to_object_fn
+
+
+def py_to_object_fn_in_decode(params):
+    for param in params:
+        if py_decoder_requires_to_object_fn(param["type"]):
+            return True
+
+    return False
 
 
 py_ignore_service_list = {
