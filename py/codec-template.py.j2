@@ -115,7 +115,7 @@ def encode_request({% for param in method.request.params %}{{ param_name(param.n
     {% do lang_types_decode(param.type) %}
     {{ encode_var_sized(param, loop.last) }}
 {% endfor %}
-    return OutboundMessage(buf, {{ method.request.retryable }})
+    return OutboundMessage(buf, {{ method.request.retryable }}{% if contains_serialized_data_in_request %}, True{% endif %})
 {#RESPONSE DECODE#}
 {% if method.response.params|length > 0 %}
 
