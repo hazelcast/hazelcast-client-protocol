@@ -1268,19 +1268,23 @@ methods:
           since: 2.6
           doc: |
             Name of this data link, must be unique.
-        - name: className
+        - name: type
           type: String
           nullable: false
           since: 2.6
           doc: |
-            Name for the DataLinkFactory implementation class.
+            Type of the DataLink as specified in the DataLinkRegistration.
         - name: shared
           type: boolean
           nullable: false
           since: 2.6
           doc: |
-            {@code true} if an instance of the data link will be reused. {@code false} when on each usage
-            the data link instance should be created. The default it {@code true}.
+            {@code true} if an instance of the data link will be shared. 
+            Depending on the implementation of the DataLink the shared instance may be 
+            single a thread-safe instance, or not thread-safe, but a pooled instance. 
+            {@code false} when on each usage a new instance of the underlying resource
+            should be created.
+            The default is {@code true}.
         - name: properties
           type: Map_String_String
           nullable: false
