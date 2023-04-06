@@ -1252,11 +1252,11 @@ methods:
             apply to this lock configuration's operations.
     response: {}
   - id: 17
-    name: addDataLinkConfig
+    name: addDataConnectionConfig
     since: 2.6
     doc: |
-      Adds a data link configuration.
-      If a data link configuration with the given {@code name} already exists, then
+      Adds a data connection configuration.
+      If a data connection configuration with the given {@code name} already exists, then
       the new configuration is ignored and the existing one is preserved.
     request:
       retryable: false
@@ -1267,20 +1267,20 @@ methods:
           nullable: false
           since: 2.6
           doc: |
-            Name of this data link, must be unique.
+            Name of this data connection, must be unique.
         - name: type
           type: String
           nullable: false
           since: 2.6
           doc: |
-            Type of the DataLink as specified in the DataLinkRegistration.
+            Type of the data connection as specified in the DataConnectionRegistration.
         - name: shared
           type: boolean
           nullable: false
           since: 2.6
           doc: |
-            {@code true} if an instance of the data link will be shared. 
-            Depending on the implementation of the DataLink the shared instance may be 
+            {@code true} if an instance of the data connection will be shared. 
+            Depending on the implementation of the data connection the shared instance may be 
             single a thread-safe instance, or not thread-safe, but a pooled instance. 
             {@code false} when on each usage a new instance of the underlying resource
             should be created.
@@ -1290,5 +1290,5 @@ methods:
           nullable: false
           since: 2.6
           doc: |
-            Properties of the data link configuration.
+            Properties of the data connection configuration.
     response: {}
