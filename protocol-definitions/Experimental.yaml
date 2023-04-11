@@ -123,6 +123,13 @@ methods:
           since: 2.6
           doc: |
             Returns the list of TPC ports or null if TPC is disabled.
+        - name: tpcToken
+          type: byteArray
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the token to use while authenticating TPC channels 
+            or null if TPC is disabled.
   - id: 2
     name: authenticationCustom
     since: 2.6
@@ -237,3 +244,32 @@ methods:
           since: 2.6
           doc: |
             Returns the list of TPC ports or null if TPC is disabled.
+        - name: tpcToken
+          type: byteArray
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the token to use while authenticating TPC channels 
+            or null if TPC is disabled.
+  - id: 3
+    name: tpcAuthentication
+    since: 2.6
+    doc: |
+      Makes an authentication request to TPC channels.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.6
+          doc: |
+            UUID of the client.
+        - name: token
+          type: byteArray
+          nullable: false
+          since: 2.6
+          doc: |
+            Authentication token bytes for the TPC channels
+    response: {}
