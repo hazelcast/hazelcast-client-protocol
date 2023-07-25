@@ -124,7 +124,8 @@
             "DiskTierConfig",
             "TieredStoreConfig",
             "PartitioningAttributeConfig",
-            "List_PartitioningAttributeConfig"
+            "List_PartitioningAttributeConfig",
+            "List_SimpleEntryView"
           ]
         },
         "nullable": {

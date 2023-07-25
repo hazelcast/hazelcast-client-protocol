@@ -136,6 +136,7 @@ VarSizedListTypes = [
     'List_List_Data',
     'List_FieldDescriptor',
     'List_PartitioningAttributeConfig',
+    'List_SimpleEntryView',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

@@ -487,6 +487,7 @@ reference_objects_dict = {
     'DiskTierConfig': 'aDiskTierConfig',
     'TieredStoreConfig': 'aTieredStoreConfig',
     'List_PartitioningAttributeConfig': 'aListOfPartitioningAttributeConfigs',
+    'List_SimpleEntryView': 'aListOfSimpleEntryViews',
 }
 
 

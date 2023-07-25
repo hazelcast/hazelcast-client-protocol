@@ -197,6 +197,7 @@ _cpp_types_encode = {
 
     "Set_UUID": "NA",
     "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _cpp_types_decode = {
@@ -246,6 +247,7 @@ _cpp_types_decode = {
 
     "Set_UUID": "NA",
     "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _trivial_types = {

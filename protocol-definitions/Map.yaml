@@ -2966,3 +2966,25 @@ methods:
           doc: |
             the function to apply to each entry.
     response: {}
+  - id: 73
+    name: putAllWithMetadata
+    since: 2.7
+    doc: |
+      Put a batch of entries with metadata into an IMap. This is a client side version of WAN entry replication.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            name of map
+        - name: entries
+          type: List_SimpleEntryView
+          nullable: false
+          since: 2.7
+          doc: |
+            entries with metadata
+    response: {}

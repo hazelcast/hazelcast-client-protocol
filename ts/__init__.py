@@ -336,4 +336,5 @@ _ts_types = {
     "Set_UUID": "Set<UUID>",
     "PartitioningAttributeConfig": "NA",
     "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
