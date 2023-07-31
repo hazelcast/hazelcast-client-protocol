@@ -1292,3 +1292,37 @@ methods:
           doc: |
             Properties of the data connection configuration.
     response: {}
+  - id: 18
+    name: addWanReplicationConfig
+    since: 2.7
+    doc: |
+      Adds a WAN replication configuration.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            WAN replication configuration name.
+        - name: consumerConfig
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            A serialized {@link com.hazelcast.config.WanConsumerConfig} instance.
+        - name: customPublisherConfigs
+          type: List_Data
+          nullable: false
+          since: 2.7
+          doc: |
+            A serialized list of {@link com.hazelcast.config.WanCustomPublisherConfig} instances.
+        - name: batchPublisherConfigs
+          type: List_Data
+          nullable: false
+          since: 2.7
+          doc: |
+            A serialized list of {@link com.hazelcast.config.WanBatchPublisherConfig} instances.
+    response: {}
