@@ -124,7 +124,13 @@
             "DiskTierConfig",
             "TieredStoreConfig",
             "PartitioningAttributeConfig",
-            "List_PartitioningAttributeConfig"
+            "List_PartitioningAttributeConfig",
+            "Map_String_Data",
+            "WanConsumerConfigHolder",
+            "WanCustomPublisherConfigHolder",
+            "List_WanCustomPublisherConfigHolder",
+            "List_WanBatchPublisherConfigHolder",
+            "AwsConfig"
           ]
         },
         "nullable": {

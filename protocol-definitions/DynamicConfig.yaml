@@ -1308,21 +1308,21 @@ methods:
           doc: |
             WAN replication configuration name.
         - name: consumerConfig
-          type: Data
+          type: WanConsumerConfigHolder
           nullable: true
           since: 2.7
           doc: |
-            A serialized {@link com.hazelcast.config.WanConsumerConfig} instance.
+            The WAN consumer configuration.
         - name: customPublisherConfigs
-          type: List_Data
+          type: List_WanCustomPublisherConfigHolder
           nullable: false
           since: 2.7
           doc: |
-            A serialized list of {@link com.hazelcast.config.WanCustomPublisherConfig} instances.
+            The WAN custom publisher configurations.
         - name: batchPublisherConfigs
-          type: List_Data
+          type: List_WanBatchPublisherConfigHolder
           nullable: false
           since: 2.7
           doc: |
-            A serialized list of {@link com.hazelcast.config.WanBatchPublisherConfig} instances.
+            The WAN batch publisher configurations.
     response: {}

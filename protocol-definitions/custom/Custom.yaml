@@ -1151,3 +1151,251 @@ customTypes:
         type: String
         nullable: false
         since: 2.6
+  - name: WanConsumerConfigHolder
+    since: 2.7
+    params:
+      - name: persistWanReplicatedData
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: className
+        type: String
+        nullable: true
+        since: 2.7
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.7
+      - name: properties
+        type: Map_String_Data
+        nullable: false
+        since: 2.7
+  - name: WanCustomPublisherConfigHolder
+    since: 2.7
+    params:
+      - name: publisherId
+        type: String
+        nullable: true
+        since: 2.7
+      - name: className
+        type: String
+        nullable: true
+        since: 2.7
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.7
+      - name: properties
+        type: Map_String_Data
+        nullable: false
+        since: 2.7
+  - name: WanBatchPublisherConfigHolder
+    since: 2.7
+    params:
+      - name: publisherId
+        type: String
+        nullable: true
+        since: 2.7
+      - name: className
+        type: String
+        nullable: true
+        since: 2.7
+      - name: implementation
+        type: Data
+        nullable: true
+        since: 2.7
+      - name: properties
+        type: Map_String_Data
+        nullable: false
+        since: 2.7
+      - name: clusterName
+        type: String
+        nullable: true
+        since: 2.7
+      - name: snapshotEnabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: initialPublisherState
+        type: byte
+        nullable: false
+        since: 2.7
+      - name: queueCapacity
+        type: int
+        nullable: false
+        since: 2.7
+      - name: batchSize
+        type: int
+        nullable: false
+        since: 2.7
+      - name: batchMaxDelayMillis
+        type: int
+        nullable: false
+        since: 2.7
+      - name: responseTimeoutMillis
+        type: int
+        nullable: false
+        since: 2.7
+      - name: queueFullBehavior
+        type: int
+        nullable: false
+        since: 2.7
+      - name: acknowledgeType
+        type: int
+        nullable: false
+        since: 2.7
+      - name: discoveryPeriodSeconds
+        type: int
+        nullable: false
+        since: 2.7
+      - name: maxTargetEndpoints
+        type: int
+        nullable: false
+        since: 2.7
+      - name: maxConcurrentInvocations
+        type: int
+        nullable: false
+        since: 2.7
+      - name: useEndpointPrivateAddress
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: idleMinParkNs
+        type: long
+        nullable: false
+        since: 2.7
+      - name: idleMaxParkNs
+        type: long
+        nullable: false
+        since: 2.7
+      - name: targetEndpoints
+        type: String
+        nullable: false
+        since: 2.7
+      - name: awsConfig
+        type: AwsConfig
+        nullable: false
+        since: 2.7
+      - name: gcpConfig
+        type: GcpConfig
+        nullable: false
+        since: 2.7
+      - name: azureConfig
+        type: AzureConfig
+        nullable: false
+        since: 2.7
+      - name: kubernetesConfig
+        type: KubernetesConfig
+        nullable: false
+        since: 2.7
+      - name: eurekaConfig
+        type: EurekaConfig
+        nullable: false
+        since: 2.7
+      - name: discoveryConfig
+        type: Data
+        nullable: false
+        since: 2.7
+      - name: syncConfig
+        type: byte
+        nullable: false
+        since: 2.7
+      - name: endpoint
+        type: String
+        nullable: true
+        since: 2.7
+  - name: AwsConfig
+    since: 2.7
+    params:
+      - name: tag
+        type: String
+        nullable: false
+        since: 2.7
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: usePublicIp
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: properties
+        type: Map_String_String
+        nullable: false
+        since: 2.7
+  - name: GcpConfig
+    since: 2.7
+    params:
+      - name: tag
+        type: String
+        nullable: false
+        since: 2.7
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: usePublicIp
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: properties
+        type: Map_String_String
+        nullable: false
+        since: 2.7
+  - name: AzureConfig
+    since: 2.7
+    params:
+      - name: tag
+        type: String
+        nullable: false
+        since: 2.7
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: usePublicIp
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: properties
+        type: Map_String_String
+        nullable: false
+        since: 2.7
+  - name: KubernetesConfig
+    since: 2.7
+    params:
+      - name: tag
+        type: String
+        nullable: false
+        since: 2.7
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: usePublicIp
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: properties
+        type: Map_String_String
+        nullable: false
+        since: 2.7
+  - name: EurekaConfig
+    since: 2.7
+    params:
+      - name: tag
+        type: String
+        nullable: false
+        since: 2.7
+      - name: enabled
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: usePublicIp
+        type: boolean
+        nullable: false
+        since: 2.7
+      - name: properties
+        type: Map_String_String
+        nullable: false
+        since: 2.7

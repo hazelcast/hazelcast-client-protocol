@@ -61,6 +61,7 @@ _java_types_common = {
     "EndpointQualifier": "com.hazelcast.instance.EndpointQualifier",
 
     "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
+    "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
 
     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
@@ -75,6 +76,16 @@ _java_types_common = {
     "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig",
     "SqlSummary": "com.hazelcast.jet.impl.SqlSummary",
     "PartitioningAttributeConfig": "com.hazelcast.config.PartitioningAttributeConfig",
+    "WanConsumerConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanConsumerConfigHolder",
+    "WanCustomPublisherConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanCustomPublisherConfigHolder",
+    "List_WanCustomPublisherConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.WanCustomPublisherConfigHolder>",
+    "WanBatchPublisherConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanBatchPublisherConfigHolder",
+    "List_WanBatchPublisherConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.WanBatchPublisherConfigHolder>",
+    "AwsConfig": "com.hazelcast.config.AwsConfig",
+    "GcpConfig": "com.hazelcast.config.GcpConfig",
+    "AzureConfig": "com.hazelcast.config.AzureConfig",
+    "KubernetesConfig": "com.hazelcast.config.KubernetesConfig",
+    "EurekaConfig": "com.hazelcast.config.EurekaConfig"
 }
 
 _java_types_encode = {
