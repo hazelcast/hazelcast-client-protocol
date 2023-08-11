@@ -129,8 +129,7 @@
             "WanConsumerConfigHolder",
             "WanCustomPublisherConfigHolder",
             "List_WanCustomPublisherConfigHolder",
-            "List_WanBatchPublisherConfigHolder",
-            "AwsConfig"
+            "List_WanBatchPublisherConfigHolder"
           ]
         },
         "nullable": {
