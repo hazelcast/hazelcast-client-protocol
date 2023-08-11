@@ -96,6 +96,14 @@ CustomConfigTypes = [
     'DiskTierConfig',
     'TieredStoreConfig',
     "PartitioningAttributeConfig",
+    "WanConsumerConfigHolder",
+    "WanCustomPublisherConfigHolder",
+    "WanBatchPublisherConfigHolder",
+    "AwsConfig",
+    "GcpConfig",
+    "AzureConfig",
+    "KubernetesConfig",
+    "EurekaConfig",
 ]
 
 VarSizedEntryListTypes = [
@@ -109,6 +117,7 @@ VarSizedEntryListTypes = [
 VarSizedMapTypes = [
     'Map_String_String',
     'Map_EndpointQualifier_Address',
+    'Map_String_Data',
 ]
 
 VarSizedListTypes = [
@@ -136,6 +145,8 @@ VarSizedListTypes = [
     'List_List_Data',
     'List_FieldDescriptor',
     'List_PartitioningAttributeConfig',
+    'List_WanCustomPublisherConfigHolder',
+    'List_WanBatchPublisherConfigHolder',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
