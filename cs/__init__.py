@@ -124,6 +124,17 @@ _cs_types_common = {
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
     "PartitioningAttributeConfig": "NA",
+    "WanConsumerConfigHolder": "NA",
+    "WanCustomPublisherConfigHolder": "NA",
+    "WanBatchPublisherConfigHolder": "NA",
+    "AwsConfig": "NA",
+    "GcpConfig": "NA",
+    "AzureConfig": "NA",
+    "KubernetesConfig": "NA",
+    "EurekaConfig": "NA",
+    "DiscoveryStrategyConfig": "NA",
+    "DiscoveryConfig": "NA",
+    "WanSyncConfig": "NA",
 }
 
 _cs_types_encode = {
