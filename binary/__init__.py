@@ -106,6 +106,7 @@ CustomConfigTypes = [
     "EurekaConfig",
     "DiscoveryConfig",
     "DiscoveryStrategyConfig",
+    "WanSyncConfig",
 ]
 
 VarSizedEntryListTypes = [

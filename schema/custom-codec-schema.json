@@ -131,7 +131,8 @@
             "KubernetesConfig",
             "EurekaConfig",
             "List_DiscoveryStrategyConfig",
-            "DiscoveryConfig"
+            "DiscoveryConfig",
+            "WanSyncConfig"
           ]
         },
         "nullable": {

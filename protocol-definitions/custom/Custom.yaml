@@ -1297,7 +1297,7 @@ customTypes:
         nullable: false
         since: 2.7
       - name: syncConfig
-        type: byte
+        type: WanSyncConfig
         nullable: false
         since: 2.7
       - name: endpoint
@@ -1427,5 +1427,12 @@ customTypes:
         since: 2.7
       - name: nodeFilterClass
         type: String
+        nullable: false
+        since: 2.7
+  - name: WanSyncConfig
+    since: 2.7
+    params:
+      - name: consistencyCheckStrategy
+        type: byte
         nullable: false
         since: 2.7
