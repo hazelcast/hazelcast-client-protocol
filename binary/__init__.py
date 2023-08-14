@@ -104,6 +104,8 @@ CustomConfigTypes = [
     "AzureConfig",
     "KubernetesConfig",
     "EurekaConfig",
+    "DiscoveryConfig",
+    "DiscoveryStrategyConfig",
 ]
 
 VarSizedEntryListTypes = [

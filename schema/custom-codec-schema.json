@@ -129,7 +129,9 @@
             "GcpConfig",
             "AzureConfig",
             "KubernetesConfig",
-            "EurekaConfig"
+            "EurekaConfig",
+            "List_DiscoveryStrategyConfig",
+            "DiscoveryConfig"
           ]
         },
         "nullable": {

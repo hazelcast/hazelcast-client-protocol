@@ -85,7 +85,10 @@ _java_types_common = {
     "GcpConfig": "com.hazelcast.config.GcpConfig",
     "AzureConfig": "com.hazelcast.config.AzureConfig",
     "KubernetesConfig": "com.hazelcast.config.KubernetesConfig",
-    "EurekaConfig": "com.hazelcast.config.EurekaConfig"
+    "EurekaConfig": "com.hazelcast.config.EurekaConfig",
+    "DiscoveryStrategyConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder",
+    "List_DiscoveryStrategyConfig": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder>",
+    "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
 }
 
 _java_types_encode = {
