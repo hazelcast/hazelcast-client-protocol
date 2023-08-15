@@ -487,6 +487,9 @@ reference_objects_dict = {
     'DiskTierConfig': 'aDiskTierConfig',
     'TieredStoreConfig': 'aTieredStoreConfig',
     'List_PartitioningAttributeConfig': 'aListOfPartitioningAttributeConfigs',
+    'WanConsumerConfigHolder': 'aWanConsumerConfigHolder',
+    'List_WanCustomPublisherConfigHolder': 'aListOfWanCustomPublisherConfigsHolders',
+    'List_WanBatchPublisherConfigHolder': 'aListOfWanBatchPublisherConfigHolders',
 }
 
 
