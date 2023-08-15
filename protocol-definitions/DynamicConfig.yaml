@@ -1292,3 +1292,37 @@ methods:
           doc: |
             Properties of the data connection configuration.
     response: {}
+  - id: 18
+    name: addWanReplicationConfig
+    since: 2.7
+    doc: |
+      Adds a WAN replication configuration.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            WAN replication configuration name.
+        - name: consumerConfig
+          type: WanConsumerConfigHolder
+          nullable: true
+          since: 2.7
+          doc: |
+            The WAN consumer configuration.
+        - name: customPublisherConfigs
+          type: List_WanCustomPublisherConfigHolder
+          nullable: false
+          since: 2.7
+          doc: |
+            The WAN custom publisher configurations.
+        - name: batchPublisherConfigs
+          type: List_WanBatchPublisherConfigHolder
+          nullable: false
+          since: 2.7
+          doc: |
+            The WAN batch publisher configurations.
+    response: {}
