@@ -198,6 +198,7 @@ _cs_types_encode = {
 
     "Set_UUID": "ISet<Guid>",
     "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _cs_types_decode = {
@@ -259,4 +260,5 @@ _cs_types_decode = {
 
     "Set_UUID": "ISet<Guid>",
     "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }

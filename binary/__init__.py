@@ -150,6 +150,7 @@ VarSizedListTypes = [
     'List_PartitioningAttributeConfig',
     'List_WanCustomPublisherConfigHolder',
     'List_WanBatchPublisherConfigHolder',
+    'List_SimpleEntryView',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

@@ -129,7 +129,8 @@
             "WanConsumerConfigHolder",
             "WanCustomPublisherConfigHolder",
             "List_WanCustomPublisherConfigHolder",
-            "List_WanBatchPublisherConfigHolder"
+            "List_WanBatchPublisherConfigHolder",
+            "List_SimpleEntryView"
           ]
         },
         "nullable": {

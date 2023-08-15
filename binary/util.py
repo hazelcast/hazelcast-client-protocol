@@ -490,6 +490,7 @@ reference_objects_dict = {
     'WanConsumerConfigHolder': 'aWanConsumerConfigHolder',
     'List_WanCustomPublisherConfigHolder': 'aListOfWanCustomPublisherConfigsHolders',
     'List_WanBatchPublisherConfigHolder': 'aListOfWanBatchPublisherConfigHolders',
+    'List_SimpleEntryView': 'aListOfSimpleEntryViews',
 }
 
 
