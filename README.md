@@ -247,3 +247,5 @@ protocol definitions.
 * Note that for parameters of fixed size types (see `FixSizedTypes` in [currently supported types](binary/__init__.py))
 `nullable` property is ignored. `UUID` is always nullable while other fixed size types (`boolean`, `byte`, `int`, `long`)
 cannot be made nullable. 
+
+An example quick guide for many of the steps involved with using custom types is [here](custom-types-quick-guide.md).
