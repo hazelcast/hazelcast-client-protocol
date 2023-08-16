@@ -13,8 +13,6 @@ fictitious method: `addUsefulConfig`.
 _Note_. At the time of writing the highest `id` in `DynamicConfig.yaml` was `18` -- the `id` of the
 last entry, hence the use of `19` for our example.
 
-_Note._
-
 ```yaml
 - id: 19
   name: addUsefulConfig
@@ -193,8 +191,9 @@ instantiate your `ServiceBConfig` type.
 For many examples of how this is done I recommend looking at
 `ClientDynamicClusterConfig#addWanReplicationConfig` which shows mapping of the domain types to
 their respective holder types on the way out to the server; and `AddWanReplicationConfigTask` which
-shows the mapping of holder types to their respective configuration types. This example covers most
-scenarios you would encounter.
+shows the mapping of holder types to their respective configuration types. These can be found in the
+Hazelcast project [here](https://github.com/hazelcast/hazelcast). This example covers most scenarios
+you would encounter.
 
 ## Binary Compatibility Tests
 
