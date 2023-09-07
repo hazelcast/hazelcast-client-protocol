@@ -352,7 +352,14 @@ methods:
           since: 2.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-    response: {}
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            Returns true if the key exists and removed, otherwise returns false.
   - id: 10
     name: flush
     since: 2.0
