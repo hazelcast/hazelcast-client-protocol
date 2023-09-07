@@ -357,7 +357,7 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.6
+          since: 2.7
           doc: |
             Returns true if the key exists and removed, otherwise returns false.
   - id: 10
