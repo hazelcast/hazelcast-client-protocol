@@ -228,6 +228,13 @@ methods:
           since: 2.6
           doc: |
             Index of the partition-determining argument, -1 if not applicable.
+        - name: jobId
+          type: long
+          nullable: false
+          since: 2.7
+          doc: |
+            ID of the created Job for the SQL query, -1 for light job-based queries and queries
+            that do not create a Job.
   - id: 5
     name: fetch
     since: 2.2
