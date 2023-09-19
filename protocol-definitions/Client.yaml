@@ -225,6 +225,19 @@ methods:
           since: 2.0
           doc: |
             Returns true if server supports clients with failover feature.
+        - name: tpcPorts
+          type: List_Integer
+          nullable: true
+          since: 2.7
+          doc: |
+            Returns the list of TPC ports or null if TPC is disabled.
+        - name: tpcToken
+          type: byteArray
+          nullable: true
+          since: 2.7
+          doc: |
+            Returns the token to use while authenticating TPC channels 
+            or null if TPC is disabled.
   - id: 3
     name: addClusterViewListener
     since: 2.0
@@ -948,3 +961,24 @@ methods:
           doc: |
             list of schemas
     response: {}
+  - id: 22
+    name: tpcAuthentication
+    since: 2.7
+    doc: |
+      Makes an authentication request to TPC channels.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.7
+          doc: |
+            UUID of the client.
+        - name: token
+          type: byteArray
+          nullable: false
+          since: 2.7
+          doc: |
+            Authentication token bytes for the TPC channels
