@@ -1,0 +1,275 @@
+id: 253
+name: Experimental
+methods:
+  - id: 1
+    name: authentication
+    since: 2.6
+    doc: |
+      Makes an authentication request to the cluster.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: clusterName
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            Cluster name that client will connect to.
+        - name: username
+          type: String
+          nullable: true
+          since: 2.6
+          doc: |
+            Name of the user for authentication.
+            Used in case Client Identity Config, otherwise it should be passed null.
+        - name: password
+          type: String
+          nullable: true
+          since: 2.6
+          doc: |
+            Password for the user.
+            Used in case Client Identity Config, otherwise it should be passed null.
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 2.6
+          doc: |
+            Unique string identifying the connected client uniquely.
+        - name: clientType
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            The type of the client. E.g. JAVA, CPP, CSHARP, etc.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            client side supported version to inform server side
+        - name: clientHazelcastVersion
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            The Hazelcast version of the client. (e.g. 3.7.2)
+        - name: clientName
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            the name of the client instance
+        - name: labels
+          type: List_String
+          nullable: false
+          since: 2.6
+          doc: |
+            User defined labels of the client instance
+    response:
+      params:
+        - name: status
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
+        - name: address
+          type: Address
+          nullable: true
+          since: 2.6
+          doc: |
+            Address of the Hazelcast member which sends the authentication response.
+        - name: memberUuid
+          type: UUID
+          nullable: true
+          since: 2.6
+          doc: |
+            UUID of the Hazelcast member which sends the authentication response.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            client side supported version to inform server side
+        - name: serverHazelcastVersion
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            Version of the Hazelcast member which sends the authentication response.
+        - name: partitionCount
+          type: int
+          nullable: false
+          since: 2.6
+          doc: |
+            Partition count of the cluster.
+        - name: clusterId
+          type: UUID
+          nullable: false
+          since: 2.6
+          doc: |
+            UUID of the cluster that the client authenticated.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 2.6
+          doc: |
+            Returns true if server supports clients with failover feature.
+        - name: tpcPorts
+          type: List_Integer
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the list of TPC ports or null if TPC is disabled.
+        - name: tpcToken
+          type: byteArray
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the token to use while authenticating TPC channels 
+            or null if TPC is disabled.
+  - id: 2
+    name: authenticationCustom
+    since: 2.6
+    doc: |
+      Makes an authentication request to the cluster using custom credentials.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: clusterName
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            Cluster name that client will connect to.
+        - name: credentials
+          type: byteArray
+          nullable: false
+          since: 2.6
+          doc: |
+            Secret byte array for authentication.
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 2.6
+          doc: |
+            Unique string identifying the connected client uniquely.
+        - name: clientType
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            The type of the client. E.g. JAVA, CPP, CSHARP, etc.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            client side supported version to inform server side
+        - name: clientHazelcastVersion
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            The Hazelcast version of the client. (e.g. 3.7.2)
+        - name: clientName
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            the name of the client instance
+        - name: labels
+          type: List_String
+          nullable: false
+          since: 2.6
+          doc: |
+            User defined labels of the client instance
+    response:
+      params:
+        - name: status
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
+        - name: address
+          type: Address
+          nullable: true
+          since: 2.6
+          doc: |
+            Address of the Hazelcast member which sends the authentication response.
+        - name: memberUuid
+          type: UUID
+          nullable: true
+          since: 2.6
+          doc: |
+            UUID of the Hazelcast member which sends the authentication response.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 2.6
+          doc: |
+            client side supported version to inform server side
+        - name: serverHazelcastVersion
+          type: String
+          nullable: false
+          since: 2.6
+          doc: |
+            Version of the Hazelcast member which sends the authentication response.
+        - name: partitionCount
+          type: int
+          nullable: false
+          since: 2.6
+          doc: |
+            Partition count of the cluster.
+        - name: clusterId
+          type: UUID
+          nullable: false
+          since: 2.6
+          doc: |
+            The cluster id of the cluster.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 2.6
+          doc: |
+            Returns true if server supports clients with failover feature.
+        - name: tpcPorts
+          type: List_Integer
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the list of TPC ports or null if TPC is disabled.
+        - name: tpcToken
+          type: byteArray
+          nullable: true
+          since: 2.6
+          doc: |
+            Returns the token to use while authenticating TPC channels 
+            or null if TPC is disabled.
+  - id: 3
+    name: tpcAuthentication
+    since: 2.6
+    doc: |
+      Makes an authentication request to TPC channels.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: uuid
+          type: UUID
+          nullable: false
+          since: 2.6
+          doc: |
+            UUID of the client.
+        - name: token
+          type: byteArray
+          nullable: false
+          since: 2.6
+          doc: |
+            Authentication token bytes for the TPC channels
+    response: {}

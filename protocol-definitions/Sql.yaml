@@ -222,6 +222,12 @@ methods:
           since: 5.2
           doc: |
             Is the result set unbounded.
+        - name: partitionArgumentIndex
+          type: int
+          nullable: false
+          since: 2.6
+          doc: |
+            Index of the partition-determining argument, -1 if not applicable.
   - id: 5
     name: fetch
     since: 4.2

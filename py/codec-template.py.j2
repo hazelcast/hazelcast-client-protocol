@@ -14,6 +14,7 @@
     {% endif %}
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
+    {% set requires_to_object_fn = decoder_requires_to_object_fn(param.type) %}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
         ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}_contains_nullable{% endif %}{% if param.nullable  %}_nullable{% endif %}(msg, {{ item_type(lang_name, param.type) }}Codec.decode)
     {%- elif is_var_sized_entry_list(param.type) -%}
@@ -22,7 +23,7 @@
         MapCodec.decode{% if param.nullable  %}_nullable{% endif %}(msg, {{ key_type(lang_name, param.type) }}Codec.decode, {{ value_type(lang_name, param.type) }}Codec.decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decode_nullable(msg, {{ lang_name(param.type) }}Codec.decode)
+            CodecUtil.decode_nullable(msg, {% if requires_to_object_fn %}lambda m: {% endif %}{{ lang_name(param.type) }}Codec.decode{% if requires_to_object_fn %}(m, to_object_fn){% endif %})
         {%- else -%}
             {{ lang_name(param.type) }}Codec.decode(msg)
         {%- endif -%}
@@ -115,12 +116,12 @@ def encode_request({% for param in method.request.params %}{{ param_name(param.n
     {% do lang_types_decode(param.type) %}
     {{ encode_var_sized(param, loop.last) }}
 {% endfor %}
-    return OutboundMessage(buf, {{ method.request.retryable }})
+    return OutboundMessage(buf, {{ method.request.retryable }}{% if contains_serialized_data_in_request %}, True{% endif %})
 {#RESPONSE DECODE#}
 {% if method.response.params|length > 0 %}
 
 
-def decode_response(msg):
+def decode_response(msg{% if to_object_fn_in_decode(method.response.params) %}, to_object_fn{% endif %}):
 {% if response_fix_sized_params|length != 0 %}
     initial_frame = msg.next_frame()
 {% else %}

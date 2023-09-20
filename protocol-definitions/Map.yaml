@@ -352,7 +352,14 @@ methods:
           since: 4.0
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
-    response: {}
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            Returns true if the key exists and removed, otherwise returns false.
   - id: 10
     name: flush
     since: 4.0
@@ -2965,4 +2972,31 @@ methods:
           since: 5.1
           doc: |
             the function to apply to each entry.
+    response: {}
+  - id: 73
+    name: putAllWithMetadata
+    since: 2.7
+    doc: |
+      Copies all of the mappings from the specified entry list to this map, including metadata.
+      The implementation uses MergeOperation with PassThroughMergePolicy, so the effect of 
+      this call is equivalent to synchronizing given entries using WAN replication.
+      Please note that all the keys in the request should belong to the partition id to which this request is being sent, all keys
+      matching to a different partition id shall be ignored. The API implementation using this request may need to send multiple
+      of these request messages for filling a request for a key set if the keys belong to different partitions.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            name of map
+        - name: entries
+          type: List_SimpleEntryView
+          nullable: false
+          since: 2.7
+          doc: |
+            entries with metadata
     response: {}

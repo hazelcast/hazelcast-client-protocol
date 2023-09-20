@@ -111,7 +111,6 @@ where
     * `cs` : C#
     * `py` : Python
     * `ts` : TypeScript
-    * `go` : Go
     * `md` : Markdown (Documentation)
      
 `java` is the default value if no language is specified.
@@ -247,3 +246,8 @@ be in the increasing order of Hazelcast versions as described above.
 protocol definitions.
 * Unless it is absolutely necessary, protocol should only be updated for new major or minor Hazelcast releases,
 not for patch releases. 
+* Note that for parameters of fixed size types (see `FixSizedTypes` in [currently supported types](binary/__init__.py))
+`nullable` property is ignored. `UUID` is always nullable while other fixed size types (`boolean`, `byte`, `int`, `long`)
+cannot be made nullable. 
+
+An example quick guide for many of the steps involved with using custom types is [here](custom-types-quick-guide.md).
