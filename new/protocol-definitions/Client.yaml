@@ -1,0 +1,950 @@
+id: 0
+name: Client
+methods:
+  - id: 1
+    name: authentication
+    since: 4.0
+    doc: |
+      Makes an authentication request to the cluster.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: clusterName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Cluster name that client will connect to.
+        - name: username
+          type: String
+          nullable: true
+          since: 4.0
+          doc: |
+            Name of the user for authentication.
+            Used in case Client Identity Config, otherwise it should be passed null.
+        - name: password
+          type: String
+          nullable: true
+          since: 4.0
+          doc: |
+            Password for the user.
+            Used in case Client Identity Config, otherwise it should be passed null.
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 4.0
+          doc: |
+            Unique string identifying the connected client uniquely.
+        - name: clientType
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The type of the client. E.g. JAVA, CPP, CSHARP, etc.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            client side supported version to inform server side
+        - name: clientHazelcastVersion
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The Hazelcast version of the client. (e.g. 3.7.2)
+        - name: clientName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            the name of the client instance
+        - name: labels
+          type: List_String
+          nullable: false
+          since: 4.0
+          doc: |
+            User defined labels of the client instance
+    response:
+      params:
+        - name: status
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
+        - name: address
+          type: Address
+          nullable: true
+          since: 4.0
+          doc: |
+            Address of the Hazelcast member which sends the authentication response.
+        - name: memberUuid
+          type: UUID
+          nullable: true
+          since: 4.0
+          doc: |
+            UUID of the Hazelcast member which sends the authentication response.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            client side supported version to inform server side
+        - name: serverHazelcastVersion
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Version of the Hazelcast member which sends the authentication response.
+        - name: partitionCount
+          type: int
+          nullable: false
+          since: 4.0
+          doc: |
+            Partition count of the cluster.
+        - name: clusterId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            UUID of the cluster that the client authenticated.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            Returns true if server supports clients with failover feature.
+  - id: 2
+    name: authenticationCustom
+    since: 4.0
+    doc: |
+      Makes an authentication request to the cluster using custom credentials.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: clusterName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Cluster name that client will connect to.
+        - name: credentials
+          type: byteArray
+          nullable: false
+          since: 4.0
+          doc: |
+            Secret byte array for authentication.
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 4.0
+          doc: |
+            Unique string identifying the connected client uniquely.
+        - name: clientType
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The type of the client. E.g. JAVA, CPP, CSHARP, etc.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            client side supported version to inform server side
+        - name: clientHazelcastVersion
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The Hazelcast version of the client. (e.g. 3.7.2)
+        - name: clientName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            the name of the client instance
+        - name: labels
+          type: List_String
+          nullable: false
+          since: 4.0
+          doc: |
+            User defined labels of the client instance
+    response:
+      params:
+        - name: status
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
+            SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
+        - name: address
+          type: Address
+          nullable: true
+          since: 4.0
+          doc: |
+            Address of the Hazelcast member which sends the authentication response.
+        - name: memberUuid
+          type: UUID
+          nullable: true
+          since: 4.0
+          doc: |
+            UUID of the Hazelcast member which sends the authentication response.
+        - name: serializationVersion
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            client side supported version to inform server side
+        - name: serverHazelcastVersion
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Version of the Hazelcast member which sends the authentication response.
+        - name: partitionCount
+          type: int
+          nullable: false
+          since: 4.0
+          doc: |
+            Partition count of the cluster.
+        - name: clusterId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The cluster id of the cluster.
+        - name: failoverSupported
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            Returns true if server supports clients with failover feature.
+  - id: 3
+    name: addClusterViewListener
+    since: 4.0
+    doc: |
+      Adds a cluster view listener to a connection.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
+    events:
+      - name: MembersView
+        since: 4.0
+        params:
+          - name: version
+            type: int
+            nullable: false
+            since: 4.0
+            doc: |
+              Incremental member list version
+          - name: memberInfos
+            type: List_MemberInfo
+            nullable: false
+            since: 4.0
+            doc: |
+              List of member infos  at the cluster associated with the given version
+              params:
+      - name: PartitionsView
+        since: 4.0
+        params:
+          - name: version
+            type: int
+            nullable: false
+            since: 4.0
+            doc: |
+              Incremental state version of the partition table
+          - name: partitions
+            type: EntryList_UUID_List_Integer
+            nullable: false
+            since: 4.0
+            doc: |
+              The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+  - id: 4
+    name: createProxy
+    since: 4.0
+    doc: |
+      Creates a cluster-wide proxy with the given name and service.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The distributed object name for which the proxy is being created for.
+        - name: serviceName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the service. Possible service names are:
+            "hz:impl:listService"
+            "hz:impl:queueService"
+            "hz:impl:setService"
+            "hz:impl:idGeneratorService"
+            "hz:impl:executorService"
+            "hz:impl:mapService"
+            "hz:impl:multiMapService"
+            "hz:impl:splitBrainProtectionService"
+            "hz:impl:replicatedMapService"
+            "hz:impl:ringbufferService"
+            "hz:core:proxyService"
+            "hz:impl:reliableTopicService"
+            "hz:impl:topicService"
+            "hz:core:txManagerService"
+            "hz:impl:xaService"
+    response: {}
+  - id: 5
+    name: destroyProxy
+    since: 4.0
+    doc: |
+      Destroys the proxy given by its name cluster-wide. Also, clears and releases all resources of this proxy.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The distributed object name for which the proxy is being destroyed for.
+        - name: serviceName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the service. Possible service names are:
+            "hz:impl:listService"
+            "hz:impl:queueService"
+            "hz:impl:setService"
+            "hz:impl:idGeneratorService"
+            "hz:impl:executorService"
+            "hz:impl:mapService"
+            "hz:impl:multiMapService"
+            "hz:impl:splitBrainProtectionService"
+            "hz:impl:replicatedMapService"
+            "hz:impl:ringbufferService"
+            "hz:core:proxyService"
+            "hz:impl:reliableTopicService"
+            "hz:impl:topicService"
+            "hz:core:txManagerService"
+            "hz:impl:xaService"
+    response: {}
+  - id: 6
+    name: addPartitionLostListener
+    since: 4.0
+    doc: |
+      Adds a partition lost listener to the cluster.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            if true only node that has the partition sends the request, if false
+            sends all partition lost events.
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The listener registration id.
+    events:
+      - name: PartitionLost
+        since: 4.0
+        params:
+          - name: partitionId
+            type: int
+            nullable: false
+            since: 4.0
+            doc: |
+              Id of the lost partition.
+          - name: lostBackupCount
+            type: int
+            nullable: false
+            since: 4.0
+            doc: |
+              The number of lost backups for the partition. 0: the owner, 1: first backup, 2: second backup...
+          - name: source
+            type: UUID
+            nullable: true
+            since: 4.0
+            doc: |
+              UUID of the node that dispatches the event
+  - id: 7
+    name: removePartitionLostListener
+    since: 4.0
+    doc: |
+      Removes the specified partition lost listener. If there is no such listener added before, this call does no change
+      in the cluster and returns false.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: registrationId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The id assigned during the listener registration.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            true if the listener existed and removed, false otherwise.
+  - id: 8
+    name: getDistributedObjects
+    since: 4.0
+    doc: |
+      Gets the list of distributed objects in the cluster.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: List_DistributedObjectInfo
+          nullable: false
+          since: 4.0
+          doc: |
+            An array of distributed object info in the cluster.
+  - id: 9
+    name: addDistributedObjectListener
+    since: 4.0
+    doc: |
+      Adds a distributed object listener to the cluster. This listener will be notified
+      when a distributed object is created or destroyed.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            If set to true, the server adds the listener only to itself, otherwise the listener is is added for all
+            members in the cluster.
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The registration id for the distributed object listener.
+    events:
+      - name: DistributedObject
+        since: 4.0
+        params:
+          - name: name
+            type: String
+            nullable: false
+            since: 4.0
+            doc: |
+              Name of the distributed object.
+          - name: serviceName
+            type: String
+            nullable: false
+            since: 4.0
+            doc: |
+              Service name of the distributed object.
+          - name: eventType
+            type: String
+            nullable: false
+            since: 4.0
+            doc: |
+              Type of the event. It is either CREATED or DESTROYED.
+          - name: source
+            type: UUID
+            nullable: false
+            since: 4.0
+            doc: |
+              The UUID (client or member) of the source of this proxy event.
+  - id: 10
+    name: removeDistributedObjectListener
+    since: 4.0
+    doc: |
+      Removes the specified distributed object listener. If there is no such listener added before, this call does no
+      change in the cluster and returns false.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: registrationId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The id assigned during the registration.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            true if the listener existed and removed, false otherwise.
+  - id: 11
+    name: ping
+    since: 4.0
+    doc: |
+      Sends a ping to the given connection.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response: {}
+  - id: 12
+    name: statistics
+    since: 4.0
+    doc: |
+      The statistics is composed of three parameters.
+
+      The first paramteter is the timestamp taken when the statistics collected.
+
+      The second parameter, the clientAttribute is a String that is composed of key=value pairs separated by ','. The
+      following characters ('=' '.' ',' '\') should be escaped.
+
+      Please note that if any client implementation can not provide the value for statistics, the corresponding key, value
+      pair will not be presented in the statistics string. Only the ones, that the client can provide will be added.
+
+      The third parameter, metrics is a compressed byte array containing all metrics recorded by the client.
+
+      The metrics are composed of the following fields:
+        - string:                 prefix
+        - string:                 metric
+        - string:                 discriminator
+        - string:                 discriminatorValue
+        - enum:                   unit [BYTES,MS,PERCENT,COUNT,BOOLEAN,ENUM]
+        - set of enum:            excluded targets [MANAGEMENT_CENTER,JMX,DIAGNOSTICS]
+        - set of <string,string>: tags associated with the metric
+
+      The used compression algorithm is the same that is used inside the IMDG clients and members for storing the metrics blob
+      in-memory. The algorithm uses a dictionary based delta compression further deflated by using ZLIB compression.
+
+      The byte array has the following layout:
+
+      +---------------------------------+--------------------+
+      | Compressor version              |   2 bytes (short)  |
+      +---------------------------------+--------------------+
+      | Size of dictionary blob         |   4 bytes (int)    |
+      +---------------------------------+--------------------+
+      | ZLIB compressed dictionary blob |   variable size    |
+      +---------------------------------+--------------------+
+      | Number of metrics in the blob   |   4 bytes (int)    |
+      +---------------------------------+--------------------+
+      | ZLIB compressed metrics blob    |   variable size    |
+      +---------------------------------+--------------------+
+
+      ==========
+      THE HEADER
+      ==========
+
+      Compressor version:      the version currently in use is 1.
+      Size of dictionary blob: the size of the ZLIB compressed blob as it is constructed as follows.
+
+      ===================
+      THE DICTIONARY BLOB
+      ===================
+
+      The dictionary is built from the string fields of the metric and assigns an int dictionary id to every string in the metrics
+      in the blob. The dictionary is serialized to the dictionary blob sorted by the strings using the following layout.
+
+      +------------------------------------------------+--------------------+
+      | Number of dictionary entries                   |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | Dictionary id                                  |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | Number of chars shared with previous entry     |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | Number of chars not shared with previous entry |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | The different characters                       |   variable size    |
+      +------------------------------------------------+--------------------+
+      | Dictionary id                                  |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | ...                                            |   ...              |
+      +------------------------------------------------+--------------------+
+
+      Let's say we have the following dictionary:
+        - <42,"gc.minorCount">
+        - <43,"gc.minorTime">
+
+      It is then serialized as follows:
+      +------------------------------------------------+--------------------+
+      | 2 (size of the dictionary)                     |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | 42                                             |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | 0                                              |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | 13                                             |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | "gc.minorCount"                                |   13 bytes         |
+      +------------------------------------------------+--------------------+
+      | 43                                             |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | 8                                              |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | 4                                              |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | "Time"                                         |   13 bytes         |
+      +------------------------------------------------+--------------------+
+
+      The dictionary blob constructed this way is then gets ZLIB compressed.
+
+      ===============
+      THE METRIC BLOB
+      ===============
+
+      The compressed dictionary blob is followed by the number of metrics
+      (int) present in the metrics blob.
+
+      The number of metrics is followed by the compressed metrics blob with
+      the following layout:
+
+      +------------------------------------------------+--------------------+
+      | Metrics mask                                   |   1 byte           |
+      +------------------------------------------------+--------------------+
+      | (*) Dictionary id of prefix                    |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (*) Dictionary id of metric                    |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (*) Dictionary id of discriminator             |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (*) Dictionary id of discriminatorValue        |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (*) Enum ordinal of the unit                   |   1 byte           |
+      +------------------------------------------------+--------------------+
+      | (*) Excluded targets bitset                    |   1 byte           |
+      +------------------------------------------------+--------------------+
+      | (*) Number of tags                             |   1 unsigned byte  |
+      +------------------------------------------------+--------------------+
+      | (**) Dictionary id of the tag 1                |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (**) Dictionary id of the value of tag 1       |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (**) Dictionary id of the tag 2                |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | (**) Dictionary id of the value of tag 2       |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | ...                                            |   ...              |
+      +------------------------------------------------+--------------------+
+      | Metrics mask                                   |   1 byte           |
+      +------------------------------------------------+--------------------+
+      | (*) Dictionary id of prefix                    |   4 bytes (int)    |
+      +------------------------------------------------+--------------------+
+      | ...                                            |   ...              |
+      +------------------------------------------------+--------------------+
+
+      The metrics mask shows which fields are the same in the current and the
+      previous metric. The following masks are used to construct the metrics
+      mask.
+
+      MASK_PREFIX              = 0b00000001;
+      MASK_METRIC              = 0b00000010;
+      MASK_DISCRIMINATOR       = 0b00000100;
+      MASK_DISCRIMINATOR_VALUE = 0b00001000;
+      MASK_UNIT                = 0b00010000;
+      MASK_EXCLUDED_TARGETS    = 0b00100000;
+      MASK_TAG_COUNT           = 0b01000000;
+
+      If a bit representing a field is set, the given field marked above with (*)
+      is not written to blob and the last value for that field should be taken
+      during deserialization.
+
+      Since the number of tags are not limited, all tags and their values
+      marked with (**) are written even if the tag set is the same as in the
+      previous metric.
+
+      The metrics blob constructed this way is then gets ZLIB compressed.
+
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: timestamp
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The timestamp taken during statistics collection.
+        - name: clientAttributes
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The key=value pairs separated by the ',' character.
+        - name: metricsBlob
+          type: byteArray
+          nullable: false
+          since: 4.0
+          doc: |
+            Compressed byte array containing all metrics collected by the client.
+    response: {}
+  - id: 13
+    name: deployClasses
+    since: 4.0
+    doc: |
+      Deploys the list of classes to cluster
+      Each item is a Map.Entry<String, byte[]> in the list.
+      key of entry is full class name, and byte[] is the class definition.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: classDefinitions
+          type: EntryList_String_byteArray
+          nullable: false
+          since: 4.0
+          doc: |
+            list of class definitions
+    response: {}
+  - id: 14
+    name: createProxies
+    since: 4.0
+    doc: |
+      Proxies will be created on all cluster members.
+      If the member is  a lite member, a replicated map will not be created.
+      Any proxy creation failure is logged on the server side.
+      Exceptions related to a proxy creation failure is not send to the client.
+      A proxy creation failure does not cancel this operation, all proxies will be attempted to be created.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: proxies
+          type: EntryList_String_String
+          nullable: false
+          since: 4.0
+          doc: |
+            proxies that will be created
+            Each entry's key is distributed object name.
+            Each entry's value is service name.
+            For possible service names see createProxy message.
+    response: {}
+  - id: 15
+    name: localBackupListener
+    since: 4.0
+    doc: |
+      Adds listener for backup acks
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            Returns the registration id for the listener.
+    events:
+      - name: backup
+        since: 4.0
+        params:
+          - name: sourceInvocationCorrelationId
+            type: long
+            nullable: false
+            since: 4.0
+            doc: |
+              correlation id of the invocation that backup acks belong to
+  - id: 16
+    name: triggerPartitionAssignment
+    since: 4.0
+    doc: |
+      Triggers partition assignment manually on the cluster.
+      Note that Partition based operations triggers this automatically
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      {}
+  - id: 17
+    name: addMigrationListener
+    since: 4.2
+    doc: |
+      Adds a migration listener to the cluster.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 4.2
+          doc: |
+            If set to true, the server adds the listener only to itself, otherwise
+            the listener is added for all members in the cluster.
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.2
+          doc: |
+            The listener registration id.
+    events:
+      - name: Migration
+        since: 4.2
+        params:
+          - name: migrationState
+            type: MigrationState
+            nullable: false
+            since: 4.2
+            doc: |
+              Migration state.
+          - name: type
+            type: int
+            nullable: false
+            since: 4.2
+            doc: |
+              Type of the event. It is either MIGRATION_STARTED(0) or MIGRATION_FINISHED(1).
+      - name: ReplicaMigration
+        since: 4.2
+        params:
+          - name: migrationState
+            type: MigrationState
+            nullable: false
+            since: 4.2
+            doc: |
+              The progress information of the overall migration.
+          - name: partitionId
+            type: int
+            nullable: false
+            since: 4.2
+            doc: |
+              The partition ID that the event is dispatched for.
+          - name: replicaIndex
+            type: int
+            nullable: false
+            since: 4.2
+            doc: |
+              The index of the partition replica.
+          - name: sourceUuid
+            type: UUID
+            nullable: true
+            since: 4.2
+            doc: |
+              The id of old owner of the migrating partition replica.
+          - name: destUuid
+            type: UUID
+            nullable: true
+            since: 4.2
+            doc: |
+              The id of new owner of the migrating partition replica.
+          - name: success
+            type: boolean
+            nullable: false
+            since: 4.2
+            doc: |
+              The result of the migration: completed or failed.
+          - name: elapsedTime
+            type: long
+            nullable: false
+            since: 4.2
+            doc: |
+              The elapsed the time of this migration in milliseconds.
+  - id: 18
+    name: removeMigrationListener
+    since: 4.2
+    doc: |
+      Removes the specified migration listener.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: registrationId
+          type: UUID
+          nullable: false
+          since: 4.2
+          doc: |
+            The id assigned during the listener registration.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.2
+          doc: |
+            true if the listener existed and was removed, false otherwise.
+  - id: 19
+    name: sendSchema
+    since: 5.2
+    doc: |
+      Sends a schema to cluster
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schema
+          type: Schema
+          nullable: false
+          since: 5.2
+          doc: |
+            schema to be send to the cluster
+    response:
+      params:
+        - name: replicatedMembers
+          type: Set_UUID
+          nullable: false
+          since: 5.2
+          doc: |
+            UUIDs of the members that the schema is replicated
+  - id: 20
+    name: fetchSchema
+    since: 5.2
+    doc: |
+      Fetches a schema from the cluster with the given schemaId
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schemaId
+          type: long
+          nullable: false
+          since: 5.2
+          doc: |
+            Id of the schema to be fetched
+    response:
+      params:
+        - name: schema
+          type: Schema
+          nullable: true
+          since: 5.2
+          doc: |
+            schema with the given schema id fetched from the cluster
+  - id: 21
+    name: sendAllSchemas
+    since: 5.2
+    doc: |
+      Sends all the schemas to the cluster
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schemas
+          type: List_Schema
+          nullable: false
+          since: 5.2
+          doc: |
+            list of schemas
+    response: {}

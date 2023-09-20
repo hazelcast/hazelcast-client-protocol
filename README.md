@@ -220,6 +220,30 @@ convert it to your enum type and construct the object with it.
 
 Custom type definitions are also validated against a [schema](/schema/custom-codec-schema.json). See the [Schema Validation](#schema-validation) 
 section for details of the validation.
+    "2.0": "4.0",
+    "2.0.1": "4.0.1",
+    "2.1": "4.1",
+    "2.2": "4.2",
+    "2.3": "5.0",
+    "2.4": "5.1",
+    "2.5": "5.2",
+    "2.6": "5.3",
+    "2.7": "5.4"
+
+### A Reference Mapping to Versions
+
+|Client Protocol Version|Hazelcast Version|
+|-----|-----|
+|2.0|4.0|
+|2.0.1|4.0.1|
+|2.1|4.1|
+|2.2|4.2|
+|2.3|5.0|
+|2.4|5.1|
+|2.5|5.2|
+|2.6|5.3|
+|2.7|5.4|
+
 
 ### Expanding the Client Protocol
 

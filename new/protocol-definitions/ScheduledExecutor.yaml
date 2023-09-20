@@ -1,0 +1,657 @@
+id: 26
+name: ScheduledExecutor
+methods:
+  - id: 1
+    name: shutdown
+    since: 4.0
+    doc: |
+      Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted.
+      Invocation has no additional effect if already shut down.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the scheduler.
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the shutdown for this scheduler will be sent.
+    response: {}
+  - id: 2
+    name: submitToPartition
+    since: 4.0
+    doc: |
+      Submits the task to partition for execution, partition is chosen based on multiple criteria of the given task.
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: type
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: task
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Name The name of the task
+        - name: initialDelayInMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            initial delay in milliseconds
+        - name: periodInMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            period between each run in milliseconds
+        - name: autoDisposable
+          type: boolean
+          nullable: false
+          since: 4.1
+          doc: |
+            A boolean flag to indicate whether the task should be destroyed automatically after execution.
+    response: {}
+  - id: 3
+    name: submitToMember
+    since: 4.0
+    doc: |
+      Submits the task to a member for execution. Member is provided with its uuid.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+        - name: type
+          type: byte
+          nullable: false
+          since: 4.0
+          doc: |
+            type of schedule logic, values 0 for SINGLE_RUN, 1 for AT_FIXED_RATE
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: task
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Name The name of the task
+        - name: initialDelayInMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            initial delay in milliseconds
+        - name: periodInMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            period between each run in milliseconds
+        - name: autoDisposable
+          type: boolean
+          nullable: false
+          since: 4.1
+          doc: |
+            A boolean flag to indicate whether the task should be destroyed automatically after execution.
+    response: {}
+  - id: 4
+    name: getAllScheduledFutures
+    since: 4.0
+    doc: |
+      Returns all scheduled tasks in for a given scheduler in the given member.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+    response:
+      params:
+        - name: handlers
+          type: List_ScheduledTaskHandler
+          nullable: false
+          since: 4.0
+          doc: |
+            A list of scheduled task handlers used to construct the future proxies.
+  - id: 5
+    name: getStatsFromPartition
+    since: 4.0
+    doc: |
+      Returns statistics of the task
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response:
+      params:
+        - name: lastIdleTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Last period of time the task was idle, waiting to get scheduled.
+        - name: totalIdleTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Total amount of time the task was idle, waiting to get scheduled in.
+        - name: totalRuns
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            How many times the task was ran/called.
+        - name: totalRunTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The total amount of time the task spent while scheduled in.
+        - name: lastRunDurationNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The duration of the task's last execution.
+  - id: 6
+    name: getStatsFromMember
+    since: 4.0
+    doc: |
+      Returns statistics of the task
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+    response:
+      params:
+        - name: lastIdleTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Last period of time the task was idle, waiting to get scheduled.
+        - name: totalIdleTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Total amount of time the task was idle, waiting to get scheduled in.
+        - name: totalRuns
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            How many times the task was ran/called.
+        - name: totalRunTimeNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The total amount of time the task spent while scheduled in.
+        - name: lastRunDurationNanos
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The duration of the task's last execution.
+  - id: 7
+    name: getDelayFromPartition
+    since: 4.0
+    doc: |
+      Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The remaining delay of the task formatted in nanoseconds.
+  - id: 8
+    name: getDelayFromMember
+    since: 4.0
+    doc: |
+      Returns the ScheduledFuture's delay in nanoseconds for the task in the scheduler.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The remaining delay of the task formatted in nanoseconds.
+  - id: 9
+    name: cancelFromPartition
+    since: 4.0
+    doc: |
+      Cancels further execution and scheduling of the task
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: mayInterruptIfRunning
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            A boolean flag to indicate whether the task should be interrupted.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task was cancelled
+  - id: 10
+    name: cancelFromMember
+    since: 4.0
+    doc: |
+      Cancels further execution and scheduling of the task
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+        - name: mayInterruptIfRunning
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            A boolean flag to indicate whether the task should be interrupted.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task was cancelled
+  - id: 11
+    name: isCancelledFromPartition
+    since: 4.0
+    doc: |
+      Checks whether a task as identified from the given handler is already cancelled.
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task is cancelled
+  - id: 12
+    name: isCancelledFromMember
+    since: 4.0
+    doc: |
+      Checks whether a task as identified from the given handler is already cancelled.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task is cancelled
+  - id: 13
+    name: isDoneFromPartition
+    since: 4.0
+    doc: |
+      Checks whether a task is done.
+      @see {@link java.util.concurrent.Future#cancel(boolean)}
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task is done
+  - id: 14
+    name: isDoneFromMember
+    since: 4.0
+    doc: |
+      Checks whether a task is done.
+      @see {@link java.util.concurrent.Future#cancel(boolean)}
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the task is done
+  - id: 15
+    name: getResultFromPartition
+    since: 4.0
+    doc: |
+      Fetches the result of the task ({@link java.util.concurrent.Callable})
+      The call will blocking until the result is ready.
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 4.0
+          doc: |
+            The result of the completed task, in serialized form ({
+  - id: 16
+    name: getResultFromMember
+    since: 4.0
+    doc: |
+      Fetches the result of the task ({@link java.util.concurrent.Callable})
+      The call will blocking until the result is ready.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The uuid of the member where the task will get scheduled.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 4.0
+          doc: |
+            The result of the completed task, in serialized form ({
+  - id: 17
+    name: disposeFromPartition
+    since: 4.0
+    doc: |
+      Dispose the task from the scheduler
+    request:
+      retryable: true
+      partitionIdentifier: taskName
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+    response: {}
+  - id: 18
+    name: disposeFromMember
+    since: 4.0
+    doc: |
+      Dispose the task from the scheduler
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: schedulerName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the scheduler.
+        - name: taskName
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            The name of the task
+        - name: memberUuid
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The UUID of the member where the task will get scheduled.
+    response: {}

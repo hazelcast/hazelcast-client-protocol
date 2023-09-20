@@ -1,0 +1,140 @@
+id: 20
+name: XATransaction
+methods:
+  - id: 1
+    name: clearRemote
+    since: 4.0
+    doc: |
+      Clears the XA transaction with the given xid from remote member.
+    request:
+      retryable: false
+      partitionIdentifier: xid
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 4.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+    response: {}
+  - id: 2
+    name: collectTransactions
+    since: 4.0
+    doc: |
+      Obtains a list of prepared transaction from the cluster.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: List_Xid
+          nullable: false
+          since: 4.0
+          doc: |
+            Array of Xids.
+  - id: 3
+    name: finalize
+    since: 4.0
+    doc: |
+      Finalizes the commit of XA transaction with the given xid.
+    request:
+      retryable: false
+      partitionIdentifier: xid
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 4.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+        - name: isCommit
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            If true, the transaction is committed else transaction is rolled back.
+    response: {}
+  - id: 4
+    name: commit
+    since: 4.0
+    doc: |
+      Commits the global transaction specified by xid.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The internal Hazelcast transaction id.
+        - name: onePhase
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            If true, the prepare is also done.
+    response: {}
+  - id: 5
+    name: create
+    since: 4.0
+    doc: |
+      Creates an XA transaction with the given parameters.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: xid
+          type: Xid
+          nullable: false
+          since: 4.0
+          doc: |
+            Java XA transaction id as defined in interface javax.transaction.xa.Xid.
+        - name: timeout
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            The timeout in seconds for XA operations such as prepare, commit, rollback.
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The transaction unique identifier.
+  - id: 6
+    name: prepare
+    since: 4.0
+    doc: |
+      Ask a member to prepare for a transaction commit of the transaction specified in xid.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The id of the transaction to prepare.
+    response: {}
+  - id: 7
+    name: rollback
+    since: 4.0
+    doc: |
+      Informs the member to roll back work done on behalf of a transaction.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: transactionId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The id of the transaction to rollback.
+    response: {}

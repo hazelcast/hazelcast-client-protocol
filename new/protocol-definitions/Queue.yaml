@@ -1,0 +1,579 @@
+id: 3
+name: Queue
+methods:
+  - id: 1
+    name: offer
+    since: 4.0
+    doc: |
+      Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
+      become available.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: value
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            The element to add
+        - name: timeoutMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Maximum time in milliseconds to wait for acquiring the lock for the key.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>True</tt> if the element was added to this queue, else <tt>false</tt>
+  - id: 2
+    name: put
+    since: 4.0
+    doc: |
+      Inserts the specified element into this queue, waiting if necessary for space to become available.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: value
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            The element to add
+    response: {}
+  - id: 3
+    name: size
+    since: 4.0
+    doc: |
+      Returns the number of elements in this collection.  If this collection contains more than Integer.MAX_VALUE
+      elements, returns Integer.MAX_VALUE
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 4.0
+          doc: |
+            The number of elements in this collection
+  - id: 4
+    name: remove
+    since: 4.0
+    doc: |
+      Retrieves and removes the head of this queue.  This method differs from poll only in that it throws an exception
+      if this queue is empty.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: value
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Element to be removed from this queue, if present
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this queue changed as a result of the call
+  - id: 5
+    name: poll
+    since: 4.0
+    doc: |
+      Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
+      to become available.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: timeoutMillis
+          type: long
+          nullable: false
+          since: 4.0
+          doc: |
+            Maximum time in milliseconds to wait for acquiring the lock for the key.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 4.0
+          doc: |
+            The head of this queue, or <tt>null</tt> if this queue is empty
+  - id: 6
+    name: take
+    since: 4.0
+    doc: |
+      Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 4.0
+          doc: |
+            The head of this queue
+  - id: 7
+    name: peek
+    since: 4.0
+    doc: |
+      Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 4.0
+          doc: |
+            The head of this queue, or <tt>null</tt> if this queue is empty
+  - id: 8
+    name: iterator
+    since: 4.0
+    doc: |
+      Returns an iterator over the elements in this collection.  There are no guarantees concerning the order in which
+      the elements are returned (unless this collection is an instance of some class that provides a guarantee).
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            list of all data in queue
+  - id: 9
+    name: drainTo
+    since: 4.0
+    doc: |
+      Removes all available elements from this queue and adds them to the given collection.  This operation may be more
+      efficient than repeatedly polling this queue.  A failure encountered while attempting to add elements to
+      collection c may result in elements being in neither, either or both collections when the associated exception is
+      thrown. Attempts to drain a queue to itself result in ILLEGAL_ARGUMENT. Further, the behavior of
+      this operation is undefined if the specified collection is modified while the operation is in progress.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            list of all removed data in queue
+  - id: 10
+    name: drainToMaxSize
+    since: 4.0
+    doc: |
+      Removes at most the given number of available elements from this queue and adds them to the given collection.
+      A failure encountered while attempting to add elements to collection may result in elements being in neither,
+      either or both collections when the associated exception is thrown. Attempts to drain a queue to itself result in
+      ILLEGAL_ARGUMENT. Further, the behavior of this operation is undefined if the specified collection is
+      modified while the operation is in progress.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: maxSize
+          type: int
+          nullable: false
+          since: 4.0
+          doc: |
+            The maximum number of elements to transfer
+    response:
+      params:
+        - name: response
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            list of all removed data in result of this method
+  - id: 11
+    name: contains
+    since: 4.0
+    doc: |
+      Returns true if this queue contains the specified element. More formally, returns true if and only if this queue
+      contains at least one element e such that value.equals(e)
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: value
+          type: Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Element whose presence in this collection is to be tested
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this collection contains the specified element
+  - id: 12
+    name: containsAll
+    since: 4.0
+    doc: |
+      Return true if this collection contains all of the elements in the specified collection.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: dataList
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Collection to be checked for containment in this collection
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this collection contains all of the elements in the specified collection
+  - id: 13
+    name: compareAndRemoveAll
+    since: 4.0
+    doc: |
+      Removes all of this collection's elements that are also contained in the specified collection (optional operation).
+      After this call returns, this collection will contain no elements in common with the specified collection.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: dataList
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Collection containing elements to be removed from this collection
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this collection changed as a result of the call
+  - id: 14
+    name: compareAndRetainAll
+    since: 4.0
+    doc: |
+      Retains only the elements in this collection that are contained in the specified collection (optional operation).
+      In other words, removes from this collection all of its elements that are not contained in the specified collection.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: dataList
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            collection containing elements to be retained in this collection
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this collection changed as a result of the call
+  - id: 15
+    name: clear
+    since: 4.0
+    doc: |
+      Removes all of the elements from this collection (optional operation). The collection will be empty after this
+      method returns.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response: {}
+  - id: 16
+    name: addAll
+    since: 4.0
+    doc: |
+      Adds all of the elements in the specified collection to this collection (optional operation).The behavior of this
+      operation is undefined if the specified collection is modified while the operation is in progress.
+      (This implies that the behavior of this call is undefined if the specified collection is this collection,
+      and this collection is nonempty.)
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: dataList
+          type: List_Data
+          nullable: false
+          since: 4.0
+          doc: |
+            Collection containing elements to be added to this collection
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if this collection changed as a result of the call
+  - id: 17
+    name: addListener
+    since: 4.0
+    doc: |
+      Adds an listener for this collection. Listener will be notified or all collection add/remove events.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: includeValue
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>true</tt> if the updated item should be passed to the item listener, <tt>false</tt> otherwise.
+        - name: localOnly
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            if true fires events that originated from this node only, otherwise fires all events
+    response:
+      params:
+        - name: response
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            The registration id
+    events:
+      - name: Item
+        since: 4.0
+        params:
+          - name: item
+            type: Data
+            nullable: true
+            since: 4.0
+            doc: |
+              Item that the event is fired for.
+          - name: uuid
+            type: UUID
+            nullable: false
+            since: 4.0
+            doc: |
+              UUID of the member that dispatches this event.
+          - name: eventType
+            type: int
+            nullable: false
+            since: 4.0
+            doc: |
+              Type of the event. It is either ADDED(1) or REMOVED(2).
+  - id: 18
+    name: removeListener
+    since: 4.0
+    doc: |
+      Removes the specified item listener. If there is no such listener added before, this call does no change in the
+      cluster and returns false.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+        - name: registrationId
+          type: UUID
+          nullable: false
+          since: 4.0
+          doc: |
+            Id of the listener registration.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            True if the item listener is removed, false otherwise
+  - id: 19
+    name: remainingCapacity
+    since: 4.0
+    doc: |
+      Returns the number of additional elements that this queue can ideally (in the absence of memory or resource
+      constraints) accept without blocking, or Integer.MAX_VALUE if there is no intrinsic limit. Note that you cannot
+      always tell if an attempt to insert an element will succeed by inspecting remainingCapacity because it may be
+      the case that another thread is about to insert or remove an element.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 4.0
+          doc: |
+            The remaining capacity
+  - id: 20
+    name: isEmpty
+    since: 4.0
+    doc: |
+      Returns true if this collection contains no elements.
+    request:
+      retryable: false
+      partitionIdentifier: name
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 4.0
+          doc: |
+            Name of the Queue
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 4.0
+          doc: |
+            <tt>True</tt> if this collection contains no elements
