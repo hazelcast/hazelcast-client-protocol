@@ -108,6 +108,12 @@ methods:
             since: 2.1
             doc: |
               Missing members.
+          - name: isShutdown
+            type: boolean
+            nullable: false
+            since: 2.7
+            doc: |
+              Determines if the availability event is due to an explicit shutdown.
   - id: 4
     name: removeGroupAvailabilityListener
     since: 2.1
