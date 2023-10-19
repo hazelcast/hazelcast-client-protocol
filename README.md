@@ -130,7 +130,6 @@ When left empty, default value is inferred from the selected `LANGUAGE`.
 * `TEST_OUTPUT_DIR` is the output directory relative to the `ROOT_DIRECTORY` that is used for the test files for the binary compatibility tests.
 Default value is inferred from the selected `LANGUAGE`.
 
-
 * `--no-binary` flag restrains the generator from creating binary and test files for the binary compatibility tests.
 
 * `--no-id-check` flag restrains the generator from checking sequentially of service and method ids of protocol definitions.
