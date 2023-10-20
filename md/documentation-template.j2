@@ -131,7 +131,7 @@ client message for communication. It is the only data format defined by this pro
 
 ### 2.1. Client Message
 A client message is a transmission data unit composed of frames which are array of bytes. Its main purpose is to
-encapsulate a unit of data to be transferred from one entity the another. It may represent a request, a response, or an
+encapsulate a unit of data to be transferred from one entity to another. It may represent a request, a response, or an
 event response. A client message can be fragmented into multiple client messages and sent in order one-by-one. See the
 [Client Message Fragmentation](#214-client-message-fragmentation) section for details.
 
@@ -350,11 +350,11 @@ are encoded in between `BEGIN_FRAME` and `END_FRAME`. Overall, the structure of 
 
 `BEGIN_FRAME` and `END_FRAME` are used to identify the boundaries of different custom type encodings. While reading
 frames of a client message, when a `BEGIN_FRAME` is encountered, it means that the custom type encoding is started and
-it is safe to read frames until the `END_FRAME` is encountered. All of the frames in between those two will carry the
+it is safe to read frames until the `END_FRAME` is encountered. All the frames in between those two will carry the
 actual data stored inside the custom type.
 
 Payload frames follow a similar schema to the initial frame and variable sized data frame structure described above. All
-of the fix sized parameters of the custom object are encoded in the initial payload frame that comes after the `BEGIN_FRAME`
+the fix sized parameters of the custom object are encoded in the initial payload frame that comes after the `BEGIN_FRAME`
 and all the other variable sized or custom parameters are encoded in the following payload frames in the same way
 described in the [Encoding of Variable Sized Parameters](#213-encoding-of-variable-sized-parameters) section. Therefore,
 each custom type encoding consists of at least three and possibly more frames depending on the types of the parameters
@@ -650,7 +650,7 @@ There are four possible statuses:
 
 - `0`: Authentication is successful.
 - `1`: Credentials failed. The provided credentials (e.g. cluster name, username, or password) are incorrect.
-- `2`: Serialization version mismatch. The requested serialization version and the serialization version used at the member side
+- `2`: Serialization version mismatch. The requested serialization version and the serialization version used on the member side
 are different. The client gets the member's serialization version from the `serverHazelcastVersion` parameter of the response.
 It is suggested that the client tries to reconnect using the matching serialization version assuming that the client
 implements the version for serialization.
@@ -668,7 +668,7 @@ authentication credentials are sent as a byte-array.
 After successful authentication, a client may send request messages to the member to access distributed objects
 or perform other operations on the cluster. This step is the actual communication step.
 
-Once connected, a client can do the followings:
+Once connected, a client can do the following:
 1. Send periodic updates.
 2. Get updates on cluster state view which consists of partition table and member list.
 3. Send operation messages and receive responses.
@@ -997,7 +997,7 @@ described in the `Event Message` section of the message descriptions.
 
 ### 5.5. Listeners
 Listeners are mean to communicate multiple responses to a client. The client uses one of the listener registration messages to listen
-for updates at the cluster. Listeners are specific to a data structure. For example, there is specific listener for map entries and queue
+for updates at the cluster. Listeners are specific to a data structure. For example, there is a specific listener for map entries and queue
 items. To see how these listeners are explicitly encoded, see the relevant message in the
 [Protocol Messages](#{{ protocol_message_offset }}-protocol-messages) section.
 
@@ -1146,11 +1146,11 @@ is responsible for the requests and put this information in the partition ID off
 In order to do so, the client determines the address of the cluster member that handles the calculated partition ID.
 The request message will be sent on this cluster member connection.
 
-- **Unisocket Client:** The client sends the request to any cluster member that it is connected to, regardless of the key 
+- **Unisocket Client:** The client sends the request to any cluster member that it is connected to, regardless of the key
 for the request. The cluster member will in turn redirect the request to the correct member in the cluster that handles
 the request for the provided key.
 
-The biggest difference between the two types of clients is that a smart client must be connected to all of the members and
+The biggest difference between the two types of clients is that a smart client must be connected to all the members and
 must constantly update its partition tables so it knows which connection to use to submit a request. Both clients are compliant
 with the protocol defined in this document.
 
