@@ -77,3 +77,162 @@ methods:
           since: 2.7
           doc: |
             Previous value associated with the key. 
+  - id: 3
+    name: set
+    since: 2.7
+    doc: |
+      Sets the key-value in the specified map.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the value.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Value to associate with the key.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            Always null, set does not return any previous value.
+  - id: 4
+    name: remove
+    since: 2.7
+    doc: |
+      Removes the value associated with the key in the specified map.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the value to remove.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            The result of the remove. 
+  - id: 5
+    name: delete
+    since: 2.7
+    doc: |
+      Deletes the value associated with the key in the specified map.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the value to delete.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            Always null, delete does not return any value.
+  - id: 6
+    name: compareAndSet
+    since: 2.7
+    doc: |
+      Tests if the value associated with the key is expectedValue and if so associates key with
+      newValue.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the data that is subject of the compare and set.
+        - name: expectedValue
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            The expected value associated with key.
+        - name: newValue
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            The new value to associate with key.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            True if key was associated with newValue, otherwise false.
