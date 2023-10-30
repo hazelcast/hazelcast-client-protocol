@@ -1,0 +1,79 @@
+id: 35
+name: CPMap
+methods:
+  - id: 1
+    name: get
+    since: 2.7
+    doc: |
+      Gets the value associated with the key in the specified map.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the value to retrieve.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            The result of the map lookup. 
+  - id: 2
+    name: put
+    since: 2.7
+    doc: |
+      Puts the key-value into the specified map.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupId
+          type: RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            CP group ID of this CPMap instance.
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of this CPMap instance.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Key of the value.
+        - name: value
+          type: Data
+          nullable: false
+          since: 2.7
+          doc: |
+            Value to associate with the key.
+    response:
+      params:
+        - name: response
+          type: Data
+          nullable: true
+          since: 2.7
+          doc: |
+            Previous value associated with the key. 
