@@ -16,7 +16,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            Name of the Transcational Queue
+            Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
