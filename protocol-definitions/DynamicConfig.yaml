@@ -1346,5 +1346,5 @@ methods:
           nullable: false
           since: 2.7
           doc: |
-            Map of resource definitions
+            Map of resource definitions.
     response: {}
