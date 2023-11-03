@@ -1342,9 +1342,9 @@ methods:
           doc: |
             Namespace configuration name.
         - name: resourceMap
-          type: Map_String_ResourceDefinition
+          type: List_ResourceDefinition
           nullable: false
           since: 2.7
           doc: |
-            Map of resource definitions.
+            List of resource definitions.
     response: {}
