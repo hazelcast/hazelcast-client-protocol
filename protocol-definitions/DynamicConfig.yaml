@@ -1326,3 +1326,25 @@ methods:
           doc: |
             The WAN batch publisher configurations.
     response: {}
+  - id: 19
+    name: addNamespaceConfig
+    since: 2.7
+    doc: |
+      Adds a namespace configuration.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Namespace configuration name.
+        - name: resourceMap
+          type: Map_String_ResourceDefinition
+          nullable: false
+          since: 2.7
+          doc: |
+            Map of resource definitions
+    response: {}

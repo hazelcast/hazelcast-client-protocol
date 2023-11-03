@@ -1440,3 +1440,18 @@ customTypes:
         type: byte
         nullable: false
         since: 2.7
+  - name: ResourceDefinition
+    since: 2.7
+    params:
+      - name: id
+        type: String
+        nullable: false
+        since: 2.7
+      - name: resourceType
+        type: int
+        nullable: false
+        since: 2.7
+      - name: payload
+        type: byteArray
+        since: 2.7
+        nullable: false

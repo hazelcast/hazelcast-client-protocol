@@ -90,6 +90,8 @@ _java_types_common = {
     "List_DiscoveryStrategyConfig": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder>",
     "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
     "WanSyncConfig": "com.hazelcast.client.impl.protocol.codec.holder.WanSyncConfigHolder",
+    "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
+    "Map_String_ResourceDefinition": "java.util.Map<java.lang.String, com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>"
 }
 
 _java_types_encode = {
