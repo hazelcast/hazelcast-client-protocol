@@ -65,7 +65,7 @@ methods:
             Key of the value.
         - name: value
           type: Data
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
             Value to associate with the key.
@@ -106,7 +106,7 @@ methods:
             Key of the value.
         - name: value
           type: Data
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
             Value to associate with the key.
@@ -218,13 +218,13 @@ methods:
             Key of the data that is subject of the compare and set.
         - name: expectedValue
           type: Data
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
             The expected value associated with key.
         - name: newValue
           type: Data
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
             The new value to associate with key.
