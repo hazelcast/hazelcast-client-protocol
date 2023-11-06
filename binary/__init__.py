@@ -107,8 +107,6 @@ CustomConfigTypes = [
     "DiscoveryConfig",
     "DiscoveryStrategyConfig",
     "WanSyncConfig",
-    "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
-    "Map_String_ResourceDefinition": "java.util.Map<java.lang.String, com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>"
 ]
 
 VarSizedEntryListTypes = [
