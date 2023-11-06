@@ -1341,7 +1341,7 @@ methods:
           since: 2.7
           doc: |
             Namespace configuration name.
-        - name: resourceMap
+        - name: resources
           type: List_ResourceDefinition
           nullable: false
           since: 2.7
