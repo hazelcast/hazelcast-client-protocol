@@ -1348,3 +1348,25 @@ methods:
           doc: |
             List of resource definitions.
     response: {}
+  - id: 20
+    name: removeNamespaceConfig
+    since: 2.7
+    doc: |
+      Removes a namespace configuration.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Namespace configuration name.
+        - name: resources
+          type: List_ResourceDefinition
+          nullable: false
+          since: 2.7
+          doc: |
+            List of resource definitions.
+    response: {}
