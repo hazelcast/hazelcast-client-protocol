@@ -132,7 +132,7 @@
             "List_WanBatchPublisherConfigHolder",
             "List_SimpleEntryView",
             "ResourceDefinition",
-            "List_ResourceDefinition"
+            "Map_String_ResourceDefinition"
           ]
         },
         "nullable": {
