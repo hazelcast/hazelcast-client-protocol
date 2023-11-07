@@ -909,6 +909,12 @@ methods:
           since: 2.6
           doc: |
             List of attributes used for creating AttributePartitioningStrategy.
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 13
     name: addReliableTopicConfig
