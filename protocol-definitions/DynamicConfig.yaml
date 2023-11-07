@@ -76,6 +76,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 2
     name: addRingbufferConfig
@@ -152,6 +158,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 3
     name: addCardinalityEstimatorConfig
@@ -407,6 +419,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 7
     name: addTopicConfig
@@ -451,6 +469,12 @@ methods:
           since: 2.0
           doc: |
             message listener configurations
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 8
     name: addExecutorConfig
@@ -701,6 +725,12 @@ methods:
           since: 2.1
           doc: |
             Class name of the configured {@link java.util.Comparator} implementation.
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 12
     name: addMapConfig
@@ -965,6 +995,12 @@ methods:
           doc: |
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 14
     name: addCacheConfig
@@ -1152,6 +1188,12 @@ methods:
           since: 2.5
           doc: |
             Data persistence configuration
+        - name: namespaceName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
