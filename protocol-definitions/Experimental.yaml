@@ -1,3 +1,31 @@
 id: 253
 name: Experimental
-methods: []
+methods:
+  - id: 1
+    name: pipelineSubmit
+    since: 2.7
+    doc: 'The message is used to transfer the declarative pipeline definition and the related resource files 
+    from client to the server.'
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: pipelineDefinition
+          type: String
+          nullable: false
+          since: 2.7
+          doc: 'The definition of the pipeline steps. It currently uses the YAML format.'
+        - name: resourceBundle
+          type: byteArray
+          nullable: true
+          since: 2.7
+          doc: 'This is the zipped file which contains the user project folders and files. For Python project, 
+          it is the Python project files. It is optional in the sense that if the user likes to use a user docker 
+          image with all the resources and project files included, this parameter can be null.'
+    response:
+      params:
+        - name: jobId
+          type: long
+          nullable: false
+          since: 2.7
+          doc: 'This is the unique identifier for the job which is created for this pipeline'
