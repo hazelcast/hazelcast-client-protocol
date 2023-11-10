@@ -22,6 +22,11 @@ methods:
           doc: 'This is the zipped file which contains the user project folders and files. For Python project, 
           it is the Python project files. It is optional in the sense that if the user likes to use a user docker 
           image with all the resources and project files included, this parameter can be null.'
+        - name: resourceBundleChecksum
+          type: int
+          nullable: true
+          since: 2.7
+          doc: 'This is the CRC32 checksum over the resource bundle bytes.'
     response:
       params:
         - name: jobId
