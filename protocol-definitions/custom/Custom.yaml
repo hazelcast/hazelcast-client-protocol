@@ -418,7 +418,7 @@ customTypes:
         type: boolean
         nullable: false
         since: 2.4
-      - name: namespaceName
+      - name: namespace
         type: String
         nullable: true
         since: 2.7
@@ -785,7 +785,7 @@ customTypes:
         type: DataPersistenceConfig
         nullable: false
         since: 2.5
-      - name: namespaceName
+      - name: namespace
         type: String
         nullable: true
         since: 2.7

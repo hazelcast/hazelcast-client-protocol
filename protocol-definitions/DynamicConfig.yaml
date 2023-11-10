@@ -76,7 +76,7 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -158,7 +158,7 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -284,7 +284,7 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -359,7 +359,7 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -431,7 +431,7 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -481,7 +481,7 @@ methods:
           since: 2.0
           doc: |
             message listener configurations
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -737,7 +737,7 @@ methods:
           since: 2.1
           doc: |
             Class name of the configured {@link java.util.Comparator} implementation.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -951,7 +951,7 @@ methods:
           since: 2.6
           doc: |
             List of attributes used for creating AttributePartitioningStrategy.
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -1007,7 +1007,7 @@ methods:
           doc: |
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
@@ -1200,7 +1200,7 @@ methods:
           since: 2.5
           doc: |
             Data persistence configuration
-        - name: namespaceName
+        - name: namespace
           type: String
           nullable: true
           since: 2.7
