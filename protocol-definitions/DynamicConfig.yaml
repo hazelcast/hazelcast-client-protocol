@@ -531,6 +531,12 @@ methods:
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
+        - name: namespace
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 9
     name: addDurableExecutorConfig
@@ -581,6 +587,12 @@ methods:
           since: 2.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
+        - name: namespace
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 10
     name: addScheduledExecutorConfig
@@ -651,6 +663,12 @@ methods:
           since: 2.5
           doc: |
             Capacity policy for the configured capacity value
+        - name: namespace
+          type: String
+          nullable: true
+          since: 2.7
+          doc: |
+            Name of the namespace applied to this instance.
     response: {}
   - id: 11
     name: addQueueConfig
