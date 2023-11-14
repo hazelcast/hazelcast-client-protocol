@@ -231,8 +231,8 @@ methods:
     response:
       params:
         - name: response
-          type: boolean
+          type: Data
           nullable: false
           since: 2.7
           doc: |
-            True if key was associated with newValue, otherwise false.
+            Result of the compare and set.
