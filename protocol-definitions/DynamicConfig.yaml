@@ -1441,10 +1441,4 @@ methods:
           since: 2.7
           doc: |
             Namespace configuration name.
-        - name: resources
-          type: List_ResourceDefinition
-          nullable: false
-          since: 2.7
-          doc: |
-            List of resource definitions.
     response: {}
