@@ -10,6 +10,11 @@ methods:
       retryable: true
       partitionIdentifier: -1
       params:
+        - name: jobName
+          type: String
+          nullable: true
+          since: 2.7
+          doc: 'The name of the submitted Job using this pipeline.'
         - name: pipelineDefinition
           type: String
           nullable: false
