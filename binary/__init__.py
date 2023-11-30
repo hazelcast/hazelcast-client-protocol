@@ -45,6 +45,7 @@ CustomTypes = [
     'RaftGroupId',
     'ScheduledTaskHandler',
     'SimpleEntryView',
+    'ReplicatedMapEntryView',
     'WanReplicationRef',
     'Xid',
     'ErrorHolder',
@@ -151,6 +152,7 @@ VarSizedListTypes = [
     'List_WanCustomPublisherConfigHolder',
     'List_WanBatchPublisherConfigHolder',
     'List_SimpleEntryView',
+    'List_ReplicatedMapEntryView',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

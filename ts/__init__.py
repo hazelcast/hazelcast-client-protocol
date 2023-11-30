@@ -316,6 +316,8 @@ _ts_types = {
     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
     'List_Schema': 'Schema[]',
     'List_FieldDescriptor': 'FieldDescriptor[]',
+    "List_SimpleEntryView": "NA",
+    "List_ReplicatedMapEntryView": "NA",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
@@ -347,5 +349,4 @@ _ts_types = {
     "DiscoveryStrategyConfig": "NA",
     "DiscoveryConfig": "NA",
     "WanSyncConfig": "NA",
-    "List_SimpleEntryView": "NA",
 }
