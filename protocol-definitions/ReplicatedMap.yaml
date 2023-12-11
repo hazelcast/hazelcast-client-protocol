@@ -825,6 +825,7 @@ methods:
     since: 2.7
     doc: |
       Copies all of the mappings from the specified entry list to this map, including metadata.
+      This method uses ReplicatedRecordStore.putRecords method with version=current version + 1.
       Please note that all the keys in the request should belong to the partition id to which this request is being sent, all keys
       matching to a different partition id shall be ignored. The API implementation using this request may need to send multiple
       of these request messages for filling a request for a key set if the keys belong to different partitions.

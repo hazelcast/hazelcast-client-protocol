@@ -1472,7 +1472,3 @@ customTypes:
         type: long
         nullable: false
         since: 2.7
-      - name: maxIdle
-        type: long
-        nullable: false
-        since: 2.7
