@@ -41,7 +41,7 @@
             "RaftGroupId",
             "ScheduledTaskHandler",
             "SimpleEntryView",
-            "ReplicatedMapEntryView",
+            "ReplicatedMapEntryViewHolder",
             "WanReplicationRef",
             "Xid",
             "CacheConfigHolder",
@@ -132,7 +132,7 @@
             "List_WanCustomPublisherConfigHolder",
             "List_WanBatchPublisherConfigHolder",
             "List_SimpleEntryView",
-            "List_ReplicatedMapEntryView"
+            "List_ReplicatedMapEntryViewHolder"
           ]
         },
         "nullable": {

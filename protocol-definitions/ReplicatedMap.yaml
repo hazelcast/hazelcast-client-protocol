@@ -840,9 +840,15 @@ methods:
           doc: |
             name of replicated map
         - name: entries
-          type: List_ReplicatedMapEntryView
+          type: List_ReplicatedMapEntryViewHolder
           nullable: false
           since: 2.7
           doc: |
             entries with metadata
+        - name: version
+          type: long
+          nullable: false
+          since: 2.7
+          doc: |
+            version of the replicated map store that stores the data
     response: {}

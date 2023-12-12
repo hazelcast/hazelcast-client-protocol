@@ -1440,9 +1440,9 @@ customTypes:
         type: byte
         nullable: false
         since: 2.7
-  - name: ReplicatedMapEntryView
+  - name: ReplicatedMapEntryViewHolder
     since: 2.7
-    returnWithFactory: true
+    returnWithFactory: false
     params:
       - name: key
         type: Data

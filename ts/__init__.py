@@ -317,7 +317,7 @@ _ts_types = {
     'List_Schema': 'Schema[]',
     'List_FieldDescriptor': 'FieldDescriptor[]',
     "List_SimpleEntryView": "NA",
-    "List_ReplicatedMapEntryView": "NA",
+    "List_ReplicatedMapEntryViewHolder": "NA",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
