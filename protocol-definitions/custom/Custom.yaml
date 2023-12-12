@@ -1446,11 +1446,11 @@ customTypes:
     params:
       - name: key
         type: Data
-        nullable: false
+        nullable: true
         since: 2.7
       - name: value
         type: Data
-        nullable: false
+        nullable: true
         since: 2.7
       - name: creationTime
         type: long
