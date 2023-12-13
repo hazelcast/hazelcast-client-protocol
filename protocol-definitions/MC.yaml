@@ -158,7 +158,7 @@ methods:
           nullable: false
           since: 2.4
           doc: |
-            Global indexs of the map.
+            Global indexes of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0

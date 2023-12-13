@@ -298,7 +298,7 @@ methods:
           nullable: false
           since: 2.0
           doc: |
-            List of items that have beee read.
+            List of items that have been read.
         - name: itemSeqs
           type: longArray
           nullable: true

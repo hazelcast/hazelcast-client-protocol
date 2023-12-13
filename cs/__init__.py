@@ -24,9 +24,6 @@ cs_ignore_service_list = {
     "DataPersistenceConfig", "DiskTierConfig", "TieredStoreConfig", "SqlSummary", "JobAndSqlSummary"
 }
 
-def cs_init_env(env):
-    env.globals["cs_sizeof"] = cs_sizeof
-    return env
 
 def cs_types_encode(key):
     try:
@@ -126,6 +123,18 @@ _cs_types_common = {
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
+    "PartitioningAttributeConfig": "NA",
+    "WanConsumerConfigHolder": "NA",
+    "WanCustomPublisherConfigHolder": "NA",
+    "WanBatchPublisherConfigHolder": "NA",
+    "AwsConfig": "NA",
+    "GcpConfig": "NA",
+    "AzureConfig": "NA",
+    "KubernetesConfig": "NA",
+    "EurekaConfig": "NA",
+    "DiscoveryStrategyConfig": "NA",
+    "DiscoveryConfig": "NA",
+    "WanSyncConfig": "NA",
 }
 
 _cs_types_encode = {
@@ -188,6 +197,8 @@ _cs_types_encode = {
     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
 
     "Set_UUID": "ISet<Guid>",
+    "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _cs_types_decode = {
@@ -248,4 +259,6 @@ _cs_types_decode = {
     "EntryList_Data_List_Data": "IList<KeyValuePair<IData, IList<IData>>>",
 
     "Set_UUID": "ISet<Guid>",
+    "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }

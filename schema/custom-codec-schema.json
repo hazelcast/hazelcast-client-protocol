@@ -97,6 +97,7 @@
             "List_JobAndSqlSummary",
             "Set_UUID",
             "Map_String_String",
+            "Map_String_Data",
             "Map_EndpointQualifier_Address",
             "EndpointQualifier",
             "MergePolicyConfig",
@@ -121,7 +122,17 @@
             "Capacity",
             "MemoryTierConfig",
             "DiskTierConfig",
-            "TieredStoreConfig"
+            "TieredStoreConfig",
+            "PartitioningAttributeConfig",
+            "List_PartitioningAttributeConfig",
+            "AwsConfig",
+            "GcpConfig",
+            "AzureConfig",
+            "KubernetesConfig",
+            "EurekaConfig",
+            "List_DiscoveryStrategyConfig",
+            "DiscoveryConfig",
+            "WanSyncConfig"
           ]
         },
         "nullable": {

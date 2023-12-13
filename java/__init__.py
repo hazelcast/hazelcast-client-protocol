@@ -61,6 +61,7 @@ _java_types_common = {
     "EndpointQualifier": "com.hazelcast.instance.EndpointQualifier",
 
     "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
+    "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
 
     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
@@ -73,7 +74,22 @@ _java_types_common = {
     "MemoryTierConfig": "com.hazelcast.config.MemoryTierConfig",
     "DiskTierConfig": "com.hazelcast.config.DiskTierConfig",
     "TieredStoreConfig": "com.hazelcast.config.TieredStoreConfig",
-    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary"
+    "SqlSummary": "com.hazelcast.jet.impl.SqlSummary",
+    "PartitioningAttributeConfig": "com.hazelcast.config.PartitioningAttributeConfig",
+    "WanConsumerConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanConsumerConfigHolder",
+    "WanCustomPublisherConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanCustomPublisherConfigHolder",
+    "List_WanCustomPublisherConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.WanCustomPublisherConfigHolder>",
+    "WanBatchPublisherConfigHolder": "com.hazelcast.client.impl.protocol.codec.holder.WanBatchPublisherConfigHolder",
+    "List_WanBatchPublisherConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.WanBatchPublisherConfigHolder>",
+    "AwsConfig": "com.hazelcast.config.AwsConfig",
+    "GcpConfig": "com.hazelcast.config.GcpConfig",
+    "AzureConfig": "com.hazelcast.config.AzureConfig",
+    "KubernetesConfig": "com.hazelcast.config.KubernetesConfig",
+    "EurekaConfig": "com.hazelcast.config.EurekaConfig",
+    "DiscoveryStrategyConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder",
+    "List_DiscoveryStrategyConfig": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder>",
+    "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
+    "WanSyncConfig": "com.hazelcast.client.impl.protocol.codec.holder.WanSyncConfigHolder",
 }
 
 _java_types_encode = {
@@ -134,6 +150,8 @@ _java_types_encode = {
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
+    "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
+    "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
 }
 
 _java_types_decode = {
@@ -194,4 +212,6 @@ _java_types_decode = {
     "EntryList_UUID_List_Integer": "java.util.List<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
+    "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
+    "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
 }

@@ -146,6 +146,7 @@ _cpp_types_common = {
     "SqlColumnMetadata": "NA",
     "CPMember": "NA",
     "MigrationState": "NA",
+    "PartitioningAttributeConfig": "NA",
 }
 
 _cpp_types_encode = {
@@ -195,6 +196,8 @@ _cpp_types_encode = {
     "EntryList_Data_List_Data": "std::vector<std::pair<serialization::pimpl::data, std::vector<serialization::pimpl::data>>>",
 
     "Set_UUID": "NA",
+    "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _cpp_types_decode = {
@@ -243,6 +246,8 @@ _cpp_types_decode = {
     "EntryList_Data_Data": "std::vector<std::pair<serialization::pimpl::data, serialization::pimpl::data>>",
 
     "Set_UUID": "NA",
+    "List_PartitioningAttributeConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }
 
 _trivial_types = {

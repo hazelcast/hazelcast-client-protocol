@@ -424,6 +424,12 @@ methods:
           since: 2.6
           doc: |
             ID of job.
+        - name: lightJobCoordinator
+          type: UUID
+          nullable: true
+          since: 2.6
+          doc: |
+            Address of the job coordinator for light jobs, null otherwise.
         - name: localOnly
           type: boolean
           nullable: false

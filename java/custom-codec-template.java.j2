@@ -63,6 +63,7 @@ import static com.hazelcast.client.impl.protocol.codec.builtin.FixedSizeTypesCod
 {% set new_codec_params = new_params(codec.since, codec.params) %}
 {% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
 {% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
+@SuppressWarnings("unused")
 @Generated("!codec_hash!")
 public final class {{ codec.name|capital }}Codec {
     {% for param in fix_sized_params %}

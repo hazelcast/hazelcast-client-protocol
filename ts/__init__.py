@@ -334,4 +334,18 @@ _ts_types = {
     "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
 
     "Set_UUID": "Set<UUID>",
+    "PartitioningAttributeConfig": "NA",
+    "List_PartitioningAttributeConfig": "NA",
+    "WanConsumerConfigHolder": "NA",
+    "WanCustomPublisherConfigHolder": "NA",
+    "WanBatchPublisherConfigHolder": "NA",
+    "AwsConfig": "NA",
+    "GcpConfig": "NA",
+    "AzureConfig": "NA",
+    "KubernetesConfig": "NA",
+    "EurekaConfig": "NA",
+    "DiscoveryStrategyConfig": "NA",
+    "DiscoveryConfig": "NA",
+    "WanSyncConfig": "NA",
+    "List_SimpleEntryView": "NA",
 }

@@ -30,7 +30,7 @@ from cs import (
     cs_types_decode,
     cs_types_encode,
     cs_custom_codec_param_name,
-    cs_init_env
+    # cs_init_env
 )
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -670,7 +670,7 @@ language_specific_funcs = {
     },
     "init_env": {
         SupportedLanguages.JAVA: lambda x: x,
-        SupportedLanguages.CS: cs_init_env,
+        # SupportedLanguages.CS: cs_init_env,
         SupportedLanguages.CPP: lambda x: x,
         SupportedLanguages.TS: lambda x: x,
         SupportedLanguages.PY: lambda x: x,
