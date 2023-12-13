@@ -906,7 +906,7 @@ methods:
           doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
           since: 2.4
   - id: 36
-    name: forceCloseSession
+    name: forceCloseCPSession
     since: 2.7
     doc: |
       Closes the given session forcefully on the given CP group.
