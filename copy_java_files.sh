@@ -1,3 +1,6 @@
+# Use this to copy generated java files to hazelcast repo all at once. 
+# Usage:
+
 # the output path is the generated "output" folder by this repo. do not add / at the end
 OUTPUT_PATH=$1
 # path of hazelcast folder that have pom.xml (hazelcast-root). do not add / at the end
