@@ -347,5 +347,7 @@ _ts_types = {
     "DiscoveryStrategyConfig": "NA",
     "DiscoveryConfig": "NA",
     "WanSyncConfig": "NA",
+    "ResourceDefinition": "NA",
+    "List_ResourceDefinition": "NA",
     "List_SimpleEntryView": "NA",
 }

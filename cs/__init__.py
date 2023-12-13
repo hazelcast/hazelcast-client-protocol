@@ -135,6 +135,8 @@ _cs_types_common = {
     "DiscoveryStrategyConfig": "NA",
     "DiscoveryConfig": "NA",
     "WanSyncConfig": "NA",
+    "ResourceDefinition": "NA",
+    "List_ResourceDefinition": "NA",
 }
 
 _cs_types_encode = {
