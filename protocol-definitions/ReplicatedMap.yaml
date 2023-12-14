@@ -856,7 +856,9 @@ methods:
     name: fetchEntryViews
     since: 2.7
     doc: |
-      Allows iteration over ReplicatedMapEntryViewHolder objects. The changes happened during the iteration may not be included in the iterated EntryViews. 
+      Allows iteration over ReplicatedMapEntryViewHolder objects. The changes happened during the iteration may not be included in the iterated EntryViews. This method
+      will throw an exception if there is no replicated record store with the given replicated map name and partition id. This method will consume some memory in the 
+      member with the default timeout of 300 seconds that is reset after each fetch. Iterating completely or timing out will release the resource.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -873,6 +875,12 @@ methods:
           since: 2.7
           doc: |
             The identifier of the last fetched page. Initially null and then returned by this API. 
+        - name: iterationId
+          type: UUID
+          nullable: true
+          since: 2.7
+          doc: |
+            A unique string which is used to identify the iteration in progress. Initially null and then returned by this API.
         - name: partitionId
           type: int
           nullable: false
@@ -893,6 +901,12 @@ methods:
           since: 2.7
           doc: |
             A unique string which is used to fetch new pages.
+        - name: iteratorId
+          type: UUID
+          nullable: false
+          since: 2.7
+          doc: |
+            A unique string which is used to identify the iteration in progress.
         - name: entryViews
           type: List_ReplicatedMapEntryViewHolder
           nullable: true
