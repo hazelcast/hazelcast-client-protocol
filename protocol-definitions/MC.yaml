@@ -926,4 +926,12 @@ methods:
           since: 2.7
           doc: |
             ID of the session
-    response: {}
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            true if the session is found & closed,
+            false otherwise.
