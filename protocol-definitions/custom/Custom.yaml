@@ -1468,7 +1468,7 @@ customTypes:
         type: long
         nullable: false
         since: 2.7
-      - name: ttl
+      - name: ttlMillis
         type: long
         nullable: false
         since: 2.7
