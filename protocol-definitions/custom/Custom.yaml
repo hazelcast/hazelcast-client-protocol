@@ -442,6 +442,10 @@ customTypes:
         type: int
         nullable: false
         since: 2.0
+      - name: mapName
+        type: String
+        nullable: false
+        since: 2.7
   - name: QueueStoreConfigHolder
     since: 2.0
     params:
@@ -781,6 +785,10 @@ customTypes:
         type: DataPersistenceConfig
         nullable: false
         since: 2.5
+      - name: namespace
+        type: String
+        nullable: true
+        since: 2.7
   - name: ClientBwListEntry
     since: 2.0
     returnWithFactory: true
@@ -1440,3 +1448,18 @@ customTypes:
         type: byte
         nullable: false
         since: 2.7
+  - name: ResourceDefinition
+    since: 2.7
+    params:
+      - name: id
+        type: String
+        nullable: false
+        since: 2.7
+      - name: resourceType
+        type: int
+        nullable: false
+        since: 2.7
+      - name: payload
+        type: byteArray
+        since: 2.7
+        nullable: false
