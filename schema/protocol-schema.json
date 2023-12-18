@@ -132,7 +132,9 @@
             "List_WanCustomPublisherConfigHolder",
             "List_WanBatchPublisherConfigHolder",
             "List_SimpleEntryView",
-            "List_ReplicatedMapEntryViewHolder"
+            "List_ReplicatedMapEntryViewHolder",
+            "ResourceDefinition",
+            "List_ResourceDefinition"
           ]
         },
         "nullable": {
