@@ -108,6 +108,7 @@ CustomConfigTypes = [
     "DiscoveryConfig",
     "DiscoveryStrategyConfig",
     "WanSyncConfig",
+    "ResourceDefinition",
 ]
 
 VarSizedEntryListTypes = [
