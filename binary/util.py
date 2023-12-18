@@ -491,6 +491,7 @@ reference_objects_dict = {
     'List_WanCustomPublisherConfigHolder': 'aListOfWanCustomPublisherConfigsHolders',
     'List_WanBatchPublisherConfigHolder': 'aListOfWanBatchPublisherConfigHolders',
     'List_SimpleEntryView': 'aListOfSimpleEntryViews',
+    'List_ResourceDefinition': 'aListOfResourceDefinitionHolders',
 }
 
 
