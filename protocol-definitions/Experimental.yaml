@@ -29,7 +29,7 @@ methods:
           image with all the resources and project files included, this parameter can be null.'
         - name: resourceBundleChecksum
           type: int
-          nullable: false
+          nullable: true
           since: 2.7
           doc: 'This is the CRC32 checksum over the resource bundle bytes.'
     response:
