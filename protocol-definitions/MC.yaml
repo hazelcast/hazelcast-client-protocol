@@ -928,7 +928,7 @@ methods:
             ID of the session
     response:
       params:
-        - name: response
+        - name: result
           type: boolean
           nullable: false
           since: 2.7
