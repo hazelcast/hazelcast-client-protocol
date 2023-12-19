@@ -496,7 +496,7 @@ def contains_invalid_nullability_field(params):
         if param["type"] in FixSizedTypes and param["type"] != "UUID" and param["nullable"]:
             print(
                 'Check the nullable value of "%s" field of the "%s".\n'
-                "Fixed fields cannot be nullable!"
+                "Fixed fields other than UUID cannot be nullable!"
                 % (param["name"], param["since"])
             )
             return True
