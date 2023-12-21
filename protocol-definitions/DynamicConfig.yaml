@@ -1430,7 +1430,7 @@ methods:
     name: removeUserCodeNamespaceConfig
     since: 2.7
     doc: |
-      Removes a namespace configuration.
+      Removes a user code namespace configuration.
     request:
       retryable: false
       partitionIdentifier: -1
