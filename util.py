@@ -29,7 +29,8 @@ from cs import (
     cs_types_decode,
     cs_types_encode,
     cs_custom_codec_param_name,
-    cs_sizeof
+    cs_sizeof,
+    cs_param_prefix
 )
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -301,8 +302,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         codec_file_name = file_name_generators[lang](codec["name"])
                         content = template.render(codec=codec)
                         save_file(join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                except NotImplementedError as e:
+                    print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
 
 def generate_documentation(services, custom_definitions, template, output_dir):
@@ -608,6 +609,7 @@ language_specific_funcs = {
         "escape_keyword": cs_escape_keyword,
         "custom_codec_param_name": cs_custom_codec_param_name,
         "cs_sizeof": cs_sizeof,
+        "cs_param_prefix": cs_param_prefix,
     },
     SupportedLanguages.CPP: {
         "lang_types_encode": cpp_types_encode,
