@@ -137,3 +137,20 @@ methods:
           since: 2.1
           doc: |
             True if unregistered, false otherwise.
+  - id: 5
+    name: getCPStructures
+    since: 2.7
+    doc: |
+      Returns all of the CP structures in the cluster.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: List_DistributedObjectInfo
+          nullable: false
+          since: 2.7
+          doc: |
+            List of CP structures. The service name is guaranteed to be
+            one of the CP services.
