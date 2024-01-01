@@ -207,10 +207,10 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
     if lang is SupportedLanguages.CPP:
         curr_dir = dirname(realpath(__file__))
         cpp_dir = "%s/cpp" % curr_dir
-        f = open(join(cpp_dir, "header_includes.txt"), "r")
-        save_file(join(output_dir, "codecs.h"), f.read(), "w")
-        f = open(join(cpp_dir, "source_header.txt"), "r")
-        save_file(join(output_dir, "codecs.cpp"), f.read(), "w")
+        content = get_text_from_template_file(cpp_dir, "header_includes.txt", env)
+        save_file(join(output_dir, "codecs.h"), content, "w")
+        content = get_text_from_template_file(cpp_dir, "source_header.txt", env)
+        save_file(join(output_dir, "codecs.cpp"), content, "w")
 
     for service in services:
         if ignore_service(service, lang):
@@ -265,8 +265,7 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                 print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
     if lang is SupportedLanguages.CPP:
-        f = open(join(cpp_dir, "footer.txt"), "r")
-        content = f.read()
+        content = get_text_from_template_file(cpp_dir, "footer.txt", env)
         save_file(join(output_dir, "codecs.h"), content, "a+")
         save_file(join(output_dir, "codecs.cpp"), content, "a+")
 
@@ -664,6 +663,12 @@ def ignore_service_or_method(name, lang):
             return True
     return False
 
+def get_text_from_template_file(dir, filename, env):
+    """
+    Returns the rendered version of the contents of the specified template file 
+    """
+    content = open(join(dir, filename), "r").read()
+    return env.from_string(content).render()
 
 def create_environment(lang, namespace):
     env = Environment(
