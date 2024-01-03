@@ -148,7 +148,7 @@ methods:
     response:
       params:
         - name: response
-          type: List_DistributedObjectInfo
+          type: List_CPDistributedObjectInfo
           nullable: false
           since: 2.7
           doc: |

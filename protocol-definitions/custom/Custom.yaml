@@ -1463,3 +1463,18 @@ customTypes:
         type: byteArray
         since: 2.7
         nullable: false
+  - name: CPDistributedObjectInfo
+    since: 2.7
+    params:
+      - name: serviceName
+        type: String
+        nullable: false
+        since: 2.7
+      - name: name
+        type: String
+        nullable: false
+        since: 2.7
+      - name: groupName
+        type: String
+        nullable: false
+        since: 2.7
