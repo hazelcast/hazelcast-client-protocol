@@ -76,12 +76,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 2
     name: addRingbufferConfig
@@ -158,12 +158,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 3
     name: addCardinalityEstimatorConfig
@@ -284,12 +284,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 5
     name: addSetConfig
@@ -359,12 +359,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 6
     name: addReplicatedMapConfig
@@ -431,12 +431,12 @@ methods:
           since: 2.0
           doc: |
             Number of entries to be sent in a merge operation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 7
     name: addTopicConfig
@@ -481,12 +481,12 @@ methods:
           since: 2.0
           doc: |
             message listener configurations
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 8
     name: addExecutorConfig
@@ -531,12 +531,12 @@ methods:
             name of an existing configured split brain protection to be used to determine the minimum number of members
             required in the cluster for the lock to remain functional. When {@code null}, split brain protection does not
             apply to this lock configuration's operations.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 9
     name: addDurableExecutorConfig
@@ -587,12 +587,12 @@ methods:
           since: 2.1
           doc: |
             {@code true} to enable gathering of statistics, otherwise {@code false}
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 10
     name: addScheduledExecutorConfig
@@ -663,12 +663,12 @@ methods:
           since: 2.5
           doc: |
             Capacity policy for the configured capacity value
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 11
     name: addQueueConfig
@@ -755,12 +755,12 @@ methods:
           since: 2.1
           doc: |
             Class name of the configured {@link java.util.Comparator} implementation.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 12
     name: addMapConfig
@@ -969,12 +969,12 @@ methods:
           since: 2.6
           doc: |
             List of attributes used for creating AttributePartitioningStrategy.
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 13
     name: addReliableTopicConfig
@@ -1025,12 +1025,12 @@ methods:
           doc: |
             a serialized {@link java.util.concurrent.Executor} instance to use for executing
             message listeners or {@code null}
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 14
     name: addCacheConfig
@@ -1218,12 +1218,12 @@ methods:
           since: 2.5
           doc: |
             Data persistence configuration
-        - name: namespace
+        - name: userCodeNamespace
           type: String
           nullable: true
           since: 2.7
           doc: |
-            Name of the namespace applied to this instance.
+            Name of the User Code Namespace applied to this instance.
     response: {}
   - id: 15
     name: addFlakeIdGeneratorConfig
@@ -1405,10 +1405,10 @@ methods:
             The WAN batch publisher configurations.
     response: {}
   - id: 19
-    name: addNamespaceConfig
+    name: addUserCodeNamespaceConfig
     since: 2.7
     doc: |
-      Adds a namespace configuration.
+      Adds a user code namespace configuration.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -1427,10 +1427,10 @@ methods:
             List of resource definitions.
     response: {}
   - id: 20
-    name: removeNamespaceConfig
+    name: removeUserCodeNamespaceConfig
     since: 2.7
     doc: |
-      Removes a namespace configuration.
+      Removes a user code namespace configuration.
     request:
       retryable: false
       partitionIdentifier: -1

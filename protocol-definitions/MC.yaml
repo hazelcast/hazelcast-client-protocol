@@ -905,3 +905,33 @@ methods:
           nullable: false
           doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
           since: 2.4
+  - id: 36
+    name: forceCloseCPSession
+    since: 2.7
+    doc: |
+      Closes the given session forcefully on the given CP group.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupName
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of the CP group
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.7
+          doc: |
+            ID of the session
+    response:
+      params:
+        - name: result
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            true if the session is found & closed,
+            false otherwise.

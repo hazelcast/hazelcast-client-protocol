@@ -785,7 +785,7 @@ customTypes:
         type: DataPersistenceConfig
         nullable: false
         since: 2.5
-      - name: namespace
+      - name: userCodeNamespace
         type: String
         nullable: true
         since: 2.7
