@@ -860,7 +860,7 @@ methods:
       will throw an exception if there is no replicated record store with the given replicated map name and partition id. This method will consume some memory in the 
       member with the default timeout of 300 seconds that is reset after each fetch. Iterating completely or timing out will release the resource.
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: name
