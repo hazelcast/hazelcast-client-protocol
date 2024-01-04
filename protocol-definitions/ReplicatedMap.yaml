@@ -845,4 +845,10 @@ methods:
           since: 2.7
           doc: |
             entries with metadata
+        - name: partitionId
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            partition id of the entries
     response: {}
