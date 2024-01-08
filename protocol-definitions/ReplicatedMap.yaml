@@ -845,6 +845,12 @@ methods:
           since: 2.7
           doc: |
             entries with metadata
+        - name: partitionId
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            partition id of the entries
     response: {}
   - id: 20
     name: fetchEntryViews
@@ -857,7 +863,7 @@ methods:
       retryable: true
       partitionIdentifier: -1
       params:
-        - name: name
+        - name: nameg
           type: String
           nullable: false
           since: 2.7
@@ -895,32 +901,3 @@ methods:
           since: 2.7
           doc: |
             A list of EntryViews. Null means end of iteration. 
-  - id: 21
-    name: storeVersion
-    since: 2.7
-    doc: |
-      Allows retrieval of ReplicatedRecordStore version. Invoked on partition owner.
-    request:
-      retryable: true
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.7
-          doc: |
-            Name of the ReplicatedMap
-        - name: partitionId
-          type: int
-          nullable: false
-          since: 2.7
-          doc: |
-            The partition ID of the partition that the EntryViews belong to.
-    response:
-      params:
-        - name: version
-          type: long
-          nullable: false
-          since: 2.7
-          doc: |
-            The store version. -1 if there is no such store.
