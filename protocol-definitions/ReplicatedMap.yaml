@@ -863,7 +863,7 @@ methods:
       retryable: true
       partitionIdentifier: -1
       params:
-        - name: nameg
+        - name: name
           type: String
           nullable: false
           since: 2.7
