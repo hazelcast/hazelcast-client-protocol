@@ -1426,19 +1426,3 @@ methods:
           doc: |
             List of resource definitions.
     response: {}
-  - id: 20
-    name: removeUserCodeNamespaceConfig
-    since: 2.7
-    doc: |
-      Removes a user code namespace configuration.
-    request:
-      retryable: false
-      partitionIdentifier: -1
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.7
-          doc: |
-            Namespace configuration name.
-    response: {}
