@@ -1494,4 +1494,8 @@ customTypes:
       - name: payload
         type: byteArray
         since: 2.7
-        nullable: false
+        nullable: true
+      - name: resourceUrl
+        type: String
+        since: 2.7
+        nullable: true
