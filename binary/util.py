@@ -407,6 +407,7 @@ reference_objects_dict = {
     'RaftGroupId': 'aRaftGroupId',
     'ScheduledTaskHandler': 'aScheduledTaskHandler',
     'SimpleEntryView': 'aSimpleEntryView',
+    'ReplicatedMapEntryViewHolder': 'aReplicatedMapEntryViewHolder',
     'WanReplicationRef': 'aWanReplicationRef',
     'Xid': 'anXid',
     'ErrorHolder': 'anErrorHolder',
@@ -491,6 +492,7 @@ reference_objects_dict = {
     'List_WanCustomPublisherConfigHolder': 'aListOfWanCustomPublisherConfigsHolders',
     'List_WanBatchPublisherConfigHolder': 'aListOfWanBatchPublisherConfigHolders',
     'List_SimpleEntryView': 'aListOfSimpleEntryViews',
+    'List_ReplicatedMapEntryViewHolder': 'aListOfReplicatedMapEntryViewHolders',
     'List_ResourceDefinition': 'aListOfResourceDefinitionHolders',
 }
 
