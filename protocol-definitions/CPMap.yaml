@@ -276,4 +276,4 @@ methods:
           nullable: true
           since: 2.7
           doc: |
-            Previous value associated with the key. 
+            Value associated with the key if already present.
