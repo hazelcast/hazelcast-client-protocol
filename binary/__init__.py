@@ -42,7 +42,7 @@ CustomTypes = [
     'CacheEventData',
     'DistributedObjectInfo',
     'CPDistributedObjectInfo',
-    'CPGroupId'
+    'CPGroupId',
     'QueryCacheEventData',
     'RaftGroupId',
     'ScheduledTaskHandler',

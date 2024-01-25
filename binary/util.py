@@ -254,7 +254,6 @@ class VarSizedParamEncoder:
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
         for param in var_sized_params:
             param_type = param['type']
-            print(param)
             self.encode_var_sized_frame(client_message, param_type, is_null_test and param['nullable'])
 
     def encode_var_sized_frame(self, client_message, param_type, nullable=False):
@@ -270,8 +269,6 @@ class VarSizedParamEncoder:
             value_type = param_type.split('_', 2)[2]
             self.encode_multi_frame_map(client_message, self.encoder_for(key_type), self.encoder_for(value_type))
         else:
-            if self.encoder_for(param_type) == None:
-                print(client_message)
             self.encoder_for(param_type)(client_message)
 
     @staticmethod
