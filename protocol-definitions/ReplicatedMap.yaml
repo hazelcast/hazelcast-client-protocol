@@ -894,7 +894,7 @@ methods:
           nullable: false
           since: 2.7
           doc: |
-            A unique string which is used to fetch new pages.
+            A UUID which is used to fetch new pages.
         - name: entryViews
           type: List_ReplicatedMapEntryViewHolder
           nullable: true
