@@ -31,6 +31,7 @@ _java_types_common = {
     "ErrorHolder": "com.hazelcast.client.impl.protocol.exception.ErrorHolder",
     "StackTraceElement": "java.lang.StackTraceElement",
     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
+    "ReplicatedMapEntryViewHolder": "com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder",
     "RaftGroupId": "com.hazelcast.cp.internal.RaftGroupId",
     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
@@ -156,6 +157,7 @@ _java_types_encode = {
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
 }
 
 _java_types_decode = {
@@ -219,4 +221,5 @@ _java_types_decode = {
     "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
     "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "List_ReplicatedMapEntryViewHolder": "java.util.List<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
 }

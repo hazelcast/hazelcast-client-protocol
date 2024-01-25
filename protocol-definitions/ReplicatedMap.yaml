@@ -820,3 +820,35 @@ methods:
             since: 2.0
             doc: |
               Number of entries affected by this event.
+  - id: 19
+    name: putAllWithMetadata
+    since: 2.7
+    doc: |
+      Copies all of the mappings from the specified entry list to this map, including metadata.
+      This method uses ReplicatedRecordStore.putRecord in the backend.
+      Please note that all the keys in the request should belong to the partition id to which this request is being sent, all keys
+      matching to a different partition id shall be ignored. The API implementation using this request may need to send multiple
+      of these request messages for filling a request for a key set if the keys belong to different partitions.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            name of replicated map
+        - name: entries
+          type: List_ReplicatedMapEntryViewHolder
+          nullable: false
+          since: 2.7
+          doc: |
+            entries with metadata
+        - name: partitionId
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            partition id of the entries
+    response: {}
