@@ -138,13 +138,51 @@ methods:
           doc: |
             True if unregistered, false otherwise.
   - id: 5
-    name: getCPStructures
+    name: getCPGroupIds
     since: 2.7
     doc: |
-      Returns all of the CP structures in the cluster.
+      Returns all the active CP group ids in the cluster. This is mainly used by a client side CPSubsystem because it does not 
+      have a RaftService.
     request:
       retryable: true
       partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: List_CPGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            List of active CP group ids.
+  - id: 6
+    name: getCPObjectInfo
+    since: 2.7
+    doc: |
+      Returns all the CP structures that belong to the provided CPGroupId and service name. Tombstones are not included. A snapshot is used 
+      to retrieve the result.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+      params:
+        - name: serviceName
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            The service name of the cp structures to return
+        - name: tombstone
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: | 
+            Whether to return cp tombstones. If true, only tombstones will be returned. If false, 
+            only non-tombstone cp structures will be returned.
+        - name: cpGroupId
+          type: CPGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            Defines the cp group to return cp structures from
     response:
       params:
         - name: response
@@ -152,5 +190,5 @@ methods:
           nullable: false
           since: 2.7
           doc: |
-            List of CP structures. The service name is guaranteed to be
-            one of the CP services.
+            List of CP structures that belong to the specified cp group and service.
+  

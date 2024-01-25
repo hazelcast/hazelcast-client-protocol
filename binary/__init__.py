@@ -42,6 +42,7 @@ CustomTypes = [
     'CacheEventData',
     'DistributedObjectInfo',
     'CPDistributedObjectInfo',
+    'CPGroupId'
     'QueryCacheEventData',
     'RaftGroupId',
     'ScheduledTaskHandler',
@@ -133,6 +134,7 @@ VarSizedListTypes = [
     'List_Data',
     'List_DistributedObjectInfo',
     'List_CPDistributedObjectInfo',
+    'List_CPGroupId',
     'List_ListenerConfigHolder',
     'List_AttributeConfig',
     'List_IndexConfig',
