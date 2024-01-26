@@ -186,9 +186,9 @@ methods:
     response:
       params:
         - name: response
-          type: List_CPDistributedObjectInfo
+          type: List_String
           nullable: false
           since: 2.7
           doc: |
-            List of CP structures that belong to the specified cp group and service.
+            List of names of CP structures that belong to the specified cp group and service.
   

@@ -1499,21 +1499,6 @@ customTypes:
         type: String
         since: 2.7
         nullable: true
-  - name: CPDistributedObjectInfo
-    since: 2.7
-    params:
-      - name: serviceName
-        type: String
-        nullable: false
-        since: 2.7
-      - name: name
-        type: String
-        nullable: false
-        since: 2.7
-      - name: groupName
-        type: String
-        nullable: false
-        since: 2.7
   - name: CPGroupId
     since: 2.7
     params:
