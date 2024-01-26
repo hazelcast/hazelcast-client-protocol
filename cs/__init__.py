@@ -16,7 +16,7 @@ cs_ignore_service_list = {
     # entire services - correspond to an entire yaml file in protocol definitions
     "MC", "Jet", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor",
-    "CPSubsystem", "CPMember", "CPMap", "CountDownLatch", "Semaphore",
+    "CPSubsystem", "CPMember",
     "SqlSummary", "JobAndSqlSummary",
     # service.methods - correspond to method entries in yaml files in protocol definitions
     "Map.replaceAll", "Sql.mappingDdl",
