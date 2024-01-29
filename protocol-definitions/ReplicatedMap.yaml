@@ -871,10 +871,19 @@ methods:
             Name of the ReplicatedMap
         - name: cursorId
           type: UUID
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
-            The identifier of the last fetched page. Initially null and then returned by this API. 
+            The identifier of the last fetched page. Send a random UUID while sending the first fetchEntryViews
+            request to start iteration. Also don't forget to set newIteration to true. Then, use the returned
+            UUIDs in response to feed this parameter and progress iteration.
+        - name: newIteration
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            Set this true if you are creating a new iteration via fetchEntryViews. fetchEntryViews can also be 
+            used to fetch new pages of an existing iteration. In that case, set this to false. 
         - name: partitionId
           type: int
           nullable: false
