@@ -897,10 +897,10 @@ methods:
             A UUID which is used to fetch new pages.
         - name: entryViews
           type: List_ReplicatedMapEntryViewHolder
-          nullable: true
+          nullable: false
           since: 2.7
           doc: |
-            A list of EntryViews. Null means end of iteration. 
+            A list of EntryViews. If the page includes less items than the batchSize, it means the iteration has ended.
   - id: 21
     name: endEntryViewIteration
     since: 2.7
