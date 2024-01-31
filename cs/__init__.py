@@ -100,6 +100,7 @@ _cs_types_common = {
     "PredicateConfigHolder": "NA",
     "DurationConfig": "NA",
     "MigrationState": "NA",
+    "ReplicatedMapEntryViewHolder": "NA",
 
     "Schema":"Hazelcast.Serialization.Compact.Schema",
     "List_Schema":"IEnumerable<Hazelcast.Serialization.Compact.Schema>",

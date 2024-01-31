@@ -291,6 +291,7 @@ _ts_types = {
     "TieredStoreConfig": "NA",
     "SqlSummary": "NA",
     "JobAndSqlSummary": "NA",
+    "ReplicatedMapEntryViewHolder": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
