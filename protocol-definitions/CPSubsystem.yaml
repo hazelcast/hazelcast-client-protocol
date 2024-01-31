@@ -137,3 +137,20 @@ methods:
           since: 2.1
           doc: |
             True if unregistered, false otherwise.
+  - id: 5
+    name: getCPGroupIds
+    since: 2.7
+    doc: |
+      Returns all the active CP group ids in the cluster. This is mainly used by a client side CPSubsystem because it does not 
+      have a RaftService.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: response
+          type: List_RaftGroupId
+          nullable: false
+          since: 2.7
+          doc: |
+            List of active CP group ids.
