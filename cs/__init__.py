@@ -184,6 +184,7 @@ _cs_types_encode = {
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
     "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
+    "List_RaftGroupId": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",

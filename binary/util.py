@@ -477,6 +477,7 @@ reference_objects_dict = {
     'SqlSummary': 'aSqlSummary',
     'CPMember': 'aCpMember',
     'List_CPMember': 'aListOfCpMembers',
+    'List_RaftGroupId': 'aListOfRaftGroupIds',
     'MigrationState': 'aMigrationState',
     'Schema': 'aSchema',
     'List_Schema': 'aListOfSchemas',
