@@ -643,6 +643,14 @@ methods:
             0 - DISCARD_AFTER_MUTATION
             1 - THROW_EXCEPTION
             2 - THROW_EXCEPTION_ONLY_IF_REPLICATION_ACTIVE
+        - name: consistencyCheckStrategy
+          type: byte
+          nullable: false
+          since: 2.7
+          doc: |
+            Strategy for checking the consistency of data between wanReplicationResourceName:
+            0 - NONE
+            1 - MERKLE_TREES
     response:
       params:
         - name: addedPublisherIds
