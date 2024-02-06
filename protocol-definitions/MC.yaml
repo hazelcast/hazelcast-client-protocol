@@ -224,19 +224,12 @@ methods:
             7 - USED_NATIVE_MEMORY_PERCENTAGE
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
-        - name: applyWanReplicationRef
-          type: boolean
-          nullable: false
-          since: 2.7
-          doc: |
-            Determines whether the supplied WanReplicationRef should be applied.
-            This is for backwards compatible versioning, as supplying a null WanReplicationRef is valid.
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
           since: 2.7
           doc: |
-            The new WanReplicationRef to apply, if applyWanReplicationRef is true.
+            The new WanReplicationRef to apply.
     response: {}
   - id: 5
     name: getMemberConfig
