@@ -67,11 +67,6 @@ methods:
           nullable: false
           since: 2.0
           doc: ''
-        - name: lightJobCoordinator
-          type: UUID
-          nullable: true
-          since: 2.7
-          doc: ''
     response:
       params:
         - name: response
@@ -122,6 +117,16 @@ methods:
           nullable: true
           since: 2.3
           doc: ''
+    events:
+      - name: JobExistence
+        since: 2.7
+        params:
+          - name: exists
+            type: boolean
+            nullable: false
+            since: 2.7
+            doc: |
+              Indicates whether the job still exists.
     response: {}
   - id: 7
     name: getJobSubmissionTime
