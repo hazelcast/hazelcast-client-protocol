@@ -224,6 +224,12 @@ methods:
             7 - USED_NATIVE_MEMORY_PERCENTAGE
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
+        - name: wanReplicationRef
+          type: WanReplicationRef
+          nullable: true
+          since: 2.7
+          doc: |
+            The new WanReplicationRef to apply.
     response: {}
   - id: 5
     name: getMemberConfig
