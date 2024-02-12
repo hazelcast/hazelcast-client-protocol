@@ -278,25 +278,25 @@ methods:
         - name: memberListVersion
           type: int
           nullable: false
-          since: 2.0
+          since: 2.7
           doc: |
             Incremental member list version
         - name: memberInfos
           type: List_MemberInfo
           nullable: false
-          since: 2.0
+          since: 2.7
           doc: |
             List of member infos  at the cluster associated with the given version
         - name: partitionListVersion
           type: int
           nullable: false
-          since: 2.0
+          since: 2.7
           doc: |
             Incremental state version of the partition table
         - name: partitions
           type: EntryList_UUID_List_Integer
           nullable: false
-          since: 2.0
+          since: 2.7
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
   - id: 3
