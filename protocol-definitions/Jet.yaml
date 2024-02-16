@@ -100,7 +100,7 @@ methods:
           since: 2.3
           doc: ''
   - id: 5
-    name: joinSubmittedJob
+    name: getJobFuture
     since: 2.0
     doc: ''
     request:
