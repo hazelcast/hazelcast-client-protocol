@@ -135,7 +135,7 @@ methods:
           nullable: false
           since: 2.7
           doc: |
-            Incremental member list version
+            Incremental member list version. -1 if no member list is available.
         - name: memberInfos
           type: List_MemberInfo
           nullable: false
@@ -147,7 +147,7 @@ methods:
           nullable: false
           since: 2.7
           doc: |
-            Incremental state version of the partition table
+            Incremental state version of the partition table. -1 if no partition table is available.
         - name: partitions
           type: EntryList_UUID_List_Integer
           nullable: false
