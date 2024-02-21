@@ -159,6 +159,12 @@ methods:
           since: 2.4
           doc: |
             Global indexes of the map.
+        - name: wanReplicationRef
+          type: WanReplicationRef
+          nullable: true
+          since: 2.7
+          doc: |
+            WanReplicationRef of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
