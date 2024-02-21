@@ -164,7 +164,7 @@ methods:
           nullable: true
           since: 2.7
           doc: |
-            WanReplicationRef of the map.
+            WanReplicationRef of the map. WanReplicationRef is WAN replication target of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
