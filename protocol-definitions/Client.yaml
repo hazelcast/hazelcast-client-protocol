@@ -340,6 +340,15 @@ methods:
             since: 2.0
             doc: |
               The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+      - name: ClusterVersion
+        since: 2.7
+        params:
+          - name: version
+            type: Version
+            nullable: false
+            since: 2.7
+            doc: |
+              The cluster version.
   - id: 4
     name: createProxy
     since: 2.0

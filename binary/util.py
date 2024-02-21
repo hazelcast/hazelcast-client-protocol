@@ -495,6 +495,7 @@ reference_objects_dict = {
     'List_SimpleEntryView': 'aListOfSimpleEntryViews',
     'List_ReplicatedMapEntryViewHolder': 'aListOfReplicatedMapEntryViewHolders',
     'List_ResourceDefinition': 'aListOfResourceDefinitionHolders',
+    'Version': 'aVersion',
 }
 
 
