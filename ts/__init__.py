@@ -291,6 +291,7 @@ _ts_types = {
     "TieredStoreConfig": "NA",
     "SqlSummary": "NA",
     "JobAndSqlSummary": "NA",
+    "ReplicatedMapEntryViewHolder": "NA",
 
     "List_Long": "Long[]",
     "List_Integer": "number[]",
@@ -316,6 +317,8 @@ _ts_types = {
     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
     'List_Schema': 'Schema[]',
     'List_FieldDescriptor': 'FieldDescriptor[]',
+    "List_SimpleEntryView": "NA",
+    "List_ReplicatedMapEntryViewHolder": "NA",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",

@@ -142,6 +142,7 @@ _cs_types_common = {
     "CacheEventData": "NA",
     "ClientBwListEntry": "NA",
     "MigrationState": "NA",
+    "ReplicatedMapEntryViewHolder": "NA",
     "ResourceDefinition": "NA",
     "List_ResourceDefinition": "NA",
 
@@ -242,6 +243,7 @@ _cs_types_encode = {
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
     "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
+    "List_RaftGroupId": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "ICollection<KeyValuePair<string, byte[]>>",
@@ -260,6 +262,7 @@ _cs_types_encode = {
     "Set_UUID": "ISet<Guid>",
     "List_PartitioningAttributeConfig": "NA",
     "List_SimpleEntryView": "NA",
+    "List_ReplicatedMapEntryViewHolder": "NA",
     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
     "List_WanCustomPublisherConfigHolder": "ICollection<Hazelcast.Protocol.Models.WanCustomPublisherConfigHolder>",
     "List_WanBatchPublisherConfigHolder": "ICollection<Hazelcast.Protocol.Models.WanBatchPublisherConfigHolder>",
@@ -318,6 +321,7 @@ _cs_types_decode = {
     "Set_UUID": "ISet<Guid>",
     "List_PartitioningAttributeConfig": "NA",
     "List_SimpleEntryView": "NA",
+    "List_ReplicatedMapEntryViewHolder": "NA",
     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
     "List_WanCustomPublisherConfigHolder": "ICollection<Hazelcast.Protocol.Models.WanCustomPublisherConfigHolder>",
     "List_WanBatchPublisherConfigHolder": "ICollection<Hazelcast.Protocol.Models.WanBatchPublisherConfigHolder>",
