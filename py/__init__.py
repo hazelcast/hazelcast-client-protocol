@@ -95,6 +95,7 @@ class PathHolders:
     DataCodec = ImportPathHolder("DataCodec", "protocol.builtin")
     ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "protocol.builtin")
     LongArrayCodec = ImportPathHolder("LongArrayCodec", "protocol.builtin")
+    FloatArrayCodec = ImportPathHolder("FloatArrayCodec", "protocol.builtin")
     Address = ImportPathHolder("Address", "core")
     AddressCodec = ImportPathHolder("AddressCodec", "protocol.codec.custom.address_codec")
     ErrorHolder = ImportPathHolder("ErrorHolder", "protocol")
@@ -162,6 +163,7 @@ import_paths = {
     "CodecUtil": PathHolders.CodecUtil,
     "longArray": [PathHolders.LongArrayCodec],
     "byteArray": [PathHolders.ByteArrayCodec],
+    "floatArray": [PathHolders.FloatArrayCodec],
     "String": [PathHolders.StringCodec],
     "Data": [PathHolders.DataCodec],
     "Address": [PathHolders.Address, PathHolders.AddressCodec],
@@ -223,6 +225,7 @@ _py_types = {
 
     "byteArray",
     "longArray",
+    "floatArray",
     "String",
     "Data",
 

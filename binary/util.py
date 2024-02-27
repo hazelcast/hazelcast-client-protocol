@@ -13,6 +13,7 @@ formats = {
     'int': '<I',
     'long': '<q',
     'short': '<H',
+    'float': '<f',
 }
 
 sizes = {
@@ -20,6 +21,7 @@ sizes = {
     'byte': BYTE_SIZE_IN_BYTES,
     'int': INT_SIZE_IN_BYTES,
     'long': LONG_SIZE_IN_BYTES,
+    'float': FLOAT_SIZE_IN_BYTES,
     'UUID': UUID_SIZE_IN_BYTES,
 }
 
@@ -225,6 +227,7 @@ class VarSizedParamEncoder:
         self.var_sized_encoders = {
             'byteArray': self.encode_byte_array_frame,
             'longArray': self.encode_long_array_frame,
+            'floatArray': self.encode_float_array_frame,
             'String': self.encode_string_frame,
             'Data': self.encode_data_frame,
             'EntryList_Integer_UUID': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
@@ -299,6 +302,16 @@ class VarSizedParamEncoder:
         for item in reference_objects.LONGARRAY:
             struct.pack_into(formats['long'], content, offset, item)
             offset += LONG_SIZE_IN_BYTES
+
+        client_message.add_frame(Frame(content))
+
+    @staticmethod
+    def encode_float_array_frame(client_message):
+        content = bytearray(len(reference_objects.FLOATARRAY) * FLOAT_SIZE_IN_BYTES)
+        offset = 0
+        for item in reference_objects.FLOATARRAY:
+            struct.pack_into(formats['float'], content, offset, item)
+            offset += FLOAT_SIZE_IN_BYTES
 
         client_message.add_frame(Frame(content))
 
@@ -391,6 +404,7 @@ reference_objects_dict = {
     'UUID': 'aUUID',
     'byteArray': 'aByteArray',
     'longArray': 'aLongArray',
+    'floatArray': 'aFloatArray',
     'String': 'aString',
     'Data': 'aData',
     'EntryList_Integer_UUID': 'aListOfIntegerToUUID',

@@ -1,0 +1,39 @@
+id: 36
+name: VectorCollection
+methods:
+  - id: 1
+    name: put
+    since: 2.8
+    doc: |
+      Puts a document into this Vector Collection. This method returns a clone of the previous value, not the original
+      (identically equal) document previously put into the Vector Collection.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: int
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: floatArray
+          nullable: false
+          since: 2.8
+          doc: |
+            Value as float array.
+    response:
+      params:
+        - name: response
+          type: floatArray
+          nullable: true
+          since: 2.8
+          doc: |
+            Old vector for this entry

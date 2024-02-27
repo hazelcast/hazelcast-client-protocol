@@ -9,6 +9,7 @@ FixSizedTypes = [
 VarSizedTypes = [
     'byteArray',
     'longArray',
+    'floatArray',
     'String',
     'Data',
     'SqlPage'

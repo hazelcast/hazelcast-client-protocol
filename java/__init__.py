@@ -23,6 +23,7 @@ _java_types_common = {
 
     "longArray": "long[]",
     "byteArray": "byte[]",
+    "floatArray": "float[]",
     "String": "java.lang.String",
     "Data": "com.hazelcast.internal.serialization.Data",
     "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",

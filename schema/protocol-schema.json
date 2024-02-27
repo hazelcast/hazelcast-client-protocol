@@ -26,6 +26,7 @@
             "UUID",
             "byteArray",
             "longArray",
+            "floatArray",
             "String",
             "Data",
             "EntryList_Integer_UUID",

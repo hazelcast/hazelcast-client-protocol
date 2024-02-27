@@ -24,6 +24,10 @@ STRING = "localhost"
 
 DATA = b'111313123131313131'
 
+FLOAT = 3.14
+
+FLOATARRAY = [FLOAT]
+
 objects = {
     'boolean': BOOLEAN,
     'byte': BYTE,
@@ -32,6 +36,7 @@ objects = {
     'UUID': UUID,
     'byteArray': BYTEARRAY,
     'longArray': LONGARRAY,
+    'floatArray': FLOATARRAY,
     'String': STRING,
     'Data': DATA,
     'DurationConfig': {
