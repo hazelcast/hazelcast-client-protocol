@@ -24,6 +24,7 @@ cs_ignore_service_list = {
     "Atomic*.apply", "Atomic*.alter", "MultiMap.putAll", "Client.removeMigrationListener", "SQL*_reserved*",
     "Client.tpcAuthentication",
     "Map.putAllWithMetadata", "client.addMigrationListener",
+    "CPMap.putIfAbsent", "ReplicatedMap.endEntryViewIteration",
     # custom codecs - for dynamic config - temp disabling
     "AwsConfig", "AzureConfig", "GcpConfig", "EurekaConfig", "KubernetesConfig",
     "WanSyncConfig", "WanCustomPublisherConfig", "WanBatchPublisherConfig",
