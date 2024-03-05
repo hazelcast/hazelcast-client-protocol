@@ -2,7 +2,27 @@ id: 36
 name: VectorCollection
 methods:
   - id: 1
-    name: put
+    name: createVectorCollection
+    since: 2.8
+    doc:
+      Creates a VectorCollection.
+    request:
+      retryable: true
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: ""
+        - name: configuration
+          type: VectorCollectionConfig
+          nullable: false
+          since: 2.8
+          doc: ""
+    response: {}
+
+  - id: 1
+    name: set
     since: 2.8
     doc: |
       Puts a document into this Vector Collection. This method returns a clone of the previous value, not the original
@@ -24,16 +44,101 @@ methods:
           doc: |
             Key for the document.
         - name: value
-          type: floatArray
+          type: VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Value as float array.
+    response: {}
+  - id: 1
+    name: add
+    since: 2.8
+    doc: |
+      Adds a document into the Vector Collection and returns an automatically generated ID.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: int
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: VectorDocument
           nullable: false
           since: 2.8
           doc: |
             Value as float array.
     response:
       params:
-        - name: response
-          type: floatArray
-          nullable: true
+        - name: id
+          type: int
+          nullable: false
           since: 2.8
           doc: |
             Old vector for this entry
+  - id: 1
+    name: get
+    since: 2.8
+    doc: |
+      Returns the VectorDocument for the given key.
+    request:
+      retryable: true
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: ""
+        - name: key
+          type: int
+          nullable: false
+          since: 2.8
+          doc: ""
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: ""
+
+  - id: 1
+    name: searchNearVector
+    since: 2.8
+    doc: |
+      Returns the VectorDocuments closest to the given vectors.
+    request:
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: ""
+        - name: vectors
+          type: List_VectorPair
+          nullable: false
+          since: 2.8
+          doc: ""
+        - name: options
+          type: VectorSearchOptions
+          nullable: false
+          since: 2.8
+          doc: ""
+    response:
+      params:
+        - name: result
+          nullable: false
+          type: List_VectorSearchResult
+          since: 2.8
+          doc: ""
+

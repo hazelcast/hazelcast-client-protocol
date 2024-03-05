@@ -376,6 +376,7 @@ class VarSizedParamEncoder:
             return encoder
         if (param_type in CustomTypes) or (param_type in CustomConfigTypes):
             return self.encoder.custom_type_encoder.encoder_for(param_type)
+        raise Exception(f"no encoder found for param_type: {param_type}")
 
 
 test_output_directories = {
@@ -402,6 +403,7 @@ reference_objects_dict = {
     'int': 'anInt',
     'long': 'aLong',
     'UUID': 'aUUID',
+    'float': 'aFloat',
     'byteArray': 'aByteArray',
     'longArray': 'aLongArray',
     'floatArray': 'aFloatArray',
@@ -518,7 +520,7 @@ def create_environment_for_binary_generator(lang):
     env.lstrip_blocks = True
     env.keep_trailing_newline = False
     env.filters['capital'] = capital
-    env.globals['lang_types_encode'] = language_specific_funcs[lang]['lang_types_encode']
+    env.globals['lang_types_encode'] = language_specific_funcs['lang_types_encode'][lang]
     env.globals['reference_objects_dict'] = reference_objects_dict
     env.globals['get_version_as_number'] = get_version_as_number
     env.globals['new_params'] = new_params

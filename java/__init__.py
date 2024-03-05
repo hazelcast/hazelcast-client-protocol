@@ -20,6 +20,7 @@ _java_types_common = {
     "Integer": "java.lang.Integer",
     "Long": "java.lang.Long",
     "UUID": "java.util.UUID",
+    "float": "float",
 
     "longArray": "long[]",
     "byteArray": "byte[]",
@@ -113,6 +114,11 @@ _java_types_encode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.CPMember",
     "MigrationState": "com.hazelcast.partition.MigrationState",
+    "VectorDocument": "com.hazelcast.vector.VectorDocument",
+    "VectorPair": "com.hazelcast.vector.VectorPair",
+    "VectorSearchOptions": "com.hazelcast.vector.VectorSearchOptions",
+    "VectorCollectionConfig": "com.hazelcast.vector.VectorCollectionConfig",
+    "VectorSearchResult": "com.hazelcast.vector.VectorSearchResult",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -140,6 +146,8 @@ _java_types_encode = {
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
+    "List_VectorPair": "java.util.Collection<com.hazelcast.vector.VectorPair>",
+    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.VectorSearchResult>",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
 
@@ -177,6 +185,11 @@ _java_types_decode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
+    "VectorDocument": "com.hazelcast.vector.VectorDocument",
+    "VectorPair": "com.hazelcast.vector.VectorPair",
+    "VectorSearchOptions": "com.hazelcast.vector.VectorSearchOptions",
+    "VectorCollectionConfig": "com.hazelcast.vector.VectorCollectionConfig",
+    "VectorSearchResult": "com.hazelcast.vector.VectorSearchResult",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -204,6 +217,8 @@ _java_types_decode = {
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
+    "List_VectorPair": "java.util.Collection<com.hazelcast.vector.VectorPair>",
+    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.VectorSearchResult>",
 
     "Set_UUID": "java.util.Set<java.util.UUID>",
 

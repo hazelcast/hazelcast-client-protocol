@@ -1499,3 +1499,71 @@ customTypes:
         type: String
         since: 2.7
         nullable: true
+
+  - name: VectorCollectionConfig
+    since: 2.8
+    params:
+      - name: dimension
+        type: int
+        nullable: false
+        since: 2.8
+      - name: metric
+        type: int
+        nullable: false
+        since: 2.8
+
+  - name: VectorPair
+    since: 2.8
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.8
+      - name: vector
+        type: floatArray
+        nullable: false
+        since: 2.8
+
+  - name: VectorDocument
+    since: 2.8
+    params:
+      - name: value
+        type: Data
+        nullable: false
+        since: 2.8
+      - name: vectors
+        type: List_VectorPair
+        nullable: false
+        since: 2.8
+
+  - name: VectorSearchOptions
+    since: 2.8
+    params:
+      - name: includeValue
+        type: boolean
+        nullable: false
+        since: 2.8
+      - name: includeVector
+        type: boolean
+        nullable: false
+        since: 2.8
+      - name: limit
+        type: int
+        nullable: false
+        since: 2.8
+
+  - name: VectorSearchResult
+    since: 2.8
+    params:
+      - name: id
+        type: int
+        nullable: false
+        since: 2.8
+      - name: value
+        type: VectorDocument
+        nullable: false
+        since: 2.8
+      - name: score
+        type: float
+        nullable: false
+        since: 2.8

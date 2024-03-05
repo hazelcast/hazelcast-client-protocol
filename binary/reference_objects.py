@@ -34,6 +34,7 @@ objects = {
     'int': INT,
     'long': LONG,
     'UUID': UUID,
+    'float': FLOAT,
     'byteArray': BYTEARRAY,
     'longArray': LONGARRAY,
     'floatArray': FLOATARRAY,
