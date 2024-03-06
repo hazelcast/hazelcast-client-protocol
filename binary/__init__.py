@@ -124,6 +124,7 @@ VarSizedEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_Data_Data',
     'EntryList_Data_List_Data',
+    'EntryList_Data_VectorDocument',
 ]
 
 VarSizedMapTypes = [

@@ -138,6 +138,11 @@
             "ResourceDefinition",
             "List_ResourceDefinition",
             "List_VectorPair",
+            "VectorCollectionConfig",
+            "VectorDocument",
+            "EntryList_Data_VectorDocument",
+            "VectorSearchOptions",
+            "List_VectorSearchResult"
           ]
         },
         "nullable": {

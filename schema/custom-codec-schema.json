@@ -137,7 +137,8 @@
             "DiscoveryConfig",
             "WanSyncConfig",
             "VectorDocument",
-            "List_VectorPair"
+            "List_VectorPair",
+            "EntryList_Data_VectorDocument"
           ]
         },
         "nullable": {

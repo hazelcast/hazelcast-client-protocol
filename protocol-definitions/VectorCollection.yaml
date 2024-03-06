@@ -6,27 +6,30 @@ methods:
     since: 2.8
     doc:
       Creates a VectorCollection.
+      It's an error to attempt to re-create a VectorCollection with the same name and different configuration.
     request:
-      retryable: true
+      retryable: false
+      partitionIdentifier: none
       params:
         - name: name
           type: String
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Name of the Vector Collection.
         - name: configuration
           type: VectorCollectionConfig
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Configuration for the Vector Collection.
     response: {}
 
-  - id: 1
+  - id: 2
     name: set
     since: 2.8
     doc: |
-      Puts a document into this Vector Collection. This method returns a clone of the previous value, not the original
-      (identically equal) document previously put into the Vector Collection.
+      Puts a document into the Vector Collection.
     request:
       retryable: false
       partitionIdentifier: key
@@ -38,7 +41,7 @@ methods:
           doc: |
             Name of the Vector Collection.
         - name: key
-          type: int
+          type: Data
           nullable: false
           since: 2.8
           doc: |
@@ -48,13 +51,14 @@ methods:
           nullable: false
           since: 2.8
           doc: |
-            Value as float array.
+            Value for the entry.
     response: {}
-  - id: 1
-    name: add
+
+  - id: 3
+    name: putIfAbsent
     since: 2.8
     doc: |
-      Adds a document into the Vector Collection and returns an automatically generated ID.
+      Puts an entry into this map if the specified key is not already associated with a value.
     request:
       retryable: false
       partitionIdentifier: key
@@ -66,7 +70,7 @@ methods:
           doc: |
             Name of the Vector Collection.
         - name: key
-          type: int
+          type: Data
           nullable: false
           since: 2.8
           doc: |
@@ -76,16 +80,50 @@ methods:
           nullable: false
           since: 2.8
           doc: |
-            Value as float array.
+            Value for the entry.
     response:
       params:
-        - name: id
-          type: int
+        - name: response
+          type: boolean
           nullable: false
           since: 2.8
           doc: |
-            Old vector for this entry
-  - id: 1
+            Returns true if successful, otherwise returns false.
+
+  - id: 4
+    name: putAll
+    since: 2.8
+    doc: |
+      The effect of this call is equivalent to set(k, v) on this VectorCollection once for each mapping from key k to value v.
+      The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
+      Note that all keys in the request should belong to the partition ID to which this request is being sent.
+      Any key that matchies to a different partition ID shall be ignored.
+      The API implementation using this request may need to send multiple of these request messages for different partitions.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: entries
+          type: EntryList_Data_VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Key/VectorDocument entries to be stored in this VectorCollection.
+        - name: triggerMapLoader
+          type: boolean
+          nullable: false
+          since: 2.8
+          doc: |
+            should trigger MapLoader for elements not in this VectorCollection
+    response: {}
+
+  - id: 5
     name: get
     since: 2.8
     doc: |
@@ -98,47 +136,86 @@ methods:
           type: String
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Name of the Vector Collection.
         - name: key
-          type: int
+          type: Data
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Key for the document.
     response:
       params:
         - name: value
           type: VectorDocument
           nullable: true
           since: 2.8
-          doc: ""
+          doc: |
+            The value for the key if it exists.
 
-  - id: 1
-    name: searchNearVector
+  - id: 6
+    name: delete
     since: 2.8
     doc: |
-      Returns the VectorDocuments closest to the given vectors.
+      Removes the mapping for a key from this VectorCollection.
     request:
+      retryable: false
+      partitionIdentifier: key
       params:
         - name: name
           type: String
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Name of the VectorCollection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the entry.
+    response:
+      params:
+        - name: response
+          type: boolean
+          nullable: false
+          since: 2.8
+          doc: |
+            Returns true if the key exists and removed, otherwise returns false.
+
+  - id: 7
+    name: searchNearVector
+    since: 2.8
+    doc: |
+      Returns the VectorDocuments closest to the given vectors.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
         - name: vectors
           type: List_VectorPair
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Vectors to use for searching.
         - name: options
           type: VectorSearchOptions
           nullable: false
           since: 2.8
-          doc: ""
+          doc: |
+            Search options.
     response:
       params:
         - name: result
           nullable: false
           type: List_VectorSearchResult
           since: 2.8
-          doc: ""
+          doc: |
+            Zero or more VectorSearchResult values.
 
