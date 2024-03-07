@@ -31,6 +31,7 @@ _java_types_common = {
     "ErrorHolder": "com.hazelcast.client.impl.protocol.exception.ErrorHolder",
     "StackTraceElement": "java.lang.StackTraceElement",
     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
+    "ReplicatedMapEntryViewHolder": "com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder",
     "RaftGroupId": "com.hazelcast.cp.internal.RaftGroupId",
     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
@@ -90,6 +91,8 @@ _java_types_common = {
     "List_DiscoveryStrategyConfig": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.DiscoveryStrategyConfigHolder>",
     "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
     "WanSyncConfig": "com.hazelcast.client.impl.protocol.codec.holder.WanSyncConfigHolder",
+    "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
+    "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>"
 }
 
 _java_types_encode = {
@@ -134,6 +137,7 @@ _java_types_encode = {
     "List_MCEvent": "java.util.Collection<com.hazelcast.internal.management.dto.MCEventDTO>",
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
+    "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
@@ -152,6 +156,7 @@ _java_types_encode = {
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
 }
 
 _java_types_decode = {
@@ -185,6 +190,7 @@ _java_types_decode = {
     "List_CacheEventData": "java.util.List<com.hazelcast.cache.impl.CacheEventData>",
     "List_QueryCacheConfigHolder": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.QueryCacheConfigHolder>",
     "List_DistributedObjectInfo": "java.util.List<com.hazelcast.client.impl.client.DistributedObjectInfo>",
+    "List_RaftGroupId": "java.util.List<com.hazelcast.cp.internal.RaftGroupId>",
     "List_QueryCacheEventData": "java.util.List<com.hazelcast.map.impl.querycache.event.DefaultQueryCacheEventData>",
     "List_IndexConfig": "java.util.List<com.hazelcast.config.IndexConfig>",
     "List_AttributeConfig": "java.util.List<com.hazelcast.config.AttributeConfig>",
@@ -214,4 +220,5 @@ _java_types_decode = {
     "EntryList_Data_List_Data": "java.util.List<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.List<com.hazelcast.internal.serialization.Data>>>",
     "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "List_ReplicatedMapEntryViewHolder": "java.util.List<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
 }

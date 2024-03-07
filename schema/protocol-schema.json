@@ -41,6 +41,7 @@
             "RaftGroupId",
             "ScheduledTaskHandler",
             "SimpleEntryView",
+            "ReplicatedMapEntryViewHolder",
             "WanReplicationRef",
             "Xid",
             "CacheConfigHolder",
@@ -111,6 +112,7 @@
             "SqlSummary",
             "CPMember",
             "List_CPMember",
+            "List_RaftGroupId",
             "MigrationState",
             "Schema",
             "List_Schema",
@@ -130,7 +132,10 @@
             "WanCustomPublisherConfigHolder",
             "List_WanCustomPublisherConfigHolder",
             "List_WanBatchPublisherConfigHolder",
-            "List_SimpleEntryView"
+            "List_SimpleEntryView",
+            "List_ReplicatedMapEntryViewHolder",
+            "ResourceDefinition",
+            "List_ResourceDefinition"
           ]
         },
         "nullable": {
