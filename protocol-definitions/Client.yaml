@@ -154,6 +154,12 @@ methods:
           since: 2.7
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+        - name: clusterVersion
+          type: Version
+          nullable: false
+          since: 2.7
+          doc: |
+            The cluster version.
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -299,6 +305,12 @@ methods:
           since: 2.7
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+        - name: clusterVersion
+          type: Version
+          nullable: true
+          since: 2.7
+          doc: |
+            The cluster version.
   - id: 3
     name: addClusterViewListener
     since: 2.0
