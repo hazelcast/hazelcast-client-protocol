@@ -1500,14 +1500,14 @@ customTypes:
         since: 2.7
         nullable: true
   - name: Version
-    since: 2.7
+    since: 2.8
     returnWithFactory: true
     params:
       - name: major
         type: byte
         nullable: false
-        since: 2.7
+        since: 2.8
       - name: minor
         type: byte
         nullable: false
-        since: 2.7
+        since: 2.8

@@ -157,7 +157,7 @@ methods:
         - name: clusterVersion
           type: Version
           nullable: false
-          since: 2.7
+          since: 2.8
           doc: |
             The cluster version.
   - id: 2
@@ -308,7 +308,7 @@ methods:
         - name: clusterVersion
           type: Version
           nullable: true
-          since: 2.7
+          since: 2.8
           doc: |
             The cluster version.
   - id: 3
@@ -353,12 +353,12 @@ methods:
             doc: |
               The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
       - name: ClusterVersion
-        since: 2.7
+        since: 2.8
         params:
           - name: version
             type: Version
             nullable: false
-            since: 2.7
+            since: 2.8
             doc: |
               The cluster version.
   - id: 4
