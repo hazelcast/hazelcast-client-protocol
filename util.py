@@ -415,13 +415,14 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                         ):
                             valid = False
 
+            service_method_name = service["name"] + "." + method["name"]
             for j in range(len(methods)):
                 method = methods[j]
                 request_params = method["request"].get("params", [])
-                if contains_invalid_nullability_field(response_params):
+                if contains_invalid_nullability_field(service_method_name, response_params):
                     valid = False
                 response_params = method["response"].get("params", [])
-                if contains_invalid_nullability_field(request_params):
+                if contains_invalid_nullability_field(service_method_name, request_params):
                     valid = False 
     return valid
 
@@ -480,7 +481,7 @@ def is_parameters_ordered_and_semantically_correct(since, name, params, protocol
     return is_ordered and is_semantically_correct
 
 
-def contains_invalid_nullability_field(params):
+def contains_invalid_nullability_field(service_method_name, params):
     for param in params:
         # According to the readme, UUID fields should be nullable. But a lot of codecs violate that now,
         # so skipping that check
@@ -489,7 +490,7 @@ def contains_invalid_nullability_field(params):
             print(
                 'Check the nullable value of "%s" field of the "%s".\n'
                 "UUID fields should be nullable!"
-                % (param["name"], param["since"])
+                % (param["name"], service_method_name)
             )
             return True
         """
@@ -497,7 +498,7 @@ def contains_invalid_nullability_field(params):
             print(
                 'Check the nullable value of "%s" field of the "%s".\n'
                 "Fixed fields other than UUID cannot be nullable!"
-                % (param["name"], param["since"])
+                % (param["name"], service_method_name)
             )
             return True
     return False
