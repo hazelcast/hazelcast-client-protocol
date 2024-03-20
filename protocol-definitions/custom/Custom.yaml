@@ -1500,9 +1500,14 @@ customTypes:
         since: 2.7
         nullable: true
 
-  - name: VectorCollectionConfig
+  - name: VectorIndexConfig
     since: 2.8
     params:
+      - name: name
+        type: String
+        # TODO: nullable? How to represent default index
+        nullable: true
+        since: 2.8
       - name: dimension
         type: int
         nullable: false
@@ -1512,6 +1517,7 @@ customTypes:
         nullable: false
         since: 2.8
 
+  #TODO: remove? Java does not use it but maybe other clients do?
   - name: VectorPair
     since: 2.8
     params:
@@ -1532,7 +1538,8 @@ customTypes:
         nullable: false
         since: 2.8
       - name: vectors
-        type: List_VectorPair
+        type: VectorValues
+        # TODO: VectorValues may not be returned in VectorSearchResult if not requested
         nullable: false
         since: 2.8
 
@@ -1551,6 +1558,10 @@ customTypes:
         type: int
         nullable: false
         since: 2.8
+      - name: vectors
+        type: VectorValues
+        nullable: false
+        since: 2.8
 
   - name: VectorSearchResult
     since: 2.8
@@ -1559,7 +1570,7 @@ customTypes:
         type: int
         nullable: false
         since: 2.8
-      - name: value
+      - name: document
         type: VectorDocument
         nullable: false
         since: 2.8

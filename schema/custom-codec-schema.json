@@ -138,7 +138,9 @@
             "WanSyncConfig",
             "VectorDocument",
             "List_VectorPair",
-            "EntryList_Data_VectorDocument"
+            "EntryList_Data_VectorDocument",
+            "VectorValues",
+            "List_VectorIndexConfig"
           ]
         },
         "nullable": {

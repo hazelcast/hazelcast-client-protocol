@@ -17,12 +17,12 @@ methods:
           since: 2.8
           doc: |
             Name of the Vector Collection.
-        - name: configuration
-          type: VectorCollectionConfig
-          nullable: false
+        - name: vectorIndexConfigs
+          type: List_VectorIndexConfig
+          nullable: true
           since: 2.8
           doc: |
-            Configuration for the Vector Collection.
+            Vector index definitions.
     response: {}
 
   - id: 2
@@ -198,12 +198,6 @@ methods:
           since: 2.8
           doc: |
             Name of the Vector Collection.
-        - name: vectors
-          type: List_VectorPair
-          nullable: false
-          since: 2.8
-          doc: |
-            Vectors to use for searching.
         - name: options
           type: VectorSearchOptions
           nullable: false

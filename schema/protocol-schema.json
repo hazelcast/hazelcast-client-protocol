@@ -138,7 +138,7 @@
             "ResourceDefinition",
             "List_ResourceDefinition",
             "List_VectorPair",
-            "VectorCollectionConfig",
+            "List_VectorIndexConfig",
             "VectorDocument",
             "EntryList_Data_VectorDocument",
             "VectorSearchOptions",

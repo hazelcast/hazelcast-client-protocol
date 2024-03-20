@@ -114,11 +114,11 @@ _java_types_encode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.CPMember",
     "MigrationState": "com.hazelcast.partition.MigrationState",
-    "VectorDocument": "com.hazelcast.vector.VectorDocument",
+    "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
     "VectorPair": "com.hazelcast.vector.VectorPair",
-    "VectorSearchOptions": "com.hazelcast.vector.VectorSearchOptions",
-    "VectorCollectionConfig": "com.hazelcast.vector.VectorCollectionConfig",
-    "VectorSearchResult": "com.hazelcast.vector.VectorSearchResult",
+    "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
+    "VectorIndexConfig": "com.hazelcast.vector.config.VectorIndexConfig",
+    "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResultImpl",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -146,8 +146,10 @@ _java_types_encode = {
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
-    "List_VectorPair": "java.util.Collection<com.hazelcast.vector.VectorPair>",
-    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.VectorSearchResult>",
+    "List_VectorPair": "com.hazelcast.vector.VectorValues",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.vector.config.VectorIndexConfig>",
+    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.impl.DataSearchResultImpl>",
+    "VectorValues": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
 
@@ -166,7 +168,7 @@ _java_types_encode = {
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
-    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.VectorDocument>>"
+    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>"
 }
 
 _java_types_decode = {
@@ -186,11 +188,11 @@ _java_types_decode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
-    "VectorDocument": "com.hazelcast.vector.VectorDocument",
+    "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
     "VectorPair": "com.hazelcast.vector.VectorPair",
-    "VectorSearchOptions": "com.hazelcast.vector.VectorSearchOptions",
-    "VectorCollectionConfig": "com.hazelcast.vector.VectorCollectionConfig",
-    "VectorSearchResult": "com.hazelcast.vector.VectorSearchResult",
+    "VectorSearchOptions": "com.hazelcast.vector.impl.SearchOptionsImpl",
+    "VectorIndexConfig": "com.hazelcast.vector.config.VectorIndexConfig",
+    "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResultImpl",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -218,8 +220,10 @@ _java_types_decode = {
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
-    "List_VectorPair": "java.util.Collection<com.hazelcast.vector.VectorPair>",
-    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.VectorSearchResult>",
+    "List_VectorPair": "com.hazelcast.vector.VectorValues",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.vector.config.VectorIndexConfig>",
+    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.impl.DataSearchResultImpl>",
+    "VectorValues": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Set<java.util.UUID>",
 
@@ -238,5 +242,5 @@ _java_types_decode = {
     "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.List<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
-    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.VectorDocument>>",
+    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>",
 }
