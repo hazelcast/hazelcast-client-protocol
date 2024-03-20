@@ -13,7 +13,8 @@ VarSizedTypes = [
     'floatArray',
     'String',
     'Data',
-    'SqlPage'
+    'SqlPage',
+    'VectorValues'
 ]
 
 FixSizedEntryListTypes = [
@@ -70,7 +71,6 @@ CustomTypes = [
     'Schema',
     'HazelcastJsonValue',
     'VectorDocument',
-    'VectorPair',
     'VectorSearchOptions',
     'VectorSearchResult',
 ]
@@ -116,6 +116,7 @@ CustomConfigTypes = [
     "WanSyncConfig",
     "ResourceDefinition",
     "VectorCollectionConfig",
+    "VectorIndexConfig"
 ]
 
 VarSizedEntryListTypes = [

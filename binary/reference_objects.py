@@ -77,6 +77,18 @@ objects = {
     'JobAndSqlSummary': {
         'status': 2,
         'userCancelled': False
+    },
+    'VectorIndexConfig': {
+        'dimension': 1000,
+        'metric': 0,
+    },
+    'VectorSearchOptions': {
+        'includeValue': False,
+        'includeVectors': False,
+        'limit': 100,
+        'vectorValues': {
+            '#': FLOATARRAY
+        }
     }
 }
 

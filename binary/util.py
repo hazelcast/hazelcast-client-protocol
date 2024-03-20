@@ -251,7 +251,8 @@ class VarSizedParamEncoder:
                                                  .encoder_for('ScheduledTaskHandler')),
             'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
             'SqlPage': partial(self.encode_sqlpage),
-            'HazelcastJsonValue': partial(self.encode_json)
+            'HazelcastJsonValue': partial(self.encode_json),
+            'VectorValues': partial(self.encode_var_sized_frame, param_type='Map_String_floatArray')
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -511,7 +512,11 @@ reference_objects_dict = {
     'List_SimpleEntryView': 'aListOfSimpleEntryViews',
     'List_ReplicatedMapEntryViewHolder': 'aListOfReplicatedMapEntryViewHolders',
     'List_ResourceDefinition': 'aListOfResourceDefinitionHolders',
+    'List_VectorIndexConfig': 'aList_VectorIndexConfig',
+    'VectorDocument': 'aVectorDocument',
     'EntryList_Data_VectorDocument': 'aEntryList_Data_VectorDocument',
+    'VectorSearchOptions': 'aVectorSearchOptions',
+    'List_VectorSearchResult': 'aList_VectorSearchResult'
 }
 
 
