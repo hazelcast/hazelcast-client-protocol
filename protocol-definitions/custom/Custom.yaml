@@ -1550,7 +1550,7 @@ customTypes:
         type: boolean
         nullable: false
         since: 2.8
-      - name: includeVector
+      - name: includeVectors
         type: boolean
         nullable: false
         since: 2.8
@@ -1566,12 +1566,12 @@ customTypes:
   - name: VectorSearchResult
     since: 2.8
     params:
-      - name: id
-        type: int
+      - name: key
+        type: Data
         nullable: false
         since: 2.8
       - name: document
-        type: VectorDocument
+        type: Data
         nullable: false
         since: 2.8
       - name: score
