@@ -29,7 +29,8 @@ from cs import (
     cs_types_decode,
     cs_types_encode,
     cs_custom_codec_param_name,
-    cs_sizeof
+    cs_sizeof,
+    cs_param_prefix
 )
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -207,10 +208,10 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
     if lang is SupportedLanguages.CPP:
         curr_dir = dirname(realpath(__file__))
         cpp_dir = "%s/cpp" % curr_dir
-        f = open(join(cpp_dir, "header_includes.txt"), "r")
-        save_file(join(output_dir, "codecs.h"), f.read(), "w")
-        f = open(join(cpp_dir, "source_header.txt"), "r")
-        save_file(join(output_dir, "codecs.cpp"), f.read(), "w")
+        content = get_rendered_text("header_includes.j2", env)
+        save_file(join(output_dir, "codecs.h"), content)
+        content = get_rendered_text("source_header.j2", env)
+        save_file(join(output_dir, "codecs.cpp"), content)
 
     for service in services:
         if ignore_service(service, lang):
@@ -265,8 +266,7 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                 print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
     if lang is SupportedLanguages.CPP:
-        f = open(join(cpp_dir, "footer.txt"), "r")
-        content = f.read()
+        content = get_rendered_text("footer.j2", env)
         save_file(join(output_dir, "codecs.h"), content, "a+")
         save_file(join(output_dir, "codecs.cpp"), content, "a+")
 
@@ -301,8 +301,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         codec_file_name = file_name_generators[lang](codec["name"])
                         content = template.render(codec=codec)
                         save_file(join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                except NotImplementedError as e:
+                    print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
 
 def generate_documentation(services, custom_definitions, template, output_dir):
@@ -640,6 +640,7 @@ language_specific_funcs = {
         "escape_keyword": cs_escape_keyword,
         "custom_codec_param_name": cs_custom_codec_param_name,
         "cs_sizeof": cs_sizeof,
+        "cs_param_prefix": cs_param_prefix,
     },
     SupportedLanguages.CPP: {
         "lang_types_encode": cpp_types_encode,
@@ -696,6 +697,9 @@ def ignore_service_or_method(name, lang):
             return True
     return False
 
+def get_rendered_text(template_filename, env) -> str:
+    # Ensure the line is properly terminated
+    return env.get_template(template_filename).render() + "\n"
 
 def create_environment(lang, namespace):
     env = Environment(

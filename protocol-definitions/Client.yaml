@@ -130,6 +130,30 @@ methods:
           doc: |
             Returns the token to use while authenticating TPC channels 
             or null if TPC is disabled.
+        - name: memberListVersion
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            Incremental member list version. -1 if no member list is available.
+        - name: memberInfos
+          type: List_MemberInfo
+          nullable: false
+          since: 2.7
+          doc: |
+            List of member infos  at the cluster associated with the given version
+        - name: partitionListVersion
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            Incremental state version of the partition table. -1 if no partition table is available.
+        - name: partitions
+          type: EntryList_UUID_List_Integer
+          nullable: false
+          since: 2.7
+          doc: |
+            The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -251,6 +275,30 @@ methods:
           doc: |
             Returns the token to use while authenticating TPC channels 
             or null if TPC is disabled.
+        - name: memberListVersion
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            Incremental member list version
+        - name: memberInfos
+          type: List_MemberInfo
+          nullable: true
+          since: 2.7
+          doc: |
+            List of member infos  at the cluster associated with the given version
+        - name: partitionListVersion
+          type: int
+          nullable: false
+          since: 2.7
+          doc: |
+            Incremental state version of the partition table
+        - name: partitions
+          type: EntryList_UUID_List_Integer
+          nullable: true
+          since: 2.7
+          doc: |
+            The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
   - id: 3
     name: addClusterViewListener
     since: 2.0

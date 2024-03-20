@@ -159,6 +159,12 @@ methods:
           since: 2.4
           doc: |
             Global indexes of the map.
+        - name: wanReplicationRef
+          type: WanReplicationRef
+          nullable: true
+          since: 2.7
+          doc: |
+            WanReplicationRef of the map. WanReplicationRef is WAN replication target of the map.
   - id: 4
     name: updateMapConfig
     since: 2.0
@@ -224,6 +230,12 @@ methods:
             7 - USED_NATIVE_MEMORY_PERCENTAGE
             8 - FREE_NATIVE_MEMORY_SIZE
             9 - FREE_NATIVE_MEMORY_PERCENTAGE
+        - name: wanReplicationRef
+          type: WanReplicationRef
+          nullable: true
+          since: 2.7
+          doc: |
+            The new WanReplicationRef to apply.
     response: {}
   - id: 5
     name: getMemberConfig
@@ -643,6 +655,14 @@ methods:
             0 - DISCARD_AFTER_MUTATION
             1 - THROW_EXCEPTION
             2 - THROW_EXCEPTION_ONLY_IF_REPLICATION_ACTIVE
+        - name: consistencyCheckStrategy
+          type: byte
+          nullable: false
+          since: 2.7
+          doc: |
+            Strategy for checking the consistency of data between wanReplicationResourceName:
+            0 - NONE
+            1 - MERKLE_TREES
     response:
       params:
         - name: addedPublisherIds
@@ -905,3 +925,33 @@ methods:
           nullable: false
           doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
           since: 2.4
+  - id: 36
+    name: forceCloseCPSession
+    since: 2.7
+    doc: |
+      Closes the given session forcefully on the given CP group.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: groupName
+          type: String
+          nullable: false
+          since: 2.7
+          doc: |
+            Name of the CP group
+        - name: sessionId
+          type: long
+          nullable: false
+          since: 2.7
+          doc: |
+            ID of the session
+    response:
+      params:
+        - name: result
+          type: boolean
+          nullable: false
+          since: 2.7
+          doc: |
+            true if the session is found & closed,
+            false otherwise.

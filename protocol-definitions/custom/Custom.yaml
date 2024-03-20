@@ -785,7 +785,7 @@ customTypes:
         type: DataPersistenceConfig
         nullable: false
         since: 2.5
-      - name: namespace
+      - name: userCodeNamespace
         type: String
         nullable: true
         since: 2.7
@@ -1448,6 +1448,38 @@ customTypes:
         type: byte
         nullable: false
         since: 2.7
+  - name: ReplicatedMapEntryViewHolder
+    since: 2.7
+    returnWithFactory: false
+    params:
+      - name: key
+        type: Data
+        nullable: false
+        since: 2.7
+      - name: value
+        type: Data
+        nullable: false
+        since: 2.7
+      - name: creationTime
+        type: long
+        nullable: false
+        since: 2.7
+      - name: hits
+        type: long
+        nullable: false
+        since: 2.7
+      - name: lastAccessTime
+        type: long
+        nullable: false
+        since: 2.7
+      - name: lastUpdateTime
+        type: long
+        nullable: false
+        since: 2.7
+      - name: ttlMillis
+        type: long
+        nullable: false
+        since: 2.7
   - name: ResourceDefinition
     since: 2.7
     params:
@@ -1462,4 +1494,8 @@ customTypes:
       - name: payload
         type: byteArray
         since: 2.7
-        nullable: false
+        nullable: true
+      - name: resourceUrl
+        type: String
+        since: 2.7
+        nullable: true
