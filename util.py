@@ -370,6 +370,7 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
             if not validate_against_schema(service, schema):
                 return False
 
+            methods = service["methods"]
             if not no_id_check and service["name"] not in ID_VALIDATOR_IGNORE_SET:
                 service_id = service["id"]
                 # Validate id ordering of services.
@@ -380,7 +381,6 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                     )
                     valid = False
                 # Validate id ordering of definition methods.
-                methods = service["methods"]
                 for j in range(len(methods)):
                     method = methods[j]
                     method_id = method["id"]
@@ -414,6 +414,16 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                             protocol_versions,
                         ):
                             valid = False
+
+            service_method_name = service["name"] + "." + method["name"]
+            for j in range(len(methods)):
+                method = methods[j]
+                request_params = method["request"].get("params", [])
+                if contains_invalid_nullability_field(service_method_name, response_params):
+                    valid = False
+                response_params = method["response"].get("params", [])
+                if contains_invalid_nullability_field(service_method_name, request_params):
+                    valid = False 
     return valid
 
 
@@ -470,6 +480,28 @@ def is_parameters_ordered_and_semantically_correct(since, name, params, protocol
         version = param_version
     return is_ordered and is_semantically_correct
 
+
+def contains_invalid_nullability_field(service_method_name, params):
+    for param in params:
+        # According to the readme, UUID fields should be nullable. But a lot of codecs violate that now,
+        # so skipping that check
+        """ 
+        if param["type"] == "UUID" and not param["nullable"]:
+            print(
+                'Check the nullable value of "%s" field of the "%s".\n'
+                "UUID fields should be nullable!"
+                % (param["name"], service_method_name)
+            )
+            return True
+        """
+        if param["type"] in FixSizedTypes and param["type"] != "UUID" and param["nullable"]:
+            print(
+                'Check the nullable value of "%s" field of the "%s".\n'
+                "Fixed fields other than UUID cannot be nullable!"
+                % (param["name"], service_method_name)
+            )
+            return True
+    return False
 
 def validate_custom_protocol_definitions(definition, schema_path, protocol_versions):
     valid = True
