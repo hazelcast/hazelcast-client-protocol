@@ -187,7 +187,7 @@ methods:
     name: searchNearVector
     since: 2.8
     doc: |
-      Returns the VectorDocuments closest to the given vectors.
+      Returns the VectorDocuments closest to the given vector.
     request:
       retryable: true
       partitionIdentifier: none

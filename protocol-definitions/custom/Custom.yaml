@@ -1505,8 +1505,7 @@ customTypes:
     params:
       - name: name
         type: String
-        # TODO: nullable? How to represent default index
-        nullable: true
+        nullable: false
         since: 2.8
       - name: dimension
         type: int
@@ -1514,19 +1513,6 @@ customTypes:
         since: 2.8
       - name: metric
         type: int
-        nullable: false
-        since: 2.8
-
-  #TODO: remove? Java does not use it but maybe other clients do?
-  - name: VectorPair
-    since: 2.8
-    params:
-      - name: name
-        type: String
-        nullable: false
-        since: 2.8
-      - name: vector
-        type: floatArray
         nullable: false
         since: 2.8
 
@@ -1539,7 +1525,6 @@ customTypes:
         since: 2.8
       - name: vectors
         type: VectorValues
-        # TODO: VectorValues may not be returned in VectorSearchResult if not requested
         nullable: false
         since: 2.8
 
@@ -1572,9 +1557,13 @@ customTypes:
         since: 2.8
       - name: document
         type: Data
-        nullable: false
+        nullable: true
         since: 2.8
       - name: score
         type: float
         nullable: false
+        since: 2.8
+      - name: vectorValues
+        type: VectorValues
+        nullable: true
         since: 2.8
