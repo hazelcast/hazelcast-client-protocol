@@ -133,7 +133,8 @@
             "EurekaConfig",
             "List_DiscoveryStrategyConfig",
             "DiscoveryConfig",
-            "WanSyncConfig"
+            "WanSyncConfig",
+            "List_VectorIndexConfig"
           ]
         },
         "nullable": {
