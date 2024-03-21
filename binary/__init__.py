@@ -53,6 +53,7 @@ CustomTypes = [
     'ClientBwListEntry',
     'MemberInfo',
     'MemberVersion',
+    'Version',
     'MCEvent',
     'AnchorDataListHolder',
     'PagingPredicateHolder',

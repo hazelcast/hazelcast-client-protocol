@@ -101,6 +101,7 @@
             "Map_EndpointQualifier_Address",
             "MergePolicyConfig",
             "MemberVersion",
+            "Version",
             "MemberInfo",
             "MCEvent",
             "AnchorDataListHolder",
