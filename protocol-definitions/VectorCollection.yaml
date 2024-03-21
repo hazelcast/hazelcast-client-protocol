@@ -26,7 +26,7 @@ methods:
     response: {}
 
   - id: 2
-    name: set
+    name: put
     since: 2.8
     doc: |
       Puts a document into the Vector Collection.
@@ -52,7 +52,14 @@ methods:
           since: 2.8
           doc: |
             Value for the entry.
-    response: {}
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            Value previously associated with the key if any.
 
   - id: 3
     name: putIfAbsent
@@ -83,21 +90,21 @@ methods:
             Value for the entry.
     response:
       params:
-        - name: response
-          type: boolean
-          nullable: false
+        - name: value
+          type: VectorDocument
+          nullable: true
           since: 2.8
           doc: |
-            Returns true if successful, otherwise returns false.
+            Value previously associated with the key if any.
 
   - id: 4
     name: putAll
     since: 2.8
     doc: |
       The effect of this call is equivalent to set(k, v) on this VectorCollection once for each mapping from key k to value v.
-      The behavior of this operation is undefined if the specified map is modified while the operation is in progress.
+      The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
       Note that all keys in the request should belong to the partition ID to which this request is being sent.
-      Any key that matchies to a different partition ID shall be ignored.
+      Any key that matches to a different partition ID shall be ignored.
       The API implementation using this request may need to send multiple of these request messages for different partitions.
     request:
       retryable: false
@@ -154,7 +161,7 @@ methods:
             The value for the key if it exists.
 
   - id: 6
-    name: delete
+    name: remove
     since: 2.8
     doc: |
       Removes the mapping for a key from this VectorCollection.
@@ -176,14 +183,66 @@ methods:
             Key for the entry.
     response:
       params:
-        - name: response
-          type: boolean
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            Value previously associated with the key if any.
+
+  - id: 7
+    name: set
+    since: 2.8
+    doc: |
+      Puts a document into the Vector Collection without returning previous value.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
           nullable: false
           since: 2.8
           doc: |
-            Returns true if the key exists and removed, otherwise returns false.
+            Name of the Vector Collection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Value for the entry.
+    response: {}
 
-  - id: 7
+  - id: 8
+    name: delete
+    since: 2.8
+    doc: |
+      Removes the mapping for a key from this VectorCollection without returning previous value.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the VectorCollection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the entry.
+    response: {}
+
+  - id: 9
     name: searchNearVector
     since: 2.8
     doc: |
