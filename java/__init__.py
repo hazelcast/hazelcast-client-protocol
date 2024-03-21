@@ -218,7 +218,7 @@ _java_types_decode = {
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
     "List_VectorIndexConfig": "java.util.List<com.hazelcast.vector.config.VectorIndexConfig>",
-    "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.impl.DataSearchResult>",
+    "List_VectorSearchResult": "java.util.List<com.hazelcast.vector.impl.DataSearchResult>",
     "VectorValues": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Set<java.util.UUID>",
