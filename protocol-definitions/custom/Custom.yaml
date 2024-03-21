@@ -1500,18 +1500,18 @@ customTypes:
         since: 2.7
         nullable: true
   - name: VectorIndexConfig
-    since: 2.0
+    since: 2.8
     returnWithFactory: true
     params:
       - name: name
         type: String
         nullable: false
-        since: 2.0
+        since: 2.8
       - name: metric
-        type: String
+        type: int
         nullable: false
-        since: 2.0
+        since: 2.8
       - name: dimension
         type: int
-        since: 2.0
+        since: 2.8
         nullable: false

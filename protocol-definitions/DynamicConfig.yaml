@@ -1428,7 +1428,7 @@ methods:
     response: {}
   - id: 20
     name: addVectorCollectionConfig
-    since: 2.0
+    since: 2.8
     doc: |
       Adds a new vector collection configuration to a running cluster.
     request:
@@ -1438,13 +1438,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: 2.8
           doc: |
             vector collection's name
         - name: indexConfigs
           type: List_VectorIndexConfig
-          nullable: true
-          since: 2.0
+          nullable: false
+          since: 2.8
           doc: |
             item vector index configurations
     response: {}
