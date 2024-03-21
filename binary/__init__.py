@@ -164,7 +164,6 @@ VarSizedListTypes = [
     'List_WanBatchPublisherConfigHolder',
     'List_SimpleEntryView',
     'List_ReplicatedMapEntryViewHolder',
-    'List_VectorPair',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

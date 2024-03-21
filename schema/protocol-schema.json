@@ -137,7 +137,6 @@
             "List_ReplicatedMapEntryViewHolder",
             "ResourceDefinition",
             "List_ResourceDefinition",
-            "List_VectorPair",
             "List_VectorIndexConfig",
             "VectorDocument",
             "EntryList_Data_VectorDocument",
