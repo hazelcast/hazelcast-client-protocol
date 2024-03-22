@@ -2,30 +2,6 @@ id: 36
 name: VectorCollection
 methods:
   - id: 1
-    name: createVectorCollection
-    since: 2.8
-    doc:
-      Creates a VectorCollection.
-      It's an error to attempt to re-create a VectorCollection with the same name and different configuration.
-    request:
-      retryable: false
-      partitionIdentifier: none
-      params:
-        - name: name
-          type: String
-          nullable: false
-          since: 2.8
-          doc: |
-            Name of the Vector Collection.
-        - name: vectorIndexConfigs
-          type: List_VectorIndexConfig
-          nullable: true
-          since: 2.8
-          doc: |
-            Vector index definitions.
-    response: {}
-
-  - id: 2
     name: put
     since: 2.8
     doc: |
@@ -61,7 +37,7 @@ methods:
           doc: |
             Value previously associated with the key if any.
 
-  - id: 3
+  - id: 2
     name: putIfAbsent
     since: 2.8
     doc: |
@@ -97,7 +73,7 @@ methods:
           doc: |
             Value previously associated with the key if any.
 
-  - id: 4
+  - id: 3
     name: putAll
     since: 2.8
     doc: |
@@ -124,7 +100,7 @@ methods:
             Key/VectorDocument entries to be stored in this VectorCollection.
     response: {}
 
-  - id: 5
+  - id: 4
     name: get
     since: 2.8
     doc: |
@@ -154,7 +130,7 @@ methods:
           doc: |
             The value for the key if it exists.
 
-  - id: 6
+  - id: 5
     name: remove
     since: 2.8
     doc: |
@@ -184,7 +160,7 @@ methods:
           doc: |
             Value previously associated with the key if any.
 
-  - id: 7
+  - id: 6
     name: set
     since: 2.8
     doc: |
@@ -213,7 +189,7 @@ methods:
             Value for the entry.
     response: {}
 
-  - id: 8
+  - id: 7
     name: delete
     since: 2.8
     doc: |
@@ -236,7 +212,7 @@ methods:
             Key for the entry.
     response: {}
 
-  - id: 9
+  - id: 8
     name: searchNearVector
     since: 2.8
     doc: |
