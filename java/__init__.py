@@ -116,7 +116,7 @@ _java_types_encode = {
     "MigrationState": "com.hazelcast.partition.MigrationState",
     "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
     "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
-    "VectorIndexConfig": "com.hazelcast.vector.config.VectorIndexConfig",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
     "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
@@ -145,7 +145,7 @@ _java_types_encode = {
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
-    "List_VectorIndexConfig": "java.util.List<com.hazelcast.vector.config.VectorIndexConfig>",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
     "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.impl.DataSearchResult>",
     "VectorValues": "com.hazelcast.vector.VectorValues",
 
@@ -188,7 +188,7 @@ _java_types_decode = {
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
     "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
     "VectorSearchOptions": "com.hazelcast.vector.impl.SearchOptionsImpl",
-    "VectorIndexConfig": "com.hazelcast.vector.config.VectorIndexConfig",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
     "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
 
     "List_Long": "java.util.List<java.lang.Long>",
@@ -217,7 +217,7 @@ _java_types_decode = {
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
-    "List_VectorIndexConfig": "java.util.List<com.hazelcast.vector.config.VectorIndexConfig>",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
     "List_VectorSearchResult": "java.util.List<com.hazelcast.vector.impl.DataSearchResult>",
     "VectorValues": "com.hazelcast.vector.VectorValues",
 
