@@ -1533,6 +1533,7 @@ customTypes:
         since: 2.8
 
   - name: VectorDocument
+    returnWithFactory: true
     since: 2.8
     params:
       - name: value
@@ -1545,6 +1546,7 @@ customTypes:
         since: 2.8
 
   - name: VectorSearchOptions
+    returnWithFactory: true
     since: 2.8
     params:
       - name: includeValue
@@ -1565,6 +1567,7 @@ customTypes:
         since: 2.8
 
   - name: VectorSearchResult
+    returnWithFactory: true
     since: 2.8
     params:
       - name: key

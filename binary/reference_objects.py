@@ -85,10 +85,10 @@ objects = {
     'VectorSearchOptions': {
         'includeValue': False,
         'includeVectors': False,
-        'limit': 100,
-        'vectorValues': {
-            '#': FLOATARRAY
-        }
+        'limit': 100
+    },
+    'VectorPair': {
+        'type': 0
     }
 }
 
