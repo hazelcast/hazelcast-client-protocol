@@ -115,6 +115,7 @@ _java_types_encode = {
     "CPMember": "com.hazelcast.cp.CPMember",
     "MigrationState": "com.hazelcast.partition.MigrationState",
     "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
+    "VectorPair": "com.hazelcast.vector.VectorPair",
     "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
     "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
     "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
@@ -147,7 +148,7 @@ _java_types_encode = {
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
     "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
     "List_VectorSearchResult": "java.util.Collection<com.hazelcast.vector.impl.DataSearchResult>",
-    "VectorValues": "com.hazelcast.vector.VectorValues",
+    "List_VectorPair": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
 
@@ -190,6 +191,7 @@ _java_types_decode = {
     "VectorSearchOptions": "com.hazelcast.vector.impl.SearchOptionsImpl",
     "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
     "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
+    "VectorPair": "com.hazelcast.vector.VectorPair",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -219,7 +221,7 @@ _java_types_decode = {
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
     "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
     "List_VectorSearchResult": "java.util.List<com.hazelcast.vector.impl.DataSearchResult>",
-    "VectorValues": "com.hazelcast.vector.VectorValues",
+    "List_VectorPair": "java.util.List<com.hazelcast.vector.VectorPair>",
 
     "Set_UUID": "java.util.Set<java.util.UUID>",
 

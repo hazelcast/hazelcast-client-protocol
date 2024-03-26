@@ -14,7 +14,6 @@ VarSizedTypes = [
     'String',
     'Data',
     'SqlPage',
-    'VectorValues'
 ]
 
 FixSizedEntryListTypes = [
@@ -73,6 +72,7 @@ CustomTypes = [
     'VectorDocument',
     'VectorSearchOptions',
     'VectorSearchResult',
+    "VectorPair",
 ]
 
 CustomConfigTypes = [
@@ -164,6 +164,7 @@ VarSizedListTypes = [
     'List_WanBatchPublisherConfigHolder',
     'List_SimpleEntryView',
     'List_ReplicatedMapEntryViewHolder',
+    'List_VectorPair',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

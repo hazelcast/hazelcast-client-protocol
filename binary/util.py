@@ -252,7 +252,7 @@ class VarSizedParamEncoder:
             'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
             'SqlPage': partial(self.encode_sqlpage),
             'HazelcastJsonValue': partial(self.encode_json),
-            'VectorValues': partial(self.encode_var_sized_frame, param_type='Map_String_floatArray')
+            'List_VectorPair': partial(self.encode_var_sized_frame, param_type='VectorPair')
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):

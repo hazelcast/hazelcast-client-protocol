@@ -1516,6 +1516,22 @@ customTypes:
         nullable: false
         since: 2.8
 
+  - name: VectorPair
+    since: 2.8
+    params:
+      - name: name
+        type: String
+        nullable: false
+        since: 2.8
+      - name: type
+        type: byte
+        nullable: false
+        since: 2.8
+      - name: vector
+        type: floatArray
+        nullable: true
+        since: 2.8
+
   - name: VectorDocument
     since: 2.8
     params:
@@ -1524,7 +1540,7 @@ customTypes:
         nullable: false
         since: 2.8
       - name: vectors
-        type: VectorValues
+        type: List_VectorPair
         nullable: false
         since: 2.8
 
@@ -1544,7 +1560,7 @@ customTypes:
         nullable: false
         since: 2.8
       - name: vectors
-        type: VectorValues
+        type: List_VectorPair
         nullable: false
         since: 2.8
 
@@ -1563,7 +1579,7 @@ customTypes:
         type: float
         nullable: false
         since: 2.8
-      - name: vectorValues
-        type: VectorValues
+      - name: vectors
+        type: List_VectorPair
         nullable: true
         since: 2.8

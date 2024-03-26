@@ -141,7 +141,9 @@
             "VectorDocument",
             "EntryList_Data_VectorDocument",
             "VectorSearchOptions",
-            "List_VectorSearchResult"
+            "List_VectorSearchResult",
+            "VectorPair",
+            "List_VectorPair"
           ]
         },
         "nullable": {

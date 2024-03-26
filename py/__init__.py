@@ -157,6 +157,10 @@ class PathHolders:
     SchemaCodec = ImportPathHolder("SchemaCodec", "protocol.codec.custom.schema_codec")
     FieldDescriptor = ImportPathHolder("FieldDescriptor", "serialization.compact")
     FieldDescriptorCodec = ImportPathHolder("FieldDescriptorCodec", "protocol.codec.custom.field_descriptor_codec")
+    VectorDocument = ImportPathHolder("VectorDocument", "vector")
+    VectorDocumentCodec = ImportPathHolder("VectorDocumentCodec", "protocol.codec.custom.vector_document_codec")
+    VectorPair = ImportPathHolder("VectorPair", "vector")
+    VectorPairCodec = ImportPathHolder("VectorPairCodec", "protocol.codec.custom.vector_values_codec")
 
 
 import_paths = {
@@ -214,6 +218,9 @@ import_paths = {
     "SqlPage": [PathHolders.SqlPageCodec],
     "Schema": [PathHolders.Schema, PathHolders.SchemaCodec],
     "FieldDescriptor": [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
+    "VectorDocument": [PathHolders.VectorDocument, PathHolders.VectorDocumentCodec],
+    "VectorPair": [PathHolders.VectorPair, PathHolders.VectorPairCodec],
+    "List_VectorPair": [PathHolders.ListMultiFrameCodec, PathHolders.VectorPairCodec],
 }
 
 _py_types = {
@@ -274,6 +281,10 @@ _py_types = {
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
+
+    "VectorDocument",
+    "VectorPair",
+    "List_VectorPair",
 }
 
 
