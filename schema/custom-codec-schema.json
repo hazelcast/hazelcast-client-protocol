@@ -136,11 +136,11 @@
             "List_DiscoveryStrategyConfig",
             "DiscoveryConfig",
             "WanSyncConfig",
+            "List_VectorIndexConfig",
             "VectorDocument",
             "EntryList_Data_VectorDocument",
             "VectorPair",
-            "List_VectorPair",
-            "List_VectorIndexConfig"
+            "List_VectorPair"
           ]
         },
         "nullable": {
