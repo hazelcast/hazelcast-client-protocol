@@ -566,7 +566,12 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
     for custom_codec in custom_codec_defs:
         protocol_versions.add(custom_codec["since"])
         for param in custom_codec.get("params", []):
-            protocol_versions.add(param["since"])
+            try:
+                protocol_versions.add(param["since"])
+            except Exception as e:
+                print(f"Error in {param}")
+                raise e
+
 
     return map(str, protocol_versions)
 

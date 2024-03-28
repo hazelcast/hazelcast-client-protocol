@@ -147,6 +147,13 @@ _cpp_types_common = {
     "CPMember": "NA",
     "MigrationState": "NA",
     "PartitioningAttributeConfig": "NA",
+
+    "VectorIndexConfig": "NA",
+    "VectorPair": "NA",
+    "VectorDocument": "NA",
+    "EntryList_Data_VectorDocument": "NA",
+    "VectorSearchOptions": "NA",
+    "VectorSearchResult": "NA",
 }
 
 _cpp_types_encode = {

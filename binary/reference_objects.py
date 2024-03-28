@@ -24,14 +24,20 @@ STRING = "localhost"
 
 DATA = b'111313123131313131'
 
+FLOAT = 3.14
+
+FLOATARRAY = [FLOAT]
+
 objects = {
     'boolean': BOOLEAN,
     'byte': BYTE,
     'int': INT,
     'long': LONG,
     'UUID': UUID,
+    'float': FLOAT,
     'byteArray': BYTEARRAY,
     'longArray': LONGARRAY,
+    'floatArray': FLOATARRAY,
     'String': STRING,
     'Data': DATA,
     'DurationConfig': {
@@ -71,6 +77,18 @@ objects = {
     'JobAndSqlSummary': {
         'status': 2,
         'userCancelled': False
+    },
+    'VectorIndexConfig': {
+        'dimension': 1000,
+        'metric': 0,
+    },
+    'VectorSearchOptions': {
+        'includeValue': False,
+        'includeVectors': False,
+        'limit': 100
+    },
+    'VectorPair': {
+        'type': 0
     }
 }
 

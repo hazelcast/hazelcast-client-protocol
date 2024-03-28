@@ -95,6 +95,7 @@ class PathHolders:
     DataCodec = ImportPathHolder("DataCodec", "protocol.builtin")
     ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "protocol.builtin")
     LongArrayCodec = ImportPathHolder("LongArrayCodec", "protocol.builtin")
+    FloatArrayCodec = ImportPathHolder("FloatArrayCodec", "protocol.builtin")
     Address = ImportPathHolder("Address", "core")
     AddressCodec = ImportPathHolder("AddressCodec", "protocol.codec.custom.address_codec")
     ErrorHolder = ImportPathHolder("ErrorHolder", "protocol")
@@ -156,12 +157,17 @@ class PathHolders:
     SchemaCodec = ImportPathHolder("SchemaCodec", "protocol.codec.custom.schema_codec")
     FieldDescriptor = ImportPathHolder("FieldDescriptor", "serialization.compact")
     FieldDescriptorCodec = ImportPathHolder("FieldDescriptorCodec", "protocol.codec.custom.field_descriptor_codec")
+    VectorDocument = ImportPathHolder("VectorDocument", "vector")
+    VectorDocumentCodec = ImportPathHolder("VectorDocumentCodec", "protocol.codec.custom.vector_document_codec")
+    VectorPair = ImportPathHolder("VectorPair", "vector")
+    VectorPairCodec = ImportPathHolder("VectorPairCodec", "protocol.codec.custom.vector_values_codec")
 
 
 import_paths = {
     "CodecUtil": PathHolders.CodecUtil,
     "longArray": [PathHolders.LongArrayCodec],
     "byteArray": [PathHolders.ByteArrayCodec],
+    "floatArray": [PathHolders.FloatArrayCodec],
     "String": [PathHolders.StringCodec],
     "Data": [PathHolders.DataCodec],
     "Address": [PathHolders.Address, PathHolders.AddressCodec],
@@ -212,6 +218,9 @@ import_paths = {
     "SqlPage": [PathHolders.SqlPageCodec],
     "Schema": [PathHolders.Schema, PathHolders.SchemaCodec],
     "FieldDescriptor": [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
+    "VectorDocument": [PathHolders.VectorDocument, PathHolders.VectorDocumentCodec],
+    "VectorPair": [PathHolders.VectorPair, PathHolders.VectorPairCodec],
+    "List_VectorPair": [PathHolders.ListMultiFrameCodec, PathHolders.VectorPairCodec],
 }
 
 _py_types = {
@@ -223,6 +232,7 @@ _py_types = {
 
     "byteArray",
     "longArray",
+    "floatArray",
     "String",
     "Data",
 
@@ -271,6 +281,10 @@ _py_types = {
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
+
+    "VectorDocument",
+    "VectorPair",
+    "List_VectorPair",
 }
 
 

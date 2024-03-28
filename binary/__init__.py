@@ -4,14 +4,16 @@ FixSizedTypes = [
     "int",
     "long",
     "UUID",
+    "float",
 ]
 
 VarSizedTypes = [
     'byteArray',
     'longArray',
+    'floatArray',
     'String',
     'Data',
-    'SqlPage'
+    'SqlPage',
 ]
 
 FixSizedEntryListTypes = [
@@ -66,7 +68,11 @@ CustomTypes = [
     'MigrationState',
     'FieldDescriptor',
     'Schema',
-    'HazelcastJsonValue'
+    'HazelcastJsonValue',
+    'VectorDocument',
+    'VectorSearchOptions',
+    'VectorSearchResult',
+    "VectorPair",
 ]
 
 CustomConfigTypes = [
@@ -109,6 +115,8 @@ CustomConfigTypes = [
     "DiscoveryStrategyConfig",
     "WanSyncConfig",
     "ResourceDefinition",
+    "VectorCollectionConfig",
+    "VectorIndexConfig"
 ]
 
 VarSizedEntryListTypes = [
@@ -117,6 +125,7 @@ VarSizedEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_Data_Data',
     'EntryList_Data_List_Data',
+    'EntryList_Data_VectorDocument',
 ]
 
 VarSizedMapTypes = [
@@ -155,6 +164,7 @@ VarSizedListTypes = [
     'List_WanBatchPublisherConfigHolder',
     'List_SimpleEntryView',
     'List_ReplicatedMapEntryViewHolder',
+    'List_VectorPair',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
