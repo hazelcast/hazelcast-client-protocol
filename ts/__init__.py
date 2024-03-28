@@ -355,6 +355,7 @@ _ts_types = {
     "List_SimpleEntryView": "NA",
 
     "VectorIndexConfig": "NA",
+    "List_VectorIndexConfig": "NA",
     "VectorPair": "NA",
     "VectorDocument": "NA",
     "EntryList_Data_VectorDocument": "NA",
