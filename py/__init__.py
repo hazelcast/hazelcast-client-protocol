@@ -58,7 +58,7 @@ py_ignore_service_list = {
     "ContinuousQuery",
     "CPSubsystem",
     "DurableExecutor",
-    "DynamicConfig",
+    # "DynamicConfig",
     "ExecutorService.cancelOnMember",
     "ExecutorService.cancelOnPartition",
     "Map.addPartitionLostListener",
@@ -160,7 +160,14 @@ class PathHolders:
     VectorDocument = ImportPathHolder("VectorDocument", "vector")
     VectorDocumentCodec = ImportPathHolder("VectorDocumentCodec", "protocol.codec.custom.vector_document_codec")
     VectorPair = ImportPathHolder("VectorPair", "vector")
-    VectorPairCodec = ImportPathHolder("VectorPairCodec", "protocol.codec.custom.vector_values_codec")
+    VectorPairCodec = ImportPathHolder("VectorPairCodec", "protocol.codec.custom.vector_pair_codec")
+    EntryListDataVectorDocumentCodec = ImportPathHolder("EntryListDataVectorDocument", "protocol.builtin")
+    VectorSearchOptions = ImportPathHolder("VectorSearchOptions", "vector")
+    VectorSearchOptionsCodec = ImportPathHolder("VectorSearchOptionsCodec", "protocol.codec.custom.vector_search_options_codec")
+    VectorSearchResult = ImportPathHolder("VectorSearchResult", "vector")
+    VectorSearchResultCodec = ImportPathHolder("VectorSearchResultCodec", "protocol.codec.custom.vector_search_result_codec")
+    VectorIndexConfig = ImportPathHolder("VectorIndexConfig", "vector")
+    VectorIndexConfigCodec = ImportPathHolder("VectorIndexConfigCodec", "protocol.codec.custom.vector_index_config_codec")
 
 
 import_paths = {
@@ -221,6 +228,12 @@ import_paths = {
     "VectorDocument": [PathHolders.VectorDocument, PathHolders.VectorDocumentCodec],
     "VectorPair": [PathHolders.VectorPair, PathHolders.VectorPairCodec],
     "List_VectorPair": [PathHolders.ListMultiFrameCodec, PathHolders.VectorPairCodec],
+    "EntryList_Data_VectorDocument": [PathHolders.EntryListDataVectorDocumentCodec],
+    "VectorSearchOptions": [PathHolders.VectorSearchOptions, PathHolders.VectorSearchOptionsCodec],
+    "VectorSearchResult": [PathHolders.VectorSearchResult, PathHolders.VectorSearchResultCodec],
+    "List_VectorSearchResult": [PathHolders.ListMultiFrameCodec, PathHolders.VectorSearchResult],
+    "VectorIndexConfig": [PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
+    "List_VectorIndexConfig": [PathHolders.ListMultiFrameCodec, PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
 }
 
 _py_types = {
@@ -285,6 +298,12 @@ _py_types = {
     "VectorDocument",
     "VectorPair",
     "List_VectorPair",
+    "EntryList_Data_VectorDocument",
+    "VectorSearchOptions",
+    "VectorSearchResult",
+    "List_VectorSearchResult",
+    "VectorIndexConfig",
+    "List_VectorIndexConfig",
 }
 
 
