@@ -135,7 +135,8 @@
             "List_SimpleEntryView",
             "List_ReplicatedMapEntryViewHolder",
             "ResourceDefinition",
-            "List_ResourceDefinition"
+            "List_ResourceDefinition",
+            "List_VectorIndexConfig"
           ]
         },
         "nullable": {

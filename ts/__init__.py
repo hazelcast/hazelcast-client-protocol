@@ -353,4 +353,6 @@ _ts_types = {
     "ResourceDefinition": "NA",
     "List_ResourceDefinition": "NA",
     "List_SimpleEntryView": "NA",
+    "VectorIndexConfig": "NA",
+    "List_VectorIndexConfig": "NA"
 }

@@ -92,7 +92,9 @@ _java_types_common = {
     "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
     "WanSyncConfig": "com.hazelcast.client.impl.protocol.codec.holder.WanSyncConfigHolder",
     "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
-    "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>"
+    "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>"
 }
 
 _java_types_encode = {
