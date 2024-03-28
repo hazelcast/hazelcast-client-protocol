@@ -1505,7 +1505,7 @@ customTypes:
     params:
       - name: name
         type: String
-        nullable: false
+        nullable: true
         since: 2.8
       - name: metric
         type: int
