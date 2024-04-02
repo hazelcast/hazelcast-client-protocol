@@ -154,6 +154,12 @@ methods:
           since: 2.7
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+        - name: keyValuePairs
+          type: Map_String_String
+          nullable: false
+          since: 2.8
+          doc: |
+            Server/Member metadata represented as in key value pairs
   - id: 2
     name: authenticationCustom
     since: 2.0
@@ -299,6 +305,12 @@ methods:
           since: 2.7
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+        - name: keyValuePairs
+          type: Map_String_String
+          nullable: false
+          since: 2.8
+          doc: |
+            Server/Member metadata represented as in key value pairs
   - id: 3
     name: addClusterViewListener
     since: 2.0
@@ -340,6 +352,21 @@ methods:
             since: 2.0
             doc: |
               The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
+      - name: MemberGroupsView
+        since: 2.8
+        params:
+          - name: version
+            type: int
+            nullable: false
+            since: 2.8
+            doc: |
+              Incremental state version of the partition table
+          - name: memberGroups
+            type: List_List_UUID
+            nullable: false
+            since: 2.8
+            doc: |
+              Grouped members by their UUID. Grouping is done based on PartitionGroupConfig.
   - id: 4
     name: createProxy
     since: 2.0

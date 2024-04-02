@@ -116,6 +116,7 @@ class PathHolders:
     ListLongCodec = ImportPathHolder("ListLongCodec", "protocol.builtin")
     ListIntegerCodec = ImportPathHolder("ListIntegerCodec", "protocol.builtin")
     ListUUIDCodec = ImportPathHolder("ListUUIDCodec", "protocol.builtin")
+    ListListUUIDCodec = ImportPathHolder("ListListUUIDCodec", "protocol.builtin")
     SetUUIDCodec = ImportPathHolder("SetUUIDCodec", "protocol.builtin")
     ListDataCodec = ImportPathHolder("ListDataCodec", "protocol.builtin")
     ListMultiFrameCodec = ImportPathHolder("ListMultiFrameCodec", "protocol.builtin")
@@ -188,6 +189,7 @@ import_paths = {
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
+    "List_List_UUID": [PathHolders.ListListUUIDCodec],
     "Set_UUID": [PathHolders.SetUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
@@ -304,6 +306,7 @@ _py_types = {
     "List_VectorSearchResult",
     "VectorIndexConfig",
     "List_VectorIndexConfig",
+    "List_List_UUID"
 }
 
 

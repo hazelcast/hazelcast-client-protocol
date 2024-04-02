@@ -140,7 +140,8 @@
             "VectorDocument",
             "EntryList_Data_VectorDocument",
             "VectorPair",
-            "List_VectorPair"
+            "List_VectorPair",
+            "List_List_UUID"
           ]
         },
         "nullable": {

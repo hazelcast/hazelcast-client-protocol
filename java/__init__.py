@@ -96,7 +96,8 @@ _java_types_common = {
     "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
     "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>",
     "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
-    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>"
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
+    "List_List_UUID": "java.util.Collection<java.util.Collection<java.util.UUID>>"
 }
 
 _java_types_encode = {
@@ -169,7 +170,8 @@ _java_types_encode = {
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
-    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>"
+    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>",
+    "List_List_UUID": "java.util.Collection<java.util.Collection<java.util.UUID>>"
 }
 
 _java_types_decode = {
@@ -243,4 +245,5 @@ _java_types_decode = {
     "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.List<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
     "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>",
+    "List_List_UUID": "java.util.List<java.util.List<java.util.UUID>>"
 }
