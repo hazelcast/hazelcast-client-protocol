@@ -1515,6 +1515,18 @@ customTypes:
         type: int
         since: 2.8
         nullable: false
+      - name: max-degree
+        type: int
+        since: 2.8
+        nullable: true
+      - name: beam-width
+        type: int
+        since: 2.8
+        nullable: true
+      - name: use-deduplication
+        type: boolean
+        since: 2.8
+        nullable: true
 
   - name: VectorPair
     since: 2.8
