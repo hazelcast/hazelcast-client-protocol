@@ -82,7 +82,7 @@ objects = {
         'dimension': 1000,
         'metric': 0,
         'maxDegree': 200,
-        'beamWidth': 300,
+        'efConstruction': 300,
         'useDeduplication': False,
     },
     'VectorSearchOptions': {
