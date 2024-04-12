@@ -1577,6 +1577,10 @@ customTypes:
         type: List_VectorPair
         nullable: false
         since: 2.8
+      - name: hints
+        type: Map_String_String
+        nullable: true
+        since: 2.8
 
   - name: VectorSearchResult
     returnWithFactory: true
