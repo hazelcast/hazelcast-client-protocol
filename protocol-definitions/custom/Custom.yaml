@@ -1515,15 +1515,15 @@ customTypes:
         type: int
         since: 2.8
         nullable: false
-      - name: max-degree
+      - name: maxDegree
         type: int
         since: 2.8
         nullable: true
-      - name: beam-width
+      - name: beamWidth
         type: int
         since: 2.8
         nullable: true
-      - name: use-deduplication
+      - name: useDeduplication
         type: boolean
         since: 2.8
         nullable: true
