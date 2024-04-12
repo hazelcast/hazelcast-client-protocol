@@ -81,6 +81,9 @@ objects = {
     'VectorIndexConfig': {
         'dimension': 1000,
         'metric': 0,
+        'maxDegree': 10,
+        'beamWidth': 11,
+        'useDeduplication': True,
     },
     'VectorSearchOptions': {
         'includeValue': False,
