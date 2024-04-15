@@ -1518,15 +1518,15 @@ customTypes:
       - name: maxDegree
         type: int
         since: 2.8
-        nullable: true
+        nullable: false
       - name: efConstruction
         type: int
         since: 2.8
-        nullable: true
+        nullable: false
       - name: useDeduplication
         type: boolean
         since: 2.8
-        nullable: true
+        nullable: false
 
   - name: VectorPair
     since: 2.8
