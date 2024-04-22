@@ -190,7 +190,7 @@ _java_types_decode = {
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
     "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
-    "VectorSearchOptions": "com.hazelcast.vector.impl.SearchOptionsImpl",
+    "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
     "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
     "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
     "VectorPair": "com.hazelcast.client.impl.protocol.codec.holder.VectorPairHolder",

@@ -88,7 +88,10 @@ objects = {
     'VectorSearchOptions': {
         'includeValue': False,
         'includeVectors': False,
-        'limit': 100
+        'limit': 100,
+        'hints':  {
+            STRING: STRING
+        }
     },
     'VectorPair': {
         'type': 0
