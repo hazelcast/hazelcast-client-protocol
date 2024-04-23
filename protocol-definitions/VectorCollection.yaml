@@ -242,3 +242,26 @@ methods:
           doc: |
             Zero or more VectorSearchResult values.
 
+  - id: 9
+    name: cleanup
+    since: 2.8
+    doc: |
+      Cleanup index.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: index
+          type: String
+          nullable: true
+          since: 2.8
+          doc: |
+            Name of the Index to cleanup.
+    response: {}
+
