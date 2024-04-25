@@ -246,7 +246,7 @@ methods:
     name: optimize
     since: 2.8
     doc: |
-      Cleanup index.
+      Optimize index.
     request:
       retryable: true
       partitionIdentifier: none
@@ -262,6 +262,7 @@ methods:
           nullable: true
           since: 2.8
           doc: |
-            Name of the Index to cleanup.
+            Name of the Index to optimize.
+            A null value signifies the optimization of the first and only index within the collection.
     response: {}
 
