@@ -243,7 +243,7 @@ methods:
             Zero or more VectorSearchResult values.
 
   - id: 9
-    name: cleanup
+    name: optimize
     since: 2.8
     doc: |
       Cleanup index.
@@ -257,7 +257,7 @@ methods:
           since: 2.8
           doc: |
             Name of the Vector Collection.
-        - name: index
+        - name: indexName
           type: String
           nullable: true
           since: 2.8
