@@ -111,7 +111,6 @@ class PathHolders:
     ListLongCodec = ImportPathHolder('ListLongCodec', 'builtin/ListLongCodec', is_builtin_codec=True)
     ListIntegerCodec = ImportPathHolder('ListIntegerCodec', 'builtin/ListIntegerCodec', is_builtin_codec=True)
     ListUUIDCodec = ImportPathHolder('ListUUIDCodec', 'builtin/ListUUIDCodec', is_builtin_codec=True)
-    ListListUUIDCodec = ImportPathHolder('ListListUUIDCodec', 'builtin/ListListUUIDCodec', is_builtin_codec=True)
     SetUUIDCodec = ImportPathHolder('SetUUIDCodec', 'builtin/SetUUIDCodec', is_builtin_codec=True)
     ListDataCodec = ImportPathHolder('ListDataCodec', 'builtin/ListDataCodec', is_builtin_codec=True)
     ListMultiFrameCodec = ImportPathHolder('ListMultiFrameCodec', 'builtin/ListMultiFrameCodec', is_builtin_codec=True)
@@ -181,7 +180,7 @@ import_paths = {
     'List_Long': [PathHolders.Long, PathHolders.ListLongCodec],
     'List_Integer': [PathHolders.ListIntegerCodec],
     'List_UUID': [PathHolders.UUID, PathHolders.ListUUIDCodec],
-    'List_List_UUID': [PathHolders.ListUUIDCodec, PathHolders.ListListUUIDCodec],
+    'List_List_UUID': [PathHolders.ListMultiFrameCodec, PathHolders.ListUUIDCodec],
     'List_String': [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     'List_Data': [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     'ListCN_Data': [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],

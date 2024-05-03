@@ -360,13 +360,13 @@ methods:
             nullable: false
             since: 2.8
             doc: |
-              Incremental state version of the partition table
+              Holds the state of member-groups and member-list-version
           - name: memberGroups
             type: List_List_UUID
             nullable: false
             since: 2.8
             doc: |
-              Grouped members by their UUID. Grouping is done based on PartitionGroupConfig.
+              Grouped members by their UUID. Grouping is done based on RoutingStrategy.
   - id: 4
     name: createProxy
     since: 2.0
