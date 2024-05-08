@@ -263,6 +263,6 @@ methods:
           since: 2.8
           doc: |
             Name of the Index to optimize.
-            A null value signifies the optimization of the first and only index within the collection.
+            A null value triggers the optimization of the only index within the collection.
     response: {}
 
