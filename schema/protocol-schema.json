@@ -26,6 +26,7 @@
             "UUID",
             "byteArray",
             "longArray",
+            "floatArray",
             "String",
             "Data",
             "EntryList_Integer_UUID",
@@ -136,7 +137,15 @@
             "List_SimpleEntryView",
             "List_ReplicatedMapEntryViewHolder",
             "ResourceDefinition",
-            "List_ResourceDefinition"
+            "List_ResourceDefinition",
+            "List_VectorIndexConfig",
+            "VectorDocument",
+            "EntryList_Data_VectorDocument",
+            "VectorSearchOptions",
+            "List_VectorSearchResult",
+            "VectorPair",
+            "List_VectorPair",
+            "List_List_UUID"
           ]
         },
         "nullable": {

@@ -23,9 +23,11 @@
             "byte",
             "int",
             "long",
+            "float",
             "UUID",
             "byteArray",
             "longArray",
+            "floatArray",
             "String",
             "Data",
             "EntryList_Integer_UUID",
@@ -134,7 +136,13 @@
             "EurekaConfig",
             "List_DiscoveryStrategyConfig",
             "DiscoveryConfig",
-            "WanSyncConfig"
+            "WanSyncConfig",
+            "List_VectorIndexConfig",
+            "VectorDocument",
+            "EntryList_Data_VectorDocument",
+            "VectorPair",
+            "List_VectorPair",
+            "List_List_UUID"
           ]
         },
         "nullable": {

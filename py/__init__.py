@@ -58,7 +58,7 @@ py_ignore_service_list = {
     "ContinuousQuery",
     "CPSubsystem",
     "DurableExecutor",
-    "DynamicConfig",
+    # "DynamicConfig",
     "ExecutorService.cancelOnMember",
     "ExecutorService.cancelOnPartition",
     "Map.addPartitionLostListener",
@@ -95,6 +95,7 @@ class PathHolders:
     DataCodec = ImportPathHolder("DataCodec", "protocol.builtin")
     ByteArrayCodec = ImportPathHolder("ByteArrayCodec", "protocol.builtin")
     LongArrayCodec = ImportPathHolder("LongArrayCodec", "protocol.builtin")
+    FloatArrayCodec = ImportPathHolder("FloatArrayCodec", "protocol.builtin")
     Address = ImportPathHolder("Address", "core")
     AddressCodec = ImportPathHolder("AddressCodec", "protocol.codec.custom.address_codec")
     ErrorHolder = ImportPathHolder("ErrorHolder", "protocol")
@@ -156,12 +157,24 @@ class PathHolders:
     SchemaCodec = ImportPathHolder("SchemaCodec", "protocol.codec.custom.schema_codec")
     FieldDescriptor = ImportPathHolder("FieldDescriptor", "serialization.compact")
     FieldDescriptorCodec = ImportPathHolder("FieldDescriptorCodec", "protocol.codec.custom.field_descriptor_codec")
+    VectorDocument = ImportPathHolder("VectorDocument", "vector")
+    VectorDocumentCodec = ImportPathHolder("VectorDocumentCodec", "protocol.codec.custom.vector_document_codec")
+    VectorPair = ImportPathHolder("VectorPair", "vector")
+    VectorPairCodec = ImportPathHolder("VectorPairCodec", "protocol.codec.custom.vector_pair_codec")
+    EntryListDataVectorDocumentCodec = ImportPathHolder("EntryListDataVectorDocument", "protocol.builtin")
+    VectorSearchOptions = ImportPathHolder("VectorSearchOptions", "vector")
+    VectorSearchOptionsCodec = ImportPathHolder("VectorSearchOptionsCodec", "protocol.codec.custom.vector_search_options_codec")
+    VectorSearchResult = ImportPathHolder("VectorSearchResult", "vector")
+    VectorSearchResultCodec = ImportPathHolder("VectorSearchResultCodec", "protocol.codec.custom.vector_search_result_codec")
+    VectorIndexConfig = ImportPathHolder("VectorIndexConfig", "vector")
+    VectorIndexConfigCodec = ImportPathHolder("VectorIndexConfigCodec", "protocol.codec.custom.vector_index_config_codec")
 
 
 import_paths = {
     "CodecUtil": PathHolders.CodecUtil,
     "longArray": [PathHolders.LongArrayCodec],
     "byteArray": [PathHolders.ByteArrayCodec],
+    "floatArray": [PathHolders.FloatArrayCodec],
     "String": [PathHolders.StringCodec],
     "Data": [PathHolders.DataCodec],
     "Address": [PathHolders.Address, PathHolders.AddressCodec],
@@ -175,6 +188,7 @@ import_paths = {
     "List_Long": [PathHolders.ListLongCodec],
     "List_Integer": [PathHolders.ListIntegerCodec],
     "List_UUID": [PathHolders.ListUUIDCodec],
+    "List_List_UUID": [PathHolders.ListMultiFrameCodec, PathHolders.ListUUIDCodec],
     "Set_UUID": [PathHolders.SetUUIDCodec],
     "List_String": [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     "List_Data": [PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
@@ -212,6 +226,15 @@ import_paths = {
     "SqlPage": [PathHolders.SqlPageCodec],
     "Schema": [PathHolders.Schema, PathHolders.SchemaCodec],
     "FieldDescriptor": [PathHolders.FieldDescriptor, PathHolders.FieldDescriptorCodec],
+    "VectorDocument": [PathHolders.VectorDocument, PathHolders.VectorDocumentCodec],
+    "VectorPair": [PathHolders.VectorPair, PathHolders.VectorPairCodec],
+    "List_VectorPair": [PathHolders.ListMultiFrameCodec, PathHolders.VectorPairCodec],
+    "EntryList_Data_VectorDocument": [PathHolders.EntryListDataVectorDocumentCodec],
+    "VectorSearchOptions": [PathHolders.VectorSearchOptions, PathHolders.VectorSearchOptionsCodec],
+    "VectorSearchResult": [PathHolders.VectorSearchResult, PathHolders.VectorSearchResultCodec],
+    "List_VectorSearchResult": [PathHolders.ListMultiFrameCodec, PathHolders.VectorSearchResult],
+    "VectorIndexConfig": [PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
+    "List_VectorIndexConfig": [PathHolders.ListMultiFrameCodec, PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
 }
 
 _py_types = {
@@ -223,6 +246,7 @@ _py_types = {
 
     "byteArray",
     "longArray",
+    "floatArray",
     "String",
     "Data",
 
@@ -271,6 +295,17 @@ _py_types = {
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
+
+    "VectorDocument",
+    "VectorPair",
+    "List_VectorPair",
+    "EntryList_Data_VectorDocument",
+    "VectorSearchOptions",
+    "VectorSearchResult",
+    "List_VectorSearchResult",
+    "VectorIndexConfig",
+    "List_VectorIndexConfig",
+    "List_List_UUID"
 }
 
 

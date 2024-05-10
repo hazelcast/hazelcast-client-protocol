@@ -180,6 +180,7 @@ import_paths = {
     'List_Long': [PathHolders.Long, PathHolders.ListLongCodec],
     'List_Integer': [PathHolders.ListIntegerCodec],
     'List_UUID': [PathHolders.UUID, PathHolders.ListUUIDCodec],
+    'List_List_UUID': [PathHolders.ListMultiFrameCodec, PathHolders.ListUUIDCodec],
     'List_String': [PathHolders.ListMultiFrameCodec, PathHolders.StringCodec],
     'List_Data': [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
     'ListCN_Data': [PathHolders.Data, PathHolders.ListMultiFrameCodec, PathHolders.DataCodec],
@@ -297,6 +298,7 @@ _ts_types = {
     "List_Long": "Long[]",
     "List_Integer": "number[]",
     "List_UUID": "UUID[]",
+    "List_List_UUID": "UUID[][]",
     "List_String": "string[]",
     "List_Xid": "NA",
     "List_Data": "Data[]",
@@ -354,4 +356,12 @@ _ts_types = {
     "ResourceDefinition": "NA",
     "List_ResourceDefinition": "NA",
     "List_SimpleEntryView": "NA",
+
+    "VectorIndexConfig": "NA",
+    "List_VectorIndexConfig": "NA",
+    "VectorPair": "NA",
+    "VectorDocument": "NA",
+    "EntryList_Data_VectorDocument": "NA",
+    "VectorSearchOptions": "NA",
+    "VectorSearchResult": "NA",
 }
