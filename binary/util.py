@@ -516,7 +516,8 @@ reference_objects_dict = {
     'EntryList_Data_VectorDocument': 'aEntryList_Data_VectorDocument',
     'VectorSearchOptions': 'aVectorSearchOptions',
     'List_VectorSearchResult': 'aList_VectorSearchResult',
-    'List_List_UUID': 'aListOfListOfUUIDs'
+    'List_List_UUID': 'aListOfListOfUUIDs',
+    'Version': 'aVersion',
 }
 
 

@@ -367,6 +367,15 @@ methods:
             since: 2.8
             doc: |
               Grouped members by their UUID. Grouping is done based on RoutingStrategy.
+      - name: ClusterVersion
+        since: 2.8
+        params:
+          - name: version
+            type: Version
+            nullable: false
+            since: 2.8
+            doc: |
+              The cluster version.
   - id: 4
     name: createProxy
     since: 2.0

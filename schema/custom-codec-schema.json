@@ -104,6 +104,7 @@
             "EndpointQualifier",
             "MergePolicyConfig",
             "MemberVersion",
+            "Version",
             "MemberInfo",
             "MCEvent",
             "AnchorDataListHolder",

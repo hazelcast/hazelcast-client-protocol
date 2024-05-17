@@ -271,6 +271,7 @@ _ts_types = {
     "Xid": "NA",
     "MemberInfo": "MemberInfo",
     "MemberVersion": "MemberVersion",
+    "Version": "NA",
     "MCEvent": "NA",
     "AnchorDataListHolder": "AnchorDataListHolder",
     "PagingPredicateHolder": "PagingPredicateHolder",

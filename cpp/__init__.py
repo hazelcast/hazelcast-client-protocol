@@ -164,6 +164,7 @@ _cpp_types_encode = {
     "ClientBwListEntry": "NA",
     "MemberInfo": "member",
     "MemberVersion": "Hazelcast.Core.MemberVersion",
+    "Version": "NA",
     "MCEvent": "NA",
     "AnchorDataListHolder": "codec::holder::anchor_data_list",
     "PagingPredicateHolder": "codec::holder::paging_predicate_holder",
