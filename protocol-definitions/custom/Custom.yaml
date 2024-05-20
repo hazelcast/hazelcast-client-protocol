@@ -1586,7 +1586,7 @@ customTypes:
         type: Data
         nullable: false
         since: 2.8
-      - name: document
+      - name: value
         type: Data
         nullable: true
         since: 2.8
