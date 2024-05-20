@@ -152,6 +152,7 @@ _cpp_types_common = {
     "VectorPair": "NA",
     "VectorDocument": "NA",
     "EntryList_Data_VectorDocument": "NA",
+    "List_VectorPair": "NA",
     "VectorSearchOptions": "NA",
     "VectorSearchResult": "NA",
 }
