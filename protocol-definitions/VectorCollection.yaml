@@ -227,6 +227,12 @@ methods:
           since: 2.8
           doc: |
             Name of the Vector Collection.
+        - name: vectors
+          type: List_VectorPair
+          nullable: false
+          since: 2.8
+          doc: |
+            Vector for which closest neighbours should be returned.
         - name: options
           type: VectorSearchOptions
           nullable: false

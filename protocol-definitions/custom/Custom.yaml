@@ -1573,10 +1573,6 @@ customTypes:
         type: int
         nullable: false
         since: 2.8
-      - name: vectors
-        type: List_VectorPair
-        nullable: false
-        since: 2.8
       - name: hints
         type: Map_String_String
         nullable: true
@@ -1590,7 +1586,7 @@ customTypes:
         type: Data
         nullable: false
         since: 2.8
-      - name: document
+      - name: value
         type: Data
         nullable: true
         since: 2.8
