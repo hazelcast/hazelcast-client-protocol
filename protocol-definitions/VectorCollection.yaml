@@ -248,3 +248,27 @@ methods:
           doc: |
             Zero or more VectorSearchResult values.
 
+  - id: 9
+    name: optimize
+    since: 2.8
+    doc: |
+      Optimize index.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: indexName
+          type: String
+          nullable: true
+          since: 2.8
+          doc: |
+            Name of the Index to optimize.
+            A null value triggers the optimization of the only index within the collection.
+    response: {}
+
