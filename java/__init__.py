@@ -122,7 +122,7 @@ _java_types_encode = {
     "VectorPair": "com.hazelcast.client.impl.protocol.codec.holder.VectorPairHolder",
     "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
     "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
-    "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
+    "VectorSearchResult": "com.hazelcast.vector.SearchResult<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -151,7 +151,7 @@ _java_types_encode = {
     "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
     "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
-    "List_VectorSearchResult": "java.lang.Iterable<com.hazelcast.vector.impl.DataSearchResult>",
+    "List_VectorSearchResult": "java.lang.Iterable<com.hazelcast.vector.SearchResult<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_VectorPair": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
