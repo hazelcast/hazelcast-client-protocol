@@ -671,7 +671,10 @@ language_specific_funcs = {
         "custom_type_name": py_custom_type_name,
         "decoder_requires_to_object_fn": py_decoder_requires_to_object_fn,
         "to_object_fn_in_decode": py_to_object_fn_in_decode,
-    }
+    },
+    SupportedLanguages.MD: { 
+        "param_name": param_name,
+    }	
 }
 
 language_service_ignore_list = {
