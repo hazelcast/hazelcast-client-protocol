@@ -272,3 +272,19 @@ methods:
             A null value triggers the optimization of the only index within the collection.
     response: {}
 
+  - id: 10
+    name: clear
+    since: 2.8
+    doc: |
+      Clear vector collection.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+    response: { }
