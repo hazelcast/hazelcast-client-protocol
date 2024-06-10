@@ -278,7 +278,7 @@ methods:
     doc: |
       Clear vector collection.
     request:
-      retryable: true
+      retryable: false
       partitionIdentifier: none
       params:
         - name: name
