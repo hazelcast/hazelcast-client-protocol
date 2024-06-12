@@ -955,3 +955,12 @@ methods:
           doc: |
             true if the session is found & closed,
             false otherwise.
+  - id: 37
+    name: demoteDataMember
+    since: 2.8
+    doc: |
+      Demotes the data member it's called on to a lite member.
+    request:
+      retryable: false
+      partitionIdentifier: -1
+    response: {}
