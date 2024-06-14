@@ -307,7 +307,7 @@ methods:
     response:
       params:
         - name: response
-          type: int
+          type: long
           nullable: false
           since: 2.8
           doc: |
