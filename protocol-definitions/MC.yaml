@@ -960,6 +960,7 @@ methods:
     since: 2.8
     doc: |
       Demotes the data member it's called on to a lite member.
+      May throw an exception if the operation is not successful.
     request:
       retryable: false
       partitionIdentifier: -1
