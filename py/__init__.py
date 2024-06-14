@@ -229,10 +229,10 @@ import_paths = {
     "VectorDocument": [PathHolders.VectorDocument, PathHolders.VectorDocumentCodec],
     "VectorPair": [PathHolders.VectorPair, PathHolders.VectorPairCodec],
     "List_VectorPair": [PathHolders.ListMultiFrameCodec, PathHolders.VectorPairCodec],
-    "EntryList_Data_VectorDocument": [PathHolders.EntryListDataVectorDocumentCodec],
+    "EntryList_Data_VectorDocument": [PathHolders.EntryListDataVectorDocumentCodec, PathHolders.EntryListCodec, PathHolders.DataCodec, PathHolders.VectorDocumentCodec],
     "VectorSearchOptions": [PathHolders.VectorSearchOptions, PathHolders.VectorSearchOptionsCodec],
     "VectorSearchResult": [PathHolders.VectorSearchResult, PathHolders.VectorSearchResultCodec],
-    "List_VectorSearchResult": [PathHolders.ListMultiFrameCodec, PathHolders.VectorSearchResult],
+    "List_VectorSearchResult": [PathHolders.ListMultiFrameCodec, PathHolders.VectorSearchResult, PathHolders.VectorSearchResultCodec],
     "VectorIndexConfig": [PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
     "List_VectorIndexConfig": [PathHolders.ListMultiFrameCodec, PathHolders.VectorIndexConfig, PathHolders.VectorIndexConfigCodec],
 }
