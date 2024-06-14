@@ -288,3 +288,27 @@ methods:
           doc: |
             Name of the Vector Collection.
     response: { }
+
+  - id: 11
+    name: size
+    since: 2.8
+    doc: |
+      Size of vector collection.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+    response:
+      params:
+        - name: response
+          type: int
+          nullable: false
+          since: 2.8
+          doc: |
+            the number of entries in this collection
