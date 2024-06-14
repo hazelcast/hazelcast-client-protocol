@@ -206,6 +206,9 @@ import_paths = {
     'Map_String_String': [PathHolders.MapCodec, PathHolders.StringCodec],
     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
                                       PathHolders.AddressCodec],
+    "Map_RaftGroupId_EntryList_UUID_Integer": [PathHolders.MapCodec, PathHolders.RaftGroupIdCodec,
+                                      PathHolders.MapCodec],
+    "EntryList_UUID_Integer": [PathHolders.EntryListCodec],
     'IndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec],
     'ListIndexConfig': [PathHolders.IndexConfig, PathHolders.IndexConfigCodec, PathHolders.ListMultiFrameCodec],
     'BitmapIndexOptions': [PathHolders.BitmapIndexOptions, PathHolders.BitmapIndexOptionsCodec],
@@ -335,9 +338,11 @@ _ts_types = {
     "EntryList_UUID_List_Integer": "Array<[UUID, number[]]>",
     "EntryList_Data_Data": "Array<[Data, Data]>",
     "EntryList_Data_List_Data": "Array<[Data, Data[]]>",
+    "EntryList_UUID_Integer": "Array<[UUID, number]>",
 
     "Map_String_String": "Map<string, string>",
     "Map_EndpointQualifier_Address": "Map<EndpointQualifier, AddressImpl>",
+    "Map_RaftGroupId_EntryList_UUID_Integer": "Map<RaftGroupId, Array<[UUID, number]>>",
 
     "Set_UUID": "Set<UUID>",
     "PartitioningAttributeConfig": "NA",

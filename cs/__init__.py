@@ -135,6 +135,7 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "Map_RaftGroupId_EntryList_UUID_Integer": "Dictionary<Hazelcast.CP.CPGroupId, ICollection<KeyValuePair<Guid, int>>>",
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
     "SqlError": "Hazelcast.Sql.SqlError",
@@ -258,6 +259,7 @@ _cs_types_encode = {
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
+    "EntryList_UUID_Integer": "ICollection<KeyValuePair<Guid, int>>",
 
     # below, encode/decode are identical?
     "Set_UUID": "ISet<Guid>",

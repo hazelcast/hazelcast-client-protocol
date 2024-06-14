@@ -220,6 +220,9 @@ import_paths = {
     "EndpointQualifier": [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
                                       PathHolders.AddressCodec],
+    "Map_RaftGroupId_EntryList_UUID_Integer": [PathHolders.MapCodec, PathHolders.RaftGroupIdCodec,
+                                         PathHolders.MapCodec],
+    "EntryList_UUID_Integer": [PathHolders.EntryListCodec],
     "SqlQueryId": [PathHolders.SqlQueryId, PathHolders.SqlQueryIdCodec],
     "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
     "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],
@@ -292,9 +295,11 @@ _py_types = {
     "EntryList_UUID_List_Integer",
     "EntryList_Data_Data",
     "EntryList_Data_List_Data",
+    "EntryList_UUID_Integer",
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
+    "Map_RaftGroupId_EntryList_UUID_Integer",
 
     "VectorDocument",
     "VectorPair",

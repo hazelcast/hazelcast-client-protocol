@@ -133,6 +133,8 @@ VarSizedMapTypes = [
     'Map_String_String',
     'Map_EndpointQualifier_Address',
     'Map_String_Data',
+    'Map_RaftGroupId_EntryList_UUID_Integer',
+    'EntryList_UUID_Integer',
 ]
 
 VarSizedListTypes = [
