@@ -196,6 +196,7 @@ _cs_types_common = {
     "KubernetesConfig": "Hazelcast.Models.KubernetesOptions",
     "EurekaConfig": "Hazelcast.Models.EurekaOptions",
     "WanReplicationRef": "Hazelcast.Models.WanReplicationRef",
+    "Version":"Hazelcast.Models.ClusterVersion",
 
     # except NearCache
     "NearCacheConfig": "Hazelcast.NearCaching.NearCacheOptions",
@@ -223,6 +224,7 @@ _cs_types_encode = {
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
     "List_UUID": "ICollection<Guid>",
+    "List_List_UUID":"ICollection<ICollection<Guid>>",
     "List_String": "ICollection<string>",
     "List_Xid": "NA",
     "List_Data": "ICollection<IData>",
@@ -283,6 +285,7 @@ _cs_types_decode = {
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
     "List_UUID": "IList<Guid>",
+    "List_List_UUID":"IList<IList<Guid>>",
     "List_String": "IList<string>",
     "List_Xid": "NA",
     "List_Data": "IList<IData>",
