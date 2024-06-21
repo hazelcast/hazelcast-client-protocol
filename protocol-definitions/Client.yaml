@@ -1093,24 +1093,24 @@ methods:
             Authentication token bytes for the TPC channels
     response: {}
   - id: 23
-    name: addCPMembershipViewListener
+    name: addCPGroupViewListener
     since: 2.7
     doc: |
-      Adds a CP membership view listener to a connection.
+      Adds a CP Group view listener to a connection.
     request:
       retryable: false
       partitionIdentifier: -1
     response: {}
     events:
-      - name: MembershipView
+      - name: GroupsView
         since: 2.8
         params:
-          - name: leaderUuidToVersion
-            type: EntryList_UUID_Long
+          - name: version
+            type: long
             nullable: false
             since: 2.8
             doc: |
-              EntryList of CP group leader UUIDs to the version number for that group's member list in this view
+              The version number for this group view
           - name: groupToMembers
             type: Map_RaftGroupId_List_UUID # GroupID -> [Leader UUID, Follower UUID, Follower UUID, ...]
             nullable: false
