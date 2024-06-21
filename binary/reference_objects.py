@@ -116,9 +116,6 @@ map_objects = {
         },
         'UUID': {
             UUID: UUID
-        },
-        'int': {
-            UUID: INT
         }
     }
 }

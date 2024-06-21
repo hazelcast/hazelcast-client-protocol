@@ -137,8 +137,7 @@ _cpp_types_common = {
 
     "Map_String_String": "std::unordered_map<std::string, std::string>",
     "Map_EndpointQualifier_Address": "NA",
-    "Map_RaftGroupId_EntryList_UUID_Integer": "NA",
-    "EntryList_UUID_Integer": "NA",
+    "Map_RaftGroupId_List_UUID": "NA",
 
     "EntryList_Address_List_Integer": "std::vector<std::pair<address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",

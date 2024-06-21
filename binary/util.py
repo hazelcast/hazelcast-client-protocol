@@ -242,8 +242,6 @@ class VarSizedParamEncoder:
                                                  key_type='int', value_type='int'),
             'EntryList_Long_byteArray': self.encode_long_byte_array_entry_list,
             'EntryList_UUID_List_Integer': self.encode_uuid_integer_list_entry_list,
-            'EntryList_UUID_Integer': partial(FixSizedParamEncoder.encode_fix_sized_entry_list_frame,
-                                              key_type='UUID', value_type='int'),
             'List_Integer': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='int'),
             'List_Long': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='long'),
             'List_UUID': partial(FixSizedParamEncoder.encode_fix_sized_list_frame, item_type='UUID'),
@@ -372,6 +370,13 @@ class VarSizedParamEncoder:
         client_message.add_frame(END_FRAME)
         FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
 
+    def encode_raftgroupid_integer_entry_list(self, client_message):
+        FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'int')
+        client_message.add_frame(BEGIN_FRAME)
+        self.encode_var_sized_frame(client_message, 'RaftGroupId')
+        client_message.add_frame(END_FRAME)
+
+
     def encoder_for(self, param_type):
         encoder = self.var_sized_encoders.get(param_type, None)
         if encoder is not None:
@@ -461,8 +466,7 @@ reference_objects_dict = {
     'EntryList_Data_List_Data': 'aListOfDataToListOfData',
     'Map_String_String': 'aMapOfStringToString',
     'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
-    'Map_RaftGroupId_EntryList_UUID_Integer': 'aMapOfRaftGroupIdToListOfUUIDToInteger',
-    'EntryList_UUID_Integer': 'aListOfUUIDToInteger',
+    'Map_RaftGroupId_List_UUID': 'aMapOfRaftGroupIdToListUuid',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',

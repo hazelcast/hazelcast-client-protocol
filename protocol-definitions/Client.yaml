@@ -1105,16 +1105,15 @@ methods:
       - name: MembershipView
         since: 2.8
         params:
-          - name: version
-            type: long
+          - name: leaderUuidToVersion
+            type: EntryList_UUID_Long
             nullable: false
             since: 2.8
             doc: |
-              Incremental view version
-          - name: lastKnownView
-#            type: EntryList_String_EntryList_UUID_String # GroupID -> [MemberUUID, Role], [...]
-            type: Map_RaftGroupId_EntryList_UUID_Integer # GroupID -> {MemberUUID -> Role id, ...}
+              EntryList of CP group leader UUIDs to the version number for that group's member list in this view
+          - name: groupToMembers
+            type: Map_RaftGroupId_List_UUID # GroupID -> [Leader UUID, Follower UUID, Follower UUID, ...]
             nullable: false
             since: 2.8
             doc: |
-              Map of CP group IDs to a Map of member UUIDs to Role IDs
+              Map of CP group IDs to a List of member UUIDs, with the first UUID being the group leader

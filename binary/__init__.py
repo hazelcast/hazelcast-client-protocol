@@ -126,15 +126,14 @@ VarSizedEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_Data_Data',
     'EntryList_Data_List_Data',
-    'EntryList_Data_VectorDocument',
+    'EntryList_Data_VectorDocument'
 ]
 
 VarSizedMapTypes = [
     'Map_String_String',
     'Map_EndpointQualifier_Address',
     'Map_String_Data',
-    'Map_RaftGroupId_EntryList_UUID_Integer',
-    'EntryList_UUID_Integer',
+    'Map_RaftGroupId_List_UUID',
 ]
 
 VarSizedListTypes = [

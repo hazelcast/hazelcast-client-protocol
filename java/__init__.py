@@ -66,7 +66,7 @@ _java_types_common = {
     "Map_String_String": "java.util.Map<java.lang.String, java.lang.String>",
     "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
-    "Map_RaftGroupId_EntryList_UUID_Integer": "java.util.Map<com.hazelcast.cp.internal.RaftGroupId, java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Integer>>>",
+    "Map_RaftGroupId_List_UUID": "java.util.Map<com.hazelcast.cp.internal.RaftGroupId, java.util.Collection<java.util.UUID>>",
 
     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
     "Schema": "com.hazelcast.internal.serialization.impl.compact.Schema",
@@ -169,7 +169,6 @@ _java_types_encode = {
     "EntryList_UUID_List_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.util.List<java.lang.Integer>>>",
     "EntryList_Data_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "EntryList_Data_List_Data": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, java.util.Collection<com.hazelcast.internal.serialization.Data>>>",
-    "EntryList_UUID_Integer": "java.util.Collection<java.util.Map.Entry<java.util.UUID, java.lang.Integer>>",
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",

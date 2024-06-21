@@ -128,6 +128,7 @@ class PathHolders:
     EntryListUUIDLongCodec = ImportPathHolder("EntryListUUIDLongCodec", "protocol.builtin")
     EntryListUUIDUUIDCodec = ImportPathHolder("EntryListUUIDUUIDCodec", "protocol.builtin")
     EntryListUUIDListIntegerCodec = ImportPathHolder("EntryListUUIDListIntegerCodec", "protocol.builtin")
+    EntryListRaftGroupIdIntegerCodec = ImportPathHolder("EntryListRaftGroupIdIntegerCodec", "protocol.builtin")
     MapCodec = ImportPathHolder("MapCodec", "protocol.builtin")
     CodecUtil = ImportPathHolder("CodecUtil", "protocol.builtin")
     IndexConfig = ImportPathHolder("IndexConfig", "config")
@@ -220,9 +221,7 @@ import_paths = {
     "EndpointQualifier": [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
                                       PathHolders.AddressCodec],
-    "Map_RaftGroupId_EntryList_UUID_Integer": [PathHolders.MapCodec, PathHolders.RaftGroupIdCodec,
-                                         PathHolders.MapCodec],
-    "EntryList_UUID_Integer": [PathHolders.EntryListCodec],
+    "Map_RaftGroupId_List_UUID": [PathHolders.MapCodec, PathHolders.RaftGroupIdCodec, PathHolders.ListUUIDCodec],
     "SqlQueryId": [PathHolders.SqlQueryId, PathHolders.SqlQueryIdCodec],
     "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
     "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],
@@ -295,11 +294,10 @@ _py_types = {
     "EntryList_UUID_List_Integer",
     "EntryList_Data_Data",
     "EntryList_Data_List_Data",
-    "EntryList_UUID_Integer",
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
-    "Map_RaftGroupId_EntryList_UUID_Integer",
+    "Map_RaftGroupId_List_UUID",
 
     "VectorDocument",
     "VectorPair",
