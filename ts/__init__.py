@@ -246,6 +246,7 @@ _ts_types = {
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView<Data, Data>",
     "RaftGroupId": "RaftGroupId",
+    "RaftGroupInfo": "NA",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
