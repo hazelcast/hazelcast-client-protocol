@@ -299,7 +299,6 @@ _py_types = {
 
     "Map_String_String",
     "Map_EndpointQualifier_Address",
-    "Map_RaftGroupId_List_UUID",
 
     "VectorDocument",
     "VectorPair",
