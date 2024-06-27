@@ -133,7 +133,6 @@ VarSizedMapTypes = [
     'Map_String_String',
     'Map_EndpointQualifier_Address',
     'Map_String_Data',
-    'Map_RaftGroupId_List_UUID',
 ]
 
 VarSizedListTypes = [
@@ -167,6 +166,7 @@ VarSizedListTypes = [
     'List_SimpleEntryView',
     'List_ReplicatedMapEntryViewHolder',
     'List_VectorPair',
+    'List_RaftGroupInfo',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \

@@ -1094,7 +1094,7 @@ methods:
     response: {}
   - id: 23
     name: addCPGroupViewListener
-    since: 2.7
+    since: 2.8
     doc: |
       Adds a CP Group view listener to a connection.
     request:
@@ -1111,9 +1111,15 @@ methods:
             since: 2.8
             doc: |
               The version number for this group view
-          - name: groupToMembers
-            type: Map_RaftGroupId_List_UUID # GroupID -> [Leader UUID, Follower UUID, Follower UUID, ...]
+          - name: groupsInfo
+            type: List_RaftGroupInfo # GroupID -> RaftGroupInfo
             nullable: false
             since: 2.8
             doc: |
-              Map of CP group IDs to a List of member UUIDs, with the first UUID being the group leader
+              List of RaftGroupInfo objects containing group IDs, leader, and follower information
+          - name: cpToApUuids
+            type: EntryList_UUID_UUID # CP UUID --> AP UUID
+            nullable: false
+            since: 2.8
+            doc: |
+              Mapping of CP UUIDs to AP UUIDs, for use on the client

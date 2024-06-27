@@ -251,7 +251,8 @@ class VarSizedParamEncoder:
                                                  .encoder_for('ScheduledTaskHandler')),
             'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
             'SqlPage': partial(self.encode_sqlpage),
-            'HazelcastJsonValue': partial(self.encode_json)
+            'HazelcastJsonValue': partial(self.encode_json),
+            'RaftGroupInfo': partial(self.encoder.custom_type_encoder.encoder_for('RaftGroupInfo'))
         }
 
     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
@@ -370,13 +371,6 @@ class VarSizedParamEncoder:
         client_message.add_frame(END_FRAME)
         FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'UUID')
 
-    def encode_raftgroupid_integer_entry_list(self, client_message):
-        FixSizedParamEncoder.encode_fix_sized_list_frame(client_message, 'int')
-        client_message.add_frame(BEGIN_FRAME)
-        self.encode_var_sized_frame(client_message, 'RaftGroupId')
-        client_message.add_frame(END_FRAME)
-
-
     def encoder_for(self, param_type):
         encoder = self.var_sized_encoders.get(param_type, None)
         if encoder is not None:
@@ -428,6 +422,7 @@ reference_objects_dict = {
     'DistributedObjectInfo': 'aDistributedObjectInfo',
     'QueryCacheEventData': 'aQueryCacheEventData',
     'RaftGroupId': 'aRaftGroupId',
+    'RaftGroupInfo': 'aRaftGroupInfo',
     'ScheduledTaskHandler': 'aScheduledTaskHandler',
     'SimpleEntryView': 'aSimpleEntryView',
     'ReplicatedMapEntryViewHolder': 'aReplicatedMapEntryViewHolder',
@@ -466,7 +461,7 @@ reference_objects_dict = {
     'EntryList_Data_List_Data': 'aListOfDataToListOfData',
     'Map_String_String': 'aMapOfStringToString',
     'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
-    'Map_RaftGroupId_List_UUID': 'aMapOfRaftGroupIdToListUuid',
+    'List_RaftGroupInfo': 'aListOfRaftGroupInfo',
     'List_byteArray': 'aListOfByteArrays',
     'List_CacheEventData': 'aListOfCacheEventData',
     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
