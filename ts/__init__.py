@@ -97,6 +97,8 @@ class PathHolders:
     SimpleEntryViewCodec = ImportPathHolder('SimpleEntryViewCodec', 'custom/SimpleEntryViewCodec', is_custom_codec=True)
     RaftGroupId = ImportPathHolder('RaftGroupId', 'proxy/cpsubsystem/RaftGroupId')
     RaftGroupIdCodec = ImportPathHolder('RaftGroupIdCodec', 'custom/RaftGroupIdCodec', is_custom_codec=True)
+    RaftGroupInfo = ImportPathHolder('RaftGroupInfo', 'proxy/cpsubsystem/RaftGroupInfo')
+    RaftGroupInfoCodec = ImportPathHolder('RaftGroupInfoCodec', 'custom/RaftGroupInfoCodec', is_custom_codec=True)
     DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'core/DistributedObjectInfo')
     DistributedObjectInfoCodec = ImportPathHolder('DistributedObjectInfoCodec',
                                                   'custom/DistributedObjectInfoCodec', is_custom_codec=True)
@@ -173,6 +175,7 @@ import_paths = {
     'StackTraceElement': [PathHolders.StackTraceElement, PathHolders.StackTraceElementCodec],
     'SimpleEntryView': [PathHolders.SimpleEntryView, PathHolders.Data, PathHolders.SimpleEntryViewCodec],
     'RaftGroupId': [PathHolders.RaftGroupId, PathHolders.RaftGroupIdCodec],
+    'RaftGroupInfo': [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec],
     'DistributedObjectInfo': [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
     'MemberInfo': [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
     'MemberVersion': [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
@@ -189,6 +192,7 @@ import_paths = {
                                    PathHolders.DistributedObjectInfoCodec],
     'List_StackTraceElement': [PathHolders.StackTraceElement, PathHolders.ListMultiFrameCodec,
                                PathHolders.StackTraceElementCodec],
+    "List_RaftGroupInfo": [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec, PathHolders.ListMultiFrameCodec],
     'EntryList_String_String': [PathHolders.EntryListCodec, PathHolders.StringCodec],
     'EntryList_String_byteArray': [PathHolders.EntryListCodec, PathHolders.StringCodec, PathHolders.ByteArrayCodec],
     'EntryList_Long_byteArray': [PathHolders.EntryListLongByteArrayCodec, PathHolders.Long],
@@ -242,6 +246,7 @@ _ts_types = {
     "StackTraceElement": "StackTraceElement",
     "SimpleEntryView": "SimpleEntryView<Data, Data>",
     "RaftGroupId": "RaftGroupId",
+    "RaftGroupInfo": "NA",
     "WanReplicationRef": "NA",
     "HotRestartConfig": "NA",
     "EventJournalConfig": "NA",
@@ -320,8 +325,8 @@ _ts_types = {
     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
     'List_Schema': 'Schema[]',
     'List_FieldDescriptor': 'FieldDescriptor[]',
-    "List_SimpleEntryView": "NA",
     "List_ReplicatedMapEntryViewHolder": "NA",
+    "List_RaftGroupInfo": "Array<RaftGroupInfo>",
 
     "EntryList_String_String": "Array<[string, string]>",
     "EntryList_String_byteArray": "Array<[string, Buffer]>",
