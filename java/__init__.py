@@ -35,6 +35,7 @@ _java_types_common = {
     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
     "ReplicatedMapEntryViewHolder": "com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder",
     "RaftGroupId": "com.hazelcast.cp.internal.RaftGroupId",
+    "RaftGroupInfo": "com.hazelcast.cp.internal.RaftGroupInfo",
     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
     "EventJournalConfig": "com.hazelcast.config.EventJournalConfig",
@@ -67,6 +68,7 @@ _java_types_common = {
     "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
 
+    "List_RaftGroupInfo": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupInfo>",
     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
     "Schema": "com.hazelcast.internal.serialization.impl.compact.Schema",
     "FieldDescriptor": "com.hazelcast.internal.serialization.impl.compact.FieldDescriptor",

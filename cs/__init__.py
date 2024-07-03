@@ -135,6 +135,7 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "List_RaftGroupInfo": "ICollection<Hazelcast.CP.RaftGroupInfo>",
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
     "SqlError": "Hazelcast.Sql.SqlError",

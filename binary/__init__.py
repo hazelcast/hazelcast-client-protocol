@@ -126,7 +126,7 @@ VarSizedEntryListTypes = [
     'EntryList_String_EntryList_Integer_Long',
     'EntryList_Data_Data',
     'EntryList_Data_List_Data',
-    'EntryList_Data_VectorDocument',
+    'EntryList_Data_VectorDocument'
 ]
 
 VarSizedMapTypes = [
@@ -166,6 +166,7 @@ VarSizedListTypes = [
     'List_SimpleEntryView',
     'List_ReplicatedMapEntryViewHolder',
     'List_VectorPair',
+    'List_RaftGroupInfo',
 ]
 
 AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
