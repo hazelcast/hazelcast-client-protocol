@@ -16,7 +16,7 @@ cs_ignore_service_list = {
     # entire services - correspond to an entire yaml file in protocol definitions
     "MC", "Jet", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor",
-    "CPSubsystem", "CPMember",
+    "CPSubsystem", "VectorCollection",
     "SqlSummary", "JobAndSqlSummary",
     # service.methods - correspond to method entries in yaml files in protocol definitions
     "Map.replaceAll", "Sql.mappingDdl",
@@ -135,7 +135,8 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
-    "List_RaftGroupInfo": "ICollection<Hazelcast.CP.RaftGroupInfo>",
+    "RaftGroupInfo":"Hazelcast.CP.CPGroupInfo",
+    "List_RaftGroupInfo": "ICollection<Hazelcast.CP.CPGroupInfo>",
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
     "SqlError": "Hazelcast.Sql.SqlError",
@@ -219,7 +220,7 @@ _cs_types_common = {
 _cs_types_encode = {
 
     # encode as interface
-    "CPMember": "Hazelcast.CP.ICPMember",
+    "CPMember": "Hazelcast.CP.CPMember",
 
     # encode as collections
     "List_Long": "ICollection<long>",
@@ -246,7 +247,7 @@ _cs_types_encode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
-    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
+    "List_CPMember": "ICollection<Hazelcast.CP.CPMember>",
     "List_RaftGroupId": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
@@ -280,7 +281,7 @@ _cs_types_encode = {
 _cs_types_decode = {
 
     # decode as implementation
-    "CPMember": "Hazelcast.CP.CPMemberInfo",
+    "CPMember": "Hazelcast.CP.CPMember",
 
     # decode as lists
     "List_Long": "IList<long>",
@@ -307,7 +308,7 @@ _cs_types_decode = {
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
-    "List_CPMember": "IList<Hazelcast.CP.CPMemberInfo>",
+    "List_CPMember": "IList<Hazelcast.CP.CPMember>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",
