@@ -238,8 +238,6 @@ if not args.no_binary and lang != SupportedLanguages.MD:
         )
     except NotImplementedError:
         pass
-    except Exception as e:
-        print("Binary compatibility tests cannot be generated. Error:", e)
 
 end = time.time()
 

@@ -26,6 +26,7 @@
             "UUID",
             "byteArray",
             "longArray",
+            "floatArray",
             "String",
             "Data",
             "EntryList_Integer_UUID",
@@ -96,11 +97,13 @@
             "List_MCEvent",
             "List_SqlColumnMetadata",
             "List_JobAndSqlSummary",
+            "List_RaftGroupInfo",
             "Set_UUID",
             "Map_String_String",
             "Map_EndpointQualifier_Address",
             "MergePolicyConfig",
             "MemberVersion",
+            "Version",
             "MemberInfo",
             "MCEvent",
             "AnchorDataListHolder",
@@ -135,7 +138,15 @@
             "List_SimpleEntryView",
             "List_ReplicatedMapEntryViewHolder",
             "ResourceDefinition",
-            "List_ResourceDefinition"
+            "List_ResourceDefinition",
+            "List_VectorIndexConfig",
+            "VectorDocument",
+            "EntryList_Data_VectorDocument",
+            "VectorSearchOptions",
+            "List_VectorSearchResult",
+            "VectorPair",
+            "List_VectorPair",
+            "List_List_UUID"
           ]
         },
         "nullable": {

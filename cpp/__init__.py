@@ -137,6 +137,7 @@ _cpp_types_common = {
 
     "Map_String_String": "std::unordered_map<std::string, std::string>",
     "Map_EndpointQualifier_Address": "NA",
+    "List_RaftGroupInfo": "NA",
 
     "EntryList_Address_List_Integer": "std::vector<std::pair<address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",
@@ -147,6 +148,14 @@ _cpp_types_common = {
     "CPMember": "NA",
     "MigrationState": "NA",
     "PartitioningAttributeConfig": "NA",
+
+    "VectorIndexConfig": "NA",
+    "VectorPair": "NA",
+    "VectorDocument": "NA",
+    "EntryList_Data_VectorDocument": "NA",
+    "List_VectorPair": "NA",
+    "VectorSearchOptions": "NA",
+    "VectorSearchResult": "NA",
 }
 
 _cpp_types_encode = {
@@ -157,6 +166,7 @@ _cpp_types_encode = {
     "ClientBwListEntry": "NA",
     "MemberInfo": "member",
     "MemberVersion": "Hazelcast.Core.MemberVersion",
+    "Version": "NA",
     "MCEvent": "NA",
     "AnchorDataListHolder": "codec::holder::anchor_data_list",
     "PagingPredicateHolder": "codec::holder::paging_predicate_holder",
@@ -165,6 +175,7 @@ _cpp_types_encode = {
     "List_Member": "std::vector<member>",
     "List_Integer": "std::vector<int32_t>",
     "List_UUID": "std::vector<boost::uuids::uuid>",
+    "List_List_UUID": "std::vector<std::vector<boost::uuids::uuid>>",
     "List_String": "std::vector<std::string>",
     "List_Xid": "NA",
     "List_Data": "std::vector<serialization::pimpl::data>",
@@ -216,6 +227,7 @@ _cpp_types_decode = {
     "List_Long": "std::vector<int64_t>",
     "List_Integer": "std::vector<int>",
     "List_UUID": "std::vector<boost::uuids::uuid>",
+    "List_List_UUID": "std::vector<std::vector<boost::uuids::uuid>>",
     "List_Member": "std::vector<member>",
     "List_Xid": "NA",
     "List_String": "std::vector<std::string>",

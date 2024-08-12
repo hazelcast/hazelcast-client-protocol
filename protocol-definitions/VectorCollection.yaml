@@ -1,0 +1,314 @@
+id: 36
+name: VectorCollection
+methods:
+  - id: 1
+    name: put
+    since: 2.8
+    doc: |
+      Puts a document into the Vector Collection.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Value for the entry.
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            Value previously associated with the key if any.
+
+  - id: 2
+    name: putIfAbsent
+    since: 2.8
+    doc: |
+      Puts an entry into this map if the specified key is not already associated with a value.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Value for the entry.
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            Value previously associated with the key if any.
+
+  - id: 3
+    name: putAll
+    since: 2.8
+    doc: |
+      The effect of this call is equivalent to set(k, v) on this VectorCollection once for each mapping from key k to value v.
+      The behavior of this operation is undefined if the specified collection is modified while the operation is in progress.
+      Note that all keys in the request should belong to the partition ID to which this request is being sent.
+      Any key that matches to a different partition ID shall be ignored.
+      The API implementation using this request may need to send multiple of these request messages for different partitions.
+    request:
+      retryable: false
+      partitionIdentifier: any key belongs to target partition
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: entries
+          type: EntryList_Data_VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Key/VectorDocument entries to be stored in this VectorCollection.
+    response: {}
+
+  - id: 4
+    name: get
+    since: 2.8
+    doc: |
+      Returns the VectorDocument for the given key.
+    request:
+      retryable: true
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            The value for the key if it exists.
+
+  - id: 5
+    name: remove
+    since: 2.8
+    doc: |
+      Removes the mapping for a key from this VectorCollection.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the VectorCollection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the entry.
+    response:
+      params:
+        - name: value
+          type: VectorDocument
+          nullable: true
+          since: 2.8
+          doc: |
+            Value previously associated with the key if any.
+
+  - id: 6
+    name: set
+    since: 2.8
+    doc: |
+      Puts a document into the Vector Collection without returning previous value.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the document.
+        - name: value
+          type: VectorDocument
+          nullable: false
+          since: 2.8
+          doc: |
+            Value for the entry.
+    response: {}
+
+  - id: 7
+    name: delete
+    since: 2.8
+    doc: |
+      Removes the mapping for a key from this VectorCollection without returning previous value.
+    request:
+      retryable: false
+      partitionIdentifier: key
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the VectorCollection.
+        - name: key
+          type: Data
+          nullable: false
+          since: 2.8
+          doc: |
+            Key for the entry.
+    response: {}
+
+  - id: 8
+    name: searchNearVector
+    since: 2.8
+    doc: |
+      Returns the VectorDocuments closest to the given vector.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: vectors
+          type: List_VectorPair
+          nullable: false
+          since: 2.8
+          doc: |
+            Vector for which closest neighbours should be returned.
+        - name: options
+          type: VectorSearchOptions
+          nullable: false
+          since: 2.8
+          doc: |
+            Search options.
+    response:
+      params:
+        - name: result
+          nullable: false
+          type: List_VectorSearchResult
+          since: 2.8
+          doc: |
+            Zero or more VectorSearchResult values.
+
+  - id: 9
+    name: optimize
+    since: 2.8
+    doc: |
+      Optimize index.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+        - name: indexName
+          type: String
+          nullable: true
+          since: 2.8
+          doc: |
+            Name of the Index to optimize.
+            A null value triggers the optimization of the only index within the collection.
+    response: {}
+
+  - id: 10
+    name: clear
+    since: 2.8
+    doc: |
+      Clear vector collection.
+    request:
+      retryable: false
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+    response: { }
+
+  - id: 11
+    name: size
+    since: 2.8
+    doc: |
+      Size of vector collection.
+    request:
+      retryable: true
+      partitionIdentifier: none
+      params:
+        - name: name
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            Name of the Vector Collection.
+    response:
+      params:
+        - name: response
+          type: long
+          nullable: false
+          since: 2.8
+          doc: |
+            the number of entries in this collection

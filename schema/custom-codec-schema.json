@@ -23,9 +23,11 @@
             "byte",
             "int",
             "long",
+            "float",
             "UUID",
             "byteArray",
             "longArray",
+            "floatArray",
             "String",
             "Data",
             "EntryList_Integer_UUID",
@@ -95,6 +97,7 @@
             "List_MCEvent",
             "List_SqlColumnMetadata",
             "List_JobAndSqlSummary",
+            "List_RaftGroupInfo",
             "Set_UUID",
             "Map_String_String",
             "Map_String_Data",
@@ -102,6 +105,7 @@
             "EndpointQualifier",
             "MergePolicyConfig",
             "MemberVersion",
+            "Version",
             "MemberInfo",
             "MCEvent",
             "AnchorDataListHolder",
@@ -133,7 +137,13 @@
             "EurekaConfig",
             "List_DiscoveryStrategyConfig",
             "DiscoveryConfig",
-            "WanSyncConfig"
+            "WanSyncConfig",
+            "List_VectorIndexConfig",
+            "VectorDocument",
+            "EntryList_Data_VectorDocument",
+            "VectorPair",
+            "List_VectorPair",
+            "List_List_UUID"
           ]
         },
         "nullable": {
