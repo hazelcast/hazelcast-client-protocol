@@ -1441,6 +1441,13 @@ methods:
           since: 2.8
           doc: |
             vector collection's name
+        - name: inMemoryFormat
+          type: String
+          nullable: false
+          since: 2.8
+          doc: |
+            in memory format of items in the vector collection. Valid options are {@code BINARY}
+            and {@code NATIVE}
         - name: indexConfigs
           type: List_VectorIndexConfig
           nullable: false
