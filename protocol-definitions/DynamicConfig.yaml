@@ -1440,11 +1440,23 @@ methods:
           nullable: false
           since: 2.8
           doc: |
-            vector collection's name
+            vector collection name
         - name: indexConfigs
           type: List_VectorIndexConfig
           nullable: false
           since: 2.8
           doc: |
-            item vector index configurations
+            vector index configurations
+        - name: backupCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            number of synchronous backups
+        - name: asyncBackupCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            number of asynchronous backups
     response: {}
