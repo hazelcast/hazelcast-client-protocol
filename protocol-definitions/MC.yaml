@@ -965,3 +965,19 @@ methods:
       retryable: false
       partitionIdentifier: -1
     response: {}
+  - id: 38
+    name: getConfigFileContent
+    since: 2.8
+    doc: |
+      Gets the member configuration file content (XML or YAML string) of the member.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: configFileContent
+          type: String
+          nullable: true
+          since: 2.8
+          doc: |
+            Member configuration file content (XML or YAML string) of the member.
