@@ -980,4 +980,4 @@ methods:
           nullable: true
           since: 2.8
           doc: |
-            Member configuration file content (XML or YAML string) of the member.
+            Member configuration file content (XML or YAML string) of the member or null if the server was not started using a configuration file.
