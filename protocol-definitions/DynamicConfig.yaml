@@ -1440,11 +1440,44 @@ methods:
           nullable: false
           since: 2.8
           doc: |
-            vector collection's name
+            vector collection name
         - name: indexConfigs
           type: List_VectorIndexConfig
           nullable: false
           since: 2.8
           doc: |
-            item vector index configurations
+            vector index configurations
+        - name: backupCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            number of synchronous backups
+        - name: asyncBackupCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            number of asynchronous backups
+        - name: splitBrainProtectionName
+          type: String
+          nullable: true
+          since: 2.9
+          doc: |
+            Name of an existing configured split brain protection to be used to determine the minimum number of members
+            required in the cluster for the VectorCollection to remain functional. When {@code null}, split brain protection
+            does not apply to this VectorCollection's operations.
+        - name: mergePolicy
+          type: String
+          nullable: false
+          since: 2.9
+          doc: |
+            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this VectorCollection
+            while recovering from network partitioning.
+        - name: mergeBatchSize
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            Number of entries to be sent in a merge operation.
     response: {}
