@@ -1267,7 +1267,7 @@ Header only response message, no message body exist.
             {% for event in method.events %}
 
 ##### {{ event.name }}
-**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 2 + loop.index) }}
+**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 1 + loop.index) }}
 
 | Name | Type | Nullable | Description | Available Since |
 | ---- | ---- | -------- | ----------- | --------------- |
