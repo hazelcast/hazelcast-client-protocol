@@ -20,9 +20,11 @@ _java_types_common = {
     "Integer": "java.lang.Integer",
     "Long": "java.lang.Long",
     "UUID": "java.util.UUID",
+    "float": "float",
 
     "longArray": "long[]",
     "byteArray": "byte[]",
+    "floatArray": "float[]",
     "String": "java.lang.String",
     "Data": "com.hazelcast.internal.serialization.Data",
     "SqlPage": "com.hazelcast.sql.impl.client.SqlPage",
@@ -33,6 +35,7 @@ _java_types_common = {
     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
     "ReplicatedMapEntryViewHolder": "com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder",
     "RaftGroupId": "com.hazelcast.cp.internal.RaftGroupId",
+    "RaftGroupInfo": "com.hazelcast.cp.internal.RaftGroupInfo",
     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
     "EventJournalConfig": "com.hazelcast.config.EventJournalConfig",
@@ -65,6 +68,7 @@ _java_types_common = {
     "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
 
+    "List_RaftGroupInfo": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupInfo>",
     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
     "Schema": "com.hazelcast.internal.serialization.impl.compact.Schema",
     "FieldDescriptor": "com.hazelcast.internal.serialization.impl.compact.FieldDescriptor",
@@ -92,7 +96,10 @@ _java_types_common = {
     "DiscoveryConfig": "com.hazelcast.client.impl.protocol.codec.holder.DiscoveryConfigHolder",
     "WanSyncConfig": "com.hazelcast.client.impl.protocol.codec.holder.WanSyncConfigHolder",
     "ResourceDefinition": "com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder",
-    "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>"
+    "List_ResourceDefinition": "java.util.List<com.hazelcast.client.impl.protocol.task.dynamicconfig.ResourceDefinitionHolder>",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
+    "List_List_UUID": "java.util.Collection<java.util.Collection<java.util.UUID>>"
 }
 
 _java_types_encode = {
@@ -103,6 +110,7 @@ _java_types_encode = {
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
+    "Version": "com.hazelcast.version.Version",
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
@@ -112,6 +120,11 @@ _java_types_encode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.CPMember",
     "MigrationState": "com.hazelcast.partition.MigrationState",
+    "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
+    "VectorPair": "com.hazelcast.client.impl.protocol.codec.holder.VectorPairHolder",
+    "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
+    "VectorSearchResult": "com.hazelcast.vector.SearchResult<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
 
     "List_Long": "java.util.Collection<java.lang.Long>",
     "List_Integer": "java.util.Collection<java.lang.Integer>",
@@ -139,6 +152,9 @@ _java_types_encode = {
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_RaftGroupId": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupId>",
     "List_Schema": "java.util.Collection<com.hazelcast.internal.serialization.impl.compact.Schema>",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
+    "List_VectorSearchResult": "java.lang.Iterable<com.hazelcast.vector.SearchResult<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
+    "List_VectorPair": "com.hazelcast.vector.VectorValues",
 
     "Set_UUID": "java.util.Collection<java.util.UUID>",
 
@@ -157,6 +173,8 @@ _java_types_encode = {
     "List_PartitioningAttributeConfig": "java.util.Collection<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.Collection<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.Collection<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
+    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>",
+    "List_List_UUID": "java.util.Collection<java.util.Collection<java.util.UUID>>"
 }
 
 _java_types_decode = {
@@ -167,6 +185,7 @@ _java_types_decode = {
     "ClientBwListEntry": "com.hazelcast.internal.management.dto.ClientBwListEntryDTO",
     "MemberInfo": "com.hazelcast.internal.cluster.MemberInfo",
     "MemberVersion": "com.hazelcast.version.MemberVersion",
+    "Version": "com.hazelcast.version.Version",
     "MCEvent": "com.hazelcast.internal.management.dto.MCEventDTO",
     "AnchorDataListHolder": "com.hazelcast.client.impl.protocol.codec.holder.AnchorDataListHolder",
     "PagingPredicateHolder": "com.hazelcast.client.impl.protocol.codec.holder.PagingPredicateHolder",
@@ -176,6 +195,11 @@ _java_types_decode = {
     "JobAndSqlSummary": "com.hazelcast.jet.impl.JobAndSqlSummary",
     "CPMember": "com.hazelcast.cp.internal.CPMemberInfo",
     "MigrationState": "com.hazelcast.internal.partition.MigrationStateImpl",
+    "VectorDocument": "com.hazelcast.vector.impl.DataVectorDocument",
+    "VectorSearchOptions": "com.hazelcast.vector.SearchOptions",
+    "VectorIndexConfig": "com.hazelcast.config.vector.VectorIndexConfig",
+    "VectorSearchResult": "com.hazelcast.vector.impl.DataSearchResult",
+    "VectorPair": "com.hazelcast.client.impl.protocol.codec.holder.VectorPairHolder",
 
     "List_Long": "java.util.List<java.lang.Long>",
     "List_Integer": "java.util.List<java.lang.Integer>",
@@ -203,6 +227,9 @@ _java_types_decode = {
     "List_SqlColumnMetadata": "java.util.List<com.hazelcast.sql.SqlColumnMetadata>",
     "List_JobAndSqlSummary": "java.util.List<com.hazelcast.jet.impl.JobAndSqlSummary>",
     "List_Schema": "java.util.List<com.hazelcast.internal.serialization.impl.compact.Schema>",
+    "List_VectorIndexConfig": "java.util.List<com.hazelcast.config.vector.VectorIndexConfig>",
+    "List_VectorSearchResult": "java.util.List<com.hazelcast.vector.impl.DataSearchResult>",
+    "List_VectorPair": "java.util.List<com.hazelcast.client.impl.protocol.codec.holder.VectorPairHolder>",
 
     "Set_UUID": "java.util.Set<java.util.UUID>",
 
@@ -221,4 +248,6 @@ _java_types_decode = {
     "List_PartitioningAttributeConfig": "java.util.List<com.hazelcast.config.PartitioningAttributeConfig>",
     "List_SimpleEntryView": "java.util.List<com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>>",
     "List_ReplicatedMapEntryViewHolder": "java.util.List<com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder>",
+    "EntryList_Data_VectorDocument": "java.util.Collection<java.util.Map.Entry<com.hazelcast.internal.serialization.Data, com.hazelcast.vector.impl.DataVectorDocument>>",
+    "List_List_UUID": "java.util.List<java.util.List<java.util.UUID>>"
 }

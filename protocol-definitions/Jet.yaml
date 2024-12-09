@@ -119,12 +119,12 @@ methods:
           doc: ''
     events:
       - name: JobExistence
-        since: 2.7
+        since: 2.9
         params:
           - name: exists
             type: boolean
             nullable: false
-            since: 2.7
+            since: 2.9
             doc: |
               Indicates whether the job still exists.
     response: {}

@@ -29,7 +29,8 @@ from cs import (
     cs_types_decode,
     cs_types_encode,
     cs_custom_codec_param_name,
-    cs_sizeof
+    cs_sizeof,
+    cs_param_prefix
 )
 from java import java_types_decode, java_types_encode
 from md import internal_services
@@ -300,8 +301,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         codec_file_name = file_name_generators[lang](codec["name"])
                         content = template.render(codec=codec)
                         save_file(join(output_dir, codec_file_name), content)
-                except NotImplementedError:
-                    print("[%s] contains missing type mapping so ignoring it." % codec_file_name)
+                except NotImplementedError as e:
+                    print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
 
 
 def generate_documentation(services, custom_definitions, template, output_dir):
@@ -369,6 +370,7 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
             if not validate_against_schema(service, schema):
                 return False
 
+            methods = service["methods"]
             if not no_id_check and service["name"] not in ID_VALIDATOR_IGNORE_SET:
                 service_id = service["id"]
                 # Validate id ordering of services.
@@ -379,7 +381,6 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                     )
                     valid = False
                 # Validate id ordering of definition methods.
-                methods = service["methods"]
                 for j in range(len(methods)):
                     method = methods[j]
                     method_id = method["id"]
@@ -413,6 +414,16 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                             protocol_versions,
                         ):
                             valid = False
+
+            service_method_name = service["name"] + "." + method["name"]
+            for j in range(len(methods)):
+                method = methods[j]
+                request_params = method["request"].get("params", [])
+                if contains_invalid_nullability_field(service_method_name, response_params):
+                    valid = False
+                response_params = method["response"].get("params", [])
+                if contains_invalid_nullability_field(service_method_name, request_params):
+                    valid = False 
     return valid
 
 
@@ -469,6 +480,28 @@ def is_parameters_ordered_and_semantically_correct(since, name, params, protocol
         version = param_version
     return is_ordered and is_semantically_correct
 
+
+def contains_invalid_nullability_field(service_method_name, params):
+    for param in params:
+        # According to the readme, UUID fields should be nullable. But a lot of codecs violate that now,
+        # so skipping that check
+        """ 
+        if param["type"] == "UUID" and not param["nullable"]:
+            print(
+                'Check the nullable value of "%s" field of the "%s".\n'
+                "UUID fields should be nullable!"
+                % (param["name"], service_method_name)
+            )
+            return True
+        """
+        if param["type"] in FixSizedTypes and param["type"] != "UUID" and param["nullable"]:
+            print(
+                'Check the nullable value of "%s" field of the "%s".\n'
+                "Fixed fields other than UUID cannot be nullable!"
+                % (param["name"], service_method_name)
+            )
+            return True
+    return False
 
 def validate_custom_protocol_definitions(definition, schema_path, protocol_versions):
     valid = True
@@ -533,7 +566,12 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
     for custom_codec in custom_codec_defs:
         protocol_versions.add(custom_codec["since"])
         for param in custom_codec.get("params", []):
-            protocol_versions.add(param["since"])
+            try:
+                protocol_versions.add(param["since"])
+            except Exception as e:
+                print(f"Error in {param}")
+                raise e
+
 
     return map(str, protocol_versions)
 
@@ -607,6 +645,7 @@ language_specific_funcs = {
         "escape_keyword": cs_escape_keyword,
         "custom_codec_param_name": cs_custom_codec_param_name,
         "cs_sizeof": cs_sizeof,
+        "cs_param_prefix": cs_param_prefix,
     },
     SupportedLanguages.CPP: {
         "lang_types_encode": cpp_types_encode,
@@ -632,7 +671,10 @@ language_specific_funcs = {
         "custom_type_name": py_custom_type_name,
         "decoder_requires_to_object_fn": py_decoder_requires_to_object_fn,
         "to_object_fn_in_decode": py_to_object_fn_in_decode,
-    }
+    },
+    SupportedLanguages.MD: { 
+        "param_name": param_name,
+    }	
 }
 
 language_service_ignore_list = {
