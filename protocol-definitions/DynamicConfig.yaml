@@ -1480,4 +1480,10 @@ methods:
           since: 2.9
           doc: |
             Number of entries to be sent in a merge operation.
+        - name: userCodeNamespace
+          type: String
+          nullable: true
+          since: 2.9
+          doc: |
+            Name of the User Code Namespace applied to this instance.
     response: {}
