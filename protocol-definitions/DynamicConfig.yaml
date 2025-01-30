@@ -1491,7 +1491,7 @@ methods:
     name: setDiagnosticsConfig
     since: 2.9
     doc: |
-      Adds a new diagnostics configuration to a running cluster.
+      Sets the diagnostics configuration to a running cluster.
     request:
       retryable: false
       partitionIdentifier: -1
@@ -1501,47 +1501,47 @@ methods:
           nullable: false
           since: 2.9
           doc: |
-            determines whether the performance monitor is enabled
+            Indicates whether internal performance metrics and cluster related information are displayed
         - name: outputType
           type: String
           nullable: false
           since: 2.9
           doc: |
-            the output type for the diagnostics
+            The output type for the diagnostics
         - name: includeEpochTime
           type: boolean
           nullable: false
           since: 2.9
           doc: |
-            indicates if the epoch time should be included in the 'top' section
+            Indicates if the epoch time should be included in the 'top' section
         - name: maxRolledFileSizeInMB
           type: int
           nullable: false
           since: 2.9
           doc: |
-            the maximum size in MB for a single file
+            The maximum size in MB for a single file
         - name: maxRolledFileCount
           type: int
           nullable: false
           since: 2.9
           doc: |
-            the maximum number of rolling files to keep on disk
+            The maximum number of rolling files to keep on disk
         - name: logDirectory
           type: String
           nullable: false
           since: 2.9
           doc: |
-            the output directory of the performance log files
+            The output directory of the performance log files
         - name: fileNamePrefix
           type: String
           nullable: true
           since: 2.9
           doc: |
-            the prefix for the diagnostics file
+            The prefix for the diagnostics file
         - name: properties
           type: Map_String_String
           nullable: true
           since: 2.9
           doc: |
-            Properties of the plugin
+            Properties for the diagnostic plugins
     response: {}
