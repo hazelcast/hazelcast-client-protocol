@@ -276,7 +276,7 @@ _cs_types_encode = {
     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
-    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResult<IData, IData>>",
+    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
     "List_VectorPair": "Hazelcast.Models.VectorValues",
 }
 
@@ -333,7 +333,7 @@ _cs_types_decode = {
     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
-    "EntryList_Data_VectorDocument": "ICollection<VectorDocument<IData>>",
+    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData,VectorDocument<IData>>>",
     "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
-    "List_VectorPair": "ICollection<Hazelcast.Protocol.Models.VectorPair>",
+    "List_VectorPair": "ICollection<Hazelcast.Protocol.Models.VectorPairHolder>",
 }
