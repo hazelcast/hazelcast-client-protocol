@@ -213,7 +213,7 @@ _cs_types_common = {
     "MemberInfo": "Hazelcast.Models.MemberInfo",
     "MemberVersion": "Hazelcast.Models.MemberVersion",
 
-    "VectorDocument": "Hazelcast.Models.VectorDocument<IData>",
+    "VectorDocument": "Hazelcast.Models.IVectorDocument<IData>",
     "VectorSearchResult": "Hazelcast.Models.VectorSearchResultEntry<IData,IData>",
     "VectorPair": "Hazelcast.Protocol.Models.VectorPairHolder",
     "VectorSearchOptions": "Hazelcast.Models.VectorSearchOptions"
@@ -263,7 +263,7 @@ _cs_types_encode = {
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
-    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData,VectorDocument<IData>>>",
+    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
 
     # below, encode/decode are identical?
     "Set_UUID": "ISet<Guid>",
@@ -333,7 +333,7 @@ _cs_types_decode = {
     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
-    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData,VectorDocument<IData>>>",
+    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
     "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
     "List_VectorPair": "ICollection<Hazelcast.Protocol.Models.VectorPairHolder>",
 }
