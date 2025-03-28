@@ -1501,7 +1501,7 @@ methods:
           nullable: false
           since: 2.9
           doc: |
-            Indicates whether internal performance metrics and cluster related information are displayed
+            Indicates whether internal diagnostics metrics and cluster related information are displayed
         - name: outputType
           type: String
           nullable: false
@@ -1531,7 +1531,7 @@ methods:
           nullable: false
           since: 2.9
           doc: |
-            The output directory of the performance log files
+            The output directory of the diagnostics log files
         - name: fileNamePrefix
           type: String
           nullable: true
