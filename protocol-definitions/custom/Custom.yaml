@@ -828,6 +828,10 @@ customTypes:
         type: Map_EndpointQualifier_Address
         nullable: false
         since: 2.0.1
+      - name: autoStepDownWhenLeader
+        type: boolean
+        nullable: false
+        since: 2.8.1
   - name: EndpointQualifier
     returnWithFactory: true
     since: 2.0.1
