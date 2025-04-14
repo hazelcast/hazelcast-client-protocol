@@ -831,7 +831,7 @@ customTypes:
       - name: autoStepDownWhenLeader
         type: boolean
         nullable: false
-        since: 2.8.1
+        since: 2.9
   - name: EndpointQualifier
     returnWithFactory: true
     since: 2.0.1
@@ -989,6 +989,10 @@ customTypes:
         type: Address
         nullable: false
         since: 2.1
+      - name: autoStepsDownWhenLeader
+        type: boolean
+        nullable: false
+        since: 2.9
   - name: MigrationState
     since: 2.2
     params:
