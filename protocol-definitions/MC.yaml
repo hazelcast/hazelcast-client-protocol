@@ -985,7 +985,9 @@ methods:
     name: setDiagnosticsConfig
     since: 2.9
     doc: |
-      Sets the diagnostics configuration on a running cluster.
+      Sets the diagnostics configuration on a running cluster dynamically. It's a basically a dynamic configuration which can be done only by MC or Operator. Sending this
+      request to a member is sufficient to set the diagnostics configuration on the whole cluster. If one of the members fails to set the configuration, 
+      the request fails by throwing an exception. 
     request:
       retryable: false
       partitionIdentifier: -1
@@ -1025,7 +1027,7 @@ methods:
           nullable: false
           since: 2.9
           doc: |
-            The output directory of the diagnostics log files
+            The path of output directory for the diagnostics log files
         - name: fileNamePrefix
           type: String
           nullable: true
@@ -1037,5 +1039,5 @@ methods:
           nullable: true
           since: 2.9
           doc: |
-            Properties for the diagnostic plugins
-    response: {}
+            Properties specific to DiagnosticsPlugin implementations
+    response: { }
