@@ -1027,7 +1027,7 @@ methods:
           nullable: false
           since: 2.9
           doc: |
-            The path of output directory for the diagnostics log files
+            The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
         - name: fileNamePrefix
           type: String
           nullable: true
