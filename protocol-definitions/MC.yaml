@@ -987,7 +987,7 @@ methods:
     doc: |
       Sets the diagnostics configuration on a running cluster dynamically. It's a basically a dynamic configuration which can be done only by MC or Operator. Sending this
       request to a member is sufficient to set the diagnostics configuration on the whole cluster. If one of the members fails to set the configuration, 
-      the request fails by throwing an IllegalStateException exception. 
+      the request fails by throwing an IllegalStateException exception but the other members for which the invocation succeeded will have the new config applied. 
     request:
       retryable: false
       partitionIdentifier: -1
