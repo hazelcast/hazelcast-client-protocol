@@ -444,7 +444,7 @@ customTypes:
         since: 2.0
       - name: mapName
         type: String
-        nullable: false
+        nullable: true
         since: 2.7
   - name: QueueStoreConfigHolder
     since: 2.0
