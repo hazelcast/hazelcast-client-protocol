@@ -23,6 +23,7 @@
             "byte",
             "int",
             "long",
+            "float",
             "UUID",
             "byteArray",
             "longArray",
