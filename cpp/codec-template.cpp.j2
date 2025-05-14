@@ -48,12 +48,15 @@
 
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
+                {{ service_name.lower() }}_{{ method.name.lower() }}_handler::{{ service_name.lower() }}_{{ method.name.lower() }}_handler(logger& l)
+                    : impl::BaseEventHandler(l) {}
+
                 void {{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle(ClientMessage &msg) {
                     auto messageType = msg.get_message_type();
                 {% for event in method.events%}
                     if (messageType == {{ event.id }}) {
                         {% if fixed_params(event.params)|length > 0 %}
-                        auto *initial_frame = reinterpret_cast<ClientMessage::frame_header_t *>({% endif %}{% if fixed_params(event.params)|length == 0 %}                        {% endif %}msg.rd_ptr(ClientMessage::EVENT_HEADER_LEN){% if fixed_params(event.params)|length > 0 %}){% endif %};
+                        auto *initial_frame = reinterpret_cast<ClientMessage::frame_header_type *>({% endif %}{% if fixed_params(event.params)|length == 0 %}                        {% endif %}msg.rd_ptr(ClientMessage::EVENT_HEADER_LEN){% if fixed_params(event.params)|length > 0 %}){% endif %};
                         {% for param in fixed_params(event.params) %}
                         auto {{ param_name(param.name) }} = msg.get<{{ lang_types_decode(param.type) }}>();
                         {% endfor %}
@@ -68,7 +71,7 @@
                         return;
                     }
                 {% endfor %}
-                    HZ_LOG(*get_logger(), warning, (boost::format(
+                    HZ_LOG(get_logger(), warning, (boost::format(
                             "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (%1%) received on event handler.") %
                                                     messageType).str());
                 }

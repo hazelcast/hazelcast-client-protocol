@@ -24,7 +24,7 @@ def cpp_types_encode(key):
     except KeyError:
         cpp_type = _cpp_types_common[key]
     if cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError("Missing type Mapping for " + key)
     return cpp_type
 
 
@@ -34,7 +34,7 @@ def cpp_types_decode(key):
     except KeyError:
         cpp_type = _cpp_types_common[key]
     if cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping")
+        raise NotImplementedError("Missing type Mapping for " + key)
     return cpp_type
 
 
@@ -42,7 +42,7 @@ def get_size(type):
     try:
         size = _type_size[type]
     except KeyError:
-        raise NotImplementedError("Missing type size mapping")
+        raise NotImplementedError("Missing type size mapping " + type)
     return size
 
 
