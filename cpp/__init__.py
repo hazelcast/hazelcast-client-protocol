@@ -42,7 +42,7 @@ def get_size(type):
     try:
         size = _type_size[type]
     except KeyError:
-        raise NotImplementedError("Missing type size mapping " + type)
+        raise NotImplementedError("Missing type size Mapping " + type)
     return size
 
 
