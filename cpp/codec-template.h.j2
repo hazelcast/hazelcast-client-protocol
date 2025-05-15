@@ -42,6 +42,8 @@
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
                 struct HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_handler : public impl::BaseEventHandler {
+                    {{ service_name.lower() }}_{{ method.name.lower() }}_handler(logger& l);
+
                     void handle(ClientMessage &msg);
             {% for event in method.events%}
                     /**
