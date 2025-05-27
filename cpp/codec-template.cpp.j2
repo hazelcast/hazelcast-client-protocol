@@ -71,7 +71,7 @@
                         return;
                     }
                 {% endfor %}
-                    HZ_LOG(get_logger(), warning, (boost::format(
+                    HZ_LOG(get_logger(), finest, (boost::format(
                             "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (%1%) received on event handler.") %
                                                     messageType).str());
                 }

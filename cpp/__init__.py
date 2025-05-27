@@ -1,10 +1,9 @@
 cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "DurableExecutor", "CardinalityEstimator",
-                           "ScheduledExecutor", "DynamicConfig", "MC", "Sql", "CPSubsystem", "Jet", "Client.addPartitionLostListener",
+                           "ScheduledExecutor", "DynamicConfig", "MC", "CPSubsystem", "Jet", "Client.addPartitionLostListener",
                            "Client.removePartitionLostListener", "Client.getDistributedObjects",
                            "Client.addDistributedObjectListener", "Client.removeDistributedObjectListener",
                            "Client.deployClasses", "Client.createProxies", "Client.triggerPartitionAssignment",
-                           "Client.addMigrationListener", "Client.removeMigrationListener", "Client.sendSchema",
-                           "Client.fetchSchema", "Client.sendAllSchemas",
+                           "Client.addMigrationListener", "Client.removeMigrationListener",
                            "Map.addEntryListenerToKeyWithPredicate", "Map.addPartitionLostListener",
                            "Map.removePartitionLostListener", "Map.loadAll", "Map.loadGivenKeys", "Map.fetchKeys",
                            "Map.fetchEntries", "Map.aggregate", "Map.aggregateWithPredicate", "Map.project",
@@ -15,7 +14,10 @@ cpp_ignore_service_list = {"Cache", "XATransaction", "ContinuousQuery", "Durable
                            "Topic.publishAll",
                            "List.iterator", "List.listIterator",
                            "TransactionalMap.getForUpdate", "TransactionalMap.containsValue",
-                           "TransactionalQueue.take",  "TransactionalQueue.peek", }
+                           "TransactionalQueue.take",  "TransactionalQueue.peek",
+                           "CPMap", "VectorCollection", "Experimental", "Client.tpcAuthentication",
+                           "ReplicatedMap.fetchEntryViews", "ReplicatedMap.endEntryViewIteration",
+                           "Sql.fetch_reserved", "Sql.execute_reserved", "Sql.mappingDdl" }
 
 
 def cpp_types_encode(key):
@@ -142,7 +144,7 @@ _cpp_types_common = {
     "EntryList_Address_List_Integer": "std::vector<std::pair<address, std::vector<int32_t>>>",
     "MapIndexConfig": "NA",
 
-    "SqlQueryId": "NA",
+    "SqlQueryId": "sql::impl::query_id",
     "SqlError": "NA",
     "SqlColumnMetadata": "NA",
     "CPMember": "NA",
@@ -156,6 +158,10 @@ _cpp_types_common = {
     "List_VectorPair": "NA",
     "VectorSearchOptions": "NA",
     "VectorSearchResult": "NA",
+
+    "Schema": "serialization::pimpl::schema",
+    "List_Schema": "std::vector<serialization::pimpl::schema>",
+    "Version": "version",
 }
 
 _cpp_types_encode = {
@@ -166,7 +172,6 @@ _cpp_types_encode = {
     "ClientBwListEntry": "NA",
     "MemberInfo": "member",
     "MemberVersion": "Hazelcast.Core.MemberVersion",
-    "Version": "NA",
     "MCEvent": "NA",
     "AnchorDataListHolder": "codec::holder::anchor_data_list",
     "PagingPredicateHolder": "codec::holder::paging_predicate_holder",
