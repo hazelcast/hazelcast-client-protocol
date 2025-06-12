@@ -1040,7 +1040,7 @@ methods:
           since: 2.9
           doc: |
             Properties specific to DiagnosticsPlugin implementations
-        - name: autoOffTimerInMinutes
+        - name: autoOffDurationInMinutes
           type: int
           nullable: false
           since: 2.9
@@ -1105,13 +1105,13 @@ methods:
           since: 2.9
           doc: |
             Properties specific to DiagnosticsPlugin implementations
-        - name: autoOffTimerInMinutes
+        - name: autoOffDurationInMinutes
           type: int
           nullable: false
           since: 2.9
           doc: |
             The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
-        - name: canConfiguredDynamically
+        - name: canBeConfiguredDynamically
           type: boolean
           nullable: false
           since: 2.9
