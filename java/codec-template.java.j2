@@ -7,7 +7,11 @@
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.encodeNullable(clientMessage, {{ param.name }})
+            {%- else -%}
+                CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
         {%- endif %}
