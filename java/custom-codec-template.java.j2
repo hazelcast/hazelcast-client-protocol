@@ -26,7 +26,11 @@
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.decodeNullable(iterator)
+            {%- else -%}
+                CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.decode(iterator)
         {%- endif -%}
