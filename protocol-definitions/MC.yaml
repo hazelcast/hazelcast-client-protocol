@@ -965,3 +965,155 @@ methods:
       retryable: false
       partitionIdentifier: -1
     response: {}
+  - id: 38
+    name: getConfigFileContent
+    since: 2.8
+    doc: |
+      Gets the member configuration file content (XML or YAML string) of the member.
+    request:
+      retryable: true
+      partitionIdentifier: -1
+    response:
+      params:
+        - name: configFileContent
+          type: String
+          nullable: true
+          since: 2.8
+          doc: |
+            Member configuration file content (XML or YAML string) of the member or null if the server was not started using a configuration file.
+  - id: 39
+    name: setDiagnosticsConfig
+    since: 2.9
+    doc: |
+      Sets the diagnostics configuration on a running cluster dynamically. It's a basically a dynamic configuration which can be done only by MC or Operator. Sending this
+      request to a member is sufficient to set the diagnostics configuration on the whole cluster. If one of the members fails to set the configuration, 
+      the request fails by throwing an IllegalStateException exception but the other members for which the invocation succeeded will have the new config applied. 
+    request:
+      retryable: false
+      partitionIdentifier: -1
+      params:
+        - name: enabled
+          type: boolean
+          nullable: false
+          since: 2.9
+          doc: |
+            Indicates whether diagnostics service is enabled or not
+        - name: outputType
+          type: String
+          nullable: false
+          since: 2.9
+          doc: |
+            The output type for the diagnostics
+        - name: includeEpochTime
+          type: boolean
+          nullable: false
+          since: 2.9
+          doc: |
+            Indicates if the epoch time should be included in the 'top' section
+        - name: maxRolledFileSizeInMB
+          type: float
+          nullable: false
+          since: 2.9
+          doc: |
+            The maximum size in MB for a single file
+        - name: maxRolledFileCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            The maximum number of rolling files to keep on disk
+        - name: logDirectory
+          type: String
+          nullable: false
+          since: 2.9
+          doc: |
+            The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
+        - name: fileNamePrefix
+          type: String
+          nullable: true
+          since: 2.9
+          doc: |
+            The prefix for the diagnostics file
+        - name: properties
+          type: Map_String_String
+          nullable: true
+          since: 2.9
+          doc: |
+            Properties specific to DiagnosticsPlugin implementations
+        - name: autoOffDurationInMinutes
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
+    response: { }
+  - id: 40
+    name: getDiagnosticsConfig
+    since: 2.9
+    doc: |
+      Gets the diagnostics configuration from the member.
+    request:
+      retryable: true
+      partitionIdentifier: -1      
+    response: 
+      params:
+        - name: enabled
+          type: boolean
+          nullable: false
+          since: 2.9
+          doc: |
+            Indicates whether diagnostics service is enabled or not
+        - name: outputType
+          type: String
+          nullable: false
+          since: 2.9
+          doc: |
+            The output type for the diagnostics
+        - name: includeEpochTime
+          type: boolean
+          nullable: false
+          since: 2.9
+          doc: |
+            Indicates if the epoch time should be included in the 'top' section
+        - name: maxRolledFileSizeInMB
+          type: float
+          nullable: false
+          since: 2.9
+          doc: |
+            The maximum size in MB for a single file
+        - name: maxRolledFileCount
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            The maximum number of rolling files to keep on disk
+        - name: logDirectory
+          type: String
+          nullable: false
+          since: 2.9
+          doc: |
+            The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
+        - name: fileNamePrefix
+          type: String
+          nullable: true
+          since: 2.9
+          doc: |
+            The prefix for the diagnostics file
+        - name: properties
+          type: Map_String_String
+          nullable: true
+          since: 2.9
+          doc: |
+            Properties specific to DiagnosticsPlugin implementations
+        - name: autoOffDurationInMinutes
+          type: int
+          nullable: false
+          since: 2.9
+          doc: |
+            The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
+        - name: canBeConfiguredDynamically
+          type: boolean
+          nullable: false
+          since: 2.9
+          doc: |
+            Indicates whether the diagnostics service can be configured dynamically or not

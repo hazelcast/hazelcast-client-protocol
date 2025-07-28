@@ -1,0 +1,806 @@
+diff --git a/binary/__init__.py b/binary/__init__.py
+index 641cc05..c13ce54 100755
+--- a/binary/__init__.py
++++ b/binary/__init__.py
+@@ -126,7 +126,7 @@ VarSizedEntryListTypes = [
+     'EntryList_String_EntryList_Integer_Long',
+     'EntryList_Data_Data',
+     'EntryList_Data_List_Data',
+-    'EntryList_Data_VectorDocument',
++    'EntryList_Data_VectorDocument'
+ ]
+ 
+ VarSizedMapTypes = [
+@@ -166,6 +166,7 @@ VarSizedListTypes = [
+     'List_SimpleEntryView',
+     'List_ReplicatedMapEntryViewHolder',
+     'List_VectorPair',
++    'List_RaftGroupInfo',
+ ]
+ 
+ AllTypes = FixSizedTypes + VarSizedTypes + FixSizedEntryListTypes \
+diff --git a/binary/util.py b/binary/util.py
+index fc9ae5b..c2f0525 100755
+--- a/binary/util.py
++++ b/binary/util.py
+@@ -251,7 +251,8 @@ class VarSizedParamEncoder:
+                                                  .encoder_for('ScheduledTaskHandler')),
+             'Set_UUID': partial(FixSizedParamEncoder.encode_fix_sized_set_frame, item_type='UUID'),
+             'SqlPage': partial(self.encode_sqlpage),
+-            'HazelcastJsonValue': partial(self.encode_json)
++            'HazelcastJsonValue': partial(self.encode_json),
++            'RaftGroupInfo': partial(self.encoder.custom_type_encoder.encoder_for('RaftGroupInfo'))
+         }
+ 
+     def encode_var_sized_frames(self, var_sized_params, client_message, is_null_test=False):
+@@ -421,6 +422,7 @@ reference_objects_dict = {
+     'DistributedObjectInfo': 'aDistributedObjectInfo',
+     'QueryCacheEventData': 'aQueryCacheEventData',
+     'RaftGroupId': 'aRaftGroupId',
++    'RaftGroupInfo': 'aRaftGroupInfo',
+     'ScheduledTaskHandler': 'aScheduledTaskHandler',
+     'SimpleEntryView': 'aSimpleEntryView',
+     'ReplicatedMapEntryViewHolder': 'aReplicatedMapEntryViewHolder',
+@@ -459,6 +461,7 @@ reference_objects_dict = {
+     'EntryList_Data_List_Data': 'aListOfDataToListOfData',
+     'Map_String_String': 'aMapOfStringToString',
+     'Map_EndpointQualifier_Address': 'aMapOfEndpointQualifierToAddress',
++    'List_RaftGroupInfo': 'aListOfRaftGroupInfo',
+     'List_byteArray': 'aListOfByteArrays',
+     'List_CacheEventData': 'aListOfCacheEventData',
+     'List_CacheSimpleEntryListenerConfig': 'aListOfCacheSimpleEntryListenerConfigs',
+diff --git a/cpp/__init__.py b/cpp/__init__.py
+index c1f3f5e..5a7e46d 100644
+--- a/cpp/__init__.py
++++ b/cpp/__init__.py
+@@ -24,7 +24,7 @@ def cpp_types_encode(key):
+     except KeyError:
+         cpp_type = _cpp_types_common[key]
+     if cpp_type == "NA":
+-        raise NotImplementedError("Missing type Mapping")
++        raise NotImplementedError("Missing type Mapping for " + key)
+     return cpp_type
+ 
+ 
+@@ -34,7 +34,7 @@ def cpp_types_decode(key):
+     except KeyError:
+         cpp_type = _cpp_types_common[key]
+     if cpp_type == "NA":
+-        raise NotImplementedError("Missing type Mapping")
++        raise NotImplementedError("Missing type Mapping for " + key)
+     return cpp_type
+ 
+ 
+@@ -42,7 +42,7 @@ def get_size(type):
+     try:
+         size = _type_size[type]
+     except KeyError:
+-        raise NotImplementedError("Missing type size mapping")
++        raise NotImplementedError("Missing type size Mapping " + type)
+     return size
+ 
+ 
+@@ -137,6 +137,7 @@ _cpp_types_common = {
+ 
+     "Map_String_String": "std::unordered_map<std::string, std::string>",
+     "Map_EndpointQualifier_Address": "NA",
++    "List_RaftGroupInfo": "NA",
+ 
+     "EntryList_Address_List_Integer": "std::vector<std::pair<address, std::vector<int32_t>>>",
+     "MapIndexConfig": "NA",
+diff --git a/cpp/codec-template.cpp.j2 b/cpp/codec-template.cpp.j2
+index 2b6012d..7b236cc 100644
+--- a/cpp/codec-template.cpp.j2
++++ b/cpp/codec-template.cpp.j2
+@@ -48,12 +48,15 @@
+ 
+                 {# EVENTS#}
+                 {% if method.events|length != 0 %}
++                {{ service_name.lower() }}_{{ method.name.lower() }}_handler::{{ service_name.lower() }}_{{ method.name.lower() }}_handler(logger& l)
++                    : impl::BaseEventHandler(l) {}
++
+                 void {{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle(ClientMessage &msg) {
+                     auto messageType = msg.get_message_type();
+                 {% for event in method.events%}
+                     if (messageType == {{ event.id }}) {
+                         {% if fixed_params(event.params)|length > 0 %}
+-                        auto *initial_frame = reinterpret_cast<ClientMessage::frame_header_t *>({% endif %}{% if fixed_params(event.params)|length == 0 %}                        {% endif %}msg.rd_ptr(ClientMessage::EVENT_HEADER_LEN){% if fixed_params(event.params)|length > 0 %}){% endif %};
++                        auto *initial_frame = reinterpret_cast<ClientMessage::frame_header_type *>({% endif %}{% if fixed_params(event.params)|length == 0 %}                        {% endif %}msg.rd_ptr(ClientMessage::EVENT_HEADER_LEN){% if fixed_params(event.params)|length > 0 %}){% endif %};
+                         {% for param in fixed_params(event.params) %}
+                         auto {{ param_name(param.name) }} = msg.get<{{ lang_types_decode(param.type) }}>();
+                         {% endfor %}
+@@ -68,7 +71,7 @@
+                         return;
+                     }
+                 {% endfor %}
+-                    HZ_LOG(*get_logger(), warning, (boost::format(
++                    HZ_LOG(get_logger(), warning, (boost::format(
+                             "[{{ service_name.lower() }}_{{ method.name.lower() }}_handler::handle] Unknown message type (%1%) received on event handler.") %
+                                                     messageType).str());
+                 }
+diff --git a/cpp/codec-template.h.j2 b/cpp/codec-template.h.j2
+index a5d6b2b..e1caa5e 100644
+--- a/cpp/codec-template.h.j2
++++ b/cpp/codec-template.h.j2
+@@ -42,6 +42,8 @@
+                 {# EVENTS#}
+                 {% if method.events|length != 0 %}
+                 struct HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_handler : public impl::BaseEventHandler {
++                    {{ service_name.lower() }}_{{ method.name.lower() }}_handler(logger& l);
++
+                     void handle(ClientMessage &msg);
+             {% for event in method.events%}
+                     /**
+diff --git a/cs/__init__.py b/cs/__init__.py
+index ece23c5..8fc550b 100644
+--- a/cs/__init__.py
++++ b/cs/__init__.py
+@@ -16,7 +16,7 @@ cs_ignore_service_list = {
+     # entire services - correspond to an entire yaml file in protocol definitions
+     "MC", "Jet", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
+     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor",
+-    "CPSubsystem", "CPMember",
++    "CPSubsystem",
+     "SqlSummary", "JobAndSqlSummary",
+     # service.methods - correspond to method entries in yaml files in protocol definitions
+     "Map.replaceAll", "Sql.mappingDdl",
+@@ -30,7 +30,7 @@ cs_ignore_service_list = {
+     "WanSyncConfig", "WanCustomPublisherConfig", "WanBatchPublisherConfig",
+     "DiscoveryConfig", "DiscoveryStrategyConfig", "CacheConfigHolder", "QueueStoreConfigHolder",
+     "WanConsumerConfigHolder", "WanBatchPublisherConfigHolder", "WanCustomPublisherConfigHolder",
+-    "DynamicConfig.AddQueueConfig", "DynamicConfig.AddWanReplicationConfig",
++    "DynamicConfig.AddQueueConfig", "DynamicConfig.AddWanReplicationConfig","TimedExpiryPolicyFactoryConfigCodec",
+ }
+ 
+ def cs_types(key, d):
+@@ -88,7 +88,8 @@ def cs_param_prefix(codec_name, param_type, param_name):
+         'EventJournalConfig',
+         'MerkleTreeConfig',
+         'WanReplicationRef',
+-        'CacheSimpleEntryListenerConfig'
++        'CacheSimpleEntryListenerConfig',
++        'VectorSearchOptions'
+     ]:
+         return ""
+     return "Is"
+@@ -118,6 +119,7 @@ _cs_types_common = {
+     "byte": "byte",
+     "Integer": "int",
+     "Long": "long",
++    "float": "float",
+     "UUID": "Guid",
+     "longArray": "long[]",
+     "byteArray": "byte[]",
+@@ -135,6 +137,8 @@ _cs_types_common = {
+     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
+     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
+     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
++    "RaftGroupInfo":"Hazelcast.CP.CPGroupInfo",
++    "List_RaftGroupInfo": "ICollection<Hazelcast.CP.CPGroupInfo>",
+     "SqlPage": "Hazelcast.Sql.SqlPage",
+     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
+     "SqlError": "Hazelcast.Sql.SqlError",
+@@ -163,7 +167,6 @@ _cs_types_common = {
+     "QueryCacheConfigHolder": "Hazelcast.Protocol.Models.QueryCacheConfigHolder",
+     "CacheConfigHolder": "Hazelcast.Protocol.Models.CacheConfigHolder",
+     "ListenerConfigHolder": "Hazelcast.Protocol.Models.ListenerConfigHolder",
+-    "WanConsumerConfigHolder": "Hazelcast.Protocol.Models.WanConsumerConfigHolder",
+     "WanCustomPublisherConfigHolder": "Hazelcast.Protocol.Models.WanCustomPublisherConfigHolder",
+     "WanBatchPublisherConfigHolder": "Hazelcast.Protocol.Models.WanBatchPublisherConfigHolder",
+     "AnchorDataListHolder": "Hazelcast.Protocol.Models.AnchorDataListHolder",
+@@ -196,33 +199,39 @@ _cs_types_common = {
+     "KubernetesConfig": "Hazelcast.Models.KubernetesOptions",
+     "EurekaConfig": "Hazelcast.Models.EurekaOptions",
+     "WanReplicationRef": "Hazelcast.Models.WanReplicationRef",
++    "Version":"Hazelcast.Models.ClusterVersion",
+ 
+     # except NearCache
+     "NearCacheConfig": "Hazelcast.NearCaching.NearCacheOptions",
+     "NearCachePreloaderConfig": "Hazelcast.NearCaching.NearCachePreloaderOptions",
+ 
+-    "CacheEventData": "NA",
+     "QueryCacheEventData": "NA",
+     "ScheduledTaskHandler": "NA",
+     "Xid": "NA",
+-    "ClientBwListEntry": "NA",
+     "MCEvent": "NA",
+-    "MigrationState": "NA",
+ 
+     "MemberInfo": "Hazelcast.Models.MemberInfo",
+     "MemberVersion": "Hazelcast.Models.MemberVersion",
++
++    "VectorDocument": "Hazelcast.Models.IVectorDocument<IData>",
++    "VectorSearchResult": "Hazelcast.Models.VectorSearchResultEntry<IData,IData>",
++    "VectorPair": "Hazelcast.Protocol.Models.VectorPairHolder",
++    "VectorSearchOptions": "Hazelcast.Models.VectorSearchOptions"
++
++
+ }
+ 
+ # map types for encoding
+ _cs_types_encode = {
+ 
+     # encode as interface
+-    "CPMember": "Hazelcast.CP.ICPMember",
++    "CPMember": "Hazelcast.CP.CPMember",
+ 
+     # encode as collections
+     "List_Long": "ICollection<long>",
+     "List_Integer": "ICollection<int>",
+     "List_UUID": "ICollection<Guid>",
++    "List_List_UUID":"ICollection<ICollection<Guid>>",
+     "List_String": "ICollection<string>",
+     "List_Xid": "NA",
+     "List_Data": "ICollection<IData>",
+@@ -232,18 +241,14 @@ _cs_types_encode = {
+     "List_MemberInfo": "ICollection<Hazelcast.Models.MemberInfo>",
+     "List_ScheduledTaskHandler": "NA",
+     "List_CacheEventData": "NA",
+-    "List_QueryCacheConfigHolder": "NA",
+     "List_DistributedObjectInfo": "ICollection<Hazelcast.Models.DistributedObjectInfo>",
+     "List_QueryCacheEventData": "NA",
+     "List_IndexConfig": "ICollection<Hazelcast.Models.IndexOptions>",
+-    "List_AttributeConfig": "NA",
+-    "List_ListenerConfigHolder": "NA",
+-    "List_CacheSimpleEntryListenerConfig": "NA",
+     "List_StackTraceElement": "ICollection<Hazelcast.Util.StackTraceElement>",
+     "List_ClientBwListEntry": "NA",
+     "List_MCEvent": "NA",
+     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
+-    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
++    "List_CPMember": "ICollection<Hazelcast.CP.CPMember>",
+     "List_RaftGroupId": "NA",
+ 
+     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
+@@ -258,10 +263,10 @@ _cs_types_encode = {
+     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
+     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
+     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
++    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
+ 
+     # below, encode/decode are identical?
+     "Set_UUID": "ISet<Guid>",
+-    "List_PartitioningAttributeConfig": "NA",
+     "List_SimpleEntryView": "NA",
+     "List_ReplicatedMapEntryViewHolder": "NA",
+     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
+@@ -271,18 +276,21 @@ _cs_types_encode = {
+     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
+     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
+     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
++    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
++    "List_VectorPair": "Hazelcast.Models.VectorValues",
+ }
+ 
+ # map types for decoding
+ _cs_types_decode = {
+ 
+     # decode as implementation
+-    "CPMember": "Hazelcast.CP.CPMemberInfo",
++    "CPMember": "Hazelcast.CP.CPMember",
+ 
+     # decode as lists
+     "List_Long": "IList<long>",
+     "List_Integer": "IList<int>",
+     "List_UUID": "IList<Guid>",
++    "List_List_UUID":"IList<IList<Guid>>",
+     "List_String": "IList<string>",
+     "List_Xid": "NA",
+     "List_Data": "IList<IData>",
+@@ -292,18 +300,14 @@ _cs_types_decode = {
+     "List_MemberInfo": "IList<Hazelcast.Models.MemberInfo>",
+     "List_ScheduledTaskHandler": "NA",
+     "List_CacheEventData": "NA",
+-    "List_QueryCacheConfigHolder": "NA",
+     "List_DistributedObjectInfo": "ICollection<Hazelcast.Models.DistributedObjectInfo>",
+     "List_QueryCacheEventData": "NA",
+     "List_IndexConfig": "IList<Hazelcast.Models.IndexOptions>",
+-    "List_AttributeConfig": "NA",
+-    "List_ListenerConfigHolder": "NA",
+-    "List_CacheSimpleEntryListenerConfig": "NA",
+     "List_StackTraceElement": "IList<Hazelcast.Util.StackTraceElement>",
+     "List_ClientBwListEntry": "NA",
+     "List_MCEvent": "NA",
+     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
+-    "List_CPMember": "IList<Hazelcast.CP.CPMemberInfo>",
++    "List_CPMember": "IList<Hazelcast.CP.CPMember>",
+ 
+     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
+     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",
+@@ -320,7 +324,6 @@ _cs_types_decode = {
+ 
+     # below, encode/decode are identical?
+     "Set_UUID": "ISet<Guid>",
+-    "List_PartitioningAttributeConfig": "NA",
+     "List_SimpleEntryView": "NA",
+     "List_ReplicatedMapEntryViewHolder": "NA",
+     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
+@@ -330,4 +333,7 @@ _cs_types_decode = {
+     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
+     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
+     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
++    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
++    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
++    "List_VectorPair": "ICollection<Hazelcast.Protocol.Models.VectorPairHolder>",
+ }
+diff --git a/custom-types-quick-guide.md b/custom-types-quick-guide.md
+index 78cdf33..145b493 100644
+--- a/custom-types-quick-guide.md
++++ b/custom-types-quick-guide.md
+@@ -10,11 +10,11 @@ generation. The [README](README.md) covers the general framework, so please read
+ Let us take the `DynamicConfig.yaml` service as the baseline for an example. We will add a
+ fictitious method: `addUsefulConfig`.
+ 
+-_Note_. At the time of writing the highest `id` in `DynamicConfig.yaml` was `18` -- the `id` of the
+-last entry, hence the use of `19` for our example.
++_Note_. At the time of writing the highest `id` in `DynamicConfig.yaml` was `20` -- the `id` of the
++last entry, hence the use of `21` for our example.
+ 
+ ```yaml
+-- id: 19
++- id: 21
+   name: addUsefulConfig
+   since: 2.7
+   doc: |
+diff --git a/java/__init__.py b/java/__init__.py
+index a4c5022..f03da0c 100755
+--- a/java/__init__.py
++++ b/java/__init__.py
+@@ -35,6 +35,7 @@ _java_types_common = {
+     "SimpleEntryView": "com.hazelcast.map.impl.SimpleEntryView<com.hazelcast.internal.serialization.Data, com.hazelcast.internal.serialization.Data>",
+     "ReplicatedMapEntryViewHolder": "com.hazelcast.replicatedmap.impl.record.ReplicatedMapEntryViewHolder",
+     "RaftGroupId": "com.hazelcast.cp.internal.RaftGroupId",
++    "RaftGroupInfo": "com.hazelcast.cp.internal.RaftGroupInfo",
+     "WanReplicationRef": "com.hazelcast.config.WanReplicationRef",
+     "HotRestartConfig": "com.hazelcast.config.HotRestartConfig",
+     "EventJournalConfig": "com.hazelcast.config.EventJournalConfig",
+@@ -67,6 +68,7 @@ _java_types_common = {
+     "Map_String_Data": "java.util.Map<java.lang.String, com.hazelcast.internal.serialization.Data>",
+     "Map_EndpointQualifier_Address": "java.util.Map<com.hazelcast.instance.EndpointQualifier, com.hazelcast.cluster.Address>",
+ 
++    "List_RaftGroupInfo": "java.util.Collection<com.hazelcast.cp.internal.RaftGroupInfo>",
+     "List_CPMember": "java.util.Collection<com.hazelcast.cp.CPMember>",
+     "Schema": "com.hazelcast.internal.serialization.impl.compact.Schema",
+     "FieldDescriptor": "com.hazelcast.internal.serialization.impl.compact.FieldDescriptor",
+diff --git a/md/documentation-template.j2 b/md/documentation-template.j2
+index 5b5b341..17efc7b 100644
+--- a/md/documentation-template.j2
++++ b/md/documentation-template.j2
+@@ -1267,7 +1267,7 @@ Header only response message, no message body exist.
+             {% for event in method.events %}
+ 
+ ##### {{ event.name }}
+-**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 2 + loop.index) }}
++**Message Type:** {{ "0x%02x%02x%02x"|format(service.id, method.id, 1 + loop.index) }}
+ 
+ | Name | Type | Nullable | Description | Available Since |
+ | ---- | ---- | -------- | ----------- | --------------- |
+diff --git a/protocol-definitions/Client.yaml b/protocol-definitions/Client.yaml
+index 3ba7c01..37cb0b5 100644
+--- a/protocol-definitions/Client.yaml
++++ b/protocol-definitions/Client.yaml
+@@ -71,7 +71,13 @@ methods:
+           nullable: false
+           since: 2.8
+           doc: |
+-            Identifies the routing mode of the client. It can be UNISCOKET(0), SMART(1) or SUBSET(2).
++            Identifies the routing mode of the client. It can be UNISOCKET(0), SMART(1) or SUBSET(2).
++        - name: cpDirectToLeaderRouting
++          type: boolean
++          nullable: false
++          since: 2.8
++          doc: |
++            The client's CP direct-to-leader routing setting (enabled or disabled)
+     response:
+       params:
+         - name: status
+@@ -229,6 +235,12 @@ methods:
+           since: 2.8
+           doc: |
+             Identifies the routing mode of the client. It can be UNISCOKET(0), SMART(1) or SUBSET(2).
++        - name: cpDirectToLeaderRouting
++          type: boolean
++          nullable: false
++          since: 2.8
++          doc: |
++            The client's CP direct-to-leader routing setting (enabled or disabled)
+     response:
+       params:
+         - name: status
+@@ -1092,3 +1104,34 @@ methods:
+           doc: |
+             Authentication token bytes for the TPC channels
+     response: {}
++  - id: 23
++    name: addCPGroupViewListener
++    since: 2.8
++    doc: |
++      Adds a CP Group view listener to a connection.
++    request:
++      retryable: false
++      partitionIdentifier: -1
++    response: {}
++    events:
++      - name: GroupsView
++        since: 2.8
++        params:
++          - name: version
++            type: long
++            nullable: false
++            since: 2.8
++            doc: |
++              The version number for this group view
++          - name: groupsInfo
++            type: List_RaftGroupInfo # GroupID -> RaftGroupInfo
++            nullable: false
++            since: 2.8
++            doc: |
++              List of RaftGroupInfo objects containing group IDs, leader, and follower information
++          - name: cpToApUuids
++            type: EntryList_UUID_UUID # CP UUID --> AP UUID
++            nullable: false
++            since: 2.8
++            doc: |
++              Mapping of CP UUIDs to AP UUIDs, for use on the client
+diff --git a/protocol-definitions/DynamicConfig.yaml b/protocol-definitions/DynamicConfig.yaml
+index 7255db7..3bcbe4c 100644
+--- a/protocol-definitions/DynamicConfig.yaml
++++ b/protocol-definitions/DynamicConfig.yaml
+@@ -1440,11 +1440,50 @@ methods:
+           nullable: false
+           since: 2.8
+           doc: |
+-            vector collection's name
++            vector collection name
+         - name: indexConfigs
+           type: List_VectorIndexConfig
+           nullable: false
+           since: 2.8
+           doc: |
+-            item vector index configurations
+-    response: {}
+\ No newline at end of file
++            vector index configurations
++        - name: backupCount
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            number of synchronous backups
++        - name: asyncBackupCount
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            number of asynchronous backups
++        - name: splitBrainProtectionName
++          type: String
++          nullable: true
++          since: 2.9
++          doc: |
++            Name of an existing configured split brain protection to be used to determine the minimum number of members
++            required in the cluster for the VectorCollection to remain functional. When {@code null}, split brain protection
++            does not apply to this VectorCollection's operations.
++        - name: mergePolicy
++          type: String
++          nullable: false
++          since: 2.9
++          doc: |
++            Name of a class implementing SplitBrainMergePolicy that handles merging of values for this VectorCollection
++            while recovering from network partitioning.
++        - name: mergeBatchSize
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            Number of entries to be sent in a merge operation.
++        - name: userCodeNamespace
++          type: String
++          nullable: true
++          since: 2.9
++          doc: |
++            Name of the User Code Namespace applied to this instance.
++    response: {}
+diff --git a/protocol-definitions/MC.yaml b/protocol-definitions/MC.yaml
+index 5790a15..a95c084 100644
+--- a/protocol-definitions/MC.yaml
++++ b/protocol-definitions/MC.yaml
+@@ -965,3 +965,155 @@ methods:
+       retryable: false
+       partitionIdentifier: -1
+     response: {}
++  - id: 38
++    name: getConfigFileContent
++    since: 2.8
++    doc: |
++      Gets the member configuration file content (XML or YAML string) of the member.
++    request:
++      retryable: true
++      partitionIdentifier: -1
++    response:
++      params:
++        - name: configFileContent
++          type: String
++          nullable: true
++          since: 2.8
++          doc: |
++            Member configuration file content (XML or YAML string) of the member or null if the server was not started using a configuration file.
++  - id: 39
++    name: setDiagnosticsConfig
++    since: 2.9
++    doc: |
++      Sets the diagnostics configuration on a running cluster dynamically. It's a basically a dynamic configuration which can be done only by MC or Operator. Sending this
++      request to a member is sufficient to set the diagnostics configuration on the whole cluster. If one of the members fails to set the configuration, 
++      the request fails by throwing an IllegalStateException exception but the other members for which the invocation succeeded will have the new config applied. 
++    request:
++      retryable: false
++      partitionIdentifier: -1
++      params:
++        - name: enabled
++          type: boolean
++          nullable: false
++          since: 2.9
++          doc: |
++            Indicates whether diagnostics service is enabled or not
++        - name: outputType
++          type: String
++          nullable: false
++          since: 2.9
++          doc: |
++            The output type for the diagnostics
++        - name: includeEpochTime
++          type: boolean
++          nullable: false
++          since: 2.9
++          doc: |
++            Indicates if the epoch time should be included in the 'top' section
++        - name: maxRolledFileSizeInMB
++          type: float
++          nullable: false
++          since: 2.9
++          doc: |
++            The maximum size in MB for a single file
++        - name: maxRolledFileCount
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            The maximum number of rolling files to keep on disk
++        - name: logDirectory
++          type: String
++          nullable: false
++          since: 2.9
++          doc: |
++            The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
++        - name: fileNamePrefix
++          type: String
++          nullable: true
++          since: 2.9
++          doc: |
++            The prefix for the diagnostics file
++        - name: properties
++          type: Map_String_String
++          nullable: true
++          since: 2.9
++          doc: |
++            Properties specific to DiagnosticsPlugin implementations
++        - name: autoOffDurationInMinutes
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
++    response: { }
++  - id: 40
++    name: getDiagnosticsConfig
++    since: 2.9
++    doc: |
++      Gets the diagnostics configuration from the member.
++    request:
++      retryable: true
++      partitionIdentifier: -1      
++    response: 
++      params:
++        - name: enabled
++          type: boolean
++          nullable: false
++          since: 2.9
++          doc: |
++            Indicates whether diagnostics service is enabled or not
++        - name: outputType
++          type: String
++          nullable: false
++          since: 2.9
++          doc: |
++            The output type for the diagnostics
++        - name: includeEpochTime
++          type: boolean
++          nullable: false
++          since: 2.9
++          doc: |
++            Indicates if the epoch time should be included in the 'top' section
++        - name: maxRolledFileSizeInMB
++          type: float
++          nullable: false
++          since: 2.9
++          doc: |
++            The maximum size in MB for a single file
++        - name: maxRolledFileCount
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            The maximum number of rolling files to keep on disk
++        - name: logDirectory
++          type: String
++          nullable: false
++          since: 2.9
++          doc: |
++            The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
++        - name: fileNamePrefix
++          type: String
++          nullable: true
++          since: 2.9
++          doc: |
++            The prefix for the diagnostics file
++        - name: properties
++          type: Map_String_String
++          nullable: true
++          since: 2.9
++          doc: |
++            Properties specific to DiagnosticsPlugin implementations
++        - name: autoOffDurationInMinutes
++          type: int
++          nullable: false
++          since: 2.9
++          doc: |
++            The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
++        - name: canBeConfiguredDynamically
++          type: boolean
++          nullable: false
++          since: 2.9
++          doc: |
++            Indicates whether the diagnostics service can be configured dynamically or not
+\ No newline at end of file
+diff --git a/protocol-definitions/VectorCollection.yaml b/protocol-definitions/VectorCollection.yaml
+index f9ca435..3ac3d3d 100644
+--- a/protocol-definitions/VectorCollection.yaml
++++ b/protocol-definitions/VectorCollection.yaml
+@@ -270,6 +270,12 @@ methods:
+           doc: |
+             Name of the Index to optimize.
+             A null value triggers the optimization of the only index within the collection.
++        - name: uuid
++          type: UUID
++          nullable: true
++          since: 2.9
++          doc: |
++            UUID of this optimization request.
+     response: {}
+ 
+   - id: 10
+diff --git a/protocol-definitions/custom/Custom.yaml b/protocol-definitions/custom/Custom.yaml
+index 864f84a..815bba4 100644
+--- a/protocol-definitions/custom/Custom.yaml
++++ b/protocol-definitions/custom/Custom.yaml
+@@ -1611,3 +1611,19 @@ customTypes:
+         type: byte
+         nullable: false
+         since: 2.8
++
++  - name: RaftGroupInfo
++    since: 2.8
++    params:
++      - name: groupId
++        type: RaftGroupId
++        nullable: false
++        since: 2.8
++      - name: leader
++        type: CPMember
++        nullable: false
++        since: 2.8
++      - name: followers
++        type: List_CPMember
++        nullable: false
++        since: 2.8
+diff --git a/py/__init__.py b/py/__init__.py
+index 99e02d0..459548e 100644
+--- a/py/__init__.py
++++ b/py/__init__.py
+@@ -146,6 +146,8 @@ class PathHolders:
+                                               "protocol.codec.custom.endpoint_qualifier_codec")
+     RaftGroupId = ImportPathHolder("RaftGroupId", "protocol")
+     RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "protocol.codec.custom.raft_group_id_codec")
++    RaftGroupInfo = ImportPathHolder("RaftGroupInfo", "protocol")
++    RaftGroupInfoCodec = ImportPathHolder("RaftGroupInfoCodec", "protocol.codec.custom.raft_group_info_codec")
+     SqlQueryId = ImportPathHolder("_SqlQueryId", "sql")
+     SqlQueryIdCodec = ImportPathHolder("SqlQueryIdCodec", "protocol.codec.custom.sql_query_id_codec")
+     SqlColumnMetadata = ImportPathHolder("SqlColumnMetadata", "sql")
+@@ -220,6 +222,8 @@ import_paths = {
+     "EndpointQualifier": [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
+     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
+                                       PathHolders.AddressCodec],
++    "RaftGroupInfo": [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec],
++    "List_RaftGroupInfo": [PathHolders.ListMultiFrameCodec, PathHolders.RaftGroupInfoCodec],
+     "SqlQueryId": [PathHolders.SqlQueryId, PathHolders.SqlQueryIdCodec],
+     "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
+     "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],
+diff --git a/schema/custom-codec-schema.json b/schema/custom-codec-schema.json
+index 344fc77..81de337 100755
+--- a/schema/custom-codec-schema.json
++++ b/schema/custom-codec-schema.json
+@@ -97,6 +97,7 @@
+             "List_MCEvent",
+             "List_SqlColumnMetadata",
+             "List_JobAndSqlSummary",
++            "List_RaftGroupInfo",
+             "Set_UUID",
+             "Map_String_String",
+             "Map_String_Data",
+diff --git a/schema/protocol-schema.json b/schema/protocol-schema.json
+index 5ef4bd0..00037ea 100755
+--- a/schema/protocol-schema.json
++++ b/schema/protocol-schema.json
+@@ -23,6 +23,7 @@
+             "byte",
+             "int",
+             "long",
++            "float",
+             "UUID",
+             "byteArray",
+             "longArray",
+@@ -97,6 +98,7 @@
+             "List_MCEvent",
+             "List_SqlColumnMetadata",
+             "List_JobAndSqlSummary",
++            "List_RaftGroupInfo",
+             "Set_UUID",
+             "Map_String_String",
+             "Map_EndpointQualifier_Address",
+diff --git a/ts/__init__.py b/ts/__init__.py
+index 4e40604..2503cbf 100644
+--- a/ts/__init__.py
++++ b/ts/__init__.py
+@@ -97,6 +97,8 @@ class PathHolders:
+     SimpleEntryViewCodec = ImportPathHolder('SimpleEntryViewCodec', 'custom/SimpleEntryViewCodec', is_custom_codec=True)
+     RaftGroupId = ImportPathHolder('RaftGroupId', 'proxy/cpsubsystem/RaftGroupId')
+     RaftGroupIdCodec = ImportPathHolder('RaftGroupIdCodec', 'custom/RaftGroupIdCodec', is_custom_codec=True)
++    RaftGroupInfo = ImportPathHolder('RaftGroupInfo', 'proxy/cpsubsystem/RaftGroupInfo')
++    RaftGroupInfoCodec = ImportPathHolder('RaftGroupInfoCodec', 'custom/RaftGroupInfoCodec', is_custom_codec=True)
+     DistributedObjectInfo = ImportPathHolder('DistributedObjectInfo', 'core/DistributedObjectInfo')
+     DistributedObjectInfoCodec = ImportPathHolder('DistributedObjectInfoCodec',
+                                                   'custom/DistributedObjectInfoCodec', is_custom_codec=True)
+@@ -173,6 +175,7 @@ import_paths = {
+     'StackTraceElement': [PathHolders.StackTraceElement, PathHolders.StackTraceElementCodec],
+     'SimpleEntryView': [PathHolders.SimpleEntryView, PathHolders.Data, PathHolders.SimpleEntryViewCodec],
+     'RaftGroupId': [PathHolders.RaftGroupId, PathHolders.RaftGroupIdCodec],
++    'RaftGroupInfo': [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec],
+     'DistributedObjectInfo': [PathHolders.DistributedObjectInfo, PathHolders.DistributedObjectInfoCodec],
+     'MemberInfo': [PathHolders.MemberInfo, PathHolders.MemberInfoCodec],
+     'MemberVersion': [PathHolders.MemberVersion, PathHolders.MemberVersionCodec],
+@@ -189,6 +192,7 @@ import_paths = {
+                                    PathHolders.DistributedObjectInfoCodec],
+     'List_StackTraceElement': [PathHolders.StackTraceElement, PathHolders.ListMultiFrameCodec,
+                                PathHolders.StackTraceElementCodec],
++    "List_RaftGroupInfo": [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec, PathHolders.ListMultiFrameCodec],
+     'EntryList_String_String': [PathHolders.EntryListCodec, PathHolders.StringCodec],
+     'EntryList_String_byteArray': [PathHolders.EntryListCodec, PathHolders.StringCodec, PathHolders.ByteArrayCodec],
+     'EntryList_Long_byteArray': [PathHolders.EntryListLongByteArrayCodec, PathHolders.Long],
+@@ -242,6 +246,7 @@ _ts_types = {
+     "StackTraceElement": "StackTraceElement",
+     "SimpleEntryView": "SimpleEntryView<Data, Data>",
+     "RaftGroupId": "RaftGroupId",
++    "RaftGroupInfo": "NA",
+     "WanReplicationRef": "NA",
+     "HotRestartConfig": "NA",
+     "EventJournalConfig": "NA",
+@@ -320,8 +325,8 @@ _ts_types = {
+     "List_SqlColumnMetadata": "SqlColumnMetadataImpl[]",
+     'List_Schema': 'Schema[]',
+     'List_FieldDescriptor': 'FieldDescriptor[]',
+-    "List_SimpleEntryView": "NA",
+     "List_ReplicatedMapEntryViewHolder": "NA",
++    "List_RaftGroupInfo": "Array<RaftGroupInfo>",
+ 
+     "EntryList_String_String": "Array<[string, string]>",
+     "EntryList_String_byteArray": "Array<[string, Buffer]>",

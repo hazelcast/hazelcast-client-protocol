@@ -146,6 +146,8 @@ class PathHolders:
                                               "protocol.codec.custom.endpoint_qualifier_codec")
     RaftGroupId = ImportPathHolder("RaftGroupId", "protocol")
     RaftGroupIdCodec = ImportPathHolder("RaftGroupIdCodec", "protocol.codec.custom.raft_group_id_codec")
+    RaftGroupInfo = ImportPathHolder("RaftGroupInfo", "protocol")
+    RaftGroupInfoCodec = ImportPathHolder("RaftGroupInfoCodec", "protocol.codec.custom.raft_group_info_codec")
     SqlQueryId = ImportPathHolder("_SqlQueryId", "sql")
     SqlQueryIdCodec = ImportPathHolder("SqlQueryIdCodec", "protocol.codec.custom.sql_query_id_codec")
     SqlColumnMetadata = ImportPathHolder("SqlColumnMetadata", "sql")
@@ -220,6 +222,8 @@ import_paths = {
     "EndpointQualifier": [PathHolders.EndpointQualifier, PathHolders.EndpointQualifierCodec],
     "Map_EndpointQualifier_Address": [PathHolders.MapCodec, PathHolders.EndpointQualifierCodec,
                                       PathHolders.AddressCodec],
+    "RaftGroupInfo": [PathHolders.RaftGroupInfo, PathHolders.RaftGroupInfoCodec],
+    "List_RaftGroupInfo": [PathHolders.ListMultiFrameCodec, PathHolders.RaftGroupInfoCodec],
     "SqlQueryId": [PathHolders.SqlQueryId, PathHolders.SqlQueryIdCodec],
     "SqlColumnMetadata": [PathHolders.SqlColumnMetadata, PathHolders.SqlColumnMetadataCodec],
     "SqlError": [PathHolders.SqlError, PathHolders.SqlErrorCodec],

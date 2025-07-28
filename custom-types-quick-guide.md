@@ -10,11 +10,11 @@ generation. The [README](README.md) covers the general framework, so please read
 Let us take the `DynamicConfig.yaml` service as the baseline for an example. We will add a
 fictitious method: `addUsefulConfig`.
 
-_Note_. At the time of writing the highest `id` in `DynamicConfig.yaml` was `18` -- the `id` of the
-last entry, hence the use of `19` for our example.
+_Note_. At the time of writing the highest `id` in `DynamicConfig.yaml` was `20` -- the `id` of the
+last entry, hence the use of `21` for our example.
 
 ```yaml
-- id: 19
+- id: 21
   name: addUsefulConfig
   since: 2.7
   doc: |

@@ -16,7 +16,7 @@ cs_ignore_service_list = {
     # entire services - correspond to an entire yaml file in protocol definitions
     "MC", "Jet", "ExecutorService", "Cache", "XATransaction", "ContinuousQuery",
     "DurableExecutor", "CardinalityEstimator", "ScheduledExecutor",
-    "CPSubsystem", "CPMember",
+    "CPSubsystem",
     "SqlSummary", "JobAndSqlSummary",
     # service.methods - correspond to method entries in yaml files in protocol definitions
     "Map.replaceAll", "Sql.mappingDdl",
@@ -30,7 +30,7 @@ cs_ignore_service_list = {
     "WanSyncConfig", "WanCustomPublisherConfig", "WanBatchPublisherConfig",
     "DiscoveryConfig", "DiscoveryStrategyConfig", "CacheConfigHolder", "QueueStoreConfigHolder",
     "WanConsumerConfigHolder", "WanBatchPublisherConfigHolder", "WanCustomPublisherConfigHolder",
-    "DynamicConfig.AddQueueConfig", "DynamicConfig.AddWanReplicationConfig",
+    "DynamicConfig.AddQueueConfig", "DynamicConfig.AddWanReplicationConfig","TimedExpiryPolicyFactoryConfigCodec",
 }
 
 def cs_types(key, d):
@@ -88,7 +88,8 @@ def cs_param_prefix(codec_name, param_type, param_name):
         'EventJournalConfig',
         'MerkleTreeConfig',
         'WanReplicationRef',
-        'CacheSimpleEntryListenerConfig'
+        'CacheSimpleEntryListenerConfig',
+        'VectorSearchOptions'
     ]:
         return ""
     return "Is"
@@ -118,6 +119,7 @@ _cs_types_common = {
     "byte": "byte",
     "Integer": "int",
     "Long": "long",
+    "float": "float",
     "UUID": "Guid",
     "longArray": "long[]",
     "byteArray": "byte[]",
@@ -135,6 +137,8 @@ _cs_types_common = {
     "EndpointQualifier": "Hazelcast.Models.EndpointQualifier",
     "HazelcastJsonValue": "Hazelcast.Core.HazelcastJsonValue",
     "Map_EndpointQualifier_Address": "Dictionary<Hazelcast.Models.EndpointQualifier, Hazelcast.Networking.NetworkAddress>",
+    "RaftGroupInfo":"Hazelcast.CP.CPGroupInfo",
+    "List_RaftGroupInfo": "ICollection<Hazelcast.CP.CPGroupInfo>",
     "SqlPage": "Hazelcast.Sql.SqlPage",
     "SqlQueryId": "Hazelcast.Sql.SqlQueryId",
     "SqlError": "Hazelcast.Sql.SqlError",
@@ -163,7 +167,6 @@ _cs_types_common = {
     "QueryCacheConfigHolder": "Hazelcast.Protocol.Models.QueryCacheConfigHolder",
     "CacheConfigHolder": "Hazelcast.Protocol.Models.CacheConfigHolder",
     "ListenerConfigHolder": "Hazelcast.Protocol.Models.ListenerConfigHolder",
-    "WanConsumerConfigHolder": "Hazelcast.Protocol.Models.WanConsumerConfigHolder",
     "WanCustomPublisherConfigHolder": "Hazelcast.Protocol.Models.WanCustomPublisherConfigHolder",
     "WanBatchPublisherConfigHolder": "Hazelcast.Protocol.Models.WanBatchPublisherConfigHolder",
     "AnchorDataListHolder": "Hazelcast.Protocol.Models.AnchorDataListHolder",
@@ -196,33 +199,39 @@ _cs_types_common = {
     "KubernetesConfig": "Hazelcast.Models.KubernetesOptions",
     "EurekaConfig": "Hazelcast.Models.EurekaOptions",
     "WanReplicationRef": "Hazelcast.Models.WanReplicationRef",
+    "Version":"Hazelcast.Models.ClusterVersion",
 
     # except NearCache
     "NearCacheConfig": "Hazelcast.NearCaching.NearCacheOptions",
     "NearCachePreloaderConfig": "Hazelcast.NearCaching.NearCachePreloaderOptions",
 
-    "CacheEventData": "NA",
     "QueryCacheEventData": "NA",
     "ScheduledTaskHandler": "NA",
     "Xid": "NA",
-    "ClientBwListEntry": "NA",
     "MCEvent": "NA",
-    "MigrationState": "NA",
 
     "MemberInfo": "Hazelcast.Models.MemberInfo",
     "MemberVersion": "Hazelcast.Models.MemberVersion",
+
+    "VectorDocument": "Hazelcast.Models.IVectorDocument<IData>",
+    "VectorSearchResult": "Hazelcast.Models.VectorSearchResultEntry<IData,IData>",
+    "VectorPair": "Hazelcast.Protocol.Models.VectorPairHolder",
+    "VectorSearchOptions": "Hazelcast.Models.VectorSearchOptions"
+
+
 }
 
 # map types for encoding
 _cs_types_encode = {
 
     # encode as interface
-    "CPMember": "Hazelcast.CP.ICPMember",
+    "CPMember": "Hazelcast.CP.CPMember",
 
     # encode as collections
     "List_Long": "ICollection<long>",
     "List_Integer": "ICollection<int>",
     "List_UUID": "ICollection<Guid>",
+    "List_List_UUID":"ICollection<ICollection<Guid>>",
     "List_String": "ICollection<string>",
     "List_Xid": "NA",
     "List_Data": "ICollection<IData>",
@@ -232,18 +241,14 @@ _cs_types_encode = {
     "List_MemberInfo": "ICollection<Hazelcast.Models.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
-    "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "ICollection<Hazelcast.Models.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
     "List_IndexConfig": "ICollection<Hazelcast.Models.IndexOptions>",
-    "List_AttributeConfig": "NA",
-    "List_ListenerConfigHolder": "NA",
-    "List_CacheSimpleEntryListenerConfig": "NA",
     "List_StackTraceElement": "ICollection<Hazelcast.Util.StackTraceElement>",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
-    "List_CPMember": "ICollection<Hazelcast.CP.ICPMember>",
+    "List_CPMember": "ICollection<Hazelcast.CP.CPMember>",
     "List_RaftGroupId": "NA",
 
     "EntryList_String_String": "ICollection<KeyValuePair<string, string>>",
@@ -258,10 +263,10 @@ _cs_types_encode = {
     "EntryList_UUID_List_Integer": "ICollection<KeyValuePair<Guid, IList<int>>>",
     "EntryList_Data_Data": "ICollection<KeyValuePair<IData, IData>>",
     "EntryList_Data_List_Data": "ICollection<KeyValuePair<IData, ICollection<IData>>>",
+    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
 
     # below, encode/decode are identical?
     "Set_UUID": "ISet<Guid>",
-    "List_PartitioningAttributeConfig": "NA",
     "List_SimpleEntryView": "NA",
     "List_ReplicatedMapEntryViewHolder": "NA",
     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
@@ -271,18 +276,21 @@ _cs_types_encode = {
     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
+    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
+    "List_VectorPair": "Hazelcast.Models.VectorValues",
 }
 
 # map types for decoding
 _cs_types_decode = {
 
     # decode as implementation
-    "CPMember": "Hazelcast.CP.CPMemberInfo",
+    "CPMember": "Hazelcast.CP.CPMember",
 
     # decode as lists
     "List_Long": "IList<long>",
     "List_Integer": "IList<int>",
     "List_UUID": "IList<Guid>",
+    "List_List_UUID":"IList<IList<Guid>>",
     "List_String": "IList<string>",
     "List_Xid": "NA",
     "List_Data": "IList<IData>",
@@ -292,18 +300,14 @@ _cs_types_decode = {
     "List_MemberInfo": "IList<Hazelcast.Models.MemberInfo>",
     "List_ScheduledTaskHandler": "NA",
     "List_CacheEventData": "NA",
-    "List_QueryCacheConfigHolder": "NA",
     "List_DistributedObjectInfo": "ICollection<Hazelcast.Models.DistributedObjectInfo>",
     "List_QueryCacheEventData": "NA",
     "List_IndexConfig": "IList<Hazelcast.Models.IndexOptions>",
-    "List_AttributeConfig": "NA",
-    "List_ListenerConfigHolder": "NA",
-    "List_CacheSimpleEntryListenerConfig": "NA",
     "List_StackTraceElement": "IList<Hazelcast.Util.StackTraceElement>",
     "List_ClientBwListEntry": "NA",
     "List_MCEvent": "NA",
     "List_SqlColumnMetadata": "IList<Hazelcast.Sql.SqlColumnMetadata>",
-    "List_CPMember": "IList<Hazelcast.CP.CPMemberInfo>",
+    "List_CPMember": "IList<Hazelcast.CP.CPMember>",
 
     "EntryList_String_String": "IList<KeyValuePair<string, string>>",
     "EntryList_String_byteArray": "IList<KeyValuePair<string, byte[]>>",
@@ -320,7 +324,6 @@ _cs_types_decode = {
 
     # below, encode/decode are identical?
     "Set_UUID": "ISet<Guid>",
-    "List_PartitioningAttributeConfig": "NA",
     "List_SimpleEntryView": "NA",
     "List_ReplicatedMapEntryViewHolder": "NA",
     "List_ListenerConfigHolder": "ICollection<Hazelcast.Protocol.Models.ListenerConfigHolder>",
@@ -330,4 +333,7 @@ _cs_types_decode = {
     "List_CacheSimpleEntryListenerConfig": "ICollection<Hazelcast.Models.CacheSimpleEntryListenerOptions>",
     "List_AttributeConfig": "ICollection<Hazelcast.Models.AttributeOptions>",
     "List_PartitioningAttributeConfig": "ICollection<Hazelcast.Models.PartitioningAttributeOptions>",
+    "EntryList_Data_VectorDocument": "ICollection<KeyValuePair<IData, Hazelcast.Models.IVectorDocument<IData>>>",
+    "List_VectorSearchResult": "ICollection<Hazelcast.Models.VectorSearchResultEntry<IData, IData>>",
+    "List_VectorPair": "ICollection<Hazelcast.Protocol.Models.VectorPairHolder>",
 }

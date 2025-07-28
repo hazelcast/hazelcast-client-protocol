@@ -97,6 +97,7 @@
             "List_MCEvent",
             "List_SqlColumnMetadata",
             "List_JobAndSqlSummary",
+            "List_RaftGroupInfo",
             "Set_UUID",
             "Map_String_String",
             "Map_String_Data",

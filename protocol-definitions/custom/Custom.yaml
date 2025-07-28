@@ -1611,3 +1611,19 @@ customTypes:
         type: byte
         nullable: false
         since: 2.8
+
+  - name: RaftGroupInfo
+    since: 2.8
+    params:
+      - name: groupId
+        type: RaftGroupId
+        nullable: false
+        since: 2.8
+      - name: leader
+        type: CPMember
+        nullable: false
+        since: 2.8
+      - name: followers
+        type: List_CPMember
+        nullable: false
+        since: 2.8

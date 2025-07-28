@@ -270,6 +270,12 @@ methods:
           doc: |
             Name of the Index to optimize.
             A null value triggers the optimization of the only index within the collection.
+        - name: uuid
+          type: UUID
+          nullable: true
+          since: 2.9
+          doc: |
+            UUID of this optimization request.
     response: {}
 
   - id: 10
