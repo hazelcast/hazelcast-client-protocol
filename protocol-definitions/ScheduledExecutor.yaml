@@ -478,7 +478,7 @@ methods:
     since: 2.0
     doc: |
       Checks whether a task is done.
-      @see {@link java.util.concurrent.Future#cancel(boolean)}
+      @see java.util.concurrent.Future#cancel(boolean)
     request:
       retryable: true
       partitionIdentifier: taskName
@@ -508,7 +508,7 @@ methods:
     since: 2.0
     doc: |
       Checks whether a task is done.
-      @see {@link java.util.concurrent.Future#cancel(boolean)}
+      @see java.util.concurrent.Future#cancel(boolean)
     request:
       retryable: true
       partitionIdentifier: -1
