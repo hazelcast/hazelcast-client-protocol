@@ -135,7 +135,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
 {% if not (noRequestValue or singleRequestValue) %}
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
     public static class RequestParameters {
     {% for param in method.request.params %}
 
@@ -245,7 +245,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if not (noResponseValue or singleResponseValue) %}
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
     public static class ResponseParameters {
     {% for param in method.response.params %}
 
