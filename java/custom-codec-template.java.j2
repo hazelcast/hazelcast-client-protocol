@@ -7,7 +7,11 @@
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec::encode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
+            {%- else -%}
+                CodecUtil.encodeNullable(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}(), {{ lang_name(param.type) }}Codec::encode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param_name(codec.name)}}.{% if param.type == 'boolean' %}is{% else %}get{% endif %}{{ param.name|capital }}())
         {%- endif %}
@@ -22,7 +26,11 @@
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.decodeNullable(iterator)
+            {%- else -%}
+                CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.decode(iterator)
         {%- endif -%}
