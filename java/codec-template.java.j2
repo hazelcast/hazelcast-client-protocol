@@ -1,13 +1,18 @@
 {% macro encode_var_sized(param) -%}
     {% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode)
+        {#- for Data use DataCodec.encodeNullable to canonicalize null representation of elements -#}
+        ListMultiFrameCodec.encode{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ item_type(lang_name, param.type) }}Codec::encode{% if is_var_sized_list_contains_nullable(param.type) and item_type(lang_name, param.type) == 'Data' %}Nullable{% endif %})
     {%- elif is_var_sized_entry_list(param.type) -%}
         EntryListCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.encode{% if param.nullable  %}Nullable{% endif %}(clientMessage, {{ param.name }}, {{ key_type(lang_name, param.type) }}Codec::encode, {{ value_type(lang_name, param.type) }}Codec::encode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.encodeNullable(clientMessage, {{ param.name }})
+            {%- else -%}
+                CodecUtil.encodeNullable(clientMessage, {{ param.name }}, {{ lang_name(param.type) }}Codec::encode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.encode(clientMessage, {{ param.name }})
         {%- endif %}
@@ -15,14 +20,19 @@
 {%- endmacro %}
 {% macro decode_var_sized(param) -%}
     {%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
-        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode)
+        {#- for Data use DataCodec.decodeNullable to canonicalize null representation of elements -#}
+        ListMultiFrameCodec.decode{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}{% if param.nullable  %}Nullable{% endif %}(iterator, {{ item_type(lang_name, param.type) }}Codec::decode{% if is_var_sized_list_contains_nullable(param.type) and item_type(lang_name, param.type) == 'Data' %}Nullable{% endif %})
     {%- elif is_var_sized_entry_list(param.type) -%}
         EntryListCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- elif is_var_sized_map(param.type) -%}
         MapCodec.decode{% if param.nullable  %}Nullable{% endif %}(iterator, {{ key_type(lang_name, param.type) }}Codec::decode, {{ value_type(lang_name, param.type) }}Codec::decode)
     {%- else -%}
         {%- if param.nullable  -%}
-            CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- if param.type == 'Data' -%}
+                DataCodec.decodeNullable(iterator)
+            {%- else -%}
+                CodecUtil.decodeNullable(iterator, {{ lang_name(param.type) }}Codec::decode)
+            {%- endif -%}
         {%- else -%}
             {{ lang_name(param.type) }}Codec.decode(iterator)
         {%- endif -%}
@@ -125,7 +135,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% set singleRequestValue = method.request.params|length == 1 and request_new_params|length == 0 %}
 {% if not (noRequestValue or singleRequestValue) %}
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
     public static class RequestParameters {
     {% for param in method.request.params %}
 
@@ -235,7 +245,7 @@ public final class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% set singleResponseValue = method.response.params|length == 1 and response_new_params|length == 0 %}
 {% if not (noResponseValue or singleResponseValue) %}
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings({"URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"})
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
     public static class ResponseParameters {
     {% for param in method.response.params %}
 
