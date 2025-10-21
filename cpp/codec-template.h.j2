@@ -42,6 +42,13 @@
                 {# EVENTS#}
                 {% if method.events|length != 0 %}
                 struct HAZELCAST_API {{ service_name.lower() }}_{{ method.name.lower() }}_handler : public impl::BaseEventHandler {
+                    // Define event constants
+                    enum event_message_type {
+                    {% for event in method.events %}
+                        EVENT_{{ to_upper_snake_case(event.name)}} = {{ event.id }},
+                    {% endfor %}
+                    };
+
                     {{ service_name.lower() }}_{{ method.name.lower() }}_handler(logger& l);
 
                     void handle(ClientMessage &msg);
