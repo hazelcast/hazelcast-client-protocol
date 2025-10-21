@@ -180,7 +180,6 @@ _cpp_types_common = {
 
     "Schema": "serialization::pimpl::schema",
     "List_Schema": "std::vector<serialization::pimpl::schema>",
-    "Version": "version",
 }
 
 _cpp_types_encode = {

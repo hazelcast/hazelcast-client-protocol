@@ -1,3 +1,4 @@
 PyYAML
 jsonschema
 jinja2
+clang-format

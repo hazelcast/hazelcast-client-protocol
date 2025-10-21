@@ -15,6 +15,7 @@ from jinja2 import Environment, PackageLoader
 from yaml import MarkedYAMLError
 
 from binary import FixSizedEntryListTypes, FixSizedTypes, FixSizedListTypes, FixSizedMapTypes
+from clang_formatter import ClangFormatter
 from cpp import (
     cpp_ignore_service_list, 
     cpp_types_decode, 
@@ -205,13 +206,15 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
     data_containing_requests = generate_data_containing_requests_lookup_table(services, custom_services)
 
     id_fmt = "0x%02x%02x%02x"
+    codecs_header_file = join(output_dir, "codecs.h")
+    codecs_source_file = join(output_dir, "codecs.cpp")
     if lang is SupportedLanguages.CPP:
         curr_dir = dirname(realpath(__file__))
         cpp_dir = "%s/cpp" % curr_dir
         content = get_rendered_text("header_includes.j2", env)
-        save_file(join(output_dir, "codecs.h"), content)
+        save_file(codecs_header_file, content)
         content = get_rendered_text("source_header.j2", env)
-        save_file(join(output_dir, "codecs.cpp"), content)
+        save_file(codecs_source_file, content)
 
     for service in services:
         if ignore_service(service, lang):
@@ -246,7 +249,7 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                         method=method,
                         contains_serialized_data_in_request=contains_serialized_data_in_request
                     )
-                    save_file(join(output_dir, "codecs.h"), content, "a+")
+                    save_file(codecs_header_file, content, "a+")
 
                     codec_template = env.get_template("codec-template.cpp.j2")
                     content = codec_template.render(
@@ -254,7 +257,7 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                         method=method,
                         contains_serialized_data_in_request=contains_serialized_data_in_request
                     )
-                    save_file(join(output_dir, "codecs.cpp"), content, "a+")
+                    save_file(codecs_source_file, content, "a+")
                 else:
                     content = template.render(
                         service_name=service_name,
@@ -267,8 +270,11 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
 
     if lang is SupportedLanguages.CPP:
         content = get_rendered_text("footer.j2", env)
-        save_file(join(output_dir, "codecs.h"), content, "a+")
-        save_file(join(output_dir, "codecs.cpp"), content, "a+")
+        save_file(codecs_header_file, content, "a+")
+        clang_formatter = ClangFormatter()
+        clang_formatter.fix_formatting(codecs_header_file)
+        save_file(codecs_source_file, content, "a+")
+        clang_formatter.fix_formatting(codecs_source_file)
 
 
 def generate_custom_codecs(services, template, output_dir, lang, env):
