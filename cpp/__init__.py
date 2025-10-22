@@ -45,7 +45,7 @@ def cpp_types_encode(key):
         except KeyError:
             cpp_type = None
     if cpp_type is None or cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping for [" + key + "]")
+        raise NotImplementedError(f"Missing type Mapping for [{key}]")
     return cpp_type
 
 
@@ -58,7 +58,7 @@ def cpp_types_decode(key):
         except KeyError:
             cpp_type = None
     if cpp_type is None or cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping for [" + key + "]")
+        raise NotImplementedError(f"Missing type Mapping for [{key}]")
     return cpp_type
 
 
@@ -66,7 +66,7 @@ def get_size(type):
     try:
         size = _type_size[type]
     except KeyError:
-        raise NotImplementedError("Missing type size Mapping " + type)
+        raise NotImplementedError(f"Missing type size Mapping [{type}]")
     return size
 
 
