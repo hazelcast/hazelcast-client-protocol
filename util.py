@@ -304,8 +304,7 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         save_file(join(output_dir, codec_file_name), content)
                 except NotImplementedError as e:
                     raise NotImplementedError(
-                        "[%s] codec contains missing type mapping for %s language. %s" % (codec["name"],
-                                                                                                 lang.value, e))
+                        f"[{codec['name']}] codec contains missing type mapping for {lang.value} language. {e}")
 
 def generate_documentation(services, custom_definitions, template, output_dir):
     makedirs(output_dir, exist_ok=True)
