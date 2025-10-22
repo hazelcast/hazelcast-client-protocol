@@ -40,9 +40,12 @@ def cpp_types_encode(key):
     try:
         cpp_type = _cpp_types_encode[key]
     except KeyError:
-        cpp_type = _cpp_types_common[key]
-    if cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping for " + key)
+        try:
+            cpp_type = _cpp_types_common[key]
+        except KeyError:
+            cpp_type = None
+    if cpp_type is None or cpp_type == "NA":
+        raise NotImplementedError("Missing type Mapping for [" + key + "]")
     return cpp_type
 
 
@@ -50,9 +53,12 @@ def cpp_types_decode(key):
     try:
         cpp_type = _cpp_types_decode[key]
     except KeyError:
-        cpp_type = _cpp_types_common[key]
-    if cpp_type == "NA":
-        raise NotImplementedError("Missing type Mapping for " + key)
+        try:
+            cpp_type = _cpp_types_common[key]
+        except KeyError:
+            cpp_type = None
+    if cpp_type is None or cpp_type == "NA":
+        raise NotImplementedError("Missing type Mapping for [" + key + "]")
     return cpp_type
 
 
@@ -180,7 +186,6 @@ _cpp_types_common = {
 
     "Schema": "serialization::pimpl::schema",
     "List_Schema": "std::vector<serialization::pimpl::schema>",
-    "Version": "version",
 }
 
 _cpp_types_encode = {

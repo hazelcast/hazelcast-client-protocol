@@ -36,7 +36,6 @@ cs_ignore_service_list = {
 def cs_types(key, d):
     try:
         cs_type = d[key]
-        cs_type = d[key]
     except KeyError:
         try:
             cs_type = _cs_types_common[key]
