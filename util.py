@@ -264,9 +264,7 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                     save_file(join(output_dir, codec_file_name), content)
             except NotImplementedError as e:
                 raise NotImplementedError(
-                    "[%s.%s] codec contains missing type mapping for %s language. %s" % (service_name,
-                                                                                          method_name, lang.value,
-                                                                                          e))
+                    f"[{service_name}.{method_name}] codec contains missing type mapping for {lang.value} language. {e}")
 
     if lang is SupportedLanguages.CPP:
         content = get_rendered_text("footer.j2", env)
