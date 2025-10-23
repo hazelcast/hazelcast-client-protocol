@@ -2,13 +2,14 @@
 
 import argparse
 import time
-from os.path import abspath, dirname, exists, join, realpath
+from os.path import abspath, exists
 
 from jinja2 import TemplateNotFound
 
 from binary.util import binary_output_directories, test_output_directories
 from binary_generator import get_binary_templates, save_binary_files, save_test_files
 from util import *
+from go import GoGenerator
 
 start = time.time()
 
@@ -119,7 +120,21 @@ parser.add_argument(
     "should be performed. These checks are done by default.",
 )
 
+parser.add_argument(
+    "-s",
+    "--service",
+    action="append",
+    help="Specify the service to include. Can be used more than once to add more services.",
+)
+
+parser.add_argument(
+    "--go-config",
+    help="(Go only) Specifies the Go generator configuration file. Implies '-l go'",
+)
+
 args = parser.parse_args()
+if args.go_config:
+    args.lang = "go"
 
 lang = SupportedLanguages[args.lang.upper()]
 
@@ -149,11 +164,6 @@ protocol_versions_as_numbers = list(map(get_version_as_number, protocol_versions
 
 protocol_defs = sorted(protocol_defs, key=lambda proto_def: proto_def["id"])
 
-if not validate_services(
-    protocol_defs, schema_path, args.no_id_check, protocol_versions_as_numbers
-):
-    exit(-1)
-
 if custom_protocol_defs and not validate_custom_protocol_definitions(
     custom_protocol_defs, custom_codec_schema_path, protocol_versions_as_numbers
 ):
@@ -161,7 +171,15 @@ if custom_protocol_defs and not validate_custom_protocol_definitions(
 
 print("Hazelcast Client Binary Protocol version", protocol_versions[-1])
 
+copy_verbatim_files(codec_output_dir, lang.value)
+
+if lang == SupportedLanguages.GO:
+    gen = GoGenerator(protocol_defs, custom_protocol_defs, codec_output_dir, args)
+    gen.generate()
+    exit(0)
+
 env = create_environment(lang, args.namespace)
+
 
 if lang != SupportedLanguages.MD:
     codec_template = env.get_template("codec-template.%s.j2" % lang.value)
