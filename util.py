@@ -263,7 +263,8 @@ def generate_codecs(services, custom_services, template, output_dir, lang, env):
                     )
                     save_file(join(output_dir, codec_file_name), content)
             except NotImplementedError as e:
-                print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
+                raise NotImplementedError(
+                    f"[{service_name}.{method_name}] codec contains missing type mapping for {lang.value} language. {e}")
 
     if lang is SupportedLanguages.CPP:
         content = get_rendered_text("footer.j2", env)
@@ -302,8 +303,8 @@ def generate_custom_codecs(services, template, output_dir, lang, env):
                         content = template.render(codec=codec)
                         save_file(join(output_dir, codec_file_name), content)
                 except NotImplementedError as e:
-                    print("[%s] contains missing type mapping so ignoring it. Error: %s" % (codec_file_name, e))
-
+                    raise NotImplementedError(
+                        f"[{codec['name']}] codec contains missing type mapping for {lang.value} language. {e}")
 
 def generate_documentation(services, custom_definitions, template, output_dir):
     makedirs(output_dir, exist_ok=True)
