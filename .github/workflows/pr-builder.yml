@@ -1,0 +1,29 @@
+name: PR Builder
+
+on:
+  pull_request
+
+jobs:
+  get-langs:
+    runs-on: ubuntu-latest
+    outputs:
+      langs: ${{ steps.get-langs.outputs.langs }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - id: get-langs
+        run: |
+          echo "langs=$(python3 -c 'from util import SupportedLanguages; import json; print(json.dumps([e.value for e in SupportedLanguages]))')" >> ${GITHUB_OUTPUT}
+
+  generate:
+    needs: get-langs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lang: ${{ fromJSON(needs.get-langs.outputs.langs) }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - run: pip3 install -r requirements.txt
+
+      - run: ./generator.py --lang "${{ matrix.lang }}"
