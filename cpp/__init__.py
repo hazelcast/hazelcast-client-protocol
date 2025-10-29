@@ -179,8 +179,7 @@ _cpp_types_common = {
     "VectorSearchResult": "NA",
 
     "Schema": "serialization::pimpl::schema",
-    "List_Schema": "std::vector<serialization::pimpl::schema>",
-    "Version": "version",
+    "List_Schema": "std::vector<serialization::pimpl::schema>"
 }
 
 _cpp_types_encode = {
