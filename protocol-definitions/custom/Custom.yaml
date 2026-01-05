@@ -328,6 +328,10 @@ customTypes:
         type: NearCachePreloaderConfig
         nullable: true
         since: 2.0
+      - name: cacheNullResponses
+        type: boolean
+        nullable: false
+        since: 2.9
   - name: NearCachePreloaderConfig
     since: 2.0
     returnWithFactory: true
