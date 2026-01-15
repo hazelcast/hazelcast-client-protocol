@@ -1,0 +1,24 @@
+{
+  "base_import_path": "github.com/yuce/listindexes",
+  "include_methods": ["MC.getMapConfig"],
+  "include_types": ["Address", "EventJournalConfig", "IndexConfig"],
+  "types": {
+    "public": {
+      "control": ["EventJournalConfig", "Address", "IndexConfig"]
+    }
+  },
+  "mapping": {
+    "Address": "pubcontrol.Adddress",
+    "EventJournalConfig": "pubcontrol.EventJournalConfig",
+    "HotRestartConfig": "pubcontrol.HotRestartConfig",
+    "EvictionConfigHolder": "pubcontrol.EvictionConfigHolder",
+    "List_AttributeConfig": "[]pubcontrol.AttributeConfig",
+    "List_ListenerConfigHolder": "[]pubcontrol.ListenerConfigHolder",
+    "MapStoreConfigHolder": "pubcontrol.MapStoreConfigHolder",
+    "MerkleTreeConfig": "pubcontrol.MerkleTreeConfig",
+    "NearCacheConfigHolder": "pubcontrol.NearCacheConfigHolder",
+    "WanReplicationRef": "pubcontrol.WanReplicationRef",
+    "List_String": "[]string",
+    "IndexConfig": "pubtypes.IndexConfig"
+  }
+}
