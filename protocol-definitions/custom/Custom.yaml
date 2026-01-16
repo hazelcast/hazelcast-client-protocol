@@ -985,6 +985,10 @@ customTypes:
         type: Address
         nullable: false
         since: 2.1
+      - name: autoStepDownWhenLeader
+        type: boolean
+        nullable: false
+        since: 2.9
   - name: MigrationState
     since: 2.2
     params:
