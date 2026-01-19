@@ -988,7 +988,7 @@ customTypes:
       - name: autoStepDownWhenLeader
         type: boolean
         nullable: false
-        since: 2.9
+        since: 2.10
   - name: MigrationState
     since: 2.2
     params:
