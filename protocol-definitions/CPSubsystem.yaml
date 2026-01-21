@@ -3,7 +3,7 @@ name: CPSubsystem
 methods:
   - id: 1
     name: addMembershipListener
-    since: 2.1
+    since: "2.1"
     doc: |
       Registers a new CP membership listener.
     request:
@@ -13,7 +13,7 @@ methods:
         - name: local
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Denotes whether register a local listener or not.
     response:
@@ -21,28 +21,28 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Registration id for the listener.
     events:
       - name: MembershipEvent
-        since: 2.1
+        since: "2.1"
         params:
           - name: member
             type: CPMember
             nullable: false
-            since: 2.1
+            since: "2.1"
             doc: |
               Member which is added or removed.
           - name: type
             type: byte
             nullable: false
-            since: 2.1
+            since: "2.1"
             doc: |
               Type of the event. It is either ADDED(1) or REMOVED(2).
   - id: 2
     name: removeMembershipListener
-    since: 2.1
+    since: "2.1"
     doc: |
       Deregisters CP membership listener.
     request:
@@ -52,7 +52,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -60,12 +60,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             True if unregistered, false otherwise.
   - id: 3
     name: addGroupAvailabilityListener
-    since: 2.1
+    since: "2.1"
     doc: |
       Registers a new CP group availability listener.
     request:
@@ -75,7 +75,7 @@ methods:
         - name: local
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Denotes whether register a local listener or not.
     response:
@@ -83,40 +83,40 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Registration id for the listener.
     events:
       - name: GroupAvailabilityEvent
-        since: 2.1
+        since: "2.1"
         params:
           - name: groupId
             type: RaftGroupId
             nullable: false
-            since: 2.1
+            since: "2.1"
             doc: |
               Group id whose availability is reported.
           - name: members
             type: List_CPMember
             nullable: false
-            since: 2.1
+            since: "2.1"
             doc: |
               All members.
           - name: unavailableMembers
             type: List_CPMember
             nullable: false
-            since: 2.1
+            since: "2.1"
             doc: |
               Missing members.
           - name: isShutdown
             type: boolean
             nullable: false
-            since: 2.7
+            since: "2.7"
             doc: |
               Determines if the availability event is due to an explicit shutdown.
   - id: 4
     name: removeGroupAvailabilityListener
-    since: 2.1
+    since: "2.1"
     doc: |
       Deregisters CP availability listener.
     request:
@@ -126,7 +126,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             The id of the listener which was provided during registration.
     response:
@@ -134,12 +134,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             True if unregistered, false otherwise.
   - id: 5
     name: getCPGroupIds
-    since: 2.7
+    since: "2.7"
     doc: |
       Returns all the active CP group ids in the cluster. This is mainly used by a client side CPSubsystem because it does not 
       have a RaftService.
@@ -151,12 +151,12 @@ methods:
         - name: response
           type: List_RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             List of active CP group ids.
   - id: 6
     name: getCPObjectInfos
-    since: 2.7
+    since: "2.7"
     doc: |
       Returns all active CP structures that belong to the group with the provided CPGroupId and service name.
       A snapshot is used to retrieve the result.
@@ -167,19 +167,19 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Defines the cp group to return cp structures from
         - name: serviceName
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             The service name of the cp structures to return
         - name: tombstone
           type: boolean
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Whether to return cp tombstones. If true, only tombstones will be returned. If false, 
             only non-tombstone cp structures will be returned.
@@ -188,6 +188,6 @@ methods:
         - name: response
           type: List_String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             List of names of CP structures that belong to the specified cp group and service.

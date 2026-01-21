@@ -3,7 +3,7 @@ name: Sql
 methods:
   - id: 1
     name: execute_reserved
-    since: 2.1
+    since: "2.1"
     doc: |
       THIS MESSAGE IS NO LONGER USED BUT KEPT FOR BACKWARD COMPATIBILITY TESTS
       Starts execution of an SQL query.
@@ -14,25 +14,25 @@ methods:
         - name: sql
           type: String
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Query string.
         - name: parameters
           type: List_Data
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Query parameters.
         - name: timeoutMillis
           type: long
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Timeout in milliseconds.
         - name: cursorBufferSize
           type: int
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Cursor buffer size.
     response:
@@ -40,42 +40,42 @@ methods:
         - name: queryId
           type: SqlQueryId
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Query ID.
         - name: rowMetadata
           type: List_SqlColumnMetadata
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Row metadata.
         - name: rowPage
           type: List_ListCN_Data
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Row page.
         - name: rowPageLast
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Whether the row page is the last.
         - name: updateCount
           type: long
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             The number of updated rows.
         - name: error
           type: SqlError
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Error object.
   - id: 2
     name: fetch_reserved
-    since: 2.1
+    since: "2.1"
     doc: |
       Fetches the next row page.
     request:
@@ -85,13 +85,13 @@ methods:
         - name: queryId
           type: SqlQueryId
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Query ID.
         - name: cursorBufferSize
           type: int
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Cursor buffer size.
     response:
@@ -99,24 +99,24 @@ methods:
         - name: rowPage
           type: List_ListCN_Data
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Row page.
         - name: rowPageLast
           type: boolean
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Whether the row page is the last.
         - name: error
           type: SqlError
           nullable: true
-          since: 2.1
+          since: "2.1"
           doc: |
             Error object.
   - id: 3
     name: close
-    since: 2.1
+    since: "2.1"
     doc: |
       Closes server-side query cursor.
     request:
@@ -126,13 +126,13 @@ methods:
         - name: queryId
           type: SqlQueryId
           nullable: false
-          since: 2.1
+          since: "2.1"
           doc: |
             Query ID.
     response: {}
   - id: 4
     name: execute
-    since: 2.2
+    since: "2.2"
     doc: |
       Starts execution of an SQL query (as of 4.2).
     request:
@@ -142,37 +142,37 @@ methods:
         - name: sql
           type: String
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Query string.
         - name: parameters
           type: ListCN_Data
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Query parameters.
         - name: timeoutMillis
           type: long
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Timeout in milliseconds.
         - name: cursorBufferSize
           type: int
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Cursor buffer size.
         - name: schema
           type: String
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Schema name.
         - name: expectedResultType
           type: byte
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             The expected result type. Possible values are:
               ANY(0)
@@ -181,13 +181,13 @@ methods:
         - name: queryId
           type: SqlQueryId
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Query ID.
         - name: skipUpdateStatistics
           type: boolean
           nullable: false
-          since: 2.3
+          since: "2.3"
           doc: |
             Flag to skip updating phone home statistics.
     response:
@@ -195,42 +195,42 @@ methods:
         - name: rowMetadata
           type: List_SqlColumnMetadata
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Row metadata.
         - name: rowPage
           type: SqlPage
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Row page.
         - name: updateCount
           type: long
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             The number of updated rows.
         - name: error
           type: SqlError
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Error object.
         - name: isInfiniteRows
           type: boolean
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             Is the result set unbounded.
         - name: partitionArgumentIndex
           type: int
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             Index of the partition-determining argument, -1 if not applicable.
   - id: 5
     name: fetch
-    since: 2.2
+    since: "2.2"
     doc: |
       Fetches the next row page.
     request:
@@ -240,13 +240,13 @@ methods:
         - name: queryId
           type: SqlQueryId
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Query ID.
         - name: cursorBufferSize
           type: int
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             Cursor buffer size.
     response:
@@ -254,18 +254,18 @@ methods:
         - name: rowPage
           type: SqlPage
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Row page.
         - name: error
           type: SqlError
           nullable: true
-          since: 2.2
+          since: "2.2"
           doc: |
             Error object.
   - id: 6
     name: mappingDdl
-    since: 2.3
+    since: "2.3"
     doc: |
       Derives CREATE MAPPING SQL.
     request:
@@ -275,7 +275,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.3
+          since: "2.3"
           doc: |
             Object name to derive CREATE MAPPING SQL for.
     response:
@@ -283,6 +283,6 @@ methods:
         - name: sql
           type: String
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: |
             CREATE MAPPING SQL.

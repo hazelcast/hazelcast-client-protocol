@@ -4,7 +4,7 @@ name: MC
 methods:
   - id: 1
     name: readMetrics
-    since: 2.0
+    since: "2.0"
     doc: |
       Reads the recorded metrics starting with the smallest sequence number
       greater or equals to the sequence number set in fromSequence.
@@ -15,13 +15,13 @@ methods:
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The UUID of the member that is supposed to read the metrics from.
         - name: fromSequence
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The sequence the recorded metrics should be read starting with.
     response:
@@ -29,18 +29,18 @@ methods:
         - name: elements
           type: EntryList_Long_byteArray
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The map of timestamp and compressed metrics data
         - name: nextSequence
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The sequence number that the next task should start with
   - id: 2
     name: changeClusterState
-    since: 2.0
+    since: "2.0"
     doc: |
       Changes the state of a cluster.
     request:
@@ -50,7 +50,7 @@ methods:
         - name: newState
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             New state of the cluster:
             0 - ACTIVE
@@ -61,7 +61,7 @@ methods:
     response: {}
   - id: 3
     name: getMapConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the config of a map on the member it's called on.
     request:
@@ -71,7 +71,7 @@ methods:
         - name: mapName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the map.
     response:
@@ -79,7 +79,7 @@ methods:
         - name: inMemoryFormat
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The in memory storage format of the map:
             0 - Binary
@@ -88,37 +88,37 @@ methods:
         - name: backupCount
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Backup count of the map.
         - name: asyncBackupCount
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Async backup count of the map.
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Time to live seconds for the map entries.
         - name: maxIdleSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Maximum idle seconds for the map entries.
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Maximum size of the map.
         - name: maxSizePolicy
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The maximum size policy of the map:
             0 - PER_NODE
@@ -134,13 +134,13 @@ methods:
         - name: readBackupData
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Whether reading from backup data is allowed.
         - name: evictionPolicy
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The eviction policy of the map:
             0 - LRU
@@ -150,24 +150,24 @@ methods:
         - name: mergePolicy
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Classname of the SplitBrainMergePolicy for the map.
         - name: globalIndexes
           type: List_IndexConfig
           nullable: false
-          since: 2.4
+          since: "2.4"
           doc: |
             Global indexes of the map.
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             WanReplicationRef of the map. WanReplicationRef is WAN replication target of the map.
   - id: 4
     name: updateMapConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Updates the config of a map on the member it's called on.
     request:
@@ -177,25 +177,25 @@ methods:
         - name: mapName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the map.
         - name: timeToLiveSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Time to live seconds for the map entries.
         - name: maxIdleSeconds
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Maximum idle seconds for the map entries.
         - name: evictionPolicy
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The eviction policy of the map:
             0 - LRU
@@ -205,19 +205,19 @@ methods:
         - name: readBackupData
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Whether reading from backup data is allowed.
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Maximum size of the map.
         - name: maxSizePolicy
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The maximum size policy of the map:
             0 - PER_NODE
@@ -233,13 +233,13 @@ methods:
         - name: wanReplicationRef
           type: WanReplicationRef
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             The new WanReplicationRef to apply.
     response: {}
   - id: 5
     name: getMemberConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the effective config of a member rendered as XML.
     request:
@@ -250,12 +250,12 @@ methods:
         - name: configXml
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Effective config of a member rendered as XML.
   - id: 6
     name: runGc
-    since: 2.0
+    since: "2.0"
     doc: |
       Requests garbage collection to be performed on the member it's called on.
     request:
@@ -264,7 +264,7 @@ methods:
     response: {}
   - id: 7
     name: getThreadDump
-    since: 2.0
+    since: "2.0"
     doc: |
       Takes a thread dump of the member it's called on.
     request:
@@ -274,7 +274,7 @@ methods:
         - name: dumpDeadLocks
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Whether only dead-locked threads or all threads should be dumped.
     response:
@@ -282,12 +282,12 @@ methods:
         - name: threadDump
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Thread dump of the member's JVM.
   - id: 8
     name: shutdownMember
-    since: 2.0
+    since: "2.0"
     doc: |
       Shuts down the member it's called on.
     request:
@@ -296,7 +296,7 @@ methods:
     response: {}
   - id: 9
     name: promoteLiteMember
-    since: 2.0
+    since: "2.0"
     doc: |
       Promotes the lite member it's called on to a data member.
     request:
@@ -305,7 +305,7 @@ methods:
     response: {}
   - id: 10
     name: getSystemProperties
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the system properties of the member it's called on.
     request:
@@ -316,12 +316,12 @@ methods:
         - name: systemProperties
           type: EntryList_String_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             System properties of the member.
   - id: 11
     name: getTimedMemberState
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the latest TimedMemberState of the member it's called on.
     request:
@@ -332,12 +332,12 @@ methods:
         - name: timedMemberStateJson
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Latest TimedMemberState of the member, serialized as JSON.
   - id: 12
     name: matchMCConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Checks if local MC config (client filter list) has the same ETag as provided.
     request:
@@ -347,7 +347,7 @@ methods:
         - name: eTag
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ETag value of current MC config.
     response:
@@ -355,12 +355,12 @@ methods:
         - name: result
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if ETag values are equal; or false otherwise.
   - id: 13
     name: applyMCConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Applies given MC config (client filter list).
     request:
@@ -370,13 +370,13 @@ methods:
         - name: eTag
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ETag value of the config.
         - name: clientBwListMode
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The mode for client filtering:
             0 - DISABLED
@@ -385,13 +385,13 @@ methods:
         - name: clientBwListEntries
           type: List_ClientBwListEntry
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Client filter list entries.
     response: {}
   - id: 14
     name: getClusterMetadata
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the current metadata of a cluster.
     request:
@@ -402,7 +402,7 @@ methods:
         - name: currentState
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Current state of the cluster:
             0 - ACTIVE
@@ -413,30 +413,30 @@ methods:
         - name: memberVersion
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Current version of the member.
         - name: jetVersion
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Current Jet version of the member.
         - name: clusterTime
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Cluster-wide time in milliseconds.
         - name: clusterId
           type: UUID
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             Cluster ID.
   - id: 15
     name: shutdownCluster
-    since: 2.0
+    since: "2.0"
     doc: |
       Shuts down the cluster.
     request:
@@ -445,7 +445,7 @@ methods:
     response: {}
   - id: 16
     name: changeClusterVersion
-    since: 2.0
+    since: "2.0"
     doc: |
       Changes the cluster version.
     request:
@@ -455,19 +455,19 @@ methods:
         - name: majorVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Major component of the new cluster version.
         - name: minorVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Minor component of the new cluster version.
     response: {}
   - id: 17
     name: runScript
-    since: 2.0
+    since: "2.0"
     doc: |
       Runs given script on the member it's called on.
     request:
@@ -477,13 +477,13 @@ methods:
         - name: engine
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The name of script engine which will be used for the execution.
         - name: script
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The script to be executed.
     response:
@@ -491,12 +491,12 @@ methods:
         - name: result
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Execution result: script output.
   - id: 18
     name: runConsoleCommand
-    since: 2.0
+    since: "2.0"
     doc: |
       Runs given console command on the member it's called on.
     request:
@@ -506,13 +506,13 @@ methods:
         - name: namespace
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Optional namespace to be set before the command is executed.
         - name: command
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The console command to be executed.
     response:
@@ -520,12 +520,12 @@ methods:
         - name: result
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Execution result: console command output.
   - id: 19
     name: changeWanReplicationState
-    since: 2.0
+    since: "2.0"
     doc: |
       Stop, pause or resume WAN replication for the given WAN replication and publisher
     request:
@@ -535,19 +535,19 @@ methods:
         - name: wanReplicationName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the WAN replication to change state of.
         - name: wanPublisherId
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the WAN publisher to change state of.
         - name: newState
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             New state for the WAN publisher:
             0 - REPLICATING
@@ -556,7 +556,7 @@ methods:
     response: {}
   - id: 20
     name: clearWanQueues
-    since: 2.0
+    since: "2.0"
     doc: |
       Clear WAN replication queues for the given wan replication and publisher
     request:
@@ -566,19 +566,19 @@ methods:
         - name: wanReplicationName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the WAN replication to clear WAN replication queues of.
         - name: wanPublisherId
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the WAN publisher to clear WAN replication queues of.
     response: {}
   - id: 21
     name: addWanBatchPublisherConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Add a new WAN batch publisher configuration
     request:
@@ -588,43 +588,43 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the WAN replication to add
         - name: targetCluster
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the target cluster
         - name: publisherId
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             - ID used for identifying the publisher in a WanReplicationConfig
         - name: endpoints
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Comma separated list of target cluster members
         - name: queueCapacity
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Capacity of the primary and backup queue for WAN replication events
         - name: batchSize
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The maximum batch size that can be sent to target cluster
         - name: batchMaxDelayMillis
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The maximum amount of time in milliseconds to wait before sending a batch
              of events to target cluster, if `batch size` of events have not arrived
@@ -632,7 +632,7 @@ methods:
         - name: responseTimeoutMillis
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The duration in milliseconds for the wait time before retrying to
             send the events to target cluster again in case the acknowledgement
@@ -640,7 +640,7 @@ methods:
         - name: ackType
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The strategy for when the target cluster should acknowledge that
             a WAN event batch has been processed:
@@ -649,7 +649,7 @@ methods:
         - name: queueFullBehavior
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Behaviour of this WAN publisher when the WAN queue is full:
             0 - DISCARD_AFTER_MUTATION
@@ -658,7 +658,7 @@ methods:
         - name: consistencyCheckStrategy
           type: byte
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Strategy for checking the consistency of data between wanReplicationResourceName:
             0 - NONE
@@ -668,19 +668,19 @@ methods:
         - name: addedPublisherIds
           type: List_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns the IDs for the WAN publishers which were added to the configuration
         - name: ignoredPublisherIds
           type: List_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns the IDs for the WAN publishers which were ignored and not added to
             the configuration.
   - id: 22
     name: wanSyncMap
-    since: 2.0
+    since: "2.0"
     doc: |
       Initiate WAN sync for a specific map or all maps
     request:
@@ -690,19 +690,19 @@ methods:
         - name: wanReplicationName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the WAN replication to initiate WAN sync for
         - name: wanPublisherId
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the WAN publisher to initiate WAN sync for
         - name: wanSyncType
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Whether all maps are going to be synced or only a single one:
             0 - ALL_MAPS
@@ -710,7 +710,7 @@ methods:
         - name: mapName
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the map to trigger WAN sync on, null if all maps are to be synced
     response:
@@ -718,12 +718,12 @@ methods:
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the synchronization
   - id: 23
     name: checkWanConsistency
-    since: 2.0
+    since: "2.0"
     doc: |
       Initiate WAN consistency check for a specific map
     request:
@@ -733,19 +733,19 @@ methods:
         - name: wanReplicationName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the WAN replication to initiate WAN consistency check for
         - name: wanPublisherId
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the WAN publisher to initiate WAN consistency check for
         - name: mapName
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the map to initiate WAN consistency check for
     response:
@@ -753,13 +753,13 @@ methods:
         - name: uuid
           type: UUID
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the consistency check request or null if consistency
             check is ignored because of the configuration
   - id: 24
     name: pollMCEvents
-    since: 2.0
+    since: "2.0"
     doc: |
       Polls events available on member. Once read, events are removed from
       member's internal queue.
@@ -771,12 +771,12 @@ methods:
         - name: events
           type: List_MCEvent
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             List of events.
   - id: 25
     name: getCPMembers
-    since: 2.0
+    since: "2.0"
     doc: |
       Returns the current list of CP members.
     request:
@@ -787,13 +787,13 @@ methods:
         - name: cpMembers
           type: EntryList_UUID_UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             List of CP member UUIDs. The mapping is from the UUID of the CP member to UUID of that member on the
             member list of the cluster service.
   - id: 26
     name: promoteToCPMember
-    since: 2.0
+    since: "2.0"
     doc: |
       Promotes the local member to the CP role.
     request:
@@ -802,7 +802,7 @@ methods:
     response: {}
   - id: 27
     name: removeCPMember
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the given unreachable CP member from the active CP members
       list and all CP groups it belongs to.
@@ -813,13 +813,13 @@ methods:
         - name: cpMemberUuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the unreachable CP member
     response: {}
   - id: 28
     name: resetCPSubsystem
-    since: 2.0
+    since: "2.0"
     doc: |
       Wipes and resets the whole CP Subsystem state and initializes it
       as if the Hazelcast cluster is starting up initially.
@@ -829,7 +829,7 @@ methods:
     response: {}
   - id: 29
     name: triggerPartialStart
-    since: 2.0
+    since: "2.0"
     doc: |
       Triggers partial start
     request:
@@ -839,13 +839,13 @@ methods:
       params:
         - name: result
           type: boolean
-          since: 2.0
+          since: "2.0"
           nullable: false
           doc: |
             True if the partial restart was successfully initiated, false otherwise
   - id: 30
     name: triggerForceStart
-    since: 2.0
+    since: "2.0"
     doc: |
       Triggers force start
     request:
@@ -855,13 +855,13 @@ methods:
       params:
         - name: result
           type: boolean
-          since: 2.0
+          since: "2.0"
           nullable: false
           doc: |
             True if the forced start was successfully initiated, false otherwise
   - id: 31
     name: triggerHotRestartBackup
-    since: 2.0
+    since: "2.0"
     doc: |
       Triggers hot restart backup
     request:
@@ -870,7 +870,7 @@ methods:
     response: {}
   - id: 32
     name: interruptHotRestartBackup
-    since: 2.0
+    since: "2.0"
     doc: |
       Interrupts hot restart backup
     request:
@@ -879,7 +879,7 @@ methods:
     response: {}
   - id: 33
     name: resetQueueAgeStatistics
-    since: 2.4
+    since: "2.4"
     doc: Resets the max-age, min-age and average-age metrics of the queue
     request:
       retryable: false
@@ -888,12 +888,12 @@ methods:
        - name: name
          type: String
          nullable: false
-         since: 2.4
+         since: "2.4"
          doc: Name of the Queue for which the age-related statistics should be reset to 0
     response: {}
   - id: 34
     name: reloadConfig
-    since: 2.4
+    since: "2.4"
     doc: Reloads the configuration on the member from its config file, applies (merges) the new config to the current config
     request:
       retryable: false
@@ -904,10 +904,10 @@ methods:
           type: UUID
           nullable: false
           doc: The unique identifier of the configuration reload process which will be included in all MCEvent instances emitted for MC during the update
-          since: 2.4
+          since: "2.4"
   - id: 35
     name: updateConfig
-    since: 2.4
+    since: "2.4"
     doc: Updates the configuration on the member with the passed configuration, applies (merges) the passed config to the current config
     request:
       retryable: false
@@ -916,7 +916,7 @@ methods:
        - name: configuration
          type: String
          nullable: false
-         since: 2.4
+         since: "2.4"
          doc: the config patch (XML or YAML string) to be applied to the current configuration
     response:
       params:
@@ -924,10 +924,10 @@ methods:
           type: UUID
           nullable: false
           doc: The unique identifier of the configuration update process which will be included in all MCEvent instances emitted for MC during the update
-          since: 2.4
+          since: "2.4"
   - id: 36
     name: forceCloseCPSession
-    since: 2.7
+    since: "2.7"
     doc: |
       Closes the given session forcefully on the given CP group.
     request:
@@ -937,13 +937,13 @@ methods:
         - name: groupName
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of the CP group
         - name: sessionId
           type: long
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             ID of the session
     response:
@@ -951,13 +951,13 @@ methods:
         - name: result
           type: boolean
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             true if the session is found & closed,
             false otherwise.
   - id: 37
     name: demoteDataMember
-    since: 2.8
+    since: "2.8"
     doc: |
       Demotes the data member it's called on to a lite member.
       May throw an exception if the operation is not successful.
@@ -967,7 +967,7 @@ methods:
     response: {}
   - id: 38
     name: getConfigFileContent
-    since: 2.8
+    since: "2.8"
     doc: |
       Gets the member configuration file content (XML or YAML string) of the member.
     request:
@@ -978,12 +978,12 @@ methods:
         - name: configFileContent
           type: String
           nullable: true
-          since: 2.8
+          since: "2.8"
           doc: |
             Member configuration file content (XML or YAML string) of the member or null if the server was not started using a configuration file.
   - id: 39
     name: setDiagnosticsConfig
-    since: 2.9
+    since: "2.9"
     doc: |
       Sets the diagnostics configuration on a running cluster dynamically. It's a basically a dynamic configuration which can be done only by MC or Operator. Sending this
       request to a member is sufficient to set the diagnostics configuration on the whole cluster. If one of the members fails to set the configuration, 
@@ -995,61 +995,61 @@ methods:
         - name: enabled
           type: boolean
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             Indicates whether diagnostics service is enabled or not
         - name: outputType
           type: String
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The output type for the diagnostics
         - name: includeEpochTime
           type: boolean
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             Indicates if the epoch time should be included in the 'top' section
         - name: maxRolledFileSizeInMB
           type: float
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The maximum size in MB for a single file
         - name: maxRolledFileCount
           type: int
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The maximum number of rolling files to keep on disk
         - name: logDirectory
           type: String
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
         - name: fileNamePrefix
           type: String
           nullable: true
-          since: 2.9
+          since: "2.9"
           doc: |
             The prefix for the diagnostics file
         - name: properties
           type: Map_String_String
           nullable: true
-          since: 2.9
+          since: "2.9"
           doc: |
             Properties specific to DiagnosticsPlugin implementations
         - name: autoOffDurationInMinutes
           type: int
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
     response: { }
   - id: 40
     name: getDiagnosticsConfig
-    since: 2.9
+    since: "2.9"
     doc: |
       Gets the diagnostics configuration from the member.
     request:
@@ -1060,60 +1060,60 @@ methods:
         - name: enabled
           type: boolean
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             Indicates whether diagnostics service is enabled or not
         - name: outputType
           type: String
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The output type for the diagnostics
         - name: includeEpochTime
           type: boolean
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             Indicates if the epoch time should be included in the 'top' section
         - name: maxRolledFileSizeInMB
           type: float
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The maximum size in MB for a single file
         - name: maxRolledFileCount
           type: int
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The maximum number of rolling files to keep on disk
         - name: logDirectory
           type: String
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The path of output directory for the diagnostics log files. It can be a relative path to the working directory or an absolute path
         - name: fileNamePrefix
           type: String
           nullable: true
-          since: 2.9
+          since: "2.9"
           doc: |
             The prefix for the diagnostics file
         - name: properties
           type: Map_String_String
           nullable: true
-          since: 2.9
+          since: "2.9"
           doc: |
             Properties specific to DiagnosticsPlugin implementations
         - name: autoOffDurationInMinutes
           type: int
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             The auto time off duration for the service in minutes. The value must be positive. Set -1 only if you want to disable the auto time off feature.
         - name: canBeConfiguredDynamically
           type: boolean
           nullable: false
-          since: 2.9
+          since: "2.9"
           doc: |
             Indicates whether the diagnostics service can be configured dynamically or not

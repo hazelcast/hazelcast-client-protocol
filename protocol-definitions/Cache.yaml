@@ -3,7 +3,7 @@ name: Cache
 methods:
   - id: 1
     name: addEntryListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds an entry listener for this cache. For the types of events that the listener
       will be notified for, see the documentation of the type field of the Cache event below.
@@ -14,13 +14,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             If true fires events that originated from this node only, otherwise fires all events
     response:
@@ -28,17 +28,17 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Registration id for the registered listener.
     events:
       - name: Cache
-        since: 2.0
+        since: "2.0"
         params:
           - name: type
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               The type of the event. Possible values for the event are:
               CREATED(1): An event type indicating that the cache entry was created.
@@ -53,19 +53,19 @@ methods:
           - name: keys
             type: List_CacheEventData
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               The keys of the entries in the cache.
           - name: completionId
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               User generated id which shall be received as a field of the cache event upon completion of the
               request in the cluster.
   - id: 2
     name: clear
-    since: 2.0
+    since: "2.0"
     doc: |
       Clears the contents of the cache, without notifying listeners or CacheWriters.
     request:
@@ -75,13 +75,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
     response: {}
   - id: 3
     name: removeAllKeys
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes entries for the specified keys. The order in which the individual entries are removed is undefined.
       For every entry in the key set, the following are called: any registered CacheEntryRemovedListeners if the cache
@@ -93,26 +93,26 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The keys to remove.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
   - id: 4
     name: removeAll
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes all of the mappings from this cache. The order that the individual entries are removed is undefined.
       For every mapping that exists the following are called: any registered CacheEntryRemovedListener if the cache is
@@ -125,20 +125,20 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
   - id: 5
     name: containsKey
-    since: 2.0
+    since: "2.0"
     doc: |
       Determines if the Cache contains an entry for the specified key. More formally, returns true if and only if this
       cache contains a mapping for a key k such that key.equals(k). (There can be at most one such mapping.)
@@ -149,13 +149,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key whose presence in this cache is to be tested.
     response:
@@ -163,12 +163,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns true if cache value for the key exists, false otherwise.
   - id: 6
     name: createConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Creates the given cache configuration on Hazelcast members.
     request:
@@ -178,13 +178,13 @@ methods:
         - name: cacheConfig
           type: CacheConfigHolder
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The cache configuration.
         - name: createAlsoOnOthers
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             True if the configuration shall be created on all members, false otherwise.
     response:
@@ -192,12 +192,12 @@ methods:
         - name: response
           type: CacheConfigHolder
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The created configuration object.
   - id: 7
     name: destroy
-    since: 2.0
+    since: "2.0"
     doc: |
       Closes the cache. Clears the internal content and releases any resource.
     request:
@@ -207,13 +207,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
     response: {}
   - id: 8
     name: entryProcessor
-    since: 2.0
+    since: "2.0"
     doc: |
       Applies the user defined EntryProcessor to entry mapped by the key.
       Returns the result of the processing, if any, defined by the implementation.
@@ -224,32 +224,32 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the key to the entry
         - name: entryProcessor
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Entry processor to invoke. Byte-array which is serialized from an object implementing
             javax.cache.processor.EntryProcessor.
         - name: arguments
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             additional arguments to pass to the EntryProcessor
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -258,12 +258,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             the result of the processing, if any, defined by the EntryProcessor implementation
   - id: 9
     name: getAll
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets a collection of entries from the cache with custom expiry policy, returning them as Map of the values
       associated with the set of keys requested. If the cache is configured for read-through operation mode, the underlying
@@ -276,19 +276,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The keys whose associated values are to be returned.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
@@ -297,13 +297,13 @@ methods:
         - name: response
           type: EntryList_Data_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             A map of entries that were found for the given keys. Keys not found
             in the cache are not in the returned map.
   - id: 10
     name: getAndRemove
-    since: 2.0
+    since: "2.0"
     doc: |
       Atomically removes the entry for a key only if currently mapped to some value.
     request:
@@ -313,19 +313,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             key with which the specified value is associated
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -334,12 +334,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             the value if one existed or null if no mapping existed for this key
   - id: 11
     name: getAndReplace
-    since: 2.0
+    since: "2.0"
     doc: |
       Atomically replaces the assigned value of the given key by the specified value using a custom
       javax.cache.expiry.ExpiryPolicy and returns the previously assigned value. If the cache is configured for
@@ -352,32 +352,32 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key whose value is replaced.
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The new value to be associated with the specified key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -386,12 +386,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The old value previously assigned to the given key.
   - id: 12
     name: getConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the cache configuration with the given name from members.
     request:
@@ -401,13 +401,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache with prefix.
         - name: simpleName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache without prefix.
     response:
@@ -415,12 +415,12 @@ methods:
         - name: response
           type: CacheConfigHolder
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The cache configuration.
   - id: 13
     name: get
-    since: 2.0
+    since: "2.0"
     doc: |
       Retrieves the mapped value of the given key using a custom javax.cache.expiry.ExpiryPolicy. If no mapping exists
       null is returned. If the cache is configured for read-through operation mode, the underlying configured
@@ -432,19 +432,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key whose mapped value is to be returned.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
@@ -453,12 +453,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The value assigned to the given key, or null if not assigned.
   - id: 14
     name: iterate
-    since: 2.0
+    since: "2.0"
     doc: |
       The ordering of iteration over entries is undefined. During iteration, any entries that are a). read will have
       their appropriate CacheEntryReadListeners notified and b). removed will have their appropriate
@@ -471,19 +471,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: iterationPointers
           type: EntryList_Integer_Integer
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The index-size pairs that define the state of iteration
         - name: batch
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The number of items to be batched
     response:
@@ -491,18 +491,18 @@ methods:
         - name: iterationPointers
           type: EntryList_Integer_Integer
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The index-size pairs that define the state of iteration
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The keys fetched from the cache.
   - id: 15
     name: listenerRegistration
-    since: 2.0
+    since: "2.0"
     doc: |
       Tries to register the listener configuration for the cache specified by its name
       to the given member.
@@ -513,32 +513,32 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: listenerConfig
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The listener configuration. Byte-array which is serialized from an object implementing
             javax.cache.configuration.CacheEntryListenerConfiguration
         - name: shouldRegister
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if the listener is being registered, false if the listener is being unregistered.
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The UUID of the member server for which the listener is being registered for.
     response: {}
   - id: 16
     name: loadAll
-    since: 2.0
+    since: "2.0"
     doc: |
       Loads all the keys into the CacheRecordStore in batch.
     request:
@@ -548,26 +548,26 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the keys to load
         - name: replaceExistingValues
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             when true existing values in the Cache will
             be replaced by those loaded from a CacheLoader
     response: {}
   - id: 17
     name: managementConfig
-    since: 2.0
+    since: "2.0"
     doc: |
       Enables or disables the statistics or the management support for the
       cache with the given name on a member with the given address.
@@ -578,31 +578,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: isStat
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if enabling statistics, false if enabling management.
         - name: enabled
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if enabled, false to disable.
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the UUID of the host to enable.
     response: {}
   - id: 18
     name: putIfAbsent
-    since: 2.0
+    since: "2.0"
     doc: |
       Associates the specified key with the given value if and only if there is not yet a mapping defined for the
       specified key. If the cache is configured for write-through operation mode, the underlying configured
@@ -614,32 +614,32 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key that is associated with the specified value.
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The value that has the specified key associated with it.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The custom expiry policy for this operation.
             A null value is equivalent to put(Object, Object).
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -648,12 +648,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if a value was set, false otherwise.
   - id: 19
     name: put
-    since: 2.0
+    since: "2.0"
     doc: |
       Puts the entry with the given key, value and the expiry policy to the cache.
     request:
@@ -663,38 +663,38 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key that has the specified value associated with it.
         - name: value
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The value to be associated with the key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
         - name: get
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             boolean flag indicating if the previous value should be retrieved.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -703,12 +703,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The value previously assigned to the given key, or null if not assigned.
   - id: 20
     name: removeEntryListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the specified entry listener. If there is no such listener added before, this call does no change in the
       cluster and returns false.
@@ -719,13 +719,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id assigned during the registration for the listener which shall be removed.
     response:
@@ -733,12 +733,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if the listener is de-registered, false otherwise
   - id: 21
     name: removeInvalidationListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the specified invalidation listener. If there is no such listener added before, this call does no change
       in the cluster and returns false.
@@ -749,13 +749,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id assigned during the registration for the listener which shall be removed.
     response:
@@ -763,12 +763,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if the listener is de-registered, false otherwise
   - id: 22
     name: remove
-    since: 2.0
+    since: "2.0"
     doc: |
       Atomically removes the mapping for a key only if currently mapped to the given value.
     request:
@@ -778,25 +778,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             key whose mapping is to be removed from the cache
         - name: currentValue
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             value expected to be associated with the specified key.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -805,12 +805,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             returns false if there was no matching key
   - id: 23
     name: replace
-    since: 2.0
+    since: "2.0"
     doc: |
       Atomically replaces the currently assigned value for the given key with the specified newValue if and only if the
       currently assigned value equals the value of oldValue using a custom javax.cache.expiry.ExpiryPolicy
@@ -823,38 +823,38 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: key
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key whose value is replaced.
         - name: oldValue
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Old value to match if exists before removing. Null means "don't try to remove"
         - name: newValue
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The new value to be associated with the specified key.
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Expiry policy for the entry. Byte-array which is serialized from an object implementing
             javax.cache.expiry.ExpiryPolicy interface.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
@@ -863,12 +863,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The replaced value.
   - id: 24
     name: size
-    since: 2.0
+    since: "2.0"
     doc: |
       Total entry count
     request:
@@ -878,7 +878,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
     response:
@@ -886,12 +886,12 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             total entry count
   - id: 25
     name: addPartitionLostListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds a CachePartitionLostListener. The addPartitionLostListener returns a registration ID. This ID is needed to remove the
       CachePartitionLostListener using the #removePartitionLostListener(UUID) method. There is no check for duplicate
@@ -904,13 +904,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             if true only node that has the partition sends the request, if false
             sends all partition lost events.
@@ -919,28 +919,28 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             returns the registration id for the CachePartitionLostListener.
     events:
       - name: CachePartitionLost
-        since: 2.0
+        since: "2.0"
         params:
           - name: partitionId
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Id of the lost partition.
           - name: uuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               UUID of the member that owns the lost partition.
   - id: 26
     name: removePartitionLostListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the specified cache partition lost listener. If there is no such listener added before, this call does no
       change in the cluster and returns false.
@@ -951,13 +951,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Cache
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of registered listener.
     response:
@@ -965,12 +965,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if registration is removed, false otherwise.
   - id: 27
     name: putAll
-    since: 2.0
+    since: "2.0"
     doc: |
       Copies all the mappings from the specified map to this cache with the given expiry policy.
     request:
@@ -980,33 +980,33 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             name of the cache
         - name: entries
           type: EntryList_Data_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             entries to be put as batch
         - name: expiryPolicy
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             expiry policy for the entry. Byte-array which is serialized from an object implementing
             {@link javax.cache.expiry.ExpiryPolicy} interface.
         - name: completionId
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             user generated id which shall be received as a field of the cache event upon completion of
             the request in the cluster.
     response: {}
   - id: 28
     name: iterateEntries
-    since: 2.0
+    since: "2.0"
     doc: |
       Fetches specified number of entries from the specified partition starting from specified table index.
     request:
@@ -1016,19 +1016,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: iterationPointers
           type: EntryList_Integer_Integer
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The index-size pairs that define the state of iteration
         - name: batch
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The number of items to be batched
     response:
@@ -1036,18 +1036,18 @@ methods:
         - name: iterationPointers
           type: EntryList_Integer_Integer
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The index-size pairs that define the state of iteration
         - name: entries
           type: EntryList_Data_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The entries fetched from the cache.
   - id: 29
     name: addNearCacheInvalidationListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds listener to cache. This listener will be used to listen near cache invalidation events.
     request:
@@ -1057,13 +1057,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the cache.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             if true fires events that originated from this node only, otherwise fires all events
     response:
@@ -1071,79 +1071,79 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Registration id for the registered listener.
     events:
       - name: CacheInvalidation
-        since: 2.0
+        since: "2.0"
         params:
           - name: name
             type: String
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Name of the cache.
           - name: key
             type: Data
             nullable: true
-            since: 2.0
+            since: "2.0"
             doc: |
               The key of the invalidated entry.
           - name: sourceUuid
             type: UUID
             nullable: true
-            since: 2.0
+            since: "2.0"
             doc: |
               UUID of the member who fired this event.
           - name: partitionUuid
             type: UUID
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               UUID of the source partition that invalidated entry belongs to.
           - name: sequence
             type: long
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Sequence number of the invalidation event.
       - name: CacheBatchInvalidation
-        since: 2.0
+        since: "2.0"
         params:
           - name: name
             type: String
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Name of the cache.
           - name: keys
             type: List_Data
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               List of the keys of the invalidated entries.
           - name: sourceUuids
             type: List_UUID
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               List of UUIDs of the members who fired these events.
           - name: partitionUuids
             type: List_UUID
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               List of UUIDs of the source partitions that invalidated entries belong to.
           - name: sequences
             type: List_Long
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               List of sequence numbers of the invalidation events.
   - id: 30
     name: fetchNearCacheInvalidationMetadata
-    since: 2.0
+    since: "2.0"
     doc: |
       Fetches invalidation metadata from partitions of map.
     request:
@@ -1153,13 +1153,13 @@ methods:
         - name: names
           type: List_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             names of the caches
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Address of the member.
     response:
@@ -1167,18 +1167,18 @@ methods:
         - name: namePartitionSequenceList
           type: EntryList_String_EntryList_Integer_Long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Map of partition ids and sequence number of invalidations mapped by the cache name.
         - name: partitionUuidList
           type: EntryList_Integer_UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Map of member UUIDs mapped by the partition ids of invalidations.
   - id: 31
     name: eventJournalSubscribe
-    since: 2.0
+    since: "2.0"
     doc: |
       Performs the initial subscription to the cache event journal.
       This includes retrieving the event journal sequences of the
@@ -1190,7 +1190,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             name of the cache
     response:
@@ -1198,18 +1198,18 @@ methods:
         - name: oldestSequence
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Sequence id of the oldest event in the event journal.
         - name: newestSequence
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Sequence id of the newest event in the event journal.
   - id: 32
     name: eventJournalRead
-    since: 2.0
+    since: "2.0"
     doc: |
       Reads from the cache event journal in batches. You may specify the start sequence,
       the minimum required number of items in the response, the maximum number of items
@@ -1226,37 +1226,37 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             name of the cache
         - name: startSequence
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the startSequence of the first item to read
         - name: minSize
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the minimum number of items to read.
         - name: maxSize
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the maximum number of items to read.
         - name: predicate
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             the predicate to apply before processing events
         - name: projection
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             the projection to apply to journal events
     response:
@@ -1264,30 +1264,30 @@ methods:
         - name: readCount
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Number of items that have been read.
         - name: items
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             List of items that have been read.
         - name: itemSeqs
           type: longArray
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Sequence numbers of items in the event journal.
         - name: nextSeq
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Sequence number of the item following the last read item.
   - id: 33
     name: setExpiryPolicy
-    since: 2.0
+    since: "2.0"
     doc: |
       Associates the specified key with the given {@link javax.cache.expiry.ExpiryPolicy}.
       {@code expiryPolicy} takes precedence for these particular {@code keys} against any cache wide expiry policy.
@@ -1299,19 +1299,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             name of the cache
         - name: keys
           type: List_Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The keys that are associated with the specified expiry policy.
         - name: expiryPolicy
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             custom expiry policy for this operation
     response:
@@ -1319,6 +1319,6 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             {

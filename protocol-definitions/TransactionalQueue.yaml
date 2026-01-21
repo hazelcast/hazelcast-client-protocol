@@ -3,7 +3,7 @@ name: TransactionalQueue
 methods:
   - id: 1
     name: offer
-    since: 2.0
+    since: "2.0"
     doc: |
       Inserts the specified element into this queue, waiting up to the specified wait time if necessary for space to
       become available.
@@ -14,31 +14,31 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: item
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The element to add
         - name: timeout
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             How long to wait before giving up, in milliseconds
     response:
@@ -46,12 +46,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             <tt>true</tt> if successful, or <tt>false</tt> if the specified waiting time elapses before space is available
   - id: 2
     name: take
-    since: 2.0
+    since: "2.0"
     doc: |
       Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
     request:
@@ -61,19 +61,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
@@ -81,12 +81,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The head of this queue
   - id: 3
     name: poll
-    since: 2.0
+    since: "2.0"
     doc: |
       Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element
       to become available.
@@ -97,25 +97,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: timeout
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             How long to wait before giving up, in milliseconds
     response:
@@ -123,12 +123,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The head of this queue, or <tt>null</tt> if the specified waiting time elapses before an element is available
   - id: 4
     name: peek
-    since: 2.0
+    since: "2.0"
     doc: |
       Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     request:
@@ -138,25 +138,25 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
         - name: timeout
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             How long to wait before giving up, in milliseconds
     response:
@@ -164,12 +164,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             The value at the head of the queue.
   - id: 5
     name: size
-    since: 2.0
+    since: "2.0"
     doc: |
       Returns the number of elements in this collection.If this collection contains more than Integer.MAX_VALUE
       elements, returns Integer.MAX_VALUE.
@@ -180,19 +180,19 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the Transactional Queue
         - name: txnId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             ID of the transaction
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the user thread performing the operation. It is used to guarantee that only the lock holder thread (if a lock exists on the entry) can perform the requested operation.
     response:
@@ -200,6 +200,6 @@ methods:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The number of elements in this collection
