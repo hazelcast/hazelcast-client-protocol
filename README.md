@@ -7,6 +7,9 @@
 The protocol is defined in `protocol-definitions/*.yaml` yaml files where each yaml file represents a service like Map, List, Set etc. 
 Custom data types that are used in the protocol definitions are defined in `protocol-definitions/custom/Custom.yaml`.
 
+> [!WARNING]  
+Please wrap since parameters with double quotation mark `"2.10"` starting with 2.10 since yaml's auto typing considers as `2.1` instead of `2.10`.
+
 ## Service definition
 
 A service is defined by a separate YAML file, containing all its method definitions.
