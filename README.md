@@ -8,7 +8,7 @@ The protocol is defined in `protocol-definitions/*.yaml` yaml files where each y
 Custom data types that are used in the protocol definitions are defined in `protocol-definitions/custom/Custom.yaml`.
 
 > [!WARNING]  
-Please wrap since parameters with double quotation mark `"2.10"` starting with 2.10 since yaml's auto typing considers as `2.1` instead of `2.10`.
+Please wrap since parameters with double quotation mark since yaml's auto typing uses float instead of string conversion. In this case, converting versions like 2.10, 2.0.1 are not done correctly. e.g. 2.10 is converted to 2.1.
 
 ## Service definition
 
