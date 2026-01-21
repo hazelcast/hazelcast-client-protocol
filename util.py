@@ -3,11 +3,12 @@ import hashlib
 import json
 import re
 import fnmatch
-from enum import Enum
 import os
 from os import listdir, makedirs
 from os.path import dirname, isfile, join, realpath
 from datetime import date
+from enum import Enum
+from distutils.dir_util import copy_tree
 
 import jsonschema
 import yaml
@@ -41,8 +42,6 @@ from py import (
     py_param_name,
     py_types_encode_decode,
     py_custom_type_name,
-    py_decoder_requires_to_object_fn,
-    py_to_object_fn_in_decode,
 )
 from ts import (
     ts_escape_keyword,
@@ -56,7 +55,7 @@ MAJOR_VERSION_MULTIPLIER = 10000
 MINOR_VERSION_MULTIPLIER = 100
 PATCH_VERSION_MULTIPLIER = 1
 
-ID_VALIDATOR_IGNORE_SET = {"Jet", "Experimental"}
+ID_VALIDATOR_IGNORE_SET = {"Jet"}
 
 
 def java_name(type_name):
@@ -423,7 +422,7 @@ def validate_services(services, schema_path, no_id_check, protocol_versions):
                     valid = False
                 response_params = method["response"].get("params", [])
                 if contains_invalid_nullability_field(service_method_name, request_params):
-                    valid = False 
+                    valid = False
     return valid
 
 
@@ -576,13 +575,25 @@ def get_protocol_versions(protocol_defs, custom_codec_defs):
     return map(str, protocol_versions)
 
 
+def copy_verbatim_files(output_dir, lang):
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    lang_dir = os.path.join(cur_dir, lang)
+    verbatim_dir = os.path.join(lang_dir, "verbatim")
+    if not os.path.exists(verbatim_dir):
+        return
+    # iterate the verbatim directory and copy files to output
+    # creating directories if necessary
+    print("Verbatim files found, copying from %s to %s" % (verbatim_dir, output_dir))
+    copy_tree(verbatim_dir, output_dir)
+
+
 class SupportedLanguages(Enum):
     JAVA = "java"
     CPP = "cpp"
     CS = "cs"
     PY = "py"
     TS = "ts"
-    # GO = 'go'
+    GO = 'go'
     MD = "md"
 
 
@@ -592,7 +603,7 @@ codec_output_directories = {
     SupportedLanguages.CS: "src/Hazelcast.Net/Protocol/Codecs/",
     SupportedLanguages.PY: "hazelcast/protocol/codec/",
     SupportedLanguages.TS: "src/codec/",
-    # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.GO: "hazelcast/protocol/codec/",
     SupportedLanguages.MD: "documentation",
 }
 
@@ -602,7 +613,7 @@ custom_codec_output_directories = {
     SupportedLanguages.CS: "src/Hazelcast.Net/Protocol/CustomCodecs/",
     SupportedLanguages.PY: "hazelcast/protocol/codec/custom/",
     SupportedLanguages.TS: "src/codec/custom",
-    # SupportedLanguages.GO: 'internal/proto/'
+    SupportedLanguages.GO: "hazelcast/protocol/codec",
 }
 
 
@@ -615,66 +626,93 @@ def _capitalized_name_generator(extension):
 
 def _snake_cased_name_generator(extension):
     def inner(*names):
-        return "%s_codec.%s" % ("_".join([py_param_name(name, False) for name in names]), extension)
+        return "%s_codec.%s" % ("_".join(map(py_param_name, names)), extension)
 
     return inner
 
 
 file_name_generators = {
-    SupportedLanguages.JAVA: _capitalized_name_generator("java"),
-    SupportedLanguages.CPP: _snake_cased_name_generator("cpp"),
-    SupportedLanguages.CS: _capitalized_name_generator("cs"),
-    SupportedLanguages.PY: _snake_cased_name_generator("py"),
-    SupportedLanguages.TS: _capitalized_name_generator("ts"),
-    # SupportedLanguages.GO: 'go'
+    SupportedLanguages.JAVA: _capitalized_name_generator('java'),
+    SupportedLanguages.CPP: _snake_cased_name_generator('cpp'),
+    SupportedLanguages.CS: _capitalized_name_generator('cs'),
+    SupportedLanguages.PY: _snake_cased_name_generator('py'),
+    SupportedLanguages.TS: _capitalized_name_generator('ts'),
     SupportedLanguages.MD: "md",
 }
 
 language_specific_funcs = {
-    SupportedLanguages.JAVA: {
-        "lang_types_encode": java_types_encode,
-        "lang_types_decode": java_types_decode,
-        "lang_name": java_name,
-        "param_name": param_name,
+    "lang_types_encode": {
+        SupportedLanguages.JAVA: java_types_encode,
+        SupportedLanguages.CS: cs_types_encode,
+        SupportedLanguages.CPP: cpp_types_encode,
+        SupportedLanguages.TS: ts_types_encode,
+        SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.MD: lambda x: x,
     },
-    SupportedLanguages.CS: {
-        "lang_types_encode": cs_types_encode,
-        "lang_types_decode": cs_types_decode,
-        "lang_name": cs_name,
-        "param_name": param_name,
-        "escape_keyword": cs_escape_keyword,
-        "custom_codec_param_name": cs_custom_codec_param_name,
-        "cs_sizeof": cs_sizeof,
-        "cs_param_prefix": cs_param_prefix,
+    "lang_types_decode": {
+        SupportedLanguages.JAVA: java_types_decode,
+        SupportedLanguages.CS: cs_types_decode,
+        SupportedLanguages.CPP: cpp_types_decode,
+        SupportedLanguages.TS: ts_types_decode,
+        SupportedLanguages.PY: py_types_encode_decode,
+        SupportedLanguages.MD: lambda x: x,
     },
-    SupportedLanguages.CPP: {
-        "lang_types_encode": cpp_types_encode,
-        "lang_types_decode": cpp_types_decode,
-        "lang_name": cpp_name,
-        "param_name": cpp_param_name,
+    "lang_name": {
+        SupportedLanguages.JAVA: java_name,
+        SupportedLanguages.CS: cs_name,
+        SupportedLanguages.CPP: cpp_name,
+        SupportedLanguages.TS: java_name,
+        SupportedLanguages.PY: java_name,
+        SupportedLanguages.MD: lambda x: x,
     },
-    SupportedLanguages.TS: {
-        "lang_types_encode": ts_types_encode,
-        "lang_types_decode": ts_types_decode,
-        "lang_name": java_name,
-        "param_name": param_name,
-        "escape_keyword": ts_escape_keyword,
-        "get_import_path_holders": ts_get_import_path_holders,
+    "param_name": {
+        SupportedLanguages.JAVA: param_name,
+        SupportedLanguages.CS: param_name,
+        SupportedLanguages.CPP: cpp_param_name,
+        SupportedLanguages.TS: param_name,
+        SupportedLanguages.PY: py_param_name,
+        SupportedLanguages.MD: lambda x: x,
     },
-    SupportedLanguages.PY: {
-        "lang_types_encode": py_types_encode_decode,
-        "lang_types_decode": py_types_encode_decode,
-        "lang_name": java_name,
-        "param_name": py_param_name,
-        "escape_keyword": py_escape_keyword,
-        "get_import_path_holders": py_get_import_path_holders,
-        "custom_type_name": py_custom_type_name,
-        "decoder_requires_to_object_fn": py_decoder_requires_to_object_fn,
-        "to_object_fn_in_decode": py_to_object_fn_in_decode,
+    "escape_keyword": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: cs_escape_keyword,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: ts_escape_keyword,
+        SupportedLanguages.PY: py_escape_keyword,
+        SupportedLanguages.MD: lambda x: x,
     },
-    SupportedLanguages.MD: { 
-        "param_name": param_name,
-    }	
+    "get_import_path_holders": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: ts_get_import_path_holders,
+        SupportedLanguages.PY: py_get_import_path_holders,
+        SupportedLanguages.MD: lambda x: x,
+    },
+    "custom_type_name": {
+        SupportedLanguages.JAVA: lambda x: x,
+        SupportedLanguages.CS: lambda x: x,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: py_custom_type_name,
+        SupportedLanguages.MD: lambda x: x,
+    },
+    "custom_codec_param_name": {
+        SupportedLanguages.JAVA: lambda x,y: y,
+        SupportedLanguages.CS: cs_custom_codec_param_name,
+        SupportedLanguages.CPP: lambda x,y: y,
+        SupportedLanguages.TS: lambda x,y: y,
+        SupportedLanguages.PY: lambda x,y: y,
+        SupportedLanguages.MD: lambda x,y: y,
+    },
+    "init_env": {
+        SupportedLanguages.JAVA: lambda x: x,
+        # SupportedLanguages.CS: cs_init_env,
+        SupportedLanguages.CPP: lambda x: x,
+        SupportedLanguages.TS: lambda x: x,
+        SupportedLanguages.PY: lambda x: x,
+        SupportedLanguages.MD: lambda x: x,
+    }
 }
 
 language_service_ignore_list = {
@@ -683,7 +721,6 @@ language_service_ignore_list = {
     SupportedLanguages.CS: cs_ignore_service_list,
     SupportedLanguages.PY: py_ignore_service_list,
     SupportedLanguages.TS: ts_ignore_service_list,
-    # SupportedLanguages.GO: set()
 }
 
 
@@ -731,17 +768,24 @@ def create_environment(lang, namespace):
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
     env.globals["namespace"] = namespace
+    env.globals["lang_types_encode"] = language_specific_funcs["lang_types_encode"][lang]
+    env.globals["lang_types_decode"] = language_specific_funcs["lang_types_decode"][lang]
+    env.globals["lang_name"] = language_specific_funcs["lang_name"][lang]
+    env.globals["param_name"] = language_specific_funcs["param_name"][lang]
+    env.globals["escape_keyword"] = language_specific_funcs["escape_keyword"][lang]
+    env.globals["custom_type_name"] = language_specific_funcs["custom_type_name"][lang]
+    env.globals["custom_codec_param_name"] = language_specific_funcs["custom_codec_param_name"][lang]
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
+    env.globals["get_import_path_holders"] = language_specific_funcs["get_import_path_holders"][lang]
     env.globals["copyright_year"] = date.today().year
-    
+
     try:
         with os.popen("git rev-parse --short HEAD") as f:
             env.globals["protocol_commit"] = f.readlines()[0].strip()
     except:
         env.globals["protocol_commit"] = "unknown"
 
-    for fn_name, fn in language_specific_funcs[lang].items():
-        env.globals[fn_name] = fn
+    env = language_specific_funcs["init_env"][lang](env)
 
     return env
