@@ -3,7 +3,7 @@ name: Transaction
 methods:
   - id: 1
     name: commit
-    since: 2.0
+    since: "2.0"
     doc: |
       Commits the transaction with the given id.
     request:
@@ -13,19 +13,19 @@ methods:
         - name: transactionId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The internal Hazelcast transaction id.
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The thread id for the transaction.
     response: {}
   - id: 2
     name: create
-    since: 2.0
+    since: "2.0"
     doc: |
       Creates a transaction with the given parameters.
     request:
@@ -35,19 +35,19 @@ methods:
         - name: timeout
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The maximum allowed duration for the transaction operations.
         - name: durability
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The durability of the transaction
         - name: transactionType
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Identifies the type of the transaction. Possible values are:
             1 (Two phase):  The two phase commit is more than the classic two phase commit (if you want a regular
@@ -59,7 +59,7 @@ methods:
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The thread id for the transaction.
     response:
@@ -67,12 +67,12 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The transaction id for the created transaction.
   - id: 3
     name: rollback
-    since: 2.0
+    since: "2.0"
     doc: |
       Rollbacks the transaction with the given id.
     request:
@@ -82,13 +82,13 @@ methods:
         - name: transactionId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The internal Hazelcast transaction id.
         - name: threadId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The thread id for the transaction.
     response: {}

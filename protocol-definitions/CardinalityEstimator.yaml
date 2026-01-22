@@ -3,7 +3,7 @@ name: CardinalityEstimator
 methods:
   - id: 1
     name: add
-    since: 2.0
+    since: "2.0"
     doc: |
       Add a new hash in the estimation set. This is the method you want to
       use to feed hash values into the estimator.
@@ -14,13 +14,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The name of CardinalityEstimator
         - name: hash
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             64bit hash code value to add
 
@@ -28,7 +28,7 @@ methods:
     response: {}
   - id: 2
     name: estimate
-    since: 2.0
+    since: "2.0"
     doc: |
       Estimates the cardinality of the aggregation so far.
       If it was previously estimated and never invalidated, then the cached version is used.
@@ -39,7 +39,7 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The name of CardinalityEstimator
     response:
@@ -47,6 +47,6 @@ methods:
         - name: response
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the previous cached estimation or the newly computed one.

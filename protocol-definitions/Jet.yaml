@@ -3,7 +3,7 @@ name: Jet
 methods:
   - id: 1
     name: submitJob
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: false
@@ -12,27 +12,27 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: dag
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: jobConfig
           type: Data
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: ''
     response: {}
   - id: 2
     name: terminateJob
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: false
@@ -41,22 +41,22 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: terminateMode
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: ''
     response: {}
   - id: 3
     name: getJobStatus
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -65,18 +65,18 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response:
       params:
         - name: response
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 4
     name: getJobIds
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -85,23 +85,23 @@ methods:
         - name: onlyName
           type: String
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: ''
         - name: onlyJobId
           type: long
           nullable: false
-          since: 2.3
+          since: "2.3"
           doc: ''
     response:
       params:
         - name: response
           type: Data
           nullable: false
-          since: 2.3
+          since: "2.3"
           doc: ''
   - id: 5
     name: joinSubmittedJob
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -110,17 +110,17 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: ''
     response: {}
   - id: 7
     name: getJobSubmissionTime
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -129,23 +129,23 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.3
+          since: "2.3"
           doc: ''
     response:
       params:
         - name: response
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 8
     name: getJobConfig
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -154,23 +154,23 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.4
+          since: "2.4"
           doc: ''
     response:
       params:
         - name: response
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 9
     name: resumeJob
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: false
@@ -179,12 +179,12 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response: {}
   - id: 10
     name: exportSnapshot
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: false
@@ -193,22 +193,22 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: cancelJob
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response: {}
   - id: 11
     name: getJobSummaryList
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -219,11 +219,11 @@ methods:
         - name: response
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 12
     name: existsDistributedObject
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -232,23 +232,23 @@ methods:
         - name: serviceName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
         - name: objectName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response:
       params:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 13
     name: getJobMetrics
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -257,18 +257,18 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response:
       params:
         - name: response
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 14
     name: getJobSuspensionCause
-    since: 2.0
+    since: "2.0"
     doc: ''
     request:
       retryable: true
@@ -277,18 +277,18 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
     response:
       params:
         - name: response
           type: Data
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: ''
   - id: 15
     name: getJobAndSqlSummaryList
-    since: 2.5
+    since: "2.5"
     doc: ''
     request:
       retryable: true
@@ -299,11 +299,11 @@ methods:
         - name: response
           type: List_JobAndSqlSummary
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: ''
   - id: 16
     name: isJobUserCancelled
-    since: 2.6
+    since: "2.6"
     doc: ''
     request:
       retryable: true
@@ -312,18 +312,18 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: ''
     response:
       params:
         - name: response
           type: boolean
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: ''
   - id: 17
     name: uploadJobMetaData
-    since: 2.6
+    since: "2.6"
     doc: ''
     request:
       retryable: true
@@ -332,47 +332,47 @@ methods:
         - name: sessionId
           type: UUID
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Unique session ID of the job upload request'
         - name: jarOnMember
           type: boolean
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Flag that indicates that the jar to be executed is already present on the member, and no jar will be uploaded from the client'
         - name: fileName
           type: String
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Name of the jar file without extension'
         - name: sha256Hex
           type: String
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Hexadecimal SHA256 of the jar file'
         - name: snapshotName
           type: String
           nullable: true
-          since: 2.6
+          since: "2.6"
           doc: 'Name of the initial snapshot to start the job from'
         - name: jobName
           type: String
           nullable: true
-          since: 2.6
+          since: "2.6"
           doc: 'Name of the job'
         - name: mainClass
           type: String
           nullable: true
-          since: 2.6
+          since: "2.6"
           doc: 'Fully qualified name of the main class inside the JAR file'
         - name: jobParameters
           type: List_String
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Arguments to pass to the supplied jar file'
     response: {}
   - id: 18
     name: uploadJobMultipart
-    since: 2.6
+    since: "2.6"
     doc: ''
     request:
       retryable: true
@@ -381,37 +381,37 @@ methods:
         - name: sessionId
           type: UUID
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Unique session ID of the job upload request'
         - name: currentPartNumber
           type: int
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'The current part number being sent. Starts from 1'
         - name: totalPartNumber
           type: int
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'The total number of parts to be sent. Minimum value is 1'
         - name: partData
           type: byteArray
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'The binary data of the message part'
         - name: partSize
           type: int
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'The size of binary data'
         - name: sha256Hex
           type: String
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: 'Hexadecimal SHA256 of the message part'
     response: {}
   - id: 19
     name: addJobStatusListener
-    since: 2.6
+    since: "2.6"
     doc: |
       Adds a JobStatusListener to the specified job.
     request:
@@ -421,19 +421,19 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             ID of job.
         - name: lightJobCoordinator
           type: UUID
           nullable: true
-          since: 2.6
+          since: "2.6"
           doc: |
             Address of the job coordinator for light jobs, null otherwise.
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             If true fires events that originated from this node only, otherwise fires all events.
     response:
@@ -441,23 +441,23 @@ methods:
         - name: response
           type: UUID
           nullable: true
-          since: 2.6
+          since: "2.6"
           doc: |
             A unique registration ID which is used as a key to remove the listener.
     events:
       - name: JobStatus
-        since: 2.6
+        since: "2.6"
         params:
           - name: jobId
             type: long
             nullable: false
-            since: 2.6
+            since: "2.6"
             doc: |
               ID of job.
           - name: previousStatus
             type: int
             nullable: false
-            since: 2.6
+            since: "2.6"
             doc: |
               NOT_RUNNING(0)
               STARTING(1)
@@ -467,7 +467,7 @@ methods:
           - name: newStatus
             type: int
             nullable: false
-            since: 2.6
+            since: "2.6"
             doc: |
               NOT_RUNNING(0)
               STARTING(1)
@@ -479,14 +479,14 @@ methods:
           - name: description
             type: String
             nullable: true
-            since: 2.6
+            since: "2.6"
             doc: |
               If the event is generated by the user, indicates the action;
               if there is a failure, indicates the cause; otherwise, null.
           - name: userRequested
             type: boolean
             nullable: false
-            since: 2.6
+            since: "2.6"
             doc: |
               Indicates whether the event is generated by the user via
               {@code Job.suspend()}, {@code Job.resume()}, {@code Job.restart()},
@@ -494,7 +494,7 @@ methods:
               {@code Job.cancelAndExportSnapshot(String)}.
   - id: 20
     name: removeJobStatusListener
-    since: 2.6
+    since: "2.6"
     doc: |
       Removes the specified job status listener. If there is no such listener
       added before, this call does no change in the cluster and returns false.
@@ -505,13 +505,13 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             ID of job.
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             ID of registered listener.
     response:
@@ -519,12 +519,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: |
             True if registration is removed, false otherwise.
   - id: 21
     name: updateJobConfig
-    since: 2.6
+    since: "2.6"
     doc: ''
     request:
       retryable: true
@@ -533,17 +533,17 @@ methods:
         - name: jobId
           type: long
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: ''
         - name: deltaConfig
           type: Data
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: ''
     response:
       params:
         - name: updatedConfig
           type: Data
           nullable: false
-          since: 2.6
+          since: "2.6"
           doc: ''

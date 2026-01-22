@@ -3,7 +3,7 @@ name: Client
 methods:
   - id: 1
     name: authentication
-    since: 2.0
+    since: "2.0"
     doc: |
       Makes an authentication request to the cluster.
     request:
@@ -13,69 +13,69 @@ methods:
         - name: clusterName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Cluster name that client will connect to.
         - name: username
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Name of the user for authentication.
             Used in case Client Identity Config, otherwise it should be passed null.
         - name: password
           type: String
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Password for the user.
             Used in case Client Identity Config, otherwise it should be passed null.
         - name: uuid
           type: UUID
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Unique string identifying the connected client uniquely.
         - name: clientType
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The type of the client. E.g. JAVA, CPP, CSHARP, etc.
         - name: serializationVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             client side supported version to inform server side
         - name: clientHazelcastVersion
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The Hazelcast version of the client. (e.g. 3.7.2)
         - name: clientName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the name of the client instance
         - name: labels
           type: List_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User defined labels of the client instance
         - name: routingMode
           type: byte
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             Identifies the routing mode of the client. It can be UNISOCKET(0), SMART(1) or SUBSET(2).
         - name: cpDirectToLeaderRouting
           type: boolean
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             The client's CP direct-to-leader routing setting (enabled or disabled)
     response:
@@ -83,98 +83,98 @@ methods:
         - name: status
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
             SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
         - name: address
           type: Address
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Address of the Hazelcast member which sends the authentication response.
         - name: memberUuid
           type: UUID
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the Hazelcast member which sends the authentication response.
         - name: serializationVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             client side supported version to inform server side
         - name: serverHazelcastVersion
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Version of the Hazelcast member which sends the authentication response.
         - name: partitionCount
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Partition count of the cluster.
         - name: clusterId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the cluster that the client authenticated.
         - name: failoverSupported
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns true if server supports clients with failover feature.
         - name: tpcPorts
           type: List_Integer
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Returns the list of TPC ports or null if TPC is disabled.
         - name: tpcToken
           type: byteArray
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Returns the token to use while authenticating TPC channels 
             or null if TPC is disabled.
         - name: memberListVersion
           type: int
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Incremental member list version. -1 if no member list is available.
         - name: memberInfos
           type: List_MemberInfo
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             List of member infos  at the cluster associated with the given version
         - name: partitionListVersion
           type: int
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Incremental state version of the partition table. -1 if no partition table is available.
         - name: partitions
           type: EntryList_UUID_List_Integer
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
         - name: keyValuePairs
           type: Map_String_String
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             Server/Member metadata represented as in key value pairs
   - id: 2
     name: authenticationCustom
-    since: 2.0
+    since: "2.0"
     doc: |
       Makes an authentication request to the cluster using custom credentials.
     request:
@@ -184,61 +184,61 @@ methods:
         - name: clusterName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Cluster name that client will connect to.
         - name: credentials
           type: byteArray
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Secret byte array for authentication.
         - name: uuid
           type: UUID
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Unique string identifying the connected client uniquely.
         - name: clientType
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The type of the client. E.g. JAVA, CPP, CSHARP, etc.
         - name: serializationVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             client side supported version to inform server side
         - name: clientHazelcastVersion
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The Hazelcast version of the client. (e.g. 3.7.2)
         - name: clientName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             the name of the client instance
         - name: labels
           type: List_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             User defined labels of the client instance
         - name: routingMode
           type: byte
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             Identifies the routing mode of the client. It can be UNISCOKET(0), SMART(1) or SUBSET(2).
         - name: cpDirectToLeaderRouting
           type: boolean
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             The client's CP direct-to-leader routing setting (enabled or disabled)
     response:
@@ -246,98 +246,98 @@ methods:
         - name: status
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             A byte that represents the authentication status. It can be AUTHENTICATED(0), CREDENTIALS_FAILED(1),
             SERIALIZATION_VERSION_MISMATCH(2) or NOT_ALLOWED_IN_CLUSTER(3).
         - name: address
           type: Address
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             Address of the Hazelcast member which sends the authentication response.
         - name: memberUuid
           type: UUID
           nullable: true
-          since: 2.0
+          since: "2.0"
           doc: |
             UUID of the Hazelcast member which sends the authentication response.
         - name: serializationVersion
           type: byte
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             client side supported version to inform server side
         - name: serverHazelcastVersion
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Version of the Hazelcast member which sends the authentication response.
         - name: partitionCount
           type: int
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Partition count of the cluster.
         - name: clusterId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The cluster id of the cluster.
         - name: failoverSupported
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns true if server supports clients with failover feature.
         - name: tpcPorts
           type: List_Integer
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Returns the list of TPC ports or null if TPC is disabled.
         - name: tpcToken
           type: byteArray
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Returns the token to use while authenticating TPC channels 
             or null if TPC is disabled.
         - name: memberListVersion
           type: int
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Incremental member list version
         - name: memberInfos
           type: List_MemberInfo
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             List of member infos  at the cluster associated with the given version
         - name: partitionListVersion
           type: int
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Incremental state version of the partition table
         - name: partitions
           type: EntryList_UUID_List_Integer
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
         - name: keyValuePairs
           type: Map_String_String
           nullable: false
-          since: 2.8
+          since: "2.8"
           doc: |
             Server/Member metadata represented as in key value pairs
   - id: 3
     name: addClusterViewListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds a cluster view listener to a connection.
     request:
@@ -346,63 +346,63 @@ methods:
     response: {}
     events:
       - name: MembersView
-        since: 2.0
+        since: "2.0"
         params:
           - name: version
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Incremental member list version
           - name: memberInfos
             type: List_MemberInfo
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               List of member infos  at the cluster associated with the given version
               params:
       - name: PartitionsView
-        since: 2.0
+        since: "2.0"
         params:
           - name: version
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Incremental state version of the partition table
           - name: partitions
             type: EntryList_UUID_List_Integer
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               The partition table. In each entry, it has uuid of the member and list of partitions belonging to that member
       - name: MemberGroupsView
-        since: 2.8
+        since: "2.8"
         params:
           - name: version
             type: int
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               Holds the state of member-groups and member-list-version
           - name: memberGroups
             type: List_List_UUID
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               Grouped members by their UUID. Grouping is done based on RoutingStrategy.
       - name: ClusterVersion
-        since: 2.8
+        since: "2.8"
         params:
           - name: version
             type: Version
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               The cluster version.
   - id: 4
     name: createProxy
-    since: 2.0
+    since: "2.0"
     doc: |
       Creates a cluster-wide proxy with the given name and service.
     request:
@@ -412,13 +412,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The distributed object name for which the proxy is being created for.
         - name: serviceName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The name of the service. Possible service names are:
             "hz:impl:listService"
@@ -439,7 +439,7 @@ methods:
     response: {}
   - id: 5
     name: destroyProxy
-    since: 2.0
+    since: "2.0"
     doc: |
       Destroys the proxy given by its name cluster-wide. Also, clears and releases all resources of this proxy.
     request:
@@ -449,13 +449,13 @@ methods:
         - name: name
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The distributed object name for which the proxy is being destroyed for.
         - name: serviceName
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The name of the service. Possible service names are:
             "hz:impl:listService"
@@ -476,7 +476,7 @@ methods:
     response: {}
   - id: 6
     name: addPartitionLostListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds a partition lost listener to the cluster.
     request:
@@ -486,7 +486,7 @@ methods:
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             if true only node that has the partition sends the request, if false
             sends all partition lost events.
@@ -495,34 +495,34 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The listener registration id.
     events:
       - name: PartitionLost
-        since: 2.0
+        since: "2.0"
         params:
           - name: partitionId
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Id of the lost partition.
           - name: lostBackupCount
             type: int
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               The number of lost backups for the partition. 0: the owner, 1: first backup, 2: second backup...
           - name: source
             type: UUID
             nullable: true
-            since: 2.0
+            since: "2.0"
             doc: |
               UUID of the node that dispatches the event
   - id: 7
     name: removePartitionLostListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the specified partition lost listener. If there is no such listener added before, this call does no change
       in the cluster and returns false.
@@ -533,7 +533,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id assigned during the listener registration.
     response:
@@ -541,12 +541,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if the listener existed and removed, false otherwise.
   - id: 8
     name: getDistributedObjects
-    since: 2.0
+    since: "2.0"
     doc: |
       Gets the list of distributed objects in the cluster.
     request:
@@ -557,12 +557,12 @@ methods:
         - name: response
           type: List_DistributedObjectInfo
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             An array of distributed object info in the cluster.
   - id: 9
     name: addDistributedObjectListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds a distributed object listener to the cluster. This listener will be notified
       when a distributed object is created or destroyed.
@@ -573,7 +573,7 @@ methods:
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             If set to true, the server adds the listener only to itself, otherwise the listener is is added for all
             members in the cluster.
@@ -582,40 +582,40 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The registration id for the distributed object listener.
     events:
       - name: DistributedObject
-        since: 2.0
+        since: "2.0"
         params:
           - name: name
             type: String
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Name of the distributed object.
           - name: serviceName
             type: String
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Service name of the distributed object.
           - name: eventType
             type: String
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               Type of the event. It is either CREATED or DESTROYED.
           - name: source
             type: UUID
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               The UUID (client or member) of the source of this proxy event.
   - id: 10
     name: removeDistributedObjectListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Removes the specified distributed object listener. If there is no such listener added before, this call does no
       change in the cluster and returns false.
@@ -626,7 +626,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id assigned during the registration.
     response:
@@ -634,12 +634,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             true if the listener existed and removed, false otherwise.
   - id: 11
     name: ping
-    since: 2.0
+    since: "2.0"
     doc: |
       Sends a ping to the given connection.
     request:
@@ -648,7 +648,7 @@ methods:
     response: {}
   - id: 12
     name: statistics
-    since: 2.0
+    since: "2.0"
     doc: |
       The statistics is composed of three parameters.
 
@@ -818,25 +818,25 @@ methods:
         - name: timestamp
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The timestamp taken during statistics collection.
         - name: clientAttributes
           type: String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The key=value pairs separated by the ',' character.
         - name: metricsBlob
           type: byteArray
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Compressed byte array containing all metrics collected by the client.
     response: {}
   - id: 13
     name: deployClasses
-    since: 2.0
+    since: "2.0"
     doc: |
       Deploys the list of classes to cluster
       Each item is a Map.Entry<String, byte[]> in the list.
@@ -848,13 +848,13 @@ methods:
         - name: classDefinitions
           type: EntryList_String_byteArray
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             list of class definitions
     response: {}
   - id: 14
     name: createProxies
-    since: 2.0
+    since: "2.0"
     doc: |
       Proxies will be created on all cluster members.
       If the member is  a lite member, a replicated map will not be created.
@@ -868,7 +868,7 @@ methods:
         - name: proxies
           type: EntryList_String_String
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             proxies that will be created
             Each entry's key is distributed object name.
@@ -877,7 +877,7 @@ methods:
     response: {}
   - id: 15
     name: localBackupListener
-    since: 2.0
+    since: "2.0"
     doc: |
       Adds listener for backup acks
     request:
@@ -888,22 +888,22 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Returns the registration id for the listener.
     events:
       - name: backup
-        since: 2.0
+        since: "2.0"
         params:
           - name: sourceInvocationCorrelationId
             type: long
             nullable: false
-            since: 2.0
+            since: "2.0"
             doc: |
               correlation id of the invocation that backup acks belong to
   - id: 16
     name: triggerPartitionAssignment
-    since: 2.0
+    since: "2.0"
     doc: |
       Triggers partition assignment manually on the cluster.
       Note that Partition based operations triggers this automatically
@@ -914,7 +914,7 @@ methods:
       {}
   - id: 17
     name: addMigrationListener
-    since: 2.2
+    since: "2.2"
     doc: |
       Adds a migration listener to the cluster.
     request:
@@ -924,7 +924,7 @@ methods:
         - name: localOnly
           type: boolean
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             If set to true, the server adds the listener only to itself, otherwise
             the listener is added for all members in the cluster.
@@ -933,73 +933,73 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             The listener registration id.
     events:
       - name: Migration
-        since: 2.2
+        since: "2.2"
         params:
           - name: migrationState
             type: MigrationState
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               Migration state.
           - name: type
             type: int
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               Type of the event. It is either MIGRATION_STARTED(0) or MIGRATION_FINISHED(1).
       - name: ReplicaMigration
-        since: 2.2
+        since: "2.2"
         params:
           - name: migrationState
             type: MigrationState
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               The progress information of the overall migration.
           - name: partitionId
             type: int
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               The partition ID that the event is dispatched for.
           - name: replicaIndex
             type: int
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               The index of the partition replica.
           - name: sourceUuid
             type: UUID
             nullable: true
-            since: 2.2
+            since: "2.2"
             doc: |
               The id of old owner of the migrating partition replica.
           - name: destUuid
             type: UUID
             nullable: true
-            since: 2.2
+            since: "2.2"
             doc: |
               The id of new owner of the migrating partition replica.
           - name: success
             type: boolean
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               The result of the migration: completed or failed.
           - name: elapsedTime
             type: long
             nullable: false
-            since: 2.2
+            since: "2.2"
             doc: |
               The elapsed the time of this migration in milliseconds.
   - id: 18
     name: removeMigrationListener
-    since: 2.2
+    since: "2.2"
     doc: |
       Removes the specified migration listener.
     request:
@@ -1009,7 +1009,7 @@ methods:
         - name: registrationId
           type: UUID
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             The id assigned during the listener registration.
     response:
@@ -1017,12 +1017,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.2
+          since: "2.2"
           doc: |
             true if the listener existed and was removed, false otherwise.
   - id: 19
     name: sendSchema
-    since: 2.5
+    since: "2.5"
     doc: |
       Sends a schema to cluster
     request:
@@ -1032,7 +1032,7 @@ methods:
         - name: schema
           type: Schema
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             schema to be send to the cluster
     response:
@@ -1040,12 +1040,12 @@ methods:
         - name: replicatedMembers
           type: Set_UUID
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             UUIDs of the members that the schema is replicated
   - id: 20
     name: fetchSchema
-    since: 2.5
+    since: "2.5"
     doc: |
       Fetches a schema from the cluster with the given schemaId
     request:
@@ -1055,7 +1055,7 @@ methods:
         - name: schemaId
           type: long
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             Id of the schema to be fetched
     response:
@@ -1063,12 +1063,12 @@ methods:
         - name: schema
           type: Schema
           nullable: true
-          since: 2.5
+          since: "2.5"
           doc: |
             schema with the given schema id fetched from the cluster
   - id: 21
     name: sendAllSchemas
-    since: 2.5
+    since: "2.5"
     doc: |
       Sends all the schemas to the cluster
     request:
@@ -1078,13 +1078,13 @@ methods:
         - name: schemas
           type: List_Schema
           nullable: false
-          since: 2.5
+          since: "2.5"
           doc: |
             list of schemas
     response: {}
   - id: 22
     name: tpcAuthentication
-    since: 2.7
+    since: "2.7"
     doc: |
       Makes an authentication request to TPC channels.
     request:
@@ -1094,19 +1094,19 @@ methods:
         - name: uuid
           type: UUID
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             UUID of the client.
         - name: token
           type: byteArray
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Authentication token bytes for the TPC channels
     response: {}
   - id: 23
     name: addCPGroupViewListener
-    since: 2.8
+    since: "2.8"
     doc: |
       Adds a CP Group view listener to a connection.
     request:
@@ -1115,23 +1115,23 @@ methods:
     response: {}
     events:
       - name: GroupsView
-        since: 2.8
+        since: "2.8"
         params:
           - name: version
             type: long
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               The version number for this group view
           - name: groupsInfo
             type: List_RaftGroupInfo # GroupID -> RaftGroupInfo
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               List of RaftGroupInfo objects containing group IDs, leader, and follower information
           - name: cpToApUuids
             type: EntryList_UUID_UUID # CP UUID --> AP UUID
             nullable: false
-            since: 2.8
+            since: "2.8"
             doc: |
               Mapping of CP UUIDs to AP UUIDs, for use on the client

@@ -3,7 +3,7 @@ name: XATransaction
 methods:
   - id: 1
     name: clearRemote
-    since: 2.0
+    since: "2.0"
     doc: |
       Clears the XA transaction with the given xid from remote member.
     request:
@@ -13,13 +13,13 @@ methods:
         - name: xid
           type: Xid
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
     response: {}
   - id: 2
     name: collectTransactions
-    since: 2.0
+    since: "2.0"
     doc: |
       Obtains a list of prepared transaction from the cluster.
     request:
@@ -30,12 +30,12 @@ methods:
         - name: response
           type: List_Xid
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Array of Xids.
   - id: 3
     name: finalize
-    since: 2.0
+    since: "2.0"
     doc: |
       Finalizes the commit of XA transaction with the given xid.
     request:
@@ -45,19 +45,19 @@ methods:
         - name: xid
           type: Xid
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
         - name: isCommit
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             If true, the transaction is committed else transaction is rolled back.
     response: {}
   - id: 4
     name: commit
-    since: 2.0
+    since: "2.0"
     doc: |
       Commits the global transaction specified by xid.
     request:
@@ -67,19 +67,19 @@ methods:
         - name: transactionId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The internal Hazelcast transaction id.
         - name: onePhase
           type: boolean
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             If true, the prepare is also done.
     response: {}
   - id: 5
     name: create
-    since: 2.0
+    since: "2.0"
     doc: |
       Creates an XA transaction with the given parameters.
     request:
@@ -89,13 +89,13 @@ methods:
         - name: xid
           type: Xid
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             Java XA transaction id as defined in interface javax.transaction.xa.Xid.
         - name: timeout
           type: long
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The timeout in seconds for XA operations such as prepare, commit, rollback.
     response:
@@ -103,12 +103,12 @@ methods:
         - name: response
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The transaction unique identifier.
   - id: 6
     name: prepare
-    since: 2.0
+    since: "2.0"
     doc: |
       Ask a member to prepare for a transaction commit of the transaction specified in xid.
     request:
@@ -118,13 +118,13 @@ methods:
         - name: transactionId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the transaction to prepare.
     response: {}
   - id: 7
     name: rollback
-    since: 2.0
+    since: "2.0"
     doc: |
       Informs the member to roll back work done on behalf of a transaction.
     request:
@@ -134,7 +134,7 @@ methods:
         - name: transactionId
           type: UUID
           nullable: false
-          since: 2.0
+          since: "2.0"
           doc: |
             The id of the transaction to rollback.
     response: {}

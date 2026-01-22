@@ -3,7 +3,7 @@ name: CPMap
 methods:
   - id: 1
     name: get
-    since: 2.7
+    since: "2.7"
     doc: |
       Gets the value associated with the key in the specified map.
     request:
@@ -13,19 +13,19 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value to retrieve.
     response:
@@ -33,12 +33,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             The result of the map lookup. 
   - id: 2
     name: put
-    since: 2.7
+    since: "2.7"
     doc: |
       Puts the key-value into the specified map.
     request:
@@ -48,25 +48,25 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value.
         - name: value
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Value to associate with the key.
     response:
@@ -74,12 +74,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Previous value associated with the key. 
   - id: 3
     name: set
-    since: 2.7
+    since: "2.7"
     doc: |
       Sets the key-value in the specified map.
     request:
@@ -89,25 +89,25 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value.
         - name: value
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Value to associate with the key.
     response:
@@ -115,12 +115,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Always null, set does not return any previous value.
   - id: 4
     name: remove
-    since: 2.7
+    since: "2.7"
     doc: |
       Removes the value associated with the key in the specified map.
     request:
@@ -130,19 +130,19 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value to remove.
     response:
@@ -150,12 +150,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             The result of the remove. 
   - id: 5
     name: delete
-    since: 2.7
+    since: "2.7"
     doc: |
       Deletes the value associated with the key in the specified map.
     request:
@@ -165,19 +165,19 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value to delete.
     response:
@@ -185,12 +185,12 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Always null, delete does not return any value.
   - id: 6
     name: compareAndSet
-    since: 2.7
+    since: "2.7"
     doc: |
       Tests if the value associated with the key is expectedValue and if so associates key with
       newValue.
@@ -201,31 +201,31 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the data that is subject of the compare and set.
         - name: expectedValue
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             The expected value associated with key.
         - name: newValue
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             The new value to associate with key.
     response:
@@ -233,12 +233,12 @@ methods:
         - name: response
           type: boolean
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             True if key was associated with newValue, otherwise false.
   - id: 7
     name: putIfAbsent
-    since: 2.7
+    since: "2.7"
     doc: |
       Puts the key-value into the specified map if the key is not currently associated with a value.
     request:
@@ -248,25 +248,25 @@ methods:
         - name: groupId
           type: RaftGroupId
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             CP group ID of this CPMap instance.
         - name: name
           type: String
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Name of this CPMap instance.
         - name: key
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Key of the value.
         - name: value
           type: Data
           nullable: false
-          since: 2.7
+          since: "2.7"
           doc: |
             Value to associate with the key.
     response:
@@ -274,6 +274,6 @@ methods:
         - name: response
           type: Data
           nullable: true
-          since: 2.7
+          since: "2.7"
           doc: |
             Value associated with the key if already present, otherwise null.
