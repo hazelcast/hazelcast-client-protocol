@@ -112,7 +112,7 @@ where
     * `cs` : C#
     * `py` : Python
     * `ts` : TypeScript
-    * `md` : Markdown (Documentation)
+    * `md` : Markdown (documentation)
      
 `java` is the default value if no language is specified.
 
@@ -154,6 +154,16 @@ If you want to specify an output directory relative to the root directory, you c
 ```
 
 This command will generate the codecs at the `~/git/hazelcast/custom/out`.
+
+### Documentation
+
+To generate the documentation, run the following command:
+
+```bash
+./generator.py -l md
+```
+
+This command will generate a markdown file at `~/output/md/documentation`.
 
 ### Schema Validation
 
