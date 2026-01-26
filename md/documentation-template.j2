@@ -23,14 +23,6 @@ Map of {{ convert_type(key_type(param_name, type)) }} to {{ convert_type(value_t
 
 # Hazelcast Open Binary Client Protocol
 
-**Revision History**
-
-{# Changelog for each version added. #}
-| Date | Document Version | Change Description |
-| ---- | ---------------- | ------------------ |
-| 01/15/2020 | 2.0 | Release of the Hazelcast Open Binary Client Protocol version 2.0 |
-| 11/04/2020 | 2.1 | Release of the Hazelcast Open Binary Client Protocol version 2.1 |
-
 **Table of Contents**
 {# List of manually written sections #}
 - [1. Introduction](#1-introduction)
@@ -560,7 +552,7 @@ var-sized-to-fix-sized-map     = begin-frame *var-sized-entry fix-sized-list end
 
 single-frame-param             = frame-header *OCTET ; For String, Data, ByteArray types. Strings must be encoded as UTF-8
 custom-type-param              = custom-type-begin-frame *1custom-type-initial-frame *var-sized-param end-frame
-custom-type-begin-frame        = begin-frame / frame-header *fix-sized-param ; Fix sized params might be pigybacked to begin frame
+custom-type-begin-frame        = begin-frame / frame-header *fix-sized-param ; Fix sized params might be piggybacked to begin frame
 custom-type-initial-frame      = frame-header *fix-sized-param
 
 null-frame                     = frame-header ; IS_NULL_FLAG is set to one
@@ -1054,7 +1046,7 @@ implementation. (e.g. throw an unknown error code exception)
 | ENTRY_PROCESSOR | 16 | An exception to indicate a problem occurred attempting to execute an EntryProcessor against an entry |
 | EXECUTION | 17 | Thrown when attempting to retrieve the result of a task that aborted by throwing an exception. |
 | HAZELCAST | 18 | General internal error of Hazelcast. |
-| HAZELCAST_INSTANCE_NOT_ACTIVE | 19 | The Hazelcast member instance is not active, the server is possibly initialising. |
+| HAZELCAST_INSTANCE_NOT_ACTIVE | 19 | The Hazelcast member instance is not active, the server is possibly initializing. |
 | HAZELCAST_OVERLOAD | 20 | Thrown when the system won't handle more load due to an overload. This exception is thrown when backpressure is enabled. |
 | HAZELCAST_SERIALIZATION | 21 | Error during serialization/de-serialization of data. |
 | IO | 22 | An IO error occurred. |
@@ -1096,7 +1088,7 @@ implementation. (e.g. throw an unknown error code exception)
 | TRANSACTION_TIMED_OUT | 58 | Thrown when a transaction has timed out. |
 | URI_SYNTAX | 59 | Thrown to indicate that a string could not be parsed as a URI reference |
 | UTF_DATA_FORMAT | 60 | Signals that a malformed string in modified UTF-8 format has been read in a data input stream or by any class that implements the data input interface |
-| UNSUPPORTED_OPERATION | 61 | The message type id for the operation request is not a recognised id. |
+| UNSUPPORTED_OPERATION | 61 | The message type id for the operation request is not a recognized id. |
 | WRONG_TARGET | 62 | An operation is executed on the wrong machine. |
 | XA | 63 | An error occurred during an XA operation. |
 | ACCESS_CONTROL | 64 | Indicates that a requested access to a system resource is denied. |
@@ -1283,4 +1275,4 @@ Header only response message, no message body exist.
 
 Copyright (c) 2008-{{ copyright_year }}, Hazelcast, Inc. All Rights Reserved.
 
-Visit [www.hazelcast.com](https://hazelcast.com/) for more info.
+Visit [www.hazelcast.com](https://hazelcast.com/) for more information.
