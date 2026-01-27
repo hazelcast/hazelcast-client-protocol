@@ -2,15 +2,15 @@
 
 **Hazelcast Open Binary Client Protocol** definitions and code generator for multiple programming languages.
 
-## Hazelcast Open Binary Client Protocol Definitions
+## Hazelcast Open Binary Client Protocol definitions
 
-The protocol is defined in `protocol-definitions/*.yaml` yaml files where each yaml file represents a service like Map, List, Set etc. 
+The protocol is defined in `protocol-definitions/*.yaml` YAML files where each YAML file represents a service like Map, List, Set etc. 
 Custom data types that are used in the protocol definitions are defined in `protocol-definitions/custom/Custom.yaml`.
 
 > [!WARNING]  
-Please wrap since parameters with double quotation mark since yaml's auto typing uses float instead of string conversion. In this case, converting versions like 2.10, 2.0.1 are not done correctly. e.g. 2.10 is converted to 2.1.
+Wrap since parameters with double quotation mark because YAML's auto typing uses float instead of string conversion. In this case, converting versions like 2.10, 2.0.1 are not done correctly. e.g. 2.10 is converted to 2.1.
 
-## Service definition
+## Service definitions
 
 A service is defined by a separate YAML file, containing all its method definitions.
 
@@ -26,7 +26,7 @@ methods:
     ...
 ```
 
-A method(aka Remote method call) is defined by a request-response pair and an optional events section.
+A method (aka Remote method call) is defined by a request-response pair and an optional events section.
 
 A basic method structure example:
 
@@ -80,21 +80,21 @@ A basic method structure example:
 
 ```
 
-Please refer to [schema](schema/protocol-schema.json) for details of a service definition.
+Refer to the [schema](schema/protocol-schema.json) for detailed service definitions.
 
-## Code Generator
+## Code generator
 
-The new protocol generator generates the related language codecs into the configured folder. It does not depend on Hazelcast repo.
+The new protocol generator generates the related language codecs into the configured folder. It does not depend on the Hazelcast repo.
 
 ### Setup
 
-You need to have python3 configured on your `PATH`. After cloning the repository, install the python library dependencies:
+You need to have Python 3 configured on your `PATH`. After cloning the repository, install the Python library dependencies:
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Code Generation
+### Code generation
 
 You can generate codecs for a specific language by calling:
 
@@ -112,7 +112,7 @@ where
     * `cs` : C#
     * `py` : Python
     * `ts` : TypeScript
-    * `md` : Markdown (Documentation)
+    * `md` : Markdown (documentation)
      
 `java` is the default value if no language is specified.
 
@@ -137,17 +137,16 @@ Default value is inferred from the selected `LANGUAGE`.
 
 * `--no-id-check` flag restrains the generator from checking sequentially of service and method ids of protocol definitions.
 
-If you want to generate the Java codecs into your development repo, and let's assume your local Hazelcast git repo is at 
-`~/git/hazelcast/` then you can run the following command:
+If you want to generate the Java codecs into your development repo, assuming your local Hazelcast Git repo is at `~/git/hazelcast/`, run the following command:
 
 ```bash
 ./generator.py -r ~/git/hazelcast/
 ```
 
-This command generates the codecs at the `ROOT_DIRECTORY/OUTPUT_DIRECTORY` which is `~/git/hazelcast/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/`.
-See that the `OUTPUT_DIRECTORY` is inferred from the language, namely `hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/` for `java`. 
+This command generates the codecs at the `ROOT_DIRECTORY/OUTPUT_DIRECTORY`, which is `~/git/hazelcast/hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/`.
+The `OUTPUT_DIRECTORY` is inferred from the language, namely `hazelcast/src/main/java/com/hazelcast/client/impl/protocol/codec/` for `java`. 
 
-If you want to specify an output directory relative to the root directory, you can run the following command:
+If you want to specify an output directory relative to the root directory:
 
 ```bash
 ./generator.py -r ~/git/hazelcast/ -o custom/out 
@@ -155,16 +154,40 @@ If you want to specify an output directory relative to the root directory, you c
 
 This command will generate the codecs at the `~/git/hazelcast/custom/out`.
 
-### Schema Validation
+### Documentation
+
+To generate the documentation, run the following command:
+
+```bash
+./generator.py -l md
+```
+
+This will generate a markdown file at `~/output/md/documentation`.
+
+If you want to convert the markdown file to PDF, you can use the `md-to-pdf` tool.
+
+To install the tool:
+
+```bash
+npm i -g md-to-pdf
+```
+
+To generate a PDF:
+
+```bash
+md-to-pdf documentation.md --pdf-options '{"margin": "10mm", "printBackground": true}'
+```
+
+### Schema validation
 
 The protocol definitions should validate against the [schema](schema/protocol-schema.json). You can configure your IDE to 
 use this schema to validate and provide auto code completion.
 
 The generator also uses this schema during the code generation for validation purposes. It stops and reports any schema violation to the console.
 
-### Custom Types
+### Custom types
 
-If you are going to use a custom type,i.e., a complex type that is not defined in the [currently supported types](binary/__init__.py), 
+If you are going to use a custom type, i.e., a complex type that is not defined in the [currently supported types](binary/__init__.py), 
 as the type of your parameters in the protocol definitions, you need to define how to encode and decode this in the protocol level.
 
 A custom type definition has the following structure:
@@ -221,9 +244,9 @@ convert it to your enum type and construct the object with it.
 Custom type definitions are also validated against a [schema](/schema/custom-codec-schema.json). See the [Schema Validation](#schema-validation) 
 section for details of the validation.
 
-### Expanding the Client Protocol
+### Expanding the client protocol
 
-Client protocol can be expanded by adding new
+The client protocol can be expanded by adding new:
 * services
 * methods
 * parameters to existing method requests, responses or events
@@ -231,7 +254,7 @@ Client protocol can be expanded by adding new
 * custom types
 * parameters to existing custom types
 
-While expanding the protocol, one needs to follow these simple guidelines:
+While expanding the protocol, follow these guidelines:
 * `since` field of the protocol definitions of the newly added parameters, methods, events and custom types should 
 be equal to the current protocol version. 
 * New services should have the id of the 1 + the highest id of the existing services.
