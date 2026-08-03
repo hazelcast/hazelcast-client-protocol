@@ -15,8 +15,7 @@ ts_ignore_service_list = {"MC", "ExecutorService", "TransactionalMap", "Transact
                           "Client.triggerPartitionAssignment", "Map.addInterceptor", "Map.addPartitionLostListener",
                           "Map.eventJournalRead", "Map.eventJournalSubscribe", "Map.fetchKeys", "Map.fetchWithQuery",
                           "Map.project", "Map.projectWithPredicate", "Map.removeInterceptor", "Map.removePartitionLostListener",
-                          "Map.submitToKey", "ReplicatedMap.addNearCacheEntryListener", "Topic.addMessageListener",
-                          "Topic.publishAll", "Topic.publish", "Topic.removeMessageListener", "Map.replaceAll"}
+                          "Map.submitToKey", "ReplicatedMap.addNearCacheEntryListener", "Map.replaceAll"}
 
 
 def ts_types_encode(key):
