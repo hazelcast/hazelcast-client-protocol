@@ -1,0 +1,183 @@
+{% macro encode_var_sized(param) -%}
+	{% if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+		Encode{% if param.nullable  %}Nullable{% endif %}ListMultiFrame{% if is_var_sized_list_contains_nullable(param.type)%}ContainsNullable{% endif %}For{{ item_type(lang_name, param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
+	{%- elif is_var_sized_entry_list(param.type) -%}
+		Encode{% if param.nullable  %}Nullable{% endif %}EntryListFor{{ value_type(lang_name, param.type) }}And{{ key_type(lang_name, param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
+	{%- elif is_var_sized_map(param.type) -%}
+		Encode{% if param.nullable  %}Nullable{% endif %}MapFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
+	{%- else -%}
+		{%- if param.nullable  -%}
+			EncodeNullableFor{{ lang_name(param.type) }}(clientMessage, {% if param.type != "String" %}&{% endif %}{{ param_name(codec.name)}}.{{ param.name|capital }})
+		{%- else -%}
+			Encode{{ lang_name(param.type) }}(clientMessage, {{ param_name(codec.name)}}.{{ param.name|capital }})
+		{%- endif %}
+	{% endif %}
+{%- endmacro %}
+{% macro decode_var_sized(param) -%}
+	{%- if is_var_sized_list(param.type) or is_var_sized_list_contains_nullable(param.type) -%}
+		Decode{% if param.nullable  %}Nullable{% endif %}ListMultiFrame{% if is_var_sized_list_contains_nullable(param.type) %}ContainsNullable{% endif %}For{{ item_type(lang_name, param.type) }}(frameIterator)
+	{%- elif is_var_sized_entry_list(param.type) -%}
+		Decode{% if param.nullable  %}Nullable{% endif %}EntryList(frameIterator, Decode{{ key_type(lang_name, param.type) }}, DecodeNullable{{ value_type(lang_name, param.type) }})
+	{%- elif is_var_sized_map(param.type) -%}
+		Decode{% if param.nullable  %}Nullable{% endif %}MapFor{{ key_type(lang_name, param.type) }}And{{ value_type(lang_name, param.type) }}(frameIterator)
+	{%- else -%}
+		{%- if param.nullable  -%}
+			DecodeNullableFor{{ lang_name(param.type) }}(frameIterator)
+		{%- else -%}
+			Decode{{ lang_name(param.type) }}(frameIterator)
+		{%- endif -%}
+	{%- endif -%}
+{%- endmacro %}
+{% macro insert_import_statements(stmts) %}
+import (
+	{% for stmt in stmts %}
+	{{ stmt }}
+	{% endfor %}
+)
+{% endmacro %}
+{% set fix_sized_params = fixed_params(codec.params) %}
+{% set var_sized_params = var_size_params(codec.params) %}
+{% set new_codec_params = new_params(codec.since, codec.params) %}
+{% set fix_sized_new_params = new_params(codec.since, fix_sized_params) %}
+{% set should_add_begin_frame = (fix_sized_params|length > fix_sized_new_params|length) or fix_sized_params|length == 0 %}
+/*
+* Copyright (c) 2008-{{ copyright_year }}, Hazelcast, Inc. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License")
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+package codec
+
+{{ insert_import_statements(
+	get_import_path_holders(
+		codec.name,
+		fix_sized_params,
+		var_sized_params
+	)
+)}}
+
+{% if fix_sized_params|length > 0  %}
+const(
+{% for param in fix_sized_params %}
+	{{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset = {% if loop.first %}0{% else %}{{ codec.name|capital }}Codec{{ loop.previtem.name|capital }}FieldOffset + proto.{{ loop.previtem.type|capital }}SizeInBytes{% endif %}
+
+	{% if loop.last %}
+	{{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize = {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + proto.{{ param.type|capital }}SizeInBytes
+	{% endif %}
+{% endfor %}
+)
+{% endif %}
+
+{% if codec.name == "Address" %}
+{% else %}
+func Encode{{ codec.name|capital }}(clientMessage *proto.ClientMessage, {{ param_name(codec.name) }} {{ lang_types_encode(codec.name) }}){
+{% if should_add_begin_frame %}
+	clientMessage.AddFrame(proto.BeginFrame.Copy())
+{% endif %}
+{% for param in fix_sized_params %}
+	{% if loop.last %}
+	initialFrame := proto.NewFrame(make([]byte,{{ codec.name|capital }}Codec{{ param.name|capital }}InitialFrameSize))
+	{% endif %}
+{% endfor %}
+{% for param in fix_sized_params %}
+	{% if escape_keyword(param.name).startswith('_') == true %}
+		{% set keyword = escape_keyword(param.name)[1:] %}
+	{% else %}
+		{% set keyword = escape_keyword(param.name) %}
+	{% endif %}
+	{% if param.type == "int" %}
+		{% set cast = "int32(" %}
+	{% elif param.type == "long" %}
+		{% set cast = "int64(" %}
+	{% else %}
+		{% set cast = "" %}
+	{% endif %}
+	Encode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset, {% if cast %}{{ cast }}{% endif %}{{ param_name(codec.name)}}.{{ rename_field(codec.name, param) }}{% if cast %}){% endif %})
+	{% if loop.last %}
+		{% if not should_add_begin_frame %}
+	initialFrame.flags |= BEGIN_DATA_STRUCTURE_FLAG
+		{% endif %}
+	clientMessage.AddFrame(initialFrame)
+	{% endif %}
+{% endfor %}
+{% for param in var_sized_params %}
+	{% if loop.first %}
+
+	{% endif %}
+	{% if lang_types_encode(param.type) == '!skip' %}
+		{% continue %}
+	{% endif %}
+	{{ encode_var_sized(param) }}
+{% endfor %}
+
+	clientMessage.AddFrame(proto.EndFrame.Copy())
+}
+{% endif %}
+
+func Decode{{ codec.name|capital }}(frameIterator *proto.ForwardFrameIterator) {{ lang_types_encode(codec.name) }} {
+	// begin frame
+{% if should_add_begin_frame %}
+	frameIterator.Next()
+{% endif %}
+{% for param in fix_sized_params %}
+	{% if loop.first %}
+	initialFrame := frameIterator.Next()
+	{% endif %}
+	{% if param in fix_sized_new_params %}
+	var {{ escape_keyword(param.name) }} {{ lang_types_encode(param.type) }}
+	if len(initialFrame.Content) >= {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset + proto.{{ param.type|capitalize }}SizeInBytes {
+		{{ escape_keyword(param.name) }} = Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
+	}
+	{% else %}
+	{{ escape_keyword(param.name) }} := Decode{{ param.type|capital }}(initialFrame.Content, {{ codec.name|capital }}Codec{{ param.name|capital }}FieldOffset)
+	{% endif %}
+{% endfor %}
+{% for param in var_sized_params %}
+	{% if loop.first %}
+
+	{% endif %}
+	{% if lang_types_decode(param.type) == '!skip' %}
+		{% continue %}
+	{% endif %}
+	{% if param in new_codec_params %}
+	var {{ escape_keyword(param.name) }} interface{}
+	if (!frameIterator.PeekNext().IsEndFrame()) {
+	{{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }}
+	}
+	{% else %}
+	{{ escape_keyword(param.name) }} := {{ decode_var_sized(param) }}
+	{% endif %}
+{% endfor %}
+	FastForwardToEndFrame(frameIterator)
+{% set ctor_params = [] %}
+{% for param in codec.params %}
+	{% if lang_types_decode(param.type) != '!skip' %}
+		{% do ctor_params.append(param) %}
+	{% endif %}
+{% endfor %}
+	{% set encoded_codec_name = lang_types_encode(codec.name) %}
+	{% if encoded_codec_name.startswith("*") %}
+		{% set encoded_codec_name = encoded_codec_name[1:] %}
+	{% endif %}
+	{% if codec.name == "Address"%}
+	return pubcluster.NewAddress(host, port)
+	{% else %}	
+	return {% if "*" in lang_types_encode(codec.name) %}&{% endif %}{{ encoded_codec_name.split('.')[0] }}.{{ encoded_codec_name.split('.')[1] }}{% raw %}{{%endraw %}
+	
+	{% for param in ctor_params %}
+		{# {% if param in new_codec_params %}is{{ param.name|capital }}Exists, {% endif %} #}
+		{{ rename_field(codec.name, param) }}: {{ augment_enum(codec.name, param) }},
+	{% endfor %}
+	}
+	{% endif %}
+}	

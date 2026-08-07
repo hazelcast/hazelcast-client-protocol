@@ -1,3 +1,4 @@
 PyYAML
 jsonschema
 jinja2
+setuptools==72.1.0
