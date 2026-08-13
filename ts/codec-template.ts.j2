@@ -136,7 +136,7 @@ export interface {{ service_name|capital }}{{ method.name|capital }}ResponsePara
 /** @internal */
 export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {#REQUEST_ENCODE#}
-    static encodeRequest({% for param in method.request.params %}{{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
+    static encodeRequest({% for param in method.request.params %}{{ escape_keyword(param.name) }}: {{ lang_types_encode(param.type) }}{% if param.nullable  %} | null {% endif %}{% if not loop.last %}, {% endif %}{% endfor %}): ClientMessage {
         const clientMessage = ClientMessage.createForEncode();
         clientMessage.setRetryable({{ method.request.retryable|lower }});
         {% if  contains_serialized_data_in_request %}
@@ -161,7 +161,7 @@ export class {{ service_name|capital }}{{ method.name|capital }}Codec {
 {% elif singleResponseValue %}
     {% set param = method.response.params|last %}
 
-    static decodeResponse(clientMessage: ClientMessage): {{ lang_types_decode(param.type) }}{% if param.nullable  %}| null {% endif %} {
+    static decodeResponse(clientMessage: ClientMessage): {{ lang_types_decode(param.type) }}{% if param.nullable  %} | null {% endif %} {
 {% if  response_fix_sized_params|length != 0 %}
         const initialFrame = clientMessage.nextFrame();
 {% else %}
