@@ -730,7 +730,8 @@ def create_environment(lang, namespace):
     env.globals["item_type"] = item_type
     env.globals["key_type"] = key_type
     env.globals["value_type"] = value_type
-    env.globals["namespace"] = namespace
+    if lang in [SupportedLanguages.JAVA, SupportedLanguages.CS]:
+        env.globals["namespace"] = namespace
     env.globals["get_size"] = get_size
     env.globals["is_trivial"] = is_trivial
     env.globals["copyright_year"] = date.today().year

@@ -125,6 +125,7 @@ export class {{ codec.name|capital }}Codec {
     }
 
     static decode(clientMessage: ClientMessage): {{ lang_types_decode(codec.name) }} {
+        {% set ns = namespace(hasNextFrame=false) %}
         // begin frame
         {% if should_add_begin_frame %}
         clientMessage.nextFrame();
@@ -133,6 +134,11 @@ export class {{ codec.name|capital }}Codec {
         {% if loop.first %}
 
         const initialFrame = clientMessage.nextFrame();
+            {% if not ns.hasNextFrame %}
+        let nextFrame: Frame | null = null;
+                {% set ns.hasNextFrame = true %}
+            {% endif %}
+
         {% endif %}
         {% if param in fix_sized_new_params %}
         let is{{ param.name|capital }}Exists = false;
@@ -147,7 +153,10 @@ export class {{ codec.name|capital }}Codec {
         {% endfor %}
         {% for param in var_sized_params %}
             {% if loop.first %}
-
+                {% if not ns.hasNextFrame %}
+            let nextFrame: Frame | null = null;
+                    {% set ns.hasNextFrame = true %}
+                {% endif %}
             {% endif %}
             {% if lang_types_decode(param.type) == '!skip' %}
                 {% continue %}
@@ -155,7 +164,8 @@ export class {{ codec.name|capital }}Codec {
             {% if param in new_codec_params %}
         let is{{ param.name|capital }}Exists = false;
         let {{ escape_keyword(param.name) }} = null;
-        if (!clientMessage.peekNextFrame().isEndFrame()) {
+        nextFrame = clientMessage.peekNextFrame();
+        if (nextFrame && !nextFrame.isEndFrame()) {
             {{ escape_keyword(param.name) }} = {{ decode_var_sized(param) }};
             is{{ param.name|capital }}Exists = true;
         }
