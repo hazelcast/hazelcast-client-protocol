@@ -975,6 +975,13 @@ methods:
           since: "2.7"
           doc: |
             Name of the User Code Namespace applied to this instance.
+        - name: oversizedEntryThresholdBytes
+          type: long
+          nullable: false
+          since: "2.11"
+          doc: |
+            Serialized entry size in bytes above which an entry is reported as oversized,
+            or {@code 0} to disable entry size tracking.
     response: {}
   - id: 13
     name: addReliableTopicConfig
