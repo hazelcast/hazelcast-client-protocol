@@ -1456,7 +1456,7 @@ methods:
     doc: |
       Loads all keys into the store. This is a batch load operation so that an implementation can optimize the multiple loads.
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: name
@@ -1479,7 +1479,7 @@ methods:
     doc: |
       Loads the given keys. This is a batch load operation so that an implementation can optimize the multiple loads.
     request:
-      retryable: false
+      retryable: true
       partitionIdentifier: -1
       params:
         - name: name
