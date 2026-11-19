@@ -79,7 +79,7 @@ class ImportPathHolder:
 
 
 class PathHolders:
-    Long = ImportPathHolder('Long', 'long', is_internal_file=False, import_as_wildcard=True)
+    Long = ImportPathHolder('Long', 'long', is_internal_file=True, import_as_wildcard=False)
     UUID = ImportPathHolder('UUID', 'core/UUID')
     Data = ImportPathHolder('Data', 'serialization/Data')
     DataCodec = ImportPathHolder('DataCodec', 'builtin/DataCodec', is_builtin_codec=True)
